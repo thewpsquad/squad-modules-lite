@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.1.8 =
+feat: linking option added to feature image in Divi Post Grid Module
+
 = 3.1.7 =
 Bug fixing to save all enabled modules.
 

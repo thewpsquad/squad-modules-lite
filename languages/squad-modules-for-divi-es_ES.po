@@ -47,6 +47,7 @@ msgstr "%1$s encontrado a la hora de descodificar el contenido: %2$s"
 #. Translators: %1$s is the welcome message, %2$s is the coupon code.
 #: includes/Managers/Notices/Discount.php:69
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:9502
 msgid "%1$s Get a special discount and start building stunning websites today. Use code \"%2$s\" at checkout."
 msgstr "%1$s Consigue un descuento especial y empezar a construir sitios web impresionantes hoy en día. Utilice el código \"%2$s\" en la caja."
 
@@ -495,6 +496,7 @@ msgid "Before Text"
 msgstr "Antes Del Texto"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11785
 msgid "Billing Issue"
 msgstr "Tema De Facturación"
 
@@ -543,6 +545,7 @@ msgid "Breadcrumbs"
 msgstr "Pan rallado"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11790
 msgid "Bug"
 msgstr "Error"
 
@@ -722,6 +725,7 @@ msgid "Change API Key"
 msgstr "Cambio de Clave de API"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:10587
 msgid "Changelog"
 msgstr "Changelog"
 
@@ -983,6 +987,7 @@ msgid "Contact Form 7 is not installed"
 msgstr "Formulario de contacto 7 no está instalado"
 
 #: includes/Managers/Branding/AdminFooterText.php:60
+#: build/assets/admin/core-app.js:8735
 msgid "Contact Support"
 msgstr "Contacto Con El Soporte"
 
@@ -1190,6 +1195,7 @@ msgid "Custom Upload"
 msgstr "De Carga Personalizado"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11787
 msgid "Customization"
 msgstr "Personalización"
 
@@ -1306,6 +1312,7 @@ msgid "Descending"
 msgstr "Descendente"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11798
 msgid "Describe the feature you would like to see added."
 msgstr "Describir la característica que le gustaría ver añadido."
 
@@ -1314,6 +1321,7 @@ msgstr "Describir la característica que le gustaría ver añadido."
 #: includes/Modules/FormStylers/GravityForms.php:475
 #: includes/Modules/FormStylers/NinjaForms.php:295
 #: build/admin/scripts/admin.js:178
+#: build/assets/admin/core-app.js:12014
 msgid "Description"
 msgstr "Descripción"
 
@@ -1400,6 +1408,7 @@ msgstr "Divi Biblioteca De Código Corto"
 #: templates/admin/subscription.php:56
 #: build/admin/scripts/admin.js:172
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:10011
 msgid "Divi Squad"
 msgstr "Divi Squad"
 
@@ -1453,6 +1462,7 @@ msgid "Divider Weight"
 msgstr "Divisor De Peso"
 
 #: includes/Managers/Branding/PluginRowActions.php:69
+#: build/assets/admin/core-app.js:10861
 msgid "Documentation"
 msgstr "Documentación"
 
@@ -1622,6 +1632,7 @@ msgid "Elevate your website bringing a sleek and interactive touch to content pr
 msgstr "Elevar su sitio web aportando elegancia y un toque interactivo para la presentación de contenidos."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11970
 msgid "Email Address"
 msgstr "Dirección De Correo Electrónico"
 
@@ -1776,6 +1787,7 @@ msgid "Extensions"
 msgstr "Extensiones"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11058
 msgid "Extensions Management"
 msgstr "Extensiones De Gestión"
 
@@ -1797,6 +1809,7 @@ msgid "Feature Image"
 msgstr "Característica De La Imagen"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11786
 msgid "Feature Request"
 msgstr "Función De Solicitud"
 
@@ -2002,22 +2015,27 @@ msgid "Front Wrapper"
 msgstr "Frente Contenedor"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12068
 msgid "FTP Host"
 msgstr "El Host FTP"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12061
 msgid "FTP Login Credentials"
 msgstr "FTP Credenciales de inicio de Sesión"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12097
 msgid "FTP Password"
 msgstr "La Contraseña del FTP"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12079
 msgid "FTP Port"
 msgstr "Puerto FTP"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12088
 msgid "FTP Username"
 msgstr "Nombre de Usuario FTP"
 
@@ -2125,6 +2143,8 @@ msgid "Glitch Texts"
 msgstr "Glitch Textos"
 
 #: build/admin/scripts/admin.js:2
+#: build/assets/admin/core-app.js:8729
+#: build/assets/admin/core-app.js:11262
 msgid "Go Back"
 msgstr "Volver"
 
@@ -2214,6 +2234,7 @@ msgid "H6 tag"
 msgstr "Etiqueta H6"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11944
 msgid "Have questions? We're happy to help!"
 msgstr "Tiene preguntas? Estamos encantados de ayudarle!"
 
@@ -3074,6 +3095,7 @@ msgid "Horizontal"
 msgstr "Horizontal"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12069
 msgid "Host"
 msgstr "Host"
 
@@ -3244,6 +3266,7 @@ msgid "Icon/Text Alignment"
 msgstr "Icono/Alineación Del Texto"
 
 #: build/admin/scripts/admin.js:178
+#: build/assets/admin/core-app.js:12023
 msgid "If it's about a specific page on your site, please add the relevant link."
 msgstr "Si se trata de una página específica en su sitio web, por favor agregue el enlace correspondiente."
 
@@ -3493,10 +3516,12 @@ msgid "insecure version"
 msgstr "versión insegura"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12037
 msgid "Instead of providing your primary admin account, create a new admin that can be disabled when the support case is closed."
 msgstr "En lugar de proporcionar su principal administrador de la cuenta, crear un nuevo admin que puede ser desactivada cuando el apoyo caso está cerrado."
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12062
 msgid "Instead of providing your primary FTP account, create a new FTP user that can be disabled when the support case is closed."
 msgstr "En lugar de proporcionar su principal cuenta FTP, crear un nuevo usuario de FTP que puede ser desactivada cuando el apoyo caso está cerrado."
 
@@ -4092,6 +4117,7 @@ msgid "Your Title Goes Here"
 msgstr "Su Título Va Aquí"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11164
 msgid "Modules Management"
 msgstr "Módulos De Gestión De"
 
@@ -4113,6 +4139,7 @@ msgid "Movement Trigger"
 msgstr "Gatillo Movimiento"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11961
 msgid "Name"
 msgstr "Nombre"
 
@@ -4143,6 +4170,7 @@ msgstr "Apodo"
 
 #: templates/admin/subscription.php:62
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:9953
 msgid "Nightly"
 msgstr "Cada noche"
 
@@ -4177,6 +4205,7 @@ msgid "No elements found. Please add one or more elements to display in the post
 msgstr "No hay elementos que se pueden encontrar. Por favor, agregue uno o más de los elementos a mostrar en el post de la cuadrícula."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11990
 msgid "No options found"
 msgstr "No hay opciones"
 
@@ -4253,6 +4282,7 @@ msgid "Only Line"
 msgstr "Sólo La Línea De"
 
 #: build/admin/scripts/admin.js:2
+#: build/assets/admin/core-app.js:11253
 msgid "Oops! Page not found"
 msgstr "Oops! No se encontró la página"
 
@@ -4346,6 +4376,8 @@ msgid "Pagination Wrapper"
 msgstr "La Paginación De Contenedor"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12053
+#: build/assets/admin/core-app.js:12098
 msgid "Password"
 msgstr "Contraseña"
 
@@ -4354,6 +4386,7 @@ msgid "Pause on Hover"
 msgstr "Pausa en el Pase"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11956
 msgid "Personal Information"
 msgstr "Información Personal"
 
@@ -4430,18 +4463,22 @@ msgid "Please consider leaving a 5-star review to help us spread the word and bo
 msgstr "Por favor considere dejar una reseña de 5 estrellas para ayudar a difundir la palabra y aumentar nuestra motivación."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11802
 msgid "Please describe the bug and how to reproduce it."
 msgstr "Por favor, describa el error y cómo reproducirlo."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11797
 msgid "Please describe the issue you are having. Be detailed but brief."
 msgstr "Por favor describa el problema que están teniendo. Ser detallada, pero breve."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11799
 msgid "Please describe the use-case and the different features you would like to be custom developed for you."
 msgstr "Por favor, describe el caso de uso y las diferentes características que te gustaría ser desarrollado a medida para usted."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11801
 msgid "Please provide all the information about the press cover."
 msgstr "Por favor proporcione toda la información acerca de la prensa de la cubierta."
 
@@ -4467,6 +4504,7 @@ msgid "Popup Background"
 msgstr "Emergente De Fondo"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12080
 msgid "Port"
 msgstr "Puerto"
 
@@ -4531,6 +4569,7 @@ msgid "Posts For Current Page"
 msgstr "Puestos Para La Página Actual"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11788
 msgid "Pre-Sale Question"
 msgstr "La Pre-Venta De La Pregunta"
 
@@ -4544,6 +4583,7 @@ msgid "Preparing"
 msgstr "La preparación de"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11789
 msgid "Press"
 msgstr "Pulse"
 
@@ -4561,6 +4601,7 @@ msgstr "Color Primario"
 
 #: templates/admin/subscription.php:74
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:9967
 msgid "Pro"
 msgstr "Pro"
 
@@ -4607,7 +4648,7 @@ msgstr "Número De Clasificación De"
 msgid "Rating Scale"
 msgstr "Escala De Calificación"
 
-#: includes/Modules/PostGrid.php:2791
+#: includes/Modules/PostGrid.php:2779
 #: includes/Modules/PostGridChild.php:65
 msgid "Read More"
 msgstr "Leer Más"
@@ -4616,7 +4657,7 @@ msgstr "Leer Más"
 msgid "Read More Text"
 msgstr "Leer Más Texto"
 
-#: includes/Modules/PostGrid.php:2790
+#: includes/Modules/PostGrid.php:2778
 msgid "Read the post"
 msgstr "Leer el post"
 
@@ -4642,7 +4683,9 @@ msgid "Relative To"
 msgstr "En Relación A"
 
 #. translators: The relevant page url.
+#. translators: page url
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12026
 msgid "Relevant page on your site (E.g. %s)"
 msgstr "Correspondiente página en su sitio (E. g. %s)"
 
@@ -4804,6 +4847,7 @@ msgid "Select the shape of the dividing line used for the divider."
 msgstr "Seleccione la forma de la línea divisoria utilizado para el divisor."
 
 #: build/admin/scripts/admin.js:172
+#: build/assets/admin/core-app.js:9774
 msgid "Send message"
 msgstr "Enviar mensaje"
 
@@ -5006,6 +5050,7 @@ msgid "Showcase your users allowing you to display user profiles in a sleek and 
 msgstr "Mostrar sus usuarios permitiendo la visualización de los perfiles de usuario en un elegante y personalizable formato de lista."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11994
 msgid "Site Address"
 msgstr "Dirección Del Sitio"
 
@@ -5158,6 +5203,7 @@ msgid "Sub Title Text"
 msgstr "Sub Título Del Texto"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12110
 msgid "Submit"
 msgstr "Enviar"
 
@@ -5178,18 +5224,22 @@ msgid "Supercharge your experience with our game-changing new updates!"
 msgstr "Potencie su experiencia con nuestro juego cambiante de las nuevas actualizaciones!"
 
 #: includes/Managers/Branding/PluginRowActions.php:62
+#: build/assets/admin/core-app.js:10877
 msgid "Support"
 msgstr "Apoyo"
 
 #: build/admin/scripts/admin.js:172
+#: build/assets/admin/core-app.js:9770
 msgid "Support message input"
 msgstr "Mensaje de apoyo de entrada"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11980
 msgid "Support Query"
 msgstr "Consulta De Soporte"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11987
 msgid "Support Type"
 msgstr "El Tipo De Soporte"
 
@@ -5223,6 +5273,7 @@ msgid "Taxonomy List"
 msgstr "La Taxonomía De La Lista"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11784
 msgid "Technical Support"
 msgstr "Soporte Técnico"
 
@@ -5645,6 +5696,7 @@ msgstr "El Tiempo El Ancho De Texto"
 #: includes/Modules/StarRating.php:125
 #: includes/Modules/StarRating.php:219
 #: build/admin/scripts/admin.js:178
+#: build/assets/admin/core-app.js:12006
 msgid "Title"
 msgstr "Título"
 
@@ -5821,6 +5873,7 @@ msgstr "Uncategorized"
 
 #: includes/Managers/Notices/Discount.php:70
 #: build/admin/scripts/admin.js:172
+#: build/assets/admin/core-app.js:9494
 msgid "Unleash Your Divi Creativity with Squad Modules Pro!"
 msgstr "Dé rienda suelta a Su Divi Creatividad con el Escuadrón de los Módulos Pro!"
 
@@ -5845,6 +5898,7 @@ msgid "Updated"
 msgstr "Actualizado"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:10355
 msgid "Upgrade Now"
 msgstr "Actualizar Ahora"
 
@@ -5952,6 +6006,8 @@ msgid "User not found."
 msgstr "El usuario no encontrado."
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12044
+#: build/assets/admin/core-app.js:12089
 msgid "Username"
 msgstr "Nombre de usuario"
 
@@ -5996,6 +6052,8 @@ msgid "View All"
 msgstr "Ver Todos"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:10847
+#: build/assets/admin/core-app.js:10962
 msgid "View Changelog"
 msgstr "Ver Changelog"
 
@@ -6020,19 +6078,23 @@ msgid "We are here to assist you with any queries you may have. Feel free to ask
 msgstr "Estamos aquí para ayudarle con cualquier pregunta que usted pueda tener. Siéntase libre de pedir cualquier cosa!"
 
 #: build/admin/scripts/admin.js:2
+#: build/assets/admin/core-app.js:11256
 msgid "We couldn't find the page you're looking for. It might have been removed, renamed, or is temporarily unavailable."
 msgstr "No hemos podido encontrar la página que estás buscando. Que se haya quitado, cambiado de nombre o no esté disponible temporalmente."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11947
 msgid "We'll do our best to get back to you as soon as we can."
 msgstr "Vamos a hacer nuestro mejor esfuerzo para volver a usted tan pronto como nos sea posible."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11800
 msgid "What would you like to know before purchasing?"
 msgstr "¿Qué te gustaría saber antes de comprar?"
 
 #: includes/Managers/Assets/Admin.php:214
 #: includes/Managers/Menus/AdminMenu.php:83
+#: build/assets/admin/core-app.js:10955
 msgid "What's New"
 msgstr "Qué hay de Nuevo"
 
@@ -6050,6 +6112,7 @@ msgid "Within this section/row"
 msgstr "Dentro de esta sección/fila"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12036
 msgid "WordPress Login Credentials"
 msgstr "Las Credenciales De Inicio De Sesión De WordPress"
 
@@ -6068,6 +6131,7 @@ msgid "WP Forms"
 msgstr "WP Formas"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12052
 msgid "WP Password"
 msgstr "WP Contraseña"
 
@@ -6077,6 +6141,7 @@ msgid "WP Squad"
 msgstr "WP Escuadra"
 
 #: build/admin/scripts/admin.js:181
+#: build/assets/admin/core-app.js:12043
 msgid "WP Username"
 msgstr "WP nombre de Usuario"
 
@@ -6203,23 +6268,29 @@ msgid "You will need more repeats to create the infinite scrolling effect."
 msgstr "Usted necesitará más se repite para crear el infinito de efectos de desplazamiento."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11972
 msgid "Your email address"
 msgstr "Su dirección de correo electrónico"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11963
 msgid "Your first and last name"
 msgstr "Su nombre y su apellido"
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11926
 msgid "Your query sending failed. Please try again later."
 msgstr "Su consulta enviando fallado. Por favor, inténtelo de nuevo más tarde."
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11918
 msgid "Your query sent successfully."
 msgstr "Su consulta se ha enviado correctamente."
 
 #. translators: The site url.
+#. translators: site url
 #: build/admin/scripts/admin.js:178
+#: build/assets/admin/core-app.js:11998
 msgid "Your site address (E.g %1$s)"
 msgstr "Su dirección de sitio (E. g %1$s)"
 
@@ -6279,7 +6350,7 @@ msgid "The after text of your custom url field text will appear in with your pos
 msgstr ""
 
 #: includes/Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php:151
-#: includes/Modules/PostGrid.php:3071
+#: includes/Modules/PostGrid.php:3059
 msgid "Visit the link"
 msgstr ""
 
@@ -6431,18 +6502,18 @@ msgid "Post Author"
 msgstr ""
 
 #. Translators: %s is the author name.
-#: includes/Modules/PostGrid.php:2667
-#: includes/Modules/PostGrid.php:2737
+#: includes/Modules/PostGrid.php:2655
+#: includes/Modules/PostGrid.php:2725
 msgid "Posts by %s"
 msgstr ""
 
 #. Translators: %s is the category name.
-#: includes/Modules/PostGrid.php:2854
+#: includes/Modules/PostGrid.php:2842
 msgid "View all posts in %s"
 msgstr ""
 
 #. Translators: %s is the tag name.
-#: includes/Modules/PostGrid.php:2898
+#: includes/Modules/PostGrid.php:2886
 msgid "View all posts tagged %s"
 msgstr ""
 
@@ -6459,11 +6530,11 @@ msgid "Custom Fields (ACF)"
 msgstr ""
 
 #: includes/Modules/PostGridChild.php:535
-msgid "Make Title a Link"
+msgid "Link to Post"
 msgstr ""
 
 #: includes/Modules/PostGridChild.php:537
-msgid "Turn the title into a clickable link. Your readers can jump straight to the full post with one click!"
+msgid "Make this element clickable. Visitors can access the full post directly by clicking."
 msgstr ""
 
 #: includes/Modules/PostGridChild.php:545
@@ -6508,6 +6579,7 @@ msgstr ""
 
 #: templates/admin/subscription.php:68
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:9960
 msgid "Lite"
 msgstr ""
 
@@ -6528,30 +6600,43 @@ msgid "Effortlessly control your Divi modules with our intuitive management syst
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11062
+#: build/assets/admin/core-app.js:11168
 msgid "Reset to Default"
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11063
+#: build/assets/admin/core-app.js:11169
 msgid "Enable All"
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11064
+#: build/assets/admin/core-app.js:11170
 msgid "Disable All"
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11173
 msgid "All Modules"
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11068
+#: build/assets/admin/core-app.js:11174
 msgid "Free Only"
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11069
+#: build/assets/admin/core-app.js:11175
 msgid "Pro Only"
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11071
+#: build/assets/admin/core-app.js:11177
 msgid "Apply and Save"
 msgstr ""
 
@@ -6568,6 +6653,7 @@ msgid "Streamline your workspace with our intuitive Toggle Button. Effortlessly 
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11067
 msgid "All Extensions"
 msgstr ""
 
@@ -6580,9 +6666,312 @@ msgid "Discovering available extensions… Please wait."
 msgstr ""
 
 #: build/admin/scripts/admin.js:175
+#: build/assets/admin/core-app.js:11988
 msgid "Select a type"
 msgstr ""
 
 #: build/admin/scripts/admin.js:178
+#: build/assets/admin/core-app.js:12007
 msgid "Title (in 10 words or less, summarize your issue or question)"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8640
+msgid "Failed to report error. Please try again or contact support directly."
+msgstr ""
+
+#: build/assets/admin/core-app.js:8653
+msgid "Error details copied to clipboard"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8658
+msgid "Failed to copy error details. Please try again."
+msgstr ""
+
+#: build/assets/admin/core-app.js:8703
+msgid "Oops! Something went wrong"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8706
+msgid "We apologize for the inconvenience. An unexpected error has occurred."
+msgstr ""
+
+#: build/assets/admin/core-app.js:8712
+msgid "Error Details"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8713
+msgid "Unknown error"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8723
+#: build/assets/admin/core-app.js:11268
+msgid "Reload Page"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8743
+msgid "Reporting…"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8743
+msgid "Error Reported"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8743
+msgid "Report Error"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8751
+msgid "Technical Details (for support)"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8760
+msgid "Copy Error Details"
+msgstr ""
+
+#: build/assets/admin/core-app.js:8766
+msgid "If you continue to experience issues, please contact our support team with the error details above."
+msgstr ""
+
+#: build/assets/admin/core-app.js:8769
+msgid "We appreciate your patience and understanding."
+msgstr ""
+
+#: build/assets/admin/core-app.js:9707
+msgid "Type your message here…"
+msgstr ""
+
+#: build/assets/admin/core-app.js:9737
+msgid "Divi Squad Support"
+msgstr ""
+
+#: build/assets/admin/core-app.js:9741
+msgid "Close support chat"
+msgstr ""
+
+#: build/assets/admin/core-app.js:9748
+msgid "Our team typically responds within 2 hours"
+msgstr ""
+
+#: build/assets/admin/core-app.js:9754
+msgid "Welcome to Divi Squad support! How can we assist you today?"
+msgstr ""
+
+#: build/assets/admin/core-app.js:9757
+msgid "To help us serve you better, please provide details about your query or issue."
+msgstr ""
+
+#: build/assets/admin/core-app.js:9784
+msgid "Open Divi Squad support chat"
+msgstr ""
+
+#: build/assets/admin/core-app.js:9789
+#: build/assets/admin/core-app.js:10835
+#: build/assets/admin/core-app.js:10880
+msgid "Get Support"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10301
+msgid "Close"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10351
+msgid "Unlock all premium features and take your Divi experience to the next level!"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10412
+msgid "Filter Features"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10523
+msgid "New Features"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10523
+msgid "Bug Fixes"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10523
+msgid "Improvements"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10538
+msgid "No Entries"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10539
+msgid "No changelog entries found."
+msgstr ""
+
+#. translators: product version number
+#: build/assets/admin/core-app.js:10562
+msgid "No changelog found for version %s."
+msgstr ""
+
+#: build/assets/admin/core-app.js:10565
+msgid "Version Not Found"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10590
+msgid "Discover the latest updates and improvements to Divi Squad"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10594
+#: build/assets/admin/core-app.js:11246
+msgid "Error"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10595
+msgid "Unable to load changelog. Please try again later."
+msgstr ""
+
+#: build/assets/admin/core-app.js:10602
+msgid "View All Versions"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10674
+msgid "Unable to load dashboard stats. Please try again later."
+msgstr ""
+
+#: build/assets/admin/core-app.js:10815
+msgid "Quick Actions"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10823
+msgid "Manage Modules"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10829
+msgid "Manage Extensions"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10841
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10862
+msgid "Explore our comprehensive guides and tutorials"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10864
+msgid "View Docs"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10869
+msgid "Community"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10870
+msgid "Join our vibrant community of Divi enthusiasts"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10872
+msgid "Join Community"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10878
+msgid "Get help from our dedicated support team"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10886
+msgid "Welcome to Divi Squad"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10889
+msgid "Elevate your Divi experience with powerful modules and extensions"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10900
+msgid "Active Modules"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10906
+msgid "Active Extensions"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10912
+msgid "Total Pages"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10918
+msgid "Time Saved"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10926
+msgid "Getting Started"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10933
+msgid "Explore and activate new modules"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10939
+msgid "Enable powerful extensions"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10945
+msgid "Read the documentation"
+msgstr ""
+
+#: build/assets/admin/core-app.js:10958
+msgid "Discover the latest features and improvements in Divi Squad"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11035
+msgid "Saving extension settings…"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11038
+msgid "Extensions saved successfully!"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11042
+msgid "Failed to save extensions. Please try again."
+msgstr ""
+
+#: build/assets/admin/core-app.js:11059
+msgid "Manage your Divi extensions easily. Toggle extensions on or off to enhance your design capabilities."
+msgstr ""
+
+#: build/assets/admin/core-app.js:11072
+msgid "Failed to load extensions. Please refresh and try again."
+msgstr ""
+
+#: build/assets/admin/core-app.js:11073
+msgid "Loading extensions…"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11141
+msgid "Saving module settings…"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11144
+msgid "Modules saved successfully!"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11148
+msgid "Failed to save modules. Please try again."
+msgstr ""
+
+#: build/assets/admin/core-app.js:11165
+msgid "Manage your Divi modules easily. Toggle modules on or off to customize your design process."
+msgstr ""
+
+#: build/assets/admin/core-app.js:11178
+msgid "Failed to load modules. Please refresh and try again."
+msgstr ""
+
+#: build/assets/admin/core-app.js:11179
+msgid "Loading modules…"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11265
+msgid "Go to Dashboard"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11273
+msgid "If you believe this is a bug, please"
+msgstr ""
+
+#: build/assets/admin/core-app.js:11276
+msgid "report it to our support team"
 msgstr ""

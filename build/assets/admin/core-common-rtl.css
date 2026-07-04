@@ -1,0 +1,319 @@
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!../node_modules/@wordpress/scripts/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!../node_modules/@wordpress/scripts/node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./admin/core/styles/common.scss ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+body #toplevel_page_divi_squad_dashboard div.wp-menu-image::before {
+  background-image: var(--squad-brand-logo-menu-default);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  height: 100%;
+  padding: 0;
+  transition: all 0.3s ease-in-out;
+}
+body #toplevel_page_divi_squad_dashboard a.wp-has-submenu.toplevel_page_divi_squad_dashboard:hover .wp-menu-image::before {
+  background-image: var(--squad-brand-logo-focus-default);
+}
+body #toplevel_page_divi_squad_dashboard a.wp-has-current-submenu.toplevel_page_divi_squad_dashboard {
+  background: var(--squad-primary-color);
+}
+body #toplevel_page_divi_squad_dashboard a.wp-has-current-submenu.toplevel_page_divi_squad_dashboard .wp-menu-image::before {
+  background-image: var(--squad-brand-logo-active-default);
+}
+body.divi_squad_free_v1_2_0 #toplevel_page_divi_squad_dashboard ul.wp-submenu li:nth-child(4) a {
+  position: relative;
+}
+body.divi_squad_free_v1_2_0 #toplevel_page_divi_squad_dashboard ul.wp-submenu li:nth-child(4) a::after {
+  background-color: var(--squad-primary-color);
+  border-radius: 9999px;
+  bottom: 0;
+  color: #fff;
+  content: "NEW";
+  display: block;
+  font-family: inherit;
+  font-size: 12px;
+  height: fit-content;
+  right: auto;
+  margin: 0.75px 0;
+  overflow: hidden;
+  padding: 0.75px 1.75px;
+  position: absolute;
+  left: 5px;
+  top: 0;
+  width: fit-content;
+}
+.divi-squad-banner-content-inner h2, .divi-squad-banner.divi-squad-success-banner .divi-squad-banner-content h2, .divi-squad-banner.divi-squad-error-banner .divi-squad-banner-content h2, .divi-squad-banner .divi-squad-banner-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+.divi-squad-banner-content-inner p, .divi-squad-banner.divi-squad-success-banner .divi-squad-banner-content p, .divi-squad-banner.divi-squad-error-banner .divi-squad-banner-content p, .divi-squad-banner .divi-squad-banner-content p {
+  font-size: 0.875rem;
+}
+.divi-squad-notice-action-button-outline {
+  height: fit-content;
+  min-height: fit-content;
+  padding: 8px 16px;
+  line-height: normal;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+.divi-squad-notice-action-button-outline:hover, .divi-squad-notice-action-button-outline:focus-visible {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.divi-squad-notice-action-button-outline.disabled, .divi-squad-notice-action-button-outline:disabled {
+  cursor: default;
+  box-shadow: none;
+  opacity: 0.65;
+}
+.divi-squad-notice-action-button-outline p {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+.divi-squad-notice-action-button-outline:hover, .divi-squad-notice-action-button-outline:focus-visible {
+  background-color: var(--primary-dark-color);
+  border-color: var(--primary-dark-color);
+  color: white;
+}
+.divi-squad-notice-action-button-outline.disabled, .divi-squad-notice-action-button-outline:disabled {
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  border-color: var(--primary-dark-color);
+  color: var(--primary-color);
+}
+.divi-squad-banner {
+  position: relative;
+  display: flex;
+  padding: 0;
+  margin: 10px 0;
+  background-color: white;
+  border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+  border-right: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.divi-squad-banner .divi-squad-banner-logo {
+  padding: 20px;
+  border-right: 4px solid;
+  border-image: linear-gradient(to bottom, var(--primary-color), var(--primary-dark-color)) 1 100%;
+  background-color: var(--secondary-color);
+}
+.divi-squad-banner .divi-squad-banner-logo svg,
+.divi-squad-banner .divi-squad-banner-logo img {
+  height: auto;
+  width: 2rem;
+}
+.divi-squad-banner .divi-squad-banner-content {
+  width: 100%;
+  padding: 20px;
+  padding-bottom: 24px;
+}
+.divi-squad-banner .divi-squad-notice-action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button {
+  height: fit-content;
+  min-height: fit-content;
+  padding: 8px 16px;
+  line-height: normal;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: white;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button:hover, .divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button:focus-visible {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button.disabled, .divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button:disabled {
+  cursor: default;
+  box-shadow: none;
+  opacity: 0.65;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button p {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button:hover, .divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button:focus-visible {
+  background-color: var(--primary-dark-color);
+  border-color: var(--primary-dark-color);
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button.disabled, .divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-button:disabled {
+  background-color: var(--primary-dark-color);
+  border-color: var(--primary-dark-color);
+  color: white;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+}
+@media (max-width: 640px) {
+  .divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left {
+    flex-wrap: wrap;
+  }
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left a:not(.divi-squad-notice-action-button) {
+  color: #2563eb;
+  text-underline-offset: 4px;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left a:not(.divi-squad-notice-action-button):hover {
+  color: var(--primary-color);
+  text-decoration-color: var(--primary-color);
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left a:not(.divi-squad-notice-action-button):focus {
+  box-shadow: none;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left a:not(.divi-squad-notice-action-button) .dashicons {
+  margin-left: 4px;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-left a:not(.divi-squad-notice-action-button) p {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-decoration: underline;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-right {
+  display: flex;
+  gap: 20px;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-right a {
+  align-items: center;
+  color: #2563eb;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  text-decoration: none;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-right a:hover {
+  color: var(--primary-color);
+  text-decoration-color: var(--primary-color);
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-right a:focus-visible {
+  border-color: var(--primary-dark-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  outline: none;
+}
+.divi-squad-banner .divi-squad-notice-action .divi-squad-notice-action-right a:before {
+  display: block;
+  font-size: 1rem;
+}
+.divi-squad-banner.divi-squad-error-banner {
+  position: relative;
+  display: flex;
+  padding: 0;
+  margin: 10px 0;
+  background-color: white;
+  border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+  border-right: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-color: rgba(239, 68, 68, 0.1);
+}
+.divi-squad-banner.divi-squad-error-banner .divi-squad-banner-logo {
+  padding: 20px;
+  border-right: 4px solid;
+  border-image: linear-gradient(to bottom, var(--primary-color), var(--primary-dark-color)) 1 100%;
+  background-color: #fee2e2;
+  border-image: linear-gradient(to bottom, #ef4444, #b91c1c) 1 100%;
+}
+.divi-squad-banner.divi-squad-error-banner .divi-squad-banner-logo svg path {
+  fill: #ef4444;
+}
+.divi-squad-banner.divi-squad-error-banner .divi-squad-banner-logo svg circle {
+  stroke: #ef4444;
+}
+.divi-squad-banner.divi-squad-error-banner .divi-squad-banner-content {
+  width: 100%;
+  padding: 20px;
+}
+.divi-squad-banner.divi-squad-success-banner {
+  position: relative;
+  display: flex;
+  padding: 0;
+  margin: 10px 0;
+  background-color: white;
+  border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+  border-right: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-color: rgba(34, 197, 94, 0.1);
+}
+.divi-squad-banner.divi-squad-success-banner .divi-squad-banner-logo {
+  padding: 20px;
+  border-right: 4px solid;
+  border-image: linear-gradient(to bottom, var(--primary-color), var(--primary-dark-color)) 1 100%;
+  background-color: #dcfce7;
+  border-image: linear-gradient(to bottom, #22c55e, #15803d) 1 100%;
+}
+.divi-squad-banner.divi-squad-success-banner .divi-squad-banner-logo svg path {
+  fill: #22c55e;
+}
+.divi-squad-banner.divi-squad-success-banner .divi-squad-banner-logo svg circle {
+  stroke: #22c55e;
+}
+.divi-squad-banner.divi-squad-success-banner .divi-squad-banner-content {
+  width: 100%;
+  padding: 20px;
+}
+.divi_squad_plugin_page .divi-squad-banner {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.squad-underline-offset-1 {
+  text-underline-offset: 4px;
+}
+.squad-w-8 {
+  width: 2rem;
+}
+body.update-php .wrap {
+  max-width: none;
+}
+body.update-php .wrap .update-from-upload-comparison {
+  max-width: 60rem;
+}
+body #toplevel_page_divi_squad_dashboard {
+  --squad-error-color: #f00;
+  --squad-primary-color: #5e2eff;
+  --squad-primary-color-rgb: 94, 46, 255;
+  --squad-secondary-color: #f1f4fa;
+  --squad-success-color: #008000;
+  --squad-warning-color: #fc0;
+}
+body.divi_squad_plugin_page #wpwrap {
+  background-color: #f1f4fa;
+}
+body.divi_squad_plugin_page #wpwrap #wpcontent {
+  padding-right: 0;
+}
+body.divi_squad_plugin_page #wpwrap #wpcontent #wpbody-content {
+  padding-bottom: 20px;
+}
+body.divi_squad_plugin_page #wpwrap #wpcontent #wpbody-content > div:not(#squad-modules-app-loader, .clear, .metabox-prefs, #fs_connect) {
+  margin-bottom: 20px;
+}
+body.divi_squad_plugin_page #wpwrap #wpcontent #wpbody-content #squad-modules-app {
+  background-color: #f1f4fa;
+  position: relative;
+  width: 100%;
+  z-index: 10;
+}
+body.divi_squad_plugin_page #wpwrap #wpcontent #wpbody-content #squad-modules-app a {
+  box-shadow: none;
+  outline: none;
+  text-decoration: none;
+}
+body.divi_squad_plugin_page #wpwrap #wpfooter {
+  display: block !important;
+}

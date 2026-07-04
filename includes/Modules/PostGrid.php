@@ -2424,7 +2424,7 @@ class PostGrid extends Module {
 				break;
 			case 'image':
 			case 'featured_image':
-				$output = $this->squad_render_image_element( $post_id, $class_name );
+				$output = $this->squad_render_image_element( $attrs, $post, $class_name );
 				break;
 			case 'content':
 				$output = $this->squad_render_content_element( $attrs, $post, $class_name );
@@ -2464,7 +2464,20 @@ class PostGrid extends Module {
 				break;
 		}
 
-		return $output;
+		/**
+		 * Filters the rendered post element body HTML.
+		 *
+		 * Allows modifying the rendered HTML output for a post element in the grid.
+		 *
+		 * @since 3.1.8
+		 *
+		 * @param string  $output     The rendered HTML output for the element.
+		 * @param int     $post_id    The post ID.
+		 * @param array   $attrs      The element attributes.
+		 * @param string  $class_name The element class name.
+		 * @param string  $element    The element type being rendered.
+		 */
+		return apply_filters( 'divi_squad_post_element_body', $output, $post_id, $attrs, $class_name, $element );
 	}
 
 	/**
@@ -2505,22 +2518,40 @@ class PostGrid extends Module {
 	 * Render image element.
 	 *
 	 * @since 1.0.0
+	 * @since 3.1.8 Added the ability to link to the post.
 	 *
-	 * @param int    $post_id    The post ID.
-	 * @param string $class_name The class name for the element.
+	 * @param array   $attrs      List of attributes.
+	 * @param WP_Post $post       The post object.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
-	protected function squad_render_image_element( $post_id, $class_name ) {
-		$post_image = get_the_post_thumbnail( $post_id, 'full' );
+	protected function squad_render_image_element( $attrs, $post, $class_name ) {
+		$post_image = get_the_post_thumbnail( $post->ID, 'full' );
 		if ( empty( $post_image ) ) {
 			return '';
 		}
 
+		$output = $post_image;
+
+		// Check if linking to post is enabled
+		if ( isset( $attrs['link_to_post__enable'] ) && 'on' === $attrs['link_to_post__enable'] ) {
+			$permalink  = get_permalink( $post->ID );
+			$post_title = get_the_title( $post->ID );
+			if ( $permalink ) {
+				$output = sprintf(
+					'<a href="%1$s" title="%2$s" class="image-link">%3$s</a>',
+					esc_url( $permalink ),
+					esc_attr( $post_title ),
+					$post_image
+				);
+			}
+		}
+
 		return sprintf(
-			'<div class="%s">%s</div>',
+			'<div class="%1$s">%2$s</div>',
 			esc_attr( $class_name ),
-			wp_kses_post( $post_image )
+			wp_kses_post( $output )
 		);
 	}
 
@@ -2555,49 +2586,6 @@ class PostGrid extends Module {
 			esc_attr( $class_name ),
 			wp_kses_post( $post_content )
 		);
-	}
-
-	/**
-	 * Get the expanded character map for content truncation.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	protected function squad_get_expanded_character_map() {
-		$character_map = array(
-			// Latin-1 Supplement and Latin Extended-A
-			'äëïöüÄËÏÖÜáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙãñõÃÑÕâêîôûÂÊÎÔÛçÇ',
-			// Latin Extended-A
-			'āēīōūĀĒĪŌŪąęįųĄĘĮŲćłńśźżĆŁŃŚŹŻđĐǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜ',
-			// Latin Extended-B
-			'ǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚț',
-			// Greek and Coptic
-			'ͰͱͲͳʹ͵Ͷͷͺͻͼͽ;Ϳ΄΅Ά·ΈΉΊΌΎΏΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώϏϐϑϒϓϔϕϖϗϘϙϚϛϜϝϞϟϠϡϢϣϤϥϦϧϨϩϪϫϬϭϮϯ',
-			// Cyrillic
-			'ЀЁЂЃЄЅІЇЈЉЊЋЌЍЎЏАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяѐёђѓєѕіїјљњћќѝўџѠѡѢѣѤѥѦѧѨѩѪѫѬѭѮѯѰѱѲѳѴѵѶѷѸѹѺѻѼѽѾѿҀҁ',
-			// Common punctuation and symbols
-			'""\'\'©®™§¶†‡•❧☙―‐‒–—―‖‗\'\'‚‛""„‟•‣․‥…‧‰‱′″‴‵‶‷‸‹›※‼‽‾⁀⁁⁂⁃⁄⁅⁆⁇⁈⁉⁊⁋⁌⁍⁎⁏⁐⁑⁒⁓⁔⁕⁖⁗⁘⁙⁚⁛⁜⁝⁞',
-			// Currencies
-			'₠₡₢₣₤₥₦₧₨₩₪₫€₭₮₯₰₱₲₳₴₵₶₷₸₹₺₻₼₽₾₿',
-			// Arrows
-			'←↑→↓↔↕↖↗↘↙↚↛↜↝↞↟↠↡↢↣↤↥↦↧↨↩↪↫↬↭↮↯↰↱↲↳↴↵↶↷↸↹↺↻↼↽↾↿⇀⇁⇂⇃⇄⇅⇆⇇⇈⇉⇊⇋⇌⇍⇎⇏⇐⇑⇒⇓⇔⇕⇖⇗⇘⇙⇚⇛⇜⇝⇞⇟⇠⇡⇢⇣⇤⇥⇦⇧⇨⇩⇪',
-			// Mathematical symbols
-			'∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿',
-		);
-
-		/**
-		 * Filter the character map for the post content.
-		 *
-		 * @since 3.1.4
-		 *
-		 * @param string $character_map The character map.
-		 *
-		 * @return string
-		 */
-		$character_map = apply_filters( 'divi_squad_post_query_content_character_map', $character_map );
-
-		return implode( '', $character_map );
 	}
 
 	/**

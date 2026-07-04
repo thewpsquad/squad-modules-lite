@@ -532,13 +532,13 @@ class PostGridChild extends Module {
 				'mobile_options'  => true,
 			),
 			'link_to_post__enable'            => Utils::add_yes_no_field(
-				esc_html__( 'Make Title a Link', 'squad-modules-for-divi' ),
+				esc_html__( 'Link to Post', 'squad-modules-for-divi' ),
 				array(
-					'description'      => esc_html__( 'Turn the title into a clickable link. Your readers can jump straight to the full post with one click!', 'squad-modules-for-divi' ),
-					'default_on_front' => 'off',
-					'depends_show_if'  => 'title',
-					'tab_slug'         => 'general',
-					'toggle_slug'      => 'elements',
+					'description'         => esc_html__( 'Make this element clickable. Visitors can access the full post directly by clicking.', 'squad-modules-for-divi' ),
+					'default_on_front'    => 'off',
+					'depends_show_if_not' => array( 'none', 'author', 'gravatar', 'comments', 'categories', 'tags', 'divider', 'custom_text', 'custom_field', 'advanced_custom_field' ),
+					'tab_slug'            => 'general',
+					'toggle_slug'         => 'elements',
 				)
 			),
 			'link_to_author__enable'          => Utils::add_yes_no_field(

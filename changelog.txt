@@ -1,17 +1,22 @@
 == Changelog ==
+= 3.1.8 (26-10-2024) =
+
+**New Features:**
+- feat: linking option added to feature image in Divi Post Grid Module
+
 = 3.1.7 (23-08-2024) =
 
-**Fixing:**
-- Fix an issue to save enable modules
+**Bug Fixes:**
+- Fixed an issue to save enable modules
 
 = 3.1.6 (18-08-2024) =
 
-**Fixing:**
+**Bug Fixes:**
 - Compatibility with pro plugin
 
 = 3.1.5 (18-08-2024) =
 
-**Fixing:**
+**Bug Fixes:**
 - Compatibility with pro plugin
 
 = 3.1.4 (15-08-2024) =
@@ -22,7 +27,7 @@
 
 = 3.1.3 (05-08-2024) =
 
-**Fixing:**
+**Bug Fixes:**
 - Fix: Issues with advanced fields(border) in the latest Divi theme version
 - Fix: An issue with custom fields for Divi Post Grid Module and Divi CPT Grid Module
 - Fix: An issue with Pro plugin compatibility with the latest version of the Lite plugin
@@ -30,7 +35,7 @@
 
 = 3.1.2 (04-08-2024) =
 
-**Fixing:**
+**Bug Fixes:**
 - Bug fixing and compatibility with latest pro plugin
 
 

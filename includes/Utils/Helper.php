@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+
 /**
  * Generic helper class for utility.
  *
@@ -48,14 +49,49 @@ class Helper {
 	 * @return string
 	 */
 	public static function implode_assoc_array( $array_data ) {
-		array_walk(
-			$array_data,
-			static function ( &$item, $key ) {
-				$item = sprintf( '%s="%s"', $key, $item );
-			}
-		);
+		$processed_array = array();
 
-		return implode( '  ', $array_data );
+		foreach ( $array_data as $key => $value ) {
+			// Skip if key is empty
+			if ( empty( $key ) ) {
+				continue;
+			}
+
+			// Handle different value types
+			if ( is_object( $value ) ) {
+				if ( $value instanceof \WP_Error ) {
+					// Skip WP_Error objects
+					continue;
+				}
+				// Handle other objects by using their string representation if possible
+				if ( method_exists( $value, '__toString' ) ) {
+					$processed_value = (string) $value;
+				} else {
+					continue;
+				}
+			} elseif ( is_array( $value ) ) {
+				// Convert array to JSON string
+				$processed_value = wp_json_encode( $value );
+			} elseif ( is_bool( $value ) ) {
+				// Convert boolean to string
+				$processed_value = $value ? 'true' : 'false';
+			} elseif ( is_null( $value ) ) {
+				// Skip null values
+				continue;
+			} else {
+				// Handle strings and numbers - don't check if it's a string
+				$processed_value = $value;
+			}
+
+			// Add to processed array
+			$processed_array[] = sprintf(
+				'%s="%s"',
+				esc_attr( $key ),
+				esc_attr( $processed_value )
+			);
+		}
+
+		return implode( ' ', $processed_array );
 	}
 
 	/**

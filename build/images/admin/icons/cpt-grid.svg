@@ -1,0 +1,46 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_5_190)">
+        <path d="M0 3C0 2.20435 0.316071 1.44129 0.87868 0.87868C1.44129 0.316071 2.20435 0 3 0L21 0C21.7956 0 22.5587 0.316071 23.1213 0.87868C23.6839 1.44129 24 2.20435 24 3V21C24 21.7956 23.6839 22.5587 23.1213 23.1213C22.5587 23.6839 21.7956 24 21 24H3C2.20435 24 1.44129 23.6839 0.87868 23.1213C0.316071 22.5587 0 21.7956 0 21V3ZM22.5 3C22.5 2.60218 22.342 2.22064 22.0607 1.93934C21.7794 1.65804 21.3978 1.5 21 1.5H3C2.60218 1.5 2.22064 1.65804 1.93934 1.93934C1.65804 2.22064 1.5 2.60218 1.5 3V21C1.5 21.3978 1.65804 21.7794 1.93934 22.0607C2.22064 22.342 2.60218 22.5 3 22.5H21C21.3978 22.5 21.7794 22.342 22.0607 22.0607C22.342 21.7794 22.5 21.3978 22.5 21V3Z" fill="#5E2EFF"/>
+        <rect x="4" y="3" width="7" height="8" fill="#5E2EFF" fill-opacity="0.03" stroke="#5E2EFF" stroke-opacity="0.7" stroke-width="0.3"/>
+        <line x1="5" y1="7.9" x2="10" y2="7.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="5" y1="8.9" x2="10" y2="8.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="5" y1="9.9" x2="10" y2="9.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <rect x="5" y="4" width="5" height="3" fill="#9272FD" fill-opacity="0.7"/>
+        <g opacity="0.44">
+            <path d="M6.15387 6L6.74191 5.37952C6.82592 5.29117 6.98158 5.2751 7.09029 5.34338L7.54244 5.63253C7.65115 5.7008 7.80681 5.68474 7.89082 5.5984L8.46156 5" fill="#9272FD" fill-opacity="0.7"/>
+            <path d="M6.15387 6L6.74191 5.37952C6.82592 5.29117 6.98158 5.2751 7.09029 5.34338L7.54244 5.63253C7.65115 5.7008 7.80681 5.68474 7.89082 5.5984L8.46156 5" stroke="#5E2EFF" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <rect x="13" y="3" width="7" height="8" fill="#5E2EFF" fill-opacity="0.03" stroke="#5E2EFF" stroke-opacity="0.7" stroke-width="0.3"/>
+        <line x1="14" y1="7.9" x2="19" y2="7.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="14" y1="8.9" x2="19" y2="8.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="14" y1="9.9" x2="19" y2="9.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <rect x="14" y="4" width="5" height="3" fill="#9272FD" fill-opacity="0.7"/>
+        <g opacity="0.44">
+            <path d="M15.1539 6L15.7419 5.37952C15.8259 5.29117 15.9816 5.2751 16.0903 5.34338L16.5424 5.63253C16.6512 5.7008 16.8068 5.68474 16.8908 5.5984L17.4616 5" fill="#9272FD" fill-opacity="0.7"/>
+            <path d="M15.1539 6L15.7419 5.37952C15.8259 5.29117 15.9816 5.2751 16.0903 5.34338L16.5424 5.63253C16.6512 5.7008 16.8068 5.68474 16.8908 5.5984L17.4616 5" stroke="#5E2EFF" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <rect x="13" y="13" width="7" height="8" fill="#5E2EFF" fill-opacity="0.03" stroke="#5E2EFF" stroke-opacity="0.7" stroke-width="0.3"/>
+        <line x1="14" y1="17.9" x2="19" y2="17.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="14" y1="18.9" x2="19" y2="18.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="14" y1="19.9" x2="19" y2="19.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <rect x="14" y="14" width="5" height="3" fill="#9272FD" fill-opacity="0.7"/>
+        <g opacity="0.44">
+            <path d="M15.1539 16L15.7419 15.3795C15.8259 15.2912 15.9816 15.2751 16.0903 15.3434L16.5424 15.6325C16.6512 15.7008 16.8068 15.6847 16.8908 15.5984L17.4616 15" fill="#9272FD" fill-opacity="0.7"/>
+            <path d="M15.1539 16L15.7419 15.3795C15.8259 15.2912 15.9816 15.2751 16.0903 15.3434L16.5424 15.6325C16.6512 15.7008 16.8068 15.6847 16.8908 15.5984L17.4616 15" stroke="#5E2EFF" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <rect x="4" y="13" width="7" height="8" fill="#5E2EFF" fill-opacity="0.03" stroke="#5E2EFF" stroke-opacity="0.7" stroke-width="0.3"/>
+        <line x1="5" y1="17.9" x2="10" y2="17.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="5" y1="18.9" x2="10" y2="18.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <line x1="5" y1="19.9" x2="10" y2="19.9" stroke="#5E2EFF" stroke-opacity="0.3" stroke-width="0.2"/>
+        <rect x="5" y="14" width="5" height="3" fill="#9272FD" fill-opacity="0.7"/>
+        <g opacity="0.44">
+            <path d="M6.15387 16L6.74191 15.3795C6.82592 15.2912 6.98158 15.2751 7.09029 15.3434L7.54244 15.6325C7.65115 15.7008 7.80681 15.6847 7.89082 15.5984L8.46156 15" fill="#9272FD" fill-opacity="0.7"/>
+            <path d="M6.15387 16L6.74191 15.3795C6.82592 15.2912 6.98158 15.2751 7.09029 15.3434L7.54244 15.6325C7.65115 15.7008 7.80681 15.6847 7.89082 15.5984L8.46156 15" stroke="#5E2EFF" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+    </g>
+    <defs>
+        <clipPath id="clip0_5_190">
+            <rect width="24" height="24" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>

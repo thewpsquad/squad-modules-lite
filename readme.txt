@@ -5,7 +5,7 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 5.0.0
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 3.1.7
+Stable tag: 3.1.8
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -85,7 +85,7 @@ Squad Modules Lite is developed by the [Divi Squad](https://squadmodules.com/?ut
 
 **Show Your Support!**
 
-If Squad Modules Lite has helped you streamline your Divi workflow and enhance your website design, please consider leaving a 5-star rating: [Rate Squad Modules Lite](https://wordpress.org/support/plugin/squad-modules/reviews/#new-post)
+If Squad Modules Lite has helped you streamline your Divi workflow and enhance your website design, please consider leaving a 5-star rating: [Rate Squad Modules Lite](https://wordpress.org/support/plugin/squad-modules-for-divi/reviews/?rate=5#new-post)
 
 Your positive reviews and feedback help us continue improving our products and delivering exceptional Divi modules and Divi extensions to the Divi community.
 
@@ -186,13 +186,13 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
-= 3.1.7 =
-Bug fixing to save all enabled modules.
+= 3.1.8 =
+feat: linking option added to feature image in Divi Post Grid Module
 
 == Changelog ==
-= 3.1.7 (23-08-2024) =
+= 3.1.8 (26-10-2024) =
 
-**fixing:**
-- Fix an issue to save enable modules
+**New Features:**
+- feat: linking option added to feature image in Divi Post Grid Module
 
-[Read more](https://squadmodules.com/changelog)
+[Read more](https://squadmodules.com/changelog-lite/)

@@ -277,6 +277,7 @@ class Modules extends Route {
 			'is_premium_feature' => isset( $module['is_premium_feature'] ) ? $module['is_premium_feature'] : false,
 			'type'               => isset( $module['type'] ) ? $module['type'] : '',
 			'settings_route'     => isset( $module['settings_route'] ) ? $module['settings_route'] : '',
+			'required'           => isset( $module['required'] ) ? $module['required'] : array(),
 			'category'           => isset( $module['category'] ) ? $module['category'] : '',
 			'category_title'     => isset( $module['category_title'] ) ? $module['category_title'] : '',
 		);
