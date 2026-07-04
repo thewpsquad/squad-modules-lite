@@ -436,7 +436,7 @@ trait Body_Classes {
 		$added = 0;
 		foreach ( $classes as $class ) {
 			if ( $this->add_body_class( $class ) ) {
-				$added ++;
+				++$added;
 			}
 		}
 

@@ -129,7 +129,7 @@ class WordPress extends Definition {
 			return parent::get_associated_fields( $fields_types );
 		}
 
-		// Otherwise, register them now
+		// Otherwise, register them now.
 		$this->register_associated_field(
 			'element_custom_field_before',
 			array(

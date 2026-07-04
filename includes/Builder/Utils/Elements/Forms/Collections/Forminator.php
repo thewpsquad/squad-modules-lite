@@ -32,12 +32,12 @@ class Forminator extends Collection {
 	 * @return array An array of Forminator Forms data.
 	 */
 	public function get_forms( string $collection ): array {
-		// Check if Forminator is active
+		// Check if Forminator is active.
 		if ( ! class_exists( 'Forminator_API' ) ) {
 			return array();
 		}
 
-		// Get all Forminator Forms
+		// Get all Forminator Forms.
 		$forms = \Forminator_API::get_forms();
 
 		if ( empty( $forms ) ) {

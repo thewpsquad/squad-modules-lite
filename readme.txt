@@ -3,28 +3,31 @@ Contributors: wpsquad, mralaminahamed
 Donate link: https://squadmodules.com/
 Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 3.4.4
+Stable tag: 4.0.0
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-The Essential Divi plugin, offering 25+ stunning free modules like Advanced Divider, Flip box, and more.
+The Essential Divi plugin — 25+ free modules that run natively in both the new Divi 5 Visual Builder and the classic Divi 4 builder.
 
 == Description ==
 
 **Elevate Your Divi Experience with Squad Modules Lite**
 
-Squad Modules Lite is an ultimate free divi modules and extensions plugin that takes your Divi page building experience to new heights. Designed specifically for the Divi theme and Divi page builder, this plugin introduces a powerful suite of over 25 free Divi modules and 5 free Divi extensions, empowering you to create visually stunning and highly functional websites with ease.
+Squad Modules Lite is the ultimate free Divi modules and extensions plugin that takes your Divi page building experience to new heights. Designed specifically for the Divi theme and Divi page builder, it introduces a powerful suite of over 25 free Divi modules and 5 free Divi extensions, empowering you to create visually stunning, highly functional websites with ease.
+
+**Now with full Divi 5 support:** every Squad module runs as a native module in the new Divi 5 Visual Builder (Block API), while continuing to work in the classic Divi 4 builder — so your existing layouts keep working and new ones get the speed of Divi 5.
 
 **Key Features:**
 
-- **25+ Free Divi Modules:** Enhance your Divi workflow with a diverse collection of free modules for layouts, content, interactive elements, engagement, social proof, and form styling.
-- **5 Free Divi Extensions:** Unlock additional functionality with free extensions for copying posts/pages, utilizing Divi Library shortcodes, uploading custom fonts, importing/exporting with JSON, and working with SVG graphics.
-- **Lightweight and High-Performance:** Squad Modules Lite is meticulously crafted to ensure lightning-fast loading speeds and a seamless Divi editing experience.
-- **Complete Customization:** Each Divi module offers extensive customization options, allowing you to tailor your website design to match your brand perfectly.
-- **Granular Control:** Optimize website performance by selectively enabling or disabling individual Divi modules based on your needs.
-- **Regular Updates:** Benefit from continuous improvements with frequent updates that introduce new Divi modules, features, bug fixes, and performance enhancements.
+- **Native Divi 5 & Divi 4 Support:** Every module is a first-class citizen in the new Divi 5 Visual Builder and the classic Divi 4 builder — no separate plugin, no migration headaches.
+- **25+ Free Divi Modules:** A diverse collection of free modules for layouts, content, interactive elements, dynamic content, engagement, social proof, and form styling.
+- **5 Free Divi Extensions:** Copy posts/pages, Divi Library shortcodes, custom font upload, JSON import/export, and SVG upload.
+- **Lightweight and High-Performance:** Meticulously crafted for lightning-fast loading and a seamless Divi editing experience.
+- **Complete Customization:** Extensive design controls on every module, neatly organized into named groups in the Visual Builder.
+- **Granular Control:** Enable or disable individual modules from the dashboard to keep your site lean.
+- **Regular Updates:** Frequent updates with new modules, features, fixes, and performance improvements.
 
 **Included Divi Modules:**
 
@@ -35,8 +38,9 @@ Squad Modules Lite is an ultimate free divi modules and extensions plugin that t
 - Divi Drop Cap Text Module: Add emphasis and style to your text content with beautiful drop caps.
 - [(...and more)](https://squadmodules.com/modules?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 
-**Interactive Divi Modules:**
+**Interactive & Dynamic Divi Modules:**
 
+- Divi Post Carousel Module: Showcase your posts in a touch-friendly carousel with responsive slides-per-view, autoplay, loop, navigation arrows, pagination dots, and slide/fade/coverflow effects.
 - Divi Before After Image Slider Module: Engage visitors with interactive image comparisons, showcasing transformations or product variations.
 - Divi Flip Box Module: Create captivating elements that reveal additional information or a different design on hover.
 - Divi Lottie Animation Module: Effortlessly integrate eye-catching animations to enhance your website's visual appeal and user experience.
@@ -48,12 +52,13 @@ Squad Modules Lite is an ultimate free divi modules and extensions plugin that t
 - Divi Post Reading Time Module: Inform readers of the estimated reading time for your blog posts, helping them plan their time effectively.
 - [(...and more)](https://squadmodules.com/modules?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 
-**Form Styler Divi Modules:**
+**Form Styler Divi Modules (Divi 5 & Divi 4):**
 
 - Divi Form Styler: Contact Form 7 Module: Effortlessly customize the design of Contact Form 7 forms with color, font, spacing, and CSS options.
 - Divi Form Styler: WP Forms Module: Effortlessly customize the design of WP Forms with color, font, spacing, and CSS options.
 - Divi Form Styler: Gravity Forms Module: Effortlessly customize the design of Gravity Forms with color, font, spacing, and CSS options.
 - Divi Form Styler: Ninja Forms Module: Effortlessly customize the design of Ninja Forms with color, font, spacing, and CSS options.
+- Divi Form Styler: Fluent Forms, Forminator, Formidable Forms, MetForm, and SureForms: Style every popular form plugin with the same powerful, native design controls.
 - [(...and more)](https://squadmodules.com/modules?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 
 **Powerful Free Divi Extensions:**
@@ -104,7 +109,7 @@ Before diving into the exciting world of Squad Modules Lite, let's ensure your w
 * **WordPress:** Version 5.0 or greater
 * **PHP:** Version 7.0 or greater
 * **MySQL:** Version 5.0 or greater
-* **Divi Theme, Extra Theme, or Divi Builder Plugin:** Version 4.13 or greater
+* **Divi Theme, Extra Theme, or Divi Builder Plugin:** Version 4.13 or greater — including Divi 5 with the new Visual Builder
 
 **For the best experience, we highly recommend your hosting provider supports PHP version 7.4 or greater, MySQL version 5.6 or greater, and a WordPress memory limit of 64MB or higher (ideally 128MB or more).** This will ensure your website runs Squad Modules Lite at peak efficiency.
 
@@ -147,6 +152,9 @@ Absolutely! [Squad Modules Lite](https://squadmodules.com/modules?utm_campaign=w
 **Does Squad Modules Lite work with the latest Divi version?**
 Yes, Squad Modules Lite is rigorously tested and updated to ensure seamless compatibility with the most recent versions of the Divi theme and Divi Builder. You can always be confident that your modules will work flawlessly with your Divi setup.
 
+**Does it support Divi 5 and the new Visual Builder?**
+Yes. As of version 4.0.0, every Squad module runs as a native module in the Divi 5 Visual Builder (built on Divi's Block API), with the same design controls and frontend output. The classic Divi 4 builder is still fully supported, so pages built in either version keep working — there is nothing to migrate.
+
 **Can I customize the Squad Modules Lite modules to match my website's design?**
 Of course! [Squad Modules Lite](https://squadmodules.com/?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) empowers you with extensive customization options. You can tailor colors, fonts, spacing, and more to achieve a design that perfectly complements your website's unique aesthetic.
 
@@ -169,21 +177,23 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 
 
 == Screenshots ==
-1. Main Dashboard - The [Squad Modules Lite](https://squadmodules.com/) dashboard for convenient module management and settings.
-2. Module Dashboard - This is the dashboard where you can manage and configure Squad Modules Lite modules. You can see a list of all the modules that you have installed, and you can customize their settings. You can also create custom modules from here.
-3. Extensions Dashboard - This is the dashboard where you can manage and configure Squad Modules Lite extensions. You can see a list of all the extensions that you have activated, and you can customize their settings.
-4. What's New Page - This is the Page where you can see all the latest updates of Squad Modules Lite.
-5. Module Selection in the Divi Builder - This is the folder where all the modules are stored. You can easily add a new module by dragging and dropping it into the Divi Builder.
-6. Advanced Divider Module -  This is a module that allows you to create visually appealing dividers with various styles, shapes, and customization options.
-7. Before After Image Slider Module - This is a module that allows you to create interactive image comparisons using the Before After Image Slider module.
-8. Business Hours Module - This is a module that allows you to display your business hours in a clear and organized manner.
-9. Dual Button Module - This is a module that allows you to encourage user interaction and call-to-action with the Dual Button module. Display two distinct buttons side by side, each with its own customizable text, link, and design options.
-10. Flip Box Module - This is a module that allows you to add a touch of interactivity and visual interest to your website with the Flip Box module. Showcase content on one side of the box, and when hovered or clicked, the box flips to reveal additional information or a different design.
-11. Image Mask Module - This is a module that allows you to transform your images into captivating focal points with the Image Mask module. Apply stunning masks to your images, adding creativity and visual appeal to your website.
-12. Lottie Module - This is a module that allows you to bring your website to life with captivating Lottie animations. The Lottie Animation module allows you to easily integrate animated elements into your web pages, making your website more engaging and dynamic.
-13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
+1. Main Dashboard - The [Squad Modules Lite](https://squadmodules.com/) dashboard with quick links to documentation, support, reviews, and the community.
+2. Module Management - Enable, disable, and configure every Squad module from a single dashboard, keeping your site lean.
+3. Extensions Management - Manage the bundled extensions: Copy Post/Page, Divi Library Shortcode, and custom Font, JSON, and SVG upload.
+4. What's New - Browse release notes and the changelog right inside the dashboard.
+5. Advanced Divider Module - Craft dividers in 16 styles: solid, double, dashed, dotted, groove, ridge, shadow, image, icon, text, multiple, gradient, lottie, variant, wave, and zigzag.
+6. Before After Image Slider Module - Build interactive horizontal or vertical image comparisons, fully styled in the Divi builder.
+7. Business Hours Module - Display your opening hours in a clean, customizable schedule with per-day highlighting and a Closed state.
+8. Dual Button Module - Two side-by-side calls to action, each independently styled with its own text, link, and design - no code required.
+9. Flip Box Module - Cards that flip on hover to reveal a CTA, price, or any hidden detail; front and back are fully customizable.
+10. Image Mask Module - Apply creative shape masks - blob, leaf, or custom SVG geometry - to any image for striking focal points.
+11. Lottie Module - Drop in lightweight Lottie animations with no JavaScript, fully controllable from the Divi builder.
+12. Typing Text Module - Animated typing headlines with configurable words, speed, color, and cursor to grab attention.
 
 == Upgrade Notice ==
+= 4.0.0 =
+Major release: every Squad module now runs natively in the Divi 5 Visual Builder (Block API), plus a new Post Carousel module and Divi 5 form stylers for Formidable, MetForm, and SureForms. Includes Post Grid/Post Element Divi 5 parity, design-group cleanups, and admin dashboard fixes. Divi 4 builder support continues unchanged.
+
 = 3.4.4 =
 Enhanced build system stability with ESLint configuration improvements and fixed PHP sprintf format specifier errors. Improved code quality and build process reliability.
 
@@ -221,6 +231,28 @@ Major performance improvements, bug fixes, and enhanced module loading system. N
 Bug fixing for Flip box module
 
 == Changelog ==
+= 4.0.0 (30-05-2026) =
+
+**Major: Native Divi 5 (Block API) support**
+- All Squad modules now run as native Divi 5 block modules in the new Visual Builder, alongside continued support for the classic Divi 4 builder.
+- Ported the Content, Creative, and Media modules to Divi 5 (Dual Button, Flip Box, Drop Cap Text, Glitch Text, Gradient Text, Scrolling Text, Typing Text, Star Rating, Breadcrumbs, Divider, Google Map, Business Hours, Image Mask, Image Gallery, Before & After Image Slider, Lottie, Video Popup, and more).
+- Ported all Form Styler modules to Divi 5 — Contact Form 7, WPForms, Gravity Forms, Ninja Forms, Fluent Forms, and Forminator — and added new stylers for Formidable Forms, MetForm, and SureForms.
+- Ported Post Grid and Post Element to Divi 5 with full parity: query options (recent/category/tag, exclude, current-loop/related posts), 16 element types, per-element icons and separators, numbered pagination, and AJAX load more.
+
+**New Features:**
+- New **Post Carousel** module — showcase posts in a touch-friendly Swiper carousel with responsive slides-per-view, gap, transition speed, autoplay (with pause-on-hover), loop, navigation arrows, pagination dots, and slide/fade/coverflow effects.
+- New **Post Reading Time** dynamic-content module for Divi 5.
+
+**Improvements:**
+- Sub-element style controls now nest cleanly under named design groups (e.g. Slide Item, Form, Field, Submit Button) across all Divi 5 modules.
+- Added a base style layer and brand-aligned icons to the Divi 5 modules.
+- Expanded automated test coverage for the core and builder.
+
+**Bug Fixes:**
+- Fixed Divi 5 module frontend rendering (module registration timing and upload/gallery field handling).
+- Fixed admin dashboard issues: version badges always showing "Nightly", incorrect Pro lifecycle detection, notice auto-slide timer, feature-list state handling, and removed dead navigation code.
+- Numerous Divi 5 form-styler, asset-loading, and CSS-grouping fixes.
+
 = 3.4.4 (24-08-2025) =
 
 **New Features:**

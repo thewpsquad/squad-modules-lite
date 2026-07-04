@@ -45,10 +45,17 @@ class Post_Grid extends Base_Route {
 	 */
 	public function get_routes(): array {
 		$routes = array(
-			'/module/post-grid/load-more' => array(
+			'/module/post-grid/load-more'        => array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'load_more_posts' ),
+					'permission_callback' => array( $this, 'check_load_more_permissions' ),
+				),
+			),
+			'/module/post-grid/load-more-divi5'  => array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'load_more_posts_divi5' ),
 					'permission_callback' => array( $this, 'check_load_more_permissions' ),
 				),
 			),
@@ -84,7 +91,7 @@ class Post_Grid extends Base_Route {
 		 */
 		$allow_any = apply_filters( 'divi_squad_rest_post_grid_allow_any_user', true, $this );
 
-		// By default, allow anyone to load more posts since this is public content
+		// By default, allow anyone to load more posts since this is public content.
 		if ( $allow_any ) {
 			/**
 			 * Fires after a successful permission check for post grid loading.
@@ -98,7 +105,7 @@ class Post_Grid extends Base_Route {
 			return true;
 		}
 
-		// If restricted to logged-in users, check user status
+		// If restricted to logged-in users, check user status.
 		if ( ! is_user_logged_in() ) {
 			/**
 			 * Filters the error message when an unauthenticated user isn't allowed to load posts.
@@ -224,11 +231,11 @@ class Post_Grid extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_post_grid_before_load_more', $query_params, $content, $request, $this );
 
-			// Initialize the module
+			// Initialize the module.
 			$post_grid_module = new Post_Grid_Module();
 			$post_grid_module->squad_init_custom_hooks();
 
-			// Get the posts HTML
+			// Get the posts HTML.
 			$posts = Post_Grid_Module::squad_get_posts_html( $query_params, $content );
 
 			/**
@@ -270,7 +277,7 @@ class Post_Grid extends Base_Route {
 				);
 			}
 
-			// Process content for response
+			// Process content for response.
 			$html_content = Str::remove_new_lines_and_tabs( $posts );
 
 			/**
@@ -299,7 +306,7 @@ class Post_Grid extends Base_Route {
 
 			return rest_ensure_response( $response_data );
 		} catch ( Throwable $e ) {
-			// Log error
+			// Log error.
 			divi_squad()->log_error( $e, sprintf( 'Post grid load more error: %s', $e->getMessage() ) );
 
 			/**
@@ -334,6 +341,80 @@ class Post_Grid extends Base_Route {
 				$e,
 				$request,
 				$this
+			);
+		}
+	}
+
+	/**
+	 * Load more posts for the native Divi 5 Post Grid module.
+	 *
+	 * The Divi 5 module emits base64-encoded element markers; this re-renders the next
+	 * page of grid items from the decoded marker template and the client query args.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function load_more_posts_divi5( WP_REST_Request $request ) {
+		try {
+			$module_class = '\DiviSquad\Builder\Version5\Modules\DynamicContent\Post_Grid';
+			if ( ! class_exists( $module_class ) ) {
+				return new WP_Error(
+					'rest_unavailable',
+					esc_html__( 'The Divi 5 Post Grid module is not available.', 'squad-modules-for-divi' ),
+					array( 'status' => 501 )
+				);
+			}
+
+			$params = $request->get_json_params();
+
+			if ( ! isset( $params['query_args'], $params['content'] ) ) {
+				return new WP_Error(
+					'rest_invalid_params',
+					esc_html__( 'Invalid or missing parameters.', 'squad-modules-for-divi' ),
+					array( 'status' => 400 )
+				);
+			}
+
+			$client_args = array_map( array( Sanitization::class, 'sanitize_array' ), wp_unslash( (array) $params['query_args'] ) );
+			$offset      = isset( $client_args['offset'] ) ? absint( $client_args['offset'] ) : 0;
+
+			// The frontend sends the marker template base64-encoded so its HTML comments survive transport.
+			$template = (string) base64_decode( (string) $params['content'], true );
+			if ( '' === trim( $template ) ) {
+				return new WP_Error(
+					'rest_invalid_params',
+					esc_html__( 'Invalid template.', 'squad-modules-for-divi' ),
+					array( 'status' => 400 )
+				);
+			}
+
+			$html = $module_class::render_more_posts( $client_args, $template );
+
+			if ( '' === $html ) {
+				return new WP_Error(
+					'rest_no_data',
+					esc_html__( 'No posts found.', 'squad-modules-for-divi' ),
+					array( 'status' => 404 )
+				);
+			}
+
+			return rest_ensure_response(
+				array(
+					'type'   => 'success',
+					'offset' => $offset,
+					'html'   => Str::remove_new_lines_and_tabs( $html ),
+				)
+			);
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, sprintf( 'Post grid (Divi 5) load more error: %s', $e->getMessage() ) );
+
+			return new WP_Error(
+				'rest_error',
+				$e->getMessage(),
+				array( 'status' => 500 )
 			);
 		}
 	}

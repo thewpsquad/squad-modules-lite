@@ -573,13 +573,13 @@ class Before_After_Image_Slider extends Module {
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$multi_view   = et_pb_multi_view_options( $this );
-		$before_label = $multi_view->render_element(
+		$before_label = (string) $multi_view->render_element(
 			array(
 				'content'        => '{{before_label}}',
 				'hover_selector' => "$this->main_css_element div .compare-images.icv",
 			)
 		);
-		$after_label  = $multi_view->render_element(
+		$after_label  = (string) $multi_view->render_element(
 			array(
 				'content'        => '{{after_label}}',
 				'hover_selector' => "$this->main_css_element div .compare-images.icv",
@@ -665,7 +665,7 @@ class Before_After_Image_Slider extends Module {
 			$image_classes .= " $image_attachment_class";
 		}
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'tag'            => 'img',
 				'attrs'          => array(
@@ -691,79 +691,49 @@ class Before_After_Image_Slider extends Module {
 		$this->props = array_merge( $attrs, $this->props );
 
 		// background with default, responsive, hover.
-		et_pb_background_options()->get_background_style(
-			array(
-				'base_prop_name'         => 'before_label_background',
-				'props'                  => $this->props,
-				'selector'               => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-before",
-				'selector_hover'         => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-before",
-				'selector_sticky'        => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-before",
-				'function_name'          => $this->slug,
-				'important'              => ' !important',
-				'use_background_video'   => false,
-				'use_background_pattern' => false,
-				'use_background_mask'    => false,
-				'prop_name_aliases'      => array(
-					'use_before_label_background_color_gradient' => 'before_label_background_use_color_gradient',
-					'before_label_background'                    => 'before_label_background_color',
-				),
-			)
-		);
-		et_pb_background_options()->get_background_style(
-			array(
-				'base_prop_name'         => 'after_label_background',
-				'props'                  => $this->props,
-				'selector'               => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-after",
-				'selector_hover'         => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-after",
-				'selector_sticky'        => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-after",
-				'function_name'          => $this->slug,
-				'important'              => ' !important',
-				'use_background_video'   => false,
-				'use_background_pattern' => false,
-				'use_background_mask'    => false,
-				'prop_name_aliases'      => array(
-					'use_after_label_background_color_gradient' => 'after_label_background_use_color_gradient',
-					'after_label_background'                    => 'after_label_background_color',
-				),
-			)
-		);
+		$labels = array( 'before', 'after' );
+		foreach ( $labels as $label ) {
+			$prop_name_key_gradient = "use_{$label}_label_background_color_gradient";
+			$prop_name_key_default  = "{$label}_label_background";
 
-		// margin and padding with default, responsive, hover.
-		$this->squad_utils->field_css_generations->generate_margin_padding_styles(
-			array(
-				'field'          => 'before_label_margin',
-				'selector'       => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-before",
-				'hover_selector' => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-before",
-				'css_property'   => 'margin',
-				'type'           => 'margin',
-			)
-		);
-		$this->squad_utils->field_css_generations->generate_margin_padding_styles(
-			array(
-				'field'          => 'before_label_padding',
-				'selector'       => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-before",
-				'hover_selector' => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-before",
-				'css_property'   => 'padding',
-				'type'           => 'padding',
-			)
-		);
-		$this->squad_utils->field_css_generations->generate_margin_padding_styles(
-			array(
-				'field'          => 'after_label_margin',
-				'selector'       => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-after",
-				'hover_selector' => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-after",
-				'css_property'   => 'margin',
-				'type'           => 'margin',
-			)
-		);
-		$this->squad_utils->field_css_generations->generate_margin_padding_styles(
-			array(
-				'field'          => 'after_label_padding',
-				'selector'       => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-after",
-				'hover_selector' => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-after",
-				'css_property'   => 'padding',
-				'type'           => 'padding',
-			)
-		);
+			et_pb_background_options()->get_background_style(
+				array(
+					'base_prop_name'         => $prop_name_key_default,
+					'props'                  => $this->props,
+					'selector'               => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-{$label}",
+					'selector_hover'         => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-{$label}",
+					'selector_sticky'        => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-{$label}",
+					'function_name'          => $this->slug,
+					'important'              => ' !important',
+					'use_background_video'   => false,
+					'use_background_pattern' => false,
+					'use_background_mask'    => false,
+					'prop_name_aliases'      => array(
+						$prop_name_key_gradient => "{$label}_label_background_use_color_gradient",
+						$prop_name_key_default  => "{$label}_label_background_color",
+					),
+				)
+			);
+
+			// margin and padding with default, responsive, hover.
+			$this->squad_utils->field_css_generations->generate_margin_padding_styles(
+				array(
+					'field'          => "{$label}_label_margin",
+					'selector'       => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-{$label}",
+					'hover_selector' => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-{$label}",
+					'css_property'   => 'margin',
+					'type'           => 'margin',
+				)
+			);
+			$this->squad_utils->field_css_generations->generate_margin_padding_styles(
+				array(
+					'field'          => "{$label}_label_padding",
+					'selector'       => "$this->main_css_element div .compare-images.icv .icv__label.icv__label-{$label}",
+					'hover_selector' => "$this->main_css_element div .compare-images.icv:hover .icv__label.icv__label-{$label}",
+					'css_property'   => 'padding',
+					'type'           => 'padding',
+				)
+			);
+		}
 	}
 }

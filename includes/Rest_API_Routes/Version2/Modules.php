@@ -51,7 +51,7 @@ class Modules extends Modules_V1 {
 	public function get_routes(): array {
 		$base_routes = parent::get_routes();
 
-		// Remove the 'update modules' endpoint from the '/modules/active' route only
+		// Remove the 'update modules' endpoint from the '/modules/active' route only.
 		if ( isset( $base_routes['/modules/active'] ) ) {
 			$base_routes['/modules/active'] = array_filter(
 				$base_routes['/modules/active'],
@@ -414,20 +414,20 @@ class Modules extends Modules_V1 {
 				);
 			}
 
-			// Get current active modules
+			// Get current active modules.
 			$active_modules = $this->get_module_names( static::ACTIVE_MODULES_KEY );
 
 			if ( $active ) {
-				// Add to active modules if not already present
+				// Add to active modules if not already present.
 				if ( ! in_array( $module_id, $active_modules, true ) ) {
 					$active_modules[] = $module_id;
 				}
 			} else {
-				// Remove from active modules
+				// Remove from active modules.
 				$active_modules = array_diff( $active_modules, array( $module_id ) );
 			}
 
-			// Get all module names
+			// Get all module names.
 			$all_module_names = array_column( divi_squad()->modules->get_registered_list(), 'name' );
 			$inactive_modules = array_values( array_diff( $all_module_names, $active_modules ) );
 
@@ -457,7 +457,7 @@ class Modules extends Modules_V1 {
 			 */
 			$inactive_modules = apply_filters( 'divi_squad_rest_toggle_module_inactive_list', $inactive_modules, $active_modules, $module_id, $active, $request );
 
-			// Update storage
+			// Update storage.
 			$this->update_module_memory( $active_modules, $inactive_modules );
 
 			$response_data = array(
@@ -616,7 +616,7 @@ class Modules extends Modules_V1 {
 			 */
 			do_action( 'divi_squad_rest_before_enable_modules_batch', $module_ids, $request );
 
-			// Validate module IDs
+			// Validate module IDs.
 			$all_module_names = array_column( divi_squad()->modules->get_registered_list(), 'name' );
 			$invalid_modules  = array_diff( $module_ids, $all_module_names );
 
@@ -632,7 +632,7 @@ class Modules extends Modules_V1 {
 				);
 			}
 
-			// Add new modules to active list
+			// Add new modules to active list.
 			$active_modules = array();
 			foreach ( $module_ids as $module_id ) {
 				if ( in_array( $module_id, $all_module_names, true ) ) {
@@ -640,10 +640,10 @@ class Modules extends Modules_V1 {
 				}
 			}
 
-			// Get inactive modules
+			// Get inactive modules.
 			$inactive_modules = array_values( array_diff( $all_module_names, $active_modules ) );
 
-			// Update storage
+			// Update storage.
 			$this->update_module_memory( $active_modules, $inactive_modules );
 
 			$response_data = array(
@@ -724,7 +724,7 @@ class Modules extends Modules_V1 {
 			 */
 			do_action( 'divi_squad_rest_before_disable_modules_batch', $module_ids, $request );
 
-			// Validate module IDs
+			// Validate module IDs.
 			$all_module_names = array_column( divi_squad()->modules->get_registered_list(), 'name' );
 			$invalid_modules  = array_diff( $module_ids, $all_module_names );
 
@@ -740,16 +740,16 @@ class Modules extends Modules_V1 {
 				);
 			}
 
-			// Get current active modules
+			// Get current active modules.
 			$active_modules = $this->get_module_names( static::ACTIVE_MODULES_KEY );
 
-			// Remove modules from active list
+			// Remove modules from active list.
 			$active_modules = array_values( array_diff( $active_modules, $module_ids ) );
 
-			// Get inactive modules
+			// Get inactive modules.
 			$inactive_modules = array_values( array_diff( $all_module_names, $active_modules ) );
 
-			// Update storage
+			// Update storage.
 			$this->update_module_memory( $active_modules, $inactive_modules );
 
 			$response_data = array(
@@ -821,7 +821,7 @@ class Modules extends Modules_V1 {
 
 			$modules = divi_squad()->modules->get_all_modules();
 
-			// Get detailed module information if requested
+			// Get detailed module information if requested.
 			$detailed = isset( $request['detailed'] ) && filter_var( $request['detailed'], FILTER_VALIDATE_BOOLEAN );
 
 			if ( $detailed ) {
@@ -860,7 +860,7 @@ class Modules extends Modules_V1 {
 				$response = rest_ensure_response( array( 'modules' => $modules ) );
 			}
 
-			// Add version information to response
+			// Add version information to response.
 			$response->add_link( 'version', rest_url( $this->get_namespace() ), array( 'version' => $this->version ) );
 			$response->add_link( 'collection', rest_url( $this->get_namespace() . '/modules' ) );
 
@@ -911,7 +911,7 @@ class Modules extends Modules_V1 {
 
 			$active_modules = $this->get_module_names( static::ACTIVE_MODULES_KEY );
 
-			// Get detailed module information if requested
+			// Get detailed module information if requested.
 			$detailed = isset( $request['detailed'] ) && filter_var( $request['detailed'], FILTER_VALIDATE_BOOLEAN );
 
 			if ( $detailed ) {
@@ -998,7 +998,7 @@ class Modules extends Modules_V1 {
 
 			$inactive_modules = $this->get_module_names( static::INACTIVE_MODULES_KEY );
 
-			// Get detailed module information if requested
+			// Get detailed module information if requested.
 			$detailed = isset( $request['detailed'] ) && filter_var( $request['detailed'], FILTER_VALIDATE_BOOLEAN );
 
 			if ( $detailed ) {
@@ -1075,7 +1075,7 @@ class Modules extends Modules_V1 {
 	protected function prepare_module_for_response( array $module ): array {
 		$is_active = divi_squad()->modules->is_module_active( $module['name'] ?? '' );
 
-		// Format module data with enhanced information
+		// Format module data with enhanced information.
 		$formatted_data = array(
 			'name'               => $module['name'] ?? '',
 			'label'              => $module['label'] ?? '',
@@ -1172,10 +1172,10 @@ class Modules extends Modules_V1 {
 		$dependencies = array();
 
 		if ( isset( $module['required']['plugin'] ) && is_array( $module['required'] ) ) {
-			// Process plugin requirements
+			// Process plugin requirements.
 			$plugin_deps = $module['required']['plugin'];
 			if ( is_string( $plugin_deps ) ) {
-				// Single plugin or alternatives
+				// Single plugin or alternatives.
 				$plugin_deps = strpos( $plugin_deps, '|' ) !== false ? explode( '|', $plugin_deps ) : array( $plugin_deps );
 
 				foreach ( $plugin_deps as $plugin ) {
@@ -1187,7 +1187,7 @@ class Modules extends Modules_V1 {
 					);
 				}
 			} elseif ( is_array( $plugin_deps ) ) {
-				// Multiple required plugins
+				// Multiple required plugins.
 				foreach ( $plugin_deps as $plugin ) {
 					$dependencies['plugins'][] = array(
 						'slug'     => $plugin,
@@ -1231,7 +1231,7 @@ class Modules extends Modules_V1 {
 			return $plugins[ $plugin_slug ]['Name'] ?? basename( $plugin_slug, '.php' );
 		}
 
-		// Common plugin names for better display
+		// Common plugin names for better display.
 		$known_plugins = array(
 			'contact-form-7/wp-contact-form-7.php' => 'Contact Form 7',
 			'wpforms-lite/wpforms.php'             => 'WPForms Lite',
@@ -1257,7 +1257,7 @@ class Modules extends Modules_V1 {
 			return $known_plugins[ $plugin_slug ];
 		}
 
-		// Return a formatted name
+		// Return a formatted name.
 		$name = basename( $plugin_slug, '.php' );
 		$name = str_replace( array( '-', '_' ), ' ', $name );
 

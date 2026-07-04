@@ -33,14 +33,6 @@ use Throwable;
 #[\AllowDynamicProperties]
 abstract class Module extends ET_Builder_Module implements Module_Interface {
 	/**
-	 * Stylesheet selector for tooltip container.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	public string $tooltip_css_element = '';
-
-	/**
 	 * The instance of Utils class
 	 *
 	 * @var Module_Utility
@@ -151,12 +143,6 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 	 * @return string The module type.
 	 */
 	public function get_module_type(): string {
-		$plugin_type = 'core';
-
-		if ( $this instanceof \DiviSquadPro\Builder\Version4\Abstracts\Module || $this instanceof \DiviSquadPro\Base\DiviBuilder\Module ) {
-			$plugin_type = 'pro';
-		}
-
 		/**
 		 * Filter the module type.
 		 *
@@ -165,7 +151,7 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 		 * @param string $plugin_type The module type.
 		 * @param Module $module      The module instance.
 		 */
-		return apply_filters( 'divi_squad_module_type', $plugin_type, $this );
+		return apply_filters( 'divi_squad_module_type', 'core', $this );
 	}
 
 	/**
@@ -331,17 +317,6 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 		 */
 		$message = (string) apply_filters( 'divi_squad_notice_message', $message, $type, $this );
 
-		/**
-		 * Action triggered before a notice is rendered.
-		 *
-		 * @since 3.3.3
-		 *
-		 * @param string $message The notice message.
-		 * @param string $type    The notice type.
-		 * @param Module $module  The module instance.
-		 */
-		do_action( 'divi_squad_before_render_notice', $message, $type, $this );
-
 		$notice = sprintf(
 			'<div class="squad-notice squad-notice--%1$s">%2$s</div>',
 			esc_attr( $type ),
@@ -358,20 +333,6 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 		 * @param string $type    The notice type.
 		 * @param Module $module  The module instance.
 		 */
-		$notice = apply_filters( 'divi_squad_rendered_notice', $notice, $message, $type, $this );
-
-		/**
-		 * Action triggered after a notice is rendered.
-		 *
-		 * @since 3.3.3
-		 *
-		 * @param string $notice  The rendered notice HTML.
-		 * @param string $message The notice message.
-		 * @param string $type    The notice type.
-		 * @param Module $module  The module instance.
-		 */
-		do_action( 'divi_squad_after_render_notice', $notice, $message, $type, $this );
-
-		return $notice;
+		return apply_filters( 'divi_squad_rendered_notice', $notice, $message, $type, $this );
 	}
 }

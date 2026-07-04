@@ -86,9 +86,9 @@ class Rest_Routes {
 
 		// Notice routes.
 		$this->register_route_class( Admin_Notices::class );
-//		$this->register_route_class( Discount::class );
-//		$this->register_route_class( Review::class );
-//		$this->register_route_class( Pro_Activation::class );
+		// $this->register_route_class( Discount::class );.
+		// $this->register_route_class( Review::class );.
+		// $this->register_route_class( Pro_Activation::class );.
 
 		// Module-specific routes.
 		$this->register_route_class( Post_Grid::class );

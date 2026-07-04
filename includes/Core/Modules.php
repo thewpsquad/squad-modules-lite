@@ -13,6 +13,8 @@
 
 namespace DiviSquad\Core;
 
+use DiviSquad\Core\Traits\Collection_Filter;
+use DiviSquad\Core\Traits\Requirements_Checker;
 use DiviSquad\Utils\WP as WPUtil;
 use ET\Builder\Framework\DependencyManagement\DependencyTree;
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
@@ -25,6 +27,9 @@ use Throwable;
  * @since 3.3.0
  */
 class Modules {
+
+	use Collection_Filter;
+	use Requirements_Checker;
 
 	/**
 	 * Store all registered modules.
@@ -60,6 +65,16 @@ class Modules {
 	 * @var bool
 	 */
 	private bool $initialized = false;
+
+	/**
+	 * Whether the Divi 5 modules have been registered with Divi's module library.
+	 *
+	 * Guards against registering twice when both the dependency-tree action and the
+	 * `init` fallback run in the same request.
+	 *
+	 * @var bool
+	 */
+	private bool $divi5_modules_registered = false;
 
 	/**
 	 * Memory instance for module state persistence.
@@ -172,6 +187,15 @@ class Modules {
 		// Register module-specific hooks based on the builder version.
 		add_action( 'et_builder_ready', array( $this, 'load_divi4_modules' ), 9 );
 		add_action( 'divi_module_library_modules_dependency_tree', array( $this, 'load_divi5_modules' ), 9 );
+
+		// Divi 5 fires `divi_module_library_modules_dependency_tree` from
+		// `et_setup_builder_5` on `init` priority 0, but this manager initializes on
+		// `init` priority 10 — so the listener above is registered too late and is
+		// missed on frontend requests (the block then renders nothing). Register a
+		// fallback on a later `init` priority that builds our own dependency tree and
+		// loads it directly. Guarded by `$divi5_modules_registered` so it is a no-op
+		// when the action above was caught in time.
+		add_action( 'init', array( $this, 'register_divi5_modules_fallback' ), 20 );
 
 		/**
 		 * Fires after hooks are registered.
@@ -341,23 +365,18 @@ class Modules {
 	/**
 	 * Filter modules based on callback
 	 *
+	 * This method now delegates to the Collection_Filter trait
+	 * to maintain consistency across the codebase.
+	 *
+	 * @since 3.3.0
+	 * @since 3.4.5 Refactored to use Collection_Filter trait.
+	 *
 	 * @param callable $callback Function to filter modules.
 	 *
 	 * @return array<string, array<string, mixed>>
 	 */
 	private function filter_modules( callable $callback ): array {
-		try {
-			return array_filter(
-				$this->registered_modules,
-				static function ( $module ) use ( $callback ) {
-					return $callback( $module );
-				}
-			);
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to filter modules' );
-
-			return array();
-		}
+		return $this->filter_collection( $this->registered_modules, $callback );
 	}
 
 	/**
@@ -415,6 +434,9 @@ class Modules {
 	 */
 	public function load_divi5_modules( DependencyTree $dependency_tree ): void {
 		try {
+			// Mark as registered so the `init` fallback does not register a second time.
+			$this->divi5_modules_registered = true;
+
 			$active_modules = $this->get_active_registries();
 			$active_plugins = array_column( WPUtil::get_active_plugins(), 'slug' );
 
@@ -438,6 +460,40 @@ class Modules {
 			do_action( 'divi_squad_modules_divi5_modules_loaded', $active_modules, $dependency_tree, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to load Divi 5 modules' );
+		}
+	}
+
+	/**
+	 * Register Divi 5 modules on `init` when the dependency-tree action was missed.
+	 *
+	 * Divi fires `divi_module_library_modules_dependency_tree` from `et_setup_builder_5`
+	 * on `init` priority 0. Because this manager initializes on `init` priority 10, the
+	 * action listener registered in {@see self::register_hooks()} is added too late and
+	 * never runs on frontend requests, leaving the blocks unrendered. This fallback runs
+	 * on a later `init` priority, by which point Divi's builder-5 framework is loaded, and
+	 * registers our modules through our own {@see DependencyTree} — equivalent to what Divi
+	 * would have done. It is a no-op when the action was caught in time (guarded by
+	 * `$divi5_modules_registered`) or when the active builder is not Divi 5.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	public function register_divi5_modules_fallback(): void {
+		try {
+			if ( $this->divi5_modules_registered ) {
+				return;
+			}
+
+			if ( 'D5' !== $this->builder_type || ! class_exists( DependencyTree::class ) ) {
+				return;
+			}
+
+			$dependency_tree = new DependencyTree();
+			$this->load_divi5_modules( $dependency_tree );
+			$dependency_tree->load_dependencies();
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to register Divi 5 modules (init fallback)' );
 		}
 	}
 
@@ -745,9 +801,14 @@ class Modules {
 				return;
 			}
 
-			// Check for Divi 5 specific class.
-			$class_key = 'root_block_class';
-			if ( isset( $module['classes'][ $class_key ] ) && class_exists( $module['classes'][ $class_key ] ) ) {
+			// Register Divi 5 block classes: the parent ('root_block_class') and, for
+			// parent/child modules, the child ('child_block_class'). Each is an independent
+			// module registered with the dependency tree.
+			foreach ( array( 'root_block_class', 'child_block_class' ) as $class_key ) {
+				if ( ! isset( $module['classes'][ $class_key ] ) || ! class_exists( $module['classes'][ $class_key ] ) ) {
+					continue;
+				}
+
 				$block_class = $module['classes'][ $class_key ];
 
 				/**
@@ -764,13 +825,13 @@ class Modules {
 
 				$implements = class_implements( $block_class );
 				if ( false === $implements ) {
-					return;
+					continue;
 				}
 
 				// Verify class implements DependencyInterface.
 				if ( in_array( DependencyInterface::class, $implements, true ) ) {
 					$block_instance = new $block_class();
-					$dependency_tree->add_dependency( $block_instance ); // @phpstan-ignore-line
+					$dependency_tree->add_dependency( $block_instance ); // @phpstan-ignore-line.
 
 					/**
 					 * Fires after Divi 5 module is added to dependency tree.
@@ -941,54 +1002,19 @@ class Modules {
 	/**
 	 * Check module requirements
 	 *
+	 * This method now delegates to the Requirements_Checker trait
+	 * to maintain consistency across the codebase.
+	 *
+	 * @since 3.3.0
+	 * @since 3.4.5 Refactored to use Requirements_Checker trait.
+	 *
 	 * @param array<string, mixed> $module         Module configuration.
 	 * @param array<string>        $active_plugins List of active plugin slugs.
 	 *
 	 * @return bool Whether requirements are met.
 	 */
 	private function check_module_requirements( array $module, array $active_plugins ): bool {
-		// If no requirements, module is valid.
-		if ( ! isset( $module['required'] ) ) {
-			return true;
-		}
-
-		// Check plugin requirements.
-		if ( isset( $module['required']['plugin'] ) ) {
-			$required_plugins = $module['required']['plugin'];
-
-			// Single plugin requirement.
-			if ( is_string( $required_plugins ) ) {
-				// Check for multiple options (plugin1|plugin2).
-				if ( strpos( $required_plugins, '|' ) !== false ) {
-					$plugin_options = explode( '|', $required_plugins );
-
-					// At least one plugin must be active.
-					foreach ( $plugin_options as $plugin ) {
-						if ( in_array( $plugin, $active_plugins, true ) ) {
-							return true;
-						}
-					}
-
-					return false;
-				}
-
-				// Single plugin must be active.
-				return in_array( $required_plugins, $active_plugins, true );
-			}
-
-			// Multiple required plugins (all must be active).
-			if ( is_array( $required_plugins ) ) {
-				foreach ( $required_plugins as $plugin ) {
-					if ( ! in_array( $plugin, $active_plugins, true ) ) {
-						return false;
-					}
-				}
-
-				return true;
-			}
-		}
-
-		return false;
+		return $this->check_plugin_requirements( $module, $active_plugins );
 	}
 
 	/**

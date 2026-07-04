@@ -6,7 +6,7 @@
  * @since       2.0.0
  * @deprecated  3.0.0
  * @package     DiviSquad
- * @author      WP Squad <support@squadmodules.com>
+ * @author      The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories\AdminMenu;

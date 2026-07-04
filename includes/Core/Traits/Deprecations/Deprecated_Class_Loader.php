@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * DeprecatedClassLoader Trait
  *
@@ -344,7 +344,7 @@ trait Deprecated_Class_Loader {
 	 */
 	private function should_load_class( array $config, string $file_path ): bool {
 		try {
-			$should_load = ! $config['condition'] || $this->evaluate_condition( $config['condition'], $file_path );
+			$should_load = false === $config['condition'] || $this->evaluate_condition( $config['condition'], $file_path );
 
 			/**
 			 * Filters whether a deprecated class should be loaded.
@@ -397,31 +397,33 @@ trait Deprecated_Class_Loader {
 	 *
 	 * @param string $file_path File path to load.
 	 *
+	 * @throws RuntimeException If file path is invalid or file cannot be loaded.
+	 *
 	 * @return bool Success status
 	 */
 	private function load_class_file( string $file_path ): bool {
 		try {
-			// Check if file has already been loaded
+			// Check if file has already been loaded.
 			if ( isset( $this->class_config_cache[ $file_path ]['loaded'] ) && $this->class_config_cache[ $file_path ]['loaded'] ) {
 				return true;
 			}
 
-			// Validate file path
+			// Validate file path.
 			if ( '' === $file_path ) {
 				throw new RuntimeException( 'Empty file path provided' );
 			}
 
-			// Ensure file exists
+			// Ensure file exists.
 			if ( ! $this->get_wp_fs()->exists( $file_path ) ) {
 				throw new RuntimeException( sprintf( 'File does not exist: %s', $file_path ) );
 			}
 
-			// Check if file is readable
+			// Check if file is readable.
 			if ( ! $this->get_wp_fs()->is_readable( $file_path ) ) {
 				throw new RuntimeException( sprintf( 'File is not readable: %s', $file_path ) );
 			}
 
-			// Ensure we have the array structure ready for the 'loaded' flag
+			// Ensure we have the array structure ready for the 'loaded' flag.
 			if ( ! isset( $this->class_config_cache[ $file_path ] ) ) {
 				$this->class_config_cache[ $file_path ] = array(
 					'file_path' => $file_path,
@@ -440,18 +442,18 @@ trait Deprecated_Class_Loader {
 			 */
 			do_action( 'divi_squad_before_load_deprecated_class', $file_path, $this );
 
-			// Set a memory limit checkpoint if needed
+			// Set a memory limit checkpoint if needed.
 			$memory_before = memory_get_usage();
 
-			// Include the file
+			// Include the file.
 			require_once $file_path;
 
-			// Check for memory issues
+			// Check for memory issues.
 			$memory_after = memory_get_usage();
 			$memory_used  = $memory_after - $memory_before;
 
-			if ( $memory_used > 5 * 1024 * 1024 ) { // 5MB threshold, adjust as needed
-				// Log a warning but don't fail the load
+			if ( $memory_used > 5 * 1024 * 1024 ) { // 5MB threshold, adjust as needed.
+				// Log a warning but don't fail the load.
 				$this->log_warning(
 					sprintf(
 						'High memory usage (%s MB) when loading: %s',
@@ -461,7 +463,7 @@ trait Deprecated_Class_Loader {
 				);
 			}
 
-			// Mark as loaded
+			// Mark as loaded.
 			$this->class_config_cache[ $file_path ]['loaded'] = true;
 
 			/**
@@ -498,8 +500,8 @@ trait Deprecated_Class_Loader {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param callable|array $condition Condition to evaluate.
-	 * @param string         $file_path File path to evaluate condition for.
+	 * @param callable|array<string, string> $condition Condition to evaluate.
+	 * @param string                         $file_path File path to evaluate condition for.
 	 *
 	 * @return bool Whether condition passes
 	 */
@@ -585,7 +587,7 @@ trait Deprecated_Class_Loader {
 	 * Get information about loaded deprecated classes
 	 *
 	 * @since 3.3.0
-	 * @return array Information about loaded classes
+	 * @return array<string, array<string, boolean|string>> Information about loaded classes
 	 */
 	public function get_loaded_classes_info(): array {
 		try {

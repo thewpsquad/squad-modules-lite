@@ -2232,8 +2232,8 @@ class Post_Grid extends Module {
 		$is_posts_exists = $post_query->found_posts > $posts_per_page;
 
 		if ( ! $is_divi_builder && $is_posts_exists && 'off' === $is_rest_query && 'on' === $pagination ) {
-			$prev_text         = ''; // &#x3c;
-			$next_text         = ''; // &#x3d;
+			$prev_text         = ''; // &#x3c;.
+			$next_text         = ''; // &#x3d;.
 			$icon_only__enable = $attrs['pagination_icon_only__enable'] ?? 'off';
 			$numbers__enable   = $attrs['pagination_numbers__enable'] ?? 'off';
 			$old_entries_text  = isset( $attrs['pagination_old_entries_text'] ) ? esc_html( $attrs['pagination_old_entries_text'] ) : __( 'Old Entries', 'squad-modules-for-divi' );
@@ -3224,7 +3224,7 @@ class Post_Grid extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_post_wrapper_background_color_gradient' => 'post_wrapper_background_use_color_gradient',
-					'post_wrapper_background'                    => 'post_wrapper_background_color',
+					'post_wrapper_background' => 'post_wrapper_background_color',
 				),
 			)
 		);
@@ -3242,7 +3242,7 @@ class Post_Grid extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_wrapper_background_color_gradient' => 'element_wrapper_background_use_color_gradient',
-					'element_wrapper_background'                    => 'element_wrapper_background_color',
+					'element_wrapper_background' => 'element_wrapper_background_color',
 				),
 			)
 		);
@@ -3259,7 +3259,7 @@ class Post_Grid extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_background_color_gradient' => 'element_background_use_color_gradient',
-					'element_background'                    => 'element_background_color',
+					'element_background' => 'element_background_color',
 				),
 			)
 		);
@@ -3372,7 +3372,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_button_background_color_gradient' => 'button_background_use_color_gradient',
-						'button_background'                    => 'button_background_color',
+						'button_background' => 'button_background_color',
 					),
 				)
 			);
@@ -3628,7 +3628,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_pagination_wrapper_background_color_gradient' => 'pagination_wrapper_background_use_color_gradient',
-						'pagination_wrapper_background'                    => 'pagination_wrapper_background_color',
+						'pagination_wrapper_background' => 'pagination_wrapper_background_color',
 					),
 				)
 			);
@@ -3646,7 +3646,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_pagination_background_color_gradient' => 'pagination_background_use_color_gradient',
-						'pagination_background'                    => 'pagination_background_color',
+						'pagination_background' => 'pagination_background_color',
 					),
 				)
 			);
@@ -3664,7 +3664,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_active_pagination_background_color_gradient' => 'active_pagination_background_use_color_gradient',
-						'active_pagination_background'                    => 'active_pagination_background_color',
+						'active_pagination_background' => 'active_pagination_background_color',
 					),
 				)
 			);

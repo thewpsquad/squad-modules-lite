@@ -670,7 +670,7 @@ class Business_Hours extends Module {
 			)
 		);
 
-		// title styles
+		// title styles.
 		// title background with default, responsive, hover.
 		et_pb_background_options()->get_background_style(
 			array(

@@ -1308,7 +1308,7 @@ class Typing_Text extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_wrapper_background_color_gradient' => 'wrapper_background_use_color_gradient',
-					'wrapper_background'                    => 'wrapper_background_color',
+					'wrapper_background' => 'wrapper_background_color',
 				),
 			)
 		);

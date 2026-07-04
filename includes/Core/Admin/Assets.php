@@ -192,7 +192,7 @@ class Assets implements Hookable {
 
 		// Add routes by version to the REST routes array.
 		foreach ( $routes_by_version as $version => $version_data ) {
-			$rest_routes["rest_api_{$version}"] = array(
+			$rest_routes[ "rest_api_{$version}" ] = array(
 				'route'     => get_rest_url(),
 				'namespace' => $version_data['namespace'],
 				'routes'    => $version_data['routes'],

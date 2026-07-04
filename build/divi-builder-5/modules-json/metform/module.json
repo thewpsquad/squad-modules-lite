@@ -1,0 +1,521 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/form-styler-metform",
+  "d4Shortcode": "disq_form_styler_metform",
+  "title": "MetForm",
+  "titles": "MetForm",
+  "moduleIcon": "divi/module-contact-form-7",
+  "moduleClassName": "disq_form_styler_metform",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "styleProps": {
+        "layout": {
+          "selector": "{{selector}}, {{selector}} .metform-form-content form"
+        }
+      },
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "MetForm"
+            }
+          }
+        }
+      }
+    },
+    "forms": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "formId": {
+              "groupSlug": "contentForm",
+              "attrName": "forms.innerContent",
+              "subName": "formId",
+              "label": "Form",
+              "description": "Select a MetForm form to display and style.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/squad-select-form-metform",
+                "props": {
+                  "options": {}
+                }
+              }
+            },
+            "formMessages": {
+              "groupSlug": "contentForm",
+              "attrName": "forms.innerContent",
+              "subName": "formMessages",
+              "label": "Show Error & Success Messages",
+              "description": "Display sample error and success messages in the Visual Builder so they can be styled.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            }
+          }
+        }
+      }
+    },
+    "formWrapper": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFormWrapper",
+              "attrName": "formWrapper.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          },
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFormWrapper",
+              "attrName": "formWrapper.decoration.border",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "boxShadow": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFormWrapper",
+              "attrName": "formWrapper.decoration.boxShadow",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/box-shadow",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFormWrapper",
+              "attrName": "formWrapper.decoration.spacing",
+              "priority": 40,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content input:not([type=\"checkbox\"]):not([type=\"radio\"]):not([type=\"submit\"]), {{selector}} .metform-form-content textarea, {{selector}} .metform-form-content select",
+      "elementType": "field",
+      "settings": {
+        "advanced": {},
+        "decoration": {}
+      }
+    },
+    "fieldLabel": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content .mf-input-label",
+      "settings": {
+        "decoration": {
+          "font": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFieldLabel",
+              "attrName": "fieldLabel.decoration.font",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/font",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "fieldPlaceholder": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content input::placeholder, {{selector}} .metform-form-content textarea::placeholder",
+      "settings": {
+        "decoration": {
+          "font": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFieldPlaceholder",
+              "attrName": "fieldPlaceholder.decoration.font",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/font",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "checkboxRadio": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content input[type=\"checkbox\"], {{selector}} .metform-form-content input[type=\"radio\"]",
+      "settings": {
+        "decoration": {
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designCheckboxRadio",
+              "attrName": "checkboxRadio.decoration.border",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designCheckboxRadio",
+              "attrName": "checkboxRadio.decoration.spacing",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "submitButton": {
+      "type": "object",
+      "selector": "{{selector}} .metform-form-content button.metform-btn, {{selector}} .metform-form-content button[type=\"submit\"]",
+      "elementType": "button",
+      "settings": {
+        "advanced": {},
+        "decoration": {
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "button": {},
+          "font": {},
+          "sizing": {},
+          "spacing": {}
+        }
+      }
+    },
+    "messageError": {
+      "type": "object",
+      "selector": "{{selector}} .metform-error-msg",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageError",
+              "attrName": "messageError.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          },
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageError",
+              "attrName": "messageError.decoration.border",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "boxShadow": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageError",
+              "attrName": "messageError.decoration.boxShadow",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/box-shadow",
+                "type": "group"
+              }
+            }
+          },
+          "font": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageError",
+              "attrName": "messageError.decoration.font",
+              "priority": 40,
+              "render": true,
+              "component": {
+                "name": "divi/font",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageError",
+              "attrName": "messageError.decoration.spacing",
+              "priority": 50,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "messageSuccess": {
+      "type": "object",
+      "selector": "{{selector}} .metform-success-msg",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageSuccess",
+              "attrName": "messageSuccess.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          },
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageSuccess",
+              "attrName": "messageSuccess.decoration.border",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "boxShadow": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageSuccess",
+              "attrName": "messageSuccess.decoration.boxShadow",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/box-shadow",
+                "type": "group"
+              }
+            }
+          },
+          "font": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageSuccess",
+              "attrName": "messageSuccess.decoration.font",
+              "priority": 40,
+              "render": true,
+              "component": {
+                "name": "divi/font",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMessageSuccess",
+              "attrName": "messageSuccess.decoration.spacing",
+              "priority": 50,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentForm": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "forms",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Form"
+          }
+        }
+      },
+      "designFormWrapper": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "designFormWrapper",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Form"
+          }
+        }
+      },
+      "designField": {
+        "panel": "design",
+        "priority": 20,
+        "groupName": "field",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Field"
+          }
+        }
+      },
+      "designFieldLabel": {
+        "panel": "design",
+        "priority": 30,
+        "groupName": "designFieldLabel",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Field Label"
+          }
+        }
+      },
+      "designFieldPlaceholder": {
+        "panel": "design",
+        "priority": 40,
+        "groupName": "designFieldPlaceholder",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Placeholder"
+          }
+        }
+      },
+      "designCheckboxRadio": {
+        "panel": "design",
+        "priority": 50,
+        "groupName": "designCheckboxRadio",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Checkbox & Radio"
+          }
+        }
+      },
+      "designSubmitButton": {
+        "panel": "design",
+        "priority": 60,
+        "groupName": "submitButton",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Submit Button"
+          }
+        }
+      },
+      "designMessageError": {
+        "panel": "design",
+        "priority": 70,
+        "groupName": "designMessageError",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Error Message"
+          }
+        }
+      },
+      "designMessageSuccess": {
+        "panel": "design",
+        "priority": 80,
+        "groupName": "designMessageSuccess",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Success Message"
+          }
+        }
+      }
+    }
+  }
+}

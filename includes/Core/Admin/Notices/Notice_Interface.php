@@ -67,7 +67,7 @@ interface Notice_Interface {
 	/**
 	 * Get the scopes where this notice should be displayed.
 	 *
-	 * Notices can be targeted to specific admin areas or contexts.
+	 * notices can be targeted to specific admin areas or contexts.
 	 * Possible values include: 'global', 'dashboard', 'settings', etc.
 	 *
 	 * @since 3.3.3

@@ -29,5 +29,5 @@ class Constant {
 	 *
 	 * @var integer
 	 */
-	public const PHP_INT_MIN = - 9223372036854775808; // @phpstan-ignore-line
+	public const PHP_INT_MIN = - 9223372036854775808; // @phpstan-ignore-line.
 }

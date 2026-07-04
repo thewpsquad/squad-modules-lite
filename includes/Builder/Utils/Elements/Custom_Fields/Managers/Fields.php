@@ -245,7 +245,7 @@ class Fields extends Manager {
 	 * @return void
 	 */
 	public function run_upgrades(): void {
-		// $this->upgrades->run_upgrades( $this->table_name );
+		// $this->upgrades->run_upgrades( $this->table_name );.
 	}
 
 	/**

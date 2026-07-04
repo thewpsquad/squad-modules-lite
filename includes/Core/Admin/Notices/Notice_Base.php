@@ -171,7 +171,7 @@ abstract class Notice_Base implements Notice_Interface {
 		$key = array_search( $scope, $this->scopes, true );
 		if ( false !== $key ) {
 			unset( $this->scopes[ $key ] );
-			$this->scopes = array_values( $this->scopes ); // Re-index array
+			$this->scopes = array_values( $this->scopes ); // Re-index array.
 
 			/**
 			 * Action fired after a notice scope is removed.

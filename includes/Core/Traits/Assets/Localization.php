@@ -307,6 +307,9 @@ trait Localization {
 			 */
 			$filtered_data = apply_filters( "divi_squad_localize_data_{$object_name}", $data, $object_name );
 
+			$encoded_name = (string) wp_json_encode( $object_name );
+			$encoded_data = (string) wp_json_encode( $filtered_data );
+
 			/**
 			 * Filters the JSON-encoded object name for output.
 			 *
@@ -315,7 +318,7 @@ trait Localization {
 			 * @param string $encoded_name JSON-encoded object name.
 			 * @param string $object_name  Original object name.
 			 */
-			$encoded_name = apply_filters( 'divi_squad_encoded_localize_object_name', wp_json_encode( $object_name ), $object_name );
+			$encoded_name = apply_filters( 'divi_squad_encoded_localize_object_name', $encoded_name, $object_name );
 
 			/**
 			 * Filters the JSON-encoded data for output.
@@ -326,7 +329,7 @@ trait Localization {
 			 * @param array  $filtered_data Original filtered data.
 			 * @param string $object_name   Object name.
 			 */
-			$encoded_data = apply_filters( 'divi_squad_encoded_localize_data', wp_json_encode( $filtered_data ), $filtered_data, $object_name );
+			$encoded_data = apply_filters( 'divi_squad_encoded_localize_data', $encoded_data, $filtered_data, $object_name );
 
 			/**
 			 * Filters the complete script tag for localized data.

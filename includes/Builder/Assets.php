@@ -40,6 +40,98 @@ class Assets implements Hookable {
 
 		// Register Divi Builder assets.
 		add_action( 'divi_squad_enqueue_frontend_assets', array( $this, 'enqueue_builder' ) );
+
+		// Enqueue Divi 5 (block) module library bundle in the Visual Builder.
+		add_action( 'divi_visual_builder_assets_after_enqueue_scripts', array( $this, 'enqueue_builder_5_scripts' ) );
+	}
+
+	/**
+	 * Enqueue the Divi 5 module-library bundle in the Visual Builder.
+	 *
+	 * Runs on Divi 5's `divi_visual_builder_assets_after_enqueue_scripts` action so the
+	 * bundle loads after Divi's own module-library packages. The bundle registers Squad
+	 * module icons (and, from Phase 1 onward, the modules themselves) with Divi's library
+	 * via WordPress hooks. Dependencies and version come from the generated asset manifest.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_builder_5_scripts(): void {
+		try {
+			$bundle_path  = divi_squad()->get_path( '/build/divi-builder-5/scripts/bundle.js' );
+			$asset_path   = divi_squad()->get_path( '/build/divi-builder-5/scripts/bundle.asset.php' );
+
+			if ( ! file_exists( $bundle_path ) || ! file_exists( $asset_path ) ) {
+				return;
+			}
+
+			/**
+			 * Asset manifest produced by the Divi 5 (block) build.
+			 *
+			 * @var array{dependencies: array<string>, version: string} $asset
+			 */
+			$asset = require $asset_path;
+
+			$dependencies = array_merge(
+				$asset['dependencies'] ?? array(),
+				array( 'divi-module-library' )
+			);
+
+			wp_enqueue_script(
+				'squad-builder-5-modules',
+				divi_squad()->get_url( '/build/divi-builder-5/scripts/bundle.js' ),
+				$dependencies,
+				$asset['version'] ?? divi_squad()->get_version(),
+				true
+			);
+
+			// Module styles for the Visual Builder.
+			$this->enqueue_builder_5_styles();
+
+			/**
+			 * Fires after the Divi 5 module library bundle is enqueued.
+			 *
+			 * @since 3.4.0
+			 */
+			do_action( 'divi_squad_builder_5_scripts_enqueued' );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Divi 5 module library bundle' );
+		}
+	}
+
+	/**
+	 * Enqueue the Divi 5 module library stylesheet.
+	 *
+	 * The Divi 5 (block) build compiles each module's static SCSS into a single
+	 * `styles/vb-bundle.css`. It is loaded both in the Visual Builder and on the
+	 * frontend so module markup is styled in either context.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	public function enqueue_builder_5_styles(): void {
+		try {
+			if ( wp_style_is( 'squad-builder-5-modules', 'enqueued' ) ) {
+				return;
+			}
+
+			$style_path = divi_squad()->get_path( '/build/divi-builder-5/styles/vb-bundle.css' );
+
+			if ( ! file_exists( $style_path ) ) {
+				return;
+			}
+
+			wp_enqueue_style(
+				'squad-builder-5-modules',
+				divi_squad()->get_url( '/build/divi-builder-5/styles/vb-bundle.css' ),
+				array(),
+				(string) filemtime( $style_path )
+			);
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Divi 5 module library styles' );
+		}
 	}
 
 	/**
@@ -78,6 +170,9 @@ class Assets implements Hookable {
 		try {
 			// Always enqueue common styles.
 			$this->enqueue_common_styles( $assets );
+
+			// Divi 5 module styles on the frontend.
+			$this->enqueue_builder_5_styles();
 
 			/**
 			 * Fires after module assets are enqueued
@@ -162,6 +257,11 @@ class Assets implements Hookable {
 				'path' => 'vendor',
 				'deps' => array( 'jquery' ),
 			),
+			'swiper'         => array(
+				'file' => 'swiper-bundle',
+				'path' => 'vendor',
+				'deps' => array(),
+			),
 		);
 
 		/**
@@ -188,6 +288,10 @@ class Assets implements Hookable {
 				'file' => 'lightgallery',
 				'path' => 'vendor',
 			),
+			'swiper'        => array(
+				'file' => 'swiper-bundle',
+				'path' => 'vendor',
+			),
 		);
 
 		/**
@@ -199,7 +303,7 @@ class Assets implements Hookable {
 		$vendor_styles = apply_filters( 'divi_squad_vendor_styles', $vendor_styles, $assets );
 
 		foreach ( $vendor_styles as $handle => $config ) {
-			if ( ! wp_style_is( $handle, 'registered' ) ) {
+			if ( ! wp_style_is( "squad-vendor-$handle", 'registered' ) ) {
 				$assets->register_style( "vendor-$handle", $config );
 			}
 		}
@@ -272,6 +376,11 @@ class Assets implements Hookable {
 			'post-grid'       => array(
 				'deps' => array( 'wp-api-fetch' ),
 			),
+			'post-carousel'   => array(
+				'path'       => 'divi-builder-5',
+				'deps'       => array( 'squad-vendor-swiper' ),
+				'style_deps' => array( 'squad-vendor-swiper' ),
+			),
 		);
 
 		/**
@@ -285,16 +394,23 @@ class Assets implements Hookable {
 		foreach ( $module_configs as $module => $config ) {
 			$script_config = array(
 				'file' => "modules/$module-bundle",
-				'path' => 'divi-builder-4',
-				'deps' => array( 'jquery' ),
+				'path' => $config['path'] ?? 'divi-builder-4',
+				// Merge the default jQuery dependency with any module-specific dependencies
+				// (e.g. a vendor library such as squad-vendor-swiper).
+				'deps' => array_values( array_unique( array_merge( array( 'jquery' ), (array) ( $config['deps'] ?? array() ) ) ) ),
 			);
 
 			/**
-			 * Merge module-specific configurations with default configurations
+			 * Merge module-specific configurations with default configurations.
+			 *
+			 * `path` and `deps` are already resolved above, so they are removed from the
+			 * module config before merging to avoid the default winning over the override.
 			 *
 			 * @var array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $script_config
 			 */
-			$script_config = wp_parse_args( $script_config, $config );
+			$config_for_merge = $config;
+			unset( $config_for_merge['path'], $config_for_merge['deps'] );
+			$script_config = wp_parse_args( $script_config, $config_for_merge );
 
 			$assets->register_script( "module-$module", $script_config );
 
@@ -343,6 +459,9 @@ class Assets implements Hookable {
 		$this->register_ninja_styles();
 		$this->register_fluent_styles();
 		$this->register_forminator_styles();
+		$this->register_formidable_styles();
+		$this->register_metform_styles();
+		$this->register_sureforms_styles();
 	}
 
 	// Form plugin style registration methods.
@@ -547,11 +666,79 @@ class Assets implements Hookable {
 	}
 
 	/**
+	 * Register Formidable Forms styles.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	private function register_formidable_styles(): void {
+		if ( ! class_exists( 'FrmForm' ) ) {
+			return;
+		}
+
+		try {
+			// Formidable registers its public stylesheet under the `formidable` handle.
+			if ( wp_style_is( 'formidable', 'registered' ) ) {
+				wp_enqueue_style( 'formidable' );
+			}
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Formidable Forms styles' );
+		}
+	}
+
+	/**
+	 * Register MetForm styles.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	private function register_metform_styles(): void {
+		if ( ! class_exists( 'MetForm\Plugin' ) ) {
+			return;
+		}
+
+		try {
+			foreach ( array( 'metform-ui', 'metform-icons', 'metform-style' ) as $handle ) {
+				if ( wp_style_is( $handle, 'registered' ) ) {
+					wp_enqueue_style( $handle );
+				}
+			}
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue MetForm styles' );
+		}
+	}
+
+	/**
+	 * Register SureForms styles.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	private function register_sureforms_styles(): void {
+		if ( ! defined( 'SRFM_VER' ) ) {
+			return;
+		}
+
+		try {
+			foreach ( array( 'srfm-form', 'srfm-common', 'srfm-frontend' ) as $handle ) {
+				if ( wp_style_is( $handle, 'registered' ) ) {
+					wp_enqueue_style( $handle );
+				}
+			}
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue SureForms styles' );
+		}
+	}
+
+	/**
 	 * Enqueue common styles
 	 *
 	 * @param Assets_Manager $assets Assets manager instance.
 	 */
 	private function enqueue_common_styles( Assets_Manager $assets ): void {
-		// $assets->enqueue_style( 'handle' );
+		// $assets->enqueue_style( 'handle' );.
 	}
 }

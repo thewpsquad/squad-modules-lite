@@ -1,0 +1,246 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/business-day",
+  "d4Shortcode": "disq_business_day",
+  "title": "Business Day",
+  "titles": "Business Days",
+  "moduleIcon": "divi/module-countdown-timer",
+  "moduleClassName": "disq_business_day",
+  "category": "child-module",
+  "childrenName": [],
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "decoration": {
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "disabledOn": {},
+          "filters": {},
+          "spacing": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Business Day"
+            }
+          }
+        }
+      },
+      "styleProps": {
+        "spacing": {
+          "important": true
+        }
+      }
+    },
+    "dayContent": {
+      "type": "object",
+      "selector": "{{selector}} .day-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "day": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "day",
+              "label": "Day",
+              "description": "The day name shown in the day element.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "dualTime": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "dualTime",
+              "label": "Use Start & End Time",
+              "description": "Show separate start and end times instead of a single time.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "time": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "time",
+              "label": "Time",
+              "description": "The time text shown in the day element.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "startTime": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "startTime",
+              "label": "Start Time",
+              "description": "Start time (when start & end time is enabled).",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "endTime": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "endTime",
+              "label": "End Time",
+              "description": "End time (when start & end time is enabled).",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "timeSeparator": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "timeSeparator",
+              "label": "Time Separator",
+              "description": "Separator between start and end time.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "offDay": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "offDay",
+              "label": "Mark as Off Day",
+              "description": "Mark this day as closed/off.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "offDayLabel": {
+              "groupSlug": "contentDay",
+              "attrName": "dayContent.innerContent",
+              "subName": "offDayLabel",
+              "label": "Off Day Label",
+              "description": "Text shown when the day is marked off.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 80,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "day": "Monday",
+              "time": "9:00 AM - 5:00 PM",
+              "dualTime": "off",
+              "offDay": "off",
+              "timeSeparator": "-"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {
+    "dayName": {
+      "label": "Day Name",
+      "subName": "dayName",
+      "selectorSuffix": " .day-name-text"
+    },
+    "dayTime": {
+      "label": "Day Time",
+      "subName": "dayTime",
+      "selectorSuffix": " .day-element-time"
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentDay": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "dayContent",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Day & Time"
+          }
+        }
+      }
+    }
+  }
+}

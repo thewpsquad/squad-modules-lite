@@ -40,13 +40,13 @@ class Purchase_Discount_Notice extends Notice_Base {
 	 */
 	public function can_render_it(): bool {
 		try {
-			// Check if user can use premium code
+			// Check if user can use premium code.
 			$can_use_premium_code = divi_squad_fs()->can_use_premium_code();
 
-			// Check if notice is already closed
+			// Check if notice is already closed.
 			$is_pro_notice_closed = (bool) divi_squad()->memory->get( 'beta_campaign_notice_close', false );
 
-			// Only render if user cannot use premium code and notice is not closed
+			// Only render if user cannot use premium code and notice is not closed.
 			$can_render = ! $can_use_premium_code && ! $is_pro_notice_closed;
 
 			/**
@@ -74,10 +74,10 @@ class Purchase_Discount_Notice extends Notice_Base {
 	 */
 	public function get_template_args(): array {
 		try {
-			// Get default arguments from parent class
+			// Get default arguments from parent class.
 			$args = $this->get_default_template_args();
 
-			// Override with discount-specific values
+			// Override with discount-specific values.
 			$discount_args = array(
 				'wrapper_classes' => 'divi-squad-success-banner welcome-discount',
 				'title'           => esc_html__( 'Unleash Your Divi Creativity with Squad Modules Pro!', 'squad-modules-for-divi' ),
@@ -95,7 +95,7 @@ class Purchase_Discount_Notice extends Notice_Base {
 							'text'    => esc_html__( 'Upgrade Now', 'squad-modules-for-divi' ),
 							'icon'    => 'dashicons-cart',
 							'type'    => 'primary',
-							'action'  => null, // External link, no JS action
+							'action'  => null, // External link, no JS action.
 						),
 					),
 				),
@@ -105,7 +105,7 @@ class Purchase_Discount_Notice extends Notice_Base {
 				),
 			);
 
-			// Merge with default args
+			// Merge with default args.
 			$args = array_merge_recursive( $args, $discount_args );
 
 			/**
@@ -120,7 +120,7 @@ class Purchase_Discount_Notice extends Notice_Base {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error getting discount notice template args' );
 
-			// Fallback to basic notice if we encounter an error
+			// Fallback to basic notice if we encounter an error.
 			return array(
 				'wrapper_classes' => 'divi-squad-success-banner welcome-discount',
 				'content'         => esc_html__( 'Get a special discount on Squad Modules Pro!', 'squad-modules-for-divi' ),

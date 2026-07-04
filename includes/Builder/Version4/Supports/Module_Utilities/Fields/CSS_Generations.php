@@ -552,7 +552,7 @@ class CSS_Generations extends Module_Utility {
 			ET_Builder_Element::set_style( $this->module->slug, $style );
 		}
 
-		// Set visibility styles
+		// Set visibility styles.
 		$visibility_styles = array(
 			array(
 				'selector'    => $options['selector'],
@@ -1195,7 +1195,7 @@ class CSS_Generations extends Module_Utility {
 		);
 
 		if ( $text_clip_enabled ) {
-			// Prepare the text fill color options
+			// Prepare the text fill color options.
 			$fill_color_options = array(
 				'base_attr_name' => $options['base_attr_name'] . '_fill_color',
 				'selector'       => $options['selector'],
@@ -1222,7 +1222,7 @@ class CSS_Generations extends Module_Utility {
 
 			$this->module->generate_styles( $fill_color_options );
 
-			// Prepare the stroke color options
+			// Prepare the stroke color options.
 			$stroke_color_options = array(
 				'base_attr_name' => $options['base_attr_name'] . '_stroke_color',
 				'selector'       => $options['selector'],
@@ -1249,7 +1249,7 @@ class CSS_Generations extends Module_Utility {
 
 			$this->module->generate_styles( $stroke_color_options );
 
-			// Prepare the stroke width options
+			// Prepare the stroke width options.
 			$stroke_width_options = array(
 				'base_attr_name' => $options['base_attr_name'] . '_stroke_width',
 				'selector'       => $options['selector'],
@@ -1276,7 +1276,7 @@ class CSS_Generations extends Module_Utility {
 
 			$this->module->generate_styles( $stroke_width_options );
 
-			// Check if background clip is enabled
+			// Check if background clip is enabled.
 			$bg_clip_enabled = 'on' === $this->module->prop( $options['base_attr_name'] . '_bg_clip__enable', 'off' );
 
 			/**
@@ -1355,7 +1355,7 @@ class CSS_Generations extends Module_Utility {
 		 */
 		$options = (array) apply_filters( 'divi_squad_generate_divider_styles_options', $options );
 
-		// Prepare the divider color options
+		// Prepare the divider color options.
 		$color_options = array(
 			'base_attr_name' => 'divider_color',
 			'css_property'   => 'border-top-color',
@@ -1377,7 +1377,7 @@ class CSS_Generations extends Module_Utility {
 
 		$this->module->generate_styles( $color_options );
 
-		// Prepare the divider style options
+		// Prepare the divider style options.
 		$style_options = array(
 			'base_attr_name' => 'divider_style',
 			'css_property'   => 'border-top-style',
@@ -1399,7 +1399,7 @@ class CSS_Generations extends Module_Utility {
 
 		$this->module->generate_styles( $style_options );
 
-		// Prepare the divider weight options
+		// Prepare the divider weight options.
 		$weight_options = array(
 			'base_attr_name' => 'divider_weight',
 			'css_property'   => 'border-top-width',
@@ -1421,7 +1421,7 @@ class CSS_Generations extends Module_Utility {
 
 		$this->module->generate_styles( $weight_options );
 
-		// Prepare the divider max width options
+		// Prepare the divider max width options.
 		$max_width_options = array(
 			'base_attr_name' => 'divider_max_width',
 			'css_property'   => 'max-width',
@@ -1443,7 +1443,7 @@ class CSS_Generations extends Module_Utility {
 
 		$this->module->generate_styles( $max_width_options );
 
-		// Prepare the divider border radius options
+		// Prepare the divider border radius options.
 		$border_radius_options = array(
 			'base_attr_name' => 'divider_border_radius',
 			'css_property'   => 'border-radius',

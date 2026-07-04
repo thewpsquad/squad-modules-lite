@@ -664,7 +664,7 @@ class Image_Gallery extends Module {
 			$this->render_image( $attachment->image_src_thumb, $image_attrs );
 
 			if ( 'on' === $this->prop( 'show_in_lightbox', 'off' ) ) {
-				echo wp_kses_post( OverlayHelper::render( array( 'icon' => $this->props['hover_icon'] ) ) );
+				echo wp_kses_post( OverlayHelper::render( array( 'icon' => $this->prop( 'hover_icon', '' ) ) ) );
 			}
 
 			echo '</div></a>';

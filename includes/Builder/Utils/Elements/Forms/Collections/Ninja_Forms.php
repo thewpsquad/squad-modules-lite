@@ -32,12 +32,12 @@ class Ninja_Forms extends Collection {
 	 * @return array An array of Ninja Forms data.
 	 */
 	public function get_forms( string $collection ): array {
-		// Check if Ninja Forms is active
+		// Check if Ninja Forms is active.
 		if ( ! function_exists( 'Ninja_Forms' ) ) {
 			return array();
 		}
 
-		// Get all Ninja Forms
+		// Get all Ninja Forms.
 		$forms = \Ninja_Forms()->form()->get_forms();
 		if ( ! is_array( $forms ) || count( $forms ) === 0 ) {
 			return array();

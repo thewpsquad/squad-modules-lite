@@ -1,15 +1,15 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
-
 /**
- * Divi helper class for common functions.
+ * Enhanced Divi Helper Class
  *
- * This utility class provides helper methods to check various Divi states,
- * handle icon processing, manage asset loading, and verify Divi theme/plugin status.
- * It centralizes detection of Divi environment to avoid duplicate code across the plugin.
+ * Centralized utility class for all Divi-related functionality including version detection,
+ * theme/plugin status checking, and environment analysis. This class acts as the single
+ * source of truth for Divi information throughout the plugin.
  *
  * @since   1.0.0
  * @since   3.4.0 Added get_defined_divi_constants method
+ * @since   3.4.4 Enhanced version detection with multiple fallback mechanisms
  * @package DiviSquad
  */
 
@@ -26,12 +26,36 @@ use function wp_get_themes;
  * Divi utility class.
  *
  * Provides helper methods for Divi theme and builder detection,
- * icon handling, asset management, and compatibility checks.
+ * version management, icon handling, asset management, and compatibility checks.
  *
  * @since   1.0.0
  * @package DiviSquad
  */
 class Divi {
+	/**
+	 * Default version to use when detection fails.
+	 *
+	 * @since 3.4.4
+	 * @var string
+	 */
+	protected const DEFAULT_VERSION = '0.0.0';
+
+	/**
+	 * Cache of detected Divi version to avoid repeated lookups.
+	 *
+	 * @since 3.4.4
+	 * @var string|null
+	 */
+	protected static ?string $cached_version = null;
+
+	/**
+	 * Cache of detection method used.
+	 *
+	 * @since 3.4.4
+	 * @var string|null
+	 */
+	protected static ?string $version_detection_method = null;
+
 	/**
 	 * Check if the Divi theme builder is enabled.
 	 *
@@ -797,7 +821,7 @@ class Divi {
 				array( 'function' => __METHOD__ )
 			);
 
-			return false; // Default to false for safety
+			return false; // Default to false for safety.
 		}
 	}
 
@@ -830,7 +854,7 @@ class Divi {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error checking if current theme is a Divi child theme' );
 
-			return false; // Default to false for safety
+			return false; // Default to false for safety.
 		}
 	}
 
@@ -863,7 +887,7 @@ class Divi {
 				)
 			);
 
-			return false; // Default to false for safety
+			return false; // Default to false for safety.
 		}
 	}
 
@@ -883,7 +907,7 @@ class Divi {
 	 */
 	public static function get_defined_divi_constants( array $constants_to_check = array() ): array {
 		try {
-			// If no constants are specified, use default list
+			// If no constants are specified, use default list.
 			if ( 0 === count( $constants_to_check ) ) {
 				$constants_to_check = array(
 					'ET_CORE_VERSION',
@@ -947,7 +971,7 @@ class Divi {
 	 */
 	public static function get_available_divi_functions( array $functions_to_check = array() ): array {
 		try {
-			// If no functions are specified, use default list
+			// If no functions are specified, use default list.
 			if ( 0 === count( $functions_to_check ) ) {
 				$functions_to_check = array(
 					'et_setup_theme',
@@ -1011,7 +1035,7 @@ class Divi {
 	 */
 	public static function get_divi_directory_markers( string $theme_dir, array $directory_markers = array() ): array {
 		try {
-			// If no directory markers are specified, use default list
+			// If no directory markers are specified, use default list.
 			if ( count( $directory_markers ) === 0 ) {
 				$directory_markers = array(
 					'includes/builder',
@@ -1034,18 +1058,18 @@ class Divi {
 
 			$found_markers = array();
 
-			// Ensure we have a valid directory to check
+			// Ensure we have a valid directory to check.
 			if ( '' === $theme_dir || ! is_dir( $theme_dir ) ) {
 				return $found_markers;
 			}
 
-			// Normalize path with trailing slash
+			// Normalize path with trailing slash.
 			$theme_dir = trailingslashit( $theme_dir );
 
 			foreach ( $directory_markers as $marker ) {
 				$path = $theme_dir . $marker;
 
-				// Use WordPress filesystem API if available, otherwise fallback to file_exists
+				// Use WordPress filesystem API if available, otherwise fallback to file_exists.
 				if ( divi_squad()->get_wp_fs()->exists( $path ) ) {
 					$found_markers[] = $marker;
 				}
@@ -1188,40 +1212,335 @@ class Divi {
 	/**
 	 * Get the current Divi Builder version.
 	 *
-	 * Checks multiple sources to identify the active Divi version:
-	 * - ET_CORE_VERSION constant (theme)
-	 * - ET_BUILDER_VERSION constant (builder framework)
-	 * - ET_BUILDER_PLUGIN_VERSION constant (plugin)
-	 * - et_get_theme_version function (fallback)
+	 * Checks multiple sources to identify the active Divi version with extensive
+	 * fallback mechanisms to ensure a valid version is always returned.
 	 *
 	 * @since  1.0.0
 	 * @since  3.3.3 Added multiple version detection methods and filter
+	 * @since  3.4.4 Enhanced with improved version detection and caching
 	 * @access public
 	 *
-	 * @return string The current Divi Builder version or empty string if unavailable.
+	 * @param bool $refresh Whether to refresh the cached version. Default false.
+	 *
+	 * @return string The current Divi Builder version or '0.0.0' if unavailable.
 	 */
-	public static function get_builder_version(): string {
-		$version = '0.0.0';
-
-		// Check constants in order of priority.
-		if ( defined( 'ET_CORE_VERSION' ) ) {
-			$version = ET_CORE_VERSION;
-		} elseif ( defined( 'ET_BUILDER_VERSION' ) ) {
-			$version = ET_BUILDER_VERSION;
-		} elseif ( defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) {
-			$version = ET_BUILDER_PLUGIN_VERSION;
-		} elseif ( function_exists( '\et_get_theme_version' ) ) {
-			$version = \et_get_theme_version();
+	public static function get_builder_version( bool $refresh = false ): string {
+		// Return cached version if available and refresh not requested
+		if ( ! $refresh && null !== static::$cached_version ) {
+			return static::$cached_version;
 		}
+
+		$version          = self::DEFAULT_VERSION;
+		$detection_method = 'None';
+
+		try {
+			// Strategy 1: Check constants in order of priority (most reliable)
+			if ( defined( 'ET_CORE_VERSION' ) ) {
+				$version          = ET_CORE_VERSION;
+				$detection_method = 'ET_CORE_VERSION constant';
+			} elseif ( defined( 'ET_BUILDER_VERSION' ) ) {
+				$version          = ET_BUILDER_VERSION;
+				$detection_method = 'ET_BUILDER_VERSION constant';
+			} elseif ( defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) {
+				$version          = ET_BUILDER_PLUGIN_VERSION;
+				$detection_method = 'ET_BUILDER_PLUGIN_VERSION constant';
+			} elseif ( function_exists( '\et_get_theme_version' ) ) {
+				$version          = \et_get_theme_version();
+				$detection_method = 'et_get_theme_version function';
+			}
+
+			// If standard methods failed, try alternative approaches
+			if ( self::DEFAULT_VERSION === $version || ! self::is_valid_version_format( $version ) ) {
+				// Strategy 2: Try to get version from theme data
+				$version = self::get_version_from_theme();
+				if ( self::DEFAULT_VERSION !== $version && self::is_valid_version_format( $version ) ) {
+					$detection_method = 'theme data';
+				}
+			}
+
+			// Strategy 3: If theme data approach failed, try database options
+			if ( self::DEFAULT_VERSION === $version || ! self::is_valid_version_format( $version ) ) {
+				$version = self::get_version_from_db_options();
+				if ( self::DEFAULT_VERSION !== $version && self::is_valid_version_format( $version ) ) {
+					$detection_method = 'database options';
+				}
+			}
+
+			// Strategy 4: If database approach failed, try theme file parsing
+			if ( self::DEFAULT_VERSION === $version || ! self::is_valid_version_format( $version ) ) {
+				$version = self::get_version_from_theme_files();
+				if ( self::DEFAULT_VERSION !== $version && self::is_valid_version_format( $version ) ) {
+					$detection_method = 'theme file parsing';
+				}
+			}
+
+			// If all else fails, use a reasonable fallback version
+			if ( self::DEFAULT_VERSION === $version || ! self::is_valid_version_format( $version ) ) {
+				// Log the detection failure if we have logging available
+				if ( function_exists( 'divi_squad' ) && method_exists( divi_squad(), 'log_warning' ) ) {
+					divi_squad()->log_warning(
+						'Failed to detect Divi version using any available method',
+						'Divi Detection',
+						array( 'detection_method' => $detection_method )
+					);
+				}
+
+				// If all methods failed, use a fallback version that will trigger requirement checking
+				// but avoid empty version display
+				if ( function_exists( 'divi_squad' ) && method_exists( divi_squad(), 'get_option' ) ) {
+					$required_version = divi_squad()->get_option( 'RequiresDIVI' );
+					// If we have a required version, use one version below it to trigger a meaningful error
+					if ( self::is_valid_version_format( $required_version ) ) {
+						$version_parts = explode( '.', $required_version );
+						if ( count( $version_parts ) >= 3 ) {
+							// Decrement the last version number by 1 to ensure it fails the check but shows a version
+							$version_parts[ count( $version_parts ) - 1 ] = max( 0, (int) $version_parts[ count( $version_parts ) - 1 ] - 1 );
+							$version                                      = implode( '.', $version_parts );
+							$detection_method                             = 'fallback to required version minus 0.0.1';
+						}
+					}
+				}
+			}
+		} catch ( Throwable $e ) {
+			// Handle any unexpected errors during detection
+			if ( function_exists( 'divi_squad' ) ) {
+				divi_squad()->log_error(
+					$e,
+					'Exception during Divi version detection',
+					false,
+					array(
+						'function' => __METHOD__,
+					)
+				);
+			}
+
+			// In case of error, use default version
+			$version          = self::DEFAULT_VERSION;
+			$detection_method = 'error fallback';
+		}
+
+		// Save the detection method for debugging
+		static::$version_detection_method = $detection_method;
 
 		/**
 		 * Filter the detected Divi builder version.
 		 *
 		 * @since 3.3.3
+		 * @since 3.4.4 Added detection_method parameter
 		 *
-		 * @param string $version The detected Divi version.
+		 * @param string $version          The detected Divi version.
+		 * @param string $detection_method The method used to detect the version.
 		 */
-		return apply_filters( 'divi_squad_builder_version', $version );
+		$version = apply_filters( 'divi_squad_builder_version', $version, $detection_method );
+
+		// Cache the result to avoid repeated lookups
+		static::$cached_version = $version;
+
+		return $version;
+	}
+
+	/**
+	 * Get the detection method used to determine the Divi version.
+	 *
+	 * @since 3.4.4
+	 * @return string The method used to detect the Divi version.
+	 */
+	public static function get_version_detection_method(): string {
+		if ( null === static::$version_detection_method ) {
+			// Trigger version detection if it hasn't been done yet
+			static::get_builder_version();
+		}
+
+		return static::$version_detection_method ?? 'Unknown';
+	}
+
+	/**
+	 * Reset the cached version, forcing a fresh detection on next call.
+	 *
+	 * @since 3.4.4
+	 * @return void
+	 */
+	public static function reset_version_cache(): void {
+		static::$cached_version           = null;
+		static::$version_detection_method = null;
+	}
+
+	/**
+	 * Get Divi version from theme data
+	 *
+	 * Attempts to detect the Divi version from theme metadata.
+	 *
+	 * @since  3.4.4
+	 * @access protected
+	 * @return string The detected version or default version if not found
+	 */
+	protected static function get_version_from_theme(): string {
+		if ( ! function_exists( 'wp_get_theme' ) ) {
+			return self::DEFAULT_VERSION;
+		}
+
+		// Try current theme first
+		$current_theme = wp_get_theme();
+
+		// Check if it's Divi or Extra
+		if ( $current_theme && in_array( $current_theme->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+			$version = $current_theme->get( 'Version' );
+			if ( ! empty( $version ) && self::is_valid_version_format( $version ) ) {
+				return $version;
+			}
+		}
+
+		// Check parent theme if this is a child theme
+		$parent = $current_theme->parent();
+		if ( $parent && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+			$version = $parent->get( 'Version' );
+			if ( ! empty( $version ) && self::is_valid_version_format( $version ) ) {
+				return $version;
+			}
+		}
+
+		return self::DEFAULT_VERSION;
+	}
+
+	/**
+	 * Get Divi version from database options
+	 *
+	 * Attempts to detect the Divi version from stored database options.
+	 *
+	 * @since  3.4.4
+	 * @access protected
+	 * @return string The detected version or default version if not found
+	 */
+	protected static function get_version_from_db_options(): string {
+		if ( ! function_exists( 'get_option' ) ) {
+			return self::DEFAULT_VERSION;
+		}
+
+		// Try Divi theme options
+		$divi_options = get_option( 'et_divi' );
+		if ( is_array( $divi_options ) && isset( $divi_options['divi_version'] ) ) {
+			return (string) $divi_options['divi_version'];
+		}
+
+		// Try Extra theme options
+		$extra_options = get_option( 'et_extra' );
+		if ( is_array( $extra_options ) && isset( $extra_options['extra_version'] ) ) {
+			return (string) $extra_options['extra_version'];
+		}
+
+		// Try builder core options
+		$core_options = get_option( 'et_core_version' );
+		if ( ! empty( $core_options ) && is_string( $core_options ) ) {
+			return $core_options;
+		}
+
+		// Try theme mods
+		$divi_mods = get_option( 'theme_mods_divi' );
+		if ( is_array( $divi_mods ) && isset( $divi_mods['et_divi_version'] ) ) {
+			return (string) $divi_mods['et_divi_version'];
+		}
+
+		$extra_mods = get_option( 'theme_mods_extra' );
+		if ( is_array( $extra_mods ) && isset( $extra_mods['et_extra_version'] ) ) {
+			return (string) $extra_mods['et_extra_version'];
+		}
+
+		// Try builder options
+		$builder_options = get_option( 'et_pb_builder_options' );
+		if ( is_array( $builder_options ) && isset( $builder_options['version'] ) ) {
+			return (string) $builder_options['version'];
+		}
+
+		return self::DEFAULT_VERSION;
+	}
+
+	/**
+	 * Get Divi version from theme files
+	 *
+	 * Attempts to detect the Divi version by parsing theme files.
+	 * This is a last resort approach when other methods fail.
+	 *
+	 * @since  3.4.4
+	 * @access protected
+	 * @return string The detected version or default version if not found
+	 */
+	protected static function get_version_from_theme_files(): string {
+		// Get current theme
+		if ( ! function_exists( 'wp_get_theme' ) ) {
+			return self::DEFAULT_VERSION;
+		}
+
+		$current_theme = wp_get_theme();
+
+		// Determine which theme directory to check (current or parent)
+		$theme_to_check = $current_theme;
+		if ( ! in_array( $current_theme->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+			$parent = $current_theme->parent();
+			if ( $parent instanceof \WP_Theme && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+				$theme_to_check = $parent;
+			} else {
+				// Not Divi or Extra, or a child of them
+				return self::DEFAULT_VERSION;
+			}
+		}
+
+		// Check for version in style.css and other key files
+		$theme_dir      = $theme_to_check->get_stylesheet_directory();
+		$files_to_check = array(
+			'/style.css',
+			'/core/functions.php',
+			'/core/init.php',
+			'/includes/builder/functions.php',
+		);
+
+		foreach ( $files_to_check as $file_path ) {
+			$full_path = $theme_dir . $file_path;
+
+			if ( file_exists( $full_path ) ) {
+				$file_content = file_get_contents( $full_path );
+				if ( false !== $file_content ) {
+					// Look for version patterns.
+					$regex_patterns = array(
+						// Pattern for Version: X.X.X in comments.
+						'/[Vv]ersion:\s*([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[a-zA-Z0-9]+)?)/i',
+						// Pattern for define('ET_CORE_VERSION', 'X.X.X').
+						'/define\s*\(\s*[\'"]ET_CORE_VERSION[\'"]\s*,\s*[\'"]([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[a-zA-Z0-9]+)?)[\'"]/',
+						// Pattern for $theme_version = 'X.X.X'.
+						'/\$(?:theme|divi|extra)_version\s*=\s*[\'"]([0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[a-zA-Z0-9]+)?)[\'"]/',
+					);
+
+					foreach ( $regex_patterns as $regex ) {
+						if ( preg_match( $regex, $file_content, $matches ) && isset( $matches[1] ) ) {
+							$version = trim( $matches[1] );
+							if ( self::is_valid_version_format( $version ) ) {
+								return $version;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return self::DEFAULT_VERSION;
+	}
+
+	/**
+	 * Validate a version string format
+	 *
+	 * Checks if a string is a valid semantic version format.
+	 *
+	 * @since  3.4.4
+	 * @access protected
+	 *
+	 * @param string $version The version string to validate
+	 *
+	 * @return bool True if the version is valid, false otherwise
+	 */
+	protected static function is_valid_version_format( string $version ): bool {
+		// Basic version format validation (X.Y.Z or X.Y)
+		return ! empty( $version ) &&
+				preg_match( '/^[0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[a-zA-Z0-9]+)?$/', $version ) &&
+		       self::DEFAULT_VERSION !== $version;
 	}
 
 	/**
@@ -1273,7 +1592,7 @@ class Divi {
 			'post_id'               => is_singular() ? get_the_ID() : false,
 		);
 
-		// Load if in Frontend Builder or Theme Builder
+		// Load if in Frontend Builder or Theme Builder.
 		if ( $context['is_fb_enabled'] || $context['is_theme_builder_used'] ) {
 			$should_load = true;
 		} elseif ( function_exists( 'et_builder_enabled_for_post' ) && $context['is_singular'] && false !== $context['post_id'] ) {
@@ -1292,5 +1611,108 @@ class Divi {
 		 * @param array   $context     Contextual information about the current page.
 		 */
 		return apply_filters( 'divi_squad_should_load_style', $should_load, $context );
+	}
+
+	/**
+	 * Determines if the current Divi version meets the minimum required version.
+	 *
+	 * Compares the detected Divi version against a specified minimum version
+	 * requirement using PHP's version_compare function.
+	 *
+	 * @since  3.4.4
+	 * @access public
+	 *
+	 * @param string $required_version The minimum required Divi version.
+	 *
+	 * @return boolean True if the current version is equal to or greater than the required version.
+	 */
+	public static function meets_version_requirement( string $required_version ): bool {
+		$current_version = static::get_builder_version();
+
+		// If we couldn't detect a version, and the requirement is real, we fail
+		if ( self::DEFAULT_VERSION === $current_version && self::is_valid_version_format( $required_version ) ) {
+			return false;
+		}
+
+		// Compare versions using PHP's version_compare
+		return version_compare( $current_version, $required_version, '>=' );
+	}
+
+	/**
+	 * Get detailed information about the current Divi environment.
+	 *
+	 * Creates a comprehensive array of information about the Divi installation
+	 * including version, mode, theme status, and framework source.
+	 * Useful for diagnostic and reporting purposes.
+	 *
+	 * @since  3.4.4
+	 * @access public
+	 *
+	 * @return array<string, mixed> Detailed Divi environment information.
+	 */
+	public static function get_divi_environment_info(): array {
+		// Get version using enhanced detection
+		$version          = static::get_builder_version();
+		$detection_method = static::get_version_detection_method();
+
+		// Get current theme information
+		$current_theme = wp_get_theme();
+		$theme_name    = $current_theme->get( 'Name' );
+
+		// Check for child theme
+		$is_child_theme    = false;
+		$parent_theme_name = '';
+
+		$parent = $current_theme->parent();
+		if ( $parent instanceof WP_Theme ) {
+			$is_child_theme    = true;
+			$parent_theme_name = $parent->get( 'Name' );
+		}
+
+		// Get builder mode
+		$builder_mode = static::get_builder_mode();
+
+		// Check for modified Divi theme
+		$is_modified         = false;
+		$standard_divi_theme = in_array( $theme_name, array( 'Divi', 'Extra' ), true );
+
+		// If it's not a standard Divi/Extra theme and not a direct child theme, it's likely modified
+		if ( ! $standard_divi_theme && ! $is_child_theme && static::is_any_divi_theme_active() ) {
+			$is_modified = true;
+		}
+
+		// Determine framework source
+		$framework_source = 'Unknown';
+		if ( $is_child_theme && in_array( $parent_theme_name, array( 'Divi', 'Extra' ), true ) ) {
+			$framework_source = 'Parent Theme: ' . $parent_theme_name;
+		} elseif ( static::is_divi_builder_plugin_active() ) {
+			$framework_source = 'Divi Builder Plugin';
+		} elseif ( in_array( $theme_name, array( 'Divi', 'Extra' ), true ) ) {
+			$framework_source = 'Direct Theme';
+		} elseif ( $is_modified ) {
+			$framework_source = 'Modified Theme';
+		}
+
+		// Get defined constants and available functions
+		$divi_constants = static::get_defined_divi_constants();
+		$divi_functions = static::get_available_divi_functions();
+
+		// Build and return the comprehensive info array
+		return array(
+			'version'                  => $version,
+			'version_detection_method' => $detection_method,
+			'builder_mode'             => $builder_mode,
+			'theme_name'               => $theme_name,
+			'is_direct_match'          => static::is_direct_theme_match(),
+			'is_child_theme'           => $is_child_theme,
+			'parent_theme_name'        => $parent_theme_name,
+			'is_modified'              => $is_modified,
+			'framework_source'         => $framework_source,
+			'defined_constants'        => $divi_constants,
+			'available_functions'      => $divi_functions,
+			'meets_requirements'       => ! ( function_exists( 'divi_squad' ) && isset( divi_squad()->options['RequiresDIVI'] ) ) || static::meets_version_requirement( divi_squad()->options['RequiresDIVI'] ),
+			'plugin_active'            => static::is_divi_builder_plugin_active(),
+			'theme_active'             => static::is_any_divi_theme_active(),
+		);
 	}
 }

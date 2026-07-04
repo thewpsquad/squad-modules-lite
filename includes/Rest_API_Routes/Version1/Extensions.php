@@ -247,7 +247,7 @@ class Extensions extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_extensions_error', $e, $request, $this );
 
-			// Return empty array to avoid breaking the frontend
+			// Return empty array to avoid breaking the frontend.
 			return rest_ensure_response( array() );
 		}
 	}
@@ -315,7 +315,7 @@ class Extensions extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_active_extensions_error', $e, $request, $this );
 
-			// Return empty array to avoid breaking the frontend
+			// Return empty array to avoid breaking the frontend.
 			return rest_ensure_response( array() );
 		}
 	}
@@ -383,7 +383,7 @@ class Extensions extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_inactive_extensions_error', $e, $request, $this );
 
-			// Return empty array to avoid breaking the frontend
+			// Return empty array to avoid breaking the frontend.
 			return rest_ensure_response( array() );
 		}
 	}
@@ -456,7 +456,7 @@ class Extensions extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_extension_names_error', $e, $key, $this );
 
-			// Return empty array to avoid further errors
+			// Return empty array to avoid further errors.
 			return array();
 		}
 	}
@@ -500,7 +500,7 @@ class Extensions extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_default_extensions_error', $e, $key, $this );
 
-			// Return empty array to avoid further errors
+			// Return empty array to avoid further errors.
 			return array();
 		}
 	}
@@ -788,7 +788,7 @@ class Extensions extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_format_extension_error', $e, $extension, $this );
 
-			// Return basic data to avoid further errors
+			// Return basic data to avoid further errors.
 			return array(
 				'name'  => $extension['name'] ?? '',
 				'label' => $extension['label'] ?? '',

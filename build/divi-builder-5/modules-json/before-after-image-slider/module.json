@@ -1,0 +1,508 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/before-after-image-slider",
+  "d4Shortcode": "disq_bai_slider",
+  "title": "Before After Image Slider",
+  "titles": "Before After Image Sliders",
+  "moduleClassName": "disq_bai_slider",
+  "moduleIcon": "divi/module-before-after-image",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Before After Image Slider"
+            }
+          }
+        }
+      },
+      "styleProps": {
+        "spacing": {
+          "important": true
+        }
+      }
+    },
+    "images": {
+      "type": "object",
+      "selector": "{{selector}} .compare-images",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "beforeImage": {
+              "groupSlug": "contentImages",
+              "attrName": "images.innerContent",
+              "subName": "beforeImage",
+              "label": "Before Image",
+              "description": "Upload an image to display as the before image.",
+              "features": {
+                "dynamicContent": {
+                  "type": "image"
+                },
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "beforeAlt": {
+              "groupSlug": "contentImages",
+              "attrName": "images.innerContent",
+              "subName": "beforeAlt",
+              "label": "Before Image Alt Text",
+              "description": "Define the HTML ALT text for the before image here.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "beforeLabel": {
+              "groupSlug": "contentImages",
+              "attrName": "images.innerContent",
+              "subName": "beforeLabel",
+              "label": "Before Label Text",
+              "description": "The label of the before image will appear with the image.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "afterImage": {
+              "groupSlug": "contentImages",
+              "attrName": "images.innerContent",
+              "subName": "afterImage",
+              "label": "After Image",
+              "description": "Upload an image to display as the after image.",
+              "features": {
+                "dynamicContent": {
+                  "type": "image"
+                },
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "afterAlt": {
+              "groupSlug": "contentImages",
+              "attrName": "images.innerContent",
+              "subName": "afterAlt",
+              "label": "After Image Alt Text",
+              "description": "Define the HTML ALT text for the after image here.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "afterLabel": {
+              "groupSlug": "contentImages",
+              "attrName": "images.innerContent",
+              "subName": "afterLabel",
+              "label": "After Label Text",
+              "description": "The label of the after image will appear with the image.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "compare": {
+      "type": "object",
+      "selector": "{{selector}} .compare-images",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "imageLabelEnable": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "imageLabelEnable",
+              "label": "Show Label",
+              "description": "Here you can choose whether or not to use a label for the image.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "imageLabelHoverEnable": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "imageLabelHoverEnable",
+              "label": "Show Label On Hover",
+              "description": "Here you can choose whether or not to show the label on the hover effect.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "slideDirectionMode": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideDirectionMode",
+              "label": "Direction",
+              "description": "Slide the image vertically or horizontally.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "horizontal": {
+                      "label": "Horizontal"
+                    },
+                    "vertical": {
+                      "label": "Vertical"
+                    }
+                  }
+                }
+              }
+            },
+            "slideTriggerType": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideTriggerType",
+              "label": "Movement Trigger",
+              "description": "Move the slide image with hover or click.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "click": {
+                      "label": "Drag"
+                    },
+                    "hover": {
+                      "label": "Hover"
+                    }
+                  }
+                }
+              }
+            },
+            "slideControlColor": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlColor",
+              "label": "Control Color",
+              "description": "Here you can define a custom color for your slide control.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "slideControlStartPoint": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlStartPoint",
+              "label": "Control Starting Point",
+              "description": "Increase the order number to position the item lower.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "slideControlShadowEnable": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlShadowEnable",
+              "label": "Show Control Shadow",
+              "description": "Here you can choose whether or not to show a shadow for the slide control.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "slideControlCircleEnable": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlCircleEnable",
+              "label": "Enable Circle Control",
+              "description": "Here you can choose whether or not to use a circle slide control.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 80,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "slideControlCircleBlurEnable": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlCircleBlurEnable",
+              "label": "Enable Circle Control Blur",
+              "description": "Here you can choose whether or not to use blur for the circle slide control.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 90,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "slideControlSmoothingEnable": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlSmoothingEnable",
+              "label": "Enable Control Smoothness",
+              "description": "Here you can choose whether or not to use smoothness for the slide control.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 100,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "slideControlSmoothingAmount": {
+              "groupSlug": "contentCompare",
+              "attrName": "compare.innerContent",
+              "subName": "slideControlSmoothingAmount",
+              "label": "Control Smoothing Amount",
+              "description": "Increase the slide control smoothing.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 110,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "imageLabelEnable": "off",
+              "imageLabelHoverEnable": "off",
+              "slideDirectionMode": "horizontal",
+              "slideTriggerType": "click",
+              "slideControlColor": "#FFFFFF",
+              "slideControlStartPoint": "25",
+              "slideControlShadowEnable": "off",
+              "slideControlCircleEnable": "off",
+              "slideControlCircleBlurEnable": "off",
+              "slideControlSmoothingEnable": "off",
+              "slideControlSmoothingAmount": "100"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {
+    "beforeImage": {
+      "label": "Before Image",
+      "subName": "beforeImage",
+      "selectorSuffix": " div .compare-images.icv .icv__img.icv__img-b"
+    },
+    "afterImage": {
+      "label": "After Image",
+      "subName": "afterImage",
+      "selectorSuffix": " div .compare-images.icv .icv__img.icv__img-a"
+    },
+    "beforeLabel": {
+      "label": "Before Label",
+      "subName": "beforeLabel",
+      "selectorSuffix": " div .compare-images.icv .icv__label.icv__label-before"
+    },
+    "afterLabel": {
+      "label": "After Label",
+      "subName": "afterLabel",
+      "selectorSuffix": " div .compare-images.icv .icv__label.icv__label-after"
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentImages": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "images",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Images"
+          }
+        }
+      },
+      "contentCompare": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "compare",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Compare Options"
+          }
+        }
+      }
+    }
+  }
+}

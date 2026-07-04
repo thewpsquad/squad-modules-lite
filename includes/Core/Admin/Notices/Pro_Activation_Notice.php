@@ -41,19 +41,19 @@ class Pro_Activation_Notice extends Notice_Base {
 	 */
 	public function can_render_it(): bool {
 		try {
-			// Check if user can use premium code
+			// Check if user can use premium code.
 			$can_use_premium_code = divi_squad_fs()->can_use_premium_code();
 
-			// Check if pro activation notice is already closed
+			// Check if pro activation notice is already closed.
 			$is_pro_notice_closed = (bool) divi_squad()->memory->get( 'pro_activation_notice_close', false );
 
-			// Check if pro is installed but not activated
+			// Check if pro is installed but not activated.
 			$is_pro_installed_but_not_active = false;
 			if ( ! $is_pro_notice_closed && $can_use_premium_code && ! divi_squad()->is_pro_activated() ) {
 				$is_pro_installed_but_not_active = divi_squad()->is_pro_installed();
 			}
 
-			// Render if pro is installed but not activated and notice is not closed
+			// Render if pro is installed but not activated and notice is not closed.
 			$can_render = $is_pro_installed_but_not_active;
 
 			/**
@@ -81,10 +81,10 @@ class Pro_Activation_Notice extends Notice_Base {
 	 */
 	public function get_template_args(): array {
 		try {
-			// Get default arguments from parent class
+			// Get default arguments from parent class.
 			$args = $this->get_default_template_args();
 
-			// Override with pro activation-specific values
+			// Override with pro activation-specific values.
 			$activation_args = array(
 				'wrapper_classes' => 'divi-squad-success-banner pro-activation-notice',
 				'title'           => esc_html__( 'Approaching closer to unlocking the benefits of the Pro plugin.', 'squad-modules-for-divi' ),
@@ -102,7 +102,7 @@ class Pro_Activation_Notice extends Notice_Base {
 							'icon'    => 'dashicons-plugins-checked',
 							'style'   => '',
 							'type'    => 'primary',
-							'action'  => null, // External link to plugins page
+							'action'  => null, // External link to plugins page.
 						),
 					),
 				),
@@ -112,7 +112,7 @@ class Pro_Activation_Notice extends Notice_Base {
 				),
 			);
 
-			// Merge with default args
+			// Merge with default args.
 			$args = array_merge_recursive( $args, $activation_args );
 
 			/**
@@ -127,7 +127,7 @@ class Pro_Activation_Notice extends Notice_Base {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error getting pro activation notice template args' );
 
-			// Fallback to basic notice if we encounter an error
+			// Fallback to basic notice if we encounter an error.
 			return array(
 				'wrapper_classes' => 'divi-squad-success-banner pro-activation-notice',
 				'title'           => esc_html__( 'Approaching closer to unlocking the benefits of the Pro plugin.', 'squad-modules-for-divi' ),

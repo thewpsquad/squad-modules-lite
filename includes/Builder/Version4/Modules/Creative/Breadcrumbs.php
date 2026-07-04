@@ -251,8 +251,8 @@ class Breadcrumbs extends Module {
 
 		// Generating the Breadcrumbs.
 		$breadcrumbs = $this->squad_utils->breadcrumbs->get_hansel_and_gretel(
-			esc_html( $this->props['home_text'] ),
-			esc_html( $this->props['before_text'] ),
+			esc_html( $this->prop( 'home_text', esc_html__( 'Home', 'squad-modules-for-divi' ) ) ),
+			esc_html( $this->prop( 'before_text', '' ) ),
 			esc_attr( et_pb_process_font_icon( $this->prop( 'font_icon', '%%24%%' ) ) )
 		);
 

@@ -231,7 +231,7 @@ trait Assets_Core {
 		$file = apply_filters( 'divi_squad_resolved_environment_file', $file, $config );
 
 		if ( ! $external ) {
-			$pattern     = 'build/' . $pattern;
+			$pattern      = 'build/' . $pattern;
 			$path_prefix .= 'js' === $extension ? '/scripts' : '/styles';
 		}
 

@@ -14,6 +14,8 @@
 namespace DiviSquad\Core;
 
 use DiviSquad\Core\Contracts\Hookable;
+use DiviSquad\Core\Traits\Collection_Filter;
+use DiviSquad\Core\Traits\Requirements_Checker;
 use DiviSquad\Extensions\Abstracts\Base_Extension;
 use DiviSquad\Utils\WP as WPUtil;
 use Throwable;
@@ -25,6 +27,9 @@ use Throwable;
  * @package DiviSquad
  */
 class Extensions implements Hookable {
+
+	use Collection_Filter;
+	use Requirements_Checker;
 
 	/**
 	 * Store all registered extensions.
@@ -329,25 +334,18 @@ class Extensions implements Hookable {
 	/**
 	 * Filter extensions based on callback
 	 *
+	 * This method now delegates to the Collection_Filter trait
+	 * to maintain consistency across the codebase.
+	 *
 	 * @since 3.3.0
+	 * @since 3.4.5 Refactored to use Collection_Filter trait.
 	 *
 	 * @param callable $callback Function to filter extensions.
 	 *
 	 * @return array<string, array<string, mixed>>
 	 */
 	private function filter_extensions( callable $callback ): array {
-		try {
-			return array_filter(
-				$this->registered_extensions,
-				static function ( $extension ) use ( $callback ) {
-					return $callback( $extension );
-				}
-			);
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to filter extensions' );
-
-			return array();
-		}
+		return $this->filter_collection( $this->registered_extensions, $callback );
 	}
 
 	/**
@@ -547,7 +545,11 @@ class Extensions implements Hookable {
 	/**
 	 * Verify plugin requirements for an extension
 	 *
+	 * This method now delegates to the Requirements_Checker trait
+	 * to maintain consistency across the codebase.
+	 *
 	 * @since 3.3.0
+	 * @since 3.4.5 Refactored to use Requirements_Checker trait.
 	 *
 	 * @param array<string, mixed> $extension      Extension configuration.
 	 * @param array<string>        $active_plugins List of active plugin slugs.
@@ -556,47 +558,7 @@ class Extensions implements Hookable {
 	 */
 	protected function verify_requirements( array $extension, array $active_plugins ): bool {
 		try {
-			$requirements_met = true;
-
-			// If no requirements, extension is valid.
-			if ( ! isset( $extension['required'] ) ) {
-				return $requirements_met;
-			}
-
-			// Check plugin requirements.
-			if ( isset( $extension['required']['plugin'] ) ) {
-				$required_plugins = $extension['required']['plugin'];
-
-				// Single plugin requirement.
-				if ( is_string( $required_plugins ) ) {
-					// Check for multiple options (plugin1|plugin2).
-					if ( strpos( $required_plugins, '|' ) !== false ) {
-						$plugin_options = explode( '|', $required_plugins );
-
-						// At least one plugin must be active.
-						$requirements_met = false;
-						foreach ( $plugin_options as $plugin ) {
-							if ( in_array( $plugin, $active_plugins, true ) ) {
-								$requirements_met = true;
-								break;
-							}
-						}
-					} else {
-						// Single plugin must be active.
-						$requirements_met = in_array( $required_plugins, $active_plugins, true );
-					}
-				}
-
-				// Multiple required plugins (all must be active).
-				if ( is_array( $required_plugins ) ) {
-					foreach ( $required_plugins as $plugin ) {
-						if ( ! in_array( $plugin, $active_plugins, true ) ) {
-							$requirements_met = false;
-							break;
-						}
-					}
-				}
-			}
+			$requirements_met = $this->check_plugin_requirements( $extension, $active_plugins );
 
 			/**
 			 * Filter whether an extension meets requirements.

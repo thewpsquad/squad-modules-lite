@@ -61,7 +61,7 @@ class Review_Notice extends Notice_Base {
 			 */
 			$this->first_time_show = apply_filters( 'divi_squad_review_notice_initial_timeout', $this->first_time_show, $this );
 
-			// Initialize review notice data if it doesn't exist
+			// Initialize review notice data if it doesn't exist.
 			$this->initialize_review_data();
 
 			/**
@@ -152,10 +152,10 @@ class Review_Notice extends Notice_Base {
 	 */
 	public function get_template_args(): array {
 		try {
-			// Get default arguments from parent class
+			// Get default arguments from parent class.
 			$args = $this->get_default_template_args();
 
-			// Override with review-specific values
+			// Override with review-specific values.
 			$review_args = array(
 				'wrapper_classes' => 'divi-squad-review-banner',
 				'title'           => esc_html__( 'Loving Squad Modules Lite?', 'squad-modules-for-divi' ),
@@ -163,7 +163,7 @@ class Review_Notice extends Notice_Base {
 				'action_buttons'  => array(
 					'left'  => array(
 						array(
-							'link'    => Links::RATTING_URL,
+							'link'    => Links::RATING_URL,
 							'classes' => 'button-primary divi-squad-notice-action-button',
 							'style'   => '',
 							'text'    => esc_html__( 'Ok, you deserve it!', 'squad-modules-for-divi' ),
@@ -211,7 +211,7 @@ class Review_Notice extends Notice_Base {
 				),
 			);
 
-			// Merge with default args
+			// Merge with default args.
 			$args = array_merge_recursive( $args, $review_args );
 
 			/**
@@ -226,7 +226,7 @@ class Review_Notice extends Notice_Base {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error getting review notice template args' );
 
-			// Fallback to basic notice if we encounter an error
+			// Fallback to basic notice if we encounter an error.
 			return array(
 				'wrapper_classes' => 'divi-squad-review-banner',
 				'title'           => esc_html__( 'Loving Squad Modules Lite?', 'squad-modules-for-divi' ),

@@ -32,12 +32,12 @@ class Formidable extends Collection {
 	 * @return array An array of Formidable Forms data.
 	 */
 	public function get_forms( string $collection ): array {
-		// Check if Formidable Forms is active
+		// Check if Formidable Forms is active.
 		if ( ! class_exists( 'FrmForm' ) ) {
 			return array();
 		}
 
-		// Get all Formidable Forms
+		// Get all Formidable Forms.
 		$forms = \FrmForm::get_published_forms();
 
 		if ( empty( $forms ) ) {

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Sanitization helper class for sanitizing values.
  *
@@ -32,21 +32,44 @@ class Sanitization {
 	/**
 	 * Sanitize array value
 	 *
+	 * Recursively sanitizes arrays while preserving scalar types. Strings are
+	 * passed through sanitize_text_field(); integers, floats, booleans and null
+	 * are returned unchanged so their type and value survive sanitization.
+	 *
 	 * @param mixed $value Value.
 	 *
-	 * @return array<array<int|string>|string>|string
+	 * @return mixed Sanitized value with original scalar types preserved.
 	 * @link https://github.com/WordPress/WordPress-Coding-Standards/wiki/Sanitizing-array-input-data
 	 */
 	public static function sanitize_array( $value ) {
 		if ( is_array( $value ) ) {
-			return array_map( // @phpstan-ignore-line return.type
+			return array_map(
 				static function ( $item ) {
-					return is_array( $item ) ? self::sanitize_array( $item ) : sanitize_text_field( $item );
+					return self::sanitize_array( $item );
 				},
 				$value
 			);
 		}
 
-		return is_string( $value ) ? sanitize_text_field( $value ) : $value;
+		return self::sanitize_value( $value );
+	}
+
+	/**
+	 * Sanitize a single scalar value according to its type.
+	 *
+	 * Strings are trimmed and passed through sanitize_text_field(). Integers,
+	 * floats, booleans, null and any other non-string scalars are returned
+	 * as-is, since they carry no markup and are already type-safe.
+	 *
+	 * @param mixed $value Scalar value to sanitize.
+	 *
+	 * @return mixed Sanitized value with its original type preserved.
+	 */
+	public static function sanitize_value( $value ) {
+		if ( is_string( $value ) ) {
+			return sanitize_text_field( trim( $value ) );
+		}
+
+		return $value;
 	}
 }

@@ -491,7 +491,7 @@ class Star_Rating extends Module {
 		$title_display          = 'inline-block' === $stars_display_type ? $title_inline_position : $title_stacked_position;
 
 		// Collect rating title.
-		$title = $this->props['title'];
+		$title = $this->prop( 'title', '' );
 		if ( '' !== $title ) {
 			$title = sprintf(
 				'<%1$s class="star-rating-title et_pb_module_header"><span%3$s>%2$s</span></%1$s>',
@@ -596,13 +596,13 @@ class Star_Rating extends Module {
 		$precision  = ( (float) $args['rating'] ) - $int_rating;
 		$output     = '';
 
-		for ( $stars = 1; $stars <= $args['rating_scale']; $stars ++ ) {
+		for ( $stars = 1; $stars <= $args['rating_scale']; $stars++ ) {
 			if ( $stars <= $int_rating ) {
 				$output .= '<i class="star-full">☆</i>';
 			} elseif ( $int_rating + 1 === $stars && $precision > 0 ) {
 				// Partial star with precision using CSS custom property.
 				$decimal = number_format( $precision * 100, 0, '', '' );
-				$output  .= sprintf(
+				$output .= sprintf(
 					'<i class="star-precision" style="--squad-star-rating-precision: %1$s">☆</i>',
 					esc_attr( $decimal )
 				);

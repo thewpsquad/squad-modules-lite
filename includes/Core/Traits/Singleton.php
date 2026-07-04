@@ -105,7 +105,7 @@ trait Singleton {
 			try {
 				$instance = new static();
 
-				// Log that we're using an uninitialized instance
+				// Log that we're using an uninitialized instance.
 				error_log(
 					sprintf(
 						'SQUAD WARNING: Using uninitialized instance of %s due to initialization failure',
@@ -143,7 +143,7 @@ trait Singleton {
 	 * @return void
 	 */
 	protected function initialize(): void {
-		// Prevent double initialization
+		// Prevent double initialization.
 		if ( $this->is_initialized ) {
 			return;
 		}

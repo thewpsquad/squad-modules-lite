@@ -11,8 +11,8 @@
  * @package    DiviSquad
  * @subpackage DiviSquad\Core\Traits
  * @author     The WP Squad <support@squadmodules.com>
- * @license    GPL-2.0+
- * @link       https://wpsquad.com
+ * @license    GPL-3.0-only
+ * @link       https://squadmodules.com
  */
 
 namespace DiviSquad\Core\Traits;

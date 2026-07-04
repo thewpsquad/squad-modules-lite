@@ -72,6 +72,8 @@ class Memory {
 	 * @since 2.0.0
 	 *
 	 * @param string $prefix Optional. Plugin prefix for option naming. Default 'divi-squad'.
+	 *
+	 * @throws InvalidArgumentException If prefix is empty.
 	 */
 	public function __construct( string $prefix = 'divi-squad' ) {
 		if ( '' === $prefix ) {
@@ -111,7 +113,7 @@ class Memory {
 
 			$this->maybe_migrate_legacy_options();
 		} catch ( Throwable $e ) {
-			// Log the error but initialize with empty data to prevent critical failure
+			// Log the error but initialize with empty data to prevent critical failure.
 			divi_squad()->log_error( $e, 'Failed to load data from storage' );
 			$this->data = array();
 		}
@@ -125,13 +127,13 @@ class Memory {
 	 * @return void
 	 */
 	private function maybe_migrate_legacy_options(): void {
-		// Early return if already migrated
+		// Early return if already migrated.
 		if ( (bool) $this->get( 'migrated_legacy_options', false ) ) {
 			return;
 		}
 
 		try {
-			// Start atomic operation
+			// Start atomic operation.
 			if ( function_exists( 'wp_cache_get_last_changed' ) ) {
 				wp_cache_get_last_changed( 'options' );
 			}
@@ -156,18 +158,18 @@ class Memory {
 					continue;
 				}
 
-				// Verify legacy data structure
+				// Verify legacy data structure.
 				if ( ! is_array( $legacy_data ) ) {
 					$migration_log[ $legacy_option ] = 'Invalid data structure';
 					$migration_successful            = false;
 					continue;
 				}
 
-				// Merge data
+				// Merge data.
 				$this->data        = array_merge_recursive( $this->data, $legacy_data );
 				$this->is_modified = true;
 
-				// Delete old option only after successful merge
+				// Delete old option only after successful merge.
 				if ( delete_option( $legacy_option ) ) {
 					$migration_log[ $legacy_option ] = 'Successfully migrated and cleaned';
 				} else {
@@ -176,19 +178,19 @@ class Memory {
 				}
 			}
 
-			// Set migration flag only if everything was successful
+			// Set migration flag only if everything was successful.
 			if ( $migration_successful ) {
 				$this->set( 'migrated_legacy_options', true );
 				$this->set( 'migration_timestamp', current_time( 'mysql' ) );
 				$this->set( 'migration_log', $migration_log );
 			}
 
-			// Sync changes immediately
+			// Sync changes immediately.
 			if ( $this->is_modified ) {
 				$this->sync_data();
 			}
 		} catch ( Throwable $e ) {
-			// Log error and set migration as failed
+			// Log error and set migration as failed.
 			$this->set( 'migration_error', $e->getMessage() );
 			$this->set( 'migration_status', 'failed' );
 			$this->sync_data();
@@ -348,7 +350,7 @@ class Memory {
 			throw new RuntimeException(
 				sprintf(
 				/* translators: %s: field name */
-					esc_html__( 'Field %s must be an array.', 'divi-squad' ),
+					esc_html__( 'Field %s must be an array.', 'squad-modules-for-divi' ),
 					esc_html( $field )
 				)
 			);
@@ -374,7 +376,7 @@ class Memory {
 			throw new RuntimeException(
 				sprintf(
 				/* translators: %s: field name */
-					esc_html__( 'Field %s must be an array.', 'divi-squad' ),
+					esc_html__( 'Field %s must be an array.', 'squad-modules-for-divi' ),
 					esc_html( $field )
 				)
 			);
@@ -456,7 +458,7 @@ class Memory {
 			$this->is_modified = false;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to sync memory data to database' );
-			// Keep the is_modified flag true so we can try again later
+			// Keep the is_modified flag true so we can try again later.
 		}
 	}
 

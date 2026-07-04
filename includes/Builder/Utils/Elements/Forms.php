@@ -47,6 +47,8 @@ class Forms {
 		'gravity_forms' => Forms\Collections\Gravity_Forms::class,
 		'forminator'    => Forms\Collections\Forminator::class,
 		'formidable'    => Forms\Collections\Formidable::class,
+		'metform'       => Forms\Collections\Met_Form::class,
+		'sureforms'     => Forms\Collections\Sure_Forms::class,
 	);
 
 	/**
@@ -184,13 +186,13 @@ class Forms {
 				(array) $this->collections[ $form_type ][ $collection ]
 			);
 		} catch ( InvalidArgumentException $e ) {
-			// Re-throw InvalidArgumentException as it's expected to be handled by caller
+			// Re-throw InvalidArgumentException as it's expected to be handled by caller.
 			throw $e;
 		} catch ( \Throwable $e ) {
-			// Log other unexpected errors
+			// Log other unexpected errors.
 			divi_squad()->log_error( $e, "Error in get_forms_by for {$form_type}" );
 
-			// Return just the default option
+			// Return just the default option.
 			return array( static::DEFAULT_FORM_ID => esc_html__( 'Select a form', 'squad-modules-for-divi' ) );
 		}
 	}
@@ -226,7 +228,7 @@ class Forms {
 			 */
 			$error_message = apply_filters( 'divi_squad_form_fetch_error_message', $error_message, $form_type, $e );
 
-			// Log the error
+			// Log the error.
 			divi_squad()->log_error( $e, $error_message );
 
 			/**

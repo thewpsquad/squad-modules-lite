@@ -11,8 +11,8 @@
  * @package    DiviSquad
  * @subpackage DiviSquad\Core\Traits\Plugin
  * @author     The WP Squad <support@squadmodules.com>
- * @license    GPL-2.0+
- * @link       https://wpsquad.com
+ * @license    GPL-3.0-only
+ * @link       https://squadmodules.com
  */
 
 namespace DiviSquad\Core\Traits\Plugin;
@@ -40,7 +40,7 @@ trait Detect_Plugin_Life {
 	 * @since 3.2.0
 	 * @var   bool|null
 	 */
-	private static ?bool $cached_prod_status = null;
+	private static ?bool $cached_dev_status = null;
 
 	/**
 	 * Cached pro installation status
@@ -89,7 +89,7 @@ trait Detect_Plugin_Life {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error checking if environment is production' );
 
-			return true; // Default to production for safety
+			return true; // Default to production for safety.
 		}
 	}
 
@@ -121,7 +121,7 @@ trait Detect_Plugin_Life {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error getting pro plugin basename' );
 
-			return 'squad-modules-pro-for-divi/squad-modules-pro-for-divi.php'; // Return default basename
+			return 'squad-modules-pro-for-divi/squad-modules-pro-for-divi.php'; // Return default basename.
 		}
 	}
 
@@ -157,7 +157,7 @@ trait Detect_Plugin_Life {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error checking if premium version is activated' );
 
-			return false; // Default to not activated for safety
+			return false; // Default to not activated for safety.
 		}
 	}
 
@@ -202,7 +202,7 @@ trait Detect_Plugin_Life {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error checking if premium version is installed' );
 
-			return false; // Default to not installed for safety
+			return false; // Default to not installed for safety.
 		}
 	}
 
@@ -218,7 +218,7 @@ trait Detect_Plugin_Life {
 	 */
 	public function is_dev(): bool {
 		try {
-			if ( null === self::$cached_prod_status ) {
+			if ( null === self::$cached_dev_status ) {
 				$is_dev = $this->get_wp_fs()->exists( $this->get_path( '/node_modules' ) ) && $this->get_wp_fs()->exists( $this->get_path( '/tests' ) );
 
 				/**
@@ -231,14 +231,14 @@ trait Detect_Plugin_Life {
 				 * @param bool   $is_dev Current development status based on file existence.
 				 * @param string $path   Base path of the plugin being checked.
 				 */
-				self::$cached_prod_status = ! apply_filters( 'divi_squad_is_development_environment', $is_dev, $this->get_path() );
+				self::$cached_dev_status = apply_filters( 'divi_squad_is_development_environment', $is_dev, $this->get_path() );
 			}
 
-			return ! self::$cached_prod_status;
+			return self::$cached_dev_status;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error checking if environment is development' );
 
-			return false; // Default to production for safety
+			return false; // Default to production for safety.
 		}
 	}
 
@@ -282,7 +282,7 @@ trait Detect_Plugin_Life {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error determining plugin life type' );
 
-			return 'freemium'; // Default to freemium for safety
+			return 'freemium'; // Default to freemium for safety.
 		}
 	}
 
@@ -317,7 +317,7 @@ trait Detect_Plugin_Life {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Error checking if plugin version matches "%s"', $version ) );
 
-			return false; // Default to not matching for safety
+			return false; // Default to not matching for safety.
 		}
 	}
 
@@ -333,7 +333,7 @@ trait Detect_Plugin_Life {
 	 */
 	public function reset_cached_statuses(): void {
 		try {
-			self::$cached_prod_status   = null;
+			self::$cached_dev_status    = null;
 			self::$cached_pro_installed = null;
 			self::$cached_pro_activated = null;
 			self::$cached_life_type     = null;

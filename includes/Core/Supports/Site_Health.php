@@ -9,16 +9,17 @@
  *
  * @since      3.1.0
  * @since      3.4.0 Updated to use centralized Divi constant detection
+ * @since      3.4.4 Updated to use the unified Divi detection system
  * @package    DiviSquad
  * @author     The WP Squad <support@squadmodules.com>
- * @license    GPL-2.0+
- * @link       https://wpsquad.com
+ * @license    GPL-3.0-only
+ * @link       https://squadmodules.com
  */
 
 namespace DiviSquad\Core\Supports;
 
 use DiviSquad\Core\Extensions;
-use DiviSquad\Core\Requirements;
+use DiviSquad\Core\Requirements\Requirements;
 use DiviSquad\Core\Supports\Utils\Date_Time;
 use DiviSquad\Utils\Divi;
 use Throwable;
@@ -33,6 +34,7 @@ use WP_Theme;
  *
  * @since   3.1.0
  * @since   3.3.3 Added enhanced Divi theme detection information
+ * @since   3.4.4 Updated to use centralized Divi environment information
  * @package DiviSquad\Core\Supports
  */
 class Site_Health {
@@ -146,6 +148,7 @@ class Site_Health {
 	 * DiviSquad section in the Site Health report.
 	 *
 	 * @since  3.1.0
+	 * @since  3.4.4 Updated to use unified Divi environment info
 	 * @access private
 	 *
 	 * @return array<string, array<string, string>> Array of field information for Site Health.
@@ -157,24 +160,31 @@ class Site_Health {
 			$activated_time = divi_squad()->memory->get( 'activation_time' );
 			$installed_date = Date_Time::datetime_format( $activated_time, '', true );
 
+			// Get centralized Divi environment info
+			$divi_info = Divi::get_divi_environment_info();
+
 			$fields = array(
-				'version-core'      => array(
+				'version-core'          => array(
 					'label' => esc_html__( 'Core Version', 'squad-modules-for-divi' ),
 					'value' => divi_squad()->get_version_dot(),
 				),
-				'install-date-core' => array(
+				'install-date-core'     => array(
 					'label' => esc_html__( 'Core installed date', 'squad-modules-for-divi' ),
 					'value' => $installed_date,
 				),
-				'divi-version'      => array(
+				'divi-version'          => array(
 					'label' => esc_html__( 'Divi Version', 'squad-modules-for-divi' ),
-					'value' => '' !== Divi::get_builder_version() ? Divi::get_builder_version() : esc_html__( 'Not detected', 'squad-modules-for-divi' ),
+					'value' => '0.0.0' !== $divi_info['version'] ? $divi_info['version'] : esc_html__( 'Not detected', 'squad-modules-for-divi' ),
 				),
-				'divi-mode'         => array(
+				'divi-detection-method' => array(
+					'label' => esc_html__( 'Divi Detection Method', 'squad-modules-for-divi' ),
+					'value' => $divi_info['version_detection_method'],
+				),
+				'divi-mode'             => array(
 					'label' => esc_html__( 'Divi Mode', 'squad-modules-for-divi' ),
-					'value' => ucfirst( Divi::get_builder_mode() ),
+					'value' => ucfirst( $divi_info['builder_mode'] ),
 				),
-				'requirements-met'  => array(
+				'requirements-met'      => array(
 					'label' => esc_html__( 'Requirements Status', 'squad-modules-for-divi' ),
 					'value' => $this->get_requirements_status(),
 				),
@@ -292,9 +302,11 @@ class Site_Health {
 	 * Get detailed Divi detection fields for the Site Health section.
 	 *
 	 * Collects comprehensive information about the Divi environment
-	 * for troubleshooting purposes.
+	 * for troubleshooting purposes. Now uses the centralized Divi
+	 * environment information from the unified Divi utility.
 	 *
 	 * @since  3.3.3
+	 * @since  3.4.4 Updated to use centralized Divi environment info
 	 * @access private
 	 *
 	 * @return array<string, array<string, string>> Array of Divi detection fields.
@@ -304,6 +316,9 @@ class Site_Health {
 	private function get_divi_detection_fields(): array {
 		try {
 			$current_theme = wp_get_theme();
+
+			// Get comprehensive Divi environment info from the unified utility
+			$divi_info = Divi::get_divi_environment_info();
 
 			// Basic theme information.
 			$fields = array(
@@ -337,34 +352,40 @@ class Site_Health {
 				);
 			}
 
-			// Divi theme detection results.
+			// Use unified Divi environment info for detection results
+			$fields['divi-version'] = array(
+				'label' => esc_html__( 'Detected Divi Version', 'squad-modules-for-divi' ),
+				'value' => '0.0.0' !== $divi_info['version'] ? $divi_info['version'] : esc_html__( 'Not detected', 'squad-modules-for-divi' ),
+			);
+
+			$fields['version-detection-method'] = array(
+				'label' => esc_html__( 'Version Detection Method', 'squad-modules-for-divi' ),
+				'value' => $divi_info['version_detection_method'],
+			);
+
 			$fields['is-divi-theme-installed'] = array(
 				'label' => esc_html__( 'Divi Theme Installed', 'squad-modules-for-divi' ),
-				'value' => Divi::is_any_divi_theme_installed()
-					? esc_html__( 'Yes', 'squad-modules-for-divi' )
-					: esc_html__( 'No', 'squad-modules-for-divi' ),
-			);
-
-			$fields['is-divi-theme-active'] = array(
-				'label' => esc_html__( 'Divi Theme Active', 'squad-modules-for-divi' ),
-				'value' => Divi::is_any_divi_theme_active()
-					? esc_html__( 'Yes', 'squad-modules-for-divi' )
-					: esc_html__( 'No', 'squad-modules-for-divi' ),
-			);
-
-			// Divi plugin detection results.
-			$fields['is-divi-plugin-installed'] = array(
-				'label' => esc_html__( 'Divi Builder Plugin Installed', 'squad-modules-for-divi' ),
-				'value' => Divi::is_divi_builder_plugin_installed()
+				'value' => (bool) $divi_info['theme_active']
 					? esc_html__( 'Yes', 'squad-modules-for-divi' )
 					: esc_html__( 'No', 'squad-modules-for-divi' ),
 			);
 
 			$fields['is-divi-plugin-active'] = array(
 				'label' => esc_html__( 'Divi Builder Plugin Active', 'squad-modules-for-divi' ),
-				'value' => Divi::is_divi_builder_plugin_active()
+				'value' => (bool) $divi_info['plugin_active']
 					? esc_html__( 'Yes', 'squad-modules-for-divi' )
 					: esc_html__( 'No', 'squad-modules-for-divi' ),
+			);
+
+			$fields['framework-source'] = array(
+				'label' => esc_html__( 'Divi Framework Source', 'squad-modules-for-divi' ),
+				'value' => $divi_info['framework_source'],
+			);
+
+			// Add theme type detection info
+			$fields['theme-type'] = array(
+				'label' => esc_html__( 'Theme Type', 'squad-modules-for-divi' ),
+				'value' => $this->get_theme_type_description( $divi_info ),
 			);
 
 			// Allowed themes check.
@@ -376,7 +397,15 @@ class Site_Health {
 			// Is allowed theme activated.
 			$fields['is-allowed-theme-active'] = array(
 				'label' => esc_html__( 'Is Allowed Theme Active', 'squad-modules-for-divi' ),
-				'value' => Divi::is_allowed_theme_activated()
+				'value' => $divi_info['theme_active'] || $divi_info['plugin_active']
+					? esc_html__( 'Yes', 'squad-modules-for-divi' )
+					: esc_html__( 'No', 'squad-modules-for-divi' ),
+			);
+
+			// Add requirements check
+			$fields['meets-requirements'] = array(
+				'label' => esc_html__( 'Meets Version Requirements', 'squad-modules-for-divi' ),
+				'value' => $divi_info['meets_requirements']
 					? esc_html__( 'Yes', 'squad-modules-for-divi' )
 					: esc_html__( 'No', 'squad-modules-for-divi' ),
 			);
@@ -395,7 +424,7 @@ class Site_Health {
 
 			// Add technical details if allowed.
 			if ( $this->should_include_technical_details() ) {
-				$fields = array_merge( $fields, $this->get_technical_divi_details( $current_theme ) );
+				$fields = array_merge( $fields, $this->get_technical_divi_details( $divi_info ) );
 			}
 
 			/**
@@ -428,104 +457,85 @@ class Site_Health {
 	}
 
 	/**
+	 * Get a description of the Divi theme type based on environment info.
+	 *
+	 * @since  3.4.4
+	 * @access private
+	 *
+	 * @param array<string, mixed> $divi_info Divi environment information.
+	 * @return string Description of the theme type.
+	 */
+	private function get_theme_type_description( array $divi_info ): string {
+		if ( $divi_info['is_direct_match'] ) {
+			return esc_html__( 'Official Divi/Extra Theme', 'squad-modules-for-divi' );
+		}
+
+		if ( $divi_info['is_child_theme'] ) {
+			return sprintf(
+				// translators: %s is the parent theme name.
+				esc_html__( 'Child Theme of %s', 'squad-modules-for-divi' ),
+				$divi_info['parent_theme_name']
+			);
+		}
+
+		if ( (bool) $divi_info['is_modified'] ) {
+			return esc_html__( 'Modified/Customized Divi Theme', 'squad-modules-for-divi' );
+		}
+
+		if ( (bool) $divi_info['plugin_active'] ) {
+			return esc_html__( 'Non-Divi Theme with Divi Builder Plugin', 'squad-modules-for-divi' );
+		}
+
+		return esc_html__( 'Unknown Theme Type', 'squad-modules-for-divi' );
+	}
+
+	/**
 	 * Get technical Divi detection details.
 	 *
 	 * Collects advanced technical information about the Divi environment
 	 * for in-depth troubleshooting purposes.
 	 *
 	 * @since  3.3.3
+	 * @since  3.4.4 Updated to use centralized Divi environment info
 	 * @access private
 	 *
-	 * @param WP_Theme $current_theme The current theme.
+	 * @param array<string, mixed> $divi_info The Divi environment information.
 	 *
 	 * @return array<string, array<string, string>> Technical Divi detection details.
 	 *
 	 * @throws Throwable When an error occurs during technical details collection (handled internally).
 	 */
-	private function get_technical_divi_details( WP_Theme $current_theme ): array {
+	private function get_technical_divi_details( array $divi_info ): array {
 		$technical_fields = array();
 
 		try {
-			// Divi constants.
-			$divi_constants    = Divi::get_defined_divi_constants();
-			$defined_constants = array();
+			// Divi constants from unified info
+			if ( isset( $divi_info['defined_constants'] ) && is_array( $divi_info['defined_constants'] ) ) {
+				$constants_values = array();
 
-			foreach ( $divi_constants as $constant ) {
-				if ( defined( $constant ) ) {
-					$defined_constants[] = $constant . ': ' . constant( $constant );
+				foreach ( $divi_info['defined_constants'] as $constant ) {
+					if ( defined( $constant ) ) {
+						$constants_values[] = $constant . ': ' . constant( $constant );
+					}
 				}
+
+				$technical_fields['divi-constants'] = array(
+					'label' => esc_html__( 'Divi Constants', 'squad-modules-for-divi' ),
+					'value' => count( $constants_values ) > 0
+						? implode( ', ', $constants_values )
+						: esc_html__( 'None detected', 'squad-modules-for-divi' ),
+				);
 			}
 
-			$technical_fields['divi-constants'] = array(
-				'label' => esc_html__( 'Divi Constants', 'squad-modules-for-divi' ),
-				'value' => count( $defined_constants ) > 0
-					? implode( ', ', $defined_constants )
-					: esc_html__( 'None detected', 'squad-modules-for-divi' ),
-			);
-
-			// Check for Divi functions.
-			$divi_functions = array(
-				'et_setup_theme',
-				'et_divi_fonts_url',
-				'et_pb_is_pagebuilder_used',
-				'et_core_is_fb_enabled',
-				'et_builder_get_fonts',
-				'et_builder_bfb_enabled',
-				'et_fb_is_theme_builder_used_on_page',
-			);
-
-			/**
-			 * Filter the Divi functions to check in Site Health.
-			 *
-			 * Allows modification of which Divi functions are checked and reported.
-			 *
-			 * @since 3.3.3
-			 *
-			 * @param array<string> $divi_functions The Divi functions to check.
-			 */
-			$divi_functions = apply_filters( 'divi_squad_divi_functions_to_check', $divi_functions );
-
-			$available_functions = Divi::get_available_divi_functions( $divi_functions );
-
-			$technical_fields['divi-functions'] = array(
-				'label' => esc_html__( 'Divi Functions', 'squad-modules-for-divi' ),
-				'value' => count( $available_functions ) > 0 ? implode( ', ', $available_functions ) : esc_html__( 'None detected', 'squad-modules-for-divi' ),
-			);
-
-			// Directory structure analysis.
-			$theme_dir         = $current_theme->get_stylesheet_directory();
-			$directory_markers = array(
-				'includes/builder',
-				'epanel',
-				'core',
-				'includes/builder/feature',
-				'includes/builder/frontend-builder',
-			);
-
-			/**
-			 * Filter the directory markers to check for Divi theme detection.
-			 *
-			 * Allows modification of which directories are checked to detect Divi.
-			 *
-			 * @since 3.3.3
-			 *
-			 * @param array<string> $directory_markers The directory markers to check.
-			 * @param string        $theme_dir         The theme directory path.
-			 */
-			$directory_markers = apply_filters( 'divi_squad_divi_directory_markers', $directory_markers, $theme_dir );
-
-			$found_markers = Divi::get_divi_directory_markers( $theme_dir, $directory_markers );
-
-			$technical_fields['divi-directory-markers'] = array(
-				'label' => esc_html__( 'Divi Directory Markers', 'squad-modules-for-divi' ),
-				'value' => count( $found_markers ) > 0 ? implode( ', ', $found_markers ) : esc_html__( 'None detected', 'squad-modules-for-divi' ),
-			);
-
-			// Detection method used.
-			$technical_fields['divi-detection-method'] = array(
-				'label' => esc_html__( 'Primary Detection Method', 'squad-modules-for-divi' ),
-				'value' => $this->determine_detection_method(),
-			);
+			// Divi functions from unified info
+			if ( isset( $divi_info['available_functions'] ) && is_array( $divi_info['available_functions'] ) ) {
+				$technical_fields['divi-functions'] = array(
+					'label' => esc_html__( 'Divi Functions', 'squad-modules-for-divi' ),
+					'value' => count( $divi_info['available_functions'] ) > 0
+						? implode( ', ', $divi_info['available_functions'] )
+						: esc_html__( 'None detected', 'squad-modules-for-divi' ),
+				);
+			}
 
 			// Dynamic CSS enabled.
 			$technical_fields['dynamic-css-enabled'] = array(
@@ -549,27 +559,32 @@ class Site_Health {
 				}
 			}
 
+			// Add full Divi environment info for advanced debugging
+			$technical_fields['full-divi-environment'] = array(
+				'label' => esc_html__( 'Full Divi Environment Info', 'squad-modules-for-divi' ),
+				'value' => '<pre>' . esc_html( (string) wp_json_encode( $divi_info, JSON_PRETTY_PRINT ) ) . '</pre>',
+			);
+
 			/**
 			 * Filter the technical Divi detection fields.
 			 *
 			 * Allows modification of the technical Divi details in the Site Health report.
 			 *
 			 * @since 3.3.3
+			 * @since 3.4.4 Added Divi info parameter
 			 *
 			 * @param array<string, array<string, string>> $technical_fields The technical Divi detection fields.
-			 * @param WP_Theme                             $current_theme    The current theme.
+			 * @param array<string, mixed>                 $divi_info        The Divi environment information.
 			 */
-			return apply_filters( 'divi_squad_technical_divi_detection_fields', $technical_fields, $current_theme );
+			return apply_filters( 'divi_squad_technical_divi_detection_fields', $technical_fields, $divi_info );
 		} catch ( Throwable $e ) {
-			// Log the error with detailed context information
+			// Log the error with detailed context information.
 			divi_squad()->log_error(
 				$e,
 				'Failed to get technical Divi details for Site Health',
 				false,
 				array(
 					'function' => __METHOD__,
-					'theme'    => $current_theme->get( 'Name' ),
-					'version'  => $current_theme->get( 'Version' ),
 				)
 			);
 
@@ -656,90 +671,6 @@ class Site_Health {
 			);
 
 			return esc_html__( 'Error checking requirements: ', 'squad-modules-for-divi' ) . esc_html( $e->getMessage() );
-		}
-	}
-
-	/**
-	 * Determine the primary detection method used for Divi.
-	 *
-	 * Identifies which method was successfully used to detect Divi presence
-	 * by checking various detection strategies in order of reliability.
-	 *
-	 * @since  3.3.3
-	 * @access private
-	 *
-	 * @return string The detection method used.
-	 *
-	 * @throws Throwable When an error occurs during detection method determination (handled internally).
-	 */
-	private function determine_detection_method(): string {
-		try {
-			// Define detection strategies with their check functions.
-			$detection_strategies = array(
-				'plugin'       => array(
-					'label' => esc_html__( 'Divi Builder Plugin', 'squad-modules-for-divi' ),
-					'check' => Divi::is_divi_builder_plugin_active(),
-				),
-				'direct_theme' => array(
-					'label' => esc_html__( 'Direct Theme Name Match', 'squad-modules-for-divi' ),
-					'check' => Divi::is_direct_theme_match(),
-				),
-				'child_theme'  => array(
-					'label' => esc_html__( 'Child Theme of Divi/Extra', 'squad-modules-for-divi' ),
-					'check' => Divi::is_divi_child_theme(),
-				),
-				'constants'    => array(
-					'label' => esc_html__( 'Divi Constants', 'squad-modules-for-divi' ),
-					'check' => Divi::has_divi_constants( array( 'ET_CORE_VERSION', 'ET_BUILDER_VERSION', 'ET_BUILDER_THEME' ) ),
-				),
-				'functions'    => array(
-					'label' => esc_html__( 'Divi Functions', 'squad-modules-for-divi' ),
-					'check' => count( Divi::get_available_divi_functions( array( 'et_setup_theme', 'et_divi_fonts_url', 'et_pb_is_pagebuilder_used' ) ) ) > 0,
-				),
-				'directory'    => array(
-					'label' => esc_html__( 'Directory Structure', 'squad-modules-for-divi' ),
-					'check' => function () {
-						$current_theme = wp_get_theme();
-						if ( $current_theme instanceof WP_Theme ) {
-							$theme_dir = $current_theme->get_stylesheet_directory();
-
-							return count( Divi::get_divi_directory_markers( $theme_dir ) ) > 2;
-						}
-
-						return false;
-					},
-				),
-			);
-
-			/**
-			 * Filter the detection strategies used to determine the primary detection method.
-			 *
-			 * Allows adding or modifying the strategies used to detect Divi in the environment.
-			 *
-			 * @since 3.3.3
-			 *
-			 * @param array<string, array> $detection_strategies The detection strategies.
-			 */
-			$detection_strategies = apply_filters( 'divi_squad_detection_strategies', $detection_strategies );
-
-			// Find first successful strategy.
-			foreach ( $detection_strategies as $strategy ) {
-				if ( $strategy['check']() ) {
-					return $strategy['label'];
-				}
-			}
-
-			return esc_html__( 'No detection method succeeded', 'squad-modules-for-divi' );
-		} catch ( Throwable $e ) {
-			// Log the error.
-			divi_squad()->log_error(
-				$e,
-				'Failed to determine detection method for Site Health',
-				false,
-				array( 'function' => __METHOD__ )
-			);
-
-			return esc_html__( 'Error determining detection method', 'squad-modules-for-divi' );
 		}
 	}
 }

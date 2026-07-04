@@ -306,10 +306,10 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Get the form selector
+	 * // Get the form selector.
 	 * $form_wrapper = $this->squad_get_css_selector('form.wrapper');
 	 *
-	 * // Get all field selectors
+	 * // Get all field selectors.
 	 * $field_selectors = $this->squad_get_css_selector('fields.all');
 	 * ```
 	 *
@@ -349,10 +349,10 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Get the normal state form selector string
+	 * // Get the normal state form selector string.
 	 * $form_wrapper = $this->squad_get_css_selector_string('form.wrapper');
 	 *
-	 * // Get the hover state for all field selectors
+	 * // Get the hover state for all field selectors.
 	 * $field_selectors_hover = $this->squad_get_css_selector_string('fields.all', 'v1', 'hover');
 	 * ```
 	 *
@@ -398,10 +398,10 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Get the hover selector for the submit button
+	 * // Get the hover selector for the submit button.
 	 * $submit_button_hover = $this->get_hover_selector_string('submit_button.all');
 	 *
-	 * // Get the hover selector for form fields
+	 * // Get the hover selector for form fields.
 	 * $fields_hover = $this->get_hover_selector_string('fields.all');
 	 * ```
 	 *
@@ -434,10 +434,10 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Update the form selector
+	 * // Update the form selector.
 	 * $this->squad_update_css_selector('form.wrapper', '%%order_class%% .new-form-wrapper');
 	 *
-	 * // Update field selectors with normal and hover states
+	 * // Update field selectors with normal and hover states.
 	 * $this->squad_update_css_selector('fields.all', [
 	 *     'normal' => '%%order_class%% .new-field',
 	 *     'hover' => '%%order_class%% .new-field:hover'
@@ -1114,10 +1114,10 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Generate all styles for the current module
+	 * // Generate all styles for the current module.
 	 * $this->squad_generate_all_styles($this->props);
 	 *
-	 * // Generate styles with custom attributes
+	 * // Generate styles with custom attributes.
 	 * $custom_attrs = array_merge($this->props, ['custom_field' => 'value']);
 	 * $this->squad_generate_all_styles($custom_attrs);
 	 * ```
@@ -1183,10 +1183,10 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Get all stylesheet selectors for the current module
+	 * // Get all stylesheet selectors for the current module.
 	 * $selectors = $this->squad_get_module_stylesheet_selectors($this->props);
 	 *
-	 * // Get selectors with custom attributes
+	 * // Get selectors with custom attributes.
 	 * $custom_attrs = array_merge($this->props, ['custom_field' => 'value']);
 	 * $custom_selectors = $this->squad_get_module_stylesheet_selectors($custom_attrs);
 	 * ```
@@ -1401,11 +1401,11 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Generate styles for the current module
+	 * // Generate styles for the current module.
 	 * $selectors = $this->squad_get_module_stylesheet_selectors($this->props);
 	 * $this->squad_form_styler_generate_module_styles($this->props, $selectors);
 	 *
-	 * // Generate styles with custom attributes and selectors
+	 * // Generate styles with custom attributes and selectors.
 	 * $custom_attrs = array_merge($this->props, ['custom_field' => 'value']);
 	 * $custom_selectors = $this->squad_get_module_stylesheet_selectors($custom_attrs);
 	 * $this->squad_form_styler_generate_module_styles($custom_attrs, $custom_selectors);
@@ -1601,12 +1601,12 @@ abstract class Form_Styler extends Module {
 	 *
 	 * Here is an inline example of how to use this method:
 	 * ```
-	 * // Remove specific fields from the fields array
+	 * // Remove specific fields from the fields array.
 	 * $all_fields = $this->get_fields();
 	 * $fields_to_remove = ['field1', 'field2'];
 	 * $updated_fields = $this->squad_remove_pre_assigned_fields($all_fields, $fields_to_remove);
 	 *
-	 * // Remove fields based on a condition
+	 * // Remove fields based on a condition.
 	 * $fields_to_remove = [];
 	 * foreach ($all_fields as $key => $field) {
 	 *     if (strpos($key, 'deprecated_') === 0) {

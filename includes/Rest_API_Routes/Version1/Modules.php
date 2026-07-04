@@ -247,7 +247,7 @@ class Modules extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_modules_error', $e, $request, $this );
 
-			// Return empty array to avoid breaking the frontend
+			// Return empty array to avoid breaking the frontend.
 			return rest_ensure_response( array() );
 		}
 	}
@@ -315,7 +315,7 @@ class Modules extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_active_modules_error', $e, $request, $this );
 
-			// Return empty array to avoid breaking the frontend
+			// Return empty array to avoid breaking the frontend.
 			return rest_ensure_response( array() );
 		}
 	}
@@ -383,7 +383,7 @@ class Modules extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_inactive_modules_error', $e, $request, $this );
 
-			// Return empty array to avoid breaking the frontend
+			// Return empty array to avoid breaking the frontend.
 			return rest_ensure_response( array() );
 		}
 	}
@@ -456,7 +456,7 @@ class Modules extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_module_names_error', $e, $key, $this );
 
-			// Return empty array to avoid further errors
+			// Return empty array to avoid further errors.
 			return array();
 		}
 	}
@@ -500,7 +500,7 @@ class Modules extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_get_default_modules_error', $e, $key, $this );
 
-			// Return empty array to avoid further errors
+			// Return empty array to avoid further errors.
 			return array();
 		}
 	}
@@ -528,7 +528,7 @@ class Modules extends Base_Route {
 
 			$active_modules = $request->get_json_params();
 
-			// Validate input
+			// Validate input.
 			if ( ! is_array( $active_modules ) ) {
 				return new WP_Error(
 					'invalid_data',
@@ -537,7 +537,7 @@ class Modules extends Base_Route {
 				);
 			}
 
-			// Sanitize and validate module names
+			// Sanitize and validate module names.
 			$active_modules   = array_values( array_map( 'sanitize_text_field', $active_modules ) );
 			$all_module_names = array_column( divi_squad()->modules->get_registered_list(), 'name' );
 			$invalid_modules  = array_diff( $active_modules, $all_module_names );
@@ -793,7 +793,7 @@ class Modules extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_format_module_error', $e, $module, $this );
 
-			// Return basic data to avoid further errors
+			// Return basic data to avoid further errors.
 			return array(
 				'name'  => $module['name'] ?? '',
 				'label' => $module['label'] ?? '',

@@ -12,7 +12,7 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Content;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
+use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use function et_builder_get_text_orientation_options;
 use function et_builder_i18n;
 use function et_pb_background_options;
@@ -24,7 +24,7 @@ use function et_pb_multi_view_options;
  * @since   1.0.0
  * @package DiviSquad
  */
-class Business_Hours_Child extends Module {
+class Business_Hours_Child extends Child_Module {
 	/**
 	 * Initiate Module.
 	 * Set the module name on init.
@@ -37,7 +37,6 @@ class Business_Hours_Child extends Module {
 		$this->plural = esc_html__( 'Business Days', 'squad-modules-for-divi' );
 
 		$this->slug             = 'disq_business_day';
-		$this->type             = 'child';
 		$this->vb_support       = 'on';
 		$this->main_css_element = "%%order_class%%.$this->slug";
 
@@ -453,7 +452,7 @@ class Business_Hours_Child extends Module {
 
 		$wrapper = 'wrapper_background';
 
-		// wrapper style
+		// wrapper style.
 		// wrapper background with default, responsive, hover.
 		et_pb_background_options()->get_background_style(
 			array(

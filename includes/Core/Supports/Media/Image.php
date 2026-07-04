@@ -88,7 +88,7 @@ class Image {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param Image  $this     The Image instance.
+		 * @param Image  $imgae    The Image instance.
 		 * @param string $path     The base image directory path.
 		 * @param bool   $is_valid Whether the path is validated.
 		 */
@@ -106,6 +106,8 @@ class Image {
 	 * @param string $image     Image filename.
 	 * @param string $type      Image type.
 	 * @param bool   $as_base64 Whether to return base64 encoded image.
+	 *
+	 * @throws RuntimeException If image path is not valid or accessible.
 	 *
 	 * @return string|WP_Error Base64 encoded image, raw image data, or error.
 	 */
@@ -146,7 +148,7 @@ class Image {
 				return $this->images[ $image_key ];
 			}
 
-			// Check persistent cache
+			// Check persistent cache.
 			$cached_data = divi_squad()->cache->get( $cache_key );
 			if ( false !== $cached_data ) {
 				$this->images[ $image_key ] = $cached_data;
@@ -303,7 +305,7 @@ class Image {
 			 */
 			do_action( 'divi_squad_base64_processing_error', $e, $type, $this );
 
-			// Return empty string in case of error
+			// Return empty string in case of error.
 			return '';
 		}
 	}
@@ -317,6 +319,8 @@ class Image {
 	 * @since 3.0.0
 	 *
 	 * @param string $image Image filename.
+	 *
+	 * @throws RuntimeException If image file cannot be read or processed.
 	 *
 	 * @return string|WP_Error Raw image data or error.
 	 */
@@ -487,6 +491,8 @@ class Image {
 	 * Checks if the image directory path is valid, exists, and is readable.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @throws RuntimeException If path validation fails.
 	 *
 	 * @return bool Whether the path is valid.
 	 */
@@ -700,14 +706,14 @@ class Image {
 			 */
 			do_action( 'divi_squad_before_clear_specific_image_cache', $image, $type, $this->path, $this );
 
-			// Clear both raw and base64 versions
+			// Clear both raw and base64 versions.
 			$raw_key    = "{$type}_{$image}_raw";
 			$base64_key = "{$type}_{$image}_base64";
 
-			// Clear from static cache
+			// Clear from static cache.
 			unset( $this->images[ $raw_key ], $this->images[ $base64_key ] );
 
-			// Clear from persistent cache
+			// Clear from persistent cache.
 			$raw_cache_key    = 'image_raw_' . md5( $this->path . $raw_key );
 			$base64_cache_key = 'image_base64_' . md5( $this->path . $base64_key );
 
@@ -764,12 +770,12 @@ class Image {
 	 */
 	public function get_image_allowed_html(): array {
 		try {
-			// Return cached defaults if available
+			// Return cached defaults if available.
 			if ( array() !== $this->kses_defaults ) {
 				return $this->kses_defaults;
 			}
 
-			// Try to get from persistent cache
+			// Try to get from persistent cache.
 			$cache_key       = 'divi_squad_kses_defaults';
 			$cached_defaults = divi_squad()->cache->get( $cache_key );
 
@@ -779,10 +785,10 @@ class Image {
 				return $this->kses_defaults;
 			}
 
-			// Generate default allowed HTML
+			// Generate default allowed HTML.
 			$kses_defaults = wp_kses_allowed_html( 'post' );
 
-			// Enhanced SVG support with security considerations
+			// Enhanced SVG support with security considerations.
 			$svg_args = array(
 				'data'           => array(),
 				'svg'            => array(
@@ -847,7 +853,7 @@ class Image {
 			 */
 			$svg_args = apply_filters( 'divi_squad_allowed_svg_attributes', $svg_args, $this );
 
-			// Security: filter potentially dangerous attributes
+			// Security: filter potentially dangerous attributes.
 			$filtered_svg_args = array();
 			foreach ( $svg_args as $tag => $attributes ) {
 				$filtered_svg_args[ sanitize_key( $tag ) ] = array_filter(
@@ -859,7 +865,7 @@ class Image {
 				);
 			}
 
-			// Merge and cache the results
+			// Merge and cache the results.
 			$this->kses_defaults = array_merge( $kses_defaults, $filtered_svg_args );
 			divi_squad()->cache->set( $cache_key, $this->kses_defaults, 'divi-squad', DAY_IN_SECONDS );
 
@@ -894,7 +900,7 @@ class Image {
 			 */
 			do_action( 'divi_squad_allowed_html_retrieval_error', $e, $this );
 
-			return wp_kses_allowed_html( 'post' ); // Fallback to basic allowed HTML
+			return wp_kses_allowed_html( 'post' ); // Fallback to basic allowed HTML.
 		}
 	}
 }

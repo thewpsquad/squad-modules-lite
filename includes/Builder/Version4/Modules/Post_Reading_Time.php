@@ -532,7 +532,7 @@ class Post_Reading_Time extends Module {
 		$additional_time = 0;
 
 		// For the first image adds 12 seconds, the second image adds 11, ..., for image 10+ add 3 seconds.
-		for ( $i = 1; $i <= $total_images; $i ++ ) {
+		for ( $i = 1; $i <= $total_images; $i++ ) {
 			if ( $i >= 10 ) {
 				$additional_time += 3 * $words_per_minute / 60;
 			} else {

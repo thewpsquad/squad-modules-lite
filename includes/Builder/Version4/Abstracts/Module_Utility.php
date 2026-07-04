@@ -89,7 +89,7 @@ abstract class Module_Utility {
 	 * @return mixed
 	 */
 	protected function get_module_property( string $property, $default = '' ) {
-		return property_exists( $this->module, $property ) ? $this->module->$property : $default; // @phpstan-ignore-line
+		return property_exists( $this->module, $property ) ? $this->module->$property : $default; // @phpstan-ignore-line.
 	}
 
 	/**

@@ -971,7 +971,7 @@ class Dual_Button extends Module {
 			$font_icon_element = $this->squad_render_element_font_icon( $element );
 			$image_element     = $this->squad_render_element_icon_image( $element );
 
-			if ( ( 'none' !== $this->props["{$element}_icon_type"] ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
+			if ( ( 'none' !== $this->props[ "{$element}_icon_type" ] ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
 				if ( ( 'on' === $this->prop( "{$element}_icon_on_hover", 'off' ) ) ) {
 					$icon_wrapper_class[] = 'show-on-hover';
 
@@ -1045,11 +1045,11 @@ class Dual_Button extends Module {
 	private function squad_render_element_font_icon( string $element ): string {
 		$multi_view = et_pb_multi_view_options( $this );
 
-		if ( ! empty( $this->props["{$element}_icon_type"] ) && 'icon' === $this->props["{$element}_icon_type"] ) {
+		if ( ! empty( $this->props[ "{$element}_icon_type" ] ) && 'icon' === $this->props[ "{$element}_icon_type" ] ) {
 			$icon_classes = array( 'et-pb-icon', "squad-$element-icon" );
 
 			// Load font Awesome css for frontend.
-			Divi::inject_fa_icons( $this->props["{$element}_icon"] );
+			Divi::inject_fa_icons( $this->props[ "{$element}_icon" ] );
 
 			$element_class = 'separator' !== $element ? ".squad-button.$element" : ".squad-$element";
 
@@ -1112,7 +1112,7 @@ class Dual_Button extends Module {
 	 */
 	private function squad_render_element_icon_image( string $element ): string {
 		$multi_view = et_pb_multi_view_options( $this );
-		if ( ! empty( $this->props["{$element}_icon_type"] ) && 'image' === $this->props["{$element}_icon_type"] ) {
+		if ( ! empty( $this->props[ "{$element}_icon_type" ] ) && 'image' === $this->props[ "{$element}_icon_type" ] ) {
 			$element_class          = 'separator' !== $element ? ".squad-button.$element" : ".squad-$element";
 			$image_classes          = array( "squad-$element-image", 'et_pb_image_wrap' );
 			$image_attachment_class = et_pb_media_options()->get_image_attachment_class( $this->props, "{$element}_image" );
@@ -1185,7 +1185,7 @@ class Dual_Button extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_wrapper_background_color_gradient' => 'wrapper_background_use_color_gradient',
-					'wrapper_background'                    => 'wrapper_background_color',
+					'wrapper_background' => 'wrapper_background_color',
 				),
 			)
 		);
@@ -1326,7 +1326,7 @@ class Dual_Button extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_separator_background_color_gradient' => 'separator_background_use_color_gradient',
-						'separator_background'                    => 'separator_background_color',
+						'separator_background' => 'separator_background_color',
 					),
 				)
 			);

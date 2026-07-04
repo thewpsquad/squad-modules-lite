@@ -59,6 +59,61 @@ class Builder implements Hookable {
 
 		add_filter( 'divi_squad_modules_registered_list', array( $this, 'registered_modules' ) );
 		add_filter( 'divi_squad_modules_premium_list', array( $this, 'premium_modules' ) );
+
+		// Feed the Divi 5 Visual Builder the list of available forms (per plugin) so the
+		// form-styler modules' form-picker dropdowns can populate from the `divi/settings`
+		// store. Mirrors Divi core's `contactForm7` settings-data item.
+		add_filter( 'divi_visual_builder_settings_data', array( $this, 'inject_form_styler_settings_data' ) );
+	}
+
+	/**
+	 * Inject the available forms (keyed by form-plugin type) into the Divi 5 VB settings data.
+	 *
+	 * Each form-styler module reads `divi/settings` -> `getSetting('squadForms')[<type>]` to
+	 * populate its form-picker dropdown. The shape per type is `{ <formKey>: { label } }`,
+	 * matching the option shape Divi's own `divi/select-*` field components consume. Only
+	 * form plugins that are active contribute entries.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param array<string, mixed> $settings Existing VB settings data.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function inject_form_styler_settings_data( array $settings ): array {
+		$types = array(
+			'cf7'           => class_exists( 'WPCF7' ),
+			'wpforms'       => function_exists( 'wpforms' ),
+			'gravity_forms' => function_exists( 'gravity_form' ),
+			'ninja_forms'   => function_exists( 'Ninja_Forms' ),
+			'fluent_forms'  => function_exists( 'wpFluentForm' ),
+			'forminator'    => class_exists( 'Forminator_API' ),
+			'formidable'    => class_exists( 'FrmForm' ),
+			'metform'       => class_exists( 'MetForm\Plugin' ),
+			'sureforms'     => defined( 'SRFM_VER' ),
+		);
+
+		$forms_data = array();
+
+		foreach ( $types as $type => $is_active ) {
+			$forms = array();
+
+			if ( $is_active ) {
+				try {
+					foreach ( (array) divi_squad()->forms_element->get_forms_by( $type, 'title' ) as $key => $title ) {
+						$forms[ (string) $key ] = array( 'label' => (string) $title );
+					}
+				} catch ( \Throwable $e ) {
+					divi_squad()->log_error( $e, sprintf( 'Failed to collect %s forms for the Divi 5 builder', $type ) );
+				}
+			}
+
+			$forms_data[ $type ] = $forms;
+		}
+
+		$settings['squadForms'] = $forms_data;
+
+		return $settings;
 	}
 
 	/**
@@ -170,7 +225,8 @@ class Builder implements Hookable {
 		$modules = array(
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Divider::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Divider::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Divider::class,
 				),
 				'name'               => 'Divider',
 				'label'              => esc_html__( 'Advanced Divider', 'squad-modules-for-divi' ),
@@ -179,13 +235,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.2', '1.2.3', '1.2.6', '1.4.1', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Dual_Button::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Dual_Button::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Dual_Button::class,
 				),
 				'name'               => 'DualButton',
 				'label'              => esc_html__( 'Dual Button', 'squad-modules-for-divi' ),
@@ -194,13 +251,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.1.0', '1.2.3', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\Lottie::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Media\Lottie::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Media\Lottie::class,
 				),
 				'name'               => 'Lottie',
 				'label'              => esc_html__( 'Lottie Image', 'squad-modules-for-divi' ),
@@ -209,14 +267,16 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.0.1', '1.0.5', '1.2.3', '1.4.5', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'image-&-media-modules',
 				'category_title'     => esc_html__( 'Image & Media Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class'  => \DiviSquad\Builder\Version4\Modules\Post_Grid::class,
-					'child_class' => \DiviSquad\Builder\Version4\Modules\Post_Grid_Child::class,
+					'root_class'        => \DiviSquad\Builder\Version4\Modules\Post_Grid::class,
+					'child_class'       => \DiviSquad\Builder\Version4\Modules\Post_Grid_Child::class,
+					'root_block_class'  => \DiviSquad\Builder\Version5\Modules\DynamicContent\Post_Grid::class,
+					'child_block_class' => \DiviSquad\Builder\Version5\Modules\DynamicContent\Post_Grid_Child::class,
 				),
 				'name'               => 'PostGrid',
 				'label'              => esc_html__( 'Post Grid', 'squad-modules-for-divi' ),
@@ -227,14 +287,29 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.0.2', '1.0.4', '1.1.0', '1.2.0', '1.2.2', '1.2.3', '1.4.4', '1.4.8', '1.4.10', '1.4.11', '3.0.0', '3.1.0', '3.1.4', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'settings_route'     => 'post-grid',
 				'category'           => 'dynamic-content-modules',
 				'category_title'     => esc_html__( 'Dynamic Content Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Typing_Text::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\DynamicContent\Post_Carousel::class,
+				),
+				'name'               => 'PostCarousel',
+				'label'              => esc_html__( 'Post Carousel', 'squad-modules-for-divi' ),
+				'description'        => esc_html__( 'Showcase your blog posts in a touch-friendly Swiper carousel.', 'squad-modules-for-divi' ),
+				'release_version'    => '3.4.0',
+				'is_default_active'  => false,
+				'is_premium_feature' => false,
+				'type'               => array( 'D5' ),
+				'category'           => 'dynamic-content-modules',
+				'category_title'     => esc_html__( 'Dynamic Content Modules', 'squad-modules-for-divi' ),
+			),
+			array(
+				'classes'            => array(
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Typing_Text::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Typing_Text::class,
 				),
 				'name'               => 'TypingText',
 				'label'              => esc_html__( 'Typing Text', 'squad-modules-for-divi' ),
@@ -243,13 +318,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.0.1', '1.0.5', '1.2.3', '1.4.6', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\Image_Mask::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Media\Image_Mask::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Media\Image_Mask::class,
 				),
 				'name'               => 'ImageMask',
 				'label'              => esc_html__( 'Image Mask', 'squad-modules-for-divi' ),
@@ -258,13 +334,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'image-&-media-modules',
 				'category_title'     => esc_html__( 'Image & Media Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Content\Flip_Box::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Content\Flip_Box::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Content\Flip_Box::class,
 				),
 				'name'               => 'FlipBox',
 				'label'              => esc_html__( 'Flip Box', 'squad-modules-for-divi' ),
@@ -273,14 +350,16 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'content-modules',
 				'category_title'     => esc_html__( 'Content Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class'  => \DiviSquad\Builder\Version4\Modules\Content\Business_Hours::class,
-					'child_class' => \DiviSquad\Builder\Version4\Modules\Content\Business_Hours_Child::class,
+					'root_class'        => \DiviSquad\Builder\Version4\Modules\Content\Business_Hours::class,
+					'child_class'       => \DiviSquad\Builder\Version4\Modules\Content\Business_Hours_Child::class,
+					'root_block_class'  => \DiviSquad\Builder\Version5\Modules\Content\Business_Hours::class,
+					'child_block_class' => \DiviSquad\Builder\Version5\Modules\Content\Business_Hours_Child::class,
 				),
 				'name'               => 'BusinessHours',
 				'label'              => esc_html__( 'Business Hours', 'squad-modules-for-divi' ),
@@ -291,13 +370,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.0', '1.2.3', '1.4.8', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'content-modules',
 				'category_title'     => esc_html__( 'Content Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\Before_After_Image_Slider::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Media\Before_After_Image_Slider::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Media\Before_After_Image_Slider::class,
 				),
 				'name'               => 'BeforeAfterImageSlider',
 				'label'              => esc_html__( 'Before After Image Slider', 'squad-modules-for-divi' ),
@@ -306,13 +386,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '1.4.8', '3.1.9', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'image-&-media-modules',
 				'category_title'     => esc_html__( 'Image & Media Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\Image_Gallery::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Media\Image_Gallery::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Media\Image_Gallery::class,
 				),
 				'name'               => 'ImageGallery',
 				'label'              => esc_html__( 'Image Gallery', 'squad-modules-for-divi' ),
@@ -321,13 +402,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.2', '1.2.3', '1.3.0', '1.4.5', '1.4.8', '1.4.9', '3.0.0', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'image-&-media-modules',
 				'category_title'     => esc_html__( 'Image & Media Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\Contact_Form_7::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Contact_Form_7::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Contact_Form_7::class,
 				),
 				'name'               => 'FormStylerContactForm7',
 				'label'              => esc_html__( 'Contact Form 7', 'squad-modules-for-divi' ),
@@ -336,7 +418,7 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '1.4.7', '1.4.8', '3.0.0', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'required'           => array(
 					'plugin' => 'contact-form-7/wp-contact-form-7.php',
 				),
@@ -344,7 +426,10 @@ class Builder implements Hookable {
 				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),
 			),
 			array(
-				'classes'            => array( 'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\WP_Forms::class ),
+				'classes'            => array(
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\WP_Forms::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\WP_Forms::class,
+				),
 				'name'               => 'FormStylerWPForms',
 				'label'              => esc_html__( 'WP Forms', 'squad-modules-for-divi' ),
 				'description'        => esc_html__( 'Effortlessly customize WP Forms design. Adjust colors, fonts, spacing, and add CSS for your desired look.', 'squad-modules-for-divi' ),
@@ -352,14 +437,15 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '1.4.7', '1.4.8', '3.0.0', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'required'           => array( 'plugin' => 'wpforms-lite/wpforms.php|wpforms/wpforms.php' ),
 				'category'           => 'form-styler-modules',
 				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\Gravity_Forms::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Gravity_Forms::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Gravity_Forms::class,
 				),
 				'name'               => 'FormStylerGravityForms',
 				'label'              => esc_html__( 'Gravity Forms', 'squad-modules-for-divi' ),
@@ -368,7 +454,7 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '1.4.7', '1.4.8', '3.0.0', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'required'           => array(
 					'plugin' => 'gravityforms/gravityforms.php',
 				),
@@ -377,7 +463,8 @@ class Builder implements Hookable {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Post_Reading_Time::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Post_Reading_Time::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\DynamicContent\Post_Reading_Time::class,
 				),
 				'name'               => 'PostReadingTime',
 				'label'              => esc_html__( 'Post Reading Time', 'squad-modules-for-divi' ),
@@ -386,13 +473,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.2.3', '1.4.8', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'dynamic-content-modules',
 				'category_title'     => esc_html__( 'Dynamic Content Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Glitch_Text::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Glitch_Text::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Glitch_Text::class,
 				),
 				'name'               => 'GlitchText',
 				'label'              => esc_html__( 'Glitch Text', 'squad-modules-for-divi' ),
@@ -401,13 +489,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.3.0', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Gradient_Text::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Gradient_Text::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Gradient_Text::class,
 				),
 				'name'               => 'GradientText',
 				'label'              => esc_html__( 'Gradient Text', 'squad-modules-for-divi' ),
@@ -415,13 +504,14 @@ class Builder implements Hookable {
 				'release_version'    => array( '1.2.6', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Scrolling_Text::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Scrolling_Text::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Scrolling_Text::class,
 				),
 				'name'               => 'ScrollingText',
 				'label'              => esc_html__( 'Scrolling Text', 'squad-modules-for-divi' ),
@@ -430,13 +520,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.8', '3.2.0' ),
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Star_Rating::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Star_Rating::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Star_Rating::class,
 				),
 				'name'               => 'StarRating',
 				'label'              => esc_html__( 'Star Rating', 'squad-modules-for-divi' ),
@@ -445,13 +536,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.5', '1.4.6', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Breadcrumbs::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Breadcrumbs::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Breadcrumbs::class,
 				),
 				'name'               => 'Breadcrumbs',
 				'label'              => esc_html__( 'Breadcrumbs', 'squad-modules-for-divi' ),
@@ -460,13 +552,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.1', '1.4.2', '1.4.6', '1.4.8', '3.0.0', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Drop_Cap_Text::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Creative\Drop_Cap_Text::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Creative\Drop_Cap_Text::class,
 				),
 				'name'               => 'DropCapText',
 				'label'              => esc_html__( 'Drop Cap Text', 'squad-modules-for-divi' ),
@@ -475,13 +568,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.0', '3.0.0', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'creative-modules',
 				'category_title'     => esc_html__( 'Creative Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\Video_Popup::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Media\Video_Popup::class,
+						'root_block_class' => \DiviSquad\Builder\Version5\Modules\Media\Video_Popup::class,
 				),
 				'name'               => 'VideoPopup',
 				'label'              => esc_html__( 'Video Popup', 'squad-modules-for-divi' ),
@@ -490,13 +584,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.4', '3.0.0', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'image-&-media-modules',
 				'category_title'     => esc_html__( 'Image & Media Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Maps\Google_Map::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Maps\Google_Map::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Maps\Google_Map::class,
 				),
 				'name'               => 'GoogleMap',
 				'label'              => esc_html__( 'Google Embed Map', 'squad-modules-for-divi' ),
@@ -505,13 +600,14 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.8' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'category'           => 'content-modules',
 				'category_title'     => esc_html__( 'Content Modules', 'squad-modules-for-divi' ),
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\Ninja_Forms::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Ninja_Forms::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Ninja_Forms::class,
 				),
 				'name'               => 'FormStylerNinjaForms',
 				'label'              => esc_html__( 'Ninja Forms', 'squad-modules-for-divi' ),
@@ -520,7 +616,7 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.8', '3.0.0', '3.2.0', '3.4.1' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'required'           => array(
 					'plugin' => 'ninja-forms/ninja-forms.php',
 				),
@@ -529,7 +625,8 @@ class Builder implements Hookable {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\Fluent_Forms::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Fluent_Forms::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Fluent_Forms::class,
 				),
 				'name'               => 'FormStylerFluentForms',
 				'label'              => esc_html__( 'Fluent Forms', 'squad-modules-for-divi' ),
@@ -538,7 +635,7 @@ class Builder implements Hookable {
 				'last_modified'      => array( '1.4.8', '3.0.0', '3.2.0' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'required'           => array(
 					'plugin' => 'fluentform/fluentform.php',
 				),
@@ -547,7 +644,8 @@ class Builder implements Hookable {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\Forminator::class,
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Forminator::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Forminator::class,
 				),
 				'name'               => 'FormStylerForminator',
 				'label'              => esc_html__( 'Forminator', 'squad-modules-for-divi' ),
@@ -555,9 +653,63 @@ class Builder implements Hookable {
 				'release_version'    => '3.2.0',
 				'is_default_active'  => false,
 				'is_premium_feature' => false,
-				'type'               => 'D4',
+				'type'               => array( 'D4', 'D5' ),
 				'required'           => array(
 					'plugin' => 'forminator/forminator.php',
+				),
+				'category'           => 'form-styler-modules',
+				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),
+			),
+			array(
+				'classes'            => array(
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Formidable::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Formidable::class,
+				),
+				'name'               => 'FormStylerFormidable',
+				'label'              => esc_html__( 'Formidable Forms', 'squad-modules-for-divi' ),
+				'description'        => esc_html__( 'Effortlessly customize Formidable Forms design. Adjust colors, fonts, spacing, and add CSS for your desired look.', 'squad-modules-for-divi' ),
+				'release_version'    => '3.4.0',
+				'is_default_active'  => false,
+				'is_premium_feature' => false,
+				'type'               => array( 'D4', 'D5' ),
+				'required'           => array(
+					'plugin' => 'formidable/formidable.php',
+				),
+				'category'           => 'form-styler-modules',
+				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),
+			),
+			array(
+				'classes'            => array(
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Met_Form::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Met_Form::class,
+				),
+				'name'               => 'FormStylerMetForm',
+				'label'              => esc_html__( 'MetForm', 'squad-modules-for-divi' ),
+				'description'        => esc_html__( 'Effortlessly customize MetForm form design. Adjust colors, fonts, spacing, and add CSS for your desired look.', 'squad-modules-for-divi' ),
+				'release_version'    => '3.4.0',
+				'is_default_active'  => false,
+				'is_premium_feature' => false,
+				'type'               => array( 'D4', 'D5' ),
+				'required'           => array(
+					'plugin' => 'metform/metform.php',
+				),
+				'category'           => 'form-styler-modules',
+				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),
+			),
+			array(
+				'classes'            => array(
+					'root_class'       => \DiviSquad\Builder\Version4\Modules\Forms\Sure_Forms::class,
+					'root_block_class' => \DiviSquad\Builder\Version5\Modules\Forms\Sure_Forms::class,
+				),
+				'name'               => 'FormStylerSureForms',
+				'label'              => esc_html__( 'SureForms', 'squad-modules-for-divi' ),
+				'description'        => esc_html__( 'Effortlessly customize SureForms form design. Adjust colors, fonts, spacing, and add CSS for your desired look.', 'squad-modules-for-divi' ),
+				'release_version'    => '3.4.0',
+				'is_default_active'  => false,
+				'is_premium_feature' => false,
+				'type'               => array( 'D4', 'D5' ),
+				'required'           => array(
+					'plugin' => 'sureforms/sureforms.php',
 				),
 				'category'           => 'form-styler-modules',
 				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),

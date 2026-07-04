@@ -51,7 +51,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	public const WP_ORG_URL = 'http://wordpress.org/plugins/squad-modules-for-divi/';
+	public const WP_ORG_URL = 'https://wordpress.org/plugins/squad-modules-for-divi/';
 
 	/**
 	 * The plugin support URL.
@@ -69,7 +69,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	public const RATTING_URL = 'https://wordpress.org/support/plugin/squad-modules-for-divi/reviews/?rate=5#new-post';
+	public const RATING_URL = 'https://wordpress.org/support/plugin/squad-modules-for-divi/reviews/?rate=5#new-post';
 
 	/**
 	 * The plugin translate URL.

@@ -43,10 +43,10 @@ class Extensions {
 			return;
 		}
 
-		// Register hooks
+		// Register hooks.
 		$this->register_hooks();
 
-		// Set initialized flag
+		// Set initialized flag.
 		$this->initialized = true;
 	}
 

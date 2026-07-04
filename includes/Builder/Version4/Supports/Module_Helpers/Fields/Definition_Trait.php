@@ -646,7 +646,7 @@ trait Definition_Trait {
 
 		$properties = wp_parse_args( $properties, $defaults );
 
-		// Merge in any additional conditions
+		// Merge in any additional conditions.
 		if ( ! empty( $conditions ) ) {
 			foreach ( $conditions as $key => $value ) {
 				$properties[ $key ] = $value;
@@ -713,7 +713,7 @@ trait Definition_Trait {
 		 */
 		$properties = (array) apply_filters( 'divi_squad_font_field_properties', $properties, $label );
 
-		// Determine the text align settings
+		// Determine the text align settings.
 		$text_align_settings = array();
 		if ( ! $properties['hide_text_align'] ) {
 			$text_align_settings = array(
@@ -742,7 +742,7 @@ trait Definition_Trait {
 			);
 		}
 
-		// Build the field configuration
+		// Build the field configuration.
 		$field = array(
 			'label'              => $properties['label'],
 			'tab_slug'           => $properties['tab_slug'],
@@ -755,17 +755,17 @@ trait Definition_Trait {
 			'text_align'         => $text_align_settings,
 		);
 
-		// Add conditional sub_toggle if provided
+		// Add conditional sub_toggle if provided.
 		if ( ! empty( $properties['sub_toggle'] ) ) {
 			$field['sub_toggle'] = $properties['sub_toggle'];
 		}
 
-		// Add conditional show_if if provided
+		// Add conditional show_if if provided.
 		if ( ! empty( $properties['show_if'] ) ) {
 			$field['show_if'] = $properties['show_if'];
 		}
 
-		// Add conditional show_if_not if provided
+		// Add conditional show_if_not if provided.
 		if ( ! empty( $properties['show_if_not'] ) ) {
 			$field['show_if_not'] = $properties['show_if_not'];
 		}

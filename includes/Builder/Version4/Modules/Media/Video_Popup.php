@@ -582,11 +582,11 @@ class Video_Popup extends Module {
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$inline_modal = '';
-		$image        = $this->props['image'];
-		$image_alt    = $this->props['alt'];
-		$video_link   = $this->props['video_link'];
-		$type         = $this->props['type'];
-		$video        = $this->props['video'];
+		$image        = $this->prop( 'image', '' );
+		$image_alt    = $this->prop( 'alt', '' );
+		$video_link   = $this->prop( 'video_link', '' );
+		$type         = $this->prop( 'type', 'yt' );
+		$video        = $this->prop( 'video', '' );
 		$img_overlay  = '';
 		$order_class  = (string) self::get_module_order_class( $render_slug );
 		$order_number = str_replace( array( $this->slug, '_' ), '', $order_class );
@@ -678,7 +678,7 @@ class Video_Popup extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_image_overlay_background_color_gradient' => 'image_overlay_background_use_color_gradient',
-						'image_overlay_background'                    => 'image_overlay_background_color',
+						'image_overlay_background' => 'image_overlay_background_color',
 					),
 				)
 			);
@@ -917,7 +917,7 @@ class Video_Popup extends Module {
 
 		// Generate text.
 		if ( in_array( $trigger_element, array( 'text', 'icon_text' ), true ) ) {
-			$icon_output_html .= sprintf( '<span class="video-popup-text">%1$s</span>', $this->props['text'] );
+			$icon_output_html .= sprintf( '<span class="video-popup-text">%1$s</span>', $this->prop( 'text', 'Play' ) );
 		}
 
 		return $icon_output_html;

@@ -8,7 +8,7 @@
  *
  * @since       1.0.0
  * @author      The WP Squad <support@squadmodules.com>
- * @copyright   2023-2025 The WP Squad (https://thewpsquad.com/)
+ * @copyright   2023-2025 The WP Squad (https://squadmodules.com/)
  * @license     GPL-3.0-only
  * @link        https://squadmodules.com
  * @package     DiviSquad
@@ -34,22 +34,23 @@ use Throwable;
  * @since   1.0.0
  * @package DiviSquad
  *
- * @property Core\Distribution                       $distribution               Distribution manager.
- * @property Core\Requirements                       $requirements               Requirements checker.
- * @property Core\Memory                             $memory                     Memory manager.
- * @property Core\Cache                              $cache                      Cache manager.
- * @property Core\Assets                             $assets                     Assets Manager
- * @property Core\Error\Error_Reporter               $error_reporter             Error Reporter manager.
- * @property Core\Supports\Site_Health               $site_health                Site health manager.
- * @property Core\Admin\Menu                         $admin_menu                 Admin menu manager.
- * @property Core\Admin\Notice                       $admin_notice               Admin notice manager
- * @property Core\Admin\Branding                     $branding                   Branding manager.
- * @property Core\Modules                            $modules                    Module manager.
- * @property Core\Extensions                         $extensions                 Extension manger.
- * @property Core\Rest_Routes                        $rest_routes                REST API manager.
- * @property Builder\Utils\Elements\Custom_Fields    $custom_fields_element      Custom fields manager.
- * @property Builder\Utils\Elements\Forms            $forms_element              Forms manager.
- * @property Builder\Version4\Supports\Module_Helper $d4_module_helper           Module helper for Divi 4.
+ * @property Core\Distribution                         $distribution               Distribution manager.
+ * @property Core\Requirements\Requirements            $requirements               Requirements checker.
+ * @property Core\Memory                               $memory                     Memory manager.
+ * @property Core\Cache                                $cache                      Cache manager.
+ * @property Core\Assets                               $assets                     Assets Manager
+ * @property Core\Error\Reporter                       $error_reporter             Error Reporter manager.
+ * @property Core\Supports\Site_Health                 $site_health                Site health manager.
+ * @property Core\Supports\Ai                          $ai                         AI Abilitiesmanager.
+ * @property Core\Admin\Menu                           $admin_menu                 Admin menu manager.
+ * @property Core\Admin\Notice                         $admin_notice               Admin notice manager
+ * @property Core\Admin\Branding                       $branding                   Branding manager.
+ * @property Core\Modules                              $modules                    Module manager.
+ * @property Core\Extensions                           $extensions                 Extension manger.
+ * @property Core\Rest_Routes                         $rest_routes                 REST API manager.
+ * @property Builder\Utils\Elements\Custom_Fields     $custom_fields_element       Custom fields manager.
+ * @property Builder\Utils\Elements\Forms             $forms_element               Forms manager.
+ * @property Builder\Version4\Supports\Module_Helper  $d4_module_helper            Module helper for Divi 4.
  */
 final class SquadModules implements Core\Contracts\Hookable {
 
@@ -136,7 +137,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 */
 	public function init(): void {
 		try {
-			// Set basic logger identifier immediately for early error logging
+			// Set basic logger identifier immediately for early error logging.
 			$this->set_log_identifier( 'Squad Modules' );
 
 			/**
@@ -146,7 +147,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 			 */
 			do_action( 'divi_squad_before_initialization' );
 
-			// Initialize core plugin components
+			// Initialize core plugin components.
 			$this->load_initials();
 			$this->register_hooks();
 
@@ -319,7 +320,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 * @return void
 	 */
 	public function load_initials(): void {
-		// Prevent circular dependencies and infinite recursion
+		// Prevent circular dependencies and infinite recursion.
 		if ( self::$is_initializing ) {
 			return;
 		}
@@ -430,13 +431,13 @@ final class SquadModules implements Core\Contracts\Hookable {
 			do_action( 'divi_squad_before_prerequisites_init', $this );
 
 			$this->container['distribution'] = new Core\Distribution();
-			$this->container['requirements'] = new Core\Requirements();
+			$this->container['requirements'] = new Core\Requirements\Requirements();
 			$this->container['memory']       = new Core\Memory();
 			$this->container['cache']        = new Core\Cache();
 			$this->container['assets']       = new Core\Assets();
 
 			// Error reporting system - initialize with safe mode to prevent circular dependencies
-			$this->container['error_reporter'] = new Core\Error\Error_Reporter( array() );
+			$this->container['error_reporter'] = new Core\Error\Reporter( array() );
 
 			/**
 			 * Fires after the plugin prerequisites are initialized.
@@ -462,7 +463,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 * @return array<string, array<string, array<string, mixed>>>
 	 */
 	protected function get_deprecated_classes_list(): array {
-		// Return cached data if available
+		// Return cached data if available.
 		if ( null !== $this->deprecated_classes_cache ) {
 			return $this->deprecated_classes_cache;
 		}
@@ -475,7 +476,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 				if ( false !== $json_content ) {
 					$deprecated_classes = json_decode( $json_content, true, 512, JSON_THROW_ON_ERROR );
 					if ( is_array( $deprecated_classes ) ) {
-						// Cache the loaded data
+						// Cache the loaded data.
 						$this->deprecated_classes_cache = $deprecated_classes;
 						return $deprecated_classes;
 					}
@@ -485,7 +486,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 			$this->log_error( $e, 'Failed to load deprecated classes from JSON file' );
 		}
 
-		// Cache empty array to avoid repeated file system calls
+		// Cache empty array to avoid repeated file system calls.
 		$this->deprecated_classes_cache = array();
 		return array();
 	}
@@ -498,6 +499,8 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 *
 	 * @since  3.4.0 Added improved error handling and caching
 	 * @since  3.2.0 Initial implementation
+	 *
+	 * @throws RuntimeException If distribution is not initialized properly.
 	 *
 	 * @return Freemius
 	 */
@@ -620,7 +623,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 			 * and before the plugin begins loading its core components.
 			 *
 			 * @since 3.2.0
-			 * @see   Core\Requirements::is_fulfilled() For the requirements validation logic
+			 * @see   \DiviSquad\Core\Requirements\Requirements::is_fulfilled() For the requirements validation logic
 			 *
 			 * @param bool         $is_met Whether the plugin's requirements are met.
 			 * @param SquadModules $plugin Current plugin instance.
@@ -713,6 +716,9 @@ final class SquadModules implements Core\Contracts\Hookable {
 				$this->container['branding']     = new Core\Admin\Branding();
 			}
 
+			// Load AI Abilities support.
+			$this->container['ai'] = new Core\Supports\Ai();
+
 			/**
 			 * Filters the plugin containers after initialization.
 			 *
@@ -783,10 +789,10 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 */
 	protected function load_extensions(): void {
 		try {
-			// Load Extension integrations
+			// Load Extension integrations.
 			new Integrations\Extensions();
 
-			// Initialize all extensions
+			// Initialize all extensions.
 			$this->extensions->init();
 
 			/**
@@ -816,14 +822,14 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 */
 	protected function load_modules_for_builder(): void {
 		try {
-			// Load the settings migration
+			// Load the settings migration.
 			Settings\Migration::init();
 
-			// Load Builder integrations
+			// Load Builder integrations.
 			new Integrations\Builder_Placeholders();
 			new Integrations\Builder();
 
-			// Initialize all modules
+			// Initialize all modules.
 			$this->modules->init();
 
 			/**
@@ -853,7 +859,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 */
 	protected function load_rest_apis(): void {
 		try {
-			// Initialize REST routes
+			// Initialize REST routes.
 			$this->rest_routes->init();
 
 			/**
@@ -918,7 +924,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 */
 	protected function load_addons(): void {
 		try {
-			// Initialize custom fields element
+			// Initialize custom fields element.
 			$this->custom_fields_element->init();
 
 			/**

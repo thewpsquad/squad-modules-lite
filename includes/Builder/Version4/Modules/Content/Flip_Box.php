@@ -1438,11 +1438,11 @@ class Flip_Box extends Module {
 			'button_padding',
 		);
 		foreach ( $button_cleanable_common_features as $button_common_feature ) {
-			$front_button["front_$button_common_feature"]['hover'] = false;
-			$back_button["back_$button_common_feature"]['hover']   = false;
+			$front_button[ "front_$button_common_feature" ]['hover'] = false;
+			$back_button[ "back_$button_common_feature" ]['hover']   = false;
 		}
 		foreach ( $button_cleanable_features as $button_cleanable_feature ) {
-			$front_button["front_$button_cleanable_feature"]['hover'] = false;
+			$front_button[ "front_$button_cleanable_feature" ]['hover'] = false;
 		}
 
 		// Extra features from buttons which are generating hover effects.
@@ -1473,7 +1473,7 @@ class Flip_Box extends Module {
 			$flip_settings_fields,
 			$flip_animations_fields,
 			$flip_transitions_fields,
-			// $flip_builder_preview_fields,
+			// $flip_builder_preview_fields,.
 			$front_wrapper_background_fields,
 			$back_wrapper_background_fields,
 			$side_assoc_fields,
@@ -2209,8 +2209,8 @@ class Flip_Box extends Module {
 			"{$side}_sub_title_order" => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Sub Title Order', 'squad-modules-for-divi' ),
 				array(
-					'description'    => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
-					'range_settings' => array(
+					'description'       => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
+					'range_settings'    => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '15',
@@ -2232,8 +2232,8 @@ class Flip_Box extends Module {
 			"{$side}_body_order"      => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Body Order', 'squad-modules-for-divi' ),
 				array(
-					'description'    => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
-					'range_settings' => array(
+					'description'       => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
+					'range_settings'    => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '15',
@@ -2255,8 +2255,8 @@ class Flip_Box extends Module {
 			"{$side}_button_order"    => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Button Order', 'squad-modules-for-divi' ),
 				array(
-					'description'    => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
-					'range_settings' => array(
+					'description'       => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
+					'range_settings'    => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '15',
@@ -2551,7 +2551,7 @@ class Flip_Box extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					"use_{$slide_type}_wrapper_background_color_gradient" => "{$slide_type}_wrapper_background_use_color_gradient",
-					"{$slide_type}_wrapper_background"                    => "{$slide_type}_wrapper_background_color",
+					"{$slide_type}_wrapper_background" => "{$slide_type}_wrapper_background_color",
 				),
 			)
 		);
@@ -2692,7 +2692,7 @@ class Flip_Box extends Module {
 	 * @return string
 	 */
 	private function squad_render_slide_icons( string $slide_type, array $attrs ): string {
-		if ( 'none' !== $this->props["{$slide_type}_icon_type"] ) {
+		if ( 'none' !== $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
 
 			// Fixed: a custom background doesn't work at frontend.
 			$this->props     = array_merge( $attrs, $this->props );
@@ -2706,8 +2706,8 @@ class Flip_Box extends Module {
 				'squad-icon-wrapper',
 			);
 
-			if ( 'text' === $this->props["{$slide_type}_icon_type"] ) {
-				if ( empty( $this->props["{$slide_type}_icon_text"] ) ) {
+			if ( 'text' === $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
+				if ( empty( $this->prop( "{$slide_type}_icon_text", '' ) ) ) {
 					return '';
 				}
 
@@ -2722,15 +2722,15 @@ class Flip_Box extends Module {
 				);
 			}
 
-			if ( 'icon' === $this->props["{$slide_type}_icon_type"] ) {
-				if ( empty( $this->props["{$slide_type}_icon"] ) ) {
+			if ( 'icon' === $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
+				if ( empty( $this->prop( "{$slide_type}_icon", '' ) ) ) {
 					return '';
 				}
 
 				$icon_classes = array( 'et-pb-icon', 'slide-font-icon', "slide-$slide_type-icon" );
 
 				// Load font Awesome css for frontend.
-				Divi::inject_fa_icons( $this->props["{$slide_type}_icon"] );
+				Divi::inject_fa_icons( $this->prop( "{$slide_type}_icon", '' ) );
 
 				$icon_element = $multi_view->render_element(
 					array(
@@ -2795,8 +2795,8 @@ class Flip_Box extends Module {
 				);
 			}
 
-			if ( 'image' === $this->props["{$slide_type}_icon_type"] ) {
-				if ( empty( $this->props["{$slide_type}_image"] ) ) {
+			if ( 'image' === $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
+				if ( empty( $this->prop( "{$slide_type}_image", '' ) ) ) {
 					return '';
 				}
 
@@ -2928,7 +2928,7 @@ class Flip_Box extends Module {
 			);
 
 			// Set icon background color.
-			if ( 'image' !== $this->props["{$slide_type}_icon_type"] ) {
+			if ( 'image' !== $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
 				$this->generate_styles(
 					array(
 						'base_attr_name' => "{$slide_type}_image_icon_background_color",
@@ -2942,7 +2942,7 @@ class Flip_Box extends Module {
 				);
 			}
 
-			if ( 'on' === $this->props["{$slide_type}_content_outside_container"] ) {
+			if ( 'on' === $this->prop( "{$slide_type}_content_outside_container", 'off' ) ) {
 				$this->generate_styles(
 					array(
 						'base_attr_name' => "{$slide_type}_icon_item_inner_gap",
@@ -3258,7 +3258,7 @@ class Flip_Box extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						"use_{$slide_type}_button_background_color_gradient" => "{$slide_type}_button_background_use_color_gradient",
-						"{$slide_type}_button_background"                    => "{$slide_type}_button_background_color",
+						"{$slide_type}_button_background" => "{$slide_type}_button_background_color",
 					),
 				)
 			);
@@ -3351,7 +3351,7 @@ class Flip_Box extends Module {
 			$font_icon_element = $this->squad_render_button_font_icon( $slide_type );
 			$image_element     = $this->squad_render_button_icon_image( $slide_type );
 
-			if ( ( 'none' !== $this->props["{$slide_type}_button_icon_type"] ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
+			if ( ( 'none' !== $this->prop( "{$slide_type}_button_icon_type", 'none' ) ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
 				if ( ( 'on' === $this->prop( "{$slide_type}_button_icon_on_hover", 'off' ) ) ) {
 					$icon_wrapper_class[] = 'show-on-hover';
 
@@ -3422,12 +3422,12 @@ class Flip_Box extends Module {
 	 * @return string
 	 */
 	private function squad_render_button_font_icon( string $slide_type ): string {
-		if ( 'icon' === $this->props["{$slide_type}_button_icon_type"] ) {
+		if ( 'icon' === $this->prop( "{$slide_type}_button_icon_type", 'none' ) ) {
 			$multi_view   = et_pb_multi_view_options( $this );
 			$icon_classes = array( 'et-pb-icon', "squad-{$slide_type}_button-icon" );
 
 			// Load font Awesome css for frontend.
-			Divi::inject_fa_icons( $this->props["{$slide_type}_button_icon"] );
+			Divi::inject_fa_icons( $this->prop( "{$slide_type}_button_icon", '' ) );
 
 			$this->generate_styles(
 				array(
@@ -3487,7 +3487,7 @@ class Flip_Box extends Module {
 	 * @return string
 	 */
 	private function squad_render_button_icon_image( string $slide_type ): string {
-		if ( 'icon' === $this->props["{$slide_type}_button_icon_type"] ) {
+		if ( 'icon' === $this->prop( "{$slide_type}_button_icon_type", 'none' ) ) {
 			$multi_view             = et_pb_multi_view_options( $this );
 			$image_classes          = array( "squad-{$slide_type}_button-image", 'et_pb_image_wrap' );
 			$image_attachment_class = et_pb_media_options()->get_image_attachment_class( $this->props, "{$slide_type}_button_image" );

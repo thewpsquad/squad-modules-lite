@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Cache class
  *
@@ -32,7 +32,7 @@ class Cache {
 	/**
 	 * Cache statistics for debugging.
 	 *
-	 * @var array
+	 * @var array<string, int>
 	 */
 	private array $stats;
 
@@ -63,14 +63,14 @@ class Cache {
 	/**
 	 * Get cache value.
 	 *
-	 * @param string     $key   Cache key.
-	 * @param string     $group Optional. Cache group.
-	 * @param bool       $force Optional. Force refresh.
+	 * @param string    $key   Cache key.
+	 * @param string    $group Optional. Cache group.
+	 * @param bool      $force Optional. Force refresh.
 	 * @param bool|null &$found Optional. Whether key was found.
 	 *
 	 * @return mixed|false The cache contents on success, false on failure.
 	 */
-	public function get( string $key, string $group = 'divi-squad', bool $force = false, ?bool &$found = false ) {
+	public function get( string $key, string $group = 'divi-squad', bool $force = false, ?bool &$found = null ) {
 		try {
 			$key   = sanitize_key( $key );
 			$group = sanitize_key( $group );
@@ -90,7 +90,7 @@ class Cache {
 
 			$value = wp_cache_get( $key, $group, $force, $found );
 
-			if ( $found ) {
+			if ( true === $found ) {
 				++$this->stats['hits'];
 			} else {
 				++$this->stats['misses'];
@@ -192,7 +192,7 @@ class Cache {
 	/**
 	 * Get cache statistics.
 	 *
-	 * @return array Cache statistics.
+	 * @return array<string, int> Cache statistics.
 	 */
 	public function get_stats(): array {
 		return $this->stats;

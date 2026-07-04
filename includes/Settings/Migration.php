@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Main migration class.
  *
@@ -64,9 +64,9 @@ abstract class Migration implements Migration_Interface {
 	 * @var array{field_name_changes: non-empty-array<string, array<string, array{new_name: string, version: string}>>, name_changes: array<string, string>, value_changes: array<string, string>, value_changes: array<string, array<string, string>>}
 	 */
 	public static array $migrated = array( // @phpstan-ignore-line property.defaultValue
-	                                       'field_name_changes' => array(),
-	                                       'name_changes'       => array(),
-	                                       'value_changes'      => array(),
+		'field_name_changes' => array(),
+		'name_changes'       => array(),
+		'value_changes'      => array(),
 	);
 	/**
 	 * Array of migrations in format( [ 'version' => 'name of migration script' ] ).
@@ -342,20 +342,20 @@ abstract class Migration implements Migration_Interface {
 				foreach ( $field_info['affected_fields'] as $affected_field => $affected_modules ) {
 
 					// Skip [what are we skipping?] if either:
-					// * there is no instruction to add missing fields AND the "affected field" is missing
+					// * there is no instruction to add missing fields AND the "affected field" is missing.
 					// * this module isn't in the list of matching modules that use the field name.
 					if ( ( ! $migration->add_missing_fields && ! isset( $attrs[ $affected_field ] ) ) || ! in_array( $module_slug, $affected_modules, true ) ) {
 						continue;
 					}
 
-					// If the "migration field" name and the "affected field" name are different,
+					// If the "migration field" name and the "affected field" name are different,.
 					// then add the affected field name to the "unprocessed_attrs" list.
 					if ( $affected_field !== $field_name ) {
 						// Field name changed.
 						$unprocessed_attrs[ $field_name ] = $attrs[ $affected_field ];
 					}
 
-					// If a value is set in the "unprocessed_attrs" list for the current field we're
+					// If a value is set in the "unprocessed_attrs" list for the current field we're.
 					// looking at (field_name), then inherit that value as the "before" state.
 					$current_value = $unprocessed_attrs[ $field_name ] ?? '';
 
@@ -376,7 +376,7 @@ abstract class Migration implements Migration_Interface {
 						$attrs[ $field_name ] = $new_value;
 
 						// Update count.
-						++ $migrated_attrs_count;
+						++$migrated_attrs_count;
 					}
 				}
 			}

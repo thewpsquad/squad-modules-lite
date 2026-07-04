@@ -1,4 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName, WordPress.NamingConventions.ValidVariableName
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Database utilities for table management.
@@ -72,7 +72,7 @@ class Database_Utils {
 
 			// Add regular indices.
 			if ( ( isset( $definition['index'] ) && $definition['index'] ) ||
-			     ( isset( $definition['unique'] ) && $definition['unique'] ) ) {
+				( isset( $definition['unique'] ) && $definition['unique'] ) ) {
 				$indices[] = self::generate_index_definition( $column_name, $definition );
 			}
 		}
@@ -113,7 +113,7 @@ class Database_Utils {
 		 * @since 3.4.0 Improved documentation with example and type information
 		 *
 		 * @example
-		 * // Add a custom column definition
+		 * // Add a custom column definition.
 		 * add_filter('divi_squad_db_utils_columns', function($columns, $table_name, $schema) {
 		 *     if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
 		 *         $columns[] = '`custom_field` VARCHAR(255) NOT NULL DEFAULT ""';
@@ -127,7 +127,6 @@ class Database_Utils {
 		 * @param array<int, string> $columns    Array of column definition strings.
 		 *
 		 * @return array<int, string> Modified array of column definitions.
-		 *
 		 */
 		$columns = apply_filters( 'divi_squad_db_utils_columns', $columns, $table_name, $schema );
 
@@ -141,7 +140,7 @@ class Database_Utils {
 		 * @since 3.4.0 Improved documentation with example and type information
 		 *
 		 * @example
-		 * // Add a custom composite index
+		 * // Add a custom composite index.
 		 * add_filter('divi_squad_db_utils_indices', function($indices, $table_name, $schema) {
 		 *     if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
 		 *         $indices[] = 'KEY `idx_custom_composite` (`field1`, `field2`)';
@@ -155,7 +154,6 @@ class Database_Utils {
 		 * @param array<int, string> $indices    Array of index definition strings.
 		 *
 		 * @return array<int, string> Modified array of index definitions.
-		 *
 		 */
 		$indices = apply_filters( 'divi_squad_db_utils_indices', $indices, $table_name, $schema );
 
@@ -185,7 +183,7 @@ class Database_Utils {
 		$type = strtolower( $definition['type'] );
 
 		if ( isset( $definition['precision'], $definition['scale'] ) &&
-		     in_array( $type, array( 'decimal', 'float', 'double' ), true ) ) {
+			in_array( $type, array( 'decimal', 'float', 'double' ), true ) ) {
 			$type .= "({$definition['precision']},{$definition['scale']})";
 		} elseif ( isset( $definition['length'] ) && $definition['length'] > 0 ) {
 			$type .= "({$definition['length']})";
@@ -249,7 +247,7 @@ class Database_Utils {
 	private static function generate_index_definition( string $column_name, array $definition ): string {
 		$index_name = "idx_{$column_name}";
 
-		// Limit index name length to avoid MySQL errors (64 char limit)
+		// Limit index name length to avoid MySQL errors (64 char limit).
 		if ( strlen( $index_name ) > 60 ) {
 			$index_name = substr( $index_name, 0, 60 );
 		}
@@ -286,7 +284,7 @@ class Database_Utils {
 			 * @since 3.4.0 Improved documentation with example and type information
 			 *
 			 * @example
-			 * // Add a custom ENGINE specification to the table
+			 * // Add a custom ENGINE specification to the table.
 			 * add_filter('divi_squad_db_utils_create_table_sql', function($sql, $table_name, $schema) {
 			 *     if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
 			 *         $sql = str_replace(')', ') ENGINE=InnoDB', $sql);
@@ -300,7 +298,6 @@ class Database_Utils {
 			 * @param string $sql        The complete SQL CREATE TABLE statement.
 			 *
 			 * @return string Modified SQL statement.
-			 *
 			 */
 			$sql = apply_filters( 'divi_squad_db_utils_create_table_sql', $sql, $table_name, $schema );
 
@@ -317,7 +314,7 @@ class Database_Utils {
 			 * @since 3.4.0 Improved documentation with example and parameter types
 			 *
 			 * @example
-			 * // Add initial data to a newly created table
+			 * // Add initial data to a newly created table.
 			 * add_action('divi_squad_db_utils_table_created', function($table_name, $schema, $result) {
 			 *     global $wpdb;
 			 *     if ($table_name === $wpdb->prefix . 'my_custom_table' && !empty($result)) {
@@ -398,11 +395,12 @@ class Database_Utils {
 		$columns = array();
 
 		try {
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					'SHOW COLUMNS FROM `%s`',
-					$table_name
-				),
+			// A table name is an identifier, not a value: $wpdb->prepare() would
+			// wrap it in quotes ('table') and break the query. Strip backticks
+			// and interpolate directly instead.
+			$safe_table = str_replace( '`', '', $table_name );
+			$results    = $wpdb->get_results(
+				"SHOW COLUMNS FROM `{$safe_table}`", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 				ARRAY_A
 			);
 

@@ -15,7 +15,8 @@ use DiviSquad\Builder\Version4\Supports\Module_Utilities\Breadcrumbs;
 use DiviSquad\Builder\Version4\Supports\Module_Utilities\Divider;
 use DiviSquad\Builder\Version4\Supports\Module_Utilities\Fields\CSS_Generations as Field_CSS_Generations;
 use DiviSquad\Builder\Version4\Supports\Module_Utilities\Fields\Definitions as Field_Definitions;
-use DiviSquad\Builder\Version4\Supports\Module_Utilities\Mask_Shape;
+use DiviSquad\Builder\Version4\Supports\Module_Utilities\Masking\Shapes;
+use DiviSquad\Builder\Version4\Supports\Module_Utilities\Masking\Decorations;
 
 /**
  * Module Utilities Provider Class
@@ -28,7 +29,8 @@ use DiviSquad\Builder\Version4\Supports\Module_Utilities\Mask_Shape;
  *
  * @property Divider               $divider               The divider utility
  * @property Breadcrumbs           $breadcrumbs           The breadcrumbs utility
- * @property Mask_Shape            $mask_shape            The mask shape utility
+ * @property Shapes                $masking_shapes        The mask shape utility
+ * @property Decorations           $masking_decorations   The mask shape utility
  * @property Field_Definitions     $field_definitions     The field definitions utility
  * @property Field_CSS_Generations $field_css_generations The field CSS generations utility
  */
@@ -55,7 +57,8 @@ class Module_Utility {
 	private array $utility_classes = array(
 		'divider'               => Divider::class,
 		'breadcrumbs'           => Breadcrumbs::class,
-		'mask_shape'            => Mask_Shape::class,
+		'masking_shapes'        => Shapes::class,
+		'masking_decorations'   => Decorations::class,
 		'field_definitions'     => Field_Definitions::class,
 		'field_css_generations' => Field_CSS_Generations::class,
 	);

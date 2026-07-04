@@ -1,0 +1,377 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/divider",
+  "d4Shortcode": "disq_divider",
+  "title": "Advanced Divider",
+  "titles": "Advanced Dividers",
+  "moduleIcon": "divi/module-divider",
+  "moduleClassName": "disq_divider",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Advanced Divider"
+            }
+          }
+        }
+      },
+      "styleProps": {
+        "spacing": {
+          "important": true
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "selector": "{{selector}} .divider-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "dividerType": {
+              "groupSlug": "contentDivider",
+              "attrName": "content.innerContent",
+              "subName": "dividerType",
+              "label": "Divider Type",
+              "description": "Choose a divider type to display.",
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "none": {
+                      "label": "Only Line"
+                    },
+                    "text": {
+                      "label": "Line With Text"
+                    },
+                    "icon": {
+                      "label": "Line With Icon"
+                    }
+                  }
+                }
+              }
+            },
+            "dividerIconText": {
+              "groupSlug": "contentDivider",
+              "attrName": "content.innerContent",
+              "subName": "dividerIconText",
+              "label": "Text",
+              "description": "The text that appears beside your divider line.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "dividerIconType": {
+              "groupSlug": "contentIcon",
+              "attrName": "content.innerContent",
+              "subName": "dividerIconType",
+              "label": "Icon Type",
+              "description": "Choose an icon type to display with your divider.",
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "none": {
+                      "label": "None"
+                    },
+                    "icon": {
+                      "label": "Icon"
+                    },
+                    "image": {
+                      "label": "Image"
+                    },
+                    "lottie": {
+                      "label": "Lottie"
+                    }
+                  }
+                }
+              }
+            },
+            "dividerIcon": {
+              "groupSlug": "contentIcon",
+              "attrName": "content.innerContent",
+              "subName": "dividerIcon",
+              "label": "Icon",
+              "description": "Choose an icon to display with your divider.",
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/icon-picker"
+              }
+            },
+            "dividerImage": {
+              "groupSlug": "contentIcon",
+              "attrName": "content.innerContent",
+              "subName": "dividerImage",
+              "label": "Image",
+              "description": "Upload an image to display with your divider.",
+              "features": {
+                "dynamicContent": {
+                  "type": "image"
+                }
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "dividerImageAlt": {
+              "groupSlug": "contentIcon",
+              "attrName": "content.innerContent",
+              "subName": "dividerImageAlt",
+              "label": "Image Alt Text",
+              "description": "Define the HTML ALT text for your image here.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                }
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "lottieSrcType": {
+              "groupSlug": "contentLottie",
+              "attrName": "content.innerContent",
+              "subName": "lottieSrcType",
+              "label": "Source Type",
+              "description": "Choose a source type to display from your lottie.",
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "remote": {
+                      "label": "External URL"
+                    },
+                    "local": {
+                      "label": "Upload"
+                    }
+                  }
+                }
+              }
+            },
+            "lottieSrcRemote": {
+              "groupSlug": "contentLottie",
+              "attrName": "content.innerContent",
+              "subName": "lottieSrcRemote",
+              "label": "External URL",
+              "description": "Enter the external URL of your lottie json.",
+              "features": {
+                "dynamicContent": {
+                  "type": "url"
+                }
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "lottieSrcUpload": {
+              "groupSlug": "contentLottie",
+              "attrName": "content.innerContent",
+              "subName": "lottieSrcUpload",
+              "label": "Upload a Lottie json",
+              "description": "A json file is chosen for lottie.",
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "dividerColor": {
+              "groupSlug": "designDivider",
+              "attrName": "content.innerContent",
+              "subName": "dividerColor",
+              "label": "Line Color",
+              "description": "This will adjust the color of the divider line.",
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "dividerWeight": {
+              "groupSlug": "designDivider",
+              "attrName": "content.innerContent",
+              "subName": "dividerWeight",
+              "label": "Divider Weight",
+              "description": "Increasing the divider weight will increase the thickness of the dividing line.",
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/range"
+              }
+            },
+            "dividerPosition": {
+              "groupSlug": "designDivider",
+              "attrName": "content.innerContent",
+              "subName": "dividerPosition",
+              "label": "Line Position",
+              "description": "The dividing line can be placed above, below or in the center of the module.",
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "flex-start": {
+                      "label": "Top"
+                    },
+                    "center": {
+                      "label": "Vertically Centered"
+                    },
+                    "flex-end": {
+                      "label": "Bottom"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "dividerType": "icon",
+              "dividerIconType": "icon",
+              "dividerIconText": "Your Title Goes Here",
+              "dividerIcon": "&#x4e;||divi||400",
+              "lottieSrcType": "remote",
+              "dividerColor": "#7ebec5",
+              "dividerWeight": "2px",
+              "dividerPosition": "center"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {
+    "dividerLine": {
+      "label": "Divider Line",
+      "subName": "dividerLine",
+      "selectorSuffix": " .divider-item.divider-element hr"
+    },
+    "dividerIcon": {
+      "label": "Icon",
+      "subName": "dividerIcon",
+      "selectorSuffix": " .divider-icon-wrapper .icon-element"
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentDivider": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "content",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Divider"
+          }
+        }
+      },
+      "contentIcon": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "content",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Icon & Image"
+          }
+        }
+      },
+      "contentLottie": {
+        "panel": "content",
+        "priority": 30,
+        "groupName": "content",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Lottie Animation"
+          }
+        }
+      },
+      "designDivider": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "design",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Divider"
+          }
+        }
+      }
+    }
+  }
+}

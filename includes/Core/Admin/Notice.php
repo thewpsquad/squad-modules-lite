@@ -86,16 +86,16 @@ class Notice {
 			 */
 			do_action( 'divi_squad_before_notice_init', $this );
 
-			// Set up template paths
+			// Set up template paths.
 			$this->php_template_path   = divi_squad()->get_template_path( 'admin/notices/banner-legacy.php' );
 			$this->react_template_path = divi_squad()->get_template_path( 'admin/notices/banner-react.php' );
 
 			add_filter( 'divi_squad_use_react_notices', '__return_true' );
 
-			// Check if React notices are supported and enabled
+			// Check if React notices are supported and enabled.
 			$this->check_react_notices_support();
 
-			// Common setup regardless of notice rendering method
+			// Common setup regardless of notice rendering method.
 			add_action( 'wp_loaded', array( $this, 'setup_notice_classes' ) );
 			add_filter( 'admin_body_class', array( $this, 'add_body_classes' ) );
 			add_action( 'admin_notices', array( $this, 'display_notices' ) );
@@ -138,7 +138,7 @@ class Notice {
 			 */
 			$use_react = apply_filters( 'divi_squad_use_react_notices', false, $this );
 
-			// Check if required files exist
+			// Check if required files exist.
 			if ( $use_react ) {
 				$template_exists = divi_squad()->is_template_exists( 'admin/notices/banner-react.php' );
 				$script_exists   = divi_squad()->is_asset_exists( 'admin/scripts/notices.js' );
@@ -146,10 +146,10 @@ class Notice {
 				$use_react = $template_exists && $script_exists;
 
 				if ( ! $use_react ) {
-					// Log warning if React notices were requested but files are missing
+					// Log warning if React notices were requested but files are missing.
 					divi_squad()->log_error(
 						new \Exception( 'React notices were requested but required files are missing' ),
-						'React Notices Support Check',
+						'React notices Support Check',
 						false
 					);
 				}
@@ -226,11 +226,11 @@ class Notice {
 	public function enqueue_assets( Assets_Manager $assets ): void {
 		try {
 			if ( $this->use_react_notices ) {
-				// For React notices, we need both the container and the scripts
+				// For React notices, we need both the container and the scripts.
 				$assets->enqueue_script( 'admin-notices' );
 				$assets->enqueue_style( 'admin-notices' );
 			} else {
-				// For PHP notices, we just need the display action
+				// For PHP notices, we just need the display action.
 				$assets->enqueue_style( 'admin-notices-legacy' );
 			}
 
@@ -406,7 +406,7 @@ class Notice {
 				return;
 			}
 
-			// Choose the appropriate renderer based on configuration
+			// Choose the appropriate renderer based on configuration.
 			if ( $this->use_react_notices ) {
 				$this->render_react_notices();
 			} else {
@@ -464,7 +464,7 @@ class Notice {
 			 */
 			do_action( 'divi_squad_before_render_php_notices', $this->notice_instances, $this->php_template_path, $this );
 
-			// Filter notices that can be rendered
+			// Filter notices that can be rendered.
 			$renderable_notices = array_filter(
 				$this->notice_instances,
 				static function ( $notice ) {
@@ -548,15 +548,15 @@ class Notice {
 				 */
 				do_action( 'divi_squad_react_notice_template_missing', $this->react_template_path, $this );
 
-				// Fallback to PHP notices if React template is missing
+				// Fallback to PHP notices if React template is missing.
 				$this->render_legacy_notices();
 
 				return;
 			}
 
-			// Collect all notice scopes
+			// Collect all notice scopes.
 			$all_scopes = array( 'global' );
-			if( Helper::is_squad_page() ) {
+			if ( Helper::is_squad_page() ) {
 				foreach ( $this->get_notice_instances() as $notice ) {
 					$scopes     = $notice->get_scopes();
 					$all_scopes = array_merge( $all_scopes, $scopes );
@@ -564,16 +564,16 @@ class Notice {
 				$all_scopes = array_unique( $all_scopes );
 			}
 
-			// Prepare container template arguments
+			// Prepare container template arguments.
 			$container_args = array(
 				'container_id'      => 'divi-squad-admin-notices',
 				'container_classes' => 'divi-squad-react-notice-container',
 				'notice_count'      => count( $this->get_notice_instances() ),
 				'scopes'            => $all_scopes,
 				'auto_slide'        => true,
-				'slide_interval'    => 8000, // 8 seconds
+				'slide_interval'    => 8000, // 8 seconds.
 				'loading_text'      => esc_html__( 'Loading notices...', 'squad-modules-for-divi' ),
-				'fallback_notices'  => array(), // No fallback notices by default
+				'fallback_notices'  => array(), // No fallback notices by default.
 			);
 
 			/**
@@ -598,7 +598,7 @@ class Notice {
 			 */
 			do_action( 'divi_squad_before_render_react_container', $container_args, $this->react_template_path, $this );
 
-			// Render the React container
+			// Render the React container.
 			load_template( $this->react_template_path, true, $container_args );
 
 			/**
@@ -614,7 +614,7 @@ class Notice {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to render React notice container' );
 
-			// Fallback to PHP notices if an error occurs
+			// Fallback to PHP notices if an error occurs.
 			$this->render_legacy_notices();
 		}
 	}
@@ -720,7 +720,7 @@ class Notice {
 			foreach ( $this->get_notice_instances() as $instance ) {
 				$notice_args = $this->resolve_icon_params( $instance );
 
-				// Add the notice ID and scopes to the args
+				// Add the notice ID and scopes to the args.
 				$notice_args['notice_id']  = $instance->get_notice_id();
 				$notice_args['scopes']     = $instance->get_scopes();
 				$notice_args['can_render'] = $instance->can_render_it();
@@ -813,10 +813,10 @@ class Notice {
 	 */
 	public function resolve_icon_params( Notice_Interface $notice ): array {
 		try {
-			// Get original template parameters from the notice
+			// Get original template parameters from the notice.
 			$params = $notice->get_template_args();
 
-			// Only process SVG icons if using React notices
+			// Only process SVG icons if using React notices.
 			if ( ! $this->is_using_react_notices() ) {
 				return $params;
 			}
@@ -832,10 +832,10 @@ class Notice {
 			 */
 			$params = (array) apply_filters( 'divi_squad_before_resolve_notice_icons', $params, $notice, $this );
 
-			// Load the image loader service
+			// Load the image loader service.
 			$divi_squad_image = divi_squad()->load_image( '/build/admin/images' );
 
-			// Process the main logo if it exists
+			// Process the main logo if it exists.
 			if ( isset( $params['logo'] ) && '' !== $params['logo'] ) {
 				$divi_squad_notice_logo = $divi_squad_image->get_image( $params['logo'], 'svg', false );
 				if ( ! is_wp_error( $divi_squad_notice_logo ) ) {
@@ -843,18 +843,18 @@ class Notice {
 				}
 			}
 
-			// Process icons in action buttons if they exist
+			// Process icons in action buttons if they exist.
 			if ( isset( $params['action_buttons'] ) && is_array( $params['action_buttons'] ) ) {
 				foreach ( $params['action_buttons'] as $position => $buttons ) {
 					if ( ! is_array( $buttons ) || count( $buttons ) === 0 ) {
 						continue;
 					}
 
-					// Create a new array for processed buttons at this position
+					// Create a new array for processed buttons at this position.
 					$processed_buttons = array();
 
 					foreach ( $buttons as $button ) {
-						// Process the button's icon if it exists
+						// Process the button's icon if it exists.
 						if ( isset( $button['icon_svg'] ) && '' !== $button['icon_svg'] ) {
 							$button_icon = $divi_squad_image->get_image( $button['icon_svg'], 'svg', false );
 							if ( ! is_wp_error( $button_icon ) ) {
@@ -867,7 +867,7 @@ class Notice {
 						$processed_buttons[] = $button;
 					}
 
-					// Replace the original buttons with processed ones
+					// Replace the original buttons with processed ones.
 					$params['action_buttons'][ $position ] = $processed_buttons;
 				}
 			}
@@ -885,7 +885,7 @@ class Notice {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to resolve notice icon parameters' );
 
-			return $notice->get_template_args(); // Return original params on error
+			return $notice->get_template_args(); // Return original params on error.
 		}
 	}
 

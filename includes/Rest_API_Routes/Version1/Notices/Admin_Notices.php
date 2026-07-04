@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * DiviSquad Admin Notice REST API Integration
  *
@@ -8,10 +8,10 @@
  *
  * @since      3.3.3
  * @package    DiviSquad
- * @subpackage DiviSquad\Rest_API_Routes\Version1\Notices
+ * @subpackage DiviSquad\Rest_API_Routes\Version1\notices
  * @author     The WP Squad <support@squadmodules.com>
- * @license    GPL-2.0+
- * @link       https://wpsquad.com
+ * @license    GPL-3.0-only
+ * @link       https://squadmodules.com
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Notices;
@@ -24,7 +24,7 @@ use WP_REST_Response;
 use WP_REST_Server;
 
 /**
- * Admin Notices REST API Handler
+ * Admin notices REST API Handler
  *
  * Provides endpoints for fetching and managing admin notices for the React notice component.
  * This class handles all REST API interactions related to admin notices including:
@@ -39,7 +39,7 @@ use WP_REST_Server;
 class Admin_Notices extends Base_Route {
 
 	/**
-	 * Get available routes for the Admin Notices API.
+	 * Get available routes for the Admin notices API.
 	 *
 	 * Registers all the REST API endpoints for admin notices including endpoints
 	 * for retrieving notices and managing notice actions like closing, postponing,
@@ -242,14 +242,14 @@ class Admin_Notices extends Base_Route {
 			 */
 			do_action( 'divi_squad_rest_before_get_admin_notices', $scope, $this );
 
-			// Initialize the notice manager
+			// Initialize the notice manager.
 			divi_squad()->admin_notice->setup_notice_classes();
 
 			$notice_instances = divi_squad()->admin_notice->get_notice_instances();
 			$notices          = array();
 
 			foreach ( $notice_instances as $notice ) {
-				// Skip notices that don't match the requested scope
+				// Skip notices that don't match the requested scope.
 				if ( 'global' !== $scope && method_exists( $notice, 'get_scopes' ) && ! in_array( $scope, $notice->get_scopes(), true ) ) {
 					continue;
 				}
@@ -376,7 +376,7 @@ class Admin_Notices extends Base_Route {
 				);
 			}
 
-			// Mark the review as done
+			// Mark the review as done.
 			divi_squad()->memory->set( 'review_flag', true );
 			divi_squad()->memory->set( 'review_status', 'received' );
 
@@ -747,7 +747,7 @@ class Admin_Notices extends Base_Route {
 				);
 			}
 
-			// Mark the notice as closed
+			// Mark the notice as closed.
 			divi_squad()->memory->set( 'pro_activation_notice_close', true );
 
 			/**
@@ -885,7 +885,7 @@ class Admin_Notices extends Base_Route {
 				);
 			}
 
-			// Mark the notice as done
+			// Mark the notice as done.
 			divi_squad()->memory->set( 'beta_campaign_notice_close', true );
 			divi_squad()->memory->set( 'beta_campaign_status', 'received' );
 

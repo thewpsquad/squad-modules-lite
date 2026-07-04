@@ -36,12 +36,12 @@ class Fluent_Forms extends Collection {
 
 		$forms = array();
 
-		// Check if Fluent Forms is active
+		// Check if Fluent Forms is active.
 		if ( ! defined( 'FLUENTFORM' ) ) {
 			return $forms;
 		}
 
-		// Get all Fluent Forms
+		// Get all Fluent Forms.
 		$result = $wpdb->get_results(
 			"SELECT id, title FROM {$wpdb->prefix}fluentform_forms"
 		);

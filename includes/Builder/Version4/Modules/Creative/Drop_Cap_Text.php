@@ -234,8 +234,8 @@ class Drop_Cap_Text extends Module {
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
-		$drop_cap_letter = sanitize_text_field( $this->props['drop_cap_letter'] );
-		$body_content    = wp_kses_post( $this->props['body_content'] );
+		$drop_cap_letter = sanitize_text_field( $this->prop( 'drop_cap_letter', esc_html__( 'Your Title Goes Here', 'squad-modules-for-divi' ) ) );
+		$body_content    = wp_kses_post( $this->prop( 'body_content', '' ) );
 
 		// Generate additional styles for frontend.
 		$this->squad_generate_additional_styles( $attrs );

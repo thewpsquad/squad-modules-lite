@@ -49,7 +49,7 @@ class Extensions extends Extensions_V1 {
 	public function get_routes(): array {
 		$base_routes = parent::get_routes();
 
-		// Remove the 'update modules' endpoint from the '/modules/active' route only
+		// Remove the 'update modules' endpoint from the '/modules/active' route only.
 		if ( isset( $base_routes['/extensions/active'] ) ) {
 			$base_routes['/extensions/active'] = array_filter(
 				$base_routes['/extensions/active'],
@@ -412,20 +412,20 @@ class Extensions extends Extensions_V1 {
 				);
 			}
 
-			// Get current active extensions
+			// Get current active extensions.
 			$active_extensions = $this->get_extension_names( static::ACTIVE_EXTENSIONS_KEY );
 
 			if ( $active ) {
-				// Add to active extensions if not already present
+				// Add to active extensions if not already present.
 				if ( ! in_array( $extension_id, $active_extensions, true ) ) {
 					$active_extensions[] = $extension_id;
 				}
 			} else {
-				// Remove from active extensions
+				// Remove from active extensions.
 				$active_extensions = array_diff( $active_extensions, array( $extension_id ) );
 			}
 
-			// Get all extension names
+			// Get all extension names.
 			$all_extension_names = array_column( divi_squad()->extensions->get_registered_list(), 'name' );
 			$inactive_extensions = array_values( array_diff( $all_extension_names, $active_extensions ) );
 
@@ -455,7 +455,7 @@ class Extensions extends Extensions_V1 {
 			 */
 			$inactive_extensions = apply_filters( 'divi_squad_rest_toggle_extension_inactive_list', $inactive_extensions, $active_extensions, $extension_id, $active, $request );
 
-			// Update storage
+			// Update storage.
 			$this->update_extension_memory( $active_extensions, $inactive_extensions );
 
 			$response_data = array(
@@ -614,7 +614,7 @@ class Extensions extends Extensions_V1 {
 			 */
 			do_action( 'divi_squad_rest_before_enable_extensions_batch', $extension_ids, $request );
 
-			// Validate extension IDs
+			// Validate extension IDs.
 			$all_extension_names = array_column( divi_squad()->extensions->get_registered_list(), 'name' );
 			$invalid_extensions  = array_diff( $extension_ids, $all_extension_names );
 
@@ -630,20 +630,20 @@ class Extensions extends Extensions_V1 {
 				);
 			}
 
-			// Get current active extensions
+			// Get current active extensions.
 			$active_extensions = $this->get_extension_names( static::ACTIVE_EXTENSIONS_KEY );
 
-			// Add new extensions to active list
+			// Add new extensions to active list.
 			foreach ( $extension_ids as $extension_id ) {
 				if ( ! in_array( $extension_id, $active_extensions, true ) ) {
 					$active_extensions[] = $extension_id;
 				}
 			}
 
-			// Get inactive extensions
+			// Get inactive extensions.
 			$inactive_extensions = array_values( array_diff( $all_extension_names, $active_extensions ) );
 
-			// Update storage
+			// Update storage.
 			$this->update_extension_memory( $active_extensions, $inactive_extensions );
 
 			$response_data = array(
@@ -724,7 +724,7 @@ class Extensions extends Extensions_V1 {
 			 */
 			do_action( 'divi_squad_rest_before_disable_extensions_batch', $extension_ids, $request );
 
-			// Validate extension IDs
+			// Validate extension IDs.
 			$all_extension_names = array_column( divi_squad()->extensions->get_registered_list(), 'name' );
 			$invalid_extensions  = array_diff( $extension_ids, $all_extension_names );
 
@@ -740,16 +740,16 @@ class Extensions extends Extensions_V1 {
 				);
 			}
 
-			// Get current active extensions
+			// Get current active extensions.
 			$active_extensions = $this->get_extension_names( static::ACTIVE_EXTENSIONS_KEY );
 
-			// Remove extensions from active list
+			// Remove extensions from active list.
 			$active_extensions = array_values( array_diff( $active_extensions, $extension_ids ) );
 
-			// Get inactive extensions
+			// Get inactive extensions.
 			$inactive_extensions = array_values( array_diff( $all_extension_names, $active_extensions ) );
 
-			// Update storage
+			// Update storage.
 			$this->update_extension_memory( $active_extensions, $inactive_extensions );
 
 			$response_data = array(
@@ -887,7 +887,7 @@ class Extensions extends Extensions_V1 {
 
 			$active_extensions = $this->get_extension_names( static::ACTIVE_EXTENSIONS_KEY );
 
-			// Get detailed extension information if requested
+			// Get detailed extension information if requested.
 			$detailed = isset( $request['detailed'] ) && filter_var( $request['detailed'], FILTER_VALIDATE_BOOLEAN );
 
 			if ( $detailed ) {
@@ -974,7 +974,7 @@ class Extensions extends Extensions_V1 {
 
 			$inactive_extensions = $this->get_extension_names( static::INACTIVE_EXTENSIONS_KEY );
 
-			// Get detailed extension information if requested
+			// Get detailed extension information if requested.
 			$detailed = isset( $request['detailed'] ) && filter_var( $request['detailed'], FILTER_VALIDATE_BOOLEAN );
 
 			if ( $detailed ) {
@@ -1051,7 +1051,7 @@ class Extensions extends Extensions_V1 {
 	protected function prepare_extension_for_response( array $extension ): array {
 		$is_active = divi_squad()->extensions->is_extension_active( $extension['name'] ?? '' );
 
-		// Format extension data with enhanced information
+		// Format extension data with enhanced information.
 		$formatted_data = array(
 			'name'               => $extension['name'] ?? '',
 			'label'              => $extension['label'] ?? '',
@@ -1123,7 +1123,7 @@ class Extensions extends Extensions_V1 {
 
 		foreach ( $all_extensions as $extension ) {
 			if ( isset( $extension['category'] ) && $extension['category'] === $category_id ) {
-				++ $count;
+				++$count;
 			}
 		}
 

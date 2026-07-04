@@ -167,7 +167,7 @@ class Layout_Shortcode extends Base_Extension {
 				$divi_squad_pbe_module_index_before = $et_pb_predefined_module_index;
 			}
 		}
-		$et_pb_predefined_module_index = ++ $divi_squad_pbe_module_index;  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+		$et_pb_predefined_module_index = ++$divi_squad_pbe_module_index;  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 		return $value;
 	}

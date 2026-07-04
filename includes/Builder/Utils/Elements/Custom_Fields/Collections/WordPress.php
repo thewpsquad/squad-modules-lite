@@ -178,7 +178,7 @@ class WordPress extends Collection {
 	 *                                              where keys are field identifiers and values are human-readable names.
 	 */
 	public function get_formatted_fields(): array {
-		// Return cached fields if available
+		// Return cached fields if available.
 		if ( ! empty( $this->formatted_fields ) ) {
 			return $this->formatted_fields;
 		}
@@ -187,24 +187,24 @@ class WordPress extends Collection {
 			$fields = $this->get_available_fields();
 
 			foreach ( $fields as $post_type => $keys ) {
-				// Skip unsupported post types
+				// Skip unsupported post types.
 				if ( ! in_array( $post_type, $this->get_supported_post_types(), true ) ) {
 					continue;
 				}
 
-				// Initialize post type array if needed
+				// Initialize post type array if needed.
 				if ( ! isset( $this->formatted_fields[ $post_type ] ) ) {
 					$this->formatted_fields[ $post_type ] = array();
 				}
 
-				// Process each field key
+				// Process each field key.
 				foreach ( $keys as $key ) {
-					// Skip fields that should be excluded
+					// Skip fields that should be excluded.
 					if ( ! $this->should_include_field( $key ) ) {
 						continue;
 					}
 
-					// Format the field name for display
+					// Format the field name for display.
 					$this->formatted_fields[ $post_type ][ $key ] = ucwords( $this->format_field_name( $key ) );
 				}
 			}
@@ -222,7 +222,7 @@ class WordPress extends Collection {
 			);
 
 		} catch ( Throwable $e ) {
-			// Log error but continue
+			// Log error but continue.
 			divi_squad()->log_error( $e, 'Error formatting WordPress custom fields' );
 		}
 
@@ -239,35 +239,35 @@ class WordPress extends Collection {
 	 * @return array<string, mixed> An array of custom fields, where keys are field names and values are field values.
 	 */
 	public function get_fields( int $post_id ): array {
-		// Return early if invalid post ID
+		// Return early if invalid post ID.
 		if ( $post_id <= 0 ) {
 			return array();
 		}
 
-		// Return cached fields if available
+		// Return cached fields if available.
 		if ( isset( $this->custom_fields[ $post_id ] ) ) {
 			return $this->custom_fields[ $post_id ];
 		}
 
-		// Initialize the custom fields array
+		// Initialize the custom fields array.
 		$this->custom_fields[ $post_id ] = array();
 
 		try {
-			// Get all available field values for this post
+			// Get all available field values for this post.
 			$custom_field_values = $this->get_available_field_values( $post_id );
 
-			// Process each field
+			// Process each field.
 			foreach ( $custom_field_values as $metadata ) {
 				if ( empty( $metadata ) ) {
 					continue;
 				}
 
-				// Skip fields that should be excluded
+				// Skip fields that should be excluded.
 				if ( ! $this->should_include_field( $metadata->meta_key ) ) {
 					continue;
 				}
 
-				// Add to custom fields
+				// Add to custom fields.
 				$this->custom_fields[ $post_id ][ $metadata->meta_key ] = $metadata->meta_value;
 			}
 
@@ -286,7 +286,7 @@ class WordPress extends Collection {
 			);
 
 		} catch ( Throwable $e ) {
-			// Log error but continue
+			// Log error but continue.
 			divi_squad()->log_error( $e, "Error retrieving WordPress custom fields for post $post_id" );
 		}
 
@@ -304,12 +304,12 @@ class WordPress extends Collection {
 	 * @return bool True if the custom field exists, false otherwise.
 	 */
 	public function has_field( int $post_id, string $field_key ): bool {
-		// Return early if invalid parameters
+		// Return early if invalid parameters.
 		if ( $post_id <= 0 || empty( $field_key ) ) {
 			return false;
 		}
 
-		// Check if the field exists in post meta
+		// Check if the field exists in post meta.
 		$exists = metadata_exists( 'post', $post_id, $field_key );
 
 		/**
@@ -336,16 +336,16 @@ class WordPress extends Collection {
 	 * @return mixed The value of the custom field, or the default value if not found.
 	 */
 	public function get_field_value( int $post_id, string $field_key, $default_value = null ) {
-		// Return early if invalid parameters
+		// Return early if invalid parameters.
 		if ( $post_id <= 0 || empty( $field_key ) ) {
 			return $default_value;
 		}
 
 		try {
-			// Get the value from post meta
+			// Get the value from post meta.
 			$value = get_metadata( 'post', $post_id, $field_key, true );
 
-			// Return the value if it exists, otherwise the default
+			// Return the value if it exists, otherwise the default.
 			$result = ( '' !== $value ) ? $value : $default_value;
 
 			/**
@@ -367,7 +367,7 @@ class WordPress extends Collection {
 			);
 
 		} catch ( Throwable $e ) {
-			// Log error and return default value
+			// Log error and return default value.
 			divi_squad()->log_error( $e, "Error retrieving WordPress custom field '$field_key' for post $post_id" );
 
 			return $default_value;
@@ -384,12 +384,12 @@ class WordPress extends Collection {
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( string $field_key ): bool {
-		// Call parent first - this already checks empty, blacklisted keys, and excluded prefixes/suffixes
+		// Call parent first - this already checks empty, blacklisted keys, and excluded prefixes/suffixes.
 		if ( ! parent::should_include_field( $field_key ) ) {
 			return false;
 		}
 
-		// Skip fields with underscore prefix (hidden WP fields) - WordPress specific check
+		// Skip fields with underscore prefix (hidden WP fields) - WordPress specific check.
 		if ( str_starts_with( $field_key, '_' ) ) {
 			return false;
 		}
@@ -413,7 +413,7 @@ class WordPress extends Collection {
 	 * @return array<string, array<string>> An array of custom field keys by post type.
 	 */
 	protected function get_available_fields(): array {
-		// Return cached fields if available
+		// Return cached fields if available.
 		if ( ! empty( $this->fields ) ) {
 			return $this->fields;
 		}
@@ -428,16 +428,16 @@ class WordPress extends Collection {
 		$limit = apply_filters( 'divi_squad_wp_custom_fields_limit', 30 );
 
 		try {
-			// Initialize fields array
+			// Initialize fields array.
 			$this->fields = array();
 
-			// Get supported post types
+			// Get supported post types.
 			$post_types = $this->get_supported_post_types();
 
-			// Get fields manager
+			// Get fields manager.
 			$fields_manager = divi_squad()->custom_fields_element->get_manager( 'fields' );
 
-			// Get fields for each post type
+			// Get fields for each post type.
 			foreach ( $post_types as $post_type ) {
 				$this->fields[ $post_type ] = $fields_manager->get_data(
 					array(
@@ -464,7 +464,7 @@ class WordPress extends Collection {
 			);
 
 		} catch ( Throwable $e ) {
-			// Log error but return empty array
+			// Log error but return empty array.
 			divi_squad()->log_error( $e, 'Error retrieving available WordPress custom fields' );
 
 			return array();
@@ -483,15 +483,15 @@ class WordPress extends Collection {
 	 * @return array<object> An array of custom field value objects.
 	 */
 	protected function get_available_field_values( int $post_id ): array {
-		// Return cached values if available
+		// Return cached values if available.
 		if ( isset( $this->field_values[ $post_id ] ) ) {
 			return $this->field_values[ $post_id ];
 		}
 
-		// Generate cache key
+		// Generate cache key.
 		$cache_key = 'divi_squad_wp_field_values_' . $post_id;
 
-		// Try to get from cache
+		// Try to get from cache.
 		$cached_values = wp_cache_get( $cache_key, 'divi_squad_custom_fields' );
 		if ( false !== $cached_values ) {
 			$this->field_values[ $post_id ] = $cached_values;
@@ -510,31 +510,31 @@ class WordPress extends Collection {
 		$limit = apply_filters( 'divi_squad_wp_field_values_limit', 30, $post_id );
 
 		try {
-			// Get all custom fields
+			// Get all custom fields.
 			$custom_fields        = $this->get_available_fields();
 			$supported_post_types = $this->get_supported_post_types();
 
-			// Initialize field values array
+			// Initialize field values array.
 			$this->field_values[ $post_id ] = array();
 
-			// Process each post type
+			// Process each post type.
 			foreach ( $custom_fields as $post_type => $keys ) {
-				// Skip unsupported post types
+				// Skip unsupported post types.
 				if ( ! in_array( $post_type, $supported_post_types, true ) ) {
 					continue;
 				}
 
-				// Get post meta values
+				// Get post meta values.
 				$values = $this->get_post_meta_values( $post_id, $keys, $limit );
 
-				// Merge with existing values
+				// Merge with existing values.
 				$this->field_values[ $post_id ] = array_merge(
 					$this->field_values[ $post_id ],
 					$values
 				);
 			}
 
-			// Cache values for 1 hour
+			// Cache values for 1 hour.
 			wp_cache_set(
 				$cache_key,
 				$this->field_values[ $post_id ],
@@ -557,7 +557,7 @@ class WordPress extends Collection {
 			);
 
 		} catch ( Throwable $e ) {
-			// Log error but return empty array
+			// Log error but return empty array.
 			divi_squad()->log_error( $e, "Error retrieving available field values for post $post_id" );
 
 			return array();
@@ -581,26 +581,26 @@ class WordPress extends Collection {
 		$values = array();
 
 		try {
-			// Process each meta key
+			// Process each meta key.
 			foreach ( $meta_keys as $key ) {
-				// Skip invalid keys
+				// Skip invalid keys.
 				if ( empty( $key ) ) {
 					continue;
 				}
 
-				// Get meta values for this key
+				// Get meta values for this key.
 				$meta_values = get_post_meta( $post_id, $key, false );
 
-				// Process each value
+				// Process each value.
 				if ( ! empty( $meta_values ) ) {
 					foreach ( $meta_values as $value ) {
-						// Create metadata object
+						// Create metadata object.
 						$values[] = (object) array(
 							'meta_key'   => $key,
 							'meta_value' => $value,
 						);
 
-						// Stop if we've reached the limit
+						// Stop if we've reached the limit.
 						if ( count( $values ) >= $limit ) {
 							break 2;
 						}
@@ -608,7 +608,7 @@ class WordPress extends Collection {
 				}
 			}
 		} catch ( Throwable $e ) {
-			// Log error but continue
+			// Log error but continue.
 			divi_squad()->log_error( $e, "Error retrieving post meta values for post $post_id" );
 		}
 
@@ -642,11 +642,11 @@ class WordPress extends Collection {
 	 * @return mixed The formatted value.
 	 */
 	protected function format_field_value( $value, string $field_key ) {
-		// Handle serialized data
+		// Handle serialized data.
 		if ( is_string( $value ) && is_serialized( $value ) ) {
 			$unserialized = maybe_unserialize( $value );
 
-			// If it's an array, format it nicely
+			// If it's an array, format it nicely.
 			if ( is_array( $unserialized ) ) {
 				return implode(
 					', ',
@@ -662,7 +662,7 @@ class WordPress extends Collection {
 			return $unserialized;
 		}
 
-		// Handle date fields
+		// Handle date fields.
 		if ( preg_match( '/date|time/i', $field_key ) && is_string( $value ) && strtotime( $value ) ) {
 			return date_i18n( get_option( 'date_format' ), strtotime( $value ) );
 		}
@@ -688,7 +688,7 @@ class WordPress extends Collection {
 	 * @return void
 	 */
 	public function clear_post_cache( int $post_id ): void {
-		// Clear from internal cache
+		// Clear from internal cache.
 		if ( isset( $this->field_values[ $post_id ] ) ) {
 			unset( $this->field_values[ $post_id ] );
 		}
@@ -697,7 +697,7 @@ class WordPress extends Collection {
 			unset( $this->custom_fields[ $post_id ] );
 		}
 
-		// Clear from WordPress object cache
+		// Clear from WordPress object cache.
 		$cache_key = 'divi_squad_wp_field_values_' . $post_id;
 		wp_cache_delete( $cache_key, 'divi_squad_custom_fields' );
 
@@ -719,10 +719,10 @@ class WordPress extends Collection {
 	 * @return void
 	 */
 	public function clear_cache(): void {
-		// Call parent implementation
+		// Call parent implementation.
 		parent::clear_cache();
 
-		// Clear additional properties
+		// Clear additional properties.
 		$this->formatted_fields = array();
 		$this->field_values     = array();
 

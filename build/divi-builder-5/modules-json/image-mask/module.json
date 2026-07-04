@@ -1,0 +1,1353 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/image-mask",
+  "d4Shortcode": "disq_image_mask",
+  "title": "Image Mask",
+  "titles": "Image Masks",
+  "moduleIcon": "divi/module-image",
+  "moduleClassName": "disq_image_mask",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Image Mask"
+            }
+          }
+        }
+      },
+      "styleProps": {
+        "spacing": {
+          "important": true
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "selector": "{{selector}} .image-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "image": {
+              "groupSlug": "contentImage",
+              "attrName": "image.innerContent",
+              "subName": "image",
+              "label": "Image",
+              "description": "Upload an image to display at the top.",
+              "features": {
+                "dynamicContent": {
+                  "type": "image"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "alt": {
+              "groupSlug": "contentImage",
+              "attrName": "image.innerContent",
+              "subName": "alt",
+              "label": "Image Alt Text",
+              "description": "Define the HTML ALT text for your image here.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "imageWidth": {
+              "groupSlug": "contentImage",
+              "attrName": "image.innerContent",
+              "subName": "imageWidth",
+              "label": "Image Width",
+              "description": "Here you can choose image width.",
+              "features": {
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 200,
+                  "allowedUnits": [
+                    "%",
+                    "em",
+                    "rem",
+                    "px",
+                    "cm",
+                    "mm",
+                    "in",
+                    "pt",
+                    "pc",
+                    "ex",
+                    "vh",
+                    "vw"
+                  ],
+                  "defaultUnit": "%"
+                }
+              }
+            },
+            "imageHeight": {
+              "groupSlug": "contentImage",
+              "attrName": "image.innerContent",
+              "subName": "imageHeight",
+              "label": "Image Height",
+              "description": "Here you can choose image height.",
+              "features": {
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 200,
+                  "allowedUnits": [
+                    "%",
+                    "em",
+                    "rem",
+                    "px",
+                    "cm",
+                    "mm",
+                    "in",
+                    "pt",
+                    "pc",
+                    "ex",
+                    "vh",
+                    "vw"
+                  ],
+                  "defaultUnit": "%"
+                }
+              }
+            },
+            "imageHorizontalPosition": {
+              "groupSlug": "contentImage",
+              "attrName": "image.innerContent",
+              "subName": "imageHorizontalPosition",
+              "label": "Image Horizontal Position",
+              "description": "Here you can choose image horizontal position.",
+              "features": {
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -1000,
+                  "max": 1000,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "imageVerticalPosition": {
+              "groupSlug": "contentImage",
+              "attrName": "image.innerContent",
+              "subName": "imageVerticalPosition",
+              "label": "Image Vertical Position",
+              "description": "Here you can choose image vertical position.",
+              "features": {
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -1000,
+                  "max": 1000,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "alt": "",
+              "imageWidth": "100%",
+              "imageHeight": "100%",
+              "imageHorizontalPosition": "0",
+              "imageVerticalPosition": "0"
+            }
+          }
+        }
+      }
+    },
+    "maskShape": {
+      "type": "object",
+      "selector": "{{selector}} .image-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "customMaskShapeEnable": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "customMaskShapeEnable",
+              "label": "Use Custom Mask Shape",
+              "description": "Enable to use a custom uploaded SVG/image as the mask shape.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "customMaskShapeImage": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "customMaskShapeImage",
+              "label": "Custom Mask Shape",
+              "description": "Upload a custom image/SVG to use as the mask shape.",
+              "features": {
+                "dynamicContent": {
+                  "type": "image"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "maskShapeImage": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "maskShapeImage",
+              "label": "Mask Shape",
+              "description": "Here you can choose mask shape for the image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "shape-01": {
+                      "label": "Mask 01"
+                    },
+                    "shape-02": {
+                      "label": "Mask 02"
+                    },
+                    "shape-03": {
+                      "label": "Mask 03"
+                    },
+                    "shape-04": {
+                      "label": "Mask 04"
+                    },
+                    "shape-05": {
+                      "label": "Mask 05"
+                    },
+                    "shape-06": {
+                      "label": "Mask 06"
+                    },
+                    "shape-07": {
+                      "label": "Mask 07"
+                    },
+                    "shape-08": {
+                      "label": "Mask 08"
+                    },
+                    "shape-09": {
+                      "label": "Mask 09"
+                    },
+                    "shape-10": {
+                      "label": "Mask 10"
+                    },
+                    "shape-11": {
+                      "label": "Mask 11"
+                    },
+                    "shape-12": {
+                      "label": "Mask 12"
+                    },
+                    "shape-13": {
+                      "label": "Mask 13"
+                    },
+                    "shape-14": {
+                      "label": "Mask 14"
+                    },
+                    "shape-15": {
+                      "label": "Mask 15"
+                    },
+                    "shape-16": {
+                      "label": "Mask 16"
+                    },
+                    "shape-17": {
+                      "label": "Mask 17"
+                    },
+                    "shape-18": {
+                      "label": "Mask 18"
+                    },
+                    "shape-19": {
+                      "label": "Mask 19"
+                    },
+                    "shape-20": {
+                      "label": "Mask 20"
+                    },
+                    "shape-21": {
+                      "label": "Mask 21"
+                    },
+                    "shape-22": {
+                      "label": "Mask 22"
+                    },
+                    "shape-23": {
+                      "label": "Mask 23"
+                    },
+                    "shape-24": {
+                      "label": "Mask 24"
+                    },
+                    "shape-25": {
+                      "label": "Mask 25"
+                    },
+                    "shape-26": {
+                      "label": "Mask 26"
+                    },
+                    "shape-27": {
+                      "label": "Mask 27"
+                    },
+                    "shape-28": {
+                      "label": "Mask 28"
+                    },
+                    "shape-29": {
+                      "label": "Mask 29"
+                    },
+                    "shape-30": {
+                      "label": "Mask 30"
+                    },
+                    "shape-31": {
+                      "label": "Mask 31"
+                    },
+                    "shape-32": {
+                      "label": "Mask 32"
+                    },
+                    "shape-33": {
+                      "label": "Mask 33"
+                    },
+                    "shape-34": {
+                      "label": "Mask 34"
+                    },
+                    "shape-35": {
+                      "label": "Mask 35"
+                    },
+                    "shape-36": {
+                      "label": "Mask 36"
+                    },
+                    "shape-37": {
+                      "label": "Mask 37"
+                    },
+                    "shape-38": {
+                      "label": "Mask 38"
+                    },
+                    "shape-39": {
+                      "label": "Mask 39"
+                    },
+                    "shape-40": {
+                      "label": "Mask 40"
+                    }
+                  }
+                }
+              }
+            },
+            "maskShapeSecondary": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "maskShapeSecondary",
+              "label": "Secondary Mask Shape",
+              "description": "Enable this option to add a secondary mask shape to the image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "maskShapeRotate": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "maskShapeRotate",
+              "label": "Rotate Mask Shape",
+              "description": "Here you can choose mask shape rotation.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 360,
+                  "step": 1,
+                  "allowedUnits": [
+                    "deg"
+                  ],
+                  "defaultUnit": "deg"
+                }
+              }
+            },
+            "maskShapeScaleX": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "maskShapeScaleX",
+              "label": "Mask Shape Width",
+              "description": "Here you can choose mask shape width.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 2,
+                  "step": 0.01,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "maskShapeScaleY": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "maskShapeScaleY",
+              "label": "Mask Shape Height",
+              "description": "Here you can choose mask shape height.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 2,
+                  "step": 0.01,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "maskShapeFlip": {
+              "groupSlug": "contentMaskShape",
+              "attrName": "maskShape.innerContent",
+              "subName": "maskShapeFlip",
+              "label": "Flip Mask Shape",
+              "description": "Flip the mask horizontally or vertically to change the shape and its direction.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 80,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "multiple": true,
+                  "options": {
+                    "horizontal": {
+                      "label": "Horizontal"
+                    },
+                    "vertical": {
+                      "label": "Vertical"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "customMaskShapeEnable": "off",
+              "maskShapeImage": "shape-01",
+              "maskShapeSecondary": "off",
+              "maskShapeRotate": "0deg",
+              "maskShapeScaleX": "1",
+              "maskShapeScaleY": "1",
+              "maskShapeFlip": ""
+            }
+          }
+        }
+      }
+    },
+    "borderLayer": {
+      "type": "object",
+      "selector": "{{selector}} .image-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "layer1Enable": {
+              "groupSlug": "contentBorderLayer",
+              "attrName": "borderLayer.innerContent",
+              "subName": "layer1Enable",
+              "label": "Enable Border Layer",
+              "description": "Enable a border layer behind the image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "layer1BackgroundType": {
+              "groupSlug": "contentBorderLayer",
+              "attrName": "borderLayer.innerContent",
+              "subName": "layer1BackgroundType",
+              "label": "Background Type",
+              "description": "Choose between solid color or gradient for the border layer.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "solid": {
+                      "label": "Solid Color"
+                    },
+                    "gradient": {
+                      "label": "Gradient"
+                    }
+                  }
+                }
+              }
+            },
+            "layer1BackgroundColor": {
+              "groupSlug": "contentBorderLayer",
+              "attrName": "borderLayer.innerContent",
+              "subName": "layer1BackgroundColor",
+              "label": "Background Color",
+              "description": "Choose a solid background color for the border layer.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "layer1GradientColorStart": {
+              "groupSlug": "contentBorderLayer",
+              "attrName": "borderLayer.innerContent",
+              "subName": "layer1GradientColorStart",
+              "label": "Gradient Start Color",
+              "description": "Choose the starting color for the gradient.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "layer1GradientColorEnd": {
+              "groupSlug": "contentBorderLayer",
+              "attrName": "borderLayer.innerContent",
+              "subName": "layer1GradientColorEnd",
+              "label": "Gradient End Color",
+              "description": "Choose the ending color for the gradient.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "layer1Enable": "on",
+              "layer1BackgroundType": "gradient",
+              "layer1BackgroundColor": "#ffffff",
+              "layer1GradientColorStart": "#ff5733",
+              "layer1GradientColorEnd": "#33c4ff"
+            }
+          }
+        }
+      }
+    },
+    "decoration1": {
+      "type": "object",
+      "selector": "{{selector}} .image-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "layerEnable": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerEnable",
+              "label": "Enable Decoration Layer 1",
+              "description": "Enable a decorative element for layer 1.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "decorationElement": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "decorationElement",
+              "label": "Decoration Element 1",
+              "description": "Choose a decorative element for layer 1.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "none": {
+                      "label": "None"
+                    },
+                    "lined-circle": {
+                      "label": "Lined Circle"
+                    },
+                    "dotted-square": {
+                      "label": "Dotted Square"
+                    }
+                  }
+                }
+              }
+            },
+            "layerAboveImage": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerAboveImage",
+              "label": "Place Decoration Element 1 Above Image",
+              "description": "Place decoration element 1 above the image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "layerBackgroundColor": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerBackgroundColor",
+              "label": "Decoration 1 Color",
+              "description": "Choose a color for decoration element 1.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "layerHorz": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerHorz",
+              "label": "Decoration 1 Horizontal Position",
+              "description": "Adjust the horizontal position of decoration 1.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -100,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [
+                    "%"
+                  ],
+                  "defaultUnit": "%"
+                }
+              }
+            },
+            "layerVert": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerVert",
+              "label": "Decoration 1 Vertical Position",
+              "description": "Adjust the vertical position of decoration 1.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -100,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [
+                    "%"
+                  ],
+                  "defaultUnit": "%"
+                }
+              }
+            },
+            "layerScale": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerScale",
+              "label": "Decoration 1 Scale",
+              "description": "Adjust the scale of decoration 1.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 3,
+                  "step": 0.01,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "layerRotate": {
+              "groupSlug": "contentDecoration1",
+              "attrName": "decoration1.innerContent",
+              "subName": "layerRotate",
+              "label": "Decoration 1 Rotation",
+              "description": "Adjust the rotation of decoration 1.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 80,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 360,
+                  "step": 1,
+                  "allowedUnits": [
+                    "deg"
+                  ],
+                  "defaultUnit": "deg"
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "layerEnable": "on",
+              "decorationElement": "lined-circle",
+              "layerAboveImage": "off",
+              "layerBackgroundColor": "#ff0000",
+              "layerHorz": "25%",
+              "layerVert": "-25%",
+              "layerScale": "1",
+              "layerRotate": "30deg"
+            }
+          }
+        }
+      }
+    },
+    "decoration2": {
+      "type": "object",
+      "selector": "{{selector}} .image-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "layerEnable": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerEnable",
+              "label": "Enable Decoration Layer 2",
+              "description": "Enable a decorative element for layer 2.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "decorationElement": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "decorationElement",
+              "label": "Decoration Element 2",
+              "description": "Choose a decorative element for layer 2.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "none": {
+                      "label": "None"
+                    },
+                    "lined-circle": {
+                      "label": "Lined Circle"
+                    },
+                    "dotted-square": {
+                      "label": "Dotted Square"
+                    }
+                  }
+                }
+              }
+            },
+            "layerAboveImage": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerAboveImage",
+              "label": "Place Decoration Element 2 Above Image",
+              "description": "Place decoration element 2 above the image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "layerBackgroundColor": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerBackgroundColor",
+              "label": "Decoration 2 Color",
+              "description": "Choose a color for decoration element 2.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "layerHorz": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerHorz",
+              "label": "Decoration 2 Horizontal Position",
+              "description": "Adjust the horizontal position of decoration 2.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -100,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [
+                    "%"
+                  ],
+                  "defaultUnit": "%"
+                }
+              }
+            },
+            "layerVert": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerVert",
+              "label": "Decoration 2 Vertical Position",
+              "description": "Adjust the vertical position of decoration 2.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -100,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [
+                    "%"
+                  ],
+                  "defaultUnit": "%"
+                }
+              }
+            },
+            "layerScale": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerScale",
+              "label": "Decoration 2 Scale",
+              "description": "Adjust the scale of decoration 2.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 3,
+                  "step": 0.01,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "layerRotate": {
+              "groupSlug": "contentDecoration2",
+              "attrName": "decoration2.innerContent",
+              "subName": "layerRotate",
+              "label": "Decoration 2 Rotation",
+              "description": "Adjust the rotation of decoration 2.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 80,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 360,
+                  "step": 1,
+                  "allowedUnits": [
+                    "deg"
+                  ],
+                  "defaultUnit": "deg"
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "layerEnable": "off",
+              "decorationElement": "dotted-square",
+              "layerAboveImage": "on",
+              "layerBackgroundColor": "#00ff00",
+              "layerHorz": "-15%",
+              "layerVert": "30%",
+              "layerScale": "0.8",
+              "layerRotate": "45deg"
+            }
+          }
+        }
+      }
+    },
+    "viewbox": {
+      "type": "object",
+      "selector": "{{selector}} .image-elements",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "enableCustomViewbox": {
+              "groupSlug": "contentViewbox",
+              "attrName": "viewbox.innerContent",
+              "subName": "enableCustomViewbox",
+              "label": "Use Custom ViewBox",
+              "description": "Enable to customize the SVG viewBox.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "viewboxMinX": {
+              "groupSlug": "contentViewbox",
+              "attrName": "viewbox.innerContent",
+              "subName": "viewboxMinX",
+              "label": "ViewBox Min-X",
+              "description": "Adjust the minimum X coordinate of the SVG viewBox.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -1000,
+                  "max": 1000,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "viewboxMinY": {
+              "groupSlug": "contentViewbox",
+              "attrName": "viewbox.innerContent",
+              "subName": "viewboxMinY",
+              "label": "ViewBox Min-Y",
+              "description": "Adjust the minimum Y coordinate of the SVG viewBox.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": -1000,
+                  "max": 1000,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "viewboxWidth": {
+              "groupSlug": "contentViewbox",
+              "attrName": "viewbox.innerContent",
+              "subName": "viewboxWidth",
+              "label": "ViewBox Width",
+              "description": "Adjust the width of the SVG viewBox.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 100,
+                  "max": 2000,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "viewboxHeight": {
+              "groupSlug": "contentViewbox",
+              "attrName": "viewbox.innerContent",
+              "subName": "viewboxHeight",
+              "label": "ViewBox Height",
+              "description": "Adjust the height of the SVG viewBox.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 100,
+                  "max": 2000,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "enableCustomViewbox": "off",
+              "viewboxMinX": "0",
+              "viewboxMinY": "0",
+              "viewboxWidth": "1000",
+              "viewboxHeight": "1000"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {
+    "image": {
+      "label": "Image",
+      "subName": "image",
+      "selectorSuffix": " .image-elements .squad-mask-image"
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentImage": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "image",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Image"
+          }
+        }
+      },
+      "contentMaskShape": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "maskShape",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Mask Options"
+          }
+        }
+      },
+      "contentBorderLayer": {
+        "panel": "content",
+        "priority": 30,
+        "groupName": "borderLayer",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Border Layer"
+          }
+        }
+      },
+      "contentDecoration1": {
+        "panel": "content",
+        "priority": 40,
+        "groupName": "decoration1",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Decoration Element 1"
+          }
+        }
+      },
+      "contentDecoration2": {
+        "panel": "content",
+        "priority": 50,
+        "groupName": "decoration2",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Decoration Element 2"
+          }
+        }
+      },
+      "contentViewbox": {
+        "panel": "content",
+        "priority": 60,
+        "groupName": "viewbox",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "ViewBox Settings"
+          }
+        }
+      }
+    }
+  }
+}

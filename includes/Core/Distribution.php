@@ -49,7 +49,7 @@ class Distribution implements Hookable {
 	 */
 	public function __construct() {
 		// Initialize the Freemius SDK if possible.
-		add_action( 'int', array( $this, 'initialize' ), 1 );
+		add_action( 'init', array( $this, 'initialize' ), 1 );
 	}
 
 	/**
@@ -328,7 +328,7 @@ class Distribution implements Hookable {
 			$template = apply_filters( 'divi_squad_publisher_account_template', $template );
 
 			// Load the template.
-			load_template( $template, true, $content );
+			load_template( $template, true, array( 'content' => $content ) );
 
 			return ob_get_clean();
 		} catch ( Throwable $e ) {
@@ -361,7 +361,7 @@ class Distribution implements Hookable {
 			$template = apply_filters( 'divi_squad_publisher_default_template', $template );
 
 			// Load the template.
-			load_template( $template, true, $content );
+			load_template( $template, true, array( 'content' => $content ) );
 
 			return ob_get_clean();
 		} catch ( Throwable $e ) {

@@ -124,7 +124,8 @@ trait Deprecations_Trait {
 	 * @param array<int|string, mixed> $arguments The method arguments.
 	 *
 	 * @return mixed The result of the method call.
-	 * @throws InvalidArgumentException|WP_Exception If the method does not exist or there's an error processing the call.
+	 * @throws InvalidArgumentException If the method does not exist.
+	 * @throws WP_Exception If there's an error processing the call.
 	 */
 	public function __call( string $name, array $arguments ) {
 		/**

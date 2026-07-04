@@ -285,8 +285,8 @@ abstract class Placeholder implements Placeholder_Interface {
 		$definitions = apply_filters( 'divi_squad_asset_definitions_before_encode', $definitions, $content );
 
 		return $content . sprintf(
-				';window.DISQBuilderBackend=%1$s; if(window.jQuery) {jQuery.extend(true, window.ETBuilderBackend, window.DISQBuilderBackend);}',
-				et_fb_remove_site_url_protocol( (string) wp_json_encode( $definitions ) )
-			);
+			';window.DISQBuilderBackend=%1$s; if(window.jQuery) {jQuery.extend(true, window.ETBuilderBackend, window.DISQBuilderBackend);}',
+			et_fb_remove_site_url_protocol( (string) wp_json_encode( $definitions ) )
+		);
 	}
 }

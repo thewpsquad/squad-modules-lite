@@ -74,7 +74,7 @@ class Upgrades {
 	 * @since 3.1.1
 	 * @var int
 	 */
-	private int $lock_timeout = 300; // 5 minutes
+	private int $lock_timeout = 300; // 5 minutes.
 
 	/**
 	 * Collection of upgrade procedures mapped by version.
@@ -111,11 +111,11 @@ class Upgrades {
 	 * @return void
 	 */
 	private function register_upgrade_procedures(): void {
-		// Register version 1.0 upgrade procedure
-		// $this->register_upgrade_procedure( '1.0', array( $this, 'upgrade_to_1_0' ) );
+		// Register version 1.0 upgrade procedure.
+		// $this->register_upgrade_procedure( '1.0', array( $this, 'upgrade_to_1_0' ) ); // Commented out.
 
-		// Future upgrade procedures can be registered here
-		// $this->register_upgrade_procedure('1.1', [$this, 'upgrade_to_1_1']);
+		// Future upgrade procedures can be registered here.
+		// $this->register_upgrade_procedure('1.1', [$this, 'upgrade_to_1_1']); // Commented out.
 
 		/**
 		 * Action to register custom upgrade procedures.
@@ -149,36 +149,36 @@ class Upgrades {
 	 * @return bool True if lock was acquired, false otherwise.
 	 */
 	private function acquire_lock(): bool {
-		// Check if another upgrade is in progress
+		// Check if another upgrade is in progress.
 		$lock_data = divi_squad()->memory->get( $this->lock_option_name );
 
-		// If lock exists, check if it's stale
+		// If lock exists, check if it's stale.
 		if ( null !== $lock_data ) {
 			$lock_time    = is_array( $lock_data ) && isset( $lock_data['time'] ) ? $lock_data['time'] : 0;
 			$lock_expired = ( time() - $lock_time ) > $this->lock_timeout;
 
-			// If lock is not stale, another upgrade is in progress
+			// If lock is not stale, another upgrade is in progress.
 			if ( ! $lock_expired ) {
 				divi_squad()->log_debug( 'Cannot acquire upgrade lock: another upgrade is in progress' );
 
 				return false;
 			}
 
-			// Log that we're breaking a stale lock
+			// Log that we're breaking a stale lock.
 			divi_squad()->log_debug( 'Breaking stale upgrade lock from ' . wp_date( 'Y-m-d H:i:s', $lock_time ) );
 		}
 
-		// Create new lock
+		// Create new lock.
 		$lock_data = array(
 			'time' => time(),
 			'pid'  => getmypid(),
 			'site' => get_current_blog_id(),
 		);
 
-		// Set the lock
+		// Set the lock.
 		divi_squad()->memory->set( $this->lock_option_name, $lock_data );
 
-		// Verify the lock was set properly
+		// Verify the lock was set properly.
 		$verified_lock = divi_squad()->memory->get( $this->lock_option_name );
 		$lock_acquired = is_array( $verified_lock ) && isset( $verified_lock['pid'] ) && getmypid() === $verified_lock['pid'];
 
@@ -199,10 +199,10 @@ class Upgrades {
 	 * @return void
 	 */
 	private function release_lock(): void {
-		// Get current lock
+		// Get current lock.
 		$lock_data = divi_squad()->memory->get( $this->lock_option_name );
 
-		// Only release if it's our lock
+		// Only release if it's our lock.
 		if ( is_array( $lock_data ) && isset( $lock_data['pid'] ) && getmypid() === $lock_data['pid'] ) {
 			divi_squad()->memory->delete( $this->lock_option_name );
 			divi_squad()->log_debug( 'Upgrade lock released' );
@@ -222,29 +222,29 @@ class Upgrades {
 	 * @return bool True if upgrades were performed, false otherwise.
 	 */
 	public function run_upgrades( string $table ): bool {
-		// Set the table name
+		// Set the table name.
 		$this->summary_table_name = $table;
 
-		// Get the installed version
+		// Get the installed version.
 		$installed_version = $this->get_installed_version();
 
-		// Check if an upgrade is needed
+		// Check if an upgrade is needed.
 		if ( version_compare( $installed_version, $this->current_version, '>=' ) ) {
 			return false;
 		}
 
-		// Try to acquire lock for the upgrade process
+		// Try to acquire lock for the upgrade process.
 		if ( ! $this->acquire_lock() ) {
 			divi_squad()->log_debug( 'Skipping upgrade: another upgrade process is already running' );
 
 			return false;
 		}
 
-		// Set upgrading flag
+		// Set upgrading flag.
 		$this->is_upgrading = true;
 
 		try {
-			// Log the upgrade
+			// Log the upgrade.
 			divi_squad()->log_debug(
 				sprintf(
 					'Starting custom fields database upgrade from %s to %s',
@@ -253,14 +253,14 @@ class Upgrades {
 				)
 			);
 
-			// Perform the upgrades
+			// Perform the upgrades.
 			$result = $this->perform_upgrades( $installed_version );
 
-			// Update the version
+			// Update the version.
 			if ( $result ) {
 				divi_squad()->memory->set( $this->version_option_name, $this->current_version );
 
-				// Log success
+				// Log success.
 				divi_squad()->log_debug(
 					sprintf(
 						'Custom fields database upgraded successfully to version %s',
@@ -271,7 +271,7 @@ class Upgrades {
 
 			return $result;
 		} catch ( Throwable $e ) {
-			// Log the error
+			// Log the error.
 			divi_squad()->log_error(
 				$e,
 				sprintf(
@@ -283,10 +283,10 @@ class Upgrades {
 
 			return false;
 		} finally {
-			// Clear upgrading flag
+			// Clear upgrading flag.
 			$this->is_upgrading = false;
 
-			// Always release the lock, even if an exception occurred
+			// Always release the lock, even if an exception occurred.
 			$this->release_lock();
 		}
 	}
@@ -304,22 +304,22 @@ class Upgrades {
 	 * @return bool True if upgrades were performed successfully, false otherwise.
 	 */
 	private function perform_upgrades( string $from_version ): bool {
-		// Get all versions that need to be upgraded to
+		// Get all versions that need to be upgraded to.
 		$versions_to_apply = array_keys( $this->upgrade_procedures );
 
-		// Sort them by version number
+		// Sort them by version number.
 		usort( $versions_to_apply, 'version_compare' );
 
-		// Track success
+		// Track success.
 		$success = true;
 
-		// Apply each upgrade procedure that's newer than the installed version
+		// Apply each upgrade procedure that's newer than the installed version.
 		foreach ( $versions_to_apply as $version ) {
 			if ( version_compare( $version, $from_version, '>' ) ) {
-				// Get the procedure
+				// Get the procedure.
 				$procedure = $this->upgrade_procedures[ $version ];
 
-				// Apply the upgrade
+				// Apply the upgrade.
 				try {
 					$result = $procedure();
 
@@ -335,7 +335,7 @@ class Upgrades {
 						break;
 					}
 
-					// Log success for this version
+					// Log success for this version.
 					divi_squad()->log_debug(
 						sprintf(
 							'Upgrade to version %s completed successfully',
@@ -343,7 +343,7 @@ class Upgrades {
 						)
 					);
 
-					// Update from_version to the current successful upgrade
+					// Update from_version to the current successful upgrade.
 					$from_version = (string) $version;
 
 					/**
@@ -383,17 +383,17 @@ class Upgrades {
 	 * @return bool True if the upgrade was successful, false otherwise.
 	 */
 	private function upgrade_to_1_0(): bool {
-		// For version 1.0, we just verify the table exists with the correct structure
+		// For version 1.0, we just verify the table exists with the correct structure.
 		if ( '' === $this->summary_table_name ) {
 			return false;
 		}
 
-		// Check if the table exists
+		// Check if the table exists.
 		if ( ! Database_Utils::table_exists( $this->summary_table_name ) ) {
 			return false;
 		}
 
-		// Version 1.0 was the initial version, so there's nothing to upgrade
+		// Version 1.0 was the initial version, so there's nothing to upgrade.
 		return true;
 	}
 
@@ -411,11 +411,11 @@ class Upgrades {
 			return false;
 		}
 
-		// Check if lock is stale
+		// Check if lock is stale.
 		$lock_time    = is_array( $lock_data ) && isset( $lock_data['time'] ) ? $lock_data['time'] : 0;
 		$lock_expired = ( time() - $lock_time ) > $this->lock_timeout;
 
-		// Return true only if lock exists and is not stale
+		// Return true only if lock exists and is not stale.
 		return ! $lock_expired;
 	}
 
@@ -483,7 +483,7 @@ class Upgrades {
 	 * @return self
 	 */
 	public function set_lock_timeout( int $timeout ): self {
-		$this->lock_timeout = max( 60, $timeout ); // Minimum 60 seconds
+		$this->lock_timeout = max( 60, $timeout ); // Minimum 60 seconds.
 
 		return $this;
 	}

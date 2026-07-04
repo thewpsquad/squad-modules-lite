@@ -12,7 +12,7 @@
 
 namespace DiviSquad\Builder\Version4\Modules;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
+use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use DiviSquad\Utils\Divi;
 use function esc_attr__;
 use function esc_html__;
@@ -26,7 +26,7 @@ use function wp_json_encode;
  * @since   1.0.0
  * @package DiviSquad
  */
-class Post_Grid_Child extends Module {
+class Post_Grid_Child extends Child_Module {
 	/**
 	 * The list of element types
 	 *
@@ -46,7 +46,6 @@ class Post_Grid_Child extends Module {
 		$this->plural = esc_html__( 'Post Elements', 'squad-modules-for-divi' );
 
 		$this->slug             = 'disq_post_grid_child';
-		$this->type             = 'child';
 		$this->vb_support       = 'on';
 		$this->main_css_element = "%%order_class%%.$this->slug";
 
@@ -1198,7 +1197,7 @@ class Post_Grid_Child extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_wrapper_background_color_gradient' => 'element_wrapper_background_use_color_gradient',
-					'element_wrapper_background'                    => 'element_wrapper_background_color',
+					'element_wrapper_background' => 'element_wrapper_background_color',
 				),
 			)
 		);
@@ -1216,7 +1215,7 @@ class Post_Grid_Child extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_background_color_gradient' => 'element_background_use_color_gradient',
-					'element_background'                    => 'element_background_color',
+					'element_background' => 'element_background_color',
 				),
 			)
 		);
@@ -1485,8 +1484,8 @@ class Post_Grid_Child extends Module {
 		// working with icon styles.
 		$placement         = 'element_icon_placement';
 		$placement_desktop = ! empty( $attrs[ $placement ] ) ? $attrs[ $placement ] : 'row';
-		$placement_tablet  = ! empty( $attrs["{$placement}_tablet"] ) ? $attrs["{$placement}_tablet"] : $placement_desktop;
-		$placement_mobile  = ! empty( $attrs["{$placement}_phone"] ) ? $attrs["{$placement}_phone"] : $placement_tablet;
+		$placement_tablet  = ! empty( $attrs[ "{$placement}_tablet" ] ) ? $attrs[ "{$placement}_tablet" ] : $placement_desktop;
+		$placement_mobile  = ! empty( $attrs[ "{$placement}_phone" ] ) ? $attrs[ "{$placement}_phone" ] : $placement_tablet;
 
 		// Icon placement with default, responsive, hover.
 		if ( ( 'column' === $placement_desktop ) || ( 'column' === $placement_tablet ) || ( 'column' === $placement_mobile ) ) {

@@ -62,28 +62,28 @@ class Plugin_Row_Meta extends Brand_Asset_Base {
 	public function get_row_meta(): array {
 		$links = array();
 
-		// Add the rating link to the plugin row meta
+		// Add the rating link to the plugin row meta.
 		$links[] = sprintf(
 			'<a href="%1$s" target="_blank" aria-label="%2$s">%2$s</a>',
-			esc_url( Links::RATTING_URL ),
+			esc_url( Links::RATING_URL ),
 			esc_html__( 'Rate The Plugin', 'squad-modules-for-divi' )
 		);
 
-		// Add the support link to the plugin row meta
+		// Add the support link to the plugin row meta.
 		$links[] = sprintf(
 			'<a href="%1$s?utm_campaign=wporg&utm_source=wp_plugin_dashboard&utm_medium=rowmeta" target="_blank" aria-label="%2$s">%2$s</a>',
 			esc_url( Links::SUPPORT_URL ),
 			esc_html__( 'Support', 'squad-modules-for-divi' )
 		);
 
-		// Add the documentation link to the plugin row meta
+		// Add the documentation link to the plugin row meta.
 		$links[] = sprintf(
 			'<a href="%1$s?utm_campaign=wporg&utm_source=wp_plugin_dashboard&utm_medium=rowmeta" target="_blank" aria-label="%2$s">%2$s</a>',
 			esc_url( Links::HOME_URL ),
 			esc_html__( 'Documentation', 'squad-modules-for-divi' )
 		);
 
-		// Add the pricing link to the plugin row meta (only for free plans)
+		// Add the pricing link to the plugin row meta (only for free plans).
 		if ( divi_squad_fs()->is_free_plan() ) {
 			$links[] = sprintf(
 				'<a href="%1$s?utm_campaign=wporg&utm_source=wp_plugin_dashboard&utm_medium=rowmeta" target="_blank" aria-label="%2$s">%2$s</a>',

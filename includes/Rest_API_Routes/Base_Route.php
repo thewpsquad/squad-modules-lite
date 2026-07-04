@@ -298,10 +298,10 @@ abstract class Base_Route {
 	 * @return WP_Error The formatted error response.
 	 */
 	protected function handle_exception( Throwable $exception, string $context, string $message = '', int $status = 500 ): WP_Error {
-		// Log the exception
+		// Log the exception.
 		divi_squad()->log_error( $exception, $context );
 
-		// Use a generic message if none provided
+		// Use a generic message if none provided.
 		if ( '' === $message ) {
 			$message = __( 'An unexpected error occurred.', 'squad-modules-for-divi' );
 		}

@@ -139,10 +139,10 @@ abstract class Manager implements ManagerInterface {
 	 * @return void
 	 */
 	public function clear_cache(): void {
-		// Otherwise do a more targeted approach based on what we know
+		// Otherwise do a more targeted approach based on what we know.
 		wp_cache_delete( $this->cache_key_prefix, $this->cache_group );
 
-		// Also try to find and delete any specific keys
+		// Also try to find and delete any specific keys.
 		$cache_keys = wp_cache_get( $this->cache_key_prefix . '_keys', $this->cache_group );
 		if ( is_array( $cache_keys ) ) {
 			foreach ( $cache_keys as $key ) {
@@ -198,7 +198,7 @@ abstract class Manager implements ManagerInterface {
 		$now              = time();
 		$refresh_interval = $this->get_refresh_interval();
 
-		// Only refresh if forced or if it's been long enough since the last refresh
+		// Only refresh if forced or if it's been long enough since the last refresh.
 		if ( $force || ( $now - $this->last_refresh ) > $refresh_interval ) {
 			$result = $this->do_refresh_data();
 
@@ -206,7 +206,7 @@ abstract class Manager implements ManagerInterface {
 				$this->last_refresh = $now;
 				update_option( 'divi_squad_' . $this->cache_key_prefix . '_last_refresh', $now );
 
-				// Clear cache after refresh
+				// Clear cache after refresh.
 				$this->clear_cache();
 
 				/**
@@ -261,7 +261,7 @@ abstract class Manager implements ManagerInterface {
 	 * @return bool Whether the refresh was successful.
 	 */
 	protected function do_refresh_data(): bool {
-		// Default implementation does nothing
+		// Default implementation does nothing.
 		return true;
 	}
 

@@ -6,16 +6,19 @@
  * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  *
- * @var string $args Arguments passed to the template.
+ * @var array{content: string} $args Arguments passed to the template.
  */
 
-if ( ! ( defined( 'ABSPATH' ) && is_string( $args ) ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Direct access forbidden.' );
 }
 
 if ( wp_doing_ajax() ) {
 	die( 'Access forbidden from AJAX request.' );
 }
+
+// Extract the rendered Freemius content.
+$divi_squad_content = is_array( $args ) ? (string) ( $args['content'] ?? '' ) : (string) $args;
 
 // Verify current plugin life type.
 $divi_squad_plugin_life_type = divi_squad()->is_dev() ? 'nightly' : 'stable';
@@ -60,7 +63,7 @@ $divi_squad_plugin_life_type = apply_filters( 'divi_squad_plugin_life_type', $di
 		</div>
 		<div class="wrapper-container">
 			<div class="subscription-wrapper" style="display: none;">
-				<?php echo $args; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo $divi_squad_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 		</div>
 	</div>

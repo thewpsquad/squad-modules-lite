@@ -39,7 +39,9 @@ class Date_Time {
 		}
 
 		if ( $gmt_offset ) {
-			$date += (int) ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
+			$offset = (int) get_option( 'gmt_offset' );
+			
+			$date += ( $offset * HOUR_IN_SECONDS );
 		}
 
 		if ( '' === $format ) {

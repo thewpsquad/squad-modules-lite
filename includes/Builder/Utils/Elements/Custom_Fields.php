@@ -13,6 +13,7 @@
 
 namespace DiviSquad\Builder\Utils\Elements;
 
+use DiviSquad\Builder\Utils\Elements\Custom_Fields\CollectionInterface;
 use InvalidArgumentException;
 
 /**
@@ -78,10 +79,10 @@ class Custom_Fields {
 	 * @var array<string, array<string, mixed>> Structured array of cached data.
 	 */
 	protected array $storage = array(
-		'instances'   => array(), // Processor class instances
-		'options'     => array(), // Field options cache
-		'definitions' => array(), // Field definitions cache
-		'managers'    => array(), // Manager instances
+		'instances'   => array(), // Processor class instances.
+		'options'     => array(), // Field options cache.
+		'definitions' => array(), // Field definitions cache.
+		'managers'    => array(), // Manager instances.
 	);
 
 	/**
@@ -411,7 +412,7 @@ class Custom_Fields {
 			 */
 			do_action( 'divi_squad_unsupported_field_type', $field_type, $post_id, $error_message );
 
-			throw new InvalidArgumentException( $error_message );
+			throw new InvalidArgumentException( $error_message ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		$cache_key = md5( $processor_class );
@@ -765,12 +766,7 @@ class Custom_Fields {
 			 * @param string                         $manager_type The manager type.
 			 * @param array                          $args         The constructor arguments.
 			 */
-			do_action(
-				'divi_squad_after_get_manager',
-				$this->storage['managers'][ $cache_key ],
-				$manager_type,
-				$constructor_args
-			);
+			do_action( 'divi_squad_after_get_manager', $this->storage['managers'][ $cache_key ], $manager_type, $constructor_args );
 		}
 
 		/**
@@ -836,7 +832,7 @@ class Custom_Fields {
 				$field_type
 			);
 
-			throw new InvalidArgumentException( $error_message ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			throw new InvalidArgumentException( $error_message ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 		}
 
 		// Get the processor class name and create a unique cache key.
@@ -864,7 +860,7 @@ class Custom_Fields {
 					$storage
 				);
 
-				throw new InvalidArgumentException( $error_message ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				throw new InvalidArgumentException( $error_message ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			}
 
 			/**
@@ -876,12 +872,7 @@ class Custom_Fields {
 			 * @param string $field_type      The field type.
 			 * @param string $storage         The storage type.
 			 */
-			$processor_class = apply_filters(
-				'divi_squad_processor_class',
-				$processor_class,
-				$field_type,
-				$storage
-			);
+			$processor_class = apply_filters( 'divi_squad_processor_class', $processor_class, $field_type, $storage );
 
 			// Create a new instance of the processor class.
 			$this->storage['instances'][ $cache_key ] = new $processor_class();
@@ -895,12 +886,7 @@ class Custom_Fields {
 			 * @param string $field_type         The field type.
 			 * @param string $storage            The storage type.
 			 */
-			do_action(
-				'divi_squad_processor_instantiated',
-				$this->storage['instances'][ $cache_key ],
-				$field_type,
-				$storage
-			);
+			do_action( 'divi_squad_processor_instantiated', $this->storage['instances'][ $cache_key ], $field_type, $storage );
 		}
 
 		return $this->storage['instances'][ $cache_key ];
@@ -930,7 +916,7 @@ class Custom_Fields {
 		}
 
 		$success = $this->add_processor( self::PROCESSOR_COLLECTIONS, $field_type, $collections_class ) &&
-		           $this->add_processor( self::PROCESSOR_DEFINITIONS, $field_type, $definitions_class );
+					$this->add_processor( self::PROCESSOR_DEFINITIONS, $field_type, $definitions_class );
 
 		if ( $success ) {
 			/**
@@ -1001,16 +987,16 @@ class Custom_Fields {
 			$this->storage['definitions'] = array();
 			$this->storage['managers']    = array();
 		} elseif ( null === $post_id && null !== $field_type ) {
-			// Clear collection fields cache
+			// Clear collection fields cache.
 			$processor_class = $this->get_processor( self::PROCESSOR_COLLECTIONS, $field_type );
-			if ( $processor_class ) {
+			if ( is_string( $processor_class ) ) {
 				$collection_key = md5( $processor_class );
 				if ( isset( $this->storage['options'][ $collection_key ] ) ) {
 					$this->storage['options'][ $collection_key ] = array();
 				}
 			}
 
-			// Clear definition fields cache
+			// Clear definition fields cache.
 			$def_processor_class = $this->get_processor( self::PROCESSOR_DEFINITIONS, $field_type );
 			if ( $def_processor_class ) {
 				$definition_key = md5( $def_processor_class );

@@ -206,7 +206,7 @@ class Helper {
 			$key_value_pairs = explode( ' ', $array_values );
 			foreach ( $key_value_pairs as $key_value_pair ) {
 				[ $key, $value ] = explode( '=', $key_value_pair );
-				$result[ $key ] = $value;
+				$result[ $key ]  = $value;
 			}
 		}
 

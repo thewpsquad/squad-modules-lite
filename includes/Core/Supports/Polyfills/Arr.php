@@ -119,7 +119,7 @@ class Arr {
 			$next_key = - 1;
 
 			foreach ( $a as $k => $v ) {
-				if ( ++ $next_key !== $k ) {
+				if ( ++$next_key !== $k ) {
 					return false;
 				}
 			}
@@ -210,7 +210,7 @@ class Arr {
 			return apply_filters( 'divi_squad_array_sort_result', $new_array, $array_data, $on, $order );
 		} catch ( Throwable $e ) {
 
-			return $array_data; // Return original array on error
+			return $array_data; // Return original array on error.
 		}
 	}
 
@@ -306,7 +306,7 @@ class Arr {
 				}
 			);
 		} catch ( Throwable $e ) {
-			return $array; // Return original array on error
+			return $array; // Return original array on error.
 		}
 	}
 }

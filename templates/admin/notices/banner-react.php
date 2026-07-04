@@ -17,14 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Direct access forbidden.' );
 }
 
-// Default container attributes
+// Default container attributes.
 $container_id      = $args['container_id'] ?? 'divi-squad-admin-notices';
 $container_classes = $args['container_classes'] ?? 'divi-squad-react-notice-container';
 $loading_text      = $args['loading_text'] ?? esc_html__( 'Loading notices...', 'squad-modules-for-divi' );
 $notice_count      = $args['notice_count'] ?? 0;
 $data_attributes   = array();
 
-// Add data attributes for notice configuration
+// Add data attributes for notice configuration.
 if ( $notice_count > 0 ) {
 	$data_attributes['data-notice-count'] = (int) $notice_count;
 }
@@ -41,12 +41,12 @@ if ( isset( $args['slide_interval'] ) ) {
 	$data_attributes['data-slide-interval'] = (int) $args['slide_interval'];
 }
 
-// Add development mode indicator if needed
+// Add development mode indicator if needed.
 if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 	$data_attributes['data-dev-mode'] = 'true';
 }
 
-// Build the data attributes string
+// Build the data attributes string.
 $data_attr_string = '';
 foreach ( $data_attributes as $key => $value ) {
 	$data_attr_string .= ' ' . $key . '="' . $value . '"';
@@ -109,7 +109,7 @@ do_action( 'divi_squad_before_react_notice_container_template', $container_id, $
 				<?php if ( isset( $args['fallback_notices'] ) && is_array( $args['fallback_notices'] ) ) : ?>
 					<?php
 					foreach ( $args['fallback_notices'] as $notice ) :
-						// Load the fallback notice template if JavaScript is disabled
+						// Load the fallback notice template if JavaScript is disabled.
 						load_template( divi_squad()->get_template_path( 'admin/notices/banner.php' ), false, $notice );
 					endforeach;
 					?>

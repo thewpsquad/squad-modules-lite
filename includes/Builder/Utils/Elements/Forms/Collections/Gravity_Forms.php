@@ -32,12 +32,12 @@ class Gravity_Forms extends Collection {
 	 * @return array An array of Gravity Forms data.
 	 */
 	public function get_forms( string $collection ): array {
-		// Check if Gravity Forms is active
+		// Check if Gravity Forms is active.
 		if ( ! class_exists( 'GFAPI' ) ) {
 			return array();
 		}
 
-		// Get all Gravity Forms
+		// Get all Gravity Forms.
 		$forms = \GFAPI::get_forms();
 
 		if ( empty( $forms ) ) {

@@ -7,23 +7,12 @@
  *
  * @since   3.1.7
  * @since   3.3.3 Added improved Divi detection reporting
+ * @since   3.4.0 Added enhanced error reporting with structured data from Reporter class
+ * @since   3.4.1 Improved data extraction and fallback handling
  *
- * Available variables:
- * @package DiviSquad\Emails
- * @var array<string, mixed> $environment     Environment information (PHP version, WordPress version, etc.)
- * @var string               $error_message   The error message
- * @var mixed                $error_code      The error code
- * @var string               $error_file      The file where the error occurred
- * @var int                  $error_line      The line where the error occurred
- * @var string               $stack_trace     Stack trace of the error
- * @var string               $site_url        The website URL
- * @var string               $site_name       The website name
- * @var string               $timestamp       The timestamp when the error occurred
- * @var string               $charset         The site charset
- * @var array<string, mixed> $request_data    Information about the request (method, URL, IP)
- * @var string               $additional_info Additional context information
- * @var array<string, mixed> $extra_data      Additional debugging data
- * @var string               $debug_log       Recent debug log entries
+ * @package DiviSquad
+ *
+ * @var array<string, mixed> $args Template arguments passed from the Reporter class.
  */
 
 // Prevent direct access.
@@ -31,33 +20,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Ensure required variables are available with fallbacks
+// Initialize error handling for the template itself
 try {
-	// All data should be pre-processed in the Reporter class
-	// Just provide fallbacks for any potentially missing values
-	$error_type          = $error_type ?? 'Unknown Error';
-	$severity_class      = $severity_class ?? 'medium';
-	$error_message       = $error_message ?? 'Unknown error';
-	$error_code          = $error_code ?? '';
-	$error_file          = $error_file ?? '';
-	$error_line          = $error_line ?? 0;
-	$relative_file_path  = $relative_file_path ?? 'Unknown file';
-	$formatted_timestamp = $formatted_timestamp ?? wp_date( 'Y-m-d H:i:s e' );
-	$error_reference     = $error_reference ?? substr( md5( microtime() ), 0, 8 );
-	$client_wp_version   = $client_wp_version ?? 'Unknown';
-	$php_version         = $php_version ?? 'Unknown';
-	$plugin_version      = $plugin_version ?? 'Unknown';
-	$divi_version        = $divi_version ?? 'Unknown';
-	$user_info           = $user_info ?? '';
-	$divi_theme_info     = $divi_theme_info ?? array();
+	// Process data passed from Reporter::process_template_data()
+	// Core error information with fallbacks
+	$error_message = $args['error_message'] ?? 'Unknown error';
+	$error_code    = $args['error_code'] ?? '';
+	$error_file    = $args['error_file'] ?? 'Unknown file';
+	$error_line    = $args['error_line'] ?? '0';
+	$stack_trace   = $args['stack_trace'] ?? '';
+
+	// Format and classification data with fallbacks
+	$error_type          = $args['error_type'] ?? 'Unknown Error';
+	$severity_class      = $args['severity_class'] ?? 'medium';
+	$relative_file_path  = $args['relative_file_path'] ?? $error_file;
+	$formatted_timestamp = $args['formatted_timestamp'] ?? wp_date( 'Y-m-d H:i:s e' );
+	$error_reference     = $args['error_reference'] ?? substr( md5( microtime() ), 0, 8 );
+
+	// Meta information with fallbacks
+	$charset         = $args['charset'] ?? 'utf-8';
+	$site_url        = $args['site_url'] ?? site_url();
+	$site_name       = $args['site_name'] ?? get_bloginfo( 'name' );
+	$user_info       = $args['user_info'] ?? '';
+	$additional_info = $args['additional_info'] ?? '';
+
+	// Request context with fallbacks
+	$request_data = $args['request_data'] ?? array();
+
+	// Log data with fallbacks
+	$debug_log = $args['debug_log'] ?? '';
+
+	// Environment information with fallbacks
+	$environment       = $args['environment'] ?? array();
+	$client_wp_version = $args['client_wp_version'] ?? ( $environment['wp_version'] ?? 'Unknown' );
+	$php_version       = $args['php_version'] ?? ( $environment['php_version'] ?? 'Unknown' );
+	$plugin_version    = $args['plugin_version'] ?? ( $environment['plugin_version'] ?? 'Unknown' );
+	$divi_version      = $args['divi_version'] ?? ( $environment['divi_version'] ?? 'Unknown' );
+
+	// Extended context data with fallbacks
+	$extra_data = $args['extra_data'] ?? array();
+
+	// Process Divi theme info from either direct parameter or environment data
+	$divi_theme_info = $args['divi_theme_info'] ?? array(
+		'version'          => $divi_version,
+		'mode'             => $environment['divi_mode'] ?? 'Unknown',
+		'theme_name'       => $environment['active_theme_name'] ?? 'Unknown',
+		'is_child_theme'   => $environment['is_child_theme'] ?? 'Unknown',
+		'parent_theme'     => $environment['parent_theme_name'] ?? 'N/A',
+		'detection_method' => $environment['divi_detection_method'] ?? 'Unknown',
+	);
 
 	/**
 	 * Action hook fired immediately before the error report email is rendered.
-	 *
-	 * This hook allows modules and extensions to perform last-minute modifications
-	 * or additional processing before the error report template is rendered.
-	 * It provides access to key error information for developers to use
-	 * in their hook callbacks.
 	 *
 	 * @since 3.4.0
 	 *
@@ -66,8 +80,45 @@ try {
 	 * @param string $error_reference The unique error reference ID for tracking.
 	 */
 	do_action( 'divi_squad_error_report_pre_render', $severity_class, $error_type, $error_reference );
-} catch ( Exception $e ) {
-	divi_squad()->log_debug( 'Error in email template: ' . $e->getMessage() );
+
+} catch ( Exception $template_error ) {
+	// Log the template error but continue with default values
+	if ( function_exists( 'error_log' ) ) {
+		error_log( 'Error in DiviSquad error report template: ' . $template_error->getMessage() );
+	}
+
+	// Set default values if an error occurs during setup
+	$error_message       = $args['error_message'] ?? 'Unknown error';
+	$error_code          = $args['error_code'] ?? '';
+	$error_file          = $args['error_file'] ?? 'Unknown file';
+	$error_line          = $args['error_line'] ?? '0';
+	$error_type          = 'Template Error';
+	$severity_class      = 'high';
+	$relative_file_path  = $error_file;
+	$formatted_timestamp = wp_date( 'Y-m-d H:i:s e' );
+	$error_reference     = substr( md5( microtime() ), 0, 8 );
+	$charset             = 'utf-8';
+	$site_url            = site_url();
+	$site_name           = get_bloginfo( 'name' );
+	$user_info           = '';
+	$additional_info     = 'Template error: ' . $template_error->getMessage();
+	$request_data        = array();
+	$debug_log           = '';
+	$environment         = array();
+	$client_wp_version   = 'Unknown';
+	$php_version         = 'Unknown';
+	$plugin_version      = 'Unknown';
+	$divi_version        = 'Unknown';
+	$extra_data          = array();
+	$divi_theme_info     = array(
+		'version'          => 'Unknown',
+		'mode'             => 'Unknown',
+		'theme_name'       => 'Unknown',
+		'is_child_theme'   => 'Unknown',
+		'parent_theme'     => 'N/A',
+		'detection_method' => 'Unknown',
+	);
+	$stack_trace         = $template_error->getTraceAsString();
 }
 ?>
 <!DOCTYPE html>
@@ -609,7 +660,7 @@ try {
 				</div>
 
 				<div class="error-timestamp">
-					<strong>Time:</strong> <?php echo esc_html( (string) $formatted_timestamp ); ?>
+					<strong>Date:</strong> <?php echo esc_html( $formatted_timestamp ); ?>
 				</div>
 
 				<?php if ( '' !== $user_info ) : ?>
@@ -632,10 +683,13 @@ try {
 						$badge_class = 'badge-theme';
 						$badge_text  = 'Stock';
 
-						if ( 'Yes' === $divi_theme_info['is_child_theme'] || true === $divi_theme_info['is_child_theme'] ) {
+						if ( isset( $divi_theme_info['is_child_theme'] ) &&
+							( 'Yes' === $divi_theme_info['is_child_theme'] || true === $divi_theme_info['is_child_theme'] ) ) {
 							$badge_class = 'badge-child';
 							$badge_text  = 'Child';
-						} elseif ( 'Divi' !== $divi_theme_info['theme_name'] && 'Extra' !== $divi_theme_info['theme_name'] ) {
+						} elseif ( isset( $divi_theme_info['theme_name'] ) &&
+									'Divi' !== $divi_theme_info['theme_name'] &&
+									'Extra' !== $divi_theme_info['theme_name'] ) {
 							$badge_class = 'badge-custom';
 							$badge_text  = 'Custom';
 						}
@@ -652,21 +706,29 @@ try {
 				<div class="divi-info-item">
 					<div class="divi-info-label">Implementation Mode</div>
 					<div class="divi-info-value">
-						<?php echo esc_html( ucfirst( $divi_theme_info['mode'] ) ); ?>
-						<span class="badge <?php echo esc_attr( 'theme' === $divi_theme_info['mode'] ? 'badge-theme' : 'badge-plugin' ); ?>">
+						<?php
+						$implementation_mode = isset( $divi_theme_info['mode'] ) ? ucfirst( $divi_theme_info['mode'] ) : 'Unknown';
+						echo esc_html( $implementation_mode );
+						?>
+						<?php if ( isset( $divi_theme_info['mode'] ) ) : ?>
+							<span class="badge <?php echo esc_attr( 'theme' === $divi_theme_info['mode'] ? 'badge-theme' : 'badge-plugin' ); ?>">
 							<?php echo 'theme' === $divi_theme_info['mode'] ? 'Theme' : 'Plugin'; ?>
 						</span>
+						<?php endif; ?>
 					</div>
 				</div>
 
-				<?php if ( 'Yes' === $divi_theme_info['is_child_theme'] || true === $divi_theme_info['is_child_theme'] ) : ?>
+				<?php
+				if ( isset( $divi_theme_info['is_child_theme'] ) &&
+							( 'Yes' === $divi_theme_info['is_child_theme'] || true === $divi_theme_info['is_child_theme'] ) ) :
+					?>
 					<div class="divi-info-item">
 						<div class="divi-info-label">Parent Theme</div>
 						<div class="divi-info-value"><?php echo esc_html( $divi_theme_info['parent_theme'] ); ?></div>
 					</div>
 				<?php endif; ?>
 
-				<?php if ( isset( $environment['divi_modified'] ) && $environment['divi_modified'] ) : ?>
+				<?php if ( isset( $environment['divi_modified'] ) && true === (bool) $environment['divi_modified'] ) : ?>
 					<div class="divi-info-item">
 						<div class="divi-info-label">Modification Status</div>
 						<div class="divi-info-value">
@@ -676,10 +738,10 @@ try {
 					</div>
 				<?php endif; ?>
 
-				<?php if ( isset( $environment['divi_constants'] ) ) : ?>
+				<?php if ( isset( $environment['divi_constants'] ) && is_array( $environment['divi_constants'] ) ) : ?>
 					<div class="divi-info-item">
 						<div class="divi-info-label">Detected Constants</div>
-						<div class="divi-info-value"><?php echo esc_html( implode( ', ', (array) $environment['divi_constants'] ) ); ?></div>
+						<div class="divi-info-value"><?php echo esc_html( implode( ', ', $environment['divi_constants'] ) ); ?></div>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -697,7 +759,7 @@ try {
 			<table>
 				<tr>
 					<th width="30%">Property</th>
-					<th><?php echo esc_html( 'Value' ); ?></th>
+					<th>Value</th>
 				</tr>
 				<tr>
 					<td>Site URL</td>
@@ -708,14 +770,16 @@ try {
 					<td><?php echo esc_html( $site_name ); ?></td>
 				</tr>
 				<?php
-				if ( isset( $request_data ) && is_array( $request_data ) ) :
+				if ( is_array( $request_data ) && count( $request_data ) > 0 ) :
 					foreach ( $request_data as $key => $value ) :
-						?>
-						<tr>
-							<td><?php echo esc_html( ucfirst( $key ) ); ?></td>
-							<td><?php echo esc_html( $value ); ?></td>
-						</tr>
-						<?php
+						if ( is_string( $key ) && ( is_string( $value ) || is_numeric( $value ) ) ) :
+							?>
+							<tr>
+								<td><?php echo esc_html( ucfirst( $key ) ); ?></td>
+								<td><?php echo esc_html( (string) $value ); ?></td>
+							</tr>
+							<?php
+						endif;
 					endforeach;
 				endif;
 				?>
@@ -729,23 +793,51 @@ try {
 		</div>
 
 		<!-- Environment Section -->
-		<?php if ( isset( $environment ) && is_array( $environment ) ) : ?>
+		<?php if ( is_array( $environment ) && count( $environment ) > 0 ) : ?>
 			<div class="section">
 				<h2>Environment</h2>
 				<div class="env-details">
 					<?php
 					// Sort environment variables alphabetically for easier scanning
-					ksort( $environment );
+					$env_display = $environment;
+					ksort( $env_display );
 
-					foreach ( $environment as $key => $value ) :
+					foreach ( $env_display as $key => $value ) :
 						// Skip the ones already shown in the quick stats or Divi section
-						if ( in_array( $key, array( 'wp_version', 'php_version', 'plugin_version', 'divi_version', 'divi_mode', 'active_theme_name', 'is_child_theme', 'parent_theme_name', 'divi_detection_method', 'divi_constants', 'divi_modified' ), true ) ) {
+						if ( in_array(
+							$key,
+							array(
+								'wp_version',
+								'php_version',
+								'plugin_version',
+								'divi_version',
+								'divi_mode',
+								'active_theme_name',
+								'is_child_theme',
+								'parent_theme_name',
+								'divi_detection_method',
+								'divi_constants',
+								'divi_modified',
+							),
+							true
+						) ) {
 							continue;
 						}
 						?>
 						<div class="env-item">
-							<span class="env-label"><?php echo esc_html( ucwords( str_replace( '_', ' ', $key ) ) ); ?>:</span>
-							<span class="env-value"><?php echo is_array( $value ) || is_object( $value ) ? esc_html( wp_json_encode( $value ) ) : esc_html( $value ); ?></span>
+							<span class="env-label"><?php echo esc_html( ucwords( str_replace( '_', ' ', (string) $key ) ) ); ?>:</span>
+							<span class="env-value">
+								<?php
+								if ( is_array( $value ) || is_object( $value ) ) {
+									$json_value = wp_json_encode( $value, JSON_PRETTY_PRINT );
+									echo esc_html( false !== $json_value ? $json_value : 'Unable to encode value' );
+								} elseif ( is_string( $value ) || is_numeric( $value ) ) {
+									echo esc_html( (string) $value );
+								} else {
+									echo esc_html( 'Non-string value' );
+								}
+								?>
+							</span>
 						</div>
 					<?php endforeach; ?>
 				</div>
@@ -770,17 +862,26 @@ try {
 			<div class="section">
 				<h2>Extra Data</h2>
 
-				<?php foreach ( $extra_data as $key => $value ) : ?>
-					<details class="no-js-accordion">
-						<summary><?php echo esc_html( ucfirst( str_replace( '_', ' ', $key ) ) ); ?></summary>
-						<div class="no-js-accordion-content">
-							<?php if ( is_array( $value ) || is_object( $value ) ) : ?>
-								<pre><?php echo esc_html( wp_json_encode( $value, JSON_PRETTY_PRINT ) ); ?></pre>
-							<?php else : ?>
-								<p><?php echo esc_html( $value ); ?></p>
-							<?php endif; ?>
-						</div>
-					</details>
+				<?php
+				foreach ( $extra_data as $key => $value ) :
+					if ( is_string( $key ) ) :
+						?>
+						<details class="no-js-accordion">
+							<summary><?php echo esc_html( ucfirst( str_replace( '_', ' ', $key ) ) ); ?></summary>
+							<div class="no-js-accordion-content">
+								<?php
+								if ( is_array( $value ) || is_object( $value ) ) :
+									$json_value = wp_json_encode( $value, JSON_PRETTY_PRINT );
+									?>
+									<pre><?php echo esc_html( false !== $json_value ? $json_value : 'Unable to encode value' ); ?></pre>
+								<?php elseif ( is_string( $value ) || is_numeric( $value ) ) : ?>
+									<p><?php echo esc_html( (string) $value ); ?></p>
+								<?php else : ?>
+									<p>Non-string value: <?php echo esc_html( gettype( $value ) ); ?></p>
+								<?php endif; ?>
+							</div>
+						</details>
+					<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>
@@ -810,7 +911,7 @@ try {
 					<li>Verify Divi theme/builder is updated to the required version</li>
 					<li>Test with a default WordPress theme to rule out theme conflicts</li>
 					<li>Use System Status to verify all server requirements are met</li>
-					<?php if ( strpos( $error_type, 'Divi' ) !== false ) : ?>
+					<?php if ( is_string( $error_type ) && strpos( $error_type, 'Divi' ) !== false ) : ?>
 						<li>If using a customized Divi theme, check that required Divi functions are available</li>
 						<li>Verify your theme contains all necessary Divi core files in the expected locations</li>
 					<?php endif; ?>
@@ -818,7 +919,7 @@ try {
 
 				<h3>Next Steps</h3>
 				<ul>
-					<li>Reference error ID when contacting support</li>
+					<li>Reference error ID <code><?php echo esc_html( $error_reference ); ?></code> when contacting support</li>
 					<li>Check documentation for known issues with this component</li>
 					<li>Visit the support forum to see if others have experienced this issue</li>
 				</ul>
@@ -832,7 +933,7 @@ try {
 				/* translators: %1$s: plugin name, %2$s: plugin version, %3$s: error reference ID */
 					esc_html__( 'This error report was automatically generated by %1$s version %2$s • Reference ID: %3$s' ),
 					'<strong>Squad Modules</strong>',
-					isset( $environment['plugin_version'] ) ? esc_html( $environment['plugin_version'] ) : '',
+					esc_html( $plugin_version ),
 					'<code>' . esc_html( $error_reference ) . '</code>'
 				);
 				?>

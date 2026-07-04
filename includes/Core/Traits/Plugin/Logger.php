@@ -1,4 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName, WordPress.PHP.DevelopmentFunctions
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Logger Trait
@@ -120,17 +120,17 @@ trait Logger {
 	 */
 	protected function write_log( string $level, $message, string $context = 'General', array $data = array() ): void {
 		try {
-			// Don't log if suppressed
+			// Don't log if suppressed.
 			if ( $this->suppress_logs ) {
 				return;
 			}
 
-			// Don't log debug messages unless WP_DEBUG is true
+			// Don't log debug messages unless WP_DEBUG is true.
 			if ( 'DEBUG' === $level && ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) ) {
 				return;
 			}
 
-			// Format the message
+			// Format the message.
 			$formatted_message = $this->format_log_message( $level, $message, $context, $data );
 
 			/**
@@ -164,7 +164,7 @@ trait Logger {
 			 */
 			do_action( 'divi_squad_before_log', $level, $message, $context, $data, $formatted_message );
 
-			// Actually write to the error log
+			// Actually write to the error log.
 			error_log( $formatted_message );
 
 			/**
@@ -180,7 +180,7 @@ trait Logger {
 			 */
 			do_action( 'divi_squad_after_log', $level, $message, $context, $data, $formatted_message );
 		} catch ( Throwable $e ) {
-			// Last resort error logging - avoid recursion
+			// Last resort error logging - avoid recursion.
 			error_log( "[{$this->log_identifier}] Error while logging: " . $e->getMessage() );
 		}
 	}
@@ -228,7 +228,7 @@ trait Logger {
 			 */
 			return apply_filters( 'divi_squad_formatted_log_message', $log_message, $level, $message, $context, $data );
 		} catch ( Throwable $e ) {
-			// Fallback in case of error
+			// Fallback in case of error.
 			return "[{$this->log_identifier}] [{$level}]: [{$context}] " . ( is_string( $message ) ? $message : 'Object' );
 		}
 	}
@@ -267,7 +267,7 @@ trait Logger {
 			 */
 			return apply_filters( 'divi_squad_formatted_error_message', $message, $error );
 		} catch ( Throwable $e ) {
-			// Fallback in case of error
+			// Fallback in case of error.
 			return $error->getMessage() . ' in ' . $error->getFile() . ' on line ' . $error->getLine();
 		}
 	}
@@ -302,7 +302,7 @@ trait Logger {
 				$this->write_log( 'DEBUG', "Stack trace:\n" . $trace );
 			}
 		} catch ( Throwable $e ) {
-			// Fallback direct logging if there's an issue
+			// Fallback direct logging if there's an issue.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( "[{$this->log_identifier}] Error logging trace: " . $e->getMessage() );
 				error_log( "[{$this->log_identifier}] Original stack trace: " . $error->getTraceAsString() );
@@ -337,7 +337,7 @@ trait Logger {
 				$message .= sprintf( ' Use %s instead.', $replacement );
 			}
 
-			// Trigger a deprecated notice in debug mode
+			// Trigger a deprecated notice in debug mode.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				trigger_error(
 					esc_html( $message ),
@@ -345,7 +345,7 @@ trait Logger {
 				);
 			}
 
-			// Also log the deprecation notice
+			// Also log the deprecation notice.
 			$data = array(
 				'version'     => $version,
 				'replacement' => $replacement,
@@ -363,10 +363,10 @@ trait Logger {
 			 */
 			do_action( 'divi_squad_log_deprecated', $feature, $version, $replacement, $message );
 
-			// Use the log method with DEBUG level for better reuse
+			// Use the log method with DEBUG level for better reuse.
 			$this->log( 'DEBUG', $message, 'Deprecated', $data );
 		} catch ( Throwable $e ) {
-			// Fallback logging
+			// Fallback logging.
 			error_log( "[{$this->log_identifier}] Error logging deprecation: " . $e->getMessage() );
 		}
 	}
@@ -408,10 +408,10 @@ trait Logger {
 				return;
 			}
 
-			// Use the generic log method for the error message
+			// Use the generic log method for the error message.
 			$this->log( 'ERROR', $error_message, $context, $extra_data );
 
-			// Log the stack trace if in debug mode
+			// Log the stack trace if in debug mode.
 			$this->log_debug_trace( $error );
 
 			/**
@@ -426,7 +426,7 @@ trait Logger {
 			 */
 			$send_report = apply_filters( 'divi_squad_send_error_report', $report, $error, $context, $extra_data );
 
-			// Send report if requested
+			// Send report if requested.
 			if ( $send_report ) {
 				$this->send_error_report( $error, $context, $extra_data );
 			}
@@ -442,7 +442,7 @@ trait Logger {
 			 */
 			do_action( 'divi_squad_after_error_logged', $error, $context, $extra_data );
 		} catch ( Throwable $e ) {
-			// Fallback logging in case of failure
+			// Fallback logging in case of failure.
 			error_log( "[{$this->log_identifier}] Error in log_error: " . $e->getMessage() );
 			error_log( "[{$this->log_identifier}] Original error: " . $error->getMessage() . ' in ' . $error->getFile() . ' on line ' . $error->getLine() );
 		}
@@ -463,8 +463,8 @@ trait Logger {
 	 * @return void
 	 */
 	public function log_debug( $message, string $context = 'General', array $data = array() ): void {
-		// Debug messages already have a check in write_log, so we can just call it directly
-		// and it will handle the WP_DEBUG check internally
+		// Debug messages already have a check in write_log, so we can just call it directly.
+		// and it will handle the WP_DEBUG check internally.
 		try {
 			/**
 			 * Filter whether to log this debug message.
@@ -482,7 +482,7 @@ trait Logger {
 				$this->write_log( 'DEBUG', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
-			// Only log in debug mode
+			// Only log in debug mode.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 				error_log( "[{$this->log_identifier}] Error in log_debug: " . $e->getMessage() );
 			}
@@ -518,7 +518,7 @@ trait Logger {
 			$log_info = apply_filters( 'divi_squad_log_info', true, $message, $context, $data );
 
 			if ( $log_info ) {
-				// Reuse write_log method for actual logging
+				// Reuse write_log method for actual logging.
 				$this->write_log( 'INFO', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
@@ -542,7 +542,7 @@ trait Logger {
 	 * @return void
 	 */
 	public function log_warning( $message, string $context = 'General', array $data = array() ): void {
-		// Use the log method which will reuse write_log
+		// Use the log method which will reuse write_log.
 		try {
 			/**
 			 * Filter whether to log this warning message.
@@ -557,7 +557,7 @@ trait Logger {
 			$log_warning = apply_filters( 'divi_squad_log_warning', true, $message, $context, $data );
 
 			if ( $log_warning ) {
-				// Using the generic log method to reuse write_log
+				// Using the generic log method to reuse write_log.
 				$this->log( 'WARNING', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
@@ -580,7 +580,7 @@ trait Logger {
 	 * @return void
 	 */
 	public function log_notice( $message, string $context = 'General', array $data = array() ): void {
-		// Use the log method which will reuse write_log
+		// Use the log method which will reuse write_log.
 		try {
 			/**
 			 * Filter whether to log this notice message.
@@ -595,7 +595,7 @@ trait Logger {
 			$log_notice = apply_filters( 'divi_squad_log_notice', true, $message, $context, $data );
 
 			if ( $log_notice ) {
-				// Using the generic log method to reuse write_log
+				// Using the generic log method to reuse write_log.
 				$this->log( 'NOTICE', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
@@ -619,7 +619,7 @@ trait Logger {
 	 * @return void
 	 */
 	public function log_critical( $message, string $context = 'General', array $data = array() ): void {
-		// Use the log method which will reuse write_log
+		// Use the log method which will reuse write_log.
 		try {
 			/**
 			 * Filter whether to log this critical message.
@@ -634,7 +634,7 @@ trait Logger {
 			$log_critical = apply_filters( 'divi_squad_log_critical', true, $message, $context, $data );
 
 			if ( $log_critical ) {
-				// Using the generic log method to reuse write_log
+				// Using the generic log method to reuse write_log.
 				$this->log( 'CRITICAL', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
@@ -672,7 +672,7 @@ trait Logger {
 			$log_emergency = apply_filters( 'divi_squad_log_emergency', true, $message, $context, $data );
 
 			if ( $log_emergency ) {
-				// Using the generic log method to reuse write_log
+				// Using the generic log method to reuse write_log.
 				$this->log( 'EMERGENCY', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
@@ -710,7 +710,7 @@ trait Logger {
 			$log_alert = apply_filters( 'divi_squad_log_alert', true, $message, $context, $data );
 
 			if ( $log_alert ) {
-				// Using the generic log method to reuse write_log
+				// Using the generic log method to reuse write_log.
 				$this->log( 'ALERT', $message, $context, $data );
 			}
 		} catch ( Throwable $e ) {
@@ -735,10 +735,10 @@ trait Logger {
 	 */
 	public function log( string $level, $message, string $context = 'General', array $data = array() ): void {
 		try {
-			// Ensure level is uppercase for consistency
+			// Ensure level is uppercase for consistency.
 			$level = strtoupper( $level );
 
-			// Validate log level
+			// Validate log level.
 			if ( ! isset( self::$log_levels[ $level ] ) ) {
 				$level = 'INFO';
 			}
@@ -793,14 +793,14 @@ trait Logger {
 			 */
 			do_action( 'divi_squad_before_send_error_report', $error, $context, $extra_data );
 
-			// Prepare additional context for the error report
+			// Prepare additional context for the error report.
 			$report_data = array(
 				'additional_info' => $context,
 				'extra_data'      => $extra_data,
 				'log_identifier'  => $this->log_identifier,
 			);
 
-			// Use the instance from the container
+			// Use the instance from the container.
 			$result = $this->error_reporter->quick_send( $error, $report_data ); // @phpstan-ignore-line staticMethod.dynamicCall
 
 			/**
@@ -816,7 +816,7 @@ trait Logger {
 			do_action( 'divi_squad_after_send_error_report', $result, $error, $context, $extra_data );
 
 		} catch ( Throwable $e ) {
-			// Reuse write_log method for error logging
+			// Reuse write_log method for error logging.
 			$this->write_log( 'ERROR', 'Error sending error report: ' . $e->getMessage(), $context, $extra_data );
 
 			/**

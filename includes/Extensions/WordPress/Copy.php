@@ -413,7 +413,7 @@ class Copy extends Base_Extension {
 					switch_to_blog( $site_id );
 				}
 
-				for ( $interval = 1; $interval <= $post_count; $interval ++ ) {
+				for ( $interval = 1; $interval <= $post_count; $interval++ ) {
 					$args = array(
 						'post_status'    => 'draft',
 						'comment_status' => $post->comment_status,
