@@ -125,7 +125,7 @@ class Assets {
 			$assets->enqueue_script( 'vendor-light-gallery' );
 			$assets->enqueue_script( 'vendor-images-loaded' );
 			$assets->enqueue_script( 'vendor-scrolling-text' );
-			
+
 			// Enqueue vendor styles.
 			$assets->enqueue_style( 'vendor-light-gallery' );
 
@@ -326,23 +326,27 @@ class Assets {
 			return;
 		}
 
-		$min         = \wpforms_get_min_suffix();
-		$wp_forms_re = \wpforms_get_render_engine();
-		$disable_css = absint( \wpforms_setting( 'disable-css', '1' ) );
-		$style_name  = 1 === $disable_css ? 'full' : 'base';
+		try {
+			$min         = \wpforms_get_min_suffix();
+			$wp_forms_re = \wpforms_get_render_engine();
+			$disable_css = absint( \wpforms_setting( 'disable-css', '1' ) );
+			$style_name  = 1 === $disable_css ? 'full' : 'base';
 
-		if ( ! defined( 'WPFORMS_PLUGIN_URL' ) || ! defined( 'WPFORMS_VERSION' ) ) {
-			return;
+			if ( ! defined( 'WPFORMS_PLUGIN_URL' ) || ! defined( 'WPFORMS_VERSION' ) ) {
+				return;
+			}
+
+			$style_handle = "wpforms-$wp_forms_re-$style_name";
+			if ( ! wp_style_is( $style_handle, 'registered' ) ) {
+				$style_path = \WPFORMS_PLUGIN_URL . "assets/css/frontend/$wp_forms_re/wpforms-$style_name$min.css";
+
+				wp_register_style( $style_handle, $style_path, array(), \WPFORMS_VERSION );
+			}
+
+			wp_enqueue_style( $style_handle );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue WPForms styles' );
 		}
-
-		$style_handle = "wpforms-$wp_forms_re-$style_name";
-		if ( ! wp_style_is( $style_handle, 'registered' ) ) {
-			$style_path = \WPFORMS_PLUGIN_URL . "assets/css/frontend/$wp_forms_re/wpforms-$style_name$min.css";
-
-			wp_register_style( $style_handle, $style_path, array(), \WPFORMS_VERSION );
-		}
-
-		wp_enqueue_style( $style_handle );
 	}
 
 	/**
@@ -353,13 +357,17 @@ class Assets {
 			return;
 		}
 
-		$base_url = \GFCommon::get_base_url();
-		$version  = \GFForms::$version;
-		$dev_mode = defined( 'GF_SCRIPT_DEBUG' ) && \GF_SCRIPT_DEBUG;
-		$min      = $dev_mode ? '' : '.min';
+		try {
+			$base_url = \GFCommon::get_base_url();
+			$version  = \GFForms::$version;
+			$dev_mode = defined( 'GF_SCRIPT_DEBUG' ) && \GF_SCRIPT_DEBUG;
+			$min      = $dev_mode ? '' : '.min';
 
-		$this->register_and_enqueue_gf_legacy_styles( $base_url, $version, $min );
-		$this->register_and_enqueue_gf_modern_styles( $base_url, $version, $min );
+			$this->register_and_enqueue_gf_legacy_styles( $base_url, $version, $min );
+			$this->register_and_enqueue_gf_modern_styles( $base_url, $version, $min );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Gravity Forms styles' );
+		}
 	}
 
 	/**
@@ -371,7 +379,7 @@ class Assets {
 	 * @param string $version  Gravity Forms version.
 	 * @param string $min      Minification suffix.
 	 */
-	protected function register_and_enqueue_gf_legacy_styles( string $base_url, string $version, string $min ) {
+	protected function register_and_enqueue_gf_legacy_styles( string $base_url, string $version, string $min ): void {
 		$styles = array(
 			'gform_theme_components' => "assets/css/dist/theme-components$min.css",
 			'gform_theme_ie11'       => "assets/css/dist/theme-ie11$min.css",
@@ -398,7 +406,7 @@ class Assets {
 	 * @param string $version  Gravity Forms version.
 	 * @param string $min      Minification suffix.
 	 */
-	protected function register_and_enqueue_gf_modern_styles( string $base_url, string $version, string $min ) {
+	protected function register_and_enqueue_gf_modern_styles( string $base_url, string $version, string $min ): void {
 		$styles = array(
 			'gravity_forms_theme_reset'      => "assets/css/dist/gravity-forms-theme-reset$min.css",
 			'gravity_forms_theme_foundation' => "assets/css/dist/gravity-forms-theme-foundation$min.css",
@@ -426,28 +434,32 @@ class Assets {
 			return;
 		}
 
-		$ver     = \Ninja_Forms::VERSION;
-		$css_dir = \Ninja_Forms::$url . 'assets/css/';
+		try {
+			$ver     = \Ninja_Forms::VERSION;
+			$css_dir = \Ninja_Forms::$url . 'assets/css/';
 
-		$style = \Ninja_Forms()->get_setting( 'opinionated_styles' );
-		switch ( $style ) {
-			case 'light':
-			case 'dark':
-				wp_enqueue_style( 'nf-display', "{$css_dir}display-opinions-$style.css", array( 'dashicons' ), $ver );
-				wp_enqueue_style( 'nf-font-awesome', "{$css_dir}font-awesome.min.css", array(), $ver );
-				break;
-			default:
-				wp_enqueue_style( 'nf-display', "{$css_dir}display-structure.css", array( 'dashicons' ), $ver );
+			$style = (string) \Ninja_Forms()->get_setting( 'opinionated_styles' );
+			switch ( $style ) {
+				case 'light':
+				case 'dark':
+					wp_enqueue_style( 'nf-display', "{$css_dir}display-opinions-$style.css", array( 'dashicons' ), $ver );
+					wp_enqueue_style( 'nf-font-awesome', "{$css_dir}font-awesome.min.css", array(), $ver );
+					break;
+				default:
+					wp_enqueue_style( 'nf-display', "{$css_dir}display-structure.css", array( 'dashicons' ), $ver );
+			}
+
+			wp_enqueue_style( 'jBox', "{$css_dir}jBox.css", array(), $ver );
+			wp_enqueue_style( 'rating', "{$css_dir}rating.css", array(), $ver );
+			wp_enqueue_style( 'nf-flatpickr', "{$css_dir}flatpickr.css", array(), $ver );
+
+			wp_enqueue_media();
+			wp_enqueue_style( 'summernote', "{$css_dir}summernote.css", array(), $ver );
+			wp_enqueue_style( 'codemirror', "{$css_dir}codemirror.css", array(), $ver );
+			wp_enqueue_style( 'codemirror-monokai', "{$css_dir}monokai-theme.css", array(), $ver );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Ninja Forms styles' );
 		}
-
-		wp_enqueue_style( 'jBox', "{$css_dir}jBox.css", array(), $ver );
-		wp_enqueue_style( 'rating', "{$css_dir}rating.css", array(), $ver );
-		wp_enqueue_style( 'nf-flatpickr', "{$css_dir}flatpickr.css", array(), $ver );
-
-		wp_enqueue_media();
-		wp_enqueue_style( 'summernote', "{$css_dir}summernote.css", array(), $ver );
-		wp_enqueue_style( 'codemirror', "{$css_dir}codemirror.css", array(), $ver );
-		wp_enqueue_style( 'codemirror-monokai', "{$css_dir}monokai-theme.css", array(), $ver );
 	}
 
 	/**
@@ -458,12 +470,16 @@ class Assets {
 			return;
 		}
 
-		$rtl_suffix          = is_rtl() ? '-rtl' : '';
-		$fluent_form_css     = \fluentFormMix( "css/fluent-forms-public$rtl_suffix.css" );
-		$fluent_form_def_css = \fluentFormMix( "css/fluentform-public-default$rtl_suffix.css" );
+		try {
+			$rtl_suffix          = is_rtl() ? '-rtl' : '';
+			$fluent_form_css     = \fluentFormMix( "css/fluent-forms-public$rtl_suffix.css" );
+			$fluent_form_def_css = \fluentFormMix( "css/fluentform-public-default$rtl_suffix.css" );
 
-		wp_enqueue_style( 'fluent-form-styles', $fluent_form_css, array(), \FLUENTFORM_VERSION );
-		wp_enqueue_style( 'fluentform-public-default', $fluent_form_def_css, array(), \FLUENTFORM_VERSION );
+			wp_enqueue_style( 'fluent-form-styles', $fluent_form_css, array(), \FLUENTFORM_VERSION );
+			wp_enqueue_style( 'fluentform-public-default', $fluent_form_def_css, array(), \FLUENTFORM_VERSION );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Fluent Forms styles' );
+		}
 	}
 
 	/**
@@ -474,12 +490,20 @@ class Assets {
 			return;
 		}
 
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-icons', \forminator_plugin_url() . 'assets/forminator-ui/css/forminator-icons.min.css', array(), \FORMINATOR_VERSION );
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-utilities', \forminator_plugin_url() . 'assets/forminator-ui/css/src/forminator-utilities.min.css', array(), \FORMINATOR_VERSION );
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-open', \forminator_plugin_url() . 'assets/forminator-ui/css/src/grid/forminator-grid.open.min.css', array(), \FORMINATOR_VERSION );
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-enclosed', \forminator_plugin_url() . 'assets/forminator-ui/css/src/grid/forminator-grid.enclosed.min.css', array(), \FORMINATOR_VERSION );
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-basic', \forminator_plugin_url() . 'assets/forminator-ui/css/forminator-base.min.css', array(), \FORMINATOR_VERSION );
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui', \forminator_plugin_url() . 'assets/forminator-ui/css/src/forminator-ui.min.css', array(), \FORMINATOR_VERSION );
+		try {
+			// Get the Forminator asset URL.
+			$asset_url = \forminator_plugin_url() . 'assets/forminator-ui/css/';
+
+			// Enqueue Forminator styles.
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-icons', $asset_url .'forminator-icons.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-utilities', $asset_url .'src/forminator-utilities.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-open', $asset_url .'src/grid/forminator-grid.open.min.css');
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-enclosed', $asset_url .'src/grid/forminator-grid.enclosed.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-basic', $asset_url .'forminator-base.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui', $asset_url .'src/forminator-ui.min.css' );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue Forminator styles' );
+		}
 	}
 
 	/**
@@ -494,7 +518,7 @@ class Assets {
 	/**
 	 * Get module configurations
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	private function get_module_assets_configs(): array {
 		$configs = array(
@@ -535,7 +559,7 @@ class Assets {
 	 *
 	 * @param array $configs Existing configurations.
 	 *
-	 * @return array
+	 * @return array<string, mixed> Filtered configurations.
 	 */
 	public function filter_module_configs( array $configs ): array {
 		return array_merge( $configs, $this->module_configs );

@@ -243,7 +243,7 @@ msgstr "পরবর্তী মার্জিন"
 msgid "After Padding"
 msgstr "প্যাডিং পরে"
 
-#: deprecated/Modules/PostGridChild.php:407
+#: deprecated/Modules/PostGridChild.php:415
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:69
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:304
 #: includes/Builder/Version4/Modules/PostGridChild.php:405
@@ -255,7 +255,7 @@ msgid "Align content to the left, right or center."
 msgstr "বাম, ডান বা কেন্দ্রে বিষয়বস্তু সারিবদ্ধ করুন।"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:734
-#: deprecated/Modules/PostGridChild.php:874
+#: deprecated/Modules/PostGridChild.php:882
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1064
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1084
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1164
@@ -355,7 +355,7 @@ msgstr "উপাদানটিতে একটি অনন্য CSS আই�
 msgid "Assign any number of CSS Classes to the element, separated by spaces, which can be used to assign custom CSS styles from within your child theme or from within Divi's custom CSS inputs."
 msgstr "এলিমেন্টে স্পেস দ্বারা পৃথক করে বিভিন্ন CSS ক্লাস নির্ধারণ করুন যা আপনি চাইলে চাইলে চাইলে আপনার চাইল্ড থিম থেকে বা ডিভির কাস্টম CSS ইনপুট থেকে কাস্টম CSS স্টাইল নির্ধারণ করতে ব্যবহার করা যাবে।"
 
-#: deprecated/Modules/PostGridChild.php:63
+#: deprecated/Modules/PostGridChild.php:71
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:411
 #: includes/Builder/Version4/Modules/PostGridChild.php:61
 msgid "Author"
@@ -365,17 +365,17 @@ msgstr "অথর"
 msgid "Author archive for "
 msgstr "জন্য লেখক সংরক্ষণাগার"
 
-#: deprecated/Modules/PostGridChild.php:64
+#: deprecated/Modules/PostGridChild.php:72
 #: includes/Builder/Version4/Modules/PostGridChild.php:62
 msgid "Author Avatar"
 msgstr "লেখক অবতার"
 
-#: deprecated/Modules/PostGridChild.php:470
+#: deprecated/Modules/PostGridChild.php:478
 #: includes/Builder/Version4/Modules/PostGridChild.php:468
 msgid "Author Name Type"
 msgstr "লেখকের নামের ধরন"
 
-#: deprecated/Modules/PostGridChild.php:487
+#: deprecated/Modules/PostGridChild.php:495
 #: includes/Builder/Version4/Modules/PostGridChild.php:485
 msgid "Avatar Image Size"
 msgstr "অবতার ছবির আকার"
@@ -406,8 +406,8 @@ msgstr "ব্যাক বাটন"
 msgid "Back Wrapper"
 msgstr "পিছনে মোড়ানো"
 
-#: deprecated/Modules/PostGridChild.php:966
-#: deprecated/Modules/PostGridChild.php:1008
+#: deprecated/Modules/PostGridChild.php:974
+#: deprecated/Modules/PostGridChild.php:1016
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:159
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:415
 #: includes/Builder/Version4/Modules/Media/VideoPopup.php:340
@@ -463,7 +463,7 @@ msgstr "মার্জিনের আগে"
 msgid "Before Padding"
 msgstr "প্যাডিং আগে"
 
-#: deprecated/Modules/PostGridChild.php:395
+#: deprecated/Modules/PostGridChild.php:403
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:117
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:152
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:64
@@ -502,7 +502,7 @@ msgstr "বডি প্যাডিং"
 msgid "Border Radius"
 msgstr "সীমানা ব্যাসার্ধ"
 
-#: deprecated/Modules/PostGridChild.php:888
+#: deprecated/Modules/PostGridChild.php:896
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1178
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1885
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:280
@@ -628,17 +628,17 @@ msgstr "ডিফল্টরূপে, বোতাম আইকন সর্�
 msgid "By default, icon and text are both move on hover. If you would like button icon move on hover, then you can enable this option."
 msgstr "ডিফল্টরূপে, আইকন এবং পাঠ্য উভয়ই হোভারে চলে যায়। আপনি যদি বোতাম আইকন হোভারে সরাতে চান, তাহলে আপনি এই বিকল্পটি সক্ষম করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:913
+#: deprecated/Modules/PostGridChild.php:921
 #: includes/Builder/Version4/Modules/PostGridChild.php:911
 msgid "By default, icon and text are both move on hover. If you would like post element icon move on hover, then you can enable this option."
 msgstr "বাই ডিফল্ট, আইকন এবং পাঠ্যউভয়ই হোভারে চলেছে. আপনি যদি চান পোস্টউপাদান আইকন হোভারে চলে যায়, তারপরে আপনি এই বিকল্পটি সক্ষম করতে পারেন."
 
-#: deprecated/Modules/PostGridChild.php:900
+#: deprecated/Modules/PostGridChild.php:908
 #: includes/Builder/Version4/Modules/PostGridChild.php:898
 msgid "By default, post element icon to always be displayed. If you would like post element icon are displayed on hover, then you can enable this option."
 msgstr "বাই ডিফল্ট, পোস্টসর্বদা প্রদর্শিত হতে উপাদান আইকন. আপনি যদি চান পোস্টউপাদান আইকনটি হোভারে প্রদর্শিত হয়, তারপরে আপনি এই বিকল্পটি সক্ষম করতে পারেন."
 
-#: deprecated/Modules/PostGridChild.php:736
+#: deprecated/Modules/PostGridChild.php:744
 #: includes/Builder/Version4/Modules/PostGridChild.php:734
 msgid "By default, post title icon on hover be displayed. If you would like post title icon is displayed all time, then you can enable this option."
 msgstr "বাই ডিফল্ট, পোস্টহোভারের শিরোনাম আইকন প্রদর্শিত হবে. আপনি যদি চান পোস্ট-শিরোনাম আইকনটি সর্বদা প্রদর্শিত হয়, তারপরে আপনি এই বিকল্পটি সক্ষম করতে পারেন."
@@ -661,12 +661,12 @@ msgstr "ডিফল্টভাবে, সেপারেটর উপাদা
 msgid "Canvas"
 msgstr "ক্যানভাস"
 
-#: deprecated/Modules/PostGridChild.php:68
+#: deprecated/Modules/PostGridChild.php:76
 #: includes/Builder/Version4/Modules/PostGridChild.php:66
 msgid "Categories"
 msgstr "বিভাগসমূহ"
 
-#: deprecated/Modules/PostGridChild.php:421
+#: deprecated/Modules/PostGridChild.php:429
 #: includes/Builder/Version4/Modules/PostGridChild.php:419
 msgid "Categories Separator"
 msgstr "বিভাগ বিভাজক"
@@ -675,7 +675,7 @@ msgstr "বিভাগ বিভাজক"
 msgid "Category"
 msgstr "ক্যাটাগরি"
 
-#: deprecated/Modules/PostGridChild.php:887
+#: deprecated/Modules/PostGridChild.php:895
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1177
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1223
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1884
@@ -697,8 +697,8 @@ msgstr "চেকবক্স এবং রেডিও সক্রিয় �
 msgid "Checkbox & Radio Field Size"
 msgstr "চেকবক্স এবং রেডিও ক্ষেত্রের আকার"
 
-#: deprecated/Modules/PostGridChild.php:472
-#: deprecated/Modules/PostGridChild.php:489
+#: deprecated/Modules/PostGridChild.php:480
+#: deprecated/Modules/PostGridChild.php:497
 #: includes/Builder/Version4/Modules/PostGridChild.php:470
 #: includes/Builder/Version4/Modules/PostGridChild.php:487
 msgid "Choose a author name type to display for current post."
@@ -711,7 +711,7 @@ msgstr "বর্তমান পোস্টের জন্য প্রদর
 msgid "Choose a custom field to display for current post."
 msgstr "বর্তমান পোস্টের জন্য প্রদর্শন করার জন্য একটি কাস্টম ক্ষেত্র চয়ন করুন৷"
 
-#: deprecated/Modules/PostGridChild.php:505
+#: deprecated/Modules/PostGridChild.php:513
 #: includes/Builder/Version4/Modules/PostGridChild.php:503
 msgid "Choose a date type to display for current post."
 msgstr "বর্তমান পোস্টের জন্য প্রদর্শনের জন্য একটি তারিখের ধরন চয়ন করুন৷"
@@ -771,7 +771,7 @@ msgstr "আপনার সাথে প্রদর্শন করতে এ�
 msgid "Choose a tag to display with your time text."
 msgstr "আপনার সময় টেক্সটের সাথে প্রদর্শন করার জন্য একটি নির্ধারণ করুন৷"
 
-#: deprecated/Modules/PostGridChild.php:451
+#: deprecated/Modules/PostGridChild.php:459
 #: includes/Builder/Version4/Modules/PostGridChild.php:449
 msgid "Choose a tag to display with your title element."
 msgstr "আপনার শিরোনাম উপাদানের সাথে প্রদর্শন করার জন্য একটি ট্যাগ চয়ন করুন৷"
@@ -785,7 +785,7 @@ msgstr "আপনার শিরোনাম পাঠ্যের সাথে
 msgid "Choose a tag to display with your title."
 msgstr "আপনার টাইটেল প্রদর্শন করার জন্য একটি ট্যাগ চয়ন করুন৷"
 
-#: deprecated/Modules/PostGridChild.php:59
+#: deprecated/Modules/PostGridChild.php:67
 #: includes/Builder/Version4/Modules/PostGridChild.php:57
 msgid "Choose a type"
 msgstr "একটি টাইপ নির্বাচন করুন"
@@ -798,14 +798,14 @@ msgstr "একটি ভিডিও MP4 ফাইল চয়ন করুন"
 msgid "Choose an divider type to display."
 msgstr "প্রদর্শনের জন্য একটি বিভাজক প্রকার নির্ধারণ করুন।"
 
-#: deprecated/Modules/PostGridChild.php:307
+#: deprecated/Modules/PostGridChild.php:315
 #: includes/Builder/Version4/Modules/PostGridChild.php:305
 msgid "Choose an element type to display for current post."
 msgstr "বর্তমান পোস্টের জন্য প্রদর্শন করার জন্য একটি উপাদানের ধরন চয়ন করুন৷"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:434
-#: deprecated/Modules/PostGridChild.php:656
-#: deprecated/Modules/PostGridChild.php:723
+#: deprecated/Modules/PostGridChild.php:664
+#: deprecated/Modules/PostGridChild.php:731
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1628
 #: includes/Builder/Version4/Modules/Creative/Divider.php:560
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:384
@@ -837,12 +837,12 @@ msgstr "আপনার পরবর্তী এন্ট্রিগুলি�
 msgid "Choose an icon to display with your old entries."
 msgstr "আপনার পুরানো এন্ট্রিগুলির সাথে প্রদর্শন করার জন্য একটি আইকন চয়ন করুন৷"
 
-#: deprecated/Modules/PostGridChild.php:724
+#: deprecated/Modules/PostGridChild.php:732
 #: includes/Builder/Version4/Modules/PostGridChild.php:722
 msgid "Choose an icon to display with your post title."
 msgstr "আপনার সাথে প্রদর্শন করতে একটি আইকন চয়ন করুন পোস্ট-শিরোনাম."
 
-#: deprecated/Modules/PostGridChild.php:657
+#: deprecated/Modules/PostGridChild.php:665
 #: includes/Builder/Version4/Modules/PostGridChild.php:655
 msgid "Choose an icon to display with your post."
 msgstr "আপনার পোস্টের সাথে প্রদর্শন করার জন্য একটি আইকন চয়ন করুন৷"
@@ -864,7 +864,7 @@ msgstr "ফ্লিপ বক্সের আপনার বর্তমান
 msgid "Choose an icon type to display with your divider."
 msgstr "আপনার ভিভাজকের সাথে প্রদর্শন করার জন্য একটি আইকন প্রকার চয়ন করুন৷"
 
-#: deprecated/Modules/PostGridChild.php:615
+#: deprecated/Modules/PostGridChild.php:623
 #: includes/Builder/Version4/Modules/PostGridChild.php:613
 msgid "Choose an icon type to display with your post."
 msgstr "আপনার পোস্টের সাথে প্রদর্শন করার জন্য একটি আইকন প্রকার চয়ন করুন৷"
@@ -875,7 +875,7 @@ msgid "Choose an icon type to display with your separator."
 msgstr "আপনার সেপারেটরের সাথে প্রদর্শন করার জন্য একটি আইকন প্রকার চয়ন করুন৷"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:452
-#: deprecated/Modules/PostGridChild.php:674
+#: deprecated/Modules/PostGridChild.php:682
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1646
 #: includes/Builder/Version4/Modules/Creative/Divider.php:578
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:402
@@ -931,7 +931,7 @@ msgstr "কলাম ফাঁক"
 msgid "Comments"
 msgstr "মন্তব্যসমূহ"
 
-#: deprecated/Modules/PostGridChild.php:67
+#: deprecated/Modules/PostGridChild.php:75
 #: includes/Builder/Version4/Modules/PostGridChild.php:65
 msgid "Comments Count"
 msgstr "মন্তব্য গণনা"
@@ -950,7 +950,7 @@ msgstr "যোগাযোগ সমর্থন"
 msgid "Container Tag"
 msgstr "ধারক ট্যাগ"
 
-#: deprecated/Modules/PostGridChild.php:62
+#: deprecated/Modules/PostGridChild.php:70
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:71
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:56
 #: includes/Builder/Version4/Modules/Creative/ScrollingText.php:52
@@ -961,7 +961,7 @@ msgstr "ধারক ট্যাগ"
 msgid "Content"
 msgstr "কন্টেন্ট"
 
-#: deprecated/Modules/PostGridChild.php:975
+#: deprecated/Modules/PostGridChild.php:983
 #: includes/Builder/Version4/Modules/PostGridChild.php:973
 msgid "Content Alignment"
 msgstr "বিষয়বস্তু প্রান্তিককরণ"
@@ -1132,8 +1132,8 @@ msgstr "কাস্টম HTML পাঠ্য"
 msgid "Custom Spacing"
 msgstr "কাস্টম ব্যবধান"
 
-#: deprecated/Modules/PostGridChild.php:71
-#: deprecated/Modules/PostGridChild.php:529
+#: deprecated/Modules/PostGridChild.php:79
+#: deprecated/Modules/PostGridChild.php:537
 #: includes/Builder/Version4/Modules/PostGridChild.php:69
 #: includes/Builder/Version4/Modules/PostGridChild.php:527
 msgid "Custom Text"
@@ -1158,7 +1158,7 @@ msgstr "বিভাজক আকার কাস্টমাইজ করুন
 msgid "Dashboard"
 msgstr "ড্যাশবোর্ড"
 
-#: deprecated/Modules/PostGridChild.php:65
+#: deprecated/Modules/PostGridChild.php:73
 #: includes/Builder/Version4/Modules/PostGridChild.php:63
 msgid "Date"
 msgstr "তারিখ"
@@ -1167,7 +1167,7 @@ msgstr "তারিখ"
 msgid "Date Format"
 msgstr "তারিখ বিন্যাস"
 
-#: deprecated/Modules/PostGridChild.php:503
+#: deprecated/Modules/PostGridChild.php:511
 #: includes/Builder/Version4/Modules/PostGridChild.php:501
 msgid "Date Type"
 msgstr "তারিখের ধরন"
@@ -1209,7 +1209,7 @@ msgstr "দিন র‍্যাপার"
 msgid "Default"
 msgstr "ডিফল্ট"
 
-#: deprecated/Modules/PostGridChild.php:685
+#: deprecated/Modules/PostGridChild.php:693
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1657
 #: includes/Builder/Version4/Modules/Creative/Divider.php:589
 #: includes/Builder/Version4/Modules/Media/BeforeAfterImageSlider.php:454
@@ -1294,7 +1294,7 @@ msgstr "দেখানো"
 msgid "Display content on one side, then on hover, flip to reveal more info or a different design."
 msgstr "একদিকে সামগ্রী প্রদর্শন করুন, তারপরে হোভারে, আরও তথ্য বা একটি ভিন্ন ডিজাইন প্রকাশ করতে ফ্লিপ করুন৷"
 
-#: deprecated/Modules/PostGridChild.php:475
+#: deprecated/Modules/PostGridChild.php:483
 #: includes/Builder/Version4/Modules/PostGridChild.php:473
 msgid "Display Name"
 msgstr "প্রদর্শনের জন্য নাম"
@@ -1328,15 +1328,15 @@ msgstr "ডিভি লাইব্রেরি শর্টকোড"
 
 #: deprecated/Base/DiviBuilder/Module.php:56
 #: deprecated/Integrations/WP.php:266
-#: includes/Builder/Version4/Abstracts/Module.php:66
+#: includes/Builder/Version4/Abstracts/Module.php:80
 #: includes/Core/Admin/Menu.php:169
 #: includes/Core/Admin/Menu.php:170
 #: includes/Core/Distribution.php:522
 #: includes/Core/Distribution.php:530
 #: includes/Core/Distribution.php:538
 #: includes/Core/Distribution.php:546
-#: includes/Core/Requirements.php:262
-#: includes/Core/Requirements.php:263
+#: includes/Core/Requirements.php:256
+#: includes/Core/Requirements.php:257
 #: includes/Core/Supports/Site_Health.php:61
 #: templates/admin/common/layout-header.php:36
 #: templates/admin/common/layout-header.php:40
@@ -1344,9 +1344,9 @@ msgstr "ডিভি লাইব্রেরি শর্টকোড"
 msgid "Divi Squad"
 msgstr "ডিভি স্কোয়াড"
 
-#: deprecated/Modules/PostGridChild.php:70
-#: deprecated/Modules/PostGridChild.php:90
-#: deprecated/Modules/PostGridChild.php:100
+#: deprecated/Modules/PostGridChild.php:78
+#: deprecated/Modules/PostGridChild.php:98
+#: deprecated/Modules/PostGridChild.php:108
 #: includes/Builder/Version4/Modules/Creative/Divider.php:59
 #: includes/Builder/Version4/Modules/Creative/Divider.php:67
 #: includes/Builder/Version4/Modules/PostGridChild.php:68
@@ -1357,7 +1357,7 @@ msgstr "ডিভি স্কোয়াড"
 msgid "Divider"
 msgstr "ডিভাইডার"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:218
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:217
 #: includes/Builder/Version4/Modules/Creative/Divider.php:490
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:202
 msgid "Divider Border Radius"
@@ -1371,7 +1371,7 @@ msgstr "বিভাজক উপাদান"
 msgid "Divider Left Side Width"
 msgstr "বিভাজক বাম পাশের প্রস্থ"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:201
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:200
 #: includes/Builder/Version4/Modules/Creative/Divider.php:471
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:185
 msgid "Divider Max Width"
@@ -1389,7 +1389,7 @@ msgstr "বিভাজক টেক্সট"
 msgid "Divider Type"
 msgstr "বিভাজক প্রকার"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:181
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:180
 #: includes/Builder/Version4/Modules/Creative/Divider.php:392
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:165
 msgid "Divider Weight"
@@ -1499,11 +1499,11 @@ msgstr "অনায়াসে নিনজা ফর্ম ডিজাইন
 msgid "Effortlessly customize WP Forms design. Adjust colors, fonts, spacing, and add CSS for your desired look."
 msgstr "অনায়াসে WP ফর্ম ডিজাইন কাস্টমাইজ করুন। রঙ, ফন্ট, ব্যবধান সামঞ্জস্য করুন এবং আপনার পছন্দসই চেহারার জন্য CSS যোগ করুন।"
 
-#: deprecated/Modules/PostGridChild.php:88
-#: deprecated/Modules/PostGridChild.php:98
-#: deprecated/Modules/PostGridChild.php:134
-#: deprecated/Modules/PostGridChild.php:200
-#: deprecated/Modules/PostGridChild.php:289
+#: deprecated/Modules/PostGridChild.php:96
+#: deprecated/Modules/PostGridChild.php:106
+#: deprecated/Modules/PostGridChild.php:142
+#: deprecated/Modules/PostGridChild.php:208
+#: deprecated/Modules/PostGridChild.php:297
 #: includes/Builder/Version4/Modules/PostGrid.php:106
 #: includes/Builder/Version4/Modules/PostGrid.php:243
 #: includes/Builder/Version4/Modules/PostGridChild.php:86
@@ -1518,7 +1518,7 @@ msgstr "উপাদান"
 msgid "Element Background"
 msgstr "উপাদান ব্যাকগ্রাউন্ড"
 
-#: deprecated/Modules/PostGridChild.php:249
+#: deprecated/Modules/PostGridChild.php:257
 #: includes/Builder/Version4/Modules/PostGrid.php:387
 #: includes/Builder/Version4/Modules/PostGridChild.php:247
 msgid "Element Box Shadow"
@@ -1538,12 +1538,12 @@ msgstr "উপাদান প্যাডিং"
 msgid "Element Placement"
 msgstr "এলিমেন্ট প্লেসমেন্ট"
 
-#: deprecated/Modules/PostGridChild.php:99
+#: deprecated/Modules/PostGridChild.php:107
 #: includes/Builder/Version4/Modules/PostGridChild.php:97
 msgid "Element Text"
 msgstr "উপাদানের পাঠ্য"
 
-#: deprecated/Modules/PostGridChild.php:305
+#: deprecated/Modules/PostGridChild.php:313
 #: includes/Builder/Version4/Modules/PostGridChild.php:303
 msgid "Element Type"
 msgstr "উপাদান প্রকার"
@@ -1618,7 +1618,7 @@ msgstr "আরও ভালো চেহারার জন্য স্ক্�
 msgid "Enable Shuffle"
 msgstr "সাফ সক্ষম করুন"
 
-#: deprecated/Modules/PostGridChild.php:357
+#: deprecated/Modules/PostGridChild.php:365
 #: includes/Builder/Version4/Modules/PostGridChild.php:355
 msgid "Enable Text Limit"
 msgstr "পাঠ্য সীমা সক্ষম করুন"
@@ -1732,12 +1732,12 @@ msgstr "ফেড"
 msgid "Fade Out Delay (ms)"
 msgstr "বিবর্ণ আউট বিলম্ব ( এমএস )"
 
-#: deprecated/Modules/PostGridChild.php:281
+#: deprecated/Modules/PostGridChild.php:289
 #: includes/Builder/Version4/Modules/PostGridChild.php:279
 msgid "Feature Image"
 msgstr "ফিচার ছবি"
 
-#: deprecated/Modules/PostGridChild.php:61
+#: deprecated/Modules/PostGridChild.php:69
 #: includes/Builder/Version4/Modules/PostGridChild.php:59
 msgid "Featured Image"
 msgstr "বৈশিষ্ট্যযুক্ত ইমেজ"
@@ -1812,7 +1812,7 @@ msgstr "ক্ষেত্রের প্রস্থ"
 msgid "Fill Color"
 msgstr "ভরাট রঙ"
 
-#: deprecated/Modules/PostGridChild.php:477
+#: deprecated/Modules/PostGridChild.php:485
 #: includes/Builder/Version4/Modules/PostGridChild.php:475
 msgid "First Name"
 msgstr "নামের প্রথম অংশ"
@@ -1848,7 +1848,7 @@ msgstr "আকৃতি এবং এর দিক পরিবর্তন ক�
 msgid "Fluent Forms"
 msgstr "ফ্লুয়েন্ট ফর্ম"
 
-#: deprecated/Modules/PostGridChild.php:460
+#: deprecated/Modules/PostGridChild.php:468
 #: includes/Builder/Version4/Modules/PostGridChild.php:458
 msgid "Force Fullwidth"
 msgstr "জোর করে সম্পূর্ণ প্রস্থ করুন"
@@ -1937,7 +1937,7 @@ msgstr "ফ্রন্ট বাটন"
 msgid "Front Wrapper"
 msgstr "সামনের মোড়ক"
 
-#: deprecated/Modules/PostGridChild.php:476
+#: deprecated/Modules/PostGridChild.php:484
 #: includes/Builder/Version4/Modules/PostGridChild.php:474
 msgid "Full Name"
 msgstr "পুরো নাম"
@@ -1970,7 +1970,7 @@ msgstr "উপাদানগুলির মধ্যবর্তী অংক�
 msgid "Gap Between Entries Icon and Text"
 msgstr "এন্ট্রি আইকন এবং পাঠ্যের মধ্যে ফাঁক"
 
-#: deprecated/Modules/PostGridChild.php:836
+#: deprecated/Modules/PostGridChild.php:844
 #: includes/Builder/Version4/Modules/PostGridChild.php:834
 msgid "Gap Between Icon and Text"
 msgstr "Gap Between Icon and Text"
@@ -2184,7 +2184,7 @@ msgstr "এখানে আপনি লটি অ্যানিমেশন �
 msgid "Here you can choose cursor icon size."
 msgstr "এখানে আপনি কার্সার আইকন আকার চয়ন করতে পারেন."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:220
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:219
 #: includes/Builder/Version4/Modules/Creative/Divider.php:492
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:204
 msgid "Here you can choose divider border  radius."
@@ -2194,7 +2194,7 @@ msgstr "এখানে আপনি বিভাজক সীমানা ব�
 msgid "Here you can choose divider left side width."
 msgstr "এখানে আপনি বাম পাশের প্রস্থ বিভাজক চয়ন করতে পারেন।"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:203
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:202
 #: includes/Builder/Version4/Modules/Creative/Divider.php:473
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:187
 msgid "Here you can choose divider max width."
@@ -2217,7 +2217,7 @@ msgid "Here you can choose gap between entries icon and text."
 msgstr "এখানে আপনি এন্ট্রি আইকন এবং পাঠ্যের মধ্যে ফাঁক চয়ন করতে পারেন।"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:644
-#: deprecated/Modules/PostGridChild.php:838
+#: deprecated/Modules/PostGridChild.php:846
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1804
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1971
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:574
@@ -2259,7 +2259,7 @@ msgstr "এখানে আপনি প্রতি পৃষ্ঠায় �
 msgid "Here you can choose how much speed in the typing text."
 msgstr "এখানে আপনি টাইপ করার ক্ষেত্রে কতটা গতি চয়ন করতে পারেন পাঠ্য."
 
-#: deprecated/Modules/PostGridChild.php:372
+#: deprecated/Modules/PostGridChild.php:380
 #: includes/Builder/Version4/Modules/PostGridChild.php:370
 msgid "Here you can choose how much text you would like to display for post content or excerpt."
 msgstr "এখানে পোস্ট কন্টেন্ট অথবা সারংশের জন্য কতটা পাঠ্য প্রদর্শন করতে চান তা চয়ন করতে পারেন৷"
@@ -2277,8 +2277,8 @@ msgid "Here you can choose how much words you would like to count in a minute."
 msgstr "এখানে আপনি এক মিনিটে কত্টি শব্দ গণনা করতে চান তা নির্ধারণ করতে পারেন৷"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:598
-#: deprecated/Modules/PostGridChild.php:777
-#: deprecated/Modules/PostGridChild.php:823
+#: deprecated/Modules/PostGridChild.php:785
+#: deprecated/Modules/PostGridChild.php:831
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1704
 #: includes/Builder/Version4/Modules/Creative/Divider.php:732
 #: includes/Builder/Version4/Modules/PostGrid.php:986
@@ -2293,7 +2293,7 @@ msgid "Here you can choose icon wrapper width."
 msgstr "এখানে আপনি আইকন মোড়ক প্রস্থ নির্বাচন করতে পারেন."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:629
-#: deprecated/Modules/PostGridChild.php:808
+#: deprecated/Modules/PostGridChild.php:816
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1757
 #: includes/Builder/Version4/Modules/Creative/Divider.php:768
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:471
@@ -2312,7 +2312,7 @@ msgid "Here you can choose image vertical position."
 msgstr "এখানে আপনি ইমেজ উল্লম্ব অবস্থান চয়ন করতে পারেন."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:614
-#: deprecated/Modules/PostGridChild.php:793
+#: deprecated/Modules/PostGridChild.php:801
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1738
 #: includes/Builder/Version4/Modules/Creative/Divider.php:750
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:453
@@ -2411,8 +2411,8 @@ msgid "Here you can choose where to place the element."
 msgstr "এখানে আপনি উপাদানটি কোথায় রাখবেন তা নির্ধারণ করতে পারেন।"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:665
-#: deprecated/Modules/PostGridChild.php:855
-#: deprecated/Modules/PostGridChild.php:884
+#: deprecated/Modules/PostGridChild.php:863
+#: deprecated/Modules/PostGridChild.php:892
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1848
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1881
 #: includes/Builder/Version4/Modules/PostGridChild.php:853
@@ -2429,7 +2429,7 @@ msgstr "এখানে আপনি চেনাশোনা স্লাইড
 msgid "Here you can choose whether or not circle slide control."
 msgstr "এখানে আপনি বৃত্ত স্লাইড নিয়ন্ত্রণ নির্বাচন করতে পারেন কিনা।"
 
-#: deprecated/Modules/PostGridChild.php:359
+#: deprecated/Modules/PostGridChild.php:367
 #: includes/Builder/Version4/Modules/PostGridChild.php:357
 msgid "Here you can choose whether or not custom length for post content or excerpt text limit."
 msgstr "এখানে আপনি পোস্টের বিষয়বস্তুর জন্য কাস্টম দৈর্ঘ্য বা উদ্ধৃত পাঠের সীমা বেছে নিতে পারেন।"
@@ -2478,7 +2478,7 @@ msgstr "এখানে আপনি ফ্লিপ বক্সের জন�
 msgid "Here you can choose whether or not remove the cursor after completed the typing effect."
 msgstr "এখানে আপনি টাইপিং প্রভাব সম্পূর্ণ করার পরে কার্সার অপসারণ করবেন কিনা তা চয়ন করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:349
+#: deprecated/Modules/PostGridChild.php:357
 #: includes/Builder/Version4/Modules/PostGridChild.php:347
 msgid "Here you can choose whether or not show post excerpt."
 msgstr "এখানে আপনি পোস্টের উদ্ধৃতি দেখান কি না তা চয়ন করতে পারেন৷"
@@ -2537,7 +2537,7 @@ msgstr "এখানে আপনি স্লাইড নিয়ন্ত্
 msgid "Here you can choose whether or not the back side view first mode, by default \"first side\"."
 msgstr "এখানে আপনি ডিফল্টভাবে \"প্রথম দিকে\" ব্যাক সাইড ভিউ ফার্স্ট মোড নির্বাচন করতে পারবেন।"
 
-#: deprecated/Modules/PostGridChild.php:462
+#: deprecated/Modules/PostGridChild.php:470
 #: includes/Builder/Version4/Modules/PostGridChild.php:460
 msgid "Here you can choose whether or not the image element is full width."
 msgstr "এখানে আপনি ইমেজ উপাদান সম্পূর্ণ প্রস্থ কিনা বা না চয়ন করতে পারেন."
@@ -2564,7 +2564,7 @@ msgstr "এখানে আপনি পাঠ্যের জন্য ক্�
 msgid "Here you can choose whether or not use custom height for flip box."
 msgstr "এখানে আপনি ফ্লিপ বাক্সের জন্য কাস্টম উচ্চতা ব্যবহার করবেন কিনা তা চয়ন করতে পারেন."
 
-#: deprecated/Modules/PostGridChild.php:706
+#: deprecated/Modules/PostGridChild.php:714
 #: includes/Builder/Version4/Modules/PostGridChild.php:704
 msgid "Here you can choose whether or not use icon for the post title."
 msgstr "এখানে আপনি আইকনটি ব্যবহার করবেন কিনা তা চয়ন করতে পারেন পোস্ট-শিরোনাম."
@@ -2611,7 +2611,7 @@ msgstr "এখানে আপনি z অক্ষের উপাদান অ
 msgid "Here you can define a custom background color for lottie image."
 msgstr "এখানে আপনি লটি ইমেজের জন্য কাস্টম ব্যাকগ্রাউন্ড রঙ নির্ধারণ করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:759
+#: deprecated/Modules/PostGridChild.php:767
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1694
 #: includes/Builder/Version4/Modules/Creative/Divider.php:723
 #: includes/Builder/Version4/Modules/PostGridChild.php:757
@@ -2679,8 +2679,8 @@ msgstr "এখানে আপনি আপনার কার্সার আ�
 msgid "Here you can define a custom color for your glitch text."
 msgstr "এখানে আপনি আপনার ভুল লেখার জন্য একটি কাস্টম রঙ নির্ধারণ করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:750
-#: deprecated/Modules/PostGridChild.php:768
+#: deprecated/Modules/PostGridChild.php:758
+#: deprecated/Modules/PostGridChild.php:776
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1684
 #: includes/Builder/Version4/Modules/Creative/Divider.php:713
 #: includes/Builder/Version4/Modules/PostGrid.php:977
@@ -2730,8 +2730,8 @@ msgstr "এখানে আপনি ড্রপ ক্যাপ লেটা�
 msgid "Here you can define a custom margin size for the icon wrapper."
 msgstr "এখানে আপনি আইকনের র‍্যাপার এর জন্য একটি কাস্টম মার্জিন আকার নির্ধারণ করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:923
-#: deprecated/Modules/PostGridChild.php:943
+#: deprecated/Modules/PostGridChild.php:931
+#: deprecated/Modules/PostGridChild.php:951
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1921
 #: includes/Builder/Version4/Modules/Creative/Divider.php:786
 #: includes/Builder/Version4/Modules/PostGridChild.php:921
@@ -2760,7 +2760,7 @@ msgstr "এখানে আপনি শিরোনামের জন্য �
 msgid "Here you can define a custom margin size for the typed text."
 msgstr "এখানে আপনি টাইপ করা পাঠ্যের জন্য একটি কাস্টম মার্জিন আকার নির্ধারণ করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:988
+#: deprecated/Modules/PostGridChild.php:996
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:404
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:330
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1992
@@ -2773,7 +2773,7 @@ msgstr "এখানে আপনি টাইপ করা পাঠ্যে�
 msgid "Here you can define a custom margin size for the wrapper."
 msgstr "এখানে আপনি মোড়কের জন্য একটি কাস্টম মার্জিন আকার নির্ধারণ করতে পারেন।"
 
-#: deprecated/Modules/PostGridChild.php:1022
+#: deprecated/Modules/PostGridChild.php:1030
 #: includes/Builder/Version4/Modules/Creative/Divider.php:689
 #: includes/Builder/Version4/Modules/PostGrid.php:1056
 #: includes/Builder/Version4/Modules/PostGrid.php:1090
@@ -2786,10 +2786,10 @@ msgstr "এখানে আপনি কাস্টম মার্জিন �
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:748
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:773
-#: deprecated/Modules/PostGridChild.php:933
-#: deprecated/Modules/PostGridChild.php:954
-#: deprecated/Modules/PostGridChild.php:997
-#: deprecated/Modules/PostGridChild.php:1037
+#: deprecated/Modules/PostGridChild.php:941
+#: deprecated/Modules/PostGridChild.php:962
+#: deprecated/Modules/PostGridChild.php:1005
+#: deprecated/Modules/PostGridChild.php:1045
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:413
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:442
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:342
@@ -2943,9 +2943,9 @@ msgid "https://squadmodules.com/"
 msgstr "https://squadmodules.com/"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:411
-#: deprecated/Modules/PostGridChild.php:96
-#: deprecated/Modules/PostGridChild.php:109
-#: deprecated/Modules/PostGridChild.php:617
+#: deprecated/Modules/PostGridChild.php:104
+#: deprecated/Modules/PostGridChild.php:117
+#: deprecated/Modules/PostGridChild.php:625
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:161
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:194
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1597
@@ -2995,21 +2995,21 @@ msgstr "আইকন 5"
 msgid "Icon 6"
 msgstr "আইকন 6"
 
-#: deprecated/Modules/PostGridChild.php:757
+#: deprecated/Modules/PostGridChild.php:765
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1692
 #: includes/Builder/Version4/Modules/Creative/Divider.php:721
 #: includes/Builder/Version4/Modules/PostGridChild.php:755
 msgid "Icon Background Color"
 msgstr "আইকন ব্যাকগ্রাউন্ড কালার"
 
-#: deprecated/Modules/PostGridChild.php:232
+#: deprecated/Modules/PostGridChild.php:240
 #: includes/Builder/Version4/Modules/Creative/Divider.php:150
 #: includes/Builder/Version4/Modules/PostGridChild.php:230
 msgid "Icon Box Shadow"
 msgstr "আইকন বক্স শাডো"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:584
-#: deprecated/Modules/PostGridChild.php:748
+#: deprecated/Modules/PostGridChild.php:756
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1682
 #: includes/Builder/Version4/Modules/Creative/Divider.php:711
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:424
@@ -3019,26 +3019,26 @@ msgstr "আইকন বক্স শাডো"
 msgid "Icon Color"
 msgstr "আইকনের রঙ"
 
-#: deprecated/Modules/PostGridChild.php:89
+#: deprecated/Modules/PostGridChild.php:97
 #: includes/Builder/Version4/Modules/PostGridChild.php:87
 msgid "Icon Element"
 msgstr "আইকন উপাদান"
 
-#: deprecated/Modules/PostGridChild.php:872
+#: deprecated/Modules/PostGridChild.php:880
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1774
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1868
 #: includes/Builder/Version4/Modules/PostGridChild.php:870
 msgid "Icon Horizontal Alignment"
 msgstr "আইকন অনুভূমিক প্রান্তিককরণ"
 
-#: deprecated/Modules/PostGridChild.php:921
+#: deprecated/Modules/PostGridChild.php:929
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1919
 #: includes/Builder/Version4/Modules/Creative/Divider.php:784
 #: includes/Builder/Version4/Modules/PostGridChild.php:919
 msgid "Icon Margin"
 msgstr "আইকনের মার্জিন"
 
-#: deprecated/Modules/PostGridChild.php:931
+#: deprecated/Modules/PostGridChild.php:939
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1930
 #: includes/Builder/Version4/Modules/Creative/Divider.php:794
 #: includes/Builder/Version4/Modules/PostGridChild.php:929
@@ -3046,7 +3046,7 @@ msgid "Icon Padding"
 msgstr "আইকনের প্যাডিং"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:663
-#: deprecated/Modules/PostGridChild.php:853
+#: deprecated/Modules/PostGridChild.php:861
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1846
 #: includes/Builder/Version4/Modules/PostGridChild.php:851
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:442
@@ -3054,7 +3054,7 @@ msgid "Icon Placement"
 msgstr "আইকন বসানো"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:596
-#: deprecated/Modules/PostGridChild.php:775
+#: deprecated/Modules/PostGridChild.php:783
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1702
 #: includes/Builder/Version4/Modules/Creative/Divider.php:730
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:433
@@ -3064,7 +3064,7 @@ msgstr "আইকন বসানো"
 msgid "Icon Size"
 msgstr "আইকনের আকার"
 
-#: deprecated/Modules/PostGridChild.php:97
+#: deprecated/Modules/PostGridChild.php:105
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:106
 #: includes/Builder/Version4/Modules/Creative/Divider.php:80
 #: includes/Builder/Version4/Modules/PostGridChild.php:95
@@ -3075,14 +3075,14 @@ msgstr "আইকন পাঠ্য"
 msgid "Icon Text Tag"
 msgstr "আইকন টেক্সটের ট্যাগ চয়ন করুন।"
 
-#: deprecated/Modules/PostGridChild.php:613
+#: deprecated/Modules/PostGridChild.php:621
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1593
 #: includes/Builder/Version4/Modules/Creative/Divider.php:523
 #: includes/Builder/Version4/Modules/PostGridChild.php:611
 msgid "Icon Type"
 msgstr "আইকন টাইপ"
 
-#: deprecated/Modules/PostGridChild.php:882
+#: deprecated/Modules/PostGridChild.php:890
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1879
 #: includes/Builder/Version4/Modules/PostGridChild.php:880
 msgid "Icon Vertical Placement"
@@ -3166,7 +3166,7 @@ msgstr "ছবি এবং আইকন"
 msgid "Image & Media Modules"
 msgstr "ছবি ও মিডিয়া মডিউল"
 
-#: deprecated/Modules/PostGridChild.php:684
+#: deprecated/Modules/PostGridChild.php:692
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1656
 #: includes/Builder/Version4/Modules/Creative/Divider.php:588
 #: includes/Builder/Version4/Modules/Media/BeforeAfterImageSlider.php:453
@@ -3207,7 +3207,7 @@ msgid "Image Gallery"
 msgstr "ছবির গ্যালারি"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:627
-#: deprecated/Modules/PostGridChild.php:806
+#: deprecated/Modules/PostGridChild.php:814
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1755
 #: includes/Builder/Version4/Modules/Creative/Divider.php:766
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:469
@@ -3267,7 +3267,7 @@ msgid "Image Vertical Position"
 msgstr "ছবির উল্লম্ব অবস্থান"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:612
-#: deprecated/Modules/PostGridChild.php:791
+#: deprecated/Modules/PostGridChild.php:799
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1736
 #: includes/Builder/Version4/Modules/Creative/Divider.php:748
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:451
@@ -3341,7 +3341,7 @@ msgstr "আইটেমটি নীচের অবস্থানে রাখ
 msgid "Increase the slide control smoothing."
 msgstr "স্লাইড নিয়ন্ত্রণ মসৃণতা বাড়ান।"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:182
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:181
 #: includes/Builder/Version4/Modules/Creative/Divider.php:393
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:166
 msgid "Increasing the divider weight will increase the thickness of the dividing line."
@@ -3420,7 +3420,7 @@ msgstr "লেবেল প্যাডিং"
 msgid "Landscape"
 msgstr "ল্যান্ডস্কেপ"
 
-#: deprecated/Modules/PostGridChild.php:478
+#: deprecated/Modules/PostGridChild.php:486
 #: includes/Builder/Version4/Modules/PostGridChild.php:476
 msgid "Last Name"
 msgstr "নামের শেষাংশ"
@@ -3462,19 +3462,19 @@ msgstr "বাম পাশে"
 msgid "Letter"
 msgstr "চিঠি"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:139
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:138
 #: includes/Builder/Version4/Modules/Creative/Divider.php:312
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:123
 msgid "Line Color"
 msgstr "লাইনের রঙ"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:164
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:163
 #: includes/Builder/Version4/Modules/Creative/Divider.php:376
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:148
 msgid "Line Position"
 msgstr "লাইন অবস্থান"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:151
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:150
 #: includes/Builder/Version4/Modules/Creative/Divider.php:364
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:135
 msgid "Line Style"
@@ -3579,8 +3579,8 @@ msgstr "ম্যানেজ"
 msgid "Map Configuration"
 msgstr "ম্যাপ কনফিগারেশন"
 
-#: deprecated/Modules/PostGridChild.php:986
-#: deprecated/Modules/PostGridChild.php:1020
+#: deprecated/Modules/PostGridChild.php:994
+#: deprecated/Modules/PostGridChild.php:1028
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:168
 #: includes/Builder/Version4/Modules/PostGridChild.php:984
 #: includes/Builder/Version4/Modules/PostGridChild.php:1018
@@ -3692,7 +3692,7 @@ msgstr "সম্ভবত পরে"
 msgid "Message"
 msgstr "বার্তা"
 
-#: deprecated/Modules/PostGridChild.php:508
+#: deprecated/Modules/PostGridChild.php:516
 #: includes/Builder/Version4/Modules/PostGridChild.php:506
 msgid "Modified"
 msgstr "পরিবর্তিত"
@@ -3867,7 +3867,7 @@ msgid "Move Both Side"
 msgstr "উভয় দিকে সরান"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:690
-#: deprecated/Modules/PostGridChild.php:911
+#: deprecated/Modules/PostGridChild.php:919
 #: includes/Builder/Version4/Modules/PostGridChild.php:909
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:469
 msgid "Move Icon On Hover Only"
@@ -3898,13 +3898,13 @@ msgstr "পরবর্তী এন্ট্রি আইকন"
 msgid "Next Entries Text"
 msgstr "পরবর্তী এন্ট্রি টেক্সট"
 
-#: deprecated/Modules/PostGridChild.php:474
+#: deprecated/Modules/PostGridChild.php:482
 #: includes/Builder/Version4/Modules/PostGridChild.php:472
 msgid "Nickname"
 msgstr "ডাকনাম"
 
 #: includes/Core/Admin/Menu.php:684
-#: includes/Core/Requirements.php:340
+#: includes/Core/Requirements.php:334
 #: build/admin/scripts/app.js:173
 msgid "Nightly"
 msgstr "রাত্রিবেলা"
@@ -3949,7 +3949,7 @@ msgid "No posts found that match the specified criteria."
 msgstr "নির্দিষ্ট মানদণ্ডের সাথে মেলে এমন কোনো পোস্ট পাওয়া যায়নি।"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:413
-#: deprecated/Modules/PostGridChild.php:620
+#: deprecated/Modules/PostGridChild.php:628
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1600
 #: includes/Builder/Version4/Modules/Creative/Divider.php:817
 #: includes/Builder/Version4/Modules/Media/Lottie.php:153
@@ -4050,8 +4050,8 @@ msgstr "ওভারলের আইকন রঙ"
 msgid "P tag"
 msgstr "P ট্যাগ"
 
-#: deprecated/Modules/PostGridChild.php:995
-#: deprecated/Modules/PostGridChild.php:1035
+#: deprecated/Modules/PostGridChild.php:1003
+#: deprecated/Modules/PostGridChild.php:1043
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:182
 #: includes/Builder/Version4/Modules/PostGridChild.php:993
 #: includes/Builder/Version4/Modules/PostGridChild.php:1033
@@ -4194,13 +4194,13 @@ msgstr "পোর্ট্রেট"
 msgid "Post Count"
 msgstr "পোস্ট গননা"
 
-#: deprecated/Modules/PostGridChild.php:47
+#: deprecated/Modules/PostGridChild.php:55
 #: includes/Builder/Version4/Modules/PostGridChild.php:45
 #: includes/Integrations/DiviBuilder.php:221
 msgid "Post Element"
 msgstr "পোস্টের উপাদান"
 
-#: deprecated/Modules/PostGridChild.php:48
+#: deprecated/Modules/PostGridChild.php:56
 #: includes/Builder/Version4/Modules/PostGridChild.php:46
 msgid "Post Elements"
 msgstr "পোস্টের উপাদানসমূহ"
@@ -4271,7 +4271,7 @@ msgstr "প্রো"
 msgid "Product Name"
 msgstr "পণ্যের নাম"
 
-#: deprecated/Modules/PostGridChild.php:507
+#: deprecated/Modules/PostGridChild.php:515
 #: includes/Builder/Version4/Modules/PostGridChild.php:505
 msgid "Publish"
 msgstr "পাবলিশ করুন"
@@ -4310,13 +4310,13 @@ msgstr "রেটিং নম্বর"
 msgid "Rating Scale"
 msgstr "নির্ধারণের মাপকাঠি"
 
-#: deprecated/Modules/PostGridChild.php:66
+#: deprecated/Modules/PostGridChild.php:74
 #: includes/Builder/Version4/Modules/PostGrid.php:2852
 #: includes/Builder/Version4/Modules/PostGridChild.php:64
 msgid "Read More"
 msgstr "আরো পড়ুন"
 
-#: deprecated/Modules/PostGridChild.php:517
+#: deprecated/Modules/PostGridChild.php:525
 #: includes/Builder/Version4/Modules/PostGridChild.php:515
 msgid "Read More Text"
 msgstr "আরো পড়ুন টেক্সট"
@@ -4487,7 +4487,7 @@ msgstr "একটা নির্বাচন করুন"
 msgid "Select Play Icon"
 msgstr "প্লে আইকন নির্বাচন করুন"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:152
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:151
 #: includes/Builder/Version4/Modules/Creative/Divider.php:365
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:136
 msgid "Select the shape of the dividing line used for the divider."
@@ -4542,7 +4542,7 @@ msgid "Set As a lottie json"
 msgstr "এটিকে একটি লটি JSON হিসাবে নির্ধারণ করুন।"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:453
-#: deprecated/Modules/PostGridChild.php:675
+#: deprecated/Modules/PostGridChild.php:683
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1647
 #: includes/Builder/Version4/Modules/Creative/Divider.php:579
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:403
@@ -4587,7 +4587,7 @@ msgstr "কন্ট্রোল শ্যাডো দেখান"
 msgid "Show Cursor"
 msgstr "কার্সার দেখান"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:116
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:115
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:100
 msgid "Show Divider"
 msgstr "বিভাজক দেখানো হবে"
@@ -4606,7 +4606,7 @@ msgid "Show how long it takes to read your blog posts. Useful for readers planni
 msgstr "আপনার ব্লগ পোস্ট পড়তে কতক্ষণ লাগে তা দেখান। পাঠকদের তাদের সময় পরিকল্পনা জন্য দরকারী."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:677
-#: deprecated/Modules/PostGridChild.php:898
+#: deprecated/Modules/PostGridChild.php:906
 #: includes/Builder/Version4/Modules/PostGridChild.php:896
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:456
 msgid "Show Icon On Hover"
@@ -4640,7 +4640,7 @@ msgstr "লোড আরও স্পিনার দেখান"
 msgid "Show Numbers"
 msgstr "সংখ্যা দেখান"
 
-#: deprecated/Modules/PostGridChild.php:591
+#: deprecated/Modules/PostGridChild.php:599
 #: includes/Builder/Version4/Modules/PostGridChild.php:589
 msgid "Show Outside the Container"
 msgstr "কন্টেইনারের বাইরে দেখান"
@@ -4649,7 +4649,7 @@ msgstr "কন্টেইনারের বাইরে দেখান"
 msgid "Show Pagination"
 msgstr "পেজিনেশন দেখান"
 
-#: deprecated/Modules/PostGridChild.php:347
+#: deprecated/Modules/PostGridChild.php:355
 #: includes/Builder/Version4/Modules/PostGridChild.php:345
 msgid "Show Post Excerpt"
 msgstr "পোস্টের উদ্ধৃতি দেখান"
@@ -4671,7 +4671,7 @@ msgstr "প্রথম পিছনে দেখান"
 msgid "Show Title"
 msgstr "টাইটেল দেখান"
 
-#: deprecated/Modules/PostGridChild.php:734
+#: deprecated/Modules/PostGridChild.php:742
 #: includes/Builder/Version4/Modules/PostGridChild.php:732
 msgid "Show Title Icon On Hover"
 msgstr "হোভার উপর শিরোনাম আইকন দেখান"
@@ -4864,12 +4864,12 @@ msgstr "SVG ছবি আপলোড সমর্থন"
 msgid "Tag"
 msgstr "ট্যাগ"
 
-#: deprecated/Modules/PostGridChild.php:69
+#: deprecated/Modules/PostGridChild.php:77
 #: includes/Builder/Version4/Modules/PostGridChild.php:67
 msgid "Tags"
 msgstr "ট্যাগসমূহ"
 
-#: deprecated/Modules/PostGridChild.php:433
+#: deprecated/Modules/PostGridChild.php:441
 #: includes/Builder/Version4/Modules/PostGridChild.php:431
 msgid "Tags Separator"
 msgstr "ট্যাগ বিভাজক"
@@ -4909,7 +4909,7 @@ msgstr "টেক্সট বক্সের উচ্চতা"
 msgid "Text Box Width"
 msgstr "টেক্সট বক্স প্রস্থ"
 
-#: deprecated/Modules/PostGridChild.php:370
+#: deprecated/Modules/PostGridChild.php:378
 #: includes/Builder/Version4/Modules/PostGridChild.php:368
 msgid "Text Limit"
 msgstr "পাঠ্য সীমা"
@@ -4929,7 +4929,7 @@ msgstr "Textarea ক্ষেত্রের উচ্চতা"
 msgid "The after text of your custom field text will appear in with your post element."
 msgstr "আপনার কাস্টম ক্ষেত্রের পাঠ্যের পরে আপনার পোস্ট উপাদানের সাথে প্রদর্শিত হবে।"
 
-#: deprecated/Modules/PostGridChild.php:408
+#: deprecated/Modules/PostGridChild.php:416
 #: includes/Builder/Version4/Modules/PostGridChild.php:406
 msgid "The after text of your post comments will appear in with your post element."
 msgstr "আপনার পোস্টের মন্তব্যের পরের পাঠ্য আপনার পোস্ট উপাদানের সাথে প্রদর্শিত হবে।"
@@ -4949,7 +4949,7 @@ msgstr "এই রেটিং জন্য পণ্য লেখক."
 msgid "The before text of your custom field text will appear in with your post element."
 msgstr "আপনার কাস্টম ফিল্ডের আগের পাঠ্যটি আপনার পোস্ট উপাদানের সাথে প্রদর্শিত হবে।"
 
-#: deprecated/Modules/PostGridChild.php:396
+#: deprecated/Modules/PostGridChild.php:404
 #: includes/Builder/Version4/Modules/PostGridChild.php:394
 msgid "The before text of your post comments will appear in with your post element."
 msgstr "আপনার পোস্টের মন্তব্যের আগের পাঠ্য আপনার পোস্ট উপাদানের সাথে প্রদর্শিত হবে।"
@@ -4981,7 +4981,7 @@ msgstr "ডিসকাউন্ট পাওয়া যায় না."
 msgid "The display CSS property sets whether an element is treated as a block or inline box."
 msgstr "ডিসপ্লে সিএসএস প্রপার্টি সেট করে যে একটি উপাদানকে ব্লক বা ইনলাইন বক্স হিসাবে বিবেচনা করা হবে কিনা।"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:165
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:164
 #: includes/Builder/Version4/Modules/Creative/Divider.php:377
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:149
 msgid "The dividing line can be placed either above, below or in the center of the module."
@@ -5020,13 +5020,13 @@ msgstr "নোটিশ পাওয়া যায় না."
 msgid "The review is not available."
 msgstr "পর্যালোচনা পাওয়া যায় না."
 
-#: deprecated/Modules/PostGridChild.php:422
+#: deprecated/Modules/PostGridChild.php:430
 #: includes/Builder/Version4/Modules/PostGridChild.php:420
 #, fuzzy
 msgid "The separator text of your categories will appear in with your categories element."
 msgstr "আপনার বিভাগগুলির বিভাজক পাঠ্যটি আপনার বিভাগ উপাদানের সাথে উপস্থিত হবে।"
 
-#: deprecated/Modules/PostGridChild.php:434
+#: deprecated/Modules/PostGridChild.php:442
 #: includes/Builder/Version4/Modules/PostGridChild.php:432
 #, fuzzy
 msgid "The separator text of your tags will appear in with your tags element."
@@ -5050,7 +5050,7 @@ msgstr "আইকন হিসাবে পাঠ্যটি আপনার �
 msgid "The text of your button will appear in with the module."
 msgstr "আপনার বাটনের টেক্সটটি মডিউলের সাথে দেখা যাবে।"
 
-#: deprecated/Modules/PostGridChild.php:695
+#: deprecated/Modules/PostGridChild.php:703
 #: includes/Builder/Version4/Modules/PostGridChild.php:693
 msgid "The text of your post will appear in bold as icon."
 msgstr "আপনার পোস্টের পাঠ্যটি আইকন হিসাবে বোল্ডে প্রদর্শিত হবে।"
@@ -5067,7 +5067,7 @@ msgstr "আপনার সাব-টাইটেলের পাঠ্যটি
 msgid "The text of your title will appear in with your current side of flip box."
 msgstr "আপনার শিরোনামের পাঠ্যটি ফ্লিপ বক্সের আপনার বর্তমান পাশের সাথে উপস্থিত হবে।"
 
-#: deprecated/Modules/PostGridChild.php:530
+#: deprecated/Modules/PostGridChild.php:538
 #: includes/Builder/Version4/Modules/PostGridChild.php:528
 msgid "The text will appear in with your custom text element."
 msgstr "পাঠ্যটি আপনার কাস্টম পাঠ্য উপাদানের সাথে উপস্থিত হবে।"
@@ -5088,7 +5088,7 @@ msgstr "পাঠ্যটি আপনার পরবর্তী এন্ট
 msgid "The text will appear in with your old entries."
 msgstr "টেক্সট আপনার পুরানো এন্ট্রি সঙ্গে প্রদর্শিত হবে."
 
-#: deprecated/Modules/PostGridChild.php:518
+#: deprecated/Modules/PostGridChild.php:526
 #: includes/Builder/Version4/Modules/PostGridChild.php:516
 msgid "The text will appear in with your read more element."
 msgstr "পাঠ্যটি আপনার আরও পড়ার উপাদান সহ উপস্থিত হবে।"
@@ -5130,7 +5130,7 @@ msgstr "প্রদত্ত রেটিং এর উপর ভিত্ত�
 msgid "The typing text will appear in with your texts."
 msgstr "আপনার পাঠ্য টাইপিং পাঠ্যের সাথে উপস্থিত হবে."
 
-#: deprecated/Modules/PostGridChild.php:977
+#: deprecated/Modules/PostGridChild.php:985
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:389
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:316
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1957
@@ -5158,7 +5158,7 @@ msgstr "এটি অ্যানিমেশনের সংক্রমণ গ
 msgid "This option is only available if Yes is selected for Loop. Enter the number of times you wish to have the animation loop before stopping."
 msgstr "এই বিকল্পটি শুধুমাত্র তখনই উপলব্ধ হবে যদি লুপের জন্য হ্যাঁ নির্বাচন করা হয়। থামার আগে আপনি কতবার অ্যানিমেশন লুপ করতে চান তা লিখুন।"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:117
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:116
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:101
 msgid "This settings turns on and off the 1px divider line, but does not affect the divider height."
 msgstr "এই সেটিংস দ্বারা 1 পিক্সেল বিভাজক রেখা চালু বা বন্ধ করতে পারে, কিন্তু বিভাজকের উচ্চতা প্রভাবিত করবে না।"
@@ -5179,7 +5179,7 @@ msgstr "এই সেটিংস একাধিক বিভাজক লা�
 msgid "this site"
 msgstr "এই সাইট"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:140
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:139
 #: includes/Builder/Version4/Modules/Creative/Divider.php:314
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:124
 msgid "This will adjust the color of the 1px divider line."
@@ -5257,7 +5257,7 @@ msgstr "টাইম টেক্সট ট্যাগ"
 msgid "Time Text Width"
 msgstr "সময় টেক্সট প্রস্থ"
 
-#: deprecated/Modules/PostGridChild.php:60
+#: deprecated/Modules/PostGridChild.php:68
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:53
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:60
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:83
@@ -5290,27 +5290,27 @@ msgstr "শিরোনাম ব্যাকগ্রাউন্ড"
 msgid "Title Box Shadow"
 msgstr "টাইটেল বক্স শ্যাডো"
 
-#: deprecated/Modules/PostGridChild.php:277
+#: deprecated/Modules/PostGridChild.php:285
 #: includes/Builder/Version4/Modules/PostGridChild.php:275
 msgid "Title Icon"
 msgstr "শিরোনাম আইকন"
 
-#: deprecated/Modules/PostGridChild.php:766
+#: deprecated/Modules/PostGridChild.php:774
 #: includes/Builder/Version4/Modules/PostGridChild.php:764
 msgid "Title Icon Color"
 msgstr "শিরোনাম আইকন রঙ"
 
-#: deprecated/Modules/PostGridChild.php:941
+#: deprecated/Modules/PostGridChild.php:949
 #: includes/Builder/Version4/Modules/PostGridChild.php:939
 msgid "Title Icon Margin"
 msgstr "শিরোনাম আইকন মার্জিন"
 
-#: deprecated/Modules/PostGridChild.php:952
+#: deprecated/Modules/PostGridChild.php:960
 #: includes/Builder/Version4/Modules/PostGridChild.php:950
 msgid "Title Icon Padding"
 msgstr "শিরোনাম আইকন প্যাডিং"
 
-#: deprecated/Modules/PostGridChild.php:821
+#: deprecated/Modules/PostGridChild.php:829
 #: includes/Builder/Version4/Modules/PostGridChild.php:819
 msgid "Title Icon Size"
 msgstr "শিরোনাম আইকন আকার"
@@ -5337,7 +5337,7 @@ msgstr "টাইটেল প্যাডিং"
 msgid "Title Stacked Position"
 msgstr "শিরোনাম স্ট্যাক করা অবস্থান"
 
-#: deprecated/Modules/PostGridChild.php:449
+#: deprecated/Modules/PostGridChild.php:457
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:256
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1528
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:231
@@ -5354,7 +5354,7 @@ msgstr "শিরোনাম টেক্সট"
 msgid "to"
 msgstr "প্রতি"
 
-#: deprecated/Modules/PostGridChild.php:886
+#: deprecated/Modules/PostGridChild.php:894
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1176
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1883
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:279
@@ -5499,7 +5499,7 @@ msgstr "ফ্লিপ বক্সের আপনার বর্তমান
 msgid "Upload an image to display at the top of your divider."
 msgstr "আপনার ভিভাজকের শীর্ষে প্রদর্শনের জন্য একটি ছবি আপলোড করুন।"
 
-#: deprecated/Modules/PostGridChild.php:670
+#: deprecated/Modules/PostGridChild.php:678
 #: includes/Builder/Version4/Modules/PostGridChild.php:668
 msgid "Upload an image to display at the top of your post."
 msgstr "আপনার পোস্টের শীর্ষে প্রদর্শনের জন্য একটি ছবি আপলোড করুন।"
@@ -5536,7 +5536,7 @@ msgstr "অ্যানিমেটেড আইকন ব্যবহার ক
 msgid "Use animated wave for your icon. For better experience please set icon background color from icon design toggle."
 msgstr "আপনার আইকন জন্য অ্যানিমেটেড তরঙ্গ ব্যবহার করুন. আরও ভালো অভিজ্ঞতার জন্য অনুগ্রহ করে আইকন ডিজাইন টগল থেকে আইকনের পটভূমির রঙ সেট করুন।"
 
-#: deprecated/Modules/PostGridChild.php:704
+#: deprecated/Modules/PostGridChild.php:712
 #: includes/Builder/Version4/Modules/PostGridChild.php:702
 msgid "Use Left Icon for Title"
 msgstr "শিরোনামের জন্য বাম আইকন ব্যবহার করুন"
@@ -5575,7 +5575,7 @@ msgstr "সংস্করণ"
 msgid "Vertical"
 msgstr "লম্বালম্বি ভাবে"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:170
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:169
 #: includes/Builder/Version4/Modules/Creative/Divider.php:382
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:154
 msgid "Vertically Centered"
@@ -5638,8 +5638,8 @@ msgstr "প্রতি মিনিটে শব্দ"
 msgid "WP Forms"
 msgstr "WP ফর্ম"
 
-#: deprecated/Modules/PostGridChild.php:95
-#: deprecated/Modules/PostGridChild.php:285
+#: deprecated/Modules/PostGridChild.php:103
+#: deprecated/Modules/PostGridChild.php:293
 #: includes/Builder/Utils/Elements/Forms.php:123
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:140
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:60
@@ -5679,7 +5679,7 @@ msgstr "ওয়্রাপার সারিবদ্ধতা"
 msgid "Wrapper Background"
 msgstr "র‍্যাপারের ব্যাকগ্রাউন্ড"
 
-#: deprecated/Modules/PostGridChild.php:218
+#: deprecated/Modules/PostGridChild.php:226
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:169
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:138
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:946
@@ -5786,7 +5786,7 @@ msgid "The WP Squad"
 msgstr ""
 
 #: deprecated/Base/DiviBuilder/Module.php:165
-#: includes/Builder/Version4/Abstracts/Module.php:252
+#: includes/Builder/Version4/Abstracts/Module.php:266
 msgid "An error occurred while rendering this module."
 msgstr ""
 
@@ -5990,79 +5990,79 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: includes/Core/Requirements.php:274
-#: includes/Core/Requirements.php:275
+#: includes/Core/Requirements.php:268
+#: includes/Core/Requirements.php:269
 msgid "Requirements"
 msgstr ""
 
 #: includes/Core/Admin/Menu.php:694
-#: includes/Core/Requirements.php:341
+#: includes/Core/Requirements.php:335
 msgid "current"
 msgstr ""
 
 #: includes/Core/Admin/Menu.php:724
-#: includes/Core/Requirements.php:349
+#: includes/Core/Requirements.php:343
 #: build/admin/scripts/app.js:173
 msgid "Lite"
 msgstr ""
 
-#: includes/Core/Requirements.php:368
+#: includes/Core/Requirements.php:362
 msgid "Divi Not Installed"
 msgstr ""
 
-#: includes/Core/Requirements.php:369
+#: includes/Core/Requirements.php:363
 msgid "Squad Modules requires either the Divi/Extra theme or Divi Builder plugin to be installed and activated. Please install Divi to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:372
+#: includes/Core/Requirements.php:366
 msgid "Get Divi"
 msgstr ""
 
-#: includes/Core/Requirements.php:384
+#: includes/Core/Requirements.php:378
 msgid "Divi Update Required"
 msgstr ""
 
-#: includes/Core/Requirements.php:393
+#: includes/Core/Requirements.php:387
 msgid "Update Divi"
 msgstr ""
 
-#: includes/Core/Requirements.php:405
+#: includes/Core/Requirements.php:399
 msgid "Divi Builder Update Required"
 msgstr ""
 
-#: includes/Core/Requirements.php:414
+#: includes/Core/Requirements.php:408
 msgid "Update Divi Builder"
 msgstr ""
 
-#: includes/Core/Requirements.php:424
+#: includes/Core/Requirements.php:418
 msgid "Divi Theme Not Activated"
 msgstr ""
 
-#: includes/Core/Requirements.php:425
+#: includes/Core/Requirements.php:419
 msgid "Squad Modules has detected that you have Divi theme installed but not activated. Please activate the Divi theme to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:428
+#: includes/Core/Requirements.php:422
 msgid "Activate Divi Theme"
 msgstr ""
 
-#: includes/Core/Requirements.php:438
+#: includes/Core/Requirements.php:432
 msgid "Divi Builder Plugin Not Activated"
 msgstr ""
 
-#: includes/Core/Requirements.php:439
+#: includes/Core/Requirements.php:433
 msgid "Squad Modules has detected that you have the Divi Builder plugin installed but not activated. Please activate the Divi Builder plugin to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:442
+#: includes/Core/Requirements.php:436
 msgid "Activate Divi Builder"
 msgstr ""
 
-#: includes/Core/Requirements.php:451
+#: includes/Core/Requirements.php:445
 msgid "Divi Requirements Met"
 msgstr ""
 
-#: includes/Core/Requirements.php:452
+#: includes/Core/Requirements.php:446
 msgid "Your Divi installation meets all the requirements for Squad Modules. You can start using the modules now!"
 msgstr ""
 
@@ -6118,7 +6118,7 @@ msgstr ""
 msgid "Enhancement"
 msgstr ""
 
-#: includes/Core/Modules.php:1211
+#: includes/Core/Modules.php:1210
 #: includes/Integrations/DiviBuilder.php:585
 #: includes/Integrations/DiviBuilder.php:594
 #: includes/Integrations/DiviBuilder.php:603
@@ -6554,72 +6554,72 @@ msgstr ""
 msgid "View all posts tagged %s"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:72
+#: deprecated/Modules/PostGridChild.php:80
 #: includes/Builder/Version4/Modules/PostGridChild.php:70
 msgid "Custom Icon"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:73
+#: deprecated/Modules/PostGridChild.php:81
 #: includes/Builder/Version4/Modules/PostGridChild.php:71
 msgid "Custom Fields"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:74
+#: deprecated/Modules/PostGridChild.php:82
 #: includes/Builder/Version4/Modules/PostGridChild.php:72
 msgid "Custom Fields (ACF)"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:541
+#: deprecated/Modules/PostGridChild.php:549
 #: includes/Builder/Version4/Modules/PostGridChild.php:539
 msgid "Link to Post"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:543
+#: deprecated/Modules/PostGridChild.php:551
 #: includes/Builder/Version4/Modules/PostGridChild.php:541
 msgid "Make this element clickable. Visitors can access the full post directly by clicking."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:551
+#: deprecated/Modules/PostGridChild.php:559
 #: includes/Builder/Version4/Modules/PostGridChild.php:549
 msgid "Link Author Name"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:553
+#: deprecated/Modules/PostGridChild.php:561
 #: includes/Builder/Version4/Modules/PostGridChild.php:551
 msgid "Make the author's name clickable. It'll take curious readers to a page with all of that author's posts."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:561
+#: deprecated/Modules/PostGridChild.php:569
 #: includes/Builder/Version4/Modules/PostGridChild.php:559
 msgid "Link Author Gravatar"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:563
+#: deprecated/Modules/PostGridChild.php:571
 #: includes/Builder/Version4/Modules/PostGridChild.php:561
 msgid "Make the author's gravatar clickable. It'll take curious readers to a page with all of that author's posts."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:571
+#: deprecated/Modules/PostGridChild.php:579
 #: includes/Builder/Version4/Modules/PostGridChild.php:569
 msgid "Link Categories"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:573
+#: deprecated/Modules/PostGridChild.php:581
 #: includes/Builder/Version4/Modules/PostGridChild.php:571
 msgid "Turn category names into links. Readers can explore more posts in the same category with a simple click."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:581
+#: deprecated/Modules/PostGridChild.php:589
 #: includes/Builder/Version4/Modules/PostGridChild.php:579
 msgid "Link Tags"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:583
+#: deprecated/Modules/PostGridChild.php:591
 #: includes/Builder/Version4/Modules/PostGridChild.php:581
 msgid "Make tags clickable. Help your readers discover more content with the same tag effortlessly."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:593
+#: deprecated/Modules/PostGridChild.php:601
 #: includes/Builder/Version4/Modules/PostGridChild.php:591
 msgid "Here you can choose whether or not show element in the outside container."
 msgstr ""
@@ -6923,16 +6923,16 @@ msgid "Divi version is less than required"
 msgstr ""
 
 #. translators: %1$s: Required Divi version, %2$s: Current Divi version
-#: includes/Core/Requirements.php:387
+#: includes/Core/Requirements.php:381
 msgid "Squad Modules requires Divi version %1$s or higher. Your current Divi version is %2$s. Please update to continue using Squad Modules."
 msgstr ""
 
 #. translators: %1$s: Required Divi version, %2$s: Current Divi version
-#: includes/Core/Requirements.php:408
+#: includes/Core/Requirements.php:402
 msgid "Squad Modules requires Divi Builder version %1$s or higher. Your current Divi Builder version is %2$s. Please update to continue using Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:455
+#: includes/Core/Requirements.php:449
 msgid "Go to Dashboard"
 msgstr ""
 

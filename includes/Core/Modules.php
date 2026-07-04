@@ -392,9 +392,8 @@ class Modules {
 	 *
 	 * @deprecated 3.3.0
 	 *
-	 * @param string|object $dependency_tree DependencyTree instance.
-	 *
 	 * @param string        $path            Modules directory path.
+	 * @param string|object $dependency_tree DependencyTree instance.
 	 *
 	 * @return void
 	 */
@@ -791,12 +790,12 @@ class Modules {
 				$block_class = apply_filters( 'divi_squad_modules_divi5_block_class_name', $block_class, $module, $dependency_tree, $this );
 
 				$implements = class_implements( $block_class );
-				if ( ! $implements ) {
+				if ( false === $implements ) {
 					return;
 				}
 
-				// Verify class implements DependencyInterface
-				if ( in_array( DependencyInterface::class, class_implements( $block_class ), true ) ) {
+				// Verify class implements DependencyInterface.
+				if ( in_array( DependencyInterface::class, $implements, true ) ) {
 					$block_instance = new $block_class();
 					$dependency_tree->add_dependency( $block_instance ); // @phpstan-ignore-line
 

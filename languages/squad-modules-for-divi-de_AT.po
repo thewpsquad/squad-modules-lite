@@ -216,7 +216,7 @@ msgstr "%s Rand"
 msgid "%s Padding"
 msgstr "%s Polsterung"
 
-#: deprecated/Modules/PostGridChild.php:1022
+#: deprecated/Modules/PostGridChild.php:1030
 #: includes/Builder/Version4/Modules/Creative/Divider.php:689
 #: includes/Builder/Version4/Modules/PostGrid.php:1056
 #: includes/Builder/Version4/Modules/PostGrid.php:1090
@@ -229,10 +229,10 @@ msgstr "Hier können Sie festlegen, einen benutzerdefinierten Rand Größe."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:748
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:773
-#: deprecated/Modules/PostGridChild.php:933
-#: deprecated/Modules/PostGridChild.php:954
-#: deprecated/Modules/PostGridChild.php:997
-#: deprecated/Modules/PostGridChild.php:1037
+#: deprecated/Modules/PostGridChild.php:941
+#: deprecated/Modules/PostGridChild.php:962
+#: deprecated/Modules/PostGridChild.php:1005
+#: deprecated/Modules/PostGridChild.php:1045
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:413
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:442
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:342
@@ -291,8 +291,8 @@ msgstr "Checkbox Und Radio-Bereich-Größe"
 msgid "Here you can choose size for checkbox and radio fields."
 msgstr "Hier können Sie wählen Größe für die checkbox-und radio-Felder."
 
-#: deprecated/Modules/PostGridChild.php:95
-#: deprecated/Modules/PostGridChild.php:285
+#: deprecated/Modules/PostGridChild.php:103
+#: deprecated/Modules/PostGridChild.php:293
 #: includes/Builder/Utils/Elements/Forms.php:123
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:140
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:60
@@ -501,89 +501,89 @@ msgstr "Die nach dem text der benutzerdefinierten Feld wird der text angezeigt, 
 msgid "Choose a custom field to display for the current post."
 msgstr "Wählen Sie ein benutzerdefiniertes Feld zur Anzeige der aktuellen post."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:116
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:115
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:100
 msgid "Show Divider"
 msgstr "Zeigen Teiler"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:117
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:116
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:101
 msgid "This settings turns on and off the 1px divider line, but does not affect the divider height."
 msgstr "Diese Einstellungen ein-und ausgeschaltet wird die 1px Trennlinie, aber keinen Einfluss auf die Teiler Höhe."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:139
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:138
 #: includes/Builder/Version4/Modules/Creative/Divider.php:312
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:123
 msgid "Line Color"
 msgstr "Linie Farbe"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:140
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:139
 #: includes/Builder/Version4/Modules/Creative/Divider.php:314
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:124
 msgid "This will adjust the color of the 1px divider line."
 msgstr "Dies stellt die Farbe des 1px Trennlinie."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:151
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:150
 #: includes/Builder/Version4/Modules/Creative/Divider.php:364
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:135
 msgid "Line Style"
 msgstr "Line Style"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:152
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:151
 #: includes/Builder/Version4/Modules/Creative/Divider.php:365
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:136
 msgid "Select the shape of the dividing line used for the divider."
 msgstr "Wählen Sie die Form der Trennlinie verwendet für die Trennlinie."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:164
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:163
 #: includes/Builder/Version4/Modules/Creative/Divider.php:376
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:148
 msgid "Line Position"
 msgstr "Line-Position"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:165
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:164
 #: includes/Builder/Version4/Modules/Creative/Divider.php:377
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:149
 msgid "The dividing line can be placed either above, below or in the center of the module."
 msgstr "Die Trennlinie platziert werden können, entweder oben, unten oder in der Mitte des Moduls."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:170
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:169
 #: includes/Builder/Version4/Modules/Creative/Divider.php:382
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:154
 msgid "Vertically Centered"
 msgstr "Vertikal Zentriert"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:181
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:180
 #: includes/Builder/Version4/Modules/Creative/Divider.php:392
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:165
 msgid "Divider Weight"
 msgstr "Teiler Gewicht"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:182
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:181
 #: includes/Builder/Version4/Modules/Creative/Divider.php:393
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:166
 msgid "Increasing the divider weight will increase the thickness of the dividing line."
 msgstr "Die Erhöhung der Teiler Gewicht wird erhöhen die Dicke der Trennlinie."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:201
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:200
 #: includes/Builder/Version4/Modules/Creative/Divider.php:471
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:185
 msgid "Divider Max Width"
 msgstr "Teiler Max Breite"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:203
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:202
 #: includes/Builder/Version4/Modules/Creative/Divider.php:473
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:187
 msgid "Here you can choose divider max width."
 msgstr "Hier können Sie wählen, Teiler-max Breite."
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:218
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:217
 #: includes/Builder/Version4/Modules/Creative/Divider.php:490
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:202
 msgid "Divider Border Radius"
 msgstr "Divider-Border-Radius -"
 
-#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:220
+#: deprecated/Base/DiviBuilder/Utils/Elements/Divider.php:219
 #: includes/Builder/Version4/Modules/Creative/Divider.php:492
 #: includes/Builder/Version4/Supports/Module_Utilities/Divider.php:204
 msgid "Here you can choose divider border  radius."
@@ -627,8 +627,8 @@ msgid "Yes"
 msgstr "Ja"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:665
-#: deprecated/Modules/PostGridChild.php:855
-#: deprecated/Modules/PostGridChild.php:884
+#: deprecated/Modules/PostGridChild.php:863
+#: deprecated/Modules/PostGridChild.php:892
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1848
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1881
 #: includes/Builder/Version4/Modules/PostGridChild.php:853
@@ -638,7 +638,7 @@ msgid "Here you can choose where to place the icon."
 msgstr "Hier können Sie wählen, wo das Symbol."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:734
-#: deprecated/Modules/PostGridChild.php:874
+#: deprecated/Modules/PostGridChild.php:882
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1064
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1084
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1164
@@ -827,9 +827,9 @@ msgid "Choose an icon type to display with your button."
 msgstr "Wählen Sie ein Symbol geben Sie zur Anzeige mit der Schaltfläche."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:411
-#: deprecated/Modules/PostGridChild.php:96
-#: deprecated/Modules/PostGridChild.php:109
-#: deprecated/Modules/PostGridChild.php:617
+#: deprecated/Modules/PostGridChild.php:104
+#: deprecated/Modules/PostGridChild.php:117
+#: deprecated/Modules/PostGridChild.php:625
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:161
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:194
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1597
@@ -847,7 +847,7 @@ msgid "Icon"
 msgstr "Symbol"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:413
-#: deprecated/Modules/PostGridChild.php:620
+#: deprecated/Modules/PostGridChild.php:628
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1600
 #: includes/Builder/Version4/Modules/Creative/Divider.php:817
 #: includes/Builder/Version4/Modules/Media/Lottie.php:153
@@ -857,8 +857,8 @@ msgid "None"
 msgstr "None"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:434
-#: deprecated/Modules/PostGridChild.php:656
-#: deprecated/Modules/PostGridChild.php:723
+#: deprecated/Modules/PostGridChild.php:664
+#: deprecated/Modules/PostGridChild.php:731
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1628
 #: includes/Builder/Version4/Modules/Creative/Divider.php:560
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:384
@@ -880,7 +880,7 @@ msgid "Upload an image to display at the top of your button."
 msgstr "Upload eines Bildes an der Spitze der Schaltfläche."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:452
-#: deprecated/Modules/PostGridChild.php:674
+#: deprecated/Modules/PostGridChild.php:682
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1646
 #: includes/Builder/Version4/Modules/Creative/Divider.php:578
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:402
@@ -893,7 +893,7 @@ msgid "Choose an Image"
 msgstr "Wählen Sie ein Bild"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:453
-#: deprecated/Modules/PostGridChild.php:675
+#: deprecated/Modules/PostGridChild.php:683
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1647
 #: includes/Builder/Version4/Modules/Creative/Divider.php:579
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:403
@@ -921,7 +921,7 @@ msgid "Adjust the background style of the button by customizing the background c
 msgstr "Passen Sie die hintergrund-Stil der-Taste durch anpassen der Hintergrundfarbe, Farbverlauf und Bild."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:584
-#: deprecated/Modules/PostGridChild.php:748
+#: deprecated/Modules/PostGridChild.php:756
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1682
 #: includes/Builder/Version4/Modules/Creative/Divider.php:711
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:424
@@ -937,7 +937,7 @@ msgid "Here you can define a custom color for your button icon."
 msgstr "Hier können Sie eine benutzerdefinierte Farbe für die Taste Symbol."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:596
-#: deprecated/Modules/PostGridChild.php:775
+#: deprecated/Modules/PostGridChild.php:783
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1702
 #: includes/Builder/Version4/Modules/Creative/Divider.php:730
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:433
@@ -948,8 +948,8 @@ msgid "Icon Size"
 msgstr "Symbol Größe"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:598
-#: deprecated/Modules/PostGridChild.php:777
-#: deprecated/Modules/PostGridChild.php:823
+#: deprecated/Modules/PostGridChild.php:785
+#: deprecated/Modules/PostGridChild.php:831
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1704
 #: includes/Builder/Version4/Modules/Creative/Divider.php:732
 #: includes/Builder/Version4/Modules/PostGrid.php:986
@@ -960,7 +960,7 @@ msgid "Here you can choose icon size."
 msgstr "Hier können Sie auswählen, Symbol Größe."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:612
-#: deprecated/Modules/PostGridChild.php:791
+#: deprecated/Modules/PostGridChild.php:799
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1736
 #: includes/Builder/Version4/Modules/Creative/Divider.php:748
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:451
@@ -971,7 +971,7 @@ msgid "Image Width"
 msgstr "Bild-Breite"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:614
-#: deprecated/Modules/PostGridChild.php:793
+#: deprecated/Modules/PostGridChild.php:801
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1738
 #: includes/Builder/Version4/Modules/Creative/Divider.php:750
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:453
@@ -982,7 +982,7 @@ msgid "Here you can choose image width."
 msgstr "Hier können Sie wählen, die Breite des Bildes."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:627
-#: deprecated/Modules/PostGridChild.php:806
+#: deprecated/Modules/PostGridChild.php:814
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1755
 #: includes/Builder/Version4/Modules/Creative/Divider.php:766
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:469
@@ -994,7 +994,7 @@ msgid "Image Height"
 msgstr "Bild Höhe"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:629
-#: deprecated/Modules/PostGridChild.php:808
+#: deprecated/Modules/PostGridChild.php:816
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1757
 #: includes/Builder/Version4/Modules/Creative/Divider.php:768
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:471
@@ -1011,7 +1011,7 @@ msgid "Gap Between Icon/Image and Text"
 msgstr "Abstand Zwischen Icon/Bild und Text"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:644
-#: deprecated/Modules/PostGridChild.php:838
+#: deprecated/Modules/PostGridChild.php:846
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1804
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1971
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:574
@@ -1021,7 +1021,7 @@ msgid "Here you can choose gap between icon and text."
 msgstr "Hier können Sie wählen, Abstand zwischen Symbol und text."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:663
-#: deprecated/Modules/PostGridChild.php:853
+#: deprecated/Modules/PostGridChild.php:861
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1846
 #: includes/Builder/Version4/Modules/PostGridChild.php:851
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:442
@@ -1029,7 +1029,7 @@ msgid "Icon Placement"
 msgstr "Symbol Der Platzierung"
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:677
-#: deprecated/Modules/PostGridChild.php:898
+#: deprecated/Modules/PostGridChild.php:906
 #: includes/Builder/Version4/Modules/PostGridChild.php:896
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:456
 msgid "Show Icon On Hover"
@@ -1041,7 +1041,7 @@ msgid "By default, button icon to always be displayed. If you would like button 
 msgstr "Durch Standard, Schaltfläche Symbol immer angezeigt werden. Wenn Sie würde like-button-icon angezeigt werden schweben, dann können Sie diese option aktivieren."
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:690
-#: deprecated/Modules/PostGridChild.php:911
+#: deprecated/Modules/PostGridChild.php:919
 #: includes/Builder/Version4/Modules/PostGridChild.php:909
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:469
 msgid "Move Icon On Hover Only"
@@ -1306,15 +1306,15 @@ msgstr "Hinweis"
 
 #: deprecated/Base/DiviBuilder/Module.php:56
 #: deprecated/Integrations/WP.php:266
-#: includes/Builder/Version4/Abstracts/Module.php:66
+#: includes/Builder/Version4/Abstracts/Module.php:80
 #: includes/Core/Admin/Menu.php:169
 #: includes/Core/Admin/Menu.php:170
 #: includes/Core/Distribution.php:522
 #: includes/Core/Distribution.php:530
 #: includes/Core/Distribution.php:538
 #: includes/Core/Distribution.php:546
-#: includes/Core/Requirements.php:262
-#: includes/Core/Requirements.php:263
+#: includes/Core/Requirements.php:256
+#: includes/Core/Requirements.php:257
 #: includes/Core/Supports/Site_Health.php:61
 #: templates/admin/common/layout-header.php:36
 #: templates/admin/common/layout-header.php:40
@@ -1454,7 +1454,7 @@ msgstr "Erweiterte Liste"
 msgid "Elevate your content presentation providing versatile and stylish list formats for a captivating user experience."
 msgstr "Erhöhen Sie Ihre Inhalte Präsentation bietet vielseitige und stilvolle Liste der Formate für fesselnde user experience."
 
-#: includes/Core/Modules.php:1211
+#: includes/Core/Modules.php:1210
 #: includes/Integrations/DiviBuilder.php:585
 #: includes/Integrations/DiviBuilder.php:594
 #: includes/Integrations/DiviBuilder.php:603
@@ -1578,7 +1578,7 @@ msgstr "Post Grid"
 msgid "Display your blog posts in a stylish and organized grid layout."
 msgstr "Zeigen Sie Ihre blog-posts in einem stilvollen und organisierten raster-layout."
 
-#: deprecated/Modules/PostGridChild.php:47
+#: deprecated/Modules/PostGridChild.php:55
 #: includes/Builder/Version4/Modules/PostGridChild.php:45
 #: includes/Integrations/DiviBuilder.php:221
 msgid "Post Element"
@@ -2081,7 +2081,7 @@ msgstr "Erhöhen Sie den regler glätten."
 msgid "Upload an image to display."
 msgstr "Upload eines Bildes zur Anzeige."
 
-#: deprecated/Modules/PostGridChild.php:684
+#: deprecated/Modules/PostGridChild.php:692
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1656
 #: includes/Builder/Version4/Modules/Creative/Divider.php:588
 #: includes/Builder/Version4/Modules/Media/BeforeAfterImageSlider.php:453
@@ -2091,7 +2091,7 @@ msgstr "Upload eines Bildes zur Anzeige."
 msgid "Image Alt Text"
 msgstr "Bild Alt-Text"
 
-#: deprecated/Modules/PostGridChild.php:685
+#: deprecated/Modules/PostGridChild.php:693
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1657
 #: includes/Builder/Version4/Modules/Creative/Divider.php:589
 #: includes/Builder/Version4/Modules/Media/BeforeAfterImageSlider.php:454
@@ -2145,7 +2145,7 @@ msgstr "Text"
 msgid "Home Text"
 msgstr "Home Text"
 
-#: deprecated/Modules/PostGridChild.php:395
+#: deprecated/Modules/PostGridChild.php:403
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:117
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:152
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:64
@@ -2191,7 +2191,7 @@ msgstr "Hier können Sie eine benutzerdefinierte Farbe für den separator in den
 msgid "Here you can define a custom color for the current text in the breadcrumbs."
 msgstr "Hier können Sie eine benutzerdefinierte Farbe für den aktuellen text in den Semmelbröseln wenden."
 
-#: deprecated/Modules/PostGridChild.php:60
+#: deprecated/Modules/PostGridChild.php:68
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:53
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:60
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:83
@@ -2260,7 +2260,7 @@ msgstr "Tag"
 msgid "Time"
 msgstr "Zeit"
 
-#: deprecated/Modules/PostGridChild.php:218
+#: deprecated/Modules/PostGridChild.php:226
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:169
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:138
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:946
@@ -2293,7 +2293,7 @@ msgstr "Fügen Sie Neue Business Tag"
 msgid "The title text will appear before at your business hours."
 msgstr "Der Titel wird der text angezeigt, bevor Sie in Ihre business Stunden."
 
-#: deprecated/Modules/PostGridChild.php:449
+#: deprecated/Modules/PostGridChild.php:457
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:256
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1528
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:231
@@ -2368,7 +2368,7 @@ msgstr "Passen Sie die Breite der Zeit-text."
 msgid "Text Alignment"
 msgstr "Text-Ausrichtung"
 
-#: deprecated/Modules/PostGridChild.php:977
+#: deprecated/Modules/PostGridChild.php:985
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:389
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:316
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1957
@@ -2389,7 +2389,7 @@ msgstr "Dies steuert, wie der text ausgerichtet ist innerhalb des Moduls."
 msgid "Wrapper Margin"
 msgstr "Wrapper-Marge"
 
-#: deprecated/Modules/PostGridChild.php:988
+#: deprecated/Modules/PostGridChild.php:996
 #: includes/Builder/Version4/Modules/Content/BusinessHours.php:404
 #: includes/Builder/Version4/Modules/Content/BusinessHoursChild.php:330
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1992
@@ -2505,9 +2505,9 @@ msgstr "Hier können Sie wählen, ob oder nicht zu zeigen das Trennzeichen für 
 msgid "Advanced Dividers"
 msgstr "Erweiterte Teiler"
 
-#: deprecated/Modules/PostGridChild.php:70
-#: deprecated/Modules/PostGridChild.php:90
-#: deprecated/Modules/PostGridChild.php:100
+#: deprecated/Modules/PostGridChild.php:78
+#: deprecated/Modules/PostGridChild.php:98
+#: deprecated/Modules/PostGridChild.php:108
 #: includes/Builder/Version4/Modules/Creative/Divider.php:59
 #: includes/Builder/Version4/Modules/Creative/Divider.php:67
 #: includes/Builder/Version4/Modules/PostGridChild.php:68
@@ -2542,14 +2542,14 @@ msgstr "Text Teiler"
 msgid "Lottie"
 msgstr "Lottie"
 
-#: deprecated/Modules/PostGridChild.php:97
+#: deprecated/Modules/PostGridChild.php:105
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:106
 #: includes/Builder/Version4/Modules/Creative/Divider.php:80
 #: includes/Builder/Version4/Modules/PostGridChild.php:95
 msgid "Icon Text"
 msgstr "Symbol Text"
 
-#: deprecated/Modules/PostGridChild.php:232
+#: deprecated/Modules/PostGridChild.php:240
 #: includes/Builder/Version4/Modules/Creative/Divider.php:150
 #: includes/Builder/Version4/Modules/PostGridChild.php:230
 msgid "Icon Box Shadow"
@@ -2650,7 +2650,7 @@ msgstr "Teiler Rechten Seite Breite"
 msgid "Here you can choose divider right side width."
 msgstr "Hier können Sie wählen Teiler der rechten Seite Breite."
 
-#: deprecated/Modules/PostGridChild.php:613
+#: deprecated/Modules/PostGridChild.php:621
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1593
 #: includes/Builder/Version4/Modules/Creative/Divider.php:523
 #: includes/Builder/Version4/Modules/PostGridChild.php:611
@@ -2740,8 +2740,8 @@ msgstr "Element-Marge"
 msgid "Element Padding"
 msgstr "Element Polsterung"
 
-#: deprecated/Modules/PostGridChild.php:750
-#: deprecated/Modules/PostGridChild.php:768
+#: deprecated/Modules/PostGridChild.php:758
+#: deprecated/Modules/PostGridChild.php:776
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1684
 #: includes/Builder/Version4/Modules/Creative/Divider.php:713
 #: includes/Builder/Version4/Modules/PostGrid.php:977
@@ -2750,29 +2750,29 @@ msgstr "Element Polsterung"
 msgid "Here you can define a custom color for your icon."
 msgstr "Hier können Sie eine benutzerdefinierte Farbe für das Symbol."
 
-#: deprecated/Modules/PostGridChild.php:757
+#: deprecated/Modules/PostGridChild.php:765
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1692
 #: includes/Builder/Version4/Modules/Creative/Divider.php:721
 #: includes/Builder/Version4/Modules/PostGridChild.php:755
 msgid "Icon Background Color"
 msgstr "Symbol Hintergrund Farbe"
 
-#: deprecated/Modules/PostGridChild.php:759
+#: deprecated/Modules/PostGridChild.php:767
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1694
 #: includes/Builder/Version4/Modules/Creative/Divider.php:723
 #: includes/Builder/Version4/Modules/PostGridChild.php:757
 msgid "Here you can define a custom background color."
 msgstr "Hier können Sie festlegen, einen benutzerdefinierten hintergrund Farbe."
 
-#: deprecated/Modules/PostGridChild.php:921
+#: deprecated/Modules/PostGridChild.php:929
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1919
 #: includes/Builder/Version4/Modules/Creative/Divider.php:784
 #: includes/Builder/Version4/Modules/PostGridChild.php:919
 msgid "Icon Margin"
 msgstr "Symbol-Marge"
 
-#: deprecated/Modules/PostGridChild.php:923
-#: deprecated/Modules/PostGridChild.php:943
+#: deprecated/Modules/PostGridChild.php:931
+#: deprecated/Modules/PostGridChild.php:951
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1921
 #: includes/Builder/Version4/Modules/Creative/Divider.php:786
 #: includes/Builder/Version4/Modules/PostGridChild.php:921
@@ -2780,7 +2780,7 @@ msgstr "Symbol-Marge"
 msgid "Here you can define a custom margin size for the icon."
 msgstr "Hier können Sie festlegen, einen benutzerdefinierten Rand Größe für das icon."
 
-#: deprecated/Modules/PostGridChild.php:931
+#: deprecated/Modules/PostGridChild.php:939
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1930
 #: includes/Builder/Version4/Modules/Creative/Divider.php:794
 #: includes/Builder/Version4/Modules/PostGridChild.php:929
@@ -3015,7 +3015,7 @@ msgstr "Hier können Sie wählen, lottie Höhe."
 msgid "Drop Cap Texts"
 msgstr "Drop-Cap-Texte"
 
-#: deprecated/Modules/PostGridChild.php:62
+#: deprecated/Modules/PostGridChild.php:70
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:71
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:56
 #: includes/Builder/Version4/Modules/Creative/ScrollingText.php:52
@@ -3058,8 +3058,8 @@ msgstr "Ihr Titel Geht Hier"
 msgid "Input the main text content for your module here."
 msgstr "Eingabe der Haupt-text-Inhalt für Ihr Modul hier."
 
-#: deprecated/Modules/PostGridChild.php:966
-#: deprecated/Modules/PostGridChild.php:1008
+#: deprecated/Modules/PostGridChild.php:974
+#: deprecated/Modules/PostGridChild.php:1016
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:159
 #: includes/Builder/Version4/Modules/Creative/DualButton.php:415
 #: includes/Builder/Version4/Modules/Media/VideoPopup.php:340
@@ -3068,8 +3068,8 @@ msgstr "Eingabe der Haupt-text-Inhalt für Ihr Modul hier."
 msgid "Background"
 msgstr "Hintergrund"
 
-#: deprecated/Modules/PostGridChild.php:986
-#: deprecated/Modules/PostGridChild.php:1020
+#: deprecated/Modules/PostGridChild.php:994
+#: deprecated/Modules/PostGridChild.php:1028
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:168
 #: includes/Builder/Version4/Modules/PostGridChild.php:984
 #: includes/Builder/Version4/Modules/PostGridChild.php:1018
@@ -3080,8 +3080,8 @@ msgstr "Marge"
 msgid "Here you can define a custom margin size for the drop cap letter."
 msgstr "Hier können Sie festlegen, einen benutzerdefinierten Rand Größe für die drop cap letter."
 
-#: deprecated/Modules/PostGridChild.php:995
-#: deprecated/Modules/PostGridChild.php:1035
+#: deprecated/Modules/PostGridChild.php:1003
+#: deprecated/Modules/PostGridChild.php:1043
 #: includes/Builder/Version4/Modules/Creative/DropCapText.php:182
 #: includes/Builder/Version4/Modules/PostGridChild.php:993
 #: includes/Builder/Version4/Modules/PostGridChild.php:1033
@@ -3414,7 +3414,7 @@ msgstr "Elemente Der Vertikalen Ausrichtung"
 msgid "Align icon to the top, bottom or center."
 msgstr "Richten Sie das Symbol nach oben, unten oder in die Mitte."
 
-#: deprecated/Modules/PostGridChild.php:886
+#: deprecated/Modules/PostGridChild.php:894
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1176
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1883
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:279
@@ -3422,7 +3422,7 @@ msgstr "Richten Sie das Symbol nach oben, unten oder in die Mitte."
 msgid "Top"
 msgstr "Top"
 
-#: deprecated/Modules/PostGridChild.php:887
+#: deprecated/Modules/PostGridChild.php:895
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1177
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1223
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1884
@@ -3430,7 +3430,7 @@ msgstr "Top"
 msgid "Center"
 msgstr "Center"
 
-#: deprecated/Modules/PostGridChild.php:888
+#: deprecated/Modules/PostGridChild.php:896
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1178
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1885
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:280
@@ -3586,7 +3586,7 @@ msgstr "Bild-Force-Full-Width"
 msgid "Here you can choose whether or not your full width."
 msgstr "Hier können Sie wählen, ob oder nicht Ihre volle Breite."
 
-#: deprecated/Modules/PostGridChild.php:872
+#: deprecated/Modules/PostGridChild.php:880
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1774
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1868
 #: includes/Builder/Version4/Modules/PostGridChild.php:870
@@ -3609,7 +3609,7 @@ msgstr "Icon-Wrapper Breite"
 msgid "Here you can choose icon wrapper width."
 msgstr "Hier können Sie wählen, icon-wrapper-Breite."
 
-#: deprecated/Modules/PostGridChild.php:882
+#: deprecated/Modules/PostGridChild.php:890
 #: includes/Builder/Version4/Modules/Content/FlipBox.php:1879
 #: includes/Builder/Version4/Modules/PostGridChild.php:880
 msgid "Icon Vertical Placement"
@@ -4239,11 +4239,11 @@ msgstr "Post-Wrapper"
 msgid "Element Wrapper"
 msgstr "Element-Wrapper"
 
-#: deprecated/Modules/PostGridChild.php:88
-#: deprecated/Modules/PostGridChild.php:98
-#: deprecated/Modules/PostGridChild.php:134
-#: deprecated/Modules/PostGridChild.php:200
-#: deprecated/Modules/PostGridChild.php:289
+#: deprecated/Modules/PostGridChild.php:96
+#: deprecated/Modules/PostGridChild.php:106
+#: deprecated/Modules/PostGridChild.php:142
+#: deprecated/Modules/PostGridChild.php:208
+#: deprecated/Modules/PostGridChild.php:297
 #: includes/Builder/Version4/Modules/PostGrid.php:106
 #: includes/Builder/Version4/Modules/PostGrid.php:243
 #: includes/Builder/Version4/Modules/PostGridChild.php:86
@@ -4285,7 +4285,7 @@ msgstr "Active Paginierung"
 msgid "Active Pagination Text"
 msgstr "Active Paginierung Text"
 
-#: deprecated/Modules/PostGridChild.php:249
+#: deprecated/Modules/PostGridChild.php:257
 #: includes/Builder/Version4/Modules/PostGrid.php:387
 #: includes/Builder/Version4/Modules/PostGridChild.php:247
 msgid "Element Box Shadow"
@@ -4611,355 +4611,355 @@ msgstr "Nächste Einträge"
 msgid "Read the post"
 msgstr "Lesen Sie den Beitrag"
 
-#: deprecated/Modules/PostGridChild.php:66
+#: deprecated/Modules/PostGridChild.php:74
 #: includes/Builder/Version4/Modules/PostGrid.php:2852
 #: includes/Builder/Version4/Modules/PostGridChild.php:64
 msgid "Read More"
 msgstr "Lesen Sie Mehr"
 
-#: deprecated/Modules/PostGridChild.php:48
+#: deprecated/Modules/PostGridChild.php:56
 #: includes/Builder/Version4/Modules/PostGridChild.php:46
 msgid "Post Elements"
 msgstr "Post-Elemente"
 
-#: deprecated/Modules/PostGridChild.php:59
+#: deprecated/Modules/PostGridChild.php:67
 #: includes/Builder/Version4/Modules/PostGridChild.php:57
 msgid "Choose a type"
 msgstr "Wählen Sie den Typ"
 
-#: deprecated/Modules/PostGridChild.php:61
+#: deprecated/Modules/PostGridChild.php:69
 #: includes/Builder/Version4/Modules/PostGridChild.php:59
 msgid "Featured Image"
 msgstr "Featured Image"
 
-#: deprecated/Modules/PostGridChild.php:63
+#: deprecated/Modules/PostGridChild.php:71
 #: includes/Builder/Version4/Modules/Creative/StarRating.php:411
 #: includes/Builder/Version4/Modules/PostGridChild.php:61
 msgid "Author"
 msgstr "Autor"
 
-#: deprecated/Modules/PostGridChild.php:64
+#: deprecated/Modules/PostGridChild.php:72
 #: includes/Builder/Version4/Modules/PostGridChild.php:62
 msgid "Author Avatar"
 msgstr "Autor Avatar"
 
-#: deprecated/Modules/PostGridChild.php:65
+#: deprecated/Modules/PostGridChild.php:73
 #: includes/Builder/Version4/Modules/PostGridChild.php:63
 msgid "Date"
 msgstr "Datum"
 
-#: deprecated/Modules/PostGridChild.php:67
+#: deprecated/Modules/PostGridChild.php:75
 #: includes/Builder/Version4/Modules/PostGridChild.php:65
 msgid "Comments Count"
 msgstr "Kommentare Zählen"
 
-#: deprecated/Modules/PostGridChild.php:68
+#: deprecated/Modules/PostGridChild.php:76
 #: includes/Builder/Version4/Modules/PostGridChild.php:66
 msgid "Categories"
 msgstr "Kategorien"
 
-#: deprecated/Modules/PostGridChild.php:69
+#: deprecated/Modules/PostGridChild.php:77
 #: includes/Builder/Version4/Modules/PostGridChild.php:67
 msgid "Tags"
 msgstr "Tags"
 
-#: deprecated/Modules/PostGridChild.php:71
-#: deprecated/Modules/PostGridChild.php:529
+#: deprecated/Modules/PostGridChild.php:79
+#: deprecated/Modules/PostGridChild.php:537
 #: includes/Builder/Version4/Modules/PostGridChild.php:69
 #: includes/Builder/Version4/Modules/PostGridChild.php:527
 msgid "Custom Text"
 msgstr "Custom Text"
 
-#: deprecated/Modules/PostGridChild.php:72
+#: deprecated/Modules/PostGridChild.php:80
 #: includes/Builder/Version4/Modules/PostGridChild.php:70
 msgid "Custom Icon"
 msgstr "Custom Icon"
 
-#: deprecated/Modules/PostGridChild.php:73
+#: deprecated/Modules/PostGridChild.php:81
 #: includes/Builder/Version4/Modules/PostGridChild.php:71
 msgid "Custom Fields"
 msgstr "Benutzerdefinierte Felder"
 
-#: deprecated/Modules/PostGridChild.php:74
+#: deprecated/Modules/PostGridChild.php:82
 #: includes/Builder/Version4/Modules/PostGridChild.php:72
 msgid "Custom Fields (ACF)"
 msgstr "Custom Fields (ACF)"
 
-#: deprecated/Modules/PostGridChild.php:89
+#: deprecated/Modules/PostGridChild.php:97
 #: includes/Builder/Version4/Modules/PostGridChild.php:87
 msgid "Icon Element"
 msgstr "Icon-Element"
 
-#: deprecated/Modules/PostGridChild.php:99
+#: deprecated/Modules/PostGridChild.php:107
 #: includes/Builder/Version4/Modules/PostGridChild.php:97
 msgid "Element Text"
 msgstr "Element Text"
 
-#: deprecated/Modules/PostGridChild.php:277
+#: deprecated/Modules/PostGridChild.php:285
 #: includes/Builder/Version4/Modules/PostGridChild.php:275
 msgid "Title Icon"
 msgstr "Titel-Symbol"
 
-#: deprecated/Modules/PostGridChild.php:281
+#: deprecated/Modules/PostGridChild.php:289
 #: includes/Builder/Version4/Modules/PostGridChild.php:279
 msgid "Feature Image"
 msgstr "Feature-Bild"
 
-#: deprecated/Modules/PostGridChild.php:305
+#: deprecated/Modules/PostGridChild.php:313
 #: includes/Builder/Version4/Modules/PostGridChild.php:303
 msgid "Element Type"
 msgstr "Element-Typ"
 
-#: deprecated/Modules/PostGridChild.php:307
+#: deprecated/Modules/PostGridChild.php:315
 #: includes/Builder/Version4/Modules/PostGridChild.php:305
 msgid "Choose an element type to display for current post."
 msgstr "Wählen Sie ein element geben, um die Anzeige für die aktuelle post."
 
-#: deprecated/Modules/PostGridChild.php:347
+#: deprecated/Modules/PostGridChild.php:355
 #: includes/Builder/Version4/Modules/PostGridChild.php:345
 msgid "Show Post Excerpt"
 msgstr "Zeigen Post-Auszug"
 
-#: deprecated/Modules/PostGridChild.php:349
+#: deprecated/Modules/PostGridChild.php:357
 #: includes/Builder/Version4/Modules/PostGridChild.php:347
 msgid "Here you can choose whether or not show post excerpt."
 msgstr "Hier können Sie wählen, ob oder nicht zu zeigen post excerpt."
 
-#: deprecated/Modules/PostGridChild.php:357
+#: deprecated/Modules/PostGridChild.php:365
 #: includes/Builder/Version4/Modules/PostGridChild.php:355
 msgid "Enable Text Limit"
 msgstr "Aktivieren Sie Text-Grenze"
 
-#: deprecated/Modules/PostGridChild.php:359
+#: deprecated/Modules/PostGridChild.php:367
 #: includes/Builder/Version4/Modules/PostGridChild.php:357
 msgid "Here you can choose whether or not custom length for post content or excerpt text limit."
 msgstr "Hier können Sie wählen, ob oder nicht benutzerdefinierte Länge für Inhalt oder Auszug-text-Grenze."
 
-#: deprecated/Modules/PostGridChild.php:370
+#: deprecated/Modules/PostGridChild.php:378
 #: includes/Builder/Version4/Modules/PostGridChild.php:368
 msgid "Text Limit"
 msgstr "Text-Grenze"
 
-#: deprecated/Modules/PostGridChild.php:372
+#: deprecated/Modules/PostGridChild.php:380
 #: includes/Builder/Version4/Modules/PostGridChild.php:370
 msgid "Here you can choose how much text you would like to display for post content or excerpt."
 msgstr "Hier können Sie auswählen, wie viel text Sie möchten, um display für die Veröffentlichung von Inhalten oder Auszug."
 
-#: deprecated/Modules/PostGridChild.php:396
+#: deprecated/Modules/PostGridChild.php:404
 #: includes/Builder/Version4/Modules/PostGridChild.php:394
 msgid "The before text of your post comments will appear in with your post element."
 msgstr "Die vor dem text Ihrer Kommentare wird angezeigt, in der Sie mit Ihrer post-element."
 
-#: deprecated/Modules/PostGridChild.php:407
+#: deprecated/Modules/PostGridChild.php:415
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:69
 #: includes/Builder/Version4/Modules/Creative/TypingText.php:304
 #: includes/Builder/Version4/Modules/PostGridChild.php:405
 msgid "After Text"
 msgstr "Nach Text"
 
-#: deprecated/Modules/PostGridChild.php:408
+#: deprecated/Modules/PostGridChild.php:416
 #: includes/Builder/Version4/Modules/PostGridChild.php:406
 msgid "The after text of your post comments will appear in with your post element."
 msgstr "Die nach dem text Ihrer Kommentare wird angezeigt, in der Sie mit Ihrem post-element."
 
-#: deprecated/Modules/PostGridChild.php:421
+#: deprecated/Modules/PostGridChild.php:429
 #: includes/Builder/Version4/Modules/PostGridChild.php:419
 msgid "Categories Separator"
 msgstr "Kategorien Separator"
 
-#: deprecated/Modules/PostGridChild.php:422
+#: deprecated/Modules/PostGridChild.php:430
 #: includes/Builder/Version4/Modules/PostGridChild.php:420
 msgid "The separator text of your categories will appear in with your categories element."
 msgstr "Der separator text der Kategorien wird angezeigt mit Ihrem Kategorien-element."
 
-#: deprecated/Modules/PostGridChild.php:433
+#: deprecated/Modules/PostGridChild.php:441
 #: includes/Builder/Version4/Modules/PostGridChild.php:431
 msgid "Tags Separator"
 msgstr "Tags Separator"
 
-#: deprecated/Modules/PostGridChild.php:434
+#: deprecated/Modules/PostGridChild.php:442
 #: includes/Builder/Version4/Modules/PostGridChild.php:432
 msgid "The separator text of your tags will appear in with your tags element."
 msgstr "Die separator-text-tags erscheinen mit Ihren tags element."
 
-#: deprecated/Modules/PostGridChild.php:451
+#: deprecated/Modules/PostGridChild.php:459
 #: includes/Builder/Version4/Modules/PostGridChild.php:449
 msgid "Choose a tag to display with your title element."
 msgstr "Wählen Sie ein tag, display mit Ihr title-element."
 
-#: deprecated/Modules/PostGridChild.php:460
+#: deprecated/Modules/PostGridChild.php:468
 #: includes/Builder/Version4/Modules/PostGridChild.php:458
 msgid "Force Fullwidth"
 msgstr "Kraft Vollbreite"
 
-#: deprecated/Modules/PostGridChild.php:462
+#: deprecated/Modules/PostGridChild.php:470
 #: includes/Builder/Version4/Modules/PostGridChild.php:460
 msgid "Here you can choose whether or not the image element is full width."
 msgstr "Hier können Sie wählen, ob oder nicht das Bild-element wird in voller Breite."
 
-#: deprecated/Modules/PostGridChild.php:470
+#: deprecated/Modules/PostGridChild.php:478
 #: includes/Builder/Version4/Modules/PostGridChild.php:468
 msgid "Author Name Type"
 msgstr "Der Name Des Autors Typ"
 
-#: deprecated/Modules/PostGridChild.php:472
-#: deprecated/Modules/PostGridChild.php:489
+#: deprecated/Modules/PostGridChild.php:480
+#: deprecated/Modules/PostGridChild.php:497
 #: includes/Builder/Version4/Modules/PostGridChild.php:470
 #: includes/Builder/Version4/Modules/PostGridChild.php:487
 msgid "Choose a author name type to display for current post."
 msgstr "Wählen Sie eine Autor-name geben Sie zur Anzeige für die aktuelle post."
 
-#: deprecated/Modules/PostGridChild.php:474
+#: deprecated/Modules/PostGridChild.php:482
 #: includes/Builder/Version4/Modules/PostGridChild.php:472
 msgid "Nickname"
 msgstr "Spitznamen"
 
-#: deprecated/Modules/PostGridChild.php:475
+#: deprecated/Modules/PostGridChild.php:483
 #: includes/Builder/Version4/Modules/PostGridChild.php:473
 msgid "Display Name"
 msgstr "Display Name"
 
-#: deprecated/Modules/PostGridChild.php:476
+#: deprecated/Modules/PostGridChild.php:484
 #: includes/Builder/Version4/Modules/PostGridChild.php:474
 msgid "Full Name"
 msgstr "Voller Name"
 
-#: deprecated/Modules/PostGridChild.php:477
+#: deprecated/Modules/PostGridChild.php:485
 #: includes/Builder/Version4/Modules/PostGridChild.php:475
 msgid "First Name"
 msgstr "Vorname"
 
-#: deprecated/Modules/PostGridChild.php:478
+#: deprecated/Modules/PostGridChild.php:486
 #: includes/Builder/Version4/Modules/PostGridChild.php:476
 msgid "Last Name"
 msgstr "Nachname"
 
-#: deprecated/Modules/PostGridChild.php:487
+#: deprecated/Modules/PostGridChild.php:495
 #: includes/Builder/Version4/Modules/PostGridChild.php:485
 msgid "Avatar Image Size"
 msgstr "Avatar-Image-Größe"
 
-#: deprecated/Modules/PostGridChild.php:503
+#: deprecated/Modules/PostGridChild.php:511
 #: includes/Builder/Version4/Modules/PostGridChild.php:501
 msgid "Date Type"
 msgstr "Datum"
 
-#: deprecated/Modules/PostGridChild.php:505
+#: deprecated/Modules/PostGridChild.php:513
 #: includes/Builder/Version4/Modules/PostGridChild.php:503
 msgid "Choose a date type to display for current post."
 msgstr "Wählen Sie ein Datum, um die Anzeige für die aktuelle post."
 
-#: deprecated/Modules/PostGridChild.php:507
+#: deprecated/Modules/PostGridChild.php:515
 #: includes/Builder/Version4/Modules/PostGridChild.php:505
 msgid "Publish"
 msgstr "Veröffentlichen"
 
-#: deprecated/Modules/PostGridChild.php:508
+#: deprecated/Modules/PostGridChild.php:516
 #: includes/Builder/Version4/Modules/PostGridChild.php:506
 msgid "Modified"
 msgstr "Geändert"
 
-#: deprecated/Modules/PostGridChild.php:517
+#: deprecated/Modules/PostGridChild.php:525
 #: includes/Builder/Version4/Modules/PostGridChild.php:515
 msgid "Read More Text"
 msgstr "Lesen Sie Mehr Text"
 
-#: deprecated/Modules/PostGridChild.php:518
+#: deprecated/Modules/PostGridChild.php:526
 #: includes/Builder/Version4/Modules/PostGridChild.php:516
 msgid "The text will appear in with your read more element."
 msgstr "Der text erscheint mit Ihren mehr Lesen-element."
 
-#: deprecated/Modules/PostGridChild.php:530
+#: deprecated/Modules/PostGridChild.php:538
 #: includes/Builder/Version4/Modules/PostGridChild.php:528
 msgid "The text will appear in with your custom text element."
 msgstr "Der text wird angezeigt, in die Sie mit Ihren benutzerdefinierten text-element."
 
-#: deprecated/Modules/PostGridChild.php:591
+#: deprecated/Modules/PostGridChild.php:599
 #: includes/Builder/Version4/Modules/PostGridChild.php:589
 msgid "Show Outside the Container"
 msgstr "Karte Außerhalb des Behälters"
 
-#: deprecated/Modules/PostGridChild.php:615
+#: deprecated/Modules/PostGridChild.php:623
 #: includes/Builder/Version4/Modules/PostGridChild.php:613
 msgid "Choose an icon type to display with your post."
 msgstr "Wählen Sie ein Symbol geben, um anzuzeigen, mit Ihrem Beitrag."
 
-#: deprecated/Modules/PostGridChild.php:657
+#: deprecated/Modules/PostGridChild.php:665
 #: includes/Builder/Version4/Modules/PostGridChild.php:655
 msgid "Choose an icon to display with your post."
 msgstr "Wählen Sie ein Symbol, um den Bildschirm mit Ihrem Beitrag."
 
-#: deprecated/Modules/PostGridChild.php:670
+#: deprecated/Modules/PostGridChild.php:678
 #: includes/Builder/Version4/Modules/PostGridChild.php:668
 msgid "Upload an image to display at the top of your post."
 msgstr "Upload eines Bildes an der Spitze der post."
 
-#: deprecated/Modules/PostGridChild.php:695
+#: deprecated/Modules/PostGridChild.php:703
 #: includes/Builder/Version4/Modules/PostGridChild.php:693
 msgid "The text of your post will appear in bold as icon."
 msgstr "Der text der post wird erscheinen in Fett-als-Symbol."
 
-#: deprecated/Modules/PostGridChild.php:704
+#: deprecated/Modules/PostGridChild.php:712
 #: includes/Builder/Version4/Modules/PostGridChild.php:702
 msgid "Use Left Icon for Title"
 msgstr "Verwenden Sie die Links-Symbol für den Titel"
 
-#: deprecated/Modules/PostGridChild.php:706
+#: deprecated/Modules/PostGridChild.php:714
 #: includes/Builder/Version4/Modules/PostGridChild.php:704
 msgid "Here you can choose whether or not use icon for the post title."
 msgstr "Hier können Sie wählen, ob oder nicht zu verwenden-Symbol für den post-Titel."
 
-#: deprecated/Modules/PostGridChild.php:724
+#: deprecated/Modules/PostGridChild.php:732
 #: includes/Builder/Version4/Modules/PostGridChild.php:722
 msgid "Choose an icon to display with your post title."
 msgstr "Wählen Sie ein Symbol, um den Bildschirm mit Ihrem post-Titel."
 
-#: deprecated/Modules/PostGridChild.php:734
+#: deprecated/Modules/PostGridChild.php:742
 #: includes/Builder/Version4/Modules/PostGridChild.php:732
 msgid "Show Title Icon On Hover"
 msgstr "Anzeige Von Titel-Symbol Auf Hover"
 
-#: deprecated/Modules/PostGridChild.php:736
+#: deprecated/Modules/PostGridChild.php:744
 #: includes/Builder/Version4/Modules/PostGridChild.php:734
 msgid "By default, post title icon on hover be displayed. If you would like post title icon is displayed all time, then you can enable this option."
 msgstr "Standardmäßig ist post-Titel-Symbol auf hover angezeigt werden. Wenn Sie möchten, post-Titel-Symbol, wird angezeigt, alle Zeit, dann können Sie diese option aktivieren."
 
-#: deprecated/Modules/PostGridChild.php:766
+#: deprecated/Modules/PostGridChild.php:774
 #: includes/Builder/Version4/Modules/PostGridChild.php:764
 msgid "Title Icon Color"
 msgstr "Titel-Farbe-Symbol"
 
-#: deprecated/Modules/PostGridChild.php:821
+#: deprecated/Modules/PostGridChild.php:829
 #: includes/Builder/Version4/Modules/PostGridChild.php:819
 msgid "Title Icon Size"
 msgstr "Titel Symbol Größe"
 
-#: deprecated/Modules/PostGridChild.php:836
+#: deprecated/Modules/PostGridChild.php:844
 #: includes/Builder/Version4/Modules/PostGridChild.php:834
 msgid "Gap Between Icon and Text"
 msgstr "Abstand Zwischen Symbol und Text"
 
-#: deprecated/Modules/PostGridChild.php:900
+#: deprecated/Modules/PostGridChild.php:908
 #: includes/Builder/Version4/Modules/PostGridChild.php:898
 msgid "By default, post element icon to always be displayed. If you would like post element icon are displayed on hover, then you can enable this option."
 msgstr "By default, post-element-Symbol immer angezeigt werden. Wenn Sie möchten, posten, element Symbol angezeigt schweben, dann können Sie diese option aktivieren."
 
-#: deprecated/Modules/PostGridChild.php:913
+#: deprecated/Modules/PostGridChild.php:921
 #: includes/Builder/Version4/Modules/PostGridChild.php:911
 msgid "By default, icon and text are both move on hover. If you would like post element icon move on hover, then you can enable this option."
 msgstr "Durch Standard, Symbol und text werden beide bewegen sich auf hover. Wenn Sie möchten, posten, element Symbol, bewegen auf zu schweben, dann können Sie diese option aktivieren."
 
-#: deprecated/Modules/PostGridChild.php:941
+#: deprecated/Modules/PostGridChild.php:949
 #: includes/Builder/Version4/Modules/PostGridChild.php:939
 msgid "Title Icon Margin"
 msgstr "Titel-Symbol Marge"
 
-#: deprecated/Modules/PostGridChild.php:952
+#: deprecated/Modules/PostGridChild.php:960
 #: includes/Builder/Version4/Modules/PostGridChild.php:950
 msgid "Title Icon Padding"
 msgstr "Titel-Symbol Polsterung"
 
-#: deprecated/Modules/PostGridChild.php:975
+#: deprecated/Modules/PostGridChild.php:983
 #: includes/Builder/Version4/Modules/PostGridChild.php:973
 msgid "Content Alignment"
 msgstr "Inhalt Ausrichtung"
@@ -5837,7 +5837,7 @@ msgid "Image file (%s) does not exist."
 msgstr "Image file (%s) existiert nicht."
 
 #: includes/Core/Admin/Menu.php:684
-#: includes/Core/Requirements.php:340
+#: includes/Core/Requirements.php:334
 #: build/admin/scripts/app.js:173
 msgid "Nightly"
 msgstr "Nächtlichen"
@@ -5904,7 +5904,7 @@ msgid "The WP Squad"
 msgstr ""
 
 #: deprecated/Base/DiviBuilder/Module.php:165
-#: includes/Builder/Version4/Abstracts/Module.php:252
+#: includes/Builder/Version4/Abstracts/Module.php:266
 msgid "An error occurred while rendering this module."
 msgstr ""
 
@@ -6038,79 +6038,79 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: includes/Core/Requirements.php:274
-#: includes/Core/Requirements.php:275
+#: includes/Core/Requirements.php:268
+#: includes/Core/Requirements.php:269
 msgid "Requirements"
 msgstr ""
 
 #: includes/Core/Admin/Menu.php:694
-#: includes/Core/Requirements.php:341
+#: includes/Core/Requirements.php:335
 msgid "current"
 msgstr ""
 
 #: includes/Core/Admin/Menu.php:724
-#: includes/Core/Requirements.php:349
+#: includes/Core/Requirements.php:343
 #: build/admin/scripts/app.js:173
 msgid "Lite"
 msgstr ""
 
-#: includes/Core/Requirements.php:368
+#: includes/Core/Requirements.php:362
 msgid "Divi Not Installed"
 msgstr ""
 
-#: includes/Core/Requirements.php:369
+#: includes/Core/Requirements.php:363
 msgid "Squad Modules requires either the Divi/Extra theme or Divi Builder plugin to be installed and activated. Please install Divi to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:372
+#: includes/Core/Requirements.php:366
 msgid "Get Divi"
 msgstr ""
 
-#: includes/Core/Requirements.php:384
+#: includes/Core/Requirements.php:378
 msgid "Divi Update Required"
 msgstr ""
 
-#: includes/Core/Requirements.php:393
+#: includes/Core/Requirements.php:387
 msgid "Update Divi"
 msgstr ""
 
-#: includes/Core/Requirements.php:405
+#: includes/Core/Requirements.php:399
 msgid "Divi Builder Update Required"
 msgstr ""
 
-#: includes/Core/Requirements.php:414
+#: includes/Core/Requirements.php:408
 msgid "Update Divi Builder"
 msgstr ""
 
-#: includes/Core/Requirements.php:424
+#: includes/Core/Requirements.php:418
 msgid "Divi Theme Not Activated"
 msgstr ""
 
-#: includes/Core/Requirements.php:425
+#: includes/Core/Requirements.php:419
 msgid "Squad Modules has detected that you have Divi theme installed but not activated. Please activate the Divi theme to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:428
+#: includes/Core/Requirements.php:422
 msgid "Activate Divi Theme"
 msgstr ""
 
-#: includes/Core/Requirements.php:438
+#: includes/Core/Requirements.php:432
 msgid "Divi Builder Plugin Not Activated"
 msgstr ""
 
-#: includes/Core/Requirements.php:439
+#: includes/Core/Requirements.php:433
 msgid "Squad Modules has detected that you have the Divi Builder plugin installed but not activated. Please activate the Divi Builder plugin to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:442
+#: includes/Core/Requirements.php:436
 msgid "Activate Divi Builder"
 msgstr ""
 
-#: includes/Core/Requirements.php:451
+#: includes/Core/Requirements.php:445
 msgid "Divi Requirements Met"
 msgstr ""
 
-#: includes/Core/Requirements.php:452
+#: includes/Core/Requirements.php:446
 msgid "Your Divi installation meets all the requirements for Squad Modules. You can start using the modules now!"
 msgstr ""
 
@@ -6567,57 +6567,57 @@ msgstr ""
 msgid "View all posts tagged %s"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:541
+#: deprecated/Modules/PostGridChild.php:549
 #: includes/Builder/Version4/Modules/PostGridChild.php:539
 msgid "Link to Post"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:543
+#: deprecated/Modules/PostGridChild.php:551
 #: includes/Builder/Version4/Modules/PostGridChild.php:541
 msgid "Make this element clickable. Visitors can access the full post directly by clicking."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:551
+#: deprecated/Modules/PostGridChild.php:559
 #: includes/Builder/Version4/Modules/PostGridChild.php:549
 msgid "Link Author Name"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:553
+#: deprecated/Modules/PostGridChild.php:561
 #: includes/Builder/Version4/Modules/PostGridChild.php:551
 msgid "Make the author's name clickable. It'll take curious readers to a page with all of that author's posts."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:561
+#: deprecated/Modules/PostGridChild.php:569
 #: includes/Builder/Version4/Modules/PostGridChild.php:559
 msgid "Link Author Gravatar"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:563
+#: deprecated/Modules/PostGridChild.php:571
 #: includes/Builder/Version4/Modules/PostGridChild.php:561
 msgid "Make the author's gravatar clickable. It'll take curious readers to a page with all of that author's posts."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:571
+#: deprecated/Modules/PostGridChild.php:579
 #: includes/Builder/Version4/Modules/PostGridChild.php:569
 msgid "Link Categories"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:573
+#: deprecated/Modules/PostGridChild.php:581
 #: includes/Builder/Version4/Modules/PostGridChild.php:571
 msgid "Turn category names into links. Readers can explore more posts in the same category with a simple click."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:581
+#: deprecated/Modules/PostGridChild.php:589
 #: includes/Builder/Version4/Modules/PostGridChild.php:579
 msgid "Link Tags"
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:583
+#: deprecated/Modules/PostGridChild.php:591
 #: includes/Builder/Version4/Modules/PostGridChild.php:581
 msgid "Make tags clickable. Help your readers discover more content with the same tag effortlessly."
 msgstr ""
 
-#: deprecated/Modules/PostGridChild.php:593
+#: deprecated/Modules/PostGridChild.php:601
 #: includes/Builder/Version4/Modules/PostGridChild.php:591
 msgid "Here you can choose whether or not show element in the outside container."
 msgstr ""
@@ -6921,16 +6921,16 @@ msgid "Divi version is less than required"
 msgstr ""
 
 #. translators: %1$s: Required Divi version, %2$s: Current Divi version
-#: includes/Core/Requirements.php:387
+#: includes/Core/Requirements.php:381
 msgid "Squad Modules requires Divi version %1$s or higher. Your current Divi version is %2$s. Please update to continue using Squad Modules."
 msgstr ""
 
 #. translators: %1$s: Required Divi version, %2$s: Current Divi version
-#: includes/Core/Requirements.php:408
+#: includes/Core/Requirements.php:402
 msgid "Squad Modules requires Divi Builder version %1$s or higher. Your current Divi Builder version is %2$s. Please update to continue using Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:455
+#: includes/Core/Requirements.php:449
 msgid "Go to Dashboard"
 msgstr ""
 

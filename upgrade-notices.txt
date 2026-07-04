@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.3.5 =
+Added error handling for style enqueuing, fixed missing periods in comments, and updated version retrieval to use Divi::get_builder_version.
+
 = 3.3.4 =
 Fixed an issue to load forms module not showing up in the visual builder and frontend.
 

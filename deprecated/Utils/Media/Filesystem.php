@@ -10,7 +10,7 @@
 
 namespace DiviSquad\Utils\Media;
 
-use DiviSquad\Core\Traits\WP\UseWPFilesystem;
+use DiviSquad\Core\Traits\WP\Use_WP_Filesystem;
 
 /**
  * The Filesystem class.
@@ -20,5 +20,5 @@ use DiviSquad\Core\Traits\WP\UseWPFilesystem;
  * @package    DiviSquad
  */
 class Filesystem {
-	use UseWPFilesystem;
+	use Use_WP_Filesystem;
 }

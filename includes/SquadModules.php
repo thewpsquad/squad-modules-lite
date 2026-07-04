@@ -381,6 +381,12 @@ final class SquadModules {
 					'priority' => 9,
 				),
 			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields::class                             => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
 			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Traits\TablePopulationTrait::class => array(
 				'action' => array(
 					'name'     => 'init',
@@ -459,12 +465,6 @@ final class SquadModules {
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields::class                             => array(
-				'action' => array(
-					'name'     => 'init',
-					'priority' => 9,
-				),
-			),
 			\DiviSquad\Base\DiviBuilder\Utils\Elements\Breadcrumbs::class                              => array(
 				'action' => array(
 					'name'     => 'init',
@@ -537,13 +537,13 @@ final class SquadModules {
 			\DiviSquad\Modules\PostGridChild::class                                                    => array(
 				'action' => array(
 					'name'     => 'divi_extensions_init',
-					'priority' => 9,
+					'priority' => 10,
 				),
 			),
 			\DiviSquad\Modules\PostGridChild\PostGridChild::class                                      => array(
 				'action' => array(
 					'name'     => 'divi_extensions_init',
-					'priority' => 9,
+					'priority' => 10,
 				),
 			),
 			\DiviSquad\Utils\Media\Filesystem::class                                                   => array(),

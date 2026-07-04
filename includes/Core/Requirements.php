@@ -144,11 +144,11 @@ class Requirements {
 			$this->status['is_plugin_installed'] = $is_plugin_installed;
 
 			if ( $is_theme_installed ) {
-				$this->status['theme_version'] = defined( 'ET_CORE_VERSION' ) ? ET_CORE_VERSION : '0.0.0';
+				$this->status['theme_version'] = Divi::get_builder_version();
 			}
 
 			if ( $is_plugin_installed ) {
-				$this->status['plugin_version'] = defined( 'ET_BUILDER_PLUGIN_VERSION' ) ? ET_BUILDER_PLUGIN_VERSION : '0.0.0';
+				$this->status['plugin_version'] = Divi::get_builder_version();
 			}
 		}
 
@@ -189,19 +189,13 @@ class Requirements {
 			$meets_version = false;
 
 			// Check Divi theme version (if active).
-			if ( ( $this->status['is_theme_active'] ?? false ) && defined( 'ET_CORE_VERSION' ) ) { // @phpstan-ignore-line
-				$this->status['theme_version'] = ET_CORE_VERSION;
-
-				// Check if the version is valid.
-				$meets_version = version_compare( (string) ET_CORE_VERSION, $this->required_version, '>=' );
+			if ( ( $this->status['is_theme_active'] ?? false ) && '0.0.0' !== ( $this->status['theme_version'] ?? '0.0.0' ) ) { // @phpstan-ignore-line
+				$meets_version = version_compare( (string) ( $this->status['theme_version'] ?? '0.0.0' ), $this->required_version, '>=' );
 			}
 
 			// Check Divi Builder plugin version (if active).
-			if ( ! $meets_version && ( $this->status['is_plugin_active'] ?? false ) && defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) { // @phpstan-ignore-line
-				$this->status['plugin_version'] = ET_BUILDER_PLUGIN_VERSION;
-
-				// Check if the version is valid.
-				$meets_version = version_compare( (string) ET_BUILDER_PLUGIN_VERSION, $this->required_version, '>=' );
+			if ( ! $meets_version && ( $this->status['is_plugin_active'] ?? false ) && '0.0.0' !== ( $this->status['plugin_version'] ?? '0.0.0' ) ) { // @phpstan-ignore-line
+				$meets_version = version_compare( (string) ( $this->status['plugin_version'] ?? '0.0.0' ), $this->required_version, '>=' );
 			}
 
 			$this->status['meets_version'] = $meets_version;
@@ -529,7 +523,7 @@ class Requirements {
 				'site_url'          => home_url(),
 				'wordpress_version' => get_bloginfo( 'version' ),
 				'php_version'       => PHP_VERSION,
-				'server_software'   => $_SERVER['SERVER_SOFTWARE'] ?? '',
+				'server_software'   => sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ?? '' ) ),
 				'required_version'  => $this->required_version,
 				'is_multisite'      => is_multisite() ? 'Yes' : 'No',
 			);
@@ -610,7 +604,7 @@ class Requirements {
 				return;
 			}
 
-			// Prepare a detailed message for logging
+			// Prepare a detailed message for logging.
 			$log_message = sprintf(
 				'Requirements check failed: %s. Current: %s. Expected: %s.',
 				$requirement,
@@ -618,10 +612,10 @@ class Requirements {
 				$expected
 			);
 
-			// Log the failure with proper context
+			// Log the failure with proper context.
 			divi_squad()->log_warning( $log_message, $context, $extra_data );
 
-			// Create exception for reporting if needed
+			// Create exception for reporting if needed.
 			if ( $report_error ) {
 				$exception = new RuntimeException(
 					sprintf(

@@ -63,7 +63,7 @@ class Module_Utility {
 	/**
 	 * Constructor
 	 *
-	 * @param Module $module The module instance
+	 * @param Module $module The module instance.
 	 */
 	public function __construct( Module $module ) {
 		$this->module = $module;
@@ -72,7 +72,7 @@ class Module_Utility {
 	/**
 	 * Magic getter to access utility instances
 	 *
-	 * @param string $name The utility name
+	 * @param string $name The utility name.
 	 *
 	 * @return mixed The utility instance
 	 */
@@ -88,7 +88,7 @@ class Module_Utility {
 	/**
 	 * Check if a utility exists
 	 *
-	 * @param string $name The utility name
+	 * @param string $name The utility name.
 	 *
 	 * @return bool Whether the utility exists
 	 */

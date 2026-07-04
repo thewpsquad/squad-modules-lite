@@ -23,5 +23,4 @@ if ( ! class_exists( '\ET_Builder_Module' ) ) {
  * @package    DiviSquad
  */
 #[\AllowDynamicProperties]
-abstract class DiviSquad_Module extends Module {
-}
+abstract class DiviSquad_Module extends Module { }

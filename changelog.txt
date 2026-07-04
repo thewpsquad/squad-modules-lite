@@ -1,4 +1,11 @@
 == Changelog ==
+= 3.3.5 (14-04-2025) =
+
+**Bug Fixes:**
+- Added error handling for style enqueuing in Assets.php
+- Fixed missing periods in comments in Divi
+- Updated theme and plugin version retrieval to use Divi::get_builder_version
+
 = 3.3.4 (14-04-2025) =
 
 **Bug Fixes:**

@@ -18,4 +18,4 @@ namespace DiviSquad\Base\DiviBuilder;
  * @deprecated 3.1.0 mark as deprecated
  * @package    DiviSquad
  */
-abstract class IntegrationAPIBase extends \DiviSquad\Base\DiviBuilder\Integration { }
+abstract class IntegrationAPIBase extends Integration { }

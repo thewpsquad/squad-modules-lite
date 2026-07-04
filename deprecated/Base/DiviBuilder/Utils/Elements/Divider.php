@@ -11,7 +11,6 @@
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements;
 
-use DiviSquad\Base\DiviBuilder\Utils;
 use ET_Global_Settings;
 use function esc_html__;
 use function et_builder_accent_color;
@@ -197,7 +196,7 @@ class Divider {
 				'mobile_options'   => true,
 				'sticky'           => true,
 			),
-			'divider_max_width'     => Utils::add_range_field(
+			'divider_max_width'     => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Divider Max Width', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose divider max width.', 'squad-modules-for-divi' ),
@@ -214,7 +213,7 @@ class Divider {
 					'toggle_slug'     => $toggle_slug_adv,
 				)
 			),
-			'divider_border_radius' => Utils::add_range_field(
+			'divider_border_radius' => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Divider Border Radius', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose divider border  radius.', 'squad-modules-for-divi' ),

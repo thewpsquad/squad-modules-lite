@@ -12,6 +12,14 @@
 
 namespace DiviSquad\Modules;
 
+if ( ! class_exists( '\ET_Builder_Module' ) ) {
+	return;
+}
+
+if ( ! class_exists( '\DiviSquad\Base\DiviBuilder\Utils' ) ) {
+	return;
+}
+
 use DiviSquad\Base\DiviBuilder\Module;
 use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Utils\Divi;
@@ -105,7 +113,7 @@ class PostGridChild extends Module {
 		// Declare advanced fields for the module.
 		$this->advanced_fields = array(
 			'fonts'          => array(
-				'element_icon_text' => Utils::add_font_field(
+				'element_icon_text' => divi_squad()->d4_module_helper->add_font_field(
 					esc_html__( 'Icon', 'squad-modules-for-divi' ),
 					array(
 						'font_size'       => array(
@@ -130,7 +138,7 @@ class PostGridChild extends Module {
 						'toggle_slug'     => 'element_icon_text',
 					)
 				),
-				'element_text'      => Utils::add_font_field(
+				'element_text'      => divi_squad()->d4_module_helper->add_font_field(
 					esc_html__( 'Element', 'squad-modules-for-divi' ),
 					array(
 						'font_size'   => array(
@@ -151,9 +159,9 @@ class PostGridChild extends Module {
 					)
 				),
 			),
-			'background'     => Utils::selectors_background( $this->main_css_element ),
+			'background'     => divi_squad()->d4_module_helper->selectors_background( $this->main_css_element ),
 			'filters'        => array(
-				'child_filters_target' => Utils::add_filters_field(
+				'child_filters_target' => divi_squad()->d4_module_helper->add_filters_field(
 					array(
 						'label'       => et_builder_i18n( 'Icon' ),
 						'toggle_slug' => 'element_icon_element',
@@ -167,7 +175,7 @@ class PostGridChild extends Module {
 				),
 			),
 			'borders'        => array(
-				'default'              => Utils::selectors_default( $this->main_css_element ),
+				'default'              => divi_squad()->d4_module_helper->selectors_default( $this->main_css_element ),
 				'element_wrapper'      => array(
 					'label_prefix' => et_builder_i18n( 'Wrapper' ),
 					'tab_slug'     => 'advanced',
@@ -213,7 +221,7 @@ class PostGridChild extends Module {
 				),
 			),
 			'box_shadow'     => array(
-				'default'              => Utils::selectors_default( $this->main_css_element ),
+				'default'              => divi_squad()->d4_module_helper->selectors_default( $this->main_css_element ),
 				'element_wrapper'      => array(
 					'label'             => esc_html__( 'Wrapper Box Shadow', 'squad-modules-for-divi' ),
 					'option_category'   => 'layout',
@@ -262,9 +270,9 @@ class PostGridChild extends Module {
 					'depends_show_if_not' => array( 'none', 'featured_image', 'gravatar' ),
 				),
 			),
-			'margin_padding' => Utils::selectors_margin_padding( $this->main_css_element ),
-			'max_width'      => Utils::selectors_max_width( $this->main_css_element ),
-			'height'         => Utils::selectors_default( $this->main_css_element ),
+			'margin_padding' => divi_squad()->d4_module_helper->selectors_margin_padding( $this->main_css_element ),
+			'max_width'      => divi_squad()->d4_module_helper->selectors_max_width( $this->main_css_element ),
+			'height'         => divi_squad()->d4_module_helper->selectors_default( $this->main_css_element ),
 			'image_icon'     => false,
 			'text'           => false,
 			'button'         => false,
@@ -301,7 +309,7 @@ class PostGridChild extends Module {
 	public function get_fields(): array {
 		// Text fields definitions.
 		$element_fields = array(
-			'element' => Utils::add_select_box_field(
+			'element' => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Element Type', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Choose an element type to display for current post.', 'squad-modules-for-divi' ),
@@ -343,7 +351,7 @@ class PostGridChild extends Module {
 
 		// Others fields for elements toggle.
 		$excerpt_fields    = array(
-			'element_excerpt__enable'       => Utils::add_yes_no_field(
+			'element_excerpt__enable'       => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Post Excerpt', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose whether or not show post excerpt.', 'squad-modules-for-divi' ),
@@ -353,7 +361,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'element_ex_con_length__enable' => Utils::add_yes_no_field(
+			'element_ex_con_length__enable' => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Enable Text Limit', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose whether or not custom length for post content or excerpt text limit.', 'squad-modules-for-divi' ),
@@ -366,7 +374,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'element_ex_con_length'         => Utils::add_range_field(
+			'element_ex_con_length'         => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Text Limit', 'squad-modules-for-divi' ),
 				array(
 					'description'       => esc_html__( 'Here you can choose how much text you would like to display for post content or excerpt.', 'squad-modules-for-divi' ),
@@ -445,18 +453,18 @@ class PostGridChild extends Module {
 
 		// Additional fields for elements toggle.
 		$additional_fields = array(
-			'element_title_tag'               => Utils::add_select_box_field(
+			'element_title_tag'               => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Title Tag', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a tag to display with your title element.', 'squad-modules-for-divi' ),
-					'options'         => Utils::get_html_tag_elements(),
+					'options'         => divi_squad()->d4_module_helper->get_html_tag_elements(),
 					'default'         => 'span',
 					'depends_show_if' => 'title',
 					'tab_slug'        => 'general',
 					'toggle_slug'     => 'elements',
 				)
 			),
-			'element_image_fullwidth__enable' => Utils::add_yes_no_field(
+			'element_image_fullwidth__enable' => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Force Fullwidth', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose whether or not the image element is full width.', 'squad-modules-for-divi' ),
@@ -466,7 +474,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'element_author_name_type'        => Utils::add_select_box_field(
+			'element_author_name_type'        => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Author Name Type', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a author name type to display for current post.', 'squad-modules-for-divi' ),
@@ -483,7 +491,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'elements',
 				)
 			),
-			'element_gravatar_size'           => Utils::add_range_field(
+			'element_gravatar_size'           => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Avatar Image Size', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a author name type to display for current post.', 'squad-modules-for-divi' ),
@@ -499,7 +507,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'elements',
 				)
 			),
-			'element_date_type'               => Utils::add_select_box_field(
+			'element_date_type'               => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Date Type', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a date type to display for current post.', 'squad-modules-for-divi' ),
@@ -537,7 +545,7 @@ class PostGridChild extends Module {
 				'hover'           => 'tabs',
 				'mobile_options'  => true,
 			),
-			'link_to_post__enable'            => Utils::add_yes_no_field(
+			'link_to_post__enable'            => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Link to Post', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Make this element clickable. Visitors can access the full post directly by clicking.', 'squad-modules-for-divi' ),
@@ -547,7 +555,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'elements',
 				)
 			),
-			'link_to_author__enable'          => Utils::add_yes_no_field(
+			'link_to_author__enable'          => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Link Author Name', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Make the author\'s name clickable. It\'ll take curious readers to a page with all of that author\'s posts.', 'squad-modules-for-divi' ),
@@ -557,7 +565,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'link_to_gravatar__enable'        => Utils::add_yes_no_field(
+			'link_to_gravatar__enable'        => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Link Author Gravatar', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Make the author\'s gravatar clickable. It\'ll take curious readers to a page with all of that author\'s posts.', 'squad-modules-for-divi' ),
@@ -567,7 +575,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'link_to_categories__enable'      => Utils::add_yes_no_field(
+			'link_to_categories__enable'      => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Link Categories', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Turn category names into links. Readers can explore more posts in the same category with a simple click.', 'squad-modules-for-divi' ),
@@ -577,7 +585,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'link_to_tags__enable'            => Utils::add_yes_no_field(
+			'link_to_tags__enable'            => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Link Tags', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Make tags clickable. Help your readers discover more content with the same tag effortlessly.', 'squad-modules-for-divi' ),
@@ -587,7 +595,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'elements',
 				)
 			),
-			'element_outside__enable'         => Utils::add_yes_no_field(
+			'element_outside__enable'         => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Outside the Container', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can choose whether or not show element in the outside container.', 'squad-modules-for-divi' ),
@@ -609,7 +617,7 @@ class PostGridChild extends Module {
 
 		// Icon & Image fields definitions.
 		$icon_image_fields_all = array(
-			'element_icon_type'                => Utils::add_select_box_field(
+			'element_icon_type'                => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Icon Type', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Choose an icon type to display with your post.', 'squad-modules-for-divi' ),
@@ -700,7 +708,7 @@ class PostGridChild extends Module {
 				'tab_slug'        => 'general',
 				'toggle_slug'     => 'element_icon_element',
 			),
-			'element_title_icon__enable'       => Utils::add_yes_no_field(
+			'element_title_icon__enable'       => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Use Left Icon for Title', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose whether or not use icon for the post title.', 'squad-modules-for-divi' ),
@@ -730,7 +738,7 @@ class PostGridChild extends Module {
 				'tab_slug'         => 'general',
 				'toggle_slug'      => 'element_icon_element',
 			),
-			'element_title_icon_show_on_hover' => Utils::add_yes_no_field(
+			'element_title_icon_show_on_hover' => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Title Icon On Hover', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'By default, post title icon on hover be displayed. If you would like post title icon is displayed all time, then you can enable this option.', 'squad-modules-for-divi' ),
@@ -744,7 +752,7 @@ class PostGridChild extends Module {
 
 		// Icon & Image associate fields definitions.
 		$icon_image_associated_fields_all = array(
-			'element_icon_color'                => Utils::add_color_field(
+			'element_icon_color'                => divi_squad()->d4_module_helper->add_color_field(
 				esc_html__( 'Icon Color', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can define a custom color for your icon.', 'squad-modules-for-divi' ),
@@ -753,7 +761,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_icon_background_color'     => Utils::add_color_field(
+			'element_icon_background_color'     => divi_squad()->d4_module_helper->add_color_field(
 				esc_html__( 'Icon Background Color', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can define a custom background color.', 'squad-modules-for-divi' ),
@@ -762,7 +770,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'element_icon_element',
 				)
 			),
-			'element_title_icon_color'          => Utils::add_color_field(
+			'element_title_icon_color'          => divi_squad()->d4_module_helper->add_color_field(
 				esc_html__( 'Title Icon Color', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can define a custom color for your icon.', 'squad-modules-for-divi' ),
@@ -771,7 +779,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_icon_size'                 => Utils::add_range_field(
+			'element_icon_size'                 => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Icon Size', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose icon size.', 'squad-modules-for-divi' ),
@@ -787,7 +795,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_image_width'               => Utils::add_range_field(
+			'element_image_width'               => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Image Width', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose image width.', 'squad-modules-for-divi' ),
@@ -802,7 +810,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_image_height'              => Utils::add_range_field(
+			'element_image_height'              => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Image Height', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose image height.', 'squad-modules-for-divi' ),
@@ -817,7 +825,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_title_icon_size'           => Utils::add_range_field(
+			'element_title_icon_size'           => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Title Icon Size', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose icon size.', 'squad-modules-for-divi' ),
@@ -832,7 +840,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_icon_text_gap'             => Utils::add_range_field(
+			'element_icon_text_gap'             => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Gap Between Icon and Text', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can choose gap between icon and text.', 'squad-modules-for-divi' ),
@@ -849,7 +857,7 @@ class PostGridChild extends Module {
 				),
 				array( 'use_hover' => false )
 			),
-			'element_icon_placement'            => Utils::add_placement_field(
+			'element_icon_placement'            => divi_squad()->d4_module_helper->add_placement_field(
 				esc_html__( 'Icon Placement', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can choose where to place the icon.', 'squad-modules-for-divi' ),
@@ -868,7 +876,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'element_icon_element',
 				)
 			),
-			'element_icon_horizontal_alignment' => Utils::add_alignment_field(
+			'element_icon_horizontal_alignment' => divi_squad()->d4_module_helper->add_alignment_field(
 				esc_html__( 'Icon Horizontal Alignment', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Align icon to the left, right or center.', 'squad-modules-for-divi' ),
@@ -878,7 +886,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'element_icon_element',
 				)
 			),
-			'element_icon_vertical_alignment'   => Utils::add_select_box_field(
+			'element_icon_vertical_alignment'   => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Icon Vertical Placement', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can choose where to place the icon.', 'squad-modules-for-divi' ),
@@ -894,7 +902,7 @@ class PostGridChild extends Module {
 					'mobile_options'      => true,
 				)
 			),
-			'element_icon_on_hover'             => Utils::add_yes_no_field(
+			'element_icon_on_hover'             => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Icon On Hover', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'By default, post element icon to always be displayed. If you would like post element icon are displayed on hover, then you can enable this option.', 'squad-modules-for-divi' ),
@@ -907,7 +915,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'element_icon_element',
 				)
 			),
-			'element_icon_hover_move_icon'      => Utils::add_yes_no_field(
+			'element_icon_hover_move_icon'      => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Move Icon On Hover Only', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'By default, icon and text are both move on hover. If you would like post element icon move on hover, then you can enable this option.', 'squad-modules-for-divi' ),
@@ -917,7 +925,7 @@ class PostGridChild extends Module {
 					'toggle_slug'      => 'element_icon_element',
 				)
 			),
-			'element_icon_margin'               => Utils::add_margin_padding_field(
+			'element_icon_margin'               => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Icon Margin', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can define a custom margin size for the icon.', 'squad-modules-for-divi' ),
@@ -927,7 +935,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'element_icon_element',
 				)
 			),
-			'element_icon_padding'              => Utils::add_margin_padding_field(
+			'element_icon_padding'              => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Icon Padding', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can define a custom padding size.', 'squad-modules-for-divi' ),
@@ -937,7 +945,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'element_icon_element',
 				)
 			),
-			'element_title_icon_margin'         => Utils::add_margin_padding_field(
+			'element_title_icon_margin'         => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Title Icon Margin', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can define a custom margin size for the icon.', 'squad-modules-for-divi' ),
@@ -948,7 +956,7 @@ class PostGridChild extends Module {
 					'toggle_slug'     => 'element_icon_element',
 				)
 			),
-			'element_title_icon_padding'        => Utils::add_margin_padding_field(
+			'element_title_icon_padding'        => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Title Icon Padding', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can define a custom padding size.', 'squad-modules-for-divi' ),
@@ -971,7 +979,7 @@ class PostGridChild extends Module {
 			)
 		);
 		$element_wrapper_fields    = array(
-			'element_text_orientation' => Utils::add_alignment_field(
+			'element_text_orientation' => divi_squad()->d4_module_helper->add_alignment_field(
 				esc_html__( 'Content Alignment', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'This controls how your text is aligned within the module.', 'squad-modules-for-divi' ),
@@ -982,7 +990,7 @@ class PostGridChild extends Module {
 					'toggle_slug' => 'element_wrapper',
 				)
 			),
-			'element_wrapper_margin'   => Utils::add_margin_padding_field(
+			'element_wrapper_margin'   => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Margin', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Here you can define a custom margin size for the wrapper.', 'squad-modules-for-divi' ),
@@ -991,7 +999,7 @@ class PostGridChild extends Module {
 					'toggle_slug' => 'element_wrapper',
 				)
 			),
-			'element_wrapper_padding'  => Utils::add_margin_padding_field(
+			'element_wrapper_padding'  => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Padding', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Here you can define a custom padding size.', 'squad-modules-for-divi' ),
@@ -1016,7 +1024,7 @@ class PostGridChild extends Module {
 			)
 		);
 		$element_associated_fields = array(
-			'element_margin'  => Utils::add_margin_padding_field(
+			'element_margin'  => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Margin', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can define a custom margin size.', 'squad-modules-for-divi' ),
@@ -1031,7 +1039,7 @@ class PostGridChild extends Module {
 					'toggle_slug'         => 'element',
 				)
 			),
-			'element_padding' => Utils::add_margin_padding_field(
+			'element_padding' => divi_squad()->d4_module_helper->add_margin_padding_field(
 				esc_html__( 'Padding', 'squad-modules-for-divi' ),
 				array(
 					'description'         => esc_html__( 'Here you can define a custom padding size.', 'squad-modules-for-divi' ),
@@ -1074,7 +1082,7 @@ class PostGridChild extends Module {
 			$element_wrapper_fields,
 			$element_background_fields,
 			$element_associated_fields,
-			Utils::get_general_fields(),
+			divi_squad()->d4_module_helper->get_general_fields(),
 			$special_fields
 		);
 	}
@@ -1106,8 +1114,8 @@ class PostGridChild extends Module {
 		$fields['element_wrapper_background_color'] = array( 'background' => "$this->main_css_element div .post-elements" );
 		$fields['element_wrapper_margin']           = array( 'margin' => "$this->main_css_element div .post-elements" );
 		$fields['element_wrapper_padding']          = array( 'padding' => "$this->main_css_element div .post-elements" );
-		Utils::fix_border_transition( $fields, 'element_wrapper', "$this->main_css_element div .post-elements" );
-		Utils::fix_box_shadow_transition( $fields, 'element_wrapper', "$this->main_css_element div .post-elements" );
+		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'element_wrapper', "$this->main_css_element div .post-elements" );
+		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'element_wrapper', "$this->main_css_element div .post-elements" );
 
 		// icon styles.
 		$fields['element_icon_background_color'] = array( 'background-color' => "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
@@ -1117,15 +1125,15 @@ class PostGridChild extends Module {
 		$fields['element_image_height']          = array( 'height' => "$this->main_css_element div .post-elements span.squad-element-icon-wrapper img" );
 		$fields['element_icon_margin']           = array( 'margin' => "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
 		$fields['element_icon_padding']          = array( 'padding' => "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
-		Utils::fix_border_transition( $fields, 'element_icon_element', "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
-		Utils::fix_box_shadow_transition( $fields, 'element_icon_element', "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
+		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'element_icon_element', "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
+		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'element_icon_element', "$this->main_css_element div .post-elements span.squad-element-icon-wrapper .icon-element" );
 
 		// element styles.
 		$fields['element_background_color'] = array( 'background' => "$this->main_css_element div .post-elements .squad-post-element" );
 		$fields['element_margin']           = array( 'margin' => "$this->main_css_element div .post-elements .squad-post-element" );
 		$fields['element_padding']          = array( 'padding' => "$this->main_css_element div .post-elements .squad-post-element" );
-		Utils::fix_border_transition( $fields, 'element', "$this->main_css_element div .post-elements .squad-post-element" );
-		Utils::fix_box_shadow_transition( $fields, 'element', "$this->main_css_element div .post-elements .squad-post-element" );
+		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'element', "$this->main_css_element div .post-elements .squad-post-element" );
+		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'element', "$this->main_css_element div .post-elements .squad-post-element" );
 
 		// title icon styles.
 		$fields['element_title_icon_color']   = array( 'color' => "$this->main_css_element div .post-elements .squad-post-element span.squad-element_title-icon.et-pb-icon" );

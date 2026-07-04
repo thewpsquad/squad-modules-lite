@@ -251,7 +251,7 @@ class Divi {
 		);
 
 		foreach ( $wp_installed_themes as $theme ) {
-			// Strategy 1: Check direct name match
+			// Strategy 1: Check direct name match.
 			if ( in_array( 'name_match', $use_strategies, true ) && in_array( $theme->get( 'Name' ), $base_themes, true ) ) {
 				/**
 				 * Filter whether a theme detected by name should be considered a Divi theme.
@@ -267,7 +267,7 @@ class Divi {
 				}
 			}
 
-			// Strategy 2: Check for Divi/Extra as parent theme
+			// Strategy 2: Check for Divi/Extra as parent theme.
 			if ( in_array( 'parent_theme', $use_strategies, true ) ) {
 				$parent_theme = $theme->parent();
 				if ( $parent_theme instanceof WP_Theme && in_array( $parent_theme->get( 'Name' ), $base_themes, true ) ) {
@@ -287,7 +287,7 @@ class Divi {
 				}
 			}
 
-			// Strategy 3: Check for customized Divi/Extra themes by examining the template file structure
+			// Strategy 3: Check for customized Divi/Extra themes by examining the template file structure.
 			if ( in_array( 'directory_structure', $use_strategies, true ) &&
 				 file_exists( trailingslashit( $theme->get_stylesheet_directory() ) . 'includes/builder' ) ) {
 
@@ -315,7 +315,7 @@ class Divi {
 					}
 				}
 
-				// If we find at least 2 markers, it's likely a Divi theme
+				// If we find at least 2 markers, it's likely a Divi theme.
 				if ( $marker_count >= 2 ) {
 					/**
 					 * Filter whether a theme detected by directory structure should be considered a Divi theme.
@@ -333,7 +333,7 @@ class Divi {
 				}
 			}
 
-			// Strategy 4: Check for code signatures in functions.php
+			// Strategy 4: Check for code signatures in functions.php.
 			if ( in_array( 'code_signatures', $use_strategies, true ) &&
 				 file_exists( trailingslashit( $theme->get_stylesheet_directory() ) . 'functions.php' ) ) {
 
@@ -429,7 +429,7 @@ class Divi {
 			)
 		);
 
-		// Strategy 1: Check if current theme is directly Divi or Extra
+		// Strategy 1: Check if current theme is directly Divi or Extra.
 		if ( in_array( 'theme_name', $use_strategies, true ) && in_array( $current_theme->get( 'Name' ), $base_themes, true ) ) {
 			/**
 			 * Filter whether a theme detected by name should be considered an active Divi theme.
@@ -498,7 +498,7 @@ class Divi {
 			}
 		}
 
-		// Strategy 4: Check for Divi/Extra framework presence through functions
+		// Strategy 4: Check for Divi/Extra framework presence through functions.
 		if ( in_array( 'functions', $use_strategies, true ) ) {
 			$divi_functions = array(
 				'et_setup_theme',
@@ -535,7 +535,7 @@ class Divi {
 			}
 		}
 
-		// Strategy 5: Check theme template structure for Divi/Extra signatures
+		// Strategy 5: Check theme template structure for Divi/Extra signatures.
 		if ( in_array( 'directory_structure', $use_strategies, true ) ) {
 			$template_dir      = $current_theme->get_template_directory();
 			$directory_markers = array(
@@ -563,7 +563,7 @@ class Divi {
 				}
 			}
 
-			// If we find at least 2 markers, it's likely a Divi theme
+			// If we find at least 2 markers, it's likely a Divi theme.
 			if ( $marker_count >= 2 ) {
 				/**
 				 * Filter whether a theme detected by directory structure should be considered an active Divi theme.
@@ -618,16 +618,16 @@ class Divi {
 
 		$plugin_path = WP_CONTENT_DIR . '/plugins/' . $plugin_main_file;
 
-		// Method 1: Use filesystem API if available
+		// Method 1: Use filesystem API if available.
 		if ( function_exists( 'divi_squad' ) && is_callable( array( 'divi_squad', 'get_wp_fs' ) ) ) {
 			$is_installed = divi_squad()->get_wp_fs()->exists( $plugin_path );
 		} else {
 			$is_installed = file_exists( $plugin_path );
 		}
 
-		// Method 3: Check alternative locations
+		// Method 3: Check alternative locations.
 		if ( ! $is_installed ) {
-			// Check must-use plugins directory
+			// Check must-use plugins directory.
 			$mu_plugin_path = WPMU_PLUGIN_DIR . '/' . basename( $plugin_main_file );
 			if ( file_exists( $mu_plugin_path ) ) {
 				$is_installed = true;
@@ -687,7 +687,7 @@ class Divi {
 			)
 		);
 
-		// Strategy 1: Use WordPress plugin API if available
+		// Strategy 1: Use WordPress plugin API if available.
 		if ( in_array( 'plugin_api', $use_strategies, true ) ) {
 			if ( ! function_exists( 'is_plugin_active' ) && defined( 'ABSPATH' ) && file_exists( ABSPATH . 'wp-admin/includes/plugin.php' ) ) {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -709,7 +709,7 @@ class Divi {
 			}
 		}
 
-		// Strategy 2: Check for Divi Builder plugin constants
+		// Strategy 2: Check for Divi Builder plugin constants.
 		if ( in_array( 'constants', $use_strategies, true ) ) {
 			$plugin_constants = array(
 				'ET_BUILDER_PLUGIN_VERSION',
@@ -744,9 +744,9 @@ class Divi {
 			}
 		}
 
-		// Strategy 3: Check for Divi Builder plugin-specific functions
+		// Strategy 3: Check for Divi Builder plugin-specific functions.
 		if ( in_array( 'functions', $use_strategies, true ) ) {
-			// Unique functions that exist only in the Divi Builder plugin
+			// Unique functions that exist only in the Divi Builder plugin.
 			$plugin_functions = array(
 				'et_divi_builder_init_plugin',
 				'et_builder_set_plugin_activated_flag',
@@ -865,7 +865,7 @@ class Divi {
 			return false;
 		}
 
-		// Check Divi theme setting
+		// Check Divi theme setting.
 		if ( 'Divi' === $current_theme->get( 'Name' ) ) {
 			$config_options = get_option( 'et_divi', array() );
 
@@ -874,7 +874,7 @@ class Divi {
 			}
 		}
 
-		// Check Extra theme setting
+		// Check Extra theme setting.
 		if ( 'Extra' === $current_theme->get( 'Name' ) ) {
 			$config_options = get_option( 'et_extra', array() );
 
@@ -883,7 +883,7 @@ class Divi {
 			}
 		}
 
-		// Check Divi Builder plugin setting
+		// Check Divi Builder plugin setting.
 		if ( self::is_divi_builder_plugin_active() ) {
 			$config_options = get_option( 'et_pb_builder_options', array() );
 
@@ -892,9 +892,9 @@ class Divi {
 			}
 		}
 
-		// Check for child themes where parent is Divi/Extra
+		// Check for child themes where parent is Divi/Extra.
 		if ( $current_theme->parent() instanceof WP_Theme && in_array( $current_theme->parent()->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
-			// Check parent theme settings
+			// Check parent theme settings.
 			$parent_name    = $current_theme->parent()->get( 'Name' );
 			$option_key     = ( 'Divi' === $parent_name ) ? 'et_divi' : 'et_extra';
 			$css_option_key = ( 'Divi' === $parent_name ) ? 'divi_dynamic_css' : 'extra_dynamic_css';
@@ -939,9 +939,9 @@ class Divi {
 	 * @return string The current Divi Builder version or empty string if unavailable.
 	 */
 	public static function get_builder_version(): string {
-		$version = '';
+		$version = '0.0.0';
 
-		// Check constants in order of priority
+		// Check constants in order of priority.
 		if ( defined( 'ET_CORE_VERSION' ) ) {
 			$version = ET_CORE_VERSION;
 		} elseif ( defined( 'ET_BUILDER_VERSION' ) ) {

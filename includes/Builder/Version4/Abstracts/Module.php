@@ -49,6 +49,20 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 	public Module_Utility $squad_utils;
 
 	/**
+	 * Default options for divider
+	 *
+	 * @var array|mixed|string|null
+	 */
+	public array $squad_divider_defaults;
+
+	/**
+	 * Show options for divider
+	 *
+	 * @var array|mixed|string|null
+	 */
+	public $squad_divider_show_options;
+
+	/**
 	 * The list of icon eligible element
 	 *
 	 * @var array

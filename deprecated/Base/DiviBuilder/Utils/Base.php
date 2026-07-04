@@ -12,7 +12,12 @@
 namespace DiviSquad\Base\DiviBuilder\Utils;
 
 use DiviSquad\Base\DiviBuilder\Module;
-use DiviSquad\Base\DiviBuilder\Utils;
+use DiviSquad\Base\DiviBuilder\Utils\Elements\Breadcrumbs;
+use DiviSquad\Base\DiviBuilder\Utils\Elements\Divider;
+use DiviSquad\Base\DiviBuilder\Utils\Elements\MaskShape;
+use DiviSquad\Base\DiviBuilder\Utils\Fields\CompatibilityTrait;
+use DiviSquad\Base\DiviBuilder\Utils\Fields\DefinitionTrait;
+use DiviSquad\Base\DiviBuilder\Utils\Fields\ProcessorTrait;
 use function esc_html;
 
 /**
@@ -21,17 +26,17 @@ use function esc_html;
  * @since      2.0.0
  * @deprecated 3.3.3
  * @package    DiviSquad
- * @property-read \DiviSquad\Base\DiviBuilder\Utils\Elements\Divider     $divider     Divider Element utility.
- * @property-read \DiviSquad\Base\DiviBuilder\Utils\Elements\Breadcrumbs $breadcrumbs Breadcrumbs Element utility.
- * @property-read \DiviSquad\Base\DiviBuilder\Utils\Elements\MaskShape   $mask_shape  Mask Shape Element utility.
+ * @property-read Divider     $divider     Divider Element utility.
+ * @property-read Breadcrumbs $breadcrumbs Breadcrumbs Element utility.
+ * @property-read MaskShape   $mask_shape  Mask Shape Element utility.
  */
 abstract class Base {
-	use Utils\CommonTrait;
-	use Utils\FieldsTrait;
-	use Fields\CompatibilityTrait;
-	use Fields\DefinitionTrait;
-	use Fields\ProcessorTrait;
-	use Utils\DeprecationsTrait;
+	use CommonTrait;
+	use FieldsTrait;
+	use CompatibilityTrait;
+	use DefinitionTrait;
+	use ProcessorTrait;
+	use DeprecationsTrait;
 
 	/**
 	 * The instance of Squad Module.
