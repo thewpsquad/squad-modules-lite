@@ -8,12 +8,13 @@
  *
  * @since   3.1.0
  * @package DiviSquad
- * @author The WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Traits;
 
 use Throwable;
+use WP_Query;
 
 /**
  * Table Population Trait
@@ -34,7 +35,7 @@ trait Table_Population_Trait {
 	 * @since 3.1.0
 	 * @var   int
 	 */
-	protected int $batch_size = 5000;
+	public int $batch_size = 5000;
 
 	/**
 	 * Maximum execution time for each batch (seconds).
@@ -42,14 +43,14 @@ trait Table_Population_Trait {
 	 * @since 3.1.0
 	 * @var   int
 	 */
-	protected int $max_batch_time = 20;
+	public int $max_batch_time = 20;
 
 	/**
 	 * Tracked post types for custom fields.
 	 *
 	 * @var bool
 	 */
-	protected bool $is_table_exists = false;
+	public bool $is_table_exists = false;
 
 	/**
 	 * Populate the summary table efficiently.
@@ -57,7 +58,7 @@ trait Table_Population_Trait {
 	 * @since  3.1.0
 	 * @return void
 	 */
-	public function populate_summary_table() {
+	public function populate_summary_table(): void {
 		if ( ! $this->is_table_exists() ) {
 			return;
 		}
@@ -108,15 +109,20 @@ trait Table_Population_Trait {
 	 * Verify if the custom fields table exists.
 	 *
 	 * @since  3.2.0
-	 *
 	 * @return bool True if table exists.
 	 */
-	protected function is_table_exists(): bool {
+	public function is_table_exists(): bool {
 		global $wpdb;
 
 		// Check if table exists.
 		if ( ! $this->is_table_exists ) {
-			$table_exists = $wpdb->get_var( $wpdb->prepare( 'SELECT * FROM information_schema.tables WHERE table_schema = %s AND table_name = %s limit 1;', DB_NAME, $this->table_name ) );
+			$table_exists = $wpdb->get_var(
+				$wpdb->prepare(
+					'SELECT * FROM information_schema.tables WHERE table_schema = %s AND table_name = %s LIMIT 1;',
+					DB_NAME,
+					$this->table_name
+				)
+			);
 
 			// Update property.
 			$this->is_table_exists = (bool) $table_exists;
@@ -126,87 +132,150 @@ trait Table_Population_Trait {
 	}
 
 	/**
-	 * Process a batch of records.
+	 * Process a batch of records using WP_Meta_Query.
 	 *
 	 * @since  3.1.0
 	 *
-	 * @param int $last_id Last processed ID.
+	 * @param int $last_id Last processed meta ID.
 	 *
 	 * @return int Next last ID or 0 if complete.
 	 */
 	protected function process_batch( int $last_id ): int {
 		global $wpdb;
 
-		$post_types = $this->prepare_post_types();
+		$post_types = $this->tracked_post_types;
 		$start_time = microtime( true );
+		$chunk_size = $this->validate_batch_size( $this->get_optimal_batch_size() );
 
 		divi_squad()->log_debug(
 			sprintf(
-				'Processing batch: last_id=%d, post_types=%s',
+				'Processing batch: last_id=%d, post_types=%s, chunk_size=%d',
 				$last_id,
-				$post_types
+				implode( ',', $post_types ),
+				$chunk_size
 			)
 		);
 
 		try {
-			// Main query using INNER JOIN and EXISTS optimization.
-			// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders
-			$result = $wpdb->query(
-				$wpdb->prepare(
-					"INSERT INTO {$this->table_name} (meta_key, post_type)
-                SELECT DISTINCT pm.meta_key, p.post_type
-                FROM {$wpdb->postmeta} pm
-                INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-                WHERE 1=1
-                    AND pm.meta_id > %d
-                    AND pm.meta_key NOT LIKE '\_%%'
-                    AND p.post_type IN ({$post_types})
-                    AND NOT EXISTS (
-                        SELECT 1
-                        FROM {$wpdb->postmeta} hidden
-                        WHERE hidden.meta_key = CONCAT('_', pm.meta_key)
-                        AND hidden.post_id = pm.post_id
-                    )
-                    AND NOT EXISTS (
-                        SELECT 1
-                        FROM {$this->table_name} cf
-                        WHERE cf.meta_key = pm.meta_key
-                        AND cf.post_type = p.post_type
-                    )
-                GROUP BY pm.meta_key, p.post_type
-                LIMIT %d
-                ON DUPLICATE KEY UPDATE last_updated = CURRENT_TIMESTAMP",
-					$last_id,
-					$this->batch_size
-				)
+			// Initialize meta query to exclude hidden meta keys and filter by post types.
+			$meta_query = array(
+				'relation' => 'AND',
+				array(
+					'key'     => 'meta_key',
+					'compare' => 'NOT LIKE',
+					'value'   => '_%',
+				),
 			);
-			// phpcs:enable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders
 
-			if ( false === $result ) {
-				divi_squad()->log_debug( 'Batch processing query failed: ' . $wpdb->last_error );
+			// Build WP_Query to fetch posts with meta keys.
+			$args = array(
+				'post_type'      => $post_types,
+				'posts_per_page' => $chunk_size,
+				'meta_query'     => $meta_query,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+				'meta_key'       => '',
+				'post_status'    => 'any',
+			);
+
+			// If last_id is provided, filter meta_id greater than last_id.
+			if ( $last_id > 0 ) {
+				$args['meta_query'][] = array(
+					'key'     => 'meta_id',
+					'value'   => $last_id,
+					'compare' => '>',
+					'type'    => 'NUMERIC',
+				);
+			}
+
+			$query    = new WP_Query( $args );
+			$post_ids = $query->posts;
+
+			if ( empty( $post_ids ) ) {
+				divi_squad()->log_debug( 'No posts found for batch processing' );
 
 				return 0;
 			}
 
-			// Get the last processed ID using a more efficient query.
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$next_id = (int) $wpdb->get_var(
+			// Process posts in smaller chunks to optimize memory.
+			$meta_keys_to_insert = array();
+			$next_id             = 0;
+
+			foreach ( array_chunk( $post_ids, 100 ) as $chunk ) {
+				foreach ( $chunk as $post_id ) {
+					// Get post meta for the current post.
+					$meta_data = get_post_meta( $post_id, '', true );
+
+					foreach ( $meta_data as $meta_key => $meta_values ) {
+						if ( strpos( $meta_key, '_' ) === 0 ) {
+							continue; // Skip hidden meta keys.
+						}
+
+						// Check if meta key already exists in custom table.
+						$exists = $wpdb->get_var(
+							$wpdb->prepare(
+								"SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND post_type = %s",
+								$meta_key,
+								get_post_type( $post_id )
+							)
+						);
+
+						if ( ! $exists ) {
+							$meta_keys_to_insert[] = array(
+								'meta_key'  => $meta_key,
+								'post_type' => get_post_type( $post_id ),
+							);
+						}
+					}
+				}
+
+				// Insert collected meta keys into custom table.
+				if ( ! empty( $meta_keys_to_insert ) ) {
+					$values       = array();
+					$placeholders = array();
+
+					foreach ( $meta_keys_to_insert as $item ) {
+						$placeholders[] = '(%s, %s)';
+						$values[]       = $item['meta_key'];
+						$values[]       = $item['post_type'];
+					}
+
+					$query  = "INSERT INTO {$this->table_name} (meta_key, post_type) VALUES ";
+					$query .= implode( ',', $placeholders );
+					$query .= ' ON DUPLICATE KEY UPDATE last_updated = CURRENT_TIMESTAMP';
+
+					$result = $wpdb->query( $wpdb->prepare( $query, $values ) );
+
+					if ( false === $result ) {
+						divi_squad()->log_debug( 'Batch insert failed: ' . $wpdb->last_error );
+
+						return 0;
+					}
+				}
+
+				$meta_keys_to_insert = array(); // Clear for next chunk.
+			}
+
+			// Get the next meta_id for the next batch.
+			$next_id = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT MIN(meta_id)
                 FROM {$wpdb->postmeta} pm
                 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
                 WHERE pm.meta_id > %d
-                    AND pm.meta_key NOT LIKE '\_%%'
-                    AND p.post_type IN ({$post_types})
+                    AND pm.meta_key NOT LIKE '_%%'
+                    AND p.post_type IN (" . implode( ',', array_fill( 0, count( $post_types ), '%s' ) ) . ")
                     AND NOT EXISTS (
                         SELECT 1
                         FROM {$this->table_name} cf
                         WHERE cf.meta_key = pm.meta_key
                         AND cf.post_type = p.post_type
                     )",
-					$last_id
+					array_merge( array( $last_id ), $post_types )
 				)
 			);
+
+			$next_id = (int) $next_id;
 
 			$execution_time = microtime( true ) - $start_time;
 			divi_squad()->log_debug(
@@ -267,17 +336,18 @@ trait Table_Population_Trait {
 	}
 
 	/**
-	 * Get meta keys that exist in postmeta but not in the collection table.
-	 * Optimized query using INNER JOIN and NOT IN clause.
+	 * Get meta keys that exist in postmeta but not in the collection table using WP_Meta_Query.
 	 *
 	 * @since  3.1.0
-	 * @return array Array of missing meta keys with their post types.
+	 * @return array Array of missing meta keys with their post types and occurrence counts.
 	 */
 	public function get_missing_meta_keys(): array {
 		global $wpdb;
 
-		$post_types = $this->prepare_post_types();
-		$cache_key  = sprintf( 'divi_squad_missing_meta_keys_%s', md5( $post_types ) );
+		$post_types  = $this->tracked_post_types;
+		$cache_key   = sprintf( 'divi_squad_missing_meta_keys_%s', md5( implode( ',', $post_types ) ) );
+		$chunk_size  = $this->validate_batch_size( $this->get_optimal_batch_size() );
+		$max_results = 1000; // Limit to 1000 results as per original query.
 
 		// Try to get from cache first.
 		$cached_results = wp_cache_get( $cache_key, 'divi-squad-custom_fields' );
@@ -286,37 +356,100 @@ trait Table_Population_Trait {
 		}
 
 		try {
-			// Main query using INNER JOIN and subquery optimization.
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-			$results = $wpdb->get_results(
-				$wpdb->prepare(
-					"SELECT
-                    pm.meta_key,
-                    p.post_type,
-                    COUNT(*) as occurrence_count
-                FROM {$wpdb->postmeta} pm
-                INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-                WHERE 1=1
-                    AND pm.meta_key NOT LIKE '\_%%'
-                    AND p.post_type IN ({$post_types})
-                    AND NOT EXISTS (
-                        SELECT 1
-                        FROM {$this->table_name} cf
-                        WHERE cf.meta_key = pm.meta_key
-                        AND cf.post_type = p.post_type
-                    )
-                GROUP BY pm.meta_key, p.post_type
-                ORDER BY occurrence_count DESC
-                LIMIT 1000"
+			// Initialize results array to store meta keys, post types, and counts.
+			$results         = array();
+			$meta_key_counts = array();
+
+			// Meta query to exclude hidden meta keys.
+			$meta_query = array(
+				'relation' => 'AND',
+				array(
+					'key'     => 'meta_key',
+					'compare' => 'NOT LIKE',
+					'value'   => '_%',
 				),
-				ARRAY_A
 			);
 
-			if ( ! is_array( $results ) ) {
-				divi_squad()->log_debug( 'No missing meta keys found or query failed' );
+			// WP_Query arguments.
+			$args = array(
+				'post_type'      => $post_types,
+				'posts_per_page' => $chunk_size,
+				'meta_query'     => $meta_query,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+				'post_status'    => 'any',
+			);
 
-				return array();
+			$query    = new WP_Query( $args );
+			$post_ids = $query->posts;
+
+			// Process posts in chunks until no more posts or max_results reached.
+			while ( ! empty( $post_ids ) && count( $results ) < $max_results ) {
+				foreach ( array_chunk( $post_ids, 100 ) as $chunk ) {
+					foreach ( $chunk as $post_id ) {
+						$post_type = get_post_type( $post_id );
+						if ( ! in_array( $post_type, $post_types, true ) ) {
+							continue;
+						}
+
+						// Get all meta keys for the post.
+						$meta_data = get_post_meta( $post_id, '', true );
+
+						foreach ( $meta_data as $meta_key => $meta_values ) {
+							if ( strpos( $meta_key, '_' ) === 0 ) {
+								continue; // Skip hidden meta keys.
+							}
+
+							// Check if meta key already exists in custom table.
+							$exists = $wpdb->get_var(
+								$wpdb->prepare(
+									"SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND post_type = %s",
+									$meta_key,
+									$post_type
+								)
+							);
+
+							if ( $exists ) {
+								continue; // Skip if already in custom table.
+							}
+
+							// Track occurrence count.
+							$key = $meta_key . '|' . $post_type;
+							if ( ! isset( $meta_key_counts[ $key ] ) ) {
+								$meta_key_counts[ $key ] = array(
+									'meta_key'         => $meta_key,
+									'post_type'        => $post_type,
+									'occurrence_count' => 0,
+								);
+							}
+							++$meta_key_counts[ $key ]['occurrence_count'];
+						}
+					}
+
+					// Add to results if under max_results.
+					foreach ( $meta_key_counts as $key => $data ) {
+						if ( count( $results ) >= $max_results ) {
+							break;
+						}
+						if ( ! in_array( $data, $results, true ) ) {
+							$results[] = $data;
+						}
+					}
+				}
+
+				// Fetch next batch.
+				$args['paged'] = isset( $args['paged'] ) ? $args['paged'] + 1 : 2;
+				$query         = new WP_Query( $args );
+				$post_ids      = $query->posts;
 			}
+
+			// Sort by occurrence_count DESC.
+			usort(
+				$results,
+				static function ( $a, $b ) {
+					return $b['occurrence_count'] - $a['occurrence_count'];
+				}
+			);
 
 			// Cache the results for 5 minutes.
 			wp_cache_set(
@@ -333,7 +466,7 @@ trait Table_Population_Trait {
 				$e,
 				sprintf(
 					'Error getting missing meta keys for post types: %s',
-					implode( ', ', $this->tracked_post_types )
+					implode( ', ', $post_types )
 				)
 			);
 
@@ -342,32 +475,128 @@ trait Table_Population_Trait {
 	}
 
 	/**
-	 * Get meta keys count by post type.
-	 * Helper method to analyze meta keys distribution.
+	 * Get meta keys count by post type using WP_Meta_Query.
 	 *
 	 * @since  3.1.0
 	 * @return array Array of meta key counts by post type.
 	 */
 	public function get_meta_keys_count_by_post_type(): array {
-		global $wpdb;
+		$post_types = $this->tracked_post_types;
+		$cache_key  = sprintf( 'divi_squad_meta_keys_count_%s', md5( implode( ',', $post_types ) ) );
+		$chunk_size = $this->validate_batch_size( $this->get_optimal_batch_size() );
 
-		$post_types = $this->prepare_post_types();
+		// Try to get from cache first.
+		$cached_results = wp_cache_get( $cache_key, 'divi-squad-custom_fields' );
+		if ( false !== $cached_results ) {
+			return $cached_results;
+		}
 
-		// phpcs:ignore WordPress.DB
-		return $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT
-                p.post_type,
-                COUNT(DISTINCT pm.meta_key) as unique_keys,
-                COUNT(pm.meta_key) as total_keys
-            FROM {$wpdb->postmeta} pm
-            INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-            WHERE p.post_type IN ({$post_types}) AND pm.meta_key NOT LIKE '\_%%'
-            GROUP BY p.post_type
-            ORDER BY unique_keys DESC"
-			),
-			ARRAY_A
-		);
+		try {
+			// Initialize results array.
+			$results = array();
+			foreach ( $post_types as $post_type ) {
+				$results[ $post_type ] = array(
+					'post_type'   => $post_type,
+					'unique_keys' => 0,
+					'total_keys'  => 0,
+				);
+			}
+
+			// Meta query to exclude hidden meta keys.
+			$meta_query = array(
+				'relation' => 'AND',
+				array(
+					'key'     => 'meta_key',
+					'compare' => 'NOT LIKE',
+					'value'   => '_%',
+				),
+			);
+
+			// WP_Query arguments.
+			$args = array(
+				'post_type'      => $post_types,
+				'posts_per_page' => $chunk_size,
+				'meta_query'     => $meta_query,
+				'fields'         => 'ids',
+				'no_found_rows'  => true,
+				'post_status'    => 'any',
+			);
+
+			$query    = new WP_Query( $args );
+			$post_ids = $query->posts;
+
+			// Process posts in chunks.
+			while ( ! empty( $post_ids ) ) {
+				foreach ( array_chunk( $post_ids, 100 ) as $chunk ) {
+					foreach ( $chunk as $post_id ) {
+						$post_type = get_post_type( $post_id );
+						if ( ! isset( $results[ $post_type ] ) ) {
+							continue;
+						}
+
+						// Get all meta keys for the post.
+						$meta_data = get_post_meta( $post_id, '', true );
+						$meta_keys = array_keys( $meta_data );
+
+						// Filter out hidden meta keys.
+						$meta_keys = array_filter(
+							$meta_keys,
+							static function ( $key ) {
+								return strpos( $key, '_' ) !== 0;
+							}
+						);
+
+						// Update counts.
+						$results[ $post_type ]['total_keys'] += count( $meta_keys );
+						$results[ $post_type ]['unique_keys'] = count(
+							array_unique(
+								array_merge(
+									array_keys(
+										array_filter(
+											$meta_data,
+											static function ( $key ) {
+												return strpos( $key, '_' ) !== 0;
+											},
+											ARRAY_FILTER_USE_KEY
+										)
+									),
+									array_keys( array_filter( $results[ $post_type ]['unique_keys'] ?? array() ) )
+								)
+							)
+						);
+					}
+				}
+
+				// Fetch next batch.
+				$args['paged'] = isset( $args['paged'] ) ? $args['paged'] + 1 : 2;
+				$query         = new WP_Query( $args );
+				$post_ids      = $query->posts;
+			}
+
+			// Format results as array.
+			$formatted_results = array_values( $results );
+
+			// Cache the results for 5 minutes.
+			wp_cache_set(
+				$cache_key,
+				$formatted_results,
+				'divi-squad-custom_fields',
+				5 * MINUTE_IN_SECONDS
+			);
+
+			return $formatted_results;
+
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error(
+				$e,
+				sprintf(
+					'Error getting meta keys count for post types: %s',
+					implode( ', ', $post_types )
+				)
+			);
+
+			return array();
+		}
 	}
 
 	/**

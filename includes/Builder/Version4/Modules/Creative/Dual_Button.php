@@ -1353,17 +1353,21 @@ class Dual_Button extends Module {
 					'important'      => true,
 				)
 			);
-			$this->generate_styles(
-				array(
-					'base_attr_name' => 'separator_width',
-					'selector'       => "$this->main_css_element div .elements .squad-separator",
-					'hover_selector' => "$this->main_css_element div .elements .squad-separator:hover",
-					'css_property'   => 'width',
-					'render_slug'    => $this->slug,
-					'type'           => 'range',
-					'important'      => true,
-				)
-			);
+
+			if ( 'on' === $this->prop( 'separator_custom_width', 'off' ) ) {
+				$this->generate_styles(
+					array(
+						'base_attr_name' => 'separator_width',
+						'selector'       => "$this->main_css_element div .elements .squad-separator",
+						'hover_selector' => "$this->main_css_element div .elements .squad-separator:hover",
+						'css_property'   => 'width',
+						'render_slug'    => $this->slug,
+						'type'           => 'range',
+						'important'      => true,
+					)
+				);
+			}
+
 			$this->generate_styles(
 				array(
 					'base_attr_name' => 'separator_item_alignment',
@@ -1407,8 +1411,8 @@ class Dual_Button extends Module {
 
 			return sprintf(
 				'<div class="%3$s">%1$s%2$s</div>',
-				wp_kses_post( $text_element ),
-				wp_kses_post( $icon_elements ),
+				wp_kses_post( $text_element ?? '' ),
+				wp_kses_post( $icon_elements ?? '' ),
 				wp_kses_post( implode( ' ', $separator_text_classes ) )
 			);
 		}

@@ -3051,7 +3051,7 @@ class Flip_Box extends Module {
 			return sprintf(
 				'<span class="%1$s"><span class="icon-element">%2$s</span></span>',
 				implode( ' ', $wrapper_classes ),
-				wp_kses_post( $icon_element )
+				wp_kses_post( $icon_element ?? '' )
 			);
 		}
 

@@ -19,6 +19,7 @@ use DiviSquad\Core\Admin\Notices\Pro_Activation_Notice;
 use DiviSquad\Core\Admin\Notices\Purchase_Discount_Notice;
 use DiviSquad\Core\Admin\Notices\Review_Notice;
 use DiviSquad\Core\Assets as Assets_Manager;
+use DiviSquad\Utils\Helper;
 use Throwable;
 use function add_action;
 use function add_filter;
@@ -555,11 +556,13 @@ class Notice {
 
 			// Collect all notice scopes
 			$all_scopes = array( 'global' );
-			foreach ( $this->get_notice_instances() as $notice ) {
-				$scopes     = $notice->get_scopes();
-				$all_scopes = array_merge( $all_scopes, $scopes );
+			if( Helper::is_squad_page() ) {
+				foreach ( $this->get_notice_instances() as $notice ) {
+					$scopes     = $notice->get_scopes();
+					$all_scopes = array_merge( $all_scopes, $scopes );
+				}
+				$all_scopes = array_unique( $all_scopes );
 			}
-			$all_scopes = array_unique( $all_scopes );
 
 			// Prepare container template arguments
 			$container_args = array(

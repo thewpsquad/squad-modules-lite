@@ -1,4 +1,22 @@
 == Changelog ==
+= 3.4.2 (20-06-2025) =
+
+**New Features:**
+- Added WPML compatibility for 8 new modules including Image Gallery, Video Popup, Forms modules, Google Map, and Gradient Text
+- Updated wpml-config.xml with translatable attributes for all new modules
+
+**Improvements:**
+- Updated security policy with clear vulnerability reporting process
+- Optimized module loading with improved performance for form modules
+
+**Bug Fixes:**
+- Fixed responsive issues in Flip Box module on mobile devices
+- Fixed issues with Dual Button module not displaying correctly in the Frontend
+- Fixed issues facing fatal errors in the admin area when try to update footer text
+- Fixed issues with divider max-width default values
+- Fixed issues to close notice banner in the admin area
+- Resolved compatibility issues with WordPress 6.8
+
 = 3.4.1 (01-05-2025) =
 
 **New Features:**

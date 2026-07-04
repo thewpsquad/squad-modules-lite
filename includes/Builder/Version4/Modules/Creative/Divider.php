@@ -470,20 +470,22 @@ class Divider extends Module {
 			'divider_max_width'     => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Divider Max Width', 'squad-modules-for-divi' ),
 				array(
-					'description'     => esc_html__( 'Here you can choose divider max width.', 'squad-modules-for-divi' ),
-					'range_settings'  => array(
+					'description'      => esc_html__( 'Here you can choose divider max width.', 'squad-modules-for-divi' ),
+					'range_settings'   => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '1000',
 						'max'       => '1000',
 						'step'      => '1',
 					),
-					'allowed_units'   => array( '%', 'em', 'rem', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ex', 'vh', 'vw' ),
-					'allow_empty'     => true,
-					'default_unit'    => 'px',
-					'depends_show_if' => 'on',
-					'tab_slug'        => 'advanced',
-					'toggle_slug'     => 'divider',
+					'allowed_units'    => array( '%', 'em', 'rem', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ex', 'vh', 'vw' ),
+					'allow_empty'      => true,
+					'default_unit'     => 'px',
+					'default_on_front' => 'auto',
+					'default'          => 'auto',
+					'depends_show_if'  => 'on',
+					'tab_slug'         => 'advanced',
+					'toggle_slug'      => 'divider',
 				)
 			),
 			'divider_border_radius' => divi_squad()->d4_module_helper->add_range_field(

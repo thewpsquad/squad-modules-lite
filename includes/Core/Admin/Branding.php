@@ -64,9 +64,10 @@ class Branding {
 			add_filter( 'plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 2 );
 			add_filter( 'network_admin_plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 2 );
 			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_row_meta' ), 10, 2 );
+			add_action( 'admin_head', array( $this, 'output_custom_css' ) );
+
 			add_filter( 'admin_footer_text', array( $this, 'filter_admin_footer_text' ), PHP_INT_MAX );
 			add_filter( 'update_footer', array( $this, 'filter_update_footer_text' ), PHP_INT_MAX );
-			add_action( 'admin_head', array( $this, 'output_custom_css' ) );
 
 			/**
 			 * Action fired after branding manager is fully initialized.
@@ -428,30 +429,6 @@ class Branding {
 	}
 
 	/**
-	 * Get all registered branding assets.
-	 *
-	 * @since 3.3.3
-	 *
-	 * @return array<string, array<Brand_Asset_Interface>> The registered branding assets.
-	 */
-	public function get_assets(): array {
-		return $this->assets;
-	}
-
-	/**
-	 * Get registered branding assets by type.
-	 *
-	 * @since 3.3.3
-	 *
-	 * @param string $type The asset type.
-	 *
-	 * @return array<Brand_Asset_Interface> The registered branding assets for the specified type.
-	 */
-	public function get_assets_by_type( string $type ): array {
-		return $this->assets[ $type ] ?? array();
-	}
-
-	/**
 	 * Add plugin row meta links.
 	 *
 	 * This method filters the row meta links displayed for plugins in the WordPress
@@ -560,7 +537,7 @@ class Branding {
 	 *
 	 * @return string Modified admin footer text.
 	 */
-	public function filter_admin_footer_text( string $text ): string {
+	public function filter_admin_footer_text( $text ): string {
 		try {
 			if ( count( $this->assets['admin_footer_text'] ) === 0 ) {
 				return $text;
@@ -657,7 +634,7 @@ class Branding {
 	 *
 	 * @return string Modified update footer text.
 	 */
-	public function filter_update_footer_text( string $text ): string {
+	public function filter_update_footer_text( $text ): string {
 		try {
 			if ( count( $this->assets['admin_footer_text'] ) === 0 ) {
 				return $text;
@@ -821,5 +798,29 @@ class Branding {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to output custom CSS' );
 		}
+	}
+
+	/**
+	 * Get all registered branding assets.
+	 *
+	 * @since 3.3.3
+	 *
+	 * @return array<string, array<Brand_Asset_Interface>> The registered branding assets.
+	 */
+	public function get_assets(): array {
+		return $this->assets;
+	}
+
+	/**
+	 * Get registered branding assets by type.
+	 *
+	 * @since 3.3.3
+	 *
+	 * @param string $type The asset type.
+	 *
+	 * @return array<Brand_Asset_Interface> The registered branding assets for the specified type.
+	 */
+	public function get_assets_by_type( string $type ): array {
+		return $this->assets[ $type ] ?? array();
 	}
 }

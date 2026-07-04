@@ -1,4 +1,8 @@
 == Upgrade Notice ==
+= 3.4.2 =
+Added WPML compatibility for Image Gallery, Video Popup, Forms modules, Google Map, and Gradient Text. Fixed issues with Dual Button module and Flip Box module. Improved security policy and resolved compatibility issues with WordPress 6.8.
+
+
 = 3.4.1 =
 Added new SVG files for various components, fixed Ninja Forms compatibility issues, and optimized plugin performance and stability.
 

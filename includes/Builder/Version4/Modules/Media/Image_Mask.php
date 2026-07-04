@@ -341,13 +341,10 @@ class Image_Mask extends Module {
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
-		$overflow   = 'overflow: visible';
 		$image_src  = $this->prop( 'image' );
 		$alt_text   = $this->_esc_attr( 'alt' );
 		$unique_id  = self::get_module_order_class( $this->slug );
 		$mask_shape = $this->squad_utils->mask_shape->get_shape( $this->prop( 'mask_shape_image', 'shape-01' ) );
-
-		$mask_title = sprintf( '<title>%1$s</title>', $this->_esc_attr( 'alt' ) );
 
 		$mask_option_transform = sprintf(
 			'rotate(%1$s) scale(%2$s, %3$s)',
@@ -362,32 +359,29 @@ class Image_Mask extends Module {
 			$this->prop( 'image_vertical_position', '0' )
 		);
 
-		if ( ! empty( $this->prop( 'mask_shape_flip', '' ) ) ) {
-			$mask_shape_flips = explode( '|', $this->prop( 'mask_shape_flip', '' ) );
-			if ( in_array( 'horizontal', $mask_shape_flips, true ) ) {
-				$mask_option_transform .= ' scale(-1, 1)';
-			}
-			if ( ! in_array( 'vertical', $mask_shape_flips, true ) ) {
-				$mask_option_transform .= ' scale(1, -1)';
-			}
+		$mask_shape_flips = explode( '|', $this->prop( 'mask_shape_flip', '' ) );
+		if ( in_array( 'horizontal', $mask_shape_flips, true ) ) {
+			$mask_option_transform .= ' scale(-1, 1)';
+		}
+		if ( ! in_array( 'vertical', $mask_shape_flips, true ) ) {
+			$mask_option_transform .= ' scale(1, -1)';
 		}
 
 		return sprintf(
 			'<div class="image-elements et_pb_with_background">
-				<svg width="100%%" height="100%%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="%1$s">
-					%2$s
+				<svg width="100%" height="100%" style="overflow:visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" aria-labelledby="alt-text-68546612026c9" role="img">
+                	<title id="alt-text-%2$s">%1$s</title>
 					<defs>
-						<mask id="%3$s" fill="#fff">
-							<g style="transform: %4$s; transform-origin: center center;">%5$s</g>
+						<mask id="%2$s" fill="#fff">
+							<g style="transform: %3$s; transform-origin: center center;">%4$s</g>
 						</mask>
 					</defs>
-					<g style="mask: url(\'#%3$s\')">
-					<image href="%6$s" width="%7$s" height="%8$s" transform="%9$s" preserveAspectRatio="none" style="%1$s"/>
+					<g style="mask: url(\'#%2$s\')">
+						<image href="%5$s" width="%6$s" height="%7$s" transform="%8$s" preserveAspectRatio="none" style="overflow:visible"/>
 					</g>
 				</svg>
 			</div>',
-			$overflow,
-			! empty( $alt_text ) ? $mask_title : null,
+			$alt_text,
 			$unique_id,
 			$mask_option_transform,
 			$mask_shape,

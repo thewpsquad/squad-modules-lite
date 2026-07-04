@@ -741,7 +741,7 @@ abstract class FormStyler extends Module {
 
 			// Add margin field.
 			$custom_spacing_fields["{$prefix}_margin"] = $this->squad_add_custom_spacing_field(
-			// translators: %s: Component name for margin setting.
+			// translators: %s: Element label for margin setting.
 				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
 				'custom_margin',
 				$settings
@@ -749,7 +749,7 @@ abstract class FormStyler extends Module {
 
 			// Add padding field.
 			$custom_spacing_fields["{$prefix}_padding"] = $this->squad_add_custom_spacing_field(
-			// translators: %s: Component name for padding setting.
+			// translators: %s: Element label for padding setting.
 				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
 				'custom_padding',
 				$settings
@@ -792,13 +792,13 @@ abstract class FormStyler extends Module {
 
 		return array(
 			"{$prefix}_margin"  => $this->squad_add_custom_spacing_field(
-			// translators: %s: Element Label for margin.
+			// translators: %s: Element label for margin setting.
 				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
 				'custom_margin',
 				$base_settings
 			),
 			"{$prefix}_padding" => $this->squad_add_custom_spacing_field(
-			// translators: %s: Element Label for padding.
+			// translators: %s: Element label for padding setting.
 				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
 				'custom_padding',
 				$base_settings

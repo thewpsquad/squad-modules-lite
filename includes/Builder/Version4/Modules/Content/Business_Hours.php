@@ -559,7 +559,7 @@ class Business_Hours extends Module {
 
 		return sprintf(
 			'<div class="bh-element bh-title-wrapper">%1$s</div>',
-			wp_kses_post( $title_text )
+			wp_kses_post( $title_text ?? '' )
 		);
 	}
 

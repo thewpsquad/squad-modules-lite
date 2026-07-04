@@ -112,7 +112,7 @@ abstract class Placeholder implements Placeholder_Interface {
 			'placeholder'     => _x( 'Enter your information...', 'Modules dummy content', 'squad-modules-for-divi' ),
 
 			// Testimonial content.
-			'testimonial'     => _x( 'The Squad Modules for Divi have transformed our website. The interface is intuitive and the results are professional. Highly recommended for anyone looking to enhance their Divi experience!', 'Modules dummy content', 'squad-modules-for-divi' ),
+			'testimonial'     => _x( 'The Squad Modules Lite have transformed our website. The interface is intuitive and the results are professional. Highly recommended for anyone looking to enhance their Divi experience!', 'Modules dummy content', 'squad-modules-for-divi' ),
 
 			// List items for various modules.
 			'list_items'      => array(

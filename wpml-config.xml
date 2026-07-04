@@ -1,6 +1,6 @@
 <wpml-config>
     <built-with-page-builder>/\[(et_pb_section|et_pb_row|et_pb_column)/</built-with-page-builder>
-    <shortcode-list>disq_accordion_child,disq_bai_slider,disq_business_hours,disq_business_day,disq_divider,disq_dual_button,disq_flip_box,disq_image_mask,disq_lottie,disq_post_grid,disq_post_grid_child,disq_typing_text,disq_post_reading_time,disq_glitch_text,disq_scrolling_text,disq_star_rating,disq_breadcrumbs,disq_drop_cap_text</shortcode-list>
+    <shortcode-list>disq_accordion_child,disq_bai_slider,disq_business_hours,disq_business_day,disq_divider,disq_dual_button,disq_flip_box,disq_image_mask,disq_lottie,disq_post_grid,disq_post_grid_child,disq_typing_text,disq_post_reading_time,disq_glitch_text,disq_scrolling_text,disq_star_rating,disq_breadcrumbs,disq_drop_cap_text,disq_image_gallery,disq_video_popup,disq_contact_form_7,disq_fluent_forms,disq_forminator,disq_gravity_forms,disq_ninja_forms,disq_wp_forms,disq_google_map,disq_gradient_text</shortcode-list>
     <shortcodes>
         <shortcode>
             <tag>disq_bai_slider</tag>
@@ -262,6 +262,112 @@
                 <attribute>drop_cap_letter</attribute>
                 <attribute>body_content</attribute>
                 <attribute type="media-url">drop_cap_letter_background_image</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_image_gallery</tag>
+            <attributes>
+                <attribute>gallery_title</attribute>
+                <attribute>gallery_subtitle</attribute>
+                <attribute>lightbox_button_text</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_video_popup</tag>
+            <attributes>
+                <attribute>video_popup_text</attribute>
+                <attribute>video_title</attribute>
+                <attribute>alt</attribute>
+                <attribute type="media-url">image</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+                <attribute type="link">video_url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_contact_form_7</tag>
+            <attributes>
+                <attribute>custom_title</attribute>
+                <attribute>custom_message</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_fluent_forms</tag>
+            <attributes>
+                <attribute>custom_title</attribute>
+                <attribute>custom_message</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_forminator</tag>
+            <attributes>
+                <attribute>custom_title</attribute>
+                <attribute>custom_message</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_gravity_forms</tag>
+            <attributes>
+                <attribute>custom_title</attribute>
+                <attribute>custom_message</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_ninja_forms</tag>
+            <attributes>
+                <attribute>custom_title</attribute>
+                <attribute>custom_message</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_wp_forms</tag>
+            <attributes>
+                <attribute>custom_title</attribute>
+                <attribute>custom_message</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_google_map</tag>
+            <attributes>
+                <attribute>address</attribute>
+                <attribute>map_center_address</attribute>
+                <attribute>title</attribute>
+                <attribute>infowindow_description</attribute>
+                <attribute type="media-url">marker_image</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_gradient_text</tag>
+            <attributes>
+                <attribute>gradient_text</attribute>
                 <attribute type="media-url">background_image</attribute>
                 <attribute type="link">link_option_url</attribute>
                 <attribute type="link">url</attribute>

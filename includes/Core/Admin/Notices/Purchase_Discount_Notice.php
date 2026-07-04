@@ -108,7 +108,7 @@ class Purchase_Discount_Notice extends Notice_Base {
 				),
 				'is_dismissible'  => true,
 				'rest_actions'    => array(
-					'close' => 'notice/discount/done',
+					'close' => 'notice/discount/close',
 				),
 			);
 

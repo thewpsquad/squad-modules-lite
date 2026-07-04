@@ -434,9 +434,9 @@ class Business_Hours_Child extends Module {
 
 		return sprintf(
 			'<div class="day-elements et_pb_with_background">%1$s%2$s%3$s</div>',
-			wp_kses_post( $day_name_text ),
+			wp_kses_post( $day_name_text ?? '' ),
 			wp_kses_post( $divider ),
-			wp_kses_post( $this->squad_render_day_time_text() )
+			wp_kses_post( $this->squad_render_day_time_text() ?? '' )
 		);
 	}
 
@@ -536,9 +536,9 @@ class Business_Hours_Child extends Module {
 
 			return sprintf(
 				'<span class="day-element day-element-time">%1$s%2$s%3$s</span>',
-				wp_kses_post( $start_time ),
-				wp_kses_post( $time_separator ),
-				wp_kses_post( $end_time )
+				wp_kses_post( $start_time ?? '' ),
+				wp_kses_post( $time_separator ?? '' ),
+				wp_kses_post( $end_time ?? '' )
 			);
 		}
 

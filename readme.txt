@@ -5,7 +5,7 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.4.1
+Stable tag: 3.4.2
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -184,6 +184,9 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
+= 3.4.2 =
+Added WPML compatibility for Image Gallery, Video Popup, Forms modules, Google Map, and Gradient Text. Enhanced developer documentation, improved security policy, and fixed responsive issues in Flip Box module.
+
 = 3.4.1 =
 Added new SVG files for various components, fixed Ninja Forms compatibility issues, and optimized plugin performance and stability.
 
@@ -212,6 +215,26 @@ Major performance improvements, bug fixes, and enhanced module loading system. N
 Bug fixing for Flip box module
 
 == Changelog ==
+= 3.4.2 (20-06-2025) =
+
+**New Features:**
+- Added WPML compatibility for 8 new modules including Image Gallery, Video Popup, Forms modules, Google Map, and Gradient Text
+- Updated wpml-config.xml with translatable attributes for all new modules
+- Added comprehensive developer documentation with module creation guides
+
+**Improvements:**
+- Enhanced WP-CLI configuration for better development workflow
+- Updated security policy with clear vulnerability reporting process
+- Optimized module loading with improved performance for form modules
+- Restructured readme file with developer-centric documentation
+- Added detailed directory structure documentation for easier onboarding
+
+**Bug Fixes:**
+- Fixed responsive issues in Flip Box module on mobile devices
+- Resolved compatibility issues with WordPress 6.8
+- Fixed custom icon rendering in Star Rating module
+- Addressed PHP 8.1 deprecation notices
+
 = 3.4.1 (01-05-2025) =
 
 **New Features:**
