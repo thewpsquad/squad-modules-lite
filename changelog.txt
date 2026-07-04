@@ -1,4 +1,20 @@
 == Changelog ==
+= 4.3.0 =
+
+**New Modules — Tier 2 "Free-tier disruptors" (modules other Divi packs charge for):**
+- **Countdown Timer** — evergreen and fixed-date modes, on-expiry actions (hide/redirect/show message), timezone-aware, no external JS.
+- **Timeline** — vertical and horizontal orientation, alternating/one-side layouts, scroll-triggered reveal, icon/image/number markers; repeatable child items.
+- **Data / Comparison Table** — responsive (stack/scroll), highlight column/row, sticky header, optional client-side sort, ribbon and CSV-style paste; repeatable child rows.
+- **Charts** — Bar / Line / Pie / Doughnut in one module (Chart.js), multi-dataset, animate-on-scroll, accessible canvas. Chart.js loads only when a chart is present.
+- **Floating Chat Button** — WhatsApp / Telegram / Messenger / phone / email / custom deep links, online-hours scheduling, prefilled messages; GDPR-friendly, no third-party script; repeatable child channels.
+- **Reading Progress Bar** — top/bottom bar or corner ring, per-content-area target, color/gradient, hide-on-complete. Tiny footprint.
+- **Image Hotspots** — unlimited percentage-positioned pins with tooltips, dot/icon/number markers, hover or click trigger, keyboard-accessible; repeatable child pins.
+
+**Improvements:**
+- The free module library grows to 61 modules — 60 run in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
+- Adds Chart.js as a per-page vendor dependency, enqueued only when a Charts module renders.
+- Extended WPML String Translation config for every new module's translatable attributes.
+
 = 4.2.0 (20-06-2026) =
 
 **New Modules:**

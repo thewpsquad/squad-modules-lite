@@ -262,6 +262,11 @@ class Assets implements Hookable {
 				'path' => 'vendor',
 				'deps' => array(),
 			),
+			'chartjs'        => array(
+				'file' => 'chart.umd',
+				'path' => 'vendor',
+				'deps' => array(),
+			),
 		);
 
 		/**
@@ -381,9 +386,9 @@ class Assets implements Hookable {
 				'deps' => array( 'squad-vendor-lottie' ),
 			),
 			'advanced-tabs'     => array(
-					'deps' => array( 'jquery' ),
-				),
-				'typing-text'       => array(
+				'deps' => array( 'jquery' ),
+			),
+			'typing-text'       => array(
 				'deps' => array( 'squad-vendor-typed' ),
 			),
 			'video-popup'       => array(
@@ -407,6 +412,29 @@ class Assets implements Hookable {
 				'path' => 'divi-builder-5',
 			),
 			'number-counter'    => array(
+				'path' => 'divi-builder-5',
+			),
+			'countdown-timer'   => array(
+				'path' => 'divi-builder-5',
+			),
+			'charts'            => array(
+				'path' => 'divi-builder-5',
+				'deps' => array( 'squad-vendor-chartjs' ),
+			),
+			'reading-progress'  => array(
+				'path' => 'divi-builder-5',
+				'deps' => array(),
+			),
+			'timeline'          => array(
+				'path' => 'divi-builder-5',
+			),
+			'image-hotspots'    => array(
+				'path' => 'divi-builder-5',
+			),
+			'chat-button'       => array(
+				'path' => 'divi-builder-5',
+			),
+			'data-table'        => array(
 				'path' => 'divi-builder-5',
 			),
 			'text-highlighter'  => array(

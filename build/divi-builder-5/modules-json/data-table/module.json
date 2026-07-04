@@ -1,0 +1,361 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/data-table",
+  "d4Shortcode": "disq_data_table",
+  "title": "Data Table",
+  "titles": "Data Tables",
+  "moduleIcon": "squad-modules/data-table",
+  "moduleClassName": "disq_data_table",
+  "category": "module",
+  "folder": "squad-modules",
+  "childModuleName": "squad-modules/data-table-row",
+  "childModuleTitle": "Data Table Row",
+  "childrenName": [
+    "squad-modules/data-table-row"
+  ],
+  "allowAllElements": true,
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Data Table"
+            }
+          }
+        }
+      }
+    },
+    "dataTable": {
+      "type": "object",
+      "selector": "{{selector}} .squad-data-table",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "columns": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "columns",
+              "label": "Column Headers",
+              "description": "One column header per line.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/textarea"
+              }
+            },
+            "responsiveMode": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "responsiveMode",
+              "label": "Responsive Mode",
+              "description": "How the table adapts on small screens.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "stack": {
+                      "label": "Stack"
+                    },
+                    "scroll": {
+                      "label": "Horizontal Scroll"
+                    }
+                  }
+                }
+              }
+            },
+            "highlightColumn": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "highlightColumn",
+              "label": "Highlight Column",
+              "description": "Column to emphasize (0 = none, 1 = first column).",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 10,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "stickyHeader": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "stickyHeader",
+              "label": "Sticky Header",
+              "description": "Keep the header row visible while scrolling.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/yes-no-button",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "stripedRows": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "stripedRows",
+              "label": "Striped Rows",
+              "description": "Alternate background color for even rows.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/yes-no-button",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "sortable": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "sortable",
+              "label": "Sortable",
+              "description": "Allow visitors to sort columns by clicking the header.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/yes-no-button",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "ribbonText": {
+              "groupSlug": "contentTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "ribbonText",
+              "label": "Ribbon Text",
+              "description": "Optional badge shown on the table. Leave empty to hide.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "headerBgColor": {
+              "groupSlug": "designTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "headerBgColor",
+              "label": "Header Background",
+              "description": "Background color of the header row.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "headerTextColor": {
+              "groupSlug": "designTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "headerTextColor",
+              "label": "Header Text Color",
+              "description": "Text color of the header row.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "cellTextColor": {
+              "groupSlug": "designTable",
+              "attrName": "dataTable.innerContent",
+              "subName": "cellTextColor",
+              "label": "Cell Text Color",
+              "description": "Text color of the body cells.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "columns": "Feature\nBasic\nPro",
+              "responsiveMode": "stack",
+              "highlightColumn": "0",
+              "stickyHeader": "off",
+              "stripedRows": "on",
+              "sortable": "off",
+              "ribbonText": "",
+              "headerBgColor": "",
+              "headerTextColor": "",
+              "cellTextColor": ""
+            }
+          }
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "selector": "{{selector}} .squad-data-table__th",
+      "settings": {
+        "decoration": {
+          "background": {},
+          "border": {},
+          "font": {},
+          "spacing": {}
+        }
+      }
+    },
+    "row": {
+      "type": "object",
+      "selector": "{{selector}} .squad-data-table__td",
+      "settings": {
+        "decoration": {
+          "background": {},
+          "border": {},
+          "font": {},
+          "spacing": {}
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentTable": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "table",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Table"
+          }
+        }
+      },
+      "designTable": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "table",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Table"
+          }
+        }
+      }
+    }
+  }
+}

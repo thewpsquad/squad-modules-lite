@@ -1,0 +1,364 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/chat-button",
+  "d4Shortcode": "disq_chat_button",
+  "title": "Chat Button",
+  "titles": "Chat Buttons",
+  "moduleIcon": "squad-modules/chat-button",
+  "moduleClassName": "disq_chat_button",
+  "category": "module",
+  "folder": "squad-modules",
+  "childModuleName": "squad-modules/chat-button-channel",
+  "childModuleTitle": "Chat Channel",
+  "childrenName": [
+    "squad-modules/chat-button-channel"
+  ],
+  "allowAllElements": true,
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Chat Button"
+            }
+          }
+        }
+      }
+    },
+    "chatButton": {
+      "type": "object",
+      "selector": "{{selector}} .squad-chat-button",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "position": {
+              "groupSlug": "contentLauncher",
+              "attrName": "chatButton.innerContent",
+              "subName": "position",
+              "label": "Position",
+              "description": "Screen corner the floating button is pinned to.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "bottom-right": {
+                      "label": "Bottom Right"
+                    },
+                    "bottom-left": {
+                      "label": "Bottom Left"
+                    },
+                    "top-right": {
+                      "label": "Top Right"
+                    },
+                    "top-left": {
+                      "label": "Top Left"
+                    }
+                  }
+                }
+              }
+            },
+            "toggleIcon": {
+              "groupSlug": "contentLauncher",
+              "attrName": "chatButton.innerContent",
+              "subName": "toggleIcon",
+              "label": "Toggle Icon",
+              "description": "Icon shown on the floating launcher button.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/icon-picker"
+              }
+            },
+            "toggleLabel": {
+              "groupSlug": "contentLauncher",
+              "attrName": "chatButton.innerContent",
+              "subName": "toggleLabel",
+              "label": "Toggle Aria Label",
+              "description": "Accessible label for the launcher button.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "headerTitle": {
+              "groupSlug": "contentPanel",
+              "attrName": "chatButton.innerContent",
+              "subName": "headerTitle",
+              "label": "Panel Header",
+              "description": "Heading shown at the top of the chat panel.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "greeting": {
+              "groupSlug": "contentPanel",
+              "attrName": "chatButton.innerContent",
+              "subName": "greeting",
+              "label": "Greeting",
+              "description": "Optional greeting bubble shown inside the panel.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/textarea"
+              }
+            },
+            "scheduleEnabled": {
+              "groupSlug": "contentSchedule",
+              "attrName": "chatButton.innerContent",
+              "subName": "scheduleEnabled",
+              "label": "Online Hours",
+              "description": "Only show the chat button during set hours (visitor local time).",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/yes-no-button",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "scheduleStart": {
+              "groupSlug": "contentSchedule",
+              "attrName": "chatButton.innerContent",
+              "subName": "scheduleStart",
+              "label": "Start Hour",
+              "description": "Hour the chat becomes available (0–23).",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 23,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "scheduleEnd": {
+              "groupSlug": "contentSchedule",
+              "attrName": "chatButton.innerContent",
+              "subName": "scheduleEnd",
+              "label": "End Hour",
+              "description": "Hour the chat becomes unavailable (0–23).",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 23,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "buttonColor": {
+              "groupSlug": "designButton",
+              "attrName": "chatButton.innerContent",
+              "subName": "buttonColor",
+              "label": "Button Color",
+              "description": "Background color of the floating launcher button.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "position": "bottom-right",
+              "toggleIcon": "",
+              "toggleLabel": "Open chat",
+              "headerTitle": "Chat with us",
+              "greeting": "",
+              "buttonColor": "",
+              "scheduleEnabled": "off",
+              "scheduleStart": "9",
+              "scheduleEnd": "17"
+            }
+          }
+        }
+      }
+    },
+    "panel": {
+      "type": "object",
+      "selector": "{{selector}} .squad-chat-button__panel",
+      "settings": {
+        "decoration": {
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "spacing": {}
+        }
+      }
+    },
+    "toggle": {
+      "type": "object",
+      "selector": "{{selector}} .squad-chat-button__toggle",
+      "settings": {
+        "decoration": {
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "spacing": {}
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentLauncher": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "launcher",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Launcher"
+          }
+        }
+      },
+      "contentPanel": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "panel",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Panel"
+          }
+        }
+      },
+      "contentSchedule": {
+        "panel": "content",
+        "priority": 30,
+        "groupName": "schedule",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Schedule"
+          }
+        }
+      },
+      "designButton": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "button",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Button"
+          }
+        }
+      }
+    }
+  }
+}

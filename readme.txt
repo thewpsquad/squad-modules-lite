@@ -1,19 +1,19 @@
-=== Squad Modules Lite – 54 Free Divi 5 & Divi 4 Modules for Divi Builder ===
+=== Squad Modules Lite – 61 Free Divi 5 & Divi 4 Modules for Divi Builder ===
 Contributors: wpsquad, mralaminahamed
 Donate link: https://squadmodules.com/
 Tags: divi, divi-5, divi builder, divi module, divi addons
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.2.0
+Stable tag: 4.3.0
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-54 free Divi modules + 8 extensions for the Divi 5 Visual Builder and the classic Divi 4 builder. One plugin, nothing to migrate.
+61 free Divi modules + 8 extensions for the Divi 5 Visual Builder and the classic Divi 4 builder. One plugin, nothing to migrate.
 
 == Description ==
 
-**Squad Modules Lite** is the most complete free Divi module pack built for **Divi 5**. It adds **54 free modules and 8 extensions** — all 54 run *natively* inside the Divi 5 Visual Builder (Block API), and 53 of them also run in the classic Divi 4 builder. Install once, build in either version — your existing pages keep working and new ones get the full Divi 5 experience.
+**Squad Modules Lite** is the most complete free Divi module pack built for **Divi 5**. It adds **61 free modules and 8 extensions** — all 61 run *natively* inside the Divi 5 Visual Builder (Block API), and 60 of them also run in the classic Divi 4 builder. Install once, build in either version — your existing pages keep working and new ones get the full Divi 5 experience.
 
 [View all modules →](https://squadmodules.com/modules?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) | [Upgrade to Pro](https://squadmodules.com/pricing?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 
@@ -21,19 +21,20 @@ Trusted by Divi builders worldwide and actively maintained — with frequent sec
 
 **Why Squad Modules?**
 
-- **Truly Divi 5 native — all 54 modules** — every single module is a first-class Block API citizen with full Visual Builder support, live preview, and design controls. Not a handful of modules, not "static modules only" — the entire library runs natively in Divi 5.
-- **The largest free module library** — 54 free modules across 6 categories, more than any other free Divi module pack, with no feature paywalls on the free set.
-- **Divi 4 supported, zero migration** — 53 of the 54 modules also run in the classic Divi 4 builder (Post Carousel is Divi 5-only). Pages built in Divi 4 stay in Divi 4; new Divi 5 pages use the native modules. No migration, no broken layouts, no conversion step.
+- **Truly Divi 5 native — all 61 modules** — every single module is a first-class Block API citizen with full Visual Builder support, live preview, and design controls. Not a handful of modules, not "static modules only" — the entire library runs natively in Divi 5.
+- **The largest free module library** — 61 free modules across 6 categories, more than any other free Divi module pack, with no feature paywalls on the free set.
+- **Free where other packs charge** — Countdown Timer, Timeline, Data / Comparison Table, Charts, Floating Chat Button, Reading Progress Bar, and Image Hotspots are Pro-only in most Divi add-ons. Squad ships all seven free, with no paywall.
+- **Divi 4 supported, zero migration** — 60 of the 61 modules also run in the classic Divi 4 builder (Post Carousel is Divi 5-only). Pages built in Divi 4 stay in Divi 4; new Divi 5 pages use the native modules. No migration, no broken layouts, no conversion step.
 - **8 free extensions** — site-wide helpers that aren't modules: post duplication, Divi Library shortcodes, login-page branding, font/SVG/JSON uploads, and more.
 - **Lean by design** — disable any module or extension from the React dashboard; only active items load assets on the front end, so your pages stay fast.
 - **Form stylers for 9 plugins** — natively style Contact Form 7, WPForms, Gravity Forms, Ninja Forms, Fluent Forms, Forminator, Formidable, MetForm, and SureForms — no custom CSS.
 - **Maintained and secure** — frequent security patches, Divi compatibility updates, and new modules. WPML-ready and translation-ready out of the box.
 
-**Switching from another Divi module pack?** Squad Modules covers the most-used modules from popular free add-ons — team member, testimonial, pricing table, icon box, advanced tabs, flip box, before/after slider, dividers, typing text, gradient text, business hours, image carousel, Lottie, post grid, form stylers, and more — and adds the one thing most of them still lack: complete, native Divi 5 support across the whole library.
+**Switching from another Divi module pack?** Squad Modules covers the most-used modules from popular free add-ons — team member, testimonial, pricing table, icon box, advanced tabs, flip box, before/after slider, dividers, typing text, gradient text, business hours, image carousel, Lottie, post grid, form stylers, and more — plus modules those packs gate behind Pro: countdown timer, timeline, data/comparison table, charts, floating chat button, reading progress bar, and image hotspots. And it adds the one thing most of them still lack: complete, native Divi 5 support across the whole library.
 
 ---
 
-**Creative Modules (17)**
+**Creative Modules (21)**
 
 - **Advanced Divider** — 16 divider styles: solid, double, dashed, dotted, groove, shadow, image, icon, text, gradient, Lottie, wave, zigzag, and more.
 - **Dual Button** — two independent CTAs side by side, each with its own link, style, and icon.
@@ -52,8 +53,12 @@ Trusted by Divi builders worldwide and actively maintained — with frequent sec
 - **Floating Images** — decorative images with CSS keyframe floating motion.
 - **Animated Heading** — cycling headlines with fade, slide, or flip transitions.
 - **Image Reveal** — clip-path or color-overlay image reveal on scroll.
+- **Countdown Timer** — evergreen and fixed-date modes with on-expiry actions (hide, redirect, or show a message), timezone-aware, no external JS.
+- **Charts** — Bar, Line, Pie, and Doughnut charts in one module (Chart.js), multi-dataset, animate-on-scroll, accessible canvas. The chart library loads only when a chart is on the page.
+- **Floating Chat Button** — WhatsApp, Telegram, Messenger, phone, email, and custom deep links with online-hours scheduling and prefilled messages; GDPR-friendly with no third-party script.
+- **Reading Progress Bar** — top/bottom bar or corner ring tracking the whole page or a specific content area, with color/gradient and hide-on-complete.
 
-**Image & Media Modules (9)**
+**Image & Media Modules (10)**
 
 - **Lottie** — lightweight JSON animations with playback controls, no extra JS libraries.
 - **Image Mask** — apply CSS shape masks (blob, leaf, SVG geometry) to any image.
@@ -64,6 +69,7 @@ Trusted by Divi builders worldwide and actively maintained — with frequent sec
 - **Logo Grid** — responsive logo grid with hover effects and links.
 - **Video Popup** — YouTube or Vimeo video inside a click-triggered lightbox.
 - **Advanced Video** — styled video player with custom poster, overlay controls, and sticky dock.
+- **Image Hotspots** — annotate any image with unlimited percentage-positioned pins, each with a tooltip, dot/icon/number marker, and hover or click trigger; keyboard-accessible.
 
 **Dynamic Content Modules (4)**
 
@@ -72,7 +78,7 @@ Trusted by Divi builders worldwide and actively maintained — with frequent sec
 - **Author Box** — author bio with avatar, social links, and multiple layout options.
 - **Post Reading Time** — estimated reading time displayed on any post or page type.
 
-**Content Modules (11)**
+**Content Modules (13)**
 
 - **Flip Box** — cards that flip on hover (rotate, slide, zoom, fade, open, diagonal) to reveal back content.
 - **Hover Box** — image card with animated content overlay on hover.
@@ -85,6 +91,8 @@ Trusted by Divi builders worldwide and actively maintained — with frequent sec
 - **Pricing Table** — responsive pricing plans with featured highlight, ribbon, tick/cross feature lists, and CTA buttons.
 - **Icon Box** — blurb-style box pairing an icon, image, or Lottie animation with title, content, badge, and a clickable link.
 - **Advanced Tabs** — tabbed content with horizontal/vertical layouts, mobile accordion, icon tabs, and URL deep-linking.
+- **Timeline** — vertical or horizontal timeline with alternating or one-side layouts, scroll-triggered reveal, and icon/image/number markers; repeatable child items.
+- **Data / Comparison Table** — responsive table (stack or scroll) with highlight column/row, sticky header, optional client-side sort, ribbon, and CSV-style paste; repeatable child rows.
 
 **Form Styler Modules (9)**
 
@@ -227,6 +235,9 @@ Free: [WordPress.org support forum](https://wordpress.org/support/plugin/squad-m
 12. Login Experience — fully branded wp-login.php replacement built with Divi modules (Login Form, Register Form, Lost Password, Reset Password).
 
 == Upgrade Notice ==
+= 4.3.0 =
+Feature release: 7 new free modules — Countdown Timer, Timeline, Data / Comparison Table, Charts, Floating Chat Button, Reading Progress Bar, and Image Hotspots — features other Divi packs charge for, each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 61 modules. Chart.js loads only on pages with a Charts module. No migration; existing pages keep working.
+
 = 4.2.0 =
 Feature release: 5 new free modules — Team Member, Testimonial, Pricing Table, Icon Box, and Advanced Tabs — each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 54 modules, the largest of any free Divi pack. No migration; existing pages keep working.
 
@@ -237,6 +248,22 @@ Security and bug-fix patch: resolves XSS and CSS injection vulnerabilities in mu
 Feature release: a rebuilt React admin dashboard (live stats, module/extension management, dark mode) and 15 new modules including Social Share, Table of Contents, Number Counter, Advanced Button, Hover Box, Animated Heading, Image Carousel, and Logo Grid. The admin page slug changed from "divi_squad_dashboard" to "divi_squad"; old bookmarks are redirected automatically. Divi 4 and Divi 5 builder support continue unchanged.
 
 == Changelog ==
+= 4.3.0 =
+
+**New Modules — Tier 2 "Free-tier disruptors" (modules other Divi packs charge for):**
+- **Countdown Timer** — evergreen and fixed-date modes, on-expiry actions (hide/redirect/show message), timezone-aware, no external JS.
+- **Timeline** — vertical and horizontal orientation, alternating/one-side layouts, scroll-triggered reveal, icon/image/number markers; repeatable child items.
+- **Data / Comparison Table** — responsive (stack/scroll), highlight column/row, sticky header, optional client-side sort, ribbon and CSV-style paste; repeatable child rows.
+- **Charts** — Bar / Line / Pie / Doughnut in one module (Chart.js), multi-dataset, animate-on-scroll, accessible canvas. Chart.js loads only when a chart is present.
+- **Floating Chat Button** — WhatsApp / Telegram / Messenger / phone / email / custom deep links, online-hours scheduling, prefilled messages; GDPR-friendly, no third-party script; repeatable child channels.
+- **Reading Progress Bar** — top/bottom bar or corner ring, per-content-area target, color/gradient, hide-on-complete. Tiny footprint.
+- **Image Hotspots** — unlimited percentage-positioned pins with tooltips, dot/icon/number markers, hover or click trigger, keyboard-accessible; repeatable child pins.
+
+**Improvements:**
+- The free module library grows to 61 modules — 60 run in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
+- Adds Chart.js as a per-page vendor dependency, enqueued only when a Charts module renders.
+- Extended WPML String Translation config for every new module's translatable attributes.
+
 = 4.2.0 (20-06-2026) =
 
 **New Modules:**

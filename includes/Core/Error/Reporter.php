@@ -377,6 +377,20 @@ class Reporter {
 			 */
 			do_action( 'divi_squad_before_send_error_report', $this->data, $this->errors );
 
+			// Require explicit site-owner consent before any data leaves the site..
+			if ( ! self::is_reporting_allowed() ) {
+				/**
+				 * Action fired when an error report is suppressed for lack of consent.
+				 *
+				 * @since 4.2.1
+				 *
+				 * @param array<string, mixed> $data Error report data.
+				 */
+				do_action( 'divi_squad_error_report_consent_denied', $this->data );
+
+				return false;
+			}
+
 			// Validate rate limit..
 			if ( ! $this->rate_limiter->can_send() ) {
 				// Check if this is a critical error that should bypass rate limiting.
@@ -639,6 +653,81 @@ class Reporter {
 	}
 
 	/**
+	 * Whether sending error reports to the plugin vendor is allowed.
+	 *
+	 * Error reports are emailed to an external vendor mailbox and may carry
+	 * diagnostic data about the site. Per WordPress.org guidelines, sending data
+	 * off-site requires explicit, informed site-owner consent. This gate reads a
+	 * stored consent flag (default false) so reporting is opt-in, not opt-out.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @return bool True when the site owner has consented to error reporting.
+	 */
+	public static function is_reporting_allowed(): bool {
+		$consent = false;
+
+		try {
+			$consent = (bool) divi_squad()->memory->get( 'error_report_consent', false );
+		} catch ( Throwable $e ) {
+			$consent = false;
+		}
+
+		/**
+		 * Filter whether error reports may be sent to the plugin vendor.
+		 *
+		 * Defaults to the stored site-owner consent flag (false until granted).
+		 * Returning false blocks every outbound error report regardless of the
+		 * per-call $report argument.
+		 *
+		 * @since 4.2.1
+		 *
+		 * @param bool $consent Whether sending error reports is allowed.
+		 */
+		return (bool) apply_filters( 'divi_squad_error_report_consent', $consent );
+	}
+
+	/**
+	 * Redact obvious secrets and PII from free-form diagnostic text.
+	 *
+	 * Applied to debug-log content before it is attached to a report so that
+	 * emails, credentials, tokens, and IP addresses logged by WordPress or other
+	 * plugins are not forwarded verbatim to the vendor mailbox.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $text Raw diagnostic text.
+	 *
+	 * @return string Redacted text.
+	 */
+	protected static function redact_sensitive( string $text ): string {
+		$patterns = array(
+			// key=value / key: value secrets (api_key, secret, token, password, authorization, bearer).
+			'/\b(api[_-]?key|secret|token|password|passwd|pwd|authorization|bearer)\b\s*[:=]\s*\S+/i' => '$1: [redacted]',
+			// Email addresses.
+			'/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/'                                      => '[redacted-email]',
+			// IPv4 addresses.
+			'/\b(?:\d{1,3}\.){3}\d{1,3}\b/'                                                           => '[redacted-ip]',
+		);
+
+		foreach ( $patterns as $pattern => $replacement ) {
+			$result = preg_replace( $pattern, $replacement, $text );
+			if ( is_string( $result ) ) {
+				$text = $result;
+			}
+		}
+
+		/**
+		 * Filter the redacted debug-log text before it is attached to a report.
+		 *
+		 * @since 4.2.1
+		 *
+		 * @param string $text Redacted diagnostic text.
+		 */
+		return (string) apply_filters( 'divi_squad_error_report_redacted_log', $text );
+	}
+
+	/**
 	 * Send error report quickly
 	 *
 	 * Static helper method to quickly send an error report from an exception.
@@ -669,20 +758,28 @@ class Reporter {
 			/**
 			 * Filter whether to include debug log in error reports.
 			 *
-			 * @since 3.4.0
+			 * Defaults to false: the WordPress debug log can contain PII, secrets,
+			 * paths, and request data, so it is never attached unless the site owner
+			 * explicitly opts in (either by granting report consent and enabling this
+			 * filter, or by hooking this filter directly).
 			 *
-			 * @param bool $include_debug_log Whether to include debug log in error reports. Default true.
+			 * @since 3.4.0
+			 * @since 4.2.1 Default changed from true to false; output is redacted.
+			 *
+			 * @param bool $include_debug_log Whether to include debug log in error reports. Default false.
 			 */
-			$include_debug_log = apply_filters( 'divi_squad_error_report_include_debug_log', true );
+			$include_debug_log = (bool) apply_filters( 'divi_squad_error_report_include_debug_log', false );
 
-			if ( $include_debug_log ) {
+			if ( $include_debug_log && self::is_reporting_allowed() ) {
 				// Log_Reader class does not exist in this codebase; read the WP debug log.
 				// file directly as a safe fallback, or return an empty string if unavailable..
-				$debug_log_const         = defined( 'WP_DEBUG_LOG' ) ? constant( 'WP_DEBUG_LOG' ) : null;
-				$debug_log_path          = is_string( $debug_log_const ) ? $debug_log_const : ( defined( 'WP_CONTENT_DIR' ) ? WP_CONTENT_DIR . '/debug.log' : '' );
-				$log_readable            = '' !== $debug_log_path && file_exists( $debug_log_path ) && is_readable( $debug_log_path );
-				$log_lines               = $log_readable ? file( $debug_log_path ) : false;
-				$error_data['debug_log'] = false !== $log_lines ? implode( '', array_slice( $log_lines, - 100 ) ) : '';
+				$debug_log_const = defined( 'WP_DEBUG_LOG' ) ? constant( 'WP_DEBUG_LOG' ) : null;
+				$debug_log_path  = is_string( $debug_log_const ) ? $debug_log_const : ( defined( 'WP_CONTENT_DIR' ) ? WP_CONTENT_DIR . '/debug.log' : '' );
+				$log_readable    = '' !== $debug_log_path && file_exists( $debug_log_path ) && is_readable( $debug_log_path );
+				$log_lines       = $log_readable ? file( $debug_log_path ) : false;
+				$raw_log         = false !== $log_lines ? implode( '', array_slice( $log_lines, - 100 ) ) : '';
+
+				$error_data['debug_log'] = '' !== $raw_log ? self::redact_sensitive( $raw_log ) : '';
 			}
 
 			// Add Divi version info if applicable..

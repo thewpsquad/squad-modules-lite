@@ -416,6 +416,7 @@ abstract class Migration implements Migration_Interface {
 		 * @param bool|null $should_handle Whether to handle migration. Default null (run the checks).
 		 * @param string    $slug          The module slug.
 		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Divi (et_pb) core hook, not owned by this plugin.
 		$should_handle = apply_filters( 'et_pb_should_handle_migration_pre', null, $slug );
 		if ( null !== $should_handle ) {
 			return (bool) $should_handle;

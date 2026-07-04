@@ -1,0 +1,232 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/image-hotspots",
+  "d4Shortcode": "disq_image_hotspots",
+  "title": "Image Hotspots",
+  "titles": "Image Hotspots",
+  "moduleIcon": "squad-modules/image-hotspots",
+  "moduleClassName": "disq_image_hotspots",
+  "category": "module",
+  "folder": "squad-modules",
+  "childModuleName": "squad-modules/image-hotspot-pin",
+  "childModuleTitle": "Image Hotspot Pin",
+  "childrenName": [
+    "squad-modules/image-hotspot-pin"
+  ],
+  "allowAllElements": true,
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Image Hotspots"
+            }
+          }
+        }
+      }
+    },
+    "imageHotspots": {
+      "type": "object",
+      "selector": "{{selector}} .squad-hotspots",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "image": {
+              "groupSlug": "contentImage",
+              "attrName": "imageHotspots.innerContent",
+              "subName": "image",
+              "label": "Image",
+              "description": "The base image that hotspot pins are placed on.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "imageAlt": {
+              "groupSlug": "contentImage",
+              "attrName": "imageHotspots.innerContent",
+              "subName": "imageAlt",
+              "label": "Image Alt Text",
+              "description": "Alternative text for the base image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "trigger": {
+              "groupSlug": "contentBehavior",
+              "attrName": "imageHotspots.innerContent",
+              "subName": "trigger",
+              "label": "Trigger",
+              "description": "How tooltips are revealed.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "hover": {
+                      "label": "Hover"
+                    },
+                    "click": {
+                      "label": "Click"
+                    }
+                  }
+                }
+              }
+            },
+            "pinColor": {
+              "groupSlug": "designPins",
+              "attrName": "imageHotspots.innerContent",
+              "subName": "pinColor",
+              "label": "Pin Color",
+              "description": "Color of the hotspot pin markers.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "image": "",
+              "imageAlt": "",
+              "trigger": "hover",
+              "pinColor": ""
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "selector": "{{selector}} .squad-hotspots__image",
+      "settings": {
+        "decoration": {
+          "border": {},
+          "boxShadow": {},
+          "filters": {}
+        }
+      }
+    },
+    "pins": {
+      "type": "object",
+      "selector": "{{selector}} .squad-hotspots__pins",
+      "settings": {
+        "decoration": {
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designPins",
+              "attrName": "pins.decoration.spacing",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentImage": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "image",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Image"
+          }
+        }
+      },
+      "contentBehavior": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "behavior",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Behavior"
+          }
+        }
+      },
+      "designPins": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "designPins",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Pins"
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,27 +4,32 @@
  * DiviSquad AI Abilities Integration
  *
  * This file contains the Ai class which registers the plugin's AI capabilities
- * following the official WordPress AI Abilities API guidelines.
+ * following the official WordPress AI Abilities API (WordPress 6.9+).
  *
  * @since      3.5.0
  * @package    DiviSquad
  * @author     The WP Squad <support@squadmodules.com>
  * @license    GPL-3.0-only
  * @link       https://squadmodules.com
- * @see        https://make.wordpress.org/ai/2025/07/17/abilities-api/
+ * @see        https://developer.wordpress.org/apis/abilities-api/
+ * @see        https://make.wordpress.org/core/2025/11/10/abilities-api-in-wordpress-6-9/
  */
 
 namespace DiviSquad\Core\Supports;
 
 use Throwable;
+use WP_Error;
 
 /**
  * AI Abilities Manager.
  *
- * Registers and manages AI capabilities for the Squad Modules plugin
- * following the official WordPress AI Abilities API guidelines.
+ * Registers and manages AI capabilities for the Squad Modules plugin using the
+ * official WordPress Abilities API. Categories are registered on
+ * `wp_abilities_api_categories_init` and abilities on `wp_abilities_api_init`,
+ * per the API lifecycle (registering abilities on any other hook triggers
+ * `_doing_it_wrong()` and fails).
  *
- * @see     https://make.wordpress.org/ai/2025/07/17/abilities-api/
+ * @see     https://developer.wordpress.org/apis/abilities-api/
  *
  * @since   3.5.0
  * @package DiviSquad\Core\Supports
@@ -32,15 +37,48 @@ use Throwable;
 class Ai {
 
 	/**
+	 * Ability category ID shared by every Squad Modules ability.
+	 *
+	 * @since 3.5.0
+	 * @var string
+	 */
+	public const CATEGORY = 'squad-modules-for-divi';
+
+	/**
+	 * Ability ID: content generation.
+	 *
+	 * @since 3.5.0
+	 * @var string
+	 */
+	public const ABILITY_GENERATE_CONTENT = 'squad-modules-for-divi/generate-content';
+
+	/**
+	 * Ability ID: design assistance.
+	 *
+	 * @since 3.5.0
+	 * @var string
+	 */
+	public const ABILITY_DESIGN_ASSISTANCE = 'squad-modules-for-divi/design-assistance';
+
+	/**
+	 * Ability ID: module enhancement.
+	 *
+	 * @since 3.5.0
+	 * @var string
+	 */
+	public const ABILITY_ENHANCE_MODULE = 'squad-modules-for-divi/enhance-module';
+
+	/**
 	 * AI constructor.
 	 *
-	 * Initializes the AI Abilities integration by registering hooks
-	 * to define plugin capabilities on the init action.
+	 * Wires the Abilities API lifecycle hooks. Categories must be registered
+	 * before abilities, so they run on the earlier `*_categories_init` hook.
 	 *
 	 * @since 3.5.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'register_abilities' ), 10 );
+		add_action( 'wp_abilities_api_categories_init', array( $this, 'register_ability_category' ) );
+		add_action( 'wp_abilities_api_init', array( $this, 'register_abilities' ) );
 
 		/**
 		 * Action triggered after AI is initialized.
@@ -56,10 +94,53 @@ class Ai {
 	}
 
 	/**
+	 * Register the Squad Modules ability category.
+	 *
+	 * Runs on `wp_abilities_api_categories_init` so the category exists before
+	 * any ability referencing it is registered.
+	 *
+	 * @since  3.5.0
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function register_ability_category(): void {
+		try {
+			if ( ! function_exists( 'wp_register_ability_category' ) ) {
+				return;
+			}
+
+			$category_config = array(
+				'label'       => __( 'Squad Modules', 'squad-modules-for-divi' ),
+				'description' => __( 'AI capabilities provided by Squad Modules for Divi.', 'squad-modules-for-divi' ),
+			);
+
+			/**
+			 * Filter the Squad Modules ability category configuration.
+			 *
+			 * @since 3.5.0
+			 *
+			 * @param array<string, mixed> $category_config The category configuration.
+			 * @param Ai                   $ai              The AI instance.
+			 */
+			$category_config = apply_filters( 'divi_squad_ai_ability_category', $category_config, $this );
+
+			wp_register_ability_category( self::CATEGORY, $category_config );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error(
+				$e,
+				'Failed to register AI ability category',
+				false,
+				array( 'function' => __METHOD__ )
+			);
+		}
+	}
+
+	/**
 	 * Register AI Abilities.
 	 *
-	 * Registers the plugin's AI capabilities with WordPress following
-	 * the official AI Abilities API guidelines.
+	 * Registers the plugin's AI capabilities with WordPress following the
+	 * official Abilities API guidelines. Runs on `wp_abilities_api_init`.
 	 *
 	 * @since  3.5.0
 	 * @access public
@@ -68,7 +149,7 @@ class Ai {
 	 */
 	public function register_abilities(): void {
 		try {
-			// Check if the AI Abilities API is available.
+			// Check if the Abilities API is available.
 			if ( ! function_exists( 'wp_register_ability' ) ) {
 				/**
 				 * Fires when AI Abilities API is not available.
@@ -134,11 +215,33 @@ class Ai {
 	}
 
 	/**
-	 * Register Content Generation Ability.
+	 * Default meta block shared by Squad Modules abilities.
 	 *
-	 * Registers the content generation capability for AI-powered content creation
-	 * within Divi modules. This ability allows AI to generate text content for
-	 * various module fields.
+	 * All current abilities are advisory/generative: they return suggestions or
+	 * generated text and never persist changes, so they are read-only and
+	 * non-destructive. They are not idempotent because AI output varies between
+	 * identical calls.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return array<string, mixed> The shared meta configuration.
+	 */
+	private function default_ability_meta(): array {
+		return array(
+			'show_in_rest' => true,
+			'mcp'          => array(
+				'public' => true,
+			),
+			'annotations'  => array(
+				'readonly'    => true,
+				'destructive' => false,
+				'idempotent'  => false,
+			),
+		);
+	}
+
+	/**
+	 * Register Content Generation Ability.
 	 *
 	 * @since  3.5.0
 	 * @access private
@@ -152,12 +255,12 @@ class Ai {
 			$ability_config = array(
 				'label'               => __( 'Generate Content', 'squad-modules-for-divi' ),
 				'description'         => __( 'Generate and enhance text content for Squad Modules using AI capabilities.', 'squad-modules-for-divi' ),
-				'thinking_message'    => __( 'Generating content for your module...', 'squad-modules-for-divi' ),
-				'success_message'     => __( 'Content generated successfully.', 'squad-modules-for-divi' ),
+				'category'            => self::CATEGORY,
 				'execute_callback'    => array( $this, 'execute_content_generation' ),
+				'permission_callback' => array( $this, 'check_edit_posts_permission' ),
 				'input_schema'        => array(
-					'type'                  => 'object',
-					'properties'            => array(
+					'type'                 => 'object',
+					'properties'           => array(
 						'prompt'      => array(
 							'type'        => 'string',
 							'description' => __( 'The content generation prompt or description.', 'squad-modules-for-divi' ),
@@ -169,16 +272,18 @@ class Ai {
 						'tone'        => array(
 							'type'        => 'string',
 							'enum'        => array( 'professional', 'casual', 'friendly', 'formal' ),
+							'default'     => 'professional',
 							'description' => __( 'The tone of the generated content.', 'squad-modules-for-divi' ),
 						),
 						'length'      => array(
 							'type'        => 'string',
 							'enum'        => array( 'short', 'medium', 'long' ),
+							'default'     => 'medium',
 							'description' => __( 'The desired length of the generated content.', 'squad-modules-for-divi' ),
 						),
 					),
-					'required'              => array( 'prompt' ),
-					'additional_properties' => false,
+					'required'             => array( 'prompt' ),
+					'additionalProperties' => false,
 				),
 				'output_schema'       => array(
 					'type'       => 'object',
@@ -194,15 +299,11 @@ class Ai {
 					),
 					'required'   => array( 'content', 'success' ),
 				),
-				'permission_callback' => static function (): bool {
-					return \current_user_can( 'edit_posts' );
-				},
+				'meta'                => $this->default_ability_meta(),
 			);
 
 			/**
 			 * Filter the content generation ability configuration.
-			 *
-			 * Allows modification of the content generation ability settings.
 			 *
 			 * @since 3.5.0
 			 *
@@ -211,7 +312,7 @@ class Ai {
 			 */
 			$ability_config = apply_filters( 'divi_squad_ai_content_generation_ability', $ability_config, $this );
 
-			wp_register_ability( 'squad-modules-for-divi/generate-content', $ability_config );
+			wp_register_ability( self::ABILITY_GENERATE_CONTENT, $ability_config );
 
 			/**
 			 * Fires after content generation ability is registered.
@@ -245,10 +346,6 @@ class Ai {
 	/**
 	 * Register Design Assistance Ability.
 	 *
-	 * Registers the design assistance capability for AI-powered design suggestions
-	 * and improvements for Divi modules. This ability helps users optimize their
-	 * module designs with AI recommendations.
-	 *
 	 * @since  3.5.0
 	 * @access private
 	 *
@@ -261,12 +358,12 @@ class Ai {
 			$ability_config = array(
 				'label'               => __( 'Design Assistance', 'squad-modules-for-divi' ),
 				'description'         => __( 'Get AI-powered design suggestions and improvements for Squad Modules.', 'squad-modules-for-divi' ),
-				'thinking_message'    => __( 'Analyzing your module design...', 'squad-modules-for-divi' ),
-				'success_message'     => __( 'Design suggestions generated successfully.', 'squad-modules-for-divi' ),
+				'category'            => self::CATEGORY,
 				'execute_callback'    => array( $this, 'execute_design_assistance' ),
+				'permission_callback' => array( $this, 'check_edit_posts_permission' ),
 				'input_schema'        => array(
-					'type'                  => 'object',
-					'properties'            => array(
+					'type'                 => 'object',
+					'properties'           => array(
 						'module_type'   => array(
 							'type'        => 'string',
 							'description' => __( 'The type of Squad Module to analyze.', 'squad-modules-for-divi' ),
@@ -284,8 +381,8 @@ class Ai {
 							'description' => __( 'The target audience for the design.', 'squad-modules-for-divi' ),
 						),
 					),
-					'required'              => array( 'module_type' ),
-					'additional_properties' => false,
+					'required'             => array( 'module_type' ),
+					'additionalProperties' => false,
 				),
 				'output_schema'       => array(
 					'type'       => 'object',
@@ -304,15 +401,11 @@ class Ai {
 					),
 					'required'   => array( 'suggestions', 'success' ),
 				),
-				'permission_callback' => static function (): bool {
-					return \current_user_can( 'edit_posts' );
-				},
+				'meta'                => $this->default_ability_meta(),
 			);
 
 			/**
 			 * Filter the design assistance ability configuration.
-			 *
-			 * Allows modification of the design assistance ability settings.
 			 *
 			 * @since 3.5.0
 			 *
@@ -321,7 +414,7 @@ class Ai {
 			 */
 			$ability_config = apply_filters( 'divi_squad_ai_design_assistance_ability', $ability_config, $this );
 
-			wp_register_ability( 'squad-modules-for-divi/design-assistance', $ability_config );
+			wp_register_ability( self::ABILITY_DESIGN_ASSISTANCE, $ability_config );
 
 			/**
 			 * Fires after design assistance ability is registered.
@@ -355,10 +448,6 @@ class Ai {
 	/**
 	 * Register Module Enhancement Ability.
 	 *
-	 * Registers the module enhancement capability for AI-powered enhancements
-	 * and optimizations for Squad Modules. This ability helps optimize module
-	 * settings and configurations.
-	 *
 	 * @since  3.5.0
 	 * @access private
 	 *
@@ -371,12 +460,12 @@ class Ai {
 			$ability_config = array(
 				'label'               => __( 'Module Enhancement', 'squad-modules-for-divi' ),
 				'description'         => __( 'Enhance and optimize Squad Modules with AI-powered features and suggestions.', 'squad-modules-for-divi' ),
-				'thinking_message'    => __( 'Optimizing your module settings...', 'squad-modules-for-divi' ),
-				'success_message'     => __( 'Module enhanced successfully.', 'squad-modules-for-divi' ),
+				'category'            => self::CATEGORY,
 				'execute_callback'    => array( $this, 'execute_module_enhancement' ),
+				'permission_callback' => array( $this, 'check_edit_posts_permission' ),
 				'input_schema'        => array(
-					'type'                  => 'object',
-					'properties'            => array(
+					'type'                 => 'object',
+					'properties'           => array(
 						'module_type'      => array(
 							'type'        => 'string',
 							'description' => __( 'The type of Squad Module to enhance.', 'squad-modules-for-divi' ),
@@ -391,8 +480,8 @@ class Ai {
 							'description' => __( 'The type of enhancement to apply.', 'squad-modules-for-divi' ),
 						),
 					),
-					'required'              => array( 'module_type', 'enhancement_type' ),
-					'additional_properties' => false,
+					'required'             => array( 'module_type', 'enhancement_type' ),
+					'additionalProperties' => false,
 				),
 				'output_schema'       => array(
 					'type'       => 'object',
@@ -408,15 +497,11 @@ class Ai {
 					),
 					'required'   => array( 'enhancements', 'success' ),
 				),
-				'permission_callback' => static function (): bool {
-					return \current_user_can( 'edit_posts' );
-				},
+				'meta'                => $this->default_ability_meta(),
 			);
 
 			/**
 			 * Filter the module enhancement ability configuration.
-			 *
-			 * Allows modification of the module enhancement ability settings.
 			 *
 			 * @since 3.5.0
 			 *
@@ -425,7 +510,7 @@ class Ai {
 			 */
 			$ability_config = apply_filters( 'divi_squad_ai_module_enhancement_ability', $ability_config, $this );
 
-			wp_register_ability( 'squad-modules-for-divi/enhance-module', $ability_config );
+			wp_register_ability( self::ABILITY_ENHANCE_MODULE, $ability_config );
 
 			/**
 			 * Fires after module enhancement ability is registered.
@@ -459,25 +544,35 @@ class Ai {
 	/**
 	 * Execute Content Generation Ability.
 	 *
-	 * Callback function that executes the content generation ability.
-	 * This function is called by the WordPress AI Abilities API when
-	 * the content generation ability is invoked.
+	 * Invoked by the Abilities API. Returns the generated content on success or
+	 * a {@see WP_Error} (using the plugin's standardized error vocabulary) when
+	 * the input is invalid or generation fails.
 	 *
 	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param array<string, mixed> $input The input parameters from the AI request.
+	 * @param array<string, mixed>|null $input The input parameters from the AI request.
 	 *
-	 * @return array<string, mixed> The generated content and status.
+	 * @return array<string, mixed>|WP_Error The generated content and status, or an error.
 	 */
-	public function execute_content_generation( array $input ): array {
+	public function execute_content_generation( $input = null ) {
 		try {
-			// Validate required input.
-			if ( ! isset( $input['prompt'] ) || '' === $input['prompt'] ) {
-				return array(
-					'content' => '',
-					'success' => false,
+			$input = is_array( $input ) ? $input : array();
+
+			// Required-field validation (does not use empty(): a "0" prompt is valid input).
+			if ( ! isset( $input['prompt'] ) || ! is_string( $input['prompt'] ) || '' === $input['prompt'] ) {
+				return new WP_Error(
+					'divi_squad_missing_prompt',
+					__( 'A prompt is required to generate content.', 'squad-modules-for-divi' )
 				);
+			}
+
+			// Apply schema defaults the Abilities API does not inject into the callback.
+			if ( ! isset( $input['tone'] ) || ! is_string( $input['tone'] ) || '' === $input['tone'] ) {
+				$input['tone'] = 'professional';
+			}
+			if ( ! isset( $input['length'] ) || ! is_string( $input['length'] ) || '' === $input['length'] ) {
+				$input['length'] = 'medium';
 			}
 
 			/**
@@ -516,9 +611,9 @@ class Ai {
 				array( 'function' => __METHOD__ )
 			);
 
-			return array(
-				'content' => '',
-				'success' => false,
+			return new WP_Error(
+				'divi_squad_content_data_unavailable',
+				__( 'Unable to generate content. Please try again.', 'squad-modules-for-divi' )
 			);
 		}
 	}
@@ -526,24 +621,21 @@ class Ai {
 	/**
 	 * Execute Design Assistance Ability.
 	 *
-	 * Callback function that executes the design assistance ability.
-	 * This function is called by the WordPress AI Abilities API when
-	 * the design assistance ability is invoked.
-	 *
 	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param array<string, mixed> $input The input parameters from the AI request.
+	 * @param array<string, mixed>|null $input The input parameters from the AI request.
 	 *
-	 * @return array<string, mixed> The design suggestions and status.
+	 * @return array<string, mixed>|WP_Error The design suggestions and status, or an error.
 	 */
-	public function execute_design_assistance( array $input ): array {
+	public function execute_design_assistance( $input = null ) {
 		try {
-			// Validate required input.
-			if ( ! isset( $input['module_type'] ) || '' === $input['module_type'] ) {
-				return array(
-					'suggestions' => array(),
-					'success'     => false,
+			$input = is_array( $input ) ? $input : array();
+
+			if ( ! isset( $input['module_type'] ) || ! is_string( $input['module_type'] ) || '' === $input['module_type'] ) {
+				return new WP_Error(
+					'divi_squad_missing_module_type',
+					__( 'A module_type is required to provide design assistance.', 'squad-modules-for-divi' )
 				);
 			}
 
@@ -583,9 +675,9 @@ class Ai {
 				array( 'function' => __METHOD__ )
 			);
 
-			return array(
-				'suggestions' => array(),
-				'success'     => false,
+			return new WP_Error(
+				'divi_squad_design_data_unavailable',
+				__( 'Unable to generate design suggestions. Please try again.', 'squad-modules-for-divi' )
 			);
 		}
 	}
@@ -593,24 +685,40 @@ class Ai {
 	/**
 	 * Execute Module Enhancement Ability.
 	 *
-	 * Callback function that executes the module enhancement ability.
-	 * This function is called by the WordPress AI Abilities API when
-	 * the module enhancement ability is invoked.
-	 *
 	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @param array<string, mixed> $input The input parameters from the AI request.
+	 * @param array<string, mixed>|null $input The input parameters from the AI request.
 	 *
-	 * @return array<string, mixed> The enhancement recommendations and status.
+	 * @return array<string, mixed>|WP_Error The enhancement recommendations and status, or an error.
 	 */
-	public function execute_module_enhancement( array $input ): array {
+	public function execute_module_enhancement( $input = null ) {
 		try {
-			// Validate required input.
-			if ( ( ! isset( $input['module_type'] ) || '' === $input['module_type'] ) || ( ! isset( $input['enhancement_type'] ) || '' === $input['enhancement_type'] ) ) {
-				return array(
-					'enhancements' => array(),
-					'success'      => false,
+			$input = is_array( $input ) ? $input : array();
+
+			if ( ! isset( $input['module_type'] ) || ! is_string( $input['module_type'] ) || '' === $input['module_type'] ) {
+				return new WP_Error(
+					'divi_squad_missing_module_type',
+					__( 'A module_type is required to enhance a module.', 'squad-modules-for-divi' )
+				);
+			}
+
+			if ( ! isset( $input['enhancement_type'] ) || ! is_string( $input['enhancement_type'] ) || '' === $input['enhancement_type'] ) {
+				return new WP_Error(
+					'divi_squad_missing_enhancement_type',
+					__( 'An enhancement_type is required to enhance a module.', 'squad-modules-for-divi' )
+				);
+			}
+
+			$allowed_types = array( 'performance', 'accessibility', 'seo', 'ux' );
+			if ( ! in_array( $input['enhancement_type'], $allowed_types, true ) ) {
+				return new WP_Error(
+					'divi_squad_invalid_enhancement_type',
+					sprintf(
+						/* translators: %s: comma-separated list of allowed enhancement types. */
+						__( 'The enhancement_type must be one of: %s.', 'squad-modules-for-divi' ),
+						implode( ', ', $allowed_types )
+					)
 				);
 			}
 
@@ -650,9 +758,9 @@ class Ai {
 				array( 'function' => __METHOD__ )
 			);
 
-			return array(
-				'enhancements' => array(),
-				'success'      => false,
+			return new WP_Error(
+				'divi_squad_enhancement_data_unavailable',
+				__( 'Unable to generate enhancements. Please try again.', 'squad-modules-for-divi' )
 			);
 		}
 	}
@@ -660,15 +768,20 @@ class Ai {
 	/**
 	 * Check Edit Posts Permission.
 	 *
-	 * Permission callback to verify that the user has the capability
-	 * to edit posts before allowing AI ability execution.
+	 * Permission callback for every Squad Modules ability. Receives the same
+	 * input as the execute callback (unused here) and returns whether the
+	 * current user may run the ability.
 	 *
 	 * @since  3.5.0
 	 * @access public
 	 *
+	 * @param array<string, mixed>|null $input The input parameters (unused).
+	 *
 	 * @return bool True if user can edit posts, false otherwise.
 	 */
-	public function check_edit_posts_permission(): bool {
+	public function check_edit_posts_permission( $input = null ): bool {
+		unset( $input );
+
 		return current_user_can( 'edit_posts' );
 	}
 
@@ -695,7 +808,7 @@ class Ai {
 		 * @param array<string, mixed> $input   The input parameters.
 		 * @param Ai                   $ai      The AI instance.
 		 */
-		return apply_filters( 'divi_squad_ai_generate_content', '', $input, $this );
+		return (string) apply_filters( 'divi_squad_ai_generate_content', '', $input, $this );
 	}
 
 	/**
@@ -721,7 +834,7 @@ class Ai {
 		 * @param array<string, mixed> $input       The input parameters.
 		 * @param Ai                   $ai          The AI instance.
 		 */
-		return apply_filters( 'divi_squad_ai_generate_design_suggestions', array(), $input, $this );
+		return (array) apply_filters( 'divi_squad_ai_generate_design_suggestions', array(), $input, $this );
 	}
 
 	/**
@@ -747,38 +860,63 @@ class Ai {
 		 * @param array<string, mixed> $input        The input parameters.
 		 * @param Ai                   $ai           The AI instance.
 		 */
-		return apply_filters( 'divi_squad_ai_generate_enhancements', array(), $input, $this );
+		return (array) apply_filters( 'divi_squad_ai_generate_enhancements', array(), $input, $this );
 	}
 
 	/**
 	 * Get Registered Abilities.
 	 *
-	 * Retrieves all registered AI abilities for the plugin.
+	 * Retrieves the Squad Modules abilities from the live Abilities API registry
+	 * when available, falling back to the known ability slugs otherwise.
 	 *
 	 * @since  3.5.0
 	 * @access public
 	 *
-	 * @return array<string, array<string, mixed>> Array of registered abilities.
+	 * @return array<string, array<string, mixed>> Array of registered abilities keyed by slug.
 	 */
 	public function get_registered_abilities(): array {
 		try {
-			$abilities = array(
-				'squad-modules-for-divi/generate-content'  => array(
-					'slug'        => 'squad-modules-for-divi/generate-content',
-					'label'       => __( 'Generate Content', 'squad-modules-for-divi' ),
-					'description' => __( 'Generate and enhance text content for Squad Modules using AI capabilities.', 'squad-modules-for-divi' ),
-				),
-				'squad-modules-for-divi/design-assistance' => array(
-					'slug'        => 'squad-modules-for-divi/design-assistance',
-					'label'       => __( 'Design Assistance', 'squad-modules-for-divi' ),
-					'description' => __( 'Get AI-powered design suggestions and improvements for Squad Modules.', 'squad-modules-for-divi' ),
-				),
-				'squad-modules-for-divi/enhance-module'    => array(
-					'slug'        => 'squad-modules-for-divi/enhance-module',
-					'label'       => __( 'Module Enhancement', 'squad-modules-for-divi' ),
-					'description' => __( 'Enhance and optimize Squad Modules with AI-powered features and suggestions.', 'squad-modules-for-divi' ),
-				),
-			);
+			$abilities = array();
+
+			if ( function_exists( 'wp_get_abilities' ) ) {
+				foreach ( wp_get_abilities() as $ability ) {
+					$name = is_object( $ability ) && method_exists( $ability, 'get_name' )
+						? $ability->get_name()
+						: '';
+
+					if ( '' === $name || 0 !== strpos( $name, self::CATEGORY . '/' ) ) {
+						continue;
+					}
+
+					$abilities[ $name ] = array(
+						'slug'        => $name,
+						'label'       => method_exists( $ability, 'get_label' ) ? $ability->get_label() : '',
+						'description' => method_exists( $ability, 'get_description' ) ? $ability->get_description() : '',
+					);
+				}
+			}
+
+			// Fallback to the statically known abilities if the registry is empty
+			// (e.g. queried before the registration hooks have run).
+			if ( array() === $abilities ) {
+				$abilities = array(
+					self::ABILITY_GENERATE_CONTENT  => array(
+						'slug'        => self::ABILITY_GENERATE_CONTENT,
+						'label'       => __( 'Generate Content', 'squad-modules-for-divi' ),
+						'description' => __( 'Generate and enhance text content for Squad Modules using AI capabilities.', 'squad-modules-for-divi' ),
+					),
+					self::ABILITY_DESIGN_ASSISTANCE => array(
+						'slug'        => self::ABILITY_DESIGN_ASSISTANCE,
+						'label'       => __( 'Design Assistance', 'squad-modules-for-divi' ),
+						'description' => __( 'Get AI-powered design suggestions and improvements for Squad Modules.', 'squad-modules-for-divi' ),
+					),
+					self::ABILITY_ENHANCE_MODULE    => array(
+						'slug'        => self::ABILITY_ENHANCE_MODULE,
+						'label'       => __( 'Module Enhancement', 'squad-modules-for-divi' ),
+						'description' => __( 'Enhance and optimize Squad Modules with AI-powered features and suggestions.', 'squad-modules-for-divi' ),
+					),
+				);
+			}
 
 			/**
 			 * Filter the registered abilities.
@@ -806,7 +944,8 @@ class Ai {
 	/**
 	 * Check If Ability Is Registered.
 	 *
-	 * Checks whether a specific AI ability is registered for the plugin.
+	 * Checks whether a specific AI ability is registered. Uses the live Abilities
+	 * API registry when available, falling back to the known slug list.
 	 *
 	 * @since  3.5.0
 	 * @access public
@@ -817,9 +956,11 @@ class Ai {
 	 */
 	public function is_ability_registered( string $ability_slug ): bool {
 		try {
-			$abilities = $this->get_registered_abilities();
+			if ( function_exists( 'wp_get_ability' ) ) {
+				return null !== wp_get_ability( $ability_slug );
+			}
 
-			return isset( $abilities[ $ability_slug ] );
+			return isset( $this->get_registered_abilities()[ $ability_slug ] );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error(
 				$e,

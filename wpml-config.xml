@@ -394,6 +394,14 @@
             </attributes>
         </shortcode>
         <shortcode>
+            <tag>disq_inline_content</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
             <tag>disq_inline_content_item</tag>
             <attributes>
                 <attribute>text</attribute>
@@ -543,6 +551,14 @@
             </attributes>
         </shortcode>
         <shortcode>
+            <tag>disq_team_member</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
             <tag>disq_team_member_item</tag>
             <attributes>
                 <attribute>name</attribute>
@@ -558,6 +574,14 @@
             </attributes>
         </shortcode>
         <shortcode>
+            <tag>disq_testimonial</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
             <tag>disq_testimonial_item</tag>
             <attributes>
                 <attribute>content</attribute>
@@ -565,6 +589,14 @@
                 <attribute>role</attribute>
                 <attribute>company</attribute>
                 <attribute type="media-url">avatar</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_pricing_table</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
             </attributes>
         </shortcode>
         <shortcode>

@@ -36,7 +36,7 @@ class Rate_Limiter {
 	 *
 	 * @since 3.4.0
 	 */
-	private const RATE_KEY = 'squad_error_rate';
+	private const RATE_KEY = 'divi_squad_error_rate';
 
 	/**
 	 * Rate limit window (10 minutes)

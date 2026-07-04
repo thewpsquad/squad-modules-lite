@@ -173,6 +173,7 @@ class SVG extends Base_Extension {
 		libxml_clear_errors();
 		libxml_use_internal_errors( $previous );
 
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API properties (documentElement, nodeName, etc.) cannot be renamed.
 		if ( false === $loaded || ! ( $dom->documentElement instanceof DOMElement ) ) {
 			return null;
 		}
@@ -184,6 +185,7 @@ class SVG extends Base_Extension {
 		$this->scrub_svg_node( $dom->documentElement );
 
 		$out = $dom->saveXML( $dom->documentElement );
+		// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		return is_string( $out ) ? $out : null;
 	}
@@ -198,10 +200,21 @@ class SVG extends Base_Extension {
 	 * @return void
 	 */
 	protected function scrub_svg_node( DOMElement $node ): void {
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API properties (childNodes, localName, nodeName, nodeValue) cannot be renamed.
 		$blocked_tags = array(
-			'script', 'foreignobject', 'iframe', 'embed', 'object',
-			'audio', 'video', 'animate', 'animatetransform', 'animatemotion',
-			'set', 'handler', 'listener',
+			'script',
+			'foreignobject',
+			'iframe',
+			'embed',
+			'object',
+			'audio',
+			'video',
+			'animate',
+			'animatetransform',
+			'animatemotion',
+			'set',
+			'handler',
+			'listener',
 		);
 
 		// Snapshot children first — removal mutates the live node list.
@@ -240,5 +253,6 @@ class SVG extends Base_Extension {
 				$node->removeAttributeNode( $attribute );
 			}
 		}
+		// phpcs:enable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 	}
 }
