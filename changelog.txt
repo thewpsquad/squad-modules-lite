@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.2.2 (31-01-2025) =
+
+**Bug Fixes:**
+- Fixed a fatal error to activate the pro plugin
+
 = 3.2.1 (20-01-2025) =
 
 **Bug Fixes:**

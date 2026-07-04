@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.2.2 =
+Bug fixing to activate the pro plugin
+
 = 3.2.1 =
 Bug fixing for SVG Extension
 

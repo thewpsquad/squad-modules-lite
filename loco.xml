@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bundle name="Squad Modules Lite">
-  <domain name="squad-modules-for-divi">
-    <project name="Squad Modules Lite" slug="squad-modules-for-divi">
-      <source>
-        <directory>includes</directory>
-      </source>
-      <target>
-        <directory>languages</directory>
-      </target>
-      <template>
-        <file>languages/squad-modules-for-divi.pot</file>
-      </template>
-    </project>
-  </domain>
-  <exclude>
-    <directory>freemius</directory>
-    <directory>node_modules</directory>
-    <directory>vendor</directory>
-  </exclude>
+<bundle name="Squad Modules">
+    <domain name="squad-modules-for-divi">
+        <project name="Squad Modules Lite" slug="squad-modules-for-divi">
+            <source>
+                <directory>squad-wporg-includes</directory>
+            </source>
+            <target>
+                <directory>squad-wporg-languages</directory>
+            </target>
+            <template>
+                <file>squad-wporg-languages/squad-modules-for-divi.pot</file>
+            </template>
+        </project>
+    </domain>
+    <domain name="squad-modules-pro-for-divi">
+        <project name="Squad Modules Pro" slug="squad-modules-pro-for-divi">
+            <source>
+                <directory>squad-pro-includes</directory>
+            </source>
+            <target>
+                <directory>squad-pro-languages</directory>
+            </target>
+            <template>
+                <file>squad-pro-languages/squad-modules-pro-for-divi.pot</file>
+            </template>
+        </project>
+    </domain>
+    <exclude>
+        <directory>node_modules</directory>
+        <directory>vendor</directory>
+    </exclude>
 </bundle>

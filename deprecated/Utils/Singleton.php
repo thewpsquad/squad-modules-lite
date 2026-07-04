@@ -5,7 +5,7 @@
  *
  * @package DiviSquad
  * @since   1.0.0
- * @deprecated 3.2.1 Use DiviSquad\Core\Traits\Singleton instead
+ * @deprecated 3.2.0 Use DiviSquad\Core\Traits\Singleton instead
  */
 
 namespace DiviSquad\Utils;
@@ -15,7 +15,7 @@ namespace DiviSquad\Utils;
  *
  * @since      1.0.0
  * @package    DiviSquad
- * @deprecated 3.2.1 Use DiviSquad\Core\Traits\Singleton instead
+ * @deprecated 3.2.0 Use DiviSquad\Core\Traits\Singleton instead
  */
 trait Singleton {
 
