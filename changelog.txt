@@ -1,4 +1,23 @@
 == Changelog ==
+= 3.4.4 (24-08-2025) =
+
+**New Features:**
+- Enhanced ESLint configuration with WordPress coding standards support
+- Improved build system stability with better error handling
+
+**Improvements:**
+- Simplified ESLint configuration for better performance and maintainability
+- Enhanced code quality enforcement with proper TypeScript and React support
+- Improved build process reliability and faster compilation times
+- Optimized tab indentation and JSX support for WordPress coding standards
+
+**Bug Fixes:**
+- Fixed PHP sprintf format specifier error in Image_Mask module causing fatal errors
+- Resolved ESLint maximum call stack size exceeded errors in multiple React components
+- Fixed syntax errors in DualButton, FlipBox, Breadcrumbs, and PostGrid modules
+- Removed problematic ESLint disable comments causing build failures
+- Improved build process stability and eliminated infinite recursion issues
+
 = 3.4.3 (22-07-2025) =
 
 **New Features:**

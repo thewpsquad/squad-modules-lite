@@ -518,6 +518,10 @@ final class SquadModules implements Core\Contracts\Hookable {
 		if ( ! isset( $this->distributor ) ) {
 			$divi_squad_fs = $distribution->get_fs();
 
+			if ( null === $divi_squad_fs ) {
+				throw new RuntimeException( 'Freemius SDK is not available.' );
+			}
+
 			/**
 			 * Fires after the Freemius instance is set up.
 			 *

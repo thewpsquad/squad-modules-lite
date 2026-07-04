@@ -5,7 +5,7 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.4.3
+Stable tag: 3.4.4
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -184,6 +184,9 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
+= 3.4.4 =
+Enhanced build system stability with ESLint configuration improvements and fixed PHP sprintf format specifier errors. Improved code quality and build process reliability.
+
 = 3.4.3 =
 Improved Image Mask module with secondary shapes, optimized deprecated file loading, and enhanced security policy. Fixed admin notices display issues and improved code quality.
 
@@ -218,6 +221,25 @@ Major performance improvements, bug fixes, and enhanced module loading system. N
 Bug fixing for Flip box module
 
 == Changelog ==
+= 3.4.4 (24-08-2025) =
+
+**New Features:**
+- Enhanced ESLint configuration with WordPress coding standards support
+- Improved build system stability with better error handling
+
+**Improvements:**
+- Simplified ESLint configuration for better performance and maintainability
+- Enhanced code quality enforcement with proper TypeScript and React support
+- Improved build process reliability and faster compilation times
+- Optimized tab indentation and JSX support for WordPress coding standards
+
+**Bug Fixes:**
+- Fixed PHP sprintf format specifier error in Image_Mask module causing fatal errors
+- Resolved ESLint maximum call stack size exceeded errors in multiple React components
+- Fixed syntax errors in DualButton, FlipBox, Breadcrumbs, and PostGrid modules
+- Removed problematic ESLint disable comments causing build failures
+- Improved build process stability and eliminated infinite recursion issues
+
 = 3.4.3 (22-07-2025) =
 
 **New Features:**

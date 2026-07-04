@@ -33,9 +33,9 @@ class Distribution implements Hookable {
 	/**
 	 * Store and retrieve the instance of publisher SDK
 	 *
-	 * @var Freemius
+	 * @var Freemius|null
 	 */
-	private Freemius $fs;
+	private ?Freemius $fs = null;
 
 	/**
 	 * Whether the Distribution is initialized.
@@ -140,7 +140,7 @@ class Distribution implements Hookable {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		if ( ! $this->is_initialized ) {
+		if ( ! $this->is_initialized || null === $this->fs ) {
 			return;
 		}
 
@@ -202,9 +202,9 @@ class Distribution implements Hookable {
 	/**
 	 * Retrieve the instance of Freemius SDK
 	 *
-	 * @return Freemius The instance of Freemius SDK or null if not initialized.
+	 * @return Freemius|null The instance of Freemius SDK or null if not initialized.
 	 */
-	public function get_fs(): Freemius {
+	public function get_fs(): ?Freemius {
 		if ( ! $this->is_initialized() ) {
 			$this->initialize();
 		}
@@ -240,7 +240,7 @@ class Distribution implements Hookable {
 	 */
 	public function fs_hook_is_submenu_visible( bool $is_visible, string $menu_id ): bool {
 		try {
-			if ( ! $this->is_initialized ) {
+			if ( ! $this->is_initialized || null === $this->fs ) {
 				return $is_visible;
 			}
 
@@ -406,9 +406,9 @@ class Distribution implements Hookable {
 		 *
 		 * @since 3.2.3
 		 *
-		 * @param string       $title  The plugin title.
-		 * @param Freemius     $fs     The instance of Freemius SDK.
-		 * @param SquadModules $plugin The plugin instance.
+		 * @param string            $title  The plugin title.
+		 * @param Freemius|null     $fs     The instance of Freemius SDK.
+		 * @param SquadModules      $plugin The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
@@ -430,9 +430,9 @@ class Distribution implements Hookable {
 		 *
 		 * @since 3.2.3
 		 *
-		 * @param string       $version The plugin version.
-		 * @param Freemius     $fs      The instance of Freemius SDK.
-		 * @param SquadModules $plugin  The plugin instance.
+		 * @param string            $version The plugin version.
+		 * @param Freemius|null     $fs      The instance of Freemius SDK.
+		 * @param SquadModules      $plugin  The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
@@ -454,9 +454,9 @@ class Distribution implements Hookable {
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param string       $url    The support forum url.
-		 * @param Freemius     $fs     The instance of Freemius SDK.
-		 * @param SquadModules $plugin The plugin instance.
+		 * @param string            $url    The support forum url.
+		 * @param Freemius|null     $fs     The instance of Freemius SDK.
+		 * @param SquadModules      $plugin The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */

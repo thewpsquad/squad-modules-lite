@@ -391,7 +391,7 @@ class Image_Mask extends Module {
 
 		return sprintf(
 			'<div class="image-elements et_pb_with_background">
-            <svg width="100%" height="100%" style="overflow:visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" aria-labelledby="alt-text-%2$s" role="img">
+            <svg width="100%%" height="100%%" style="overflow:visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" aria-labelledby="alt-text-%1$s" role="img">
                 <title id="alt-text-%2$s">%1$s</title>
                 <defs>
                     <mask id="%2$s" fill="#fff">

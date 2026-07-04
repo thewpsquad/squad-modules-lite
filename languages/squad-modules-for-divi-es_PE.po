@@ -7614,7 +7614,7 @@ msgstr ""
 msgid "Discovering available modules… Please wait."
 msgstr ""
 
-#. translators: The relevant page url.
+#. translators: %s The relevant page url.
 #: build/admin/scripts/app.js:181
 msgid "Changelog"
 msgstr ""
