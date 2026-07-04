@@ -47,7 +47,7 @@ use Throwable;
  * @property Core\Extensions                         $extensions             Extension manger.
  * @property Core\RestRoutes                         $rest_routes            REST API manager.
  * @property Builder\Utils\Elements\Custom_Fields    $custom_fields_element  Custom fields manager.
- * @property Builder\Utils\Elements\Forms            $form_element           Forms manager.
+ * @property Builder\Utils\Elements\Forms            $forms_element           Forms manager.
  * @property Builder\Version4\Supports\Module_Helper $d4_module_helper       Module helper for Divi 4.
  */
 final class SquadModules {

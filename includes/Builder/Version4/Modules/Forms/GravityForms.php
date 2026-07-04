@@ -535,7 +535,7 @@ class GravityForms extends Form_Styler {
 				esc_html__( 'Form', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Choose the Gravity Form to display.', 'squad-modules-for-divi' ),
-					'options'          => divi_squad()->form_element->get_forms_by( 'gravity_forms' ),
+					'options'          => divi_squad()->forms_element->get_forms_by( 'gravity_forms' ),
 					'computed_affects' => array( '__forms' ),
 					'tab_slug'         => 'general',
 					'toggle_slug'      => 'forms',
@@ -1409,7 +1409,7 @@ class GravityForms extends Form_Styler {
 		 */
 		$attrs = (array) apply_filters( 'divi_squad_module_gravity_forms_get_form_html_attrs', $attrs );
 
-		if ( ! function_exists( '\gravity_form' ) || '' === $attrs['form_id'] || divi_squad()->form_element::DEFAULT_FORM_ID === $attrs['form_id'] ) {
+		if ( ! function_exists( '\gravity_form' ) || '' === $attrs['form_id'] || divi_squad()->forms_element::DEFAULT_FORM_ID === $attrs['form_id'] ) {
 			return '';
 		}
 
@@ -1417,7 +1417,7 @@ class GravityForms extends Form_Styler {
 		$form_id_raw  = divi_squad()->memory->get( "form_id_original_$form_id_hash", '' );
 
 		if ( '' === $form_id_raw ) {
-			$collection = divi_squad()->form_element->get_forms_by( 'gravity_forms', 'id' );
+			$collection = divi_squad()->forms_element->get_forms_by( 'gravity_forms', 'id' );
 
 			/**
 			 * Filters the form collection before generating HTML.

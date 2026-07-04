@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.3.4 (14-04-2025) =
+
+**Bug Fixes:**
+- Fixed an issue to load forms module not showing up in the visual builder and frontend.
+
 = 3.3.3 (14-04-2025) =
 
 **Improvements:**

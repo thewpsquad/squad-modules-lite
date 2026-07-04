@@ -714,7 +714,7 @@ abstract class Form_Styler extends Module {
 	 */
 	protected function squad_get_custom_spacing_fields(): array {
 		// Get all spacing prefixes from the Forms utility.
-		$custom_spacing_prefixes = divi_squad()->form_element->get_custom_spacing_prefixes();
+		$custom_spacing_prefixes = divi_squad()->forms_element->get_custom_spacing_prefixes();
 
 		// Prepare array to collect all fields.
 		$custom_spacing_fields = array();

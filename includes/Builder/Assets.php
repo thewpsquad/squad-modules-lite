@@ -479,7 +479,7 @@ class Assets {
 		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-open', \forminator_plugin_url() . 'assets/forminator-ui/css/src/grid/forminator-grid.open.min.css', array(), \FORMINATOR_VERSION );
 		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-enclosed', \forminator_plugin_url() . 'assets/forminator-ui/css/src/grid/forminator-grid.enclosed.min.css', array(), \FORMINATOR_VERSION );
 		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-basic', \forminator_plugin_url() . 'assets/forminator-ui/css/forminator-base.min.css', array(), \FORMINATOR_VERSION );
-		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui', \orminator_plugin_url() . 'assets/forminator-ui/css/src/forminator-ui.min.css', array(), \FORMINATOR_VERSION );
+		\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui', \forminator_plugin_url() . 'assets/forminator-ui/css/src/forminator-ui.min.css', array(), \FORMINATOR_VERSION );
 	}
 
 	/**

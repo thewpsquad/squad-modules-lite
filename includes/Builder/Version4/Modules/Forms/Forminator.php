@@ -373,7 +373,7 @@ class Forminator extends Form_Styler {
 				esc_html__( 'Form', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Choose the Forminator form to display.', 'squad-modules-for-divi' ),
-					'options'          => divi_squad()->form_element->get_forms_by( 'forminator' ),
+					'options'          => divi_squad()->forms_element->get_forms_by( 'forminator' ),
 					'computed_affects' => array( '__forms' ),
 					'tab_slug'         => 'general',
 					'toggle_slug'      => 'forms',
@@ -817,7 +817,7 @@ class Forminator extends Form_Styler {
 		 */
 		$attrs = (array) apply_filters( 'divi_squad_module_forminator_get_form_html_attrs', $attrs );
 
-		if ( ! class_exists( 'Forminator_API' ) || '' === $attrs['form_id'] || divi_squad()->form_element::DEFAULT_FORM_ID === $attrs['form_id'] ) {
+		if ( ! class_exists( 'Forminator_API' ) || '' === $attrs['form_id'] || divi_squad()->forms_element::DEFAULT_FORM_ID === $attrs['form_id'] ) {
 			return '';
 		}
 
@@ -825,7 +825,7 @@ class Forminator extends Form_Styler {
 		$form_id_raw  = divi_squad()->memory->get( "form_id_original_$form_id_hash", '' );
 
 		if ( '' === $form_id_raw ) {
-			$collection = divi_squad()->form_element->get_forms_by( 'forminator', 'id' );
+			$collection = divi_squad()->forms_element->get_forms_by( 'forminator', 'id' );
 
 			/**
 			 * Filters the forms collection before form selection.
