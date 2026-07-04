@@ -139,7 +139,7 @@ class Forminator extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @return array<string, array<string, array<string, array>>> Advanced fields configuration
+	 * @return array<string, mixed> Advanced fields configuration
 	 */
 	public function get_advanced_fields_config(): array {
 		$advanced_fields = parent::get_advanced_fields_config();
@@ -170,9 +170,9 @@ class Forminator extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @param array<string, string> $attrs       List of unprocessed attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of unprocessed attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string Module's rendered output
 	 * @throws Exception If there's an error during rendering.
@@ -209,7 +209,7 @@ class Forminator extends Form_Styler {
 			$form_html = static::squad_form_styler__get_form_html( $attrs );
 
 			// If no form HTML, return empty string.
-			if ( '' !== $form_html ) {
+			if ( '' === $form_html ) {
 
 				// If no form is selected in Visual Builder, return notice.
 				if ( DiviUtil::is_fb_enabled() ) {
@@ -229,7 +229,7 @@ class Forminator extends Form_Styler {
 				}
 
 				// If no form is selected in the frontend, return empty string.
-				if ( ! DiviUtil::is_fb_enabled() && is_user_logged_in() ) {
+				if ( is_user_logged_in() ) {
 					$message = esc_html__( 'No form selected from the Forminator Settings.', 'squad-modules-for-divi' );
 
 					/**
@@ -365,7 +365,7 @@ class Forminator extends Form_Styler {
 	 * @since  1.2.0
 	 * @access protected
 	 *
-	 * @return array Array of general fields.
+	 * @return array<string, mixed> Array of general fields.
 	 */
 	protected function squad_get_general_fields(): array {
 		$fields = array(
@@ -412,7 +412,7 @@ class Forminator extends Form_Styler {
 	 * @since  1.2.0
 	 * @access protected
 	 *
-	 * @return array Array of advanced fields.
+	 * @return array<string, mixed> Array of advanced fields.
 	 */
 	protected function squad_get_additional_design_fields(): array {
 		$fields = parent::squad_get_additional_design_fields();
@@ -447,7 +447,7 @@ class Forminator extends Form_Styler {
 	 * @since  1.2.0
 	 * @access protected
 	 *
-	 * @return array Array of removable fields.
+	 * @return array<int, string> Array of removable fields.
 	 */
 	protected function squad_get_removable_fields(): array {
 		return array(
@@ -517,7 +517,7 @@ class Forminator extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Font field configurations.
+	 * @return array<string, array<string, mixed>> Font field configurations.
 	 */
 	protected function squad_get_font_fields(): array {
 		$font_fields = array(
@@ -610,7 +610,7 @@ class Forminator extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Border field configurations.
+	 * @return array<string, array<string, mixed>> Border field configurations.
 	 */
 	protected function squad_get_border_fields(): array {
 		$border_fields = array(
@@ -728,7 +728,7 @@ class Forminator extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Box shadow field configurations.
+	 * @return array<string, array<string, mixed>> Box shadow field configurations.
 	 */
 	protected function squad_get_box_shadow_fields(): array {
 		$box_shadow_fields = array(
@@ -803,7 +803,7 @@ class Forminator extends Form_Styler {
 	 * @access public
 	 * @static
 	 *
-	 * @param array $attrs List of module attributes.
+	 * @param array<string, mixed> $attrs List of module attributes.
 	 *
 	 * @return string The HTML of the selected form or empty string if no form selected.
 	 */

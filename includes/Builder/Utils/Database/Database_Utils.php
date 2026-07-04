@@ -13,6 +13,8 @@
 
 namespace DiviSquad\Builder\Utils\Database;
 
+// phpcs:disable Generic.Files.LineLength.MaxExceeded, Generic.Files.LineLength.TooLong -- Detailed array-shape @param/@return PHPDocs (table schema definitions) are long by nature and cannot be wrapped.
+
 use Throwable;
 use function dbDelta;
 
@@ -72,7 +74,7 @@ class Database_Utils {
 
 			// Add regular indices.
 			if ( ( isset( $definition['index'] ) && $definition['index'] ) ||
-				( isset( $definition['unique'] ) && $definition['unique'] ) ) {
+				 ( isset( $definition['unique'] ) && $definition['unique'] ) ) {
 				$indices[] = self::generate_index_definition( $column_name, $definition );
 			}
 		}
@@ -109,26 +111,27 @@ class Database_Utils {
 		 * This filter allows modification of column definitions before they are
 		 * included in the CREATE TABLE statement.
 		 *
-		 * @since 3.1.0
-		 * @since 3.4.0 Improved documentation with example and type information
+		 * @since  3.1.0
+		 * @since  3.4.0 Improved documentation with example and type information
 		 *
-		 * @example
-		 * // Add a custom column definition.
-		 * add_filter('divi_squad_db_utils_columns', function($columns, $table_name, $schema) {
-		 *     if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
-		 *         $columns[] = '`custom_field` VARCHAR(255) NOT NULL DEFAULT ""';
-		 *     }
-		 *     return $columns;
-		 * }, 10, 3);
-		 *
-		 * @param string             $table_name The name of the table being created.
-		 * @param array              $schema     The original schema definition array.
-		 *
-		 * @param array<int, string> $columns    Array of column definition strings.
+		 * @param array<int, string>                                                                                                                                                                                                              $columns    Array of column definition strings.
+		 * @param string                                                                                                                                                                                                                          $table_name The name of the table being created.
+		 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema     The original schema definition array.
 		 *
 		 * @return array<int, string> Modified array of column definitions.
+		 * @example
+		 *         // Add a custom column definition.
+		 *         add_filter('divi_squad_db_utils_columns', function($columns, $table_name, $schema) {
+		 *         if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
+		 *         $columns[] = '`custom_field` VARCHAR(255) NOT NULL DEFAULT ""';
+		 *         }
+		 *         return $columns;
+		 *         }, 10, 3);
 		 */
 		$columns = apply_filters( 'divi_squad_db_utils_columns', $columns, $table_name, $schema );
+		if ( ! is_array( $columns ) ) {
+			$columns = array();
+		}
 
 		/**
 		 * Filters the index definitions before generating the final SQL.
@@ -136,26 +139,27 @@ class Database_Utils {
 		 * This filter allows modification of index definitions before they are
 		 * included in the CREATE TABLE statement.
 		 *
-		 * @since 3.1.0
-		 * @since 3.4.0 Improved documentation with example and type information
+		 * @since  3.1.0
+		 * @since  3.4.0 Improved documentation with example and type information
 		 *
-		 * @example
-		 * // Add a custom composite index.
-		 * add_filter('divi_squad_db_utils_indices', function($indices, $table_name, $schema) {
-		 *     if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
-		 *         $indices[] = 'KEY `idx_custom_composite` (`field1`, `field2`)';
-		 *     }
-		 *     return $indices;
-		 * }, 10, 3);
-		 *
-		 * @param string             $table_name The name of the table being created.
-		 * @param array              $schema     The original schema definition array.
-		 *
-		 * @param array<int, string> $indices    Array of index definition strings.
+		 * @param array<int, string>                                                                                                                                                                                                              $indices    Array of index definition strings.
+		 * @param string                                                                                                                                                                                                                          $table_name The name of the table being created.
+		 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema     The original schema definition array.
 		 *
 		 * @return array<int, string> Modified array of index definitions.
+		 * @example
+		 *         // Add a custom composite index.
+		 *         add_filter('divi_squad_db_utils_indices', function($indices, $table_name, $schema) {
+		 *         if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
+		 *         $indices[] = 'KEY `idx_custom_composite` (`field1`, `field2`)';
+		 *         }
+		 *         return $indices;
+		 *         }, 10, 3);
 		 */
 		$indices = apply_filters( 'divi_squad_db_utils_indices', $indices, $table_name, $schema );
+		if ( ! is_array( $indices ) ) {
+			$indices = array();
+		}
 
 		return sprintf(
 			"CREATE TABLE IF NOT EXISTS `%s` (\n\t%s%s\n) %s",
@@ -171,8 +175,8 @@ class Database_Utils {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @param string                                                                                                                                                                              $column_name Column name.
-	 * @param array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, precision?: int, scale?: int} $definition  Column definition array.
+	 * @param string                                                                                                                                                                                                           $column_name Column name.
+	 * @param array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int} $definition  Column definition array.
 	 *
 	 * @return string Column definition SQL.
 	 */
@@ -183,7 +187,7 @@ class Database_Utils {
 		$type = strtolower( $definition['type'] );
 
 		if ( isset( $definition['precision'], $definition['scale'] ) &&
-			in_array( $type, array( 'decimal', 'float', 'double' ), true ) ) {
+			 in_array( $type, array( 'decimal', 'float', 'double' ), true ) ) {
 			$type .= "({$definition['precision']},{$definition['scale']})";
 		} elseif ( isset( $definition['length'] ) && $definition['length'] > 0 ) {
 			$type .= "({$definition['length']})";
@@ -239,8 +243,8 @@ class Database_Utils {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @param string               $column_name Column name.
-	 * @param array{unique?: bool} $definition  Column definition array.
+	 * @param string                                                                                                                                                                                                           $column_name Column name.
+	 * @param array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int} $definition  Column definition array.
 	 *
 	 * @return string Index definition SQL.
 	 */
@@ -280,24 +284,22 @@ class Database_Utils {
 			 * This filter allows modifications to the generated SQL before it's passed to
 			 * the dbDelta function for execution.
 			 *
-			 * @since 3.1.0
-			 * @since 3.4.0 Improved documentation with example and type information
+			 * @since  3.1.0
+			 * @since  3.4.0 Improved documentation with example and type information
 			 *
-			 * @example
-			 * // Add a custom ENGINE specification to the table.
-			 * add_filter('divi_squad_db_utils_create_table_sql', function($sql, $table_name, $schema) {
-			 *     if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
-			 *         $sql = str_replace(')', ') ENGINE=InnoDB', $sql);
-			 *     }
-			 *     return $sql;
-			 * }, 10, 3);
-			 *
-			 * @param string $table_name The name of the table being created or updated.
-			 * @param array  $schema     The original schema definition array.
-			 *
-			 * @param string $sql        The complete SQL CREATE TABLE statement.
+			 * @param string                                                                                                                                                                                                                          $sql        The complete SQL CREATE TABLE statement.
+			 * @param string                                                                                                                                                                                                                          $table_name The name of the table being created or updated.
+			 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema     The original schema definition array.
 			 *
 			 * @return string Modified SQL statement.
+			 * @example
+			 *         // Add a custom ENGINE specification to the table.
+			 *         add_filter('divi_squad_db_utils_create_table_sql', function($sql, $table_name, $schema) {
+			 *         if ($table_name === $GLOBALS['wpdb']->prefix . 'my_custom_table') {
+			 *         $sql = str_replace(')', ') ENGINE=InnoDB', $sql);
+			 *         }
+			 *         return $sql;
+			 *         }, 10, 3);
 			 */
 			$sql = apply_filters( 'divi_squad_db_utils_create_table_sql', $sql, $table_name, $schema );
 
@@ -310,26 +312,25 @@ class Database_Utils {
 			 * a database table, allowing for additional operations on the newly created
 			 * or updated table.
 			 *
-			 * @since 3.1.0
-			 * @since 3.4.0 Improved documentation with example and parameter types
+			 * @since      3.1.0
+			 * @since      3.4.0 Improved documentation with example and parameter types
+			 *
+			 * @param string                                                                                                                                                                                                                          $table_name The full name of the created/verified table.
+			 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema     The original schema definition array used to create the table.
+			 * @param array<string, string>                                                                                                                                                                                                           $result     The result from dbDelta containing information about the executed operations.
 			 *
 			 * @example
-			 * // Add initial data to a newly created table.
-			 * add_action('divi_squad_db_utils_table_created', function($table_name, $schema, $result) {
-			 *     global $wpdb;
-			 *     if ($table_name === $wpdb->prefix . 'my_custom_table' && !empty($result)) {
-			 *         $wpdb->insert(
+			 *             // Add initial data to a newly created table.
+			 *             add_action('divi_squad_db_utils_table_created', function($table_name, $schema, $result) {
+			 *             global $wpdb;
+			 *             if ($table_name === $wpdb->prefix . 'my_custom_table' && !empty($result)) {
+			 *             $wpdb->insert(
 			 *             $table_name,
 			 *             array('name' => 'Default', 'value' => '1'),
 			 *             array('%s', '%d')
-			 *         );
-			 *     }
-			 * }, 10, 3);
-			 *
-			 * @param array              $schema     The original schema definition array used to create the table.
-			 * @param array<string, int> $result     The result from dbDelta containing information about the executed operations.
-			 *
-			 * @param string             $table_name The full name of the created/verified table.
+			 *             );
+			 *             }
+			 *             }, 10, 3);
 			 */
 			do_action( 'divi_squad_db_utils_table_created', $table_name, $schema, $result );
 
@@ -343,7 +344,7 @@ class Database_Utils {
 				)
 			);
 
-			return ! empty( $table_exists );
+			return (int) $table_exists > 0;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error creating table {$table_name}" );
 
@@ -372,7 +373,7 @@ class Database_Utils {
 				)
 			);
 
-			return ! empty( $result );
+			return (int) $result > 0;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error checking if table {$table_name} exists" );
 
@@ -400,7 +401,7 @@ class Database_Utils {
 			// and interpolate directly instead.
 			$safe_table = str_replace( '`', '', $table_name );
 			$results    = $wpdb->get_results(
-				"SHOW COLUMNS FROM `{$safe_table}`", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+				"SHOW COLUMNS FROM `{$safe_table}`", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is an identifier, not a bindable value; backticks stripped above.
 				ARRAY_A
 			);
 
@@ -438,7 +439,9 @@ class Database_Utils {
 		global $wpdb;
 
 		try {
-			return (bool) $wpdb->query( "TRUNCATE TABLE `$table_name`" );
+			$safe_table = str_replace( '`', '', $table_name );
+
+			return (bool) $wpdb->query( "TRUNCATE TABLE `{$safe_table}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is an identifier, not a bindable value; backticks stripped above.
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error truncating table {$table_name}" );
 
@@ -459,7 +462,8 @@ class Database_Utils {
 		global $wpdb;
 
 		try {
-			$count = $wpdb->get_var( "SELECT COUNT(*) FROM `$table_name`" );
+			$safe_table = str_replace( '`', '', $table_name );
+			$count      = $wpdb->get_var( "SELECT COUNT(*) FROM `{$safe_table}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is an identifier, not a bindable value; backticks stripped above.
 
 			return (int) $count;
 		} catch ( Throwable $e ) {
@@ -482,7 +486,9 @@ class Database_Utils {
 		global $wpdb;
 
 		try {
-			return (bool) $wpdb->query( "DROP TABLE IF EXISTS `$table_name`" );
+			$safe_table = str_replace( '`', '', $table_name );
+
+			return (bool) $wpdb->query( "DROP TABLE IF EXISTS `{$safe_table}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is an identifier, not a bindable value; backticks stripped above.
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error dropping table {$table_name}" );
 

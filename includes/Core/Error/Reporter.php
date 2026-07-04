@@ -147,15 +147,15 @@ class Reporter {
 	 */
 	public function process_template_data( array $data ): array {
 		try {
-			// Start with base error and environment data
+			// Start with base error and environment data.
 			$template_data = $data;
 
-			// Ensure environment data is included
+			// Ensure environment data is included.
 			if ( empty( $template_data['environment'] ) || ! is_array( $template_data['environment'] ) ) {
 				$template_data['environment'] = $this->environment_collector->get_environment_info();
 			}
 
-			// Add site information if not present
+			// Add site information if not present.
 			if ( ! isset( $template_data['site_url'] ) ) {
 				$template_data['site_url'] = site_url();
 			}
@@ -172,14 +172,14 @@ class Reporter {
 				$template_data['charset'] = get_bloginfo( 'charset' );
 			}
 
-			// Process severity class based on error code or message
-			$severity_class = 'medium'; // Default
+			// Process severity class based on error code or message.
+			$severity_class = 'medium'; // Default severity for unclassified errors.
 			$error_code     = $template_data['error_code'] ?? null;
 			$error_message  = $template_data['error_message'] ?? '';
 
-			// Determine severity class from error code or message content
+			// Determine severity class from error code or message content.
 			if ( isset( $error_code ) ) {
-				// Check numeric error codes first
+				// Check numeric error codes first.
 				if ( is_numeric( $error_code ) ) {
 					$severity_class = $error_code >= 500 ? 'high' : 'medium';
 				} elseif ( stripos( $error_message, 'fatal' ) !== false || stripos( $error_message, 'critical' ) !== false ) {
@@ -207,7 +207,7 @@ class Reporter {
 				$error_message
 			);
 
-			// Determine error type based on file path
+			// Determine error type based on file path.
 			$error_type = 'Unknown Error';
 			$error_file = $template_data['error_file'] ?? '';
 
@@ -240,11 +240,11 @@ class Reporter {
 			 */
 			$error_type = apply_filters( 'divi_squad_error_type', $error_type, $error_file );
 
-			// Add processed values to the template data
+			// Add processed values to the template data.
 			$template_data['severity_class'] = $severity_class;
 			$template_data['error_type']     = $error_type;
 
-			// Process file path information
+			// Process file path information.
 			if ( ! isset( $template_data['relative_file_path'] ) && '' !== ( $error_file ) ) {
 				$plugin_path = WP_PLUGIN_DIR . '/squad-modules-for-divi/';
 				if ( strpos( $error_file, $plugin_path ) === 0 ) {
@@ -254,11 +254,11 @@ class Reporter {
 				}
 			}
 
-			// Process Divi environment information if available
+			// Process Divi environment information if available.
 			$environment = $template_data['environment'] ?? array();
 			$extra_data  = $template_data['extra_data'] ?? array();
 
-			// Get Divi version with fallbacks
+			// Get Divi version with fallbacks.
 			$divi_version = 'Unknown';
 			if ( isset( $environment['divi_version'] ) ) {
 				$divi_version = $environment['divi_version'];
@@ -268,13 +268,13 @@ class Reporter {
 				$divi_version = $extra_data['status_details']['plugin_version'];
 			}
 
-			// Extract quick reference versions
+			// Extract quick reference versions.
 			$template_data['client_wp_version'] = $environment['wp_version'] ?? 'Unknown';
 			$template_data['php_version']       = $environment['php_version'] ?? 'Unknown';
 			$template_data['plugin_version']    = $environment['plugin_version'] ?? 'Unknown';
 			$template_data['divi_version']      = $divi_version;
 
-			// Prepare formatted timestamp
+			// Prepare formatted timestamp.
 			if ( ! isset( $template_data['formatted_timestamp'] ) && isset( $template_data['timestamp'] ) ) {
 				$template_data['formatted_timestamp'] = wp_date(
 					'Y-m-d H:i:s e',
@@ -282,7 +282,7 @@ class Reporter {
 				);
 			}
 
-			// Prepare Divi theme information
+			// Prepare Divi theme information.
 			$divi_theme_info = array(
 				'version'          => $divi_version,
 				'mode'             => $environment['divi_mode'] ?? 'Unknown',
@@ -302,10 +302,10 @@ class Reporter {
 			 */
 			$divi_theme_info = apply_filters( 'divi_squad_error_divi_info', $divi_theme_info, $environment );
 
-			// Add Divi theme info to template data
+			// Add Divi theme info to template data.
 			$template_data['divi_theme_info'] = $divi_theme_info;
 
-			// Generate unique error reference ID if not already present
+			// Generate unique error reference ID if not already present.
 			if ( ! isset( $template_data['error_reference'] ) ) {
 				$site_url   = $template_data['site_url'] ?? site_url();
 				$error_line = $template_data['error_line'] ?? '0';
@@ -362,6 +362,7 @@ class Reporter {
 	 *
 	 * @since 3.4.1
 	 *
+	 * @throws \RuntimeException When rate limit exceeded or data invalid (caught internally).
 	 * @return bool Success status.
 	 */
 	public function send(): bool {
@@ -376,9 +377,9 @@ class Reporter {
 			 */
 			do_action( 'divi_squad_before_send_error_report', $this->data, $this->errors );
 
-			// Validate rate limit.
+			// Validate rate limit..
 			if ( ! $this->rate_limiter->can_send() ) {
-				// Check if this is a critical error that should bypass rate limiting
+				// Check if this is a critical error that should bypass rate limiting.
 				$is_critical = isset( $this->data['is_critical'] ) && true === $this->data['is_critical'];
 
 				/**
@@ -392,7 +393,7 @@ class Reporter {
 				$force_reset = apply_filters( 'divi_squad_force_reset_rate_limit', $is_critical, $this->data );
 
 				if ( $force_reset ) {
-					// Reset the rate limit for critical errors
+					// Reset the rate limit for critical errors.
 					$this->rate_limiter->reset();
 				} else {
 					throw new RuntimeException(
@@ -401,7 +402,7 @@ class Reporter {
 				}
 			}
 
-			// Validate data.
+			// Validate data..
 			if ( ! $this->validate_data() ) {
 				$errors = $this->get_error_messages();
 				throw new RuntimeException(
@@ -413,11 +414,11 @@ class Reporter {
 				);
 			}
 
-			// Add environment info to data
+			// Add environment info to data.
 			$this->data['environment'] = $this->environment_collector->get_environment_info();
 
-			// Suppress duplicate reports within the tracking window, unless the
-			// error is flagged critical (critical errors always report).
+			// Suppress duplicate reports within the tracking window, unless the.
+			// error is flagged critical (critical errors always report)..
 			$is_critical = isset( $this->data['is_critical'] ) && true === $this->data['is_critical'];
 			if ( ! $is_critical && $this->duplicate_filter->is_duplicate( $this->data ) ) {
 				/**
@@ -432,17 +433,17 @@ class Reporter {
 				return false;
 			}
 
-			// Process data for the email template with all filters applied
+			// Process data for the email template with all filters applied.
 			$template_data = $this->process_template_data( $this->data );
 
-			// Send email with processed template data
+			// Send email with processed template data.
 			$this->result = $this->email_sender->send_email( $template_data, $this->errors );
 
-			// Increment rate limit counter on success.
+			// Increment rate limit counter on success..
 			if ( $this->result ) {
 				$this->rate_limiter->increment();
 
-				// Track this error so identical reports are suppressed next time.
+				// Track this error so identical reports are suppressed next time..
 				$this->duplicate_filter->mark_reported( $this->data );
 
 				/**
@@ -470,7 +471,7 @@ class Reporter {
 		} catch ( Throwable $e ) {
 			$this->errors->add( 'send_failed', $e->getMessage() );
 
-			// Log the error
+			// Log the error.
 			divi_squad()->log( 'WARNING', $e->getMessage(), 'Error report' );
 
 			/**
@@ -675,15 +676,15 @@ class Reporter {
 			$include_debug_log = apply_filters( 'divi_squad_error_report_include_debug_log', true );
 
 			if ( $include_debug_log ) {
-				// Log_Reader class does not exist in this codebase; read the WP debug log
-				// file directly as a safe fallback, or return an empty string if unavailable.
+				// Log_Reader class does not exist in this codebase; read the WP debug log.
+				// file directly as a safe fallback, or return an empty string if unavailable..
 				$debug_log_path          = defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ? WP_DEBUG_LOG : ( defined( 'WP_CONTENT_DIR' ) ? WP_CONTENT_DIR . '/debug.log' : '' );
-				$error_data['debug_log'] = ( '' !== $debug_log_path && file_exists( $debug_log_path ) && is_readable( $debug_log_path ) )
-					? implode( '', array_slice( file( $debug_log_path ) ?: array(), -100 ) )
-					: '';
+				$log_readable            = '' !== $debug_log_path && file_exists( $debug_log_path ) && is_readable( $debug_log_path );
+				$log_lines               = $log_readable ? file( $debug_log_path ) : false;
+				$error_data['debug_log'] = false !== $log_lines ? implode( '', array_slice( $log_lines, - 100 ) ) : '';
 			}
 
-			// Add Divi version info if applicable.
+			// Add Divi version info if applicable..
 			$divi_version = Divi::get_builder_version();
 
 			if ( '0.0.0' !== $divi_version ) {
@@ -711,7 +712,7 @@ class Reporter {
 
 			return ( new self( $error_data ) )->send();
 		} catch ( Throwable $e ) {
-			// Last resort error handling
+			// Last resort error handling.
 			divi_squad()->log_error( $e, 'Failed to send quick error report', false );
 
 			return false;

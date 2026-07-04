@@ -13,8 +13,8 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Inline_Content\Inline_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function esc_attr;
 use function esc_html__;
 use function sprintf;
@@ -68,6 +68,13 @@ class Inline_Content extends Module {
 		);
 	}
 
+	/**
+	 * Declare fields for the module.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			'content_alignment' => divi_squad()->d4_module_helper->add_select_box_field(
@@ -125,6 +132,17 @@ class Inline_Content extends Module {
 		);
 	}
 
+	/**
+	 * Render the module output.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$raw_align  = (string) $this->prop( 'content_alignment', 'left' );
 		$raw_valign = (string) $this->prop( 'vertical_align', 'center' );
@@ -186,25 +204,5 @@ class Inline_Content extends Module {
 		if ( '' !== $row_gap_phone ) {
 			self::set_style( $render_slug, array( 'selector' => $inner_sel, 'declaration' => "row-gap: {$row_gap_phone};", 'media_query' => self::get_media_query( 'max_width_767' ) ) );
 		}
-	}
-
-	/**
-	 * Sanitize a CSS length value.
-	 *
-	 * @since 4.1.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
 	}
 }

@@ -23,6 +23,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -72,6 +73,7 @@ class Author_Box extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_author_box' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -177,6 +179,10 @@ class Author_Box extends Module {
 				$content_html
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -189,7 +195,7 @@ class Author_Box extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $html,
+					'children'            => $style_components . $html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -248,7 +254,7 @@ class Author_Box extends Module {
 
 		return sprintf(
 			'<div class="squad-author-box__avatar">%s</div>',
-			get_avatar( $user->ID, $size, '', esc_attr( $user->display_name ) )
+			(string) get_avatar( $user->ID, $size, '', esc_attr( $user->display_name ) )
 		);
 	}
 
@@ -315,7 +321,7 @@ class Author_Box extends Module {
 		if ( 'on' !== (string) ( $inner['showBio'] ?? 'on' ) ) {
 			return '';
 		}
-		if ( empty( $user->description ) ) {
+		if ( '' === (string) $user->description ) {
 			return '';
 		}
 
@@ -390,7 +396,7 @@ class Author_Box extends Module {
 		if ( 'on' !== (string) ( $inner['showWebsiteLink'] ?? 'on' ) ) {
 			return '';
 		}
-		if ( empty( $user->user_url ) ) {
+		if ( '' === (string) $user->user_url ) {
 			return '';
 		}
 

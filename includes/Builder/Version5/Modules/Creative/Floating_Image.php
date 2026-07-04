@@ -21,9 +21,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Floating_Images\Float_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -33,7 +34,6 @@ use function esc_attr;
 use function esc_url;
 use function max;
 use function min;
-use function preg_match;
 use function sprintf;
 use function trim;
 
@@ -48,6 +48,15 @@ class Floating_Image extends Module {
 		return '/build/divi-builder-5/modules-json/floating-image/';
 	}
 
+	/**
+	 * Add module classnames.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Classnames arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'squad-floating__item-wrapper' );
 		$args['classnamesInstance']->add(
@@ -57,10 +66,28 @@ class Floating_Image extends Module {
 		);
 	}
 
+	/**
+	 * Add module script data.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Script data arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Add module styles.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -89,6 +116,7 @@ class Floating_Image extends Module {
 											'attr'                => $attrs['itemSettings']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
 												$v = $params['attrValue'] ?? array();
+
 												return self::float_vars( $v );
 											},
 										),
@@ -102,6 +130,7 @@ class Floating_Image extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v = $params['attrValue'] ?? array();
 												$w = self::sanitize_css_length( (string) ( $v['imageMaxWidth'] ?? '' ) );
+
 												return '' !== $w ? "max-width:{$w};" : '';
 											},
 										),
@@ -115,6 +144,7 @@ class Floating_Image extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v = $params['attrValue'] ?? array();
 												$h = self::sanitize_css_length( (string) ( $v['imageMaxHeight'] ?? '' ) );
+
 												return '' !== $h ? "max-height:{$h};" : '';
 											},
 										),
@@ -161,7 +191,7 @@ class Floating_Image extends Module {
 		$raw_motion = (string) ( $v['motionType'] ?? 'up-down' );
 		$motion     = Float_Helper::is_valid_motion( $raw_motion ) ? $raw_motion : 'up-down';
 
-		$out  = '';
+		$out = '';
 		$out .= '' !== $left ? "--squad-float-left:{$left};" : '';
 		$out .= '' !== $top ? "--squad-float-top:{$top};" : '';
 		$out .= "--squad-float-duration:{$dur}ms;";
@@ -171,10 +201,10 @@ class Floating_Image extends Module {
 		if ( 'rotate' === $motion ) {
 			$out .= "--squad-float-rotate:{$rotate}deg;";
 		} elseif ( 'diagonal' === $motion ) {
-			$d    = '' !== $dist ? $dist : '20px';
+			$d   = '' !== $dist ? $dist : '20px';
 			$out .= "--squad-float-dist-x:{$d};--squad-float-dist-y:{$d};";
 		} else {
-			$d    = '' !== $dist ? $dist : '20px';
+			$d   = '' !== $dist ? $dist : '20px';
 			$out .= "--squad-float-dist:{$d};";
 		}
 
@@ -200,7 +230,7 @@ class Floating_Image extends Module {
 		try {
 			$item = $attrs['itemSettings']['innerContent']['desktop']['value'] ?? array();
 
-			$src = (string) ( $item['image'] ?? '' );
+			$src = self::resolve_upload_url( $item['image'] ?? '' );
 			if ( '' === $src ) {
 				return '';
 			}
@@ -216,6 +246,10 @@ class Floating_Image extends Module {
 			);
 
 			$inner = self::maybe_wrap_link( $img, $item );
+
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
 
 			$item_html = sprintf(
 				'<div class="squad-floating__item squad-floating__item--%s">%s</div>',
@@ -235,11 +269,12 @@ class Floating_Image extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $item_html,
+					'children'            => $style_components . $item_html,
 				)
 			);
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to render Divi 5 Floating Image module' );
+
 			return '';
 		}
 	}
@@ -276,37 +311,34 @@ class Floating_Image extends Module {
 		return sprintf( '<a %s>%s</a>', $attrs, $inner );
 	}
 
-	/** Absolute-int with a default when the value is empty/non-numeric. */
+	/**
+	 * Absolute-int with a default when the value is empty/non-numeric.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param mixed $value   Raw attribute value.
+	 * @param int   $default Fallback when the value is empty or null.
+	 *
+	 * @return int
+	 */
 	private static function absint_default( $value, int $default ): int {
 		if ( '' === $value || null === $value ) {
 			return $default;
 		}
+
 		return (int) abs( (int) $value );
 	}
 
-	/** Clamp a signed angle to the [-90, 90] degree range. */
+	/**
+	 * Clamp a signed angle to the [-90, 90] degree range.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param mixed $value Raw angle attribute value.
+	 *
+	 * @return int
+	 */
 	private static function clamp_angle( $value ): int {
-		return (int) max( -90, min( 90, (int) $value ) );
-	}
-
-	/** Sanitize a CSS length value. */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
-
-	/** Sanitize a CSS background/color value — strips `{ } ; < > \ " '`. */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
+		return (int) max( - 90, min( 90, (int) $value ) );
 	}
 }

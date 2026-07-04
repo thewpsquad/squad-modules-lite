@@ -75,6 +75,7 @@ abstract class Placeholder implements Placeholder_Interface {
 			'title'           => _x( 'Compelling Headline Here', 'Modules dummy content', 'squad-modules-for-divi' ),
 			'subtitle'        => _x( 'Supporting Information That Adds Context', 'Modules dummy content', 'squad-modules-for-divi' ),
 			'body'            => _x(
+			// phpcs:ignore Generic.Files.LineLength.MaxExceeded -- Translatable string must stay on one line so translators receive it intact.
 				'<p>This is where your main content will appear. Provide value to your visitors with clear and concise information that addresses their needs. You can format this text with bold, italics, and lists to improve readability.</p><p>Consider adding a second paragraph if you need to elaborate further. All text can be fully customized in the module settings panel.</p>',
 				'et_builder',
 				'squad-modules-for-divi'

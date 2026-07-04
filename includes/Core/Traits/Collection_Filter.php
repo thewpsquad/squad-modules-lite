@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Collection Filter trait for filtering arrays with callbacks.
  *
@@ -46,7 +47,7 @@ trait Collection_Filter {
 			);
 		} catch ( Throwable $e ) {
 			// Log error if logging is available.
-			if ( function_exists( 'divi_squad' ) && method_exists( divi_squad(), 'log_error' ) ) {
+			if ( function_exists( 'divi_squad' ) ) {
 				divi_squad()->log_error( $e, 'Failed to filter collection' );
 			}
 

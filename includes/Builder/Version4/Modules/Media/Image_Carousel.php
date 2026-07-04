@@ -18,7 +18,6 @@ use function absint;
 use function esc_attr;
 use function esc_attr__;
 use function esc_html__;
-use function esc_url;
 use function wp_enqueue_script;
 use function wp_enqueue_style;
 use function wp_json_encode;
@@ -120,12 +119,12 @@ class Image_Carousel extends Module {
 	 * Define module fields.
 	 *
 	 * @since 4.0.0
-	 * @return array<string, mixed>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		return array(
 			// Carousel Settings.
-			'effect'              => divi_squad()->d4_module_helper->add_select_box_field(
+			'effect'               => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Carousel Effect', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Choose the slide transition effect.', 'squad-modules-for-divi' ),
@@ -139,7 +138,7 @@ class Image_Carousel extends Module {
 					'toggle_slug' => 'carousel_settings',
 				)
 			),
-			'slides_per_view'     => divi_squad()->d4_module_helper->add_range_field(
+			'slides_per_view'      => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Slides Per View', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Number of slides visible at once.', 'squad-modules-for-divi' ),
@@ -158,7 +157,7 @@ class Image_Carousel extends Module {
 					'toggle_slug'    => 'carousel_settings',
 				)
 			),
-			'space_between'       => divi_squad()->d4_module_helper->add_range_field(
+			'space_between'        => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Space Between Slides', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Gap between slides in pixels.', 'squad-modules-for-divi' ),
@@ -175,25 +174,25 @@ class Image_Carousel extends Module {
 					'toggle_slug'    => 'carousel_settings',
 				)
 			),
-			'loop'                => divi_squad()->d4_module_helper->add_yes_no_field(
+			'loop'                 => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Loop', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Loop slides continuously.', 'squad-modules-for-divi' ),
-					'default'      => 'on',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'carousel_settings',
+					'description' => esc_html__( 'Loop slides continuously.', 'squad-modules-for-divi' ),
+					'default'     => 'on',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'carousel_settings',
 				)
 			),
-			'centered_slides'     => divi_squad()->d4_module_helper->add_yes_no_field(
+			'centered_slides'      => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Centered Slides', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Center the active slide.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'carousel_settings',
+					'description' => esc_html__( 'Center the active slide.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'carousel_settings',
 				)
 			),
-			'slide_height'        => divi_squad()->d4_module_helper->add_range_field(
+			'slide_height'         => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Slide Height', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Fixed slide height (leave empty for natural image height).', 'squad-modules-for-divi' ),
@@ -210,17 +209,17 @@ class Image_Carousel extends Module {
 				)
 			),
 			// Autoplay Settings.
-			'enable_autoplay'     => divi_squad()->d4_module_helper->add_yes_no_field(
+			'enable_autoplay'      => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Enable Autoplay', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Automatically advance slides.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'affects'      => array( 'autoplay_delay', 'autoplay_speed', 'pause_on_hover', 'pause_on_interaction' ),
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'autoplay_settings',
+					'description' => esc_html__( 'Automatically advance slides.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'affects'     => array( 'autoplay_delay', 'autoplay_speed', 'pause_on_hover', 'pause_on_interaction' ),
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'autoplay_settings',
 				)
 			),
-			'autoplay_delay'      => divi_squad()->d4_module_helper->add_range_field(
+			'autoplay_delay'       => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Autoplay Delay (ms)', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Milliseconds between slides.', 'squad-modules-for-divi' ),
@@ -238,7 +237,7 @@ class Image_Carousel extends Module {
 					'toggle_slug'     => 'autoplay_settings',
 				)
 			),
-			'autoplay_speed'      => divi_squad()->d4_module_helper->add_range_field(
+			'autoplay_speed'       => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Transition Speed (ms)', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Slide transition duration in milliseconds.', 'squad-modules-for-divi' ),
@@ -256,7 +255,7 @@ class Image_Carousel extends Module {
 					'toggle_slug'     => 'autoplay_settings',
 				)
 			),
-			'pause_on_hover'      => divi_squad()->d4_module_helper->add_yes_no_field(
+			'pause_on_hover'       => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Pause on Hover', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Pause autoplay when the cursor is over the carousel.', 'squad-modules-for-divi' ),
@@ -277,41 +276,41 @@ class Image_Carousel extends Module {
 				)
 			),
 			// Navigation Settings.
-			'show_arrows'         => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_arrows'          => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Arrows', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Display previous/next arrow buttons.', 'squad-modules-for-divi' ),
-					'default'      => 'on',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'navigation_settings',
+					'description' => esc_html__( 'Display previous/next arrow buttons.', 'squad-modules-for-divi' ),
+					'default'     => 'on',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'navigation_settings',
 				)
 			),
-			'show_dots'           => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_dots'            => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Dots', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Display pagination dots.', 'squad-modules-for-divi' ),
-					'default'      => 'on',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'navigation_settings',
+					'description' => esc_html__( 'Display pagination dots.', 'squad-modules-for-divi' ),
+					'default'     => 'on',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'navigation_settings',
 				)
 			),
-			'show_progress'       => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_progress'        => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Progress Bar', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Display a progress bar below the carousel.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'navigation_settings',
+					'description' => esc_html__( 'Display a progress bar below the carousel.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'navigation_settings',
 				)
 			),
 			// Lightbox.
-			'enable_lightbox'     => divi_squad()->d4_module_helper->add_yes_no_field(
+			'enable_lightbox'      => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Enable Lightbox', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Open images in a full-screen lightbox on click.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'lightbox_settings',
+					'description' => esc_html__( 'Open images in a full-screen lightbox on click.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'lightbox_settings',
 				)
 			),
 		);
@@ -329,7 +328,7 @@ class Image_Carousel extends Module {
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
-		$order_class     = $this->get_module_order_class( $render_slug );
+		$order_class     = (string) self::get_module_order_class( $render_slug );
 		$enable_lightbox = $this->prop( 'enable_lightbox', 'off' );
 
 		wp_enqueue_style( 'squad-vendor-swiper' );
@@ -341,8 +340,8 @@ class Image_Carousel extends Module {
 
 		wp_enqueue_script( 'squad-module-image-carousel' );
 
-		$slide_height = $this->prop( 'slide_height', '' );
-		if ( ! empty( $slide_height ) ) {
+		$slide_height = (string) $this->prop( 'slide_height', '' );
+		if ( '' !== $slide_height ) {
 			$height_val = absint( $slide_height );
 			if ( $height_val > 0 ) {
 				self::set_style(
@@ -381,8 +380,12 @@ class Image_Carousel extends Module {
 		$effect = in_array( $effect, array( 'slide', 'fade', 'coverflow' ), true ) ? $effect : 'slide';
 
 		$spv_desk = max( 1, absint( $this->prop( 'slides_per_view', '1' ) ) );
-		$spv_tab  = max( 1, absint( $this->prop( 'slides_per_view_tablet', '' ) ?: $spv_desk ) );
-		$spv_mob  = max( 1, absint( $this->prop( 'slides_per_view_phone', '' ) ?: 1 ) );
+
+		$spv_tab_raw = (string) $this->prop( 'slides_per_view_tablet', '' );
+		$spv_tab     = max( 1, '' !== $spv_tab_raw ? absint( $spv_tab_raw ) : $spv_desk );
+
+		$spv_mob_raw = (string) $this->prop( 'slides_per_view_phone', '' );
+		$spv_mob     = max( 1, '' !== $spv_mob_raw ? absint( $spv_mob_raw ) : 1 );
 
 		if ( 'fade' === $effect ) {
 			$spv_desk = $spv_tab = $spv_mob = 1;
@@ -459,7 +462,7 @@ class Image_Carousel extends Module {
 		}
 
 		return '<button class="squad-image-carousel__arrow squad-image-carousel__arrow--prev" aria-label="' . esc_attr__( 'Previous slide', 'squad-modules-for-divi' ) . '"></button>'
-			. '<button class="squad-image-carousel__arrow squad-image-carousel__arrow--next" aria-label="' . esc_attr__( 'Next slide', 'squad-modules-for-divi' ) . '"></button>';
+		       . '<button class="squad-image-carousel__arrow squad-image-carousel__arrow--next" aria-label="' . esc_attr__( 'Next slide', 'squad-modules-for-divi' ) . '"></button>';
 	}
 
 	/**

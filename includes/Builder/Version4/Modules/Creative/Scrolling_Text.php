@@ -213,8 +213,10 @@ class Scrolling_Text extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, mixed> Array of transition fields CSS properties.
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		// scrolling text styles.
@@ -229,9 +231,9 @@ class Scrolling_Text extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array<string, string> $attrs       List of attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -248,7 +250,7 @@ class Scrolling_Text extends Module {
 				$render_slug,
 				array(
 					'selector'    => "$this->main_css_element div .text-elements .scrolling-element",
-					'declaration' => '-webkit-text-stroke-width: 1px;webkit-text-stroke-color: inherit; -webkit-text-fill-color: transparent;',
+					'declaration' => '-webkit-text-stroke-width: 1px; -webkit-text-stroke-color: inherit; -webkit-text-fill-color: transparent;',
 				)
 			);
 		}
@@ -257,7 +259,7 @@ class Scrolling_Text extends Module {
 		wp_enqueue_script( 'squad-module-scrolling-text' );
 
 		return sprintf(
-			'<div class="text-elements et_pb_with_background"><%1$s class="scrolling-element" data-scroll-direction="%3$s" data-scroll-speed="%4$s" data-repeat-text ="%5$s" data-scroll-pause="%6$s">%2$s</%1$s></div>',
+			'<div class="text-elements et_pb_with_background"><%1$s class="scrolling-element" data-scroll-direction="%3$s" data-scroll-speed="%4$s" data-repeat-text="%5$s" data-scroll-pause="%6$s">%2$s</%1$s></div>',
 			wp_kses_post( $text_tag ),
 			esc_html( $this->prop( 'scrolling_text', '' ) ),
 			esc_attr( $this->prop( 'scrolling_direction', 'left' ) ),

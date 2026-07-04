@@ -8,8 +8,9 @@
  * @package DiviSquad
  */
 
-namespace DiviSquad\Core;
+namespace DiviSquad\Integrations\Freemius;
 
+use DiviSquad\Core\Assets;
 use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Core\Supports\Polyfills\Str;
@@ -48,8 +49,7 @@ class Distribution implements Hookable {
 	 * Integration Constructor
 	 */
 	public function __construct() {
-		// Initialize the Freemius SDK if possible.
-		add_action( 'init', array( $this, 'initialize' ), 1 );
+		$this->initialize();
 	}
 
 	/**
@@ -67,47 +67,29 @@ class Distribution implements Hookable {
 
 			require_once $sdk_path;
 
-			/**
-			 * Filter the Freemius SDK initialization arguments.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param array $fs_init_args The Freemius SDK initialization arguments.
-			 *
-			 * @return array The filtered Freemius SDK initialization arguments.
-			 */
-			$fs_init_args = apply_filters(
-				'divi_squad_fs_init_args',
-				array(
-					'id'                  => '14784',
-					'slug'                => 'squad-modules-for-divi',
-					'premium_slug'        => 'squad-modules-pro-for-divi',
-					'type'                => 'plugin',
-					'public_key'          => 'pk_016b4bcadcf416ffec072540ef065',
-					'is_premium'          => false,
-					'premium_suffix'      => esc_html__( 'Pro', 'squad-modules-for-divi' ),
-					'has_premium_version' => true,
-					'has_addons'          => false,
-					'has_paid_plans'      => true,
-					'is_org_compliant'    => true,
-					'has_affiliation'     => 'selected',
-					'menu'                => array(
-						'slug'       => 'divi_squad',
-						'first-path' => 'admin.php?page=divi_squad',
-						'contact'    => false,
-					),
-					'permission'          => array(
-						'enable_anonymous'      => true,
-						'anonymous_mode'        => 'skip',
-						'is_anonymous'          => true,
-						'is_pending_activation' => false,
-						'is_disconnected'       => false,
-					),
-					'parallel_activation' => array(
-						'enabled'                  => true,
-						'premium_version_basename' => divi_squad()->get_pro_basename(),
-					),
-				)
+			$fs_init_args = array(
+				'id'                  => '14784',
+				'slug'                => 'squad-modules-for-divi',
+				'premium_slug'        => 'squad-modules-pro-for-divi',
+				'type'                => 'plugin',
+				'public_key'          => 'pk_016b4bcadcf416ffec072540ef065',
+				'is_premium'          => false,
+				'premium_suffix'      => esc_html__( 'Pro', 'squad-modules-for-divi' ),
+				'has_premium_version' => true,
+				'has_addons'          => false,
+				'has_paid_plans'      => true,
+				'is_org_compliant'    => true,
+				'has_affiliation'     => 'selected',
+				'enable_anonymous'    => true,
+				'menu'                => array(
+					'slug'       => 'divi_squad',
+					'first-path' => 'admin.php?page=divi_squad',
+					'contact'    => false,
+				),
+				'parallel_activation' => array(
+					'enabled'                  => true,
+					'premium_version_basename' => divi_squad()->get_pro_basename(),
+				),
 			);
 
 			// Create publisher SDK instance.
@@ -374,19 +356,22 @@ class Distribution implements Hookable {
 	/**
 	 * Control the visibility of admin notices.
 	 *
-	 * @param string $module_unique_affix Module's unique affix.
-	 * @param mixed  $value               The value on which the filters hooked to `$tag` are applied on.
-	 *
-	 * @return bool The filtered value after all hooked functions are applied to it.
 	 * @since  2.0.0
+	 *
+	 * @param bool  $show   Whether to show the notice.
+	 * @param array<string, mixed> $notice Notice data — keys: type, id, manager_id, message, etc.
+	 *
+	 * @return bool
 	 */
-	public function fs_hook_show_admin_notice( string $module_unique_affix, $value ): bool {
-		$notice_type = $value['type'] ?? '';
-		$notice_id   = $value['id'] ?? '';
-		$manager_id  = $value['manager_id'] ?? '';
+	public function fs_hook_show_admin_notice( bool $show, array $notice ): bool {
+		if ( ! $show ) {
+			return false;
+		}
 
-		// Plugin id.
-		$plugin_id = divi_squad()->get_name();
+		$notice_type = $notice['type'] ?? '';
+		$notice_id   = $notice['id'] ?? '';
+		$manager_id  = $notice['manager_id'] ?? '';
+		$plugin_id   = divi_squad()->get_name();
 
 		return ! ( ( 'update-nag' === $notice_type && $plugin_id === $manager_id ) || ( 'success' === $notice_type && 'plan_upgraded' === $notice_id ) );
 	}
@@ -406,9 +391,9 @@ class Distribution implements Hookable {
 		 *
 		 * @since 3.2.3
 		 *
-		 * @param string            $title  The plugin title.
-		 * @param Freemius|null     $fs     The instance of Freemius SDK.
-		 * @param SquadModules      $plugin The plugin instance.
+		 * @param string        $title  The plugin title.
+		 * @param Freemius|null $fs     The instance of Freemius SDK.
+		 * @param SquadModules  $plugin The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
@@ -430,9 +415,9 @@ class Distribution implements Hookable {
 		 *
 		 * @since 3.2.3
 		 *
-		 * @param string            $version The plugin version.
-		 * @param Freemius|null     $fs      The instance of Freemius SDK.
-		 * @param SquadModules      $plugin  The plugin instance.
+		 * @param string        $version The plugin version.
+		 * @param Freemius|null $fs      The instance of Freemius SDK.
+		 * @param SquadModules  $plugin  The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
@@ -454,9 +439,9 @@ class Distribution implements Hookable {
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param string            $url    The support forum url.
-		 * @param Freemius|null     $fs     The instance of Freemius SDK.
-		 * @param SquadModules      $plugin The plugin instance.
+		 * @param string        $url    The support forum url.
+		 * @param Freemius|null $fs     The instance of Freemius SDK.
+		 * @param SquadModules  $plugin The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */

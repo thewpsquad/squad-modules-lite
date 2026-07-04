@@ -4,7 +4,7 @@ namespace DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking;
 /**
  * Decorations class for generating SVG decorative elements.
  *
- * @since 1.0.0
+ * @since   1.0.0
  * @package DiviSquad
  */
 class Decorations {

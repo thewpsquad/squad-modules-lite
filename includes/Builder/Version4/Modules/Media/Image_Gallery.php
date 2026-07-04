@@ -17,6 +17,7 @@ use DiviSquad\Utils\Divi;
 use ET_Builder_Module_Helper_Overlay as OverlayHelper;
 use WP_Post;
 use function _wp_get_image_size_from_meta;
+use function absint;
 use function apply_filters;
 use function esc_attr;
 use function esc_html__;
@@ -34,6 +35,90 @@ use function wp_get_attachment_metadata;
 use function wp_json_encode;
 use function wp_kses_post;
 use function wp_parse_args;
+
+/**
+ * Gallery attachment value object.
+ *
+ * Lightweight typed container for the per-image data the gallery renderer needs.
+ * Divi 4 previously mutated dynamic properties directly onto the {@see WP_Post}
+ * objects returned by {@see get_posts()}; collecting the same values into this
+ * strongly-typed object keeps the rendered markup and the computed-callback JSON
+ * byte-identical while the property accesses remain statically analysable.
+ *
+ * @since   1.2.0
+ * @package DiviSquad
+ */
+class Gallery_Image {
+	/**
+	 * The attachment ID.
+	 *
+	 * @var int
+	 */
+	public int $ID = 0;
+
+	/**
+	 * The attachment excerpt (used as caption/pinterest/tweet text).
+	 *
+	 * @var string
+	 */
+	public string $post_excerpt = '';
+
+	/**
+	 * The attachment title.
+	 *
+	 * @var string
+	 */
+	public string $image_title = '';
+
+	/**
+	 * The attachment caption.
+	 *
+	 * @var string
+	 */
+	public string $image_caption = '';
+
+	/**
+	 * The attachment description.
+	 *
+	 * @var string
+	 */
+	public string $image_description = '';
+
+	/**
+	 * The attachment permalink.
+	 *
+	 * @var string
+	 */
+	public string $image_href = '';
+
+	/**
+	 * The full-size image URL.
+	 *
+	 * @var string
+	 */
+	public string $image_src_full = '';
+
+	/**
+	 * The thumbnail image URL.
+	 *
+	 * @var string
+	 */
+	public string $image_src_thumb = '';
+
+	/**
+	 * The image alt text.
+	 *
+	 * @var string
+	 */
+	public string $image_alt_text = '';
+
+	/**
+	 * The large (lightGallery) image size string.
+	 *
+	 * @var string
+	 */
+	public string $lg_size = '';
+}
 
 /**
  * Image Gallery Module Class.
@@ -162,7 +247,7 @@ class Image_Gallery extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array<string, array<string, string|array>>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Image fields definitions.
@@ -404,9 +489,9 @@ class Image_Gallery extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array<string, string> $attrs       List of attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -439,7 +524,7 @@ class Image_Gallery extends Module {
 				'selector'    => "$this->main_css_element .gallery-images",
 				'declaration' => sprintf(
 					'--squad-module-gallery-columns: %1$s;',
-					esc_attr( $this->prop( 'columns_count', '4' ) )
+					absint( $this->prop( 'columns_count', '4' ) )
 				),
 			)
 		);
@@ -449,7 +534,7 @@ class Image_Gallery extends Module {
 				'selector'    => "$this->main_css_element .gallery-images",
 				'declaration' => sprintf(
 					'--squad-module-gallery-gap: %1$s;',
-					esc_attr( $this->prop( 'images_inner_gap', '10px' ) )
+					self::sanitize_css_length( $this->prop( 'images_inner_gap', '10px' ), '10px' )
 				),
 			)
 		);
@@ -501,7 +586,7 @@ class Image_Gallery extends Module {
 	/**
 	 * Get attachment html data for gallery module
 	 *
-	 * @param array $args Gallery Options.
+	 * @param array<string, mixed> $args Gallery Options.
 	 *
 	 * @return string Attachments data
 	 */
@@ -537,11 +622,13 @@ class Image_Gallery extends Module {
 		$background_layout_class_names = et_pb_background_layout_options()->get_background_layout_class( $this->props );
 		$this->add_classname( $background_layout_class_names );
 
+		$gallery_setting_json = wp_json_encode( array_merge( $gallery_options, $gallery_settings ) );
+
 		ob_start();
 
 		print sprintf(
 			'<div class="gallery-images" data-setting=\'%1$s\'>',
-			wp_json_encode( array_merge( $gallery_options, $gallery_settings ) )
+			esc_attr( false === $gallery_setting_json ? '' : $gallery_setting_json )
 		);
 
 		$this->render_gallery_items( $attachments, $images_quantity, $image_count );
@@ -554,11 +641,11 @@ class Image_Gallery extends Module {
 	/**
 	 * Get attachment data for gallery module
 	 *
-	 * @param array $args             Gallery Options.
-	 * @param array $conditional_tags Additional conditionals tags.
-	 * @param array $current_page     Current page.
+	 * @param array<string, mixed> $args             Gallery Options.
+	 * @param array<string, mixed> $conditional_tags Additional conditionals tags.
+	 * @param array<string, mixed> $current_page     Current page.
 	 *
-	 * @return array|WP_Post[] Attachments data
+	 * @return array<int, Gallery_Image> Attachments data
 	 */
 	public static function get_gallery( array $args = array(), array $conditional_tags = array(), array $current_page = array() ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$attachments = array();
@@ -592,27 +679,33 @@ class Image_Gallery extends Module {
 		foreach ( $_attachments as $key => $attachment ) {
 			// Collect original image url.
 			$image_src_full = wp_get_attachment_image_src( $attachment->ID, 'full' );
-			$image_src_full = array_shift( $image_src_full );
+			$image_src_full = is_array( $image_src_full ) ? (string) array_shift( $image_src_full ) : '';
 
 			// Collect custom image url.
 			$image_src_custom = wp_get_attachment_image_src( $attachment->ID, array( $width, $height ) );
-			$image_src_custom = array_shift( $image_src_custom );
+			$image_src_custom = is_array( $image_src_custom ) ? (string) array_shift( $image_src_custom ) : '';
 
 			// Collect image sizes.
 			$image_meta    = wp_get_attachment_metadata( $attachment->ID );
-			$image_size_lg = _wp_get_image_size_from_meta( 'full', $image_meta );
-			$image_size_lg = implode( '-', $image_size_lg );
+			$image_size_lg = is_array( $image_meta ) ? _wp_get_image_size_from_meta( 'full', $image_meta ) : false;
+			$image_size_lg = is_array( $image_size_lg ) ? implode( '-', $image_size_lg ) : '';
 
-			$attachments[ $key ]                    = $attachment;
-			$attachments[ $key ]->image_title       = $attachment->post_title;
-			$attachments[ $key ]->image_caption     = $attachment->post_excerpt;
-			$attachments[ $key ]->image_description = $attachment->post_content;
-			$attachments[ $key ]->image_href        = get_permalink( $attachment );
-			$attachments[ $key ]->image_src_full    = $image_src_full;
-			$attachments[ $key ]->image_src_thumb   = $image_src_custom;
-			$attachments[ $key ]->image_alt_text    = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
+			$image_alt_text = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
 
-			$attachments[ $key ]->lg_size = $image_size_lg;
+			$image = new Gallery_Image();
+
+			$image->ID                = $attachment->ID;
+			$image->post_excerpt      = $attachment->post_excerpt;
+			$image->image_title       = $attachment->post_title;
+			$image->image_caption     = $attachment->post_excerpt;
+			$image->image_description = $attachment->post_content;
+			$image->image_href        = (string) get_permalink( $attachment );
+			$image->image_src_full    = $image_src_full;
+			$image->image_src_thumb   = $image_src_custom;
+			$image->image_alt_text    = is_string( $image_alt_text ) ? $image_alt_text : '';
+			$image->lg_size           = $image_size_lg;
+
+			$attachments[ $key ] = $image;
 		}
 
 		return $attachments;
@@ -621,30 +714,11 @@ class Image_Gallery extends Module {
 	/**
 	 * Renders gallery items.
 	 *
-	 * @param array|WP_Post[] $attachments     Array of attachment objects.
-	 * @param string          $images_quantity Quantity of images to display.
-	 * @param int             $image_count     Count of images per page.
+	 * @param array<int, Gallery_Image> $attachments     Array of attachment objects.
+	 * @param string                    $images_quantity Quantity of images to display.
+	 * @param int                       $image_count     Count of images per page.
 	 */
 	public function render_gallery_items( array $attachments, string $images_quantity, int $image_count ): void {
-		/**
-		 * Loop through each attachment and render the image.
-		 *
-		 * @see WP_Post
-		 * @see wp_prepare_attachment_for_js
-		 * @var int            $image_index       The image index.
-		 * @var WP_Post|object $attachment        {
-		 * @property int       $ID                The attachment ID.
-		 * @property string    $post_excerpt      The attachment excerpt.
-		 * @property string    $image_title       The attachment title.
-		 * @property string    $image_caption     The attachment caption.
-		 * @property string    $image_description The attachment description.
-		 * @property string    $image_href        The attachment URL.
-		 * @property string    $image_src_full    The full-size image URL.
-		 * @property string    $image_src_thumb   The thumbnail image URL.
-		 * @property string    $image_alt_text    The image alt text.
-		 * @property string    $lg_size           The large image size.
-		 *                                        }
-		 */
 		foreach ( $attachments as $image_index => $attachment ) {
 			$image_attrs = array(
 				'alt'    => $attachment->image_alt_text,
@@ -669,5 +743,4 @@ class Image_Gallery extends Module {
 
 			echo '</div></a>';
 		}
-	}
-}
+	}}

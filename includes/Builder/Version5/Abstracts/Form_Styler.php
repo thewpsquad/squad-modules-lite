@@ -33,6 +33,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 }
 
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -137,6 +138,20 @@ abstract class Form_Styler extends Module {
 	}
 
 	/**
+	 * Return the root CSS classname for this form styler module.
+	 *
+	 * Concrete modules override this to return their specific `disq_form_styler_*` slug
+	 * so that SCSS rules scoped under that class are applied to the module wrapper.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return string
+	 */
+	protected static function get_root_classname(): string {
+		return '';
+	}
+
+	/**
 	 * Add the module classnames.
 	 *
 	 * @since 3.4.0
@@ -146,6 +161,10 @@ abstract class Form_Styler extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$root = static::get_root_classname();
+		if ( '' !== $root ) {
+			$args['classnamesInstance']->add( $root );
+		}
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -237,7 +256,7 @@ abstract class Form_Styler extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -275,6 +294,10 @@ abstract class Form_Styler extends Module {
 				$form_html .= static::render_dummy_messages();
 			}
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					// FE only.
@@ -290,7 +313,7 @@ abstract class Form_Styler extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $form_html,
+					'children'            => $style_components . $form_html,
 				)
 			);
 		} catch ( Throwable $e ) {

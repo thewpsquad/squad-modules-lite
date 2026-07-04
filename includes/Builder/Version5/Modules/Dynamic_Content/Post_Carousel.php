@@ -26,6 +26,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -149,7 +150,7 @@ class Post_Carousel extends Module {
 	 * @param array<string, mixed> $attrs                 Block attributes.
 	 * @param string               $child_modules_content Rendered child (Post Element) content with config markers.
 	 * @param WP_Block             $block                 Parsed block instance.
-	 * @param object               $elements              ModuleElements instance.
+	 * @param ModuleElements       $elements              ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -184,6 +185,10 @@ class Post_Carousel extends Module {
 				self::render_controls( $inner, $uid )
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -196,7 +201,7 @@ class Post_Carousel extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $carousel_html,
+					'children'            => $style_components . $carousel_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -286,8 +291,8 @@ class Post_Carousel extends Module {
 
 		if ( 'on' === ( $inner['carouselDots'] ?? 'on' ) ) {
 			$options['pagination'] = array(
-				'el'            => ".{$uid}-pagination",
-				'clickable'     => true,
+				'el'             => ".{$uid}-pagination",
+				'clickable'      => true,
 				'dynamicBullets' => true,
 			);
 		}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Status reporter class.
  *
@@ -51,7 +50,7 @@ class Status_Reporter implements Hookable {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		// Register filters for status reporting
+		// Register filters for status reporting.
 		add_filter( 'divi_squad_system_status', array( $this, 'add_requirements_status' ), 10, 1 );
 		add_filter( 'divi_squad_system_info', array( $this, 'add_requirements_info' ), 10, 1 );
 	}

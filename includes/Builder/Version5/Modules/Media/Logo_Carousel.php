@@ -24,6 +24,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -145,7 +146,7 @@ class Logo_Carousel extends Module {
 	 * @param array<string, mixed> $attrs                 Block attributes.
 	 * @param string               $child_modules_content Rendered child HTML.
 	 * @param WP_Block             $block                 Parsed block instance.
-	 * @param object               $elements              ModuleElements instance.
+	 * @param ModuleElements       $elements              ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -324,16 +325,17 @@ class Logo_Carousel extends Module {
 		switch ( $effect ) {
 			case 'grayscale':
 				return "{$logo}{filter:grayscale(100%);transition:filter .3s ease}"
-					. "{$hover}{filter:grayscale(0%)}";
+				       . "{$hover}{filter:grayscale(0%)}";
 
 			case 'opacity':
 				$opacity = max( 0.0, min( 1.0, (float) ( $inner['hoverOpacity'] ?? '0.5' ) ) );
+
 				return "{$logo}{opacity:{$opacity};transition:opacity .3s ease}"
-					. "{$hover}{opacity:1}";
+				       . "{$hover}{opacity:1}";
 
 			case 'zoom':
 				return "{$logo}{transition:transform .3s ease}"
-					. "{$hover}{transform:scale(1.05)}";
+				       . "{$hover}{transform:scale(1.05)}";
 
 			default:
 				return '';
@@ -367,25 +369,5 @@ class Logo_Carousel extends Module {
 		}
 
 		return ".{$uid} .squad-logo-carousel__logo{{$decl}}";
-	}
-
-	/**
-	 * Validate a CSS length value against an allowlist of units.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value or empty string.
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
 	}
 }

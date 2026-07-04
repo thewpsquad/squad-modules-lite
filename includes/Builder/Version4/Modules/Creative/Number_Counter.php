@@ -13,16 +13,13 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Number_Counter\Counter_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;
 use function esc_attr;
-use function esc_html;
 use function esc_html__;
 use function esc_url;
 use function et_pb_get_extended_font_icon_value;
-use function implode;
-use function in_array;
 use function max;
 use function min;
 use function sprintf;
@@ -287,19 +284,27 @@ class Number_Counter extends Module {
 				'tab_slug'           => 'general',
 				'toggle_slug'        => 'media',
 			),
+			'image_alt'           => array(
+				'label'       => esc_html__( 'Image Alt Text', 'squad-modules-for-divi' ),
+				'description' => esc_html__( 'Provide descriptive alt text for the counter image (used by screen readers).', 'squad-modules-for-divi' ),
+				'type'        => 'text',
+				'show_if'     => array( 'use_media' => 'image' ),
+				'tab_slug'    => 'general',
+				'toggle_slug' => 'media',
+			),
 			'media_position'      => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Icon / Image Position', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Where the media sits relative to the number.', 'squad-modules-for-divi' ),
-					'options'      => array(
+					'description' => esc_html__( 'Where the media sits relative to the number.', 'squad-modules-for-divi' ),
+					'options'     => array(
 						'above' => esc_html__( 'Above', 'squad-modules-for-divi' ),
 						'left'  => esc_html__( 'Left', 'squad-modules-for-divi' ),
 						'right' => esc_html__( 'Right', 'squad-modules-for-divi' ),
 					),
-					'default'      => 'above',
-					'show_if_not'  => array( 'use_media' => 'none' ),
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'media',
+					'default'     => 'above',
+					'show_if_not' => array( 'use_media' => 'none' ),
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'media',
 				)
 			),
 
@@ -361,7 +366,7 @@ class Number_Counter extends Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
@@ -379,9 +384,9 @@ class Number_Counter extends Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module being rendered.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module being rendered.
 	 *
 	 * @return string
 	 */
@@ -399,9 +404,10 @@ class Number_Counter extends Module {
 				);
 			}
 		} elseif ( 'image' === $use_media ) {
-			$image = (string) $this->prop( 'image', '' );
+			$image     = (string) $this->prop( 'image', '' );
+			$image_alt = (string) $this->prop( 'image_alt', '' );
 			if ( '' !== $image ) {
-				$media_html = sprintf( '<img class="squad-counter__icon" src="%1$s" alt="" />', esc_url( $image ) );
+				$media_html = sprintf( '<img class="squad-counter__icon" src="%1$s" alt="%2$s" />', esc_url( $image ), esc_attr( $image_alt ) );
 			}
 		}
 

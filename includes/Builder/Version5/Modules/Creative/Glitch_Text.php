@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -59,6 +60,7 @@ class Glitch_Text extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_glitch_text' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -123,19 +125,23 @@ class Glitch_Text extends Module {
 							'styleProps' => array(
 								'advancedStyles' => array(
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .glitch-text-wrapper .glitch-text-element",
 											'attr'                => $attrs['content']['innerContent'] ?? array(),
-											'declarationFunction' => static function ( $params ) {
+											'declarationFunction' => static function ( array $params ): string {
 												$value        = $params['attrValue'] ?? array();
+												$value        = is_array( $value ) ? $value : array();
 												$declarations = '';
 
-												if ( ! empty( $value['primaryColor'] ) ) {
-													$declarations .= '--squad-gt-color-primary: ' . $value['primaryColor'] . ';';
+												$primary_color = isset( $value['primaryColor'] ) ? (string) $value['primaryColor'] : '';
+												if ( '' !== $primary_color ) {
+													$declarations .= '--squad-gt-color-primary: ' . self::sanitize_css_background( $primary_color ) . ';';
 												}
-												if ( ! empty( $value['secondaryColor'] ) ) {
-													$declarations .= '--squad-gt-color-secondary: ' . $value['secondaryColor'] . ';';
+
+												$secondary_color = isset( $value['secondaryColor'] ) ? (string) $value['secondaryColor'] : '';
+												if ( '' !== $secondary_color ) {
+													$declarations .= '--squad-gt-color-secondary: ' . self::sanitize_css_background( $secondary_color ) . ';';
 												}
 
 												return $declarations;
@@ -165,7 +171,7 @@ class Glitch_Text extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -228,4 +234,5 @@ class Glitch_Text extends Module {
 			return '';
 		}
 	}
+
 }

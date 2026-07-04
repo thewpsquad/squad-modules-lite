@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Singleton trait for creating a single instance of a class.
  *

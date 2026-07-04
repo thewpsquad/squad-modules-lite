@@ -37,7 +37,7 @@ class Floating_Images extends Module {
 		$this->squad_utils = divi_squad()->d4_module_helper->connect( $this );
 
 		$this->settings_modal_toggles = array(
-			'general'  => array(
+			'general' => array(
 				'toggles' => array(
 					'container' => esc_html__( 'Container', 'squad-modules-for-divi' ),
 				),
@@ -61,6 +61,13 @@ class Floating_Images extends Module {
 		);
 	}
 
+	/**
+	 * Declare fields for the module.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			'min_height' => divi_squad()->d4_module_helper->add_range_field(
@@ -78,6 +85,17 @@ class Floating_Images extends Module {
 		);
 	}
 
+	/**
+	 * Render the module output.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$this->apply_min_height_css( $render_slug );
 
@@ -110,15 +128,4 @@ class Floating_Images extends Module {
 		}
 	}
 
-	/** Sanitize a CSS length value. */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
 }

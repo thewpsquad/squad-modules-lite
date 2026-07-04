@@ -43,6 +43,10 @@ class Forminator extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/forminator/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_forminator';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

@@ -29,7 +29,7 @@ class Gravity_Forms extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of Gravity Forms data.
+	 * @return array<string, string> An array of Gravity Forms data.
 	 */
 	public function get_forms( string $collection ): array {
 		// Check if Gravity Forms is active.
@@ -40,7 +40,7 @@ class Gravity_Forms extends Collection {
 		// Get all Gravity Forms.
 		$forms = \GFAPI::get_forms();
 
-		if ( empty( $forms ) ) {
+		if ( count( $forms ) === 0 ) {
 			return array();
 		}
 
@@ -50,7 +50,7 @@ class Gravity_Forms extends Collection {
 	/**
 	 * Get the ID of a Gravity Form.
 	 *
-	 * @param array $form The form array.
+	 * @param mixed $form The form array.
 	 *
 	 * @return int The form ID.
 	 */
@@ -61,7 +61,7 @@ class Gravity_Forms extends Collection {
 	/**
 	 * Get the title of a Gravity Form.
 	 *
-	 * @param array $form The form array.
+	 * @param mixed $form The form array.
 	 *
 	 * @return string The form title.
 	 */

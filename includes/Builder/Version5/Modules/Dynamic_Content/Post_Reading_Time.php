@@ -27,6 +27,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -43,6 +44,7 @@ use function get_the_ID;
 use function in_array;
 use function in_the_loop;
 use function is_singular;
+use function is_string;
 use function wp_strip_all_tags;
 
 /**
@@ -73,6 +75,7 @@ class Post_Reading_Time extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_post_reading_time' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -152,7 +155,7 @@ class Post_Reading_Time extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -288,9 +291,10 @@ class Post_Reading_Time extends Module {
 			}
 		}
 
-		$post_content     = (string) get_post_field( 'post_content', $post_id );
-		$number_of_images = substr_count( strtolower( $post_content ), '<img ' );
-		$word_count       = (int) Str::word_count( wp_strip_all_tags( $post_content ) );
+		$post_content_field = get_post_field( 'post_content', $post_id );
+		$post_content       = is_string( $post_content_field ) ? $post_content_field : '';
+		$number_of_images   = substr_count( strtolower( $post_content ), '<img ' );
+		$word_count         = (int) Str::word_count( wp_strip_all_tags( $post_content ) );
 
 		if ( 'on' === ( $inner['calculateComments'] ?? 'off' ) ) {
 			$word_count += $comment_word_count;
@@ -331,7 +335,7 @@ class Post_Reading_Time extends Module {
 	protected static function calculate_images_time( int $total_images, int $words_per_minute ): float {
 		$additional_time = 0.0;
 
-		for ( $i = 1; $i <= $total_images; $i++ ) {
+		for ( $i = 1; $i <= $total_images; $i ++ ) {
 			if ( $i >= 10 ) {
 				$additional_time += 3 * $words_per_minute / 60;
 			} else {

@@ -14,7 +14,6 @@ namespace DiviSquad\Builder\Version4\Modules\Media;
 
 use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use function esc_attr;
-use function esc_attr__;
 use function esc_html;
 use function esc_html__;
 use function esc_url;
@@ -137,20 +136,20 @@ class Image_Carousel_Item extends Child_Module {
 	 * Define module fields.
 	 *
 	 * @since 4.0.0
-	 * @return array<string, mixed>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		return array(
 			// Image.
-			'image'          => divi_squad()->d4_module_helper->add_media_upload_field(
+			'image'         => divi_squad()->d4_module_helper->add_media_upload_field(
 				esc_html__( 'Image', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Upload or select the slide image.', 'squad-modules-for-divi' ),
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'image_settings',
+					'description' => esc_html__( 'Upload or select the slide image.', 'squad-modules-for-divi' ),
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'image_settings',
 				)
 			),
-			'image_alt'      => array(
+			'image_alt'     => array(
 				'label'       => esc_html__( 'Image Alt Text', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Alternative text for the slide image.', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -159,17 +158,17 @@ class Image_Carousel_Item extends Child_Module {
 				'toggle_slug' => 'image_settings',
 			),
 			// Caption.
-			'show_caption'   => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_caption'  => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Caption', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Display a caption over the slide image.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'affects'      => array( 'caption_text' ),
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'caption_settings',
+					'description' => esc_html__( 'Display a caption over the slide image.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'affects'     => array( 'caption_text' ),
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'caption_settings',
 				)
 			),
-			'caption_text'   => array(
+			'caption_text'  => array(
 				'label'           => esc_html__( 'Caption', 'squad-modules-for-divi' ),
 				'description'     => esc_html__( 'The caption text displayed on the slide.', 'squad-modules-for-divi' ),
 				'type'            => 'text',
@@ -179,17 +178,17 @@ class Image_Carousel_Item extends Child_Module {
 				'toggle_slug'     => 'caption_settings',
 			),
 			// Button.
-			'show_button'    => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_button'   => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Button', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Display a call-to-action button on the slide.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'affects'      => array( 'button_text', 'button_url', 'button_target' ),
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'button_settings',
+					'description' => esc_html__( 'Display a call-to-action button on the slide.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'affects'     => array( 'button_text', 'button_url', 'button_target' ),
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'button_settings',
 				)
 			),
-			'button_text'    => array(
+			'button_text'   => array(
 				'label'           => esc_html__( 'Button Text', 'squad-modules-for-divi' ),
 				'description'     => esc_html__( 'The label on the button.', 'squad-modules-for-divi' ),
 				'type'            => 'text',
@@ -198,7 +197,7 @@ class Image_Carousel_Item extends Child_Module {
 				'tab_slug'        => 'general',
 				'toggle_slug'     => 'button_settings',
 			),
-			'button_url'     => array(
+			'button_url'    => array(
 				'label'           => esc_html__( 'Button URL', 'squad-modules-for-divi' ),
 				'description'     => esc_html__( 'The destination URL for the button.', 'squad-modules-for-divi' ),
 				'type'            => 'text',
@@ -207,7 +206,7 @@ class Image_Carousel_Item extends Child_Module {
 				'tab_slug'        => 'general',
 				'toggle_slug'     => 'button_settings',
 			),
-			'button_target'  => divi_squad()->d4_module_helper->add_select_box_field(
+			'button_target' => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Button Target', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Open the button link in the same tab or a new one.', 'squad-modules-for-divi' ),
@@ -222,13 +221,13 @@ class Image_Carousel_Item extends Child_Module {
 				)
 			),
 			// Overlay.
-			'show_overlay'   => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_overlay'  => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Overlay', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Show a color overlay on the slide image.', 'squad-modules-for-divi' ),
-					'default'      => 'off',
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'overlay_settings',
+					'description' => esc_html__( 'Show a color overlay on the slide image.', 'squad-modules-for-divi' ),
+					'default'     => 'off',
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'overlay_settings',
 				)
 			),
 		);
@@ -239,16 +238,16 @@ class Image_Carousel_Item extends Child_Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array<string, mixed> $attrs       Module attributes.
-	 * @param string               $content     Inner content (unused for child modules).
-	 * @param string               $render_slug Module render slug.
+	 * @param array<array-key, mixed> $attrs       Module attributes.
+	 * @param string                  $content     Inner content (unused for child modules).
+	 * @param string                  $render_slug Module render slug.
 	 *
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$image_url = esc_url( $this->prop( 'image', '' ) );
 
-		$data_src = ! empty( $image_url )
+		$data_src = '' !== $image_url
 			? sprintf( ' data-src="%s"', $image_url )
 			: '';
 
@@ -274,7 +273,7 @@ class Image_Carousel_Item extends Child_Module {
 	 * @return string
 	 */
 	public function render_carousel_image( string $image_url ): string {
-		if ( empty( $image_url ) ) {
+		if ( '' === $image_url ) {
 			return '';
 		}
 
@@ -320,8 +319,8 @@ class Image_Carousel_Item extends Child_Module {
 			return '';
 		}
 
-		$caption = $this->prop( 'caption_text', '' );
-		if ( empty( $caption ) ) {
+		$caption = (string) $this->prop( 'caption_text', '' );
+		if ( '' === $caption || '0' === $caption ) {
 			return '';
 		}
 

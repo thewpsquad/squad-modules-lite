@@ -13,7 +13,6 @@
 namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Forms\Collection;
-use WP_Post;
 
 /**
  * WPForms Collection
@@ -30,7 +29,7 @@ class WP_Forms extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of WPForms data.
+	 * @return array<string, string> An array of WPForms data.
 	 */
 	public function get_forms( string $collection ): array {
 		if ( ! \function_exists( 'wpforms' ) ) {
@@ -46,7 +45,7 @@ class WP_Forms extends Collection {
 			)
 		);
 
-		if ( empty( $forms ) ) {
+		if ( ! is_array( $forms ) || count( $forms ) === 0 ) {
 			return array();
 		}
 
@@ -56,7 +55,7 @@ class WP_Forms extends Collection {
 	/**
 	 * Get the ID of a WPForm.
 	 *
-	 * @param WP_Post $form The form post object.
+	 * @param mixed $form The form post object.
 	 *
 	 * @return int The form ID.
 	 */
@@ -67,7 +66,7 @@ class WP_Forms extends Collection {
 	/**
 	 * Get the title of a WPForm.
 	 *
-	 * @param WP_Post $form The form post object.
+	 * @param mixed $form The form post object.
 	 *
 	 * @return string The form title.
 	 */

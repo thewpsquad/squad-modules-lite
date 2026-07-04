@@ -177,7 +177,7 @@ class Business_Hours_Child extends Child_Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Text fields definitions.
@@ -377,6 +377,8 @@ class Business_Hours_Child extends Child_Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
@@ -404,15 +406,15 @@ class Business_Hours_Child extends Child_Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$multi_view = et_pb_multi_view_options( $this );
-		$divider    = null;
+		$divider    = '';
 
 		if ( 'on' === $this->prop( 'show_divider', 'off' ) ) {
 			$divider = '<span class="day-element day-element-divider"></span>';
@@ -435,14 +437,14 @@ class Business_Hours_Child extends Child_Module {
 			'<div class="day-elements et_pb_with_background">%1$s%2$s%3$s</div>',
 			wp_kses_post( $day_name_text ?? '' ),
 			wp_kses_post( $divider ),
-			wp_kses_post( $this->squad_render_day_time_text() ?? '' )
+			wp_kses_post( $this->squad_render_day_time_text() )
 		);
 	}
 
 	/**
 	 * Process styles for module output.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return void
 	 */
@@ -547,7 +549,7 @@ class Business_Hours_Child extends Child_Module {
 
 			return sprintf(
 				'<span class="day-element day-element-time">%1$s</span>',
-				wp_kses_post( $off_day_label )
+				wp_kses_post( $off_day_label ?? '' )
 			);
 		}
 
@@ -558,6 +560,6 @@ class Business_Hours_Child extends Child_Module {
 					'class' => 'day-element day-element-time',
 				),
 			)
-		);
+		) ?? '';
 	}
 }

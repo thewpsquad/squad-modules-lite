@@ -59,8 +59,8 @@ class Assets implements Hookable {
 	 */
 	public function enqueue_builder_5_scripts(): void {
 		try {
-			$bundle_path  = divi_squad()->get_path( '/build/divi-builder-5/scripts/bundle.js' );
-			$asset_path   = divi_squad()->get_path( '/build/divi-builder-5/scripts/bundle.asset.php' );
+			$bundle_path = divi_squad()->get_path( '/build/divi-builder-5/scripts/bundle.js' );
+			$asset_path  = divi_squad()->get_path( '/build/divi-builder-5/scripts/bundle.asset.php' );
 
 			if ( ! file_exists( $bundle_path ) || ! file_exists( $asset_path ) ) {
 				return;
@@ -267,7 +267,7 @@ class Assets implements Hookable {
 		/**
 		 * Filter vendor script configurations
 		 *
-		 * @param array         $vendor_scripts Script configurations
+		 * @param array          $vendor_scripts Script configurations
 		 * @param Assets_Manager $assets         Assets manager instance.
 		 */
 		$vendor_scripts = apply_filters( 'divi_squad_vendor_scripts', $vendor_scripts, $assets );
@@ -297,7 +297,7 @@ class Assets implements Hookable {
 		/**
 		 * Filter vendor style configurations
 		 *
-		 * @param array         $vendor_styles Style configurations
+		 * @param array          $vendor_styles Style configurations
 		 * @param Assets_Manager $assets        Assets manager instance.
 		 */
 		$vendor_styles = apply_filters( 'divi_squad_vendor_styles', $vendor_styles, $assets );
@@ -354,42 +354,44 @@ class Assets implements Hookable {
 	 */
 	private function register_module_scripts( Assets_Manager $assets ): void {
 		$configs = array(
-			'divider'         => array(),
-			'ba-image-slider' => array(
+			'divider'           => array(),
+			'ba-image-slider'   => array(
 				'deps' => array( 'squad-vendor-images-loaded' ),
 			),
-			'gallery'         => array(
+			'gallery'           => array(
 				'deps' => array(),
 			),
-			'image-carousel'  => array(
+			'image-carousel'    => array(
+				'path'       => 'divi-builder-5',
 				'deps'       => array( 'squad-vendor-swiper', 'squad-vendor-light-gallery' ),
 				'style_deps' => array( 'squad-vendor-swiper', 'squad-vendor-light-gallery' ),
 			),
-			'logo-carousel'   => array(
-				'deps'       => array( 'squad-vendor-swiper' ),
-				'style_deps' => array( 'squad-vendor-swiper' ),
-			),
-			'scrolling-text'  => array(
-				'deps' => array( 'squad-vendor-scrolling-text' ),
-			),
-			'lottie'          => array(
-				'deps' => array( 'squad-vendor-lottie' ),
-			),
-			'typing-text'     => array(
-				'deps' => array( 'squad-vendor-typed' ),
-			),
-			'video-popup'     => array(
-				'deps' => array( 'magnific-popup' ),
-			),
-			'post-grid'       => array(
-				'deps' => array( 'wp-api-fetch' ),
-			),
-			'post-carousel'   => array(
+			'logo-carousel'     => array(
 				'path'       => 'divi-builder-5',
 				'deps'       => array( 'squad-vendor-swiper' ),
 				'style_deps' => array( 'squad-vendor-swiper' ),
 			),
-			'skill-bar'       => array(
+			'scrolling-text'    => array(
+				'deps' => array( 'squad-vendor-scrolling-text' ),
+			),
+			'lottie'            => array(
+				'deps' => array( 'squad-vendor-lottie' ),
+			),
+			'typing-text'       => array(
+				'deps' => array( 'squad-vendor-typed' ),
+			),
+			'video-popup'       => array(
+				'deps' => array( 'magnific-popup' ),
+			),
+			'post-grid'         => array(
+				'deps' => array( 'wp-api-fetch' ),
+			),
+			'post-carousel'     => array(
+				'path'       => 'divi-builder-5',
+				'deps'       => array( 'squad-vendor-swiper' ),
+				'style_deps' => array( 'squad-vendor-swiper' ),
+			),
+			'skill-bar'         => array(
 				'path' => 'divi-builder-5',
 			),
 			'social-share'      => array(
@@ -419,7 +421,7 @@ class Assets implements Hookable {
 		/**
 		 * Filter module configurations
 		 *
-		 * @param array         $configs Module configurations
+		 * @param array          $configs Module configurations
 		 * @param Assets_Manager $assets  Assets manager instance.
 		 */
 		$module_configs = apply_filters( 'divi_squad_module_assets_configs', $configs, $assets );

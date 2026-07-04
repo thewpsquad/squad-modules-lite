@@ -43,6 +43,10 @@ class Sure_Forms extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/sureforms/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_sureforms';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

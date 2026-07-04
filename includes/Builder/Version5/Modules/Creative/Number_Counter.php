@@ -21,9 +21,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Number_Counter\Counter_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -32,11 +33,8 @@ use WP_Block;
 use function absint;
 use function esc_attr;
 use function esc_url;
-use function et_pb_get_extended_font_icon_value;
-use function in_array;
 use function max;
 use function min;
-use function preg_replace;
 use function sprintf;
 use function trim;
 use function wp_enqueue_script;
@@ -127,6 +125,7 @@ class Number_Counter extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $value['numberColor'] ?? '' ) );
+
 												return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
@@ -139,6 +138,7 @@ class Number_Counter extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $value['iconColor'] ?? '' ) );
+
 												return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
@@ -176,15 +176,15 @@ class Number_Counter extends Module {
 			$use_media  = (string) ( $inner['useMedia'] ?? 'none' );
 			$media_html = '';
 			if ( 'icon' === $use_media ) {
-				$icon = (string) ( $inner['icon'] ?? '' );
-				if ( '' !== $icon ) {
+				$icon_char = self::resolve_icon( $inner['icon'] ?? array() );
+				if ( '' !== $icon_char ) {
 					$media_html = sprintf(
 						'<span class="squad-counter__icon et-pb-icon">%1$s</span>',
-						esc_attr( et_pb_get_extended_font_icon_value( $icon, true ) )
+						esc_html( $icon_char )
 					);
 				}
 			} elseif ( 'image' === $use_media ) {
-				$image = (string) ( $inner['image'] ?? '' );
+				$image = self::resolve_upload_url( $inner['image'] ?? '' );
 				if ( '' !== $image ) {
 					$media_html = sprintf( '<img class="squad-counter__icon" src="%1$s" alt="" />', esc_url( $image ) );
 				}
@@ -213,6 +213,10 @@ class Number_Counter extends Module {
 				$media_html
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -225,7 +229,7 @@ class Number_Counter extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $shell,
+					'children'            => $style_components . $shell,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -233,25 +237,5 @@ class Number_Counter extends Module {
 
 			return '';
 		}
-	}
-
-	/**
-	 * Sanitize a CSS background/color value (hex, rgba, gradient, etc.).
-	 *
-	 * Strips characters that could break out of the CSS declaration context
-	 * (`{ } ; < > \ " '`). NEVER use esc_attr on a CSS value.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

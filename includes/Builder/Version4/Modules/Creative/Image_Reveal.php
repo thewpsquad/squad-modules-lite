@@ -16,13 +16,10 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Image_Reveal\Reveal_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;
-use function esc_attr;
 use function esc_html__;
-use function esc_url;
-use function implode;
 use function preg_replace;
 use function sprintf;
 use function trim;
@@ -78,6 +75,13 @@ class Image_Reveal extends Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			// ── Content tab / Image group ─────────────────────────────────────
@@ -261,6 +265,17 @@ class Image_Reveal extends Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$image = trim( (string) $this->prop( 'image', '' ) );
 		if ( '' === $image ) {
@@ -350,23 +365,8 @@ class Image_Reveal extends Module {
 	 */
 	private static function sanitize_scale( string $value ): string {
 		$clean = (string) preg_replace( '/[^0-9.]/', '', trim( $value ) );
+
 		return '' !== $clean ? $clean : '1.1';
 	}
 
-	/**
-	 * Sanitize a CSS color/background value. NEVER use esc_attr on a CSS value.
-	 *
-	 * @since 4.1.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
-	}
 }

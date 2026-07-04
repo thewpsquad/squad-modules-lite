@@ -35,7 +35,7 @@ class CSS_Generations extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $options Options of current width.
+	 * @param array<string, mixed> $options Options of current width.
 	 *
 	 * @return void
 	 */
@@ -70,15 +70,15 @@ class CSS_Generations extends Module_Utility {
 		 */
 		$options = (array) apply_filters( 'divi_squad_generate_additional_styles_options', $options );
 
-		$css_property      = $options['css_property'] ?? $options['type'];
+		$css_property      = (string) ( $options['css_property'] ?? $options['type'] );
 		$additional_css    = isset( $options['important'] ) ? ' !important;' : '';
-		$qualified_name    = $options['field'];
+		$qualified_name    = (string) $options['field'];
 		$last_modified_key = sprintf( '%1$s_last_edited', $qualified_name );
 		$css_prop          = divi_squad()->d4_module_helper->field_to_css_prop( $css_property );
 
 		// Get width value from hover key.
 		$hover       = et_pb_hover_options();
-		$width_hover = $hover->get_value( $qualified_name, $this->module->props, '' );
+		$width_hover = (string) $hover->get_value( $qualified_name, $this->module->props, '' );
 
 		// Get responsive values for the current property.
 		$responsive_values = $this->collect_prop_value_responsive( $options, $qualified_name, $last_modified_key );
@@ -106,9 +106,9 @@ class CSS_Generations extends Module_Utility {
 			$options
 		);
 
-		$value_default           = $responsive_data['value_default'];
-		$value_last_edited       = $responsive_data['value_last_edited'];
-		$value_responsive_values = $responsive_data['value_responsive_values'];
+		$value_default           = (string) $responsive_data['value_default'];
+		$value_last_edited       = (string) $responsive_data['value_last_edited'];
+		$value_responsive_values = (array) $responsive_data['value_responsive_values'];
 
 		if ( et_pb_get_responsive_status( $value_last_edited ) && '' !== implode( '', $value_responsive_values ) ) {
 			$this->process_responsive_styles(
@@ -183,15 +183,15 @@ class CSS_Generations extends Module_Utility {
 	/**
 	 * Collect any props value from mapping values.
 	 *
-	 * @param array  $options           The option array data.
-	 * @param string $qualified_name    The current field name.
-	 * @param string $last_modified_key The last modified key.
+	 * @param array<string, mixed> $options           The option array data.
+	 * @param string               $qualified_name    The current field name.
+	 * @param string               $last_modified_key The last modified key.
 	 *
-	 * @return array
+	 * @return array{0: mixed, 1: mixed, 2: array<string, mixed>}
 	 */
 	public function collect_prop_value_responsive( array $options, string $qualified_name, string $last_modified_key ): array {
 		$props       = $this->module->props;
-		$last_edited = ! empty( $props[ $last_modified_key ] ) ? $props[ $last_modified_key ] : '';
+		$last_edited = isset( $props[ $last_modified_key ] ) && '' !== $props[ $last_modified_key ] ? $props[ $last_modified_key ] : '';
 
 		/**
 		 * Filter the props and last_edited value before processing.
@@ -217,15 +217,15 @@ class CSS_Generations extends Module_Utility {
 		$props       = $props_data['props'];
 		$last_edited = $props_data['last_edited'];
 
-		if ( ! empty( $options['mapping_values'] ) ) {
+		if ( isset( $options['mapping_values'] ) && array() !== $options['mapping_values'] ) {
 			$responsive_values = et_pb_responsive_options()->get_property_values( $props, $qualified_name );
 
 			if ( is_callable( $options['mapping_values'] ) ) {
-				$raw_value     = ! empty( $props[ $qualified_name ] ) ? $props[ $qualified_name ] : '';
+				$raw_value     = isset( $props[ $qualified_name ] ) && '' !== $props[ $qualified_name ] ? $props[ $qualified_name ] : '';
 				$value_default = $options['mapping_values']( $raw_value );
 
 				foreach ( $responsive_values as $device => $value ) {
-					if ( ! empty( $value ) ) {
+					if ( '' !== $value ) {
 						$responsive_values[ $device ] = $options['mapping_values']( $value );
 					}
 				}
@@ -237,13 +237,13 @@ class CSS_Generations extends Module_Utility {
 				}
 
 				foreach ( $responsive_values as $device => $value ) {
-					if ( ! empty( $mapping_values[ $value ] ) ) {
+					if ( isset( $mapping_values[ $value ] ) && '' !== $mapping_values[ $value ] ) {
 						$responsive_values[ $device ] = $mapping_values[ $value ];
 					}
 				}
 			}
 		} else {
-			$value_default     = ! empty( $props[ $qualified_name ] ) ? $props[ $qualified_name ] : '';
+			$value_default     = isset( $props[ $qualified_name ] ) && '' !== $props[ $qualified_name ] ? $props[ $qualified_name ] : '';
 			$responsive_values = et_pb_responsive_options()->get_property_values( $props, $qualified_name );
 		}
 
@@ -275,7 +275,7 @@ class CSS_Generations extends Module_Utility {
 	/**
 	 * Process styles for responsive in the module.
 	 *
-	 * @param array $options The options property for processing styles.
+	 * @param array<string, mixed> $options The options property for processing styles.
 	 *
 	 * @return void
 	 */
@@ -311,12 +311,15 @@ class CSS_Generations extends Module_Utility {
 		 *
 		 * @param array $all_options The merged options.
 		 */
-		$all_options = apply_filters( 'divi_squad_process_responsive_styles_options', $all_options );
+		$all_options = (array) apply_filters( 'divi_squad_process_responsive_styles_options', $all_options );
 
-		$css_prop = divi_squad()->d4_module_helper->field_to_css_prop( $all_options['css_property'] );
+		$css_prop = divi_squad()->d4_module_helper->field_to_css_prop( (string) $all_options['css_property'] );
 
-		foreach ( $all_options['responsive_values'] as $device => $current_value ) {
-			if ( empty( $current_value ) ) {
+		$responsive_values = (array) $all_options['responsive_values'];
+
+		foreach ( $responsive_values as $device => $current_value ) {
+			$current_value = (string) $current_value;
+			if ( '' === $current_value || '0' === $current_value ) {
 				continue;
 			}
 
@@ -324,7 +327,7 @@ class CSS_Generations extends Module_Utility {
 			// et_builder_process_range_value function directly.
 			$valid_value = $current_value;
 			if ( ( 'margin' === $all_options['type'] ) || ( 'padding' === $all_options['type'] ) ) {
-				$declaration = et_builder_get_element_style_css( esc_html( $valid_value ), $css_prop, $options['important'] );
+				$declaration = et_builder_get_element_style_css( esc_html( $valid_value ), $css_prop, (bool) $options['important'] );
 			} else {
 				$declaration = sprintf(
 					'%1$s:%2$s %3$s',
@@ -390,7 +393,7 @@ class CSS_Generations extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $options Options of current width.
+	 * @param array<string, mixed> $options Options of current width.
 	 *
 	 * @return void
 	 */
@@ -460,10 +463,10 @@ class CSS_Generations extends Module_Utility {
 			$options
 		);
 
-		$module_props       = $properties['module_props'];
-		$allowed_units      = $properties['allowed_units'];
-		$property_type      = $properties['property_type'];
-		$hover_selector     = $properties['hover_selector'];
+		$module_props       = (array) $properties['module_props'];
+		$allowed_units      = (array) $properties['allowed_units'];
+		$property_type      = (string) $properties['property_type'];
+		$hover_selector     = (string) $properties['hover_selector'];
 		$default_unit_value = $properties['default_unit_value'];
 
 		$css_prop = divi_squad()->d4_module_helper->field_to_css_prop( $property_type );
@@ -492,11 +495,12 @@ class CSS_Generations extends Module_Utility {
 		 * @param array $module_props      The module properties.
 		 * @param array $options           The options.
 		 */
-		$icon_width_values = apply_filters( 'divi_squad_show_icon_hover_width_values', $icon_width_values, $module_props, $options );
+		$icon_width_values = (array) apply_filters( 'divi_squad_show_icon_hover_width_values', $icon_width_values, $module_props, $options );
 
 		// set styles in responsive mode.
 		foreach ( $icon_width_values as $device => $current_value ) {
-			if ( empty( $current_value ) ) {
+			$current_value = (string) $current_value;
+			if ( '' === $current_value || '0' === $current_value ) {
 				continue;
 			}
 
@@ -507,7 +511,7 @@ class CSS_Generations extends Module_Utility {
 			$css_value = $this->hover_effect_generate_css(
 				$module_props,
 				array(
-					'qualified_name'     => $options['field'] . $field_suffix,
+					'qualified_name'     => (string) $options['field'] . $field_suffix,
 					'mapping_values'     => $options['mapping_values'],
 					'allowed_units'      => $allowed_units,
 					'default_width'      => $current_value,
@@ -525,7 +529,7 @@ class CSS_Generations extends Module_Utility {
 			 * @param array  $options       The options.
 			 * @param string $current_value The current value.
 			 */
-			$css_value = apply_filters( 'divi_squad_show_icon_hover_css_value', $css_value, $device, $options, $current_value );
+			$css_value = (string) apply_filters( 'divi_squad_show_icon_hover_css_value', $css_value, $device, $options, $current_value );
 
 			$style = array(
 				'selector'    => $options['selector'],
@@ -584,10 +588,10 @@ class CSS_Generations extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $props   Current module properties.
-	 * @param array $options Option for toggle fields.
+	 * @param array<string, mixed> $props   Current module properties.
+	 * @param array<string, mixed> $options Option for toggle fields.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function get_icon_hover_effect_prop_width( array $props, array $options = array() ): array {
 		$defaults      = array(
@@ -759,8 +763,8 @@ class CSS_Generations extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $props   Map of properties to parse.
-	 * @param array $options Field options.
+	 * @param array<string, mixed> $props   Map of properties to parse.
+	 * @param array<string, mixed> $options Field options.
 	 *
 	 * @return string
 	 */
@@ -803,7 +807,7 @@ class CSS_Generations extends Module_Utility {
 		if ( $options['manual'] ) {
 			$default_value = $options['manual_value'];
 		} else {
-			$default_value = $props[ $options['qualified_name'] ];
+			$default_value = $props[ (string) $options['qualified_name'] ];
 		}
 
 		/**
@@ -818,8 +822,8 @@ class CSS_Generations extends Module_Utility {
 		$default_value = apply_filters( 'divi_squad_hover_effect_css_default_value', $default_value, $options, $props );
 
 		// Generate actual value.
-		$field_value          = $this->collect_prop_mapping_value( $options, $default_value );
-		$clean_default_value  = str_replace( $options['allowed_units'], '', $options['default_width'] );
+		$field_value          = $this->collect_prop_mapping_value( $options, (string) $default_value );
+		$clean_default_value  = str_replace( (array) $options['allowed_units'], '', (string) $options['default_width'] );
 		$increased_value_data = absint( $clean_default_value ) + absint( $options['default_unit_value'] );
 
 		/**
@@ -842,7 +846,7 @@ class CSS_Generations extends Module_Utility {
 			$props
 		);
 
-		$field_value          = $processed_values['field_value'];
+		$field_value          = (string) $processed_values['field_value'];
 		$increased_value_data = $processed_values['increased_value_data'];
 
 		// Return actual value.
@@ -857,24 +861,28 @@ class CSS_Generations extends Module_Utility {
 		 * @param array  $options The options.
 		 * @param array  $props   The properties array.
 		 */
-		return apply_filters( 'divi_squad_hover_effect_css_result', $result, $options, $props );
+		return (string) apply_filters( 'divi_squad_hover_effect_css_result', $result, $options, $props );
 	}
 
 	/**
 	 * Collect any props value from mapping values.
 	 *
-	 * @param array  $options       The option array data.
-	 * @param string $current_value The current field value.
+	 * @param array<string, mixed> $options       The option array data.
+	 * @param string               $current_value The current field value.
 	 *
 	 * @return mixed
 	 */
 	public function collect_prop_mapping_value( array $options, string $current_value ) {
-		if ( ! empty( $options['mapping_values'] ) ) {
-			if ( is_callable( $options['mapping_values'] ) ) {
-				return $options['mapping_values']( $current_value );
-			}
+		$mapping_values = $options['mapping_values'] ?? null;
 
-			return ! empty( $options['mapping_values'][ $current_value ] ) ? $options['mapping_values'][ $current_value ] : '';
+		if ( is_callable( $mapping_values ) ) {
+			return $mapping_values( $current_value );
+		}
+
+		if ( is_array( $mapping_values ) && array() !== $mapping_values ) {
+			$mapped_value = $mapping_values[ $current_value ] ?? '';
+
+			return (bool) $mapped_value ? $mapped_value : '';
 		}
 
 		return $current_value;
@@ -885,7 +893,7 @@ class CSS_Generations extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $options Options of current width.
+	 * @param array<string, mixed> $options Options of current width.
 	 *
 	 * @return void
 	 */
@@ -924,7 +932,7 @@ class CSS_Generations extends Module_Utility {
 		$options = (array) apply_filters( 'divi_squad_generate_margin_padding_styles_options', $options );
 
 		// Generate qualified name.
-		$qualified_name    = $options['field'];
+		$qualified_name    = (string) $options['field'];
 		$last_modified_key = sprintf( '%1$s_last_edited', $qualified_name );
 
 		// Collect all values from props.
@@ -953,9 +961,9 @@ class CSS_Generations extends Module_Utility {
 			$options
 		);
 
-		$value_default           = $values['default'];
-		$value_last_edited       = $values['last_edited'];
-		$value_responsive_values = $values['responsive_values'];
+		$value_default           = (string) $values['default'];
+		$value_last_edited       = (string) $values['last_edited'];
+		$value_responsive_values = (array) $values['responsive_values'];
 
 		// Collect additional values.
 		// Get an instance of "ET_Builder_Module_Hover_Options".
@@ -971,21 +979,21 @@ class CSS_Generations extends Module_Utility {
 		 * @param string $qualified_name       The field name.
 		 * @param array  $options              The options.
 		 */
-		$margin_padding_hover = apply_filters(
+		$margin_padding_hover = (string) apply_filters(
 			'divi_squad_generate_margin_padding_styles_hover',
 			$margin_padding_hover,
 			$qualified_name,
 			$options
 		);
 
-		$css_property = ! empty( $options['css_property'] ) ? $options['css_property'] : $options['type'];
+		$css_property = '' !== (string) $options['css_property'] ? (string) $options['css_property'] : (string) $options['type'];
 		$css_prop     = divi_squad()->d4_module_helper->field_to_css_prop( $css_property );
 
 		// Set size for button icon or image with font-size and width style in responsive mode.
 		if ( et_pb_get_responsive_status( $value_last_edited ) && '' !== \implode( '', $value_responsive_values ) ) {
 			$collected_responsive_values = array_map(
 				function ( $current_value ) use ( $options ) {
-					return $this->collect_prop_mapping_value( $options, $current_value );
+					return $this->collect_prop_mapping_value( $options, (string) $current_value );
 				},
 				$value_responsive_values
 			);
@@ -1029,7 +1037,7 @@ class CSS_Generations extends Module_Utility {
 			 * @param string $value_default The original value.
 			 * @param array  $options       The options.
 			 */
-			$mapped_value = apply_filters(
+			$mapped_value = (string) apply_filters(
 				'divi_squad_generate_margin_padding_styles_mapped_value',
 				$mapped_value,
 				$value_default,
@@ -1039,7 +1047,7 @@ class CSS_Generations extends Module_Utility {
 			$declaration = et_builder_get_element_style_css(
 				esc_html( $mapped_value ),
 				$css_prop,
-				$options['important']
+				(bool) $options['important']
 			);
 
 			/**
@@ -1083,7 +1091,7 @@ class CSS_Generations extends Module_Utility {
 			 * @param string $margin_padding_hover The original hover value.
 			 * @param array  $options              The options.
 			 */
-			$mapped_hover_value = apply_filters(
+			$mapped_hover_value = (string) apply_filters(
 				'divi_squad_generate_margin_padding_styles_mapped_hover_value',
 				$mapped_hover_value,
 				$margin_padding_hover,
@@ -1093,7 +1101,7 @@ class CSS_Generations extends Module_Utility {
 			$hover_declaration = et_builder_get_element_style_css(
 				esc_html( $mapped_hover_value ),
 				$css_prop,
-				$options['important']
+				(bool) $options['important']
 			);
 
 			/**
@@ -1142,7 +1150,7 @@ class CSS_Generations extends Module_Utility {
 	/**
 	 * Process Text Clip styles.
 	 *
-	 * @param array $options The additional options for processing text clip features.
+	 * @param array<string, mixed> $options The additional options for processing text clip features.
 	 *
 	 * @return void
 	 */
@@ -1323,7 +1331,7 @@ class CSS_Generations extends Module_Utility {
 	/**
 	 * Process divider styles.
 	 *
-	 * @param array $options The additional options for processing divider features.
+	 * @param array<string, mixed> $options The additional options for processing divider features.
 	 *
 	 * @return void
 	 */

@@ -74,10 +74,11 @@ class Ninja_Forms extends Form_Styler {
 		 *
 		 * @since 3.2.0
 		 *
+		 * @param array<string, array<string, string|array<int|string, string|array<int, string>>>> $selectors The default array of CSS selectors from squad_get_css_selectors().
+		 * @param self                                                                              $module    The instance of the NinjaForms class.
+		 *
 		 * @see   squad_get_css_selectors() For the structure of the default selectors array.
 		 *
-		 * @param array<string, array<string, string>> $selectors The default array of CSS selectors from squad_get_css_selectors().
-		 * @param self                                 $module    The instance of the NinjaForms class.
 		 */
 		$this->squad_css_selectors = apply_filters( 'divi_squad_module_ninja_forms_css_selectors', $selectors, $this );
 
@@ -207,7 +208,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @return array<string, array<string, array<string, array>>> An array of advanced field configurations.
+	 * @return array<string, array<string, array<string, array<string, mixed>>>> An array of advanced field configurations.
 	 */
 	public function get_advanced_fields_config(): array {
 		$advanced_fields = parent::get_advanced_fields_config();
@@ -238,9 +239,9 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.4.7
 	 * @access public
 	 *
-	 * @param array<string, string> $attrs       List of unprocessed attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of unprocessed attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string The HTML output of the module.
 	 */
@@ -295,7 +296,7 @@ class Ninja_Forms extends Form_Styler {
 				}
 
 				// If no form is selected in the frontend, return empty string.
-				if ( ! DiviUtil::is_fb_enabled() && is_user_logged_in() ) {
+				if ( is_user_logged_in() ) {
 					$message = esc_html__( 'No form selected from the Ninja Forms settings.', 'squad-modules-for-divi' );
 
 					/**
@@ -357,7 +358,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.4.7
 	 * @access protected
 	 *
-	 * @return array<string, array<string, string>> An associative array of CSS selectors.
+	 * @return array<string, array<string, string|array<int|string, string|array<int, string>>>> An associative array of CSS selectors.
 	 */
 	protected function squad_get_css_selectors(): array {
 		return array(
@@ -467,7 +468,7 @@ class Ninja_Forms extends Form_Styler {
 	/**
 	 * Get removable fields for the module.
 	 *
-	 * @return array
+	 * @return array<int, string>
 	 */
 	protected function squad_get_removable_fields(): array {
 		return array(
@@ -498,7 +499,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.4.7
 	 * @access protected
 	 *
-	 * @return array Array of general fields.
+	 * @return array<string, array<string, mixed>> Array of general fields.
 	 */
 	protected function squad_get_general_fields(): array {
 		return array(
@@ -534,7 +535,7 @@ class Ninja_Forms extends Form_Styler {
 	 *
 	 * @since  3.2.0
 	 * @access protected
-	 * @return array Array of design fields.
+	 * @return array<string, mixed> Array of design fields.
 	 */
 	protected function squad_get_design_fields(): array {
 		$parent_fields             = parent::squad_get_design_fields();
@@ -555,7 +556,7 @@ class Ninja_Forms extends Form_Styler {
 	 *
 	 * @since  3.2.0
 	 * @access protected
-	 * @return array An array of form title field definitions.
+	 * @return array<string, mixed> An array of form title field definitions.
 	 */
 	protected function squad_get_form_title_fields(): array {
 		$background_fields     = $this->squad_add_background_field(
@@ -578,7 +579,7 @@ class Ninja_Forms extends Form_Styler {
 	 *
 	 * @since  3.2.0
 	 * @access protected
-	 * @return array An array of validation message field definitions.
+	 * @return array<string, mixed> An array of validation message field definitions.
 	 */
 	protected function squad_get_validation_message_fields(): array {
 		$background_fields     = $this->squad_add_background_field(
@@ -599,7 +600,7 @@ class Ninja_Forms extends Form_Styler {
 	 *
 	 * @since  1.0.0
 	 * @access protected
-	 * @return array Array of checkbox and radio fields.
+	 * @return array<string, mixed> Array of checkbox and radio fields.
 	 */
 	protected function squad_get_additional_design_fields(): array {
 		$parent_fields = parent::squad_get_additional_design_fields();
@@ -625,7 +626,7 @@ class Ninja_Forms extends Form_Styler {
 	 *
 	 * @since  1.4.7
 	 * @access protected
-	 * @return array Array of additional custom fields.
+	 * @return array<string, mixed> Array of additional custom fields.
 	 */
 	protected function squad_get_customizable_design_fields(): array {
 		return array(
@@ -683,7 +684,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Font field configurations
+	 * @return array<string, mixed> Font field configurations
 	 */
 	protected function squad_get_font_fields(): array {
 		$font_fields = array(
@@ -814,7 +815,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Border field configurations
+	 * @return array<string, mixed> Border field configurations
 	 */
 	protected function squad_get_border_fields(): array {
 		$border_fields = array(
@@ -984,7 +985,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Box shadow field configurations
+	 * @return array<string, mixed> Box shadow field configurations
 	 */
 	protected function squad_get_box_shadow_fields(): array {
 		$box_shadow_fields = array(
@@ -1078,7 +1079,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.4.7
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1112,7 +1113,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.0.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add wrapper transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add wrapper transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1134,7 +1135,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add validation message transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add validation message transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1154,9 +1155,9 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.4.7
 	 * @access protected
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
-	 * @return array Array of stylesheet selectors.
+	 * @return array<string, mixed> Array of stylesheet selectors.
 	 */
 	protected function squad_get_module_stylesheet_selectors( array $attrs ): array {
 		$options = parent::squad_get_module_stylesheet_selectors( $attrs );
@@ -1193,7 +1194,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An associative array of form elements and their corresponding CSS selectors.
+	 * @return array<string, string> An associative array of form elements and their corresponding CSS selectors.
 	 */
 	protected function squad_get_background_stylesheet_option_fields(): array {
 		$parent_fields = parent::squad_get_background_stylesheet_option_fields();
@@ -1210,7 +1211,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  1.4.7
 	 * @access protected
 	 *
-	 * @param array $options Array of options to add checkbox and radio options to.
+	 * @param array<string, mixed> $options Array of options to add checkbox and radio options to.
 	 *
 	 * @return void
 	 */
@@ -1275,7 +1276,7 @@ class Ninja_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An associative array of form elements and their corresponding CSS selectors.
+	 * @return array<string, string> An associative array of form elements and their corresponding CSS selectors.
 	 */
 	protected function squad_get_margin_padding_stylesheet_option_fields(): array {
 		$parent_fields = parent::squad_get_margin_padding_stylesheet_option_fields();
@@ -1335,7 +1336,7 @@ class Ninja_Forms extends Form_Styler {
 			divi_squad()->memory->sync_data();
 		}
 
-		$i18n = Ninja_Forms()->config( 'i18nFrontEnd' );
+		$i18n = \Ninja_Forms::config( 'i18nFrontEnd' );
 
 		/**
 		 * Filters the Ninja Forms i18n strings.
@@ -1348,12 +1349,20 @@ class Ninja_Forms extends Form_Styler {
 		$i18n = (array) apply_filters( 'divi_squad_module_ninja_forms_i18n', $i18n, $attrs );
 
 		ob_start();
-		Ninja_Forms()->display( $form_id_raw );
+		try {
+			Ninja_Forms()->display( $form_id_raw );
+		} catch ( Throwable $e ) {
+			ob_get_clean();
+			divi_squad()->log_error( $e, 'Error rendering Ninja Forms form' );
 
-		if ( count( $i18n ) > 0 ) {
+			return '';
+		}
+
+		$i18n_json = wp_json_encode( $i18n );
+		if ( count( $i18n ) > 0 && false !== $i18n_json ) {
 			printf(
 				'<script type="application/json" id="squad-nf-builder-js-i18n">%s</script>',
-				wp_json_encode( $i18n )
+				$i18n_json
 			);
 		}
 

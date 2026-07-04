@@ -25,11 +25,11 @@ trait Compatibility_Trait {
 	/**
 	 * Fix border transition issues.
 	 *
-	 * @param array  $fields   The defined fields list.
-	 * @param string $slug     The slug of the current module.
-	 * @param string $selector The css selector.
+	 * @param array<string, mixed> $fields   The defined fields list.
+	 * @param string               $slug     The slug of the current module.
+	 * @param string               $selector The css selector.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function fix_border_transition( array &$fields, string $slug, string $selector ): array {
 		$border_fields = array(
@@ -65,9 +65,9 @@ trait Compatibility_Trait {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array  $border_fields The border transition fields.
-		 * @param string $slug          The slug of the current module.
-		 * @param string $selector      The CSS selector to apply transitions to.
+		 * @param array<string, array<string, string>> $border_fields The border transition fields.
+		 * @param string                               $slug          The slug of the current module.
+		 * @param string                               $selector      The CSS selector to apply transitions to.
 		 */
 		$border_fields = apply_filters( 'divi_squad_border_transition_fields', $border_fields, $slug, $selector );
 
@@ -83,11 +83,11 @@ trait Compatibility_Trait {
 	 *
 	 * Take all the attributes from divi advanced 'fonts' field and set the transition with given selector.
 	 *
-	 * @param array  $fields   The defined fields list.
-	 * @param string $slug     The slug of the current module.
-	 * @param string $selector The css selector.
+	 * @param array<string, mixed> $fields   The defined fields list.
+	 * @param string               $slug     The slug of the current module.
+	 * @param string               $selector The css selector.
 	 *
-	 * @return array $fields
+	 * @return array<string, mixed> $fields
 	 */
 	public function fix_fonts_transition( array &$fields, string $slug, string $selector ): array {
 		$font_fields = array(
@@ -102,9 +102,9 @@ trait Compatibility_Trait {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array  $font_fields The font transition fields.
-		 * @param string $slug        The slug of the current module.
-		 * @param string $selector    The CSS selector to apply transitions to.
+		 * @param array<string, array<string, string>> $font_fields The font transition fields.
+		 * @param string                               $slug        The slug of the current module.
+		 * @param string                               $selector    The CSS selector to apply transitions to.
 		 */
 		$font_fields = apply_filters( 'divi_squad_font_transition_fields', $font_fields, $slug, $selector );
 
@@ -118,11 +118,11 @@ trait Compatibility_Trait {
 	/**
 	 * Fix box-shadow transition issues.
 	 *
-	 * @param array  $fields   The defined fields list.
-	 * @param string $slug     The slug of the current module.
-	 * @param string $selector The css selector.
+	 * @param array<string, mixed> $fields   The defined fields list.
+	 * @param string               $slug     The slug of the current module.
+	 * @param string               $selector The css selector.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function fix_box_shadow_transition( array &$fields, string $slug, string $selector ): array {
 		$shadow_fields = array(
@@ -138,9 +138,9 @@ trait Compatibility_Trait {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param array  $shadow_fields The box shadow transition fields.
-		 * @param string $slug          The slug of the current module.
-		 * @param string $selector      The CSS selector to apply transitions to.
+		 * @param array<string, array<string, string>> $shadow_fields The box shadow transition fields.
+		 * @param string                               $slug          The slug of the current module.
+		 * @param string                               $selector      The CSS selector to apply transitions to.
 		 */
 		$shadow_fields = apply_filters( 'divi_squad_box_shadow_transition_fields', $shadow_fields, $slug, $selector );
 

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Migration process to migrate image into Featured Image of Post Element modules.
  *

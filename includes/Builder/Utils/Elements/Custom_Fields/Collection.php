@@ -47,7 +47,7 @@ abstract class Collection implements Collection_Interface {
 	/**
 	 * Prefixes that should be excluded from custom fields.
 	 *
-	 * @var string[]
+	 * @var array<string, array<string>>
 	 */
 	protected array $excluded_prefixes = array();
 
@@ -112,9 +112,9 @@ abstract class Collection implements Collection_Interface {
 	/**
 	 * Get the value of a selected post meta key for a specific post, with additional options.
 	 *
-	 * @param int    $post_id  The ID of the post.
-	 * @param string $meta_key The meta key to retrieve.
-	 * @param array  $options  Additional options for retrieving the meta value.
+	 * @param int                  $post_id  The ID of the post.
+	 * @param string               $meta_key The meta key to retrieve.
+	 * @param array<string, mixed> $options  Additional options for retrieving the meta value.
 	 *
 	 * @return mixed The meta value if successful, default value if not found.
 	 */
@@ -134,7 +134,7 @@ abstract class Collection implements Collection_Interface {
 			$value = call_user_func( $options['sanitize_callback'], $value );
 		}
 
-		if ( $options['filter'] ) {
+		if ( (bool) $options['filter'] ) {
 			/**
 			 * Filter the field value.
 			 *
@@ -184,7 +184,7 @@ abstract class Collection implements Collection_Interface {
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( string $field_key ): bool {
-		if ( empty( $field_key ) ) {
+		if ( '' === $field_key ) {
 			return false;
 		}
 

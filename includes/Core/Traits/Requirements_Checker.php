@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Requirements Checker trait for verifying plugin dependencies.
  *

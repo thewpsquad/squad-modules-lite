@@ -128,9 +128,14 @@ class Social_Share extends Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
-			'share_source'   => divi_squad()->d4_module_helper->add_select_box_field(
+			'share_source'    => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Share Source', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Share the current page or a custom URL.', 'squad-modules-for-divi' ),
@@ -143,7 +148,7 @@ class Social_Share extends Module {
 					'toggle_slug' => 'share_target',
 				)
 			),
-			'custom_url'     => array(
+			'custom_url'      => array(
 				'label'       => esc_html__( 'Custom URL', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'The URL to share. Falls back to the current page when empty.', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -152,7 +157,7 @@ class Social_Share extends Module {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'share_target',
 			),
-			'custom_title'   => array(
+			'custom_title'    => array(
 				'label'       => esc_html__( 'Custom Title', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Title/text passed to networks that support it.', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -161,7 +166,7 @@ class Social_Share extends Module {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'share_target',
 			),
-			'custom_desc'    => array(
+			'custom_desc'     => array(
 				'label'       => esc_html__( 'Custom Description', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Description passed to networks that support it.', 'squad-modules-for-divi' ),
 				'type'        => 'textarea',
@@ -170,7 +175,7 @@ class Social_Share extends Module {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'share_target',
 			),
-			'header_show'    => divi_squad()->d4_module_helper->add_yes_no_field(
+			'header_show'     => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Header', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Show a title/subtitle above the buttons.', 'squad-modules-for-divi' ),
@@ -179,7 +184,7 @@ class Social_Share extends Module {
 					'toggle_slug' => 'header',
 				)
 			),
-			'header_title'   => array(
+			'header_title'    => array(
 				'label'       => esc_html__( 'Header Title', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'The header title text.', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -197,7 +202,7 @@ class Social_Share extends Module {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'header',
 			),
-			'button_style'   => divi_squad()->d4_module_helper->add_select_box_field(
+			'button_style'    => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Button Style', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Show icon only, or icon plus label.', 'squad-modules-for-divi' ),
@@ -210,7 +215,7 @@ class Social_Share extends Module {
 					'toggle_slug' => 'button',
 				)
 			),
-			'enable_popup'   => divi_squad()->d4_module_helper->add_yes_no_field(
+			'enable_popup'    => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Open in Popup', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Open the share dialog in a centered popup window.', 'squad-modules-for-divi' ),
@@ -220,7 +225,7 @@ class Social_Share extends Module {
 					'toggle_slug'      => 'button',
 				)
 			),
-			'orientation'    => divi_squad()->d4_module_helper->add_select_box_field(
+			'orientation'     => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Orientation', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Lay buttons out horizontally or vertically.', 'squad-modules-for-divi' ),
@@ -233,7 +238,7 @@ class Social_Share extends Module {
 					'toggle_slug' => 'layout',
 				)
 			),
-			'columns'        => divi_squad()->d4_module_helper->add_range_field(
+			'columns'         => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Columns', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Number of columns when buttons wrap.', 'squad-modules-for-divi' ),
@@ -245,7 +250,7 @@ class Social_Share extends Module {
 					'toggle_slug'    => 'layout',
 				)
 			),
-			'item_gap'       => divi_squad()->d4_module_helper->add_range_field(
+			'item_gap'        => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Gap Between Buttons', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Spacing between buttons.', 'squad-modules-for-divi' ),
@@ -256,7 +261,7 @@ class Social_Share extends Module {
 					'toggle_slug'    => 'layout',
 				)
 			),
-			'button_shape'   => divi_squad()->d4_module_helper->add_select_box_field(
+			'button_shape'    => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Button Shape', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Corner style of each button.', 'squad-modules-for-divi' ),
@@ -270,7 +275,7 @@ class Social_Share extends Module {
 					'toggle_slug' => 'button_box',
 				)
 			),
-			'hover_effect'   => divi_squad()->d4_module_helper->add_select_box_field(
+			'hover_effect'    => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Hover Effect', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Animation on hover.', 'squad-modules-for-divi' ),
@@ -285,7 +290,7 @@ class Social_Share extends Module {
 					'toggle_slug' => 'button_box',
 				)
 			),
-			'icon_size'      => divi_squad()->d4_module_helper->add_range_field(
+			'icon_size'       => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Icon Size', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Size of the network icon.', 'squad-modules-for-divi' ),
@@ -296,7 +301,7 @@ class Social_Share extends Module {
 					'toggle_slug'    => 'button_box',
 				)
 			),
-			'icon_color'     => array(
+			'icon_color'      => array(
 				'label'       => esc_html__( 'Icon Color', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Color of the icon/label.', 'squad-modules-for-divi' ),
 				'type'        => 'color-alpha',
@@ -304,7 +309,7 @@ class Social_Share extends Module {
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'button_box',
 			),
-			'button_bg'      => array(
+			'button_bg'       => array(
 				'label'       => esc_html__( 'Button Background', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Override the per-network brand background.', 'squad-modules-for-divi' ),
 				'type'        => 'color-alpha',
@@ -312,7 +317,7 @@ class Social_Share extends Module {
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'button_box',
 			),
-			'button_padding' => divi_squad()->d4_module_helper->add_range_field(
+			'button_padding'  => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Button Padding', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Inner padding of each button.', 'squad-modules-for-divi' ),
@@ -326,6 +331,15 @@ class Social_Share extends Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @param array<string, mixed> $attrs       List of unprocessed attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$enable_popup = 'off' === $this->prop( 'enable_popup', 'on' ) ? 'off' : 'on';
 		$style        = 'icon_text' === $this->prop( 'button_style', 'icon' ) ? 'icon_text' : 'icon';
@@ -493,49 +507,5 @@ class Social_Share extends Module {
 				'declaration' => sprintf( 'grid-template-columns: repeat(%d, minmax(0, max-content));', $columns ),
 			)
 		);
-	}
-
-	/**
-	 * Sanitize a CSS length value (e.g. 10px, 1.5em, 50%).
-	 *
-	 * Rejects anything that is not a plain number followed by a recognised unit
-	 * so that user-supplied range-field values cannot inject arbitrary CSS.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
-
-	/**
-	 * Sanitize a CSS background/color value (hex, rgba, gradient, etc.).
-	 *
-	 * Strips characters that could break out of the CSS declaration context
-	 * (`{ } ; < > \ " '`), so a user-supplied color-alpha field cannot inject
-	 * arbitrary CSS. Allows rgba(), gradients, and plain hex values.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

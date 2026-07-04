@@ -148,10 +148,10 @@ final class Highlight_Helper {
 	 * @return string
 	 */
 	public static function build_shell( array $config ): string {
-		$tag         = self::is_valid_tag( $config['heading_tag'] ?? 'h2' ) ? $config['heading_tag'] : 'h2';
-		$type        = self::is_valid_type( $config['type'] ?? 'underline' ) ? $config['type'] : 'underline';
-		$animate     = ( 'on' === ( $config['animate'] ?? 'on' ) );
-		$loop        = $animate && ( 'on' === ( $config['anim_loop'] ?? 'off' ) );
+		$tag          = self::is_valid_tag( $config['heading_tag'] ?? 'h2' ) ? $config['heading_tag'] : 'h2';
+		$type         = self::is_valid_type( $config['type'] ?? 'underline' ) ? $config['type'] : 'underline';
+		$animate      = ( 'on' === ( $config['animate'] ?? 'on' ) );
+		$loop         = $animate && ( 'on' === ( $config['anim_loop'] ?? 'off' ) );
 		$use_gradient = ( 'on' === ( $config['use_gradient'] ?? 'off' ) );
 
 		// Build modifier classes on the inner heading element.
@@ -190,10 +190,10 @@ final class Highlight_Helper {
 			$stroke_attr = 'currentColor';
 
 			if ( $use_gradient ) {
-				$uid      = str_replace( '_', '-', sanitize_key( wp_unique_id( 'squad-hl-grad-' ) ) );
-				$angle_x2 = round( cos( deg2rad( $gradient_angle ) ), 4 );
-				$angle_y2 = round( sin( deg2rad( $gradient_angle ) ), 4 );
-				$defs_html = sprintf(
+				$uid         = str_replace( '_', '-', sanitize_key( wp_unique_id( 'squad-hl-grad-' ) ) );
+				$angle_x2    = round( cos( deg2rad( $gradient_angle ) ), 4 );
+				$angle_y2    = round( sin( deg2rad( $gradient_angle ) ), 4 );
+				$defs_html   = sprintf(
 					'<defs><linearGradient id="%1$s" x1="0" y1="0" x2="%2$s" y2="%3$s" gradientUnits="userSpaceOnUse">'
 					. '<stop offset="0%%" stop-color="%4$s"/>'
 					. '<stop offset="100%%" stop-color="%5$s"/>'
@@ -260,6 +260,7 @@ final class Highlight_Helper {
 		if ( '' === $value ) {
 			return '';
 		}
+
 		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

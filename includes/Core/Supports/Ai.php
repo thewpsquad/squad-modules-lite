@@ -24,7 +24,7 @@ use Throwable;
  * Registers and manages AI capabilities for the Squad Modules plugin
  * following the official WordPress AI Abilities API guidelines.
  *
- * @see https://make.wordpress.org/ai/2025/07/17/abilities-api/
+ * @see     https://make.wordpress.org/ai/2025/07/17/abilities-api/
  *
  * @since   3.5.0
  * @package DiviSquad\Core\Supports

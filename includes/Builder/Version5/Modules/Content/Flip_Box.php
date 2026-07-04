@@ -25,6 +25,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -66,6 +67,7 @@ class Flip_Box extends Module {
 		$classnames_instance = $args['classnamesInstance'];
 		$attrs               = $args['attrs'];
 
+		$classnames_instance->add( 'disq_flip_box' );
 		$classnames_instance->add(
 			ElementClassnames::classnames(
 				array(
@@ -132,33 +134,38 @@ class Flip_Box extends Module {
 							'styleProps' => array(
 								'advancedStyles' => array(
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .flip-box",
 											'attr'                => $attrs['flip']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
-												$value = $params['attrValue'] ?? array();
+												$value  = $params['attrValue'] ?? array();
+												$height = self::sanitize_css_length( (string) ( $value['customHeight'] ?? '' ) );
 
-												return ( 'on' === ( $value['customHeightEnable'] ?? '' ) && ! empty( $value['customHeight'] ) )
-													? 'height: ' . $value['customHeight'] . ';'
+												return ( 'on' === ( $value['customHeightEnable'] ?? '' ) && '' !== $height )
+													? "height:{$height};"
 													: '';
 											},
 										),
 									),
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .flip-box .flip-box-slides .flip-slide",
 											'attr'                => $attrs['flip']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
 												$value        = $params['attrValue'] ?? array();
 												$declarations = '';
 
-												if ( ! empty( $value['horizontalAlignment'] ) ) {
-													$declarations .= 'justify-content: ' . $value['horizontalAlignment'] . ';';
+												$allowed_h = array( 'flex-start', 'center', 'flex-end', 'space-between', 'space-around' );
+												$h_align   = (string) ( $value['horizontalAlignment'] ?? '' );
+												if ( '' !== $h_align && in_array( $h_align, $allowed_h, true ) ) {
+													$declarations .= 'justify-content: ' . $h_align . ';';
 												}
-												if ( ! empty( $value['verticalAlignment'] ) ) {
-													$declarations .= 'align-items: ' . $value['verticalAlignment'] . ';';
+												$allowed_v = array( 'flex-start', 'center', 'flex-end', 'stretch' );
+												$v_align   = (string) ( $value['verticalAlignment'] ?? '' );
+												if ( '' !== $v_align && in_array( $v_align, $allowed_v, true ) ) {
+													$declarations .= 'align-items: ' . $v_align . ';';
 												}
 
 												return $declarations;
@@ -166,8 +173,8 @@ class Flip_Box extends Module {
 										),
 									),
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .flip-box.flip-3d-content-effect .flip-slide .flip-slide-inner",
 											'attr'                => $attrs['flip']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
@@ -177,8 +184,10 @@ class Flip_Box extends Module {
 													return '';
 												}
 
-												$translate_z = $value['translateZ'] ?? '50px';
-												$scale       = $value['scale'] ?? '0.9';
+												$translate_z = preg_replace( '/[^0-9.]/', '', (string) ( $value['translateZ'] ?? '50' ) );
+												$scale       = preg_replace( '/[^0-9.]/', '', (string) ( $value['scale'] ?? '0.9' ) );
+												$translate_z = '' !== $translate_z ? $translate_z . 'px' : '50px';
+												$scale       = '' !== $scale ? $scale : '0.9';
 
 												return "transform: translateZ($translate_z) scale($scale);";
 											},
@@ -215,6 +224,10 @@ class Flip_Box extends Module {
 		try {
 			$flip_html = self::render_flip_box( $attrs );
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -227,7 +240,7 @@ class Flip_Box extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $flip_html,
+					'children'            => $style_components . $flip_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -294,19 +307,30 @@ class Flip_Box extends Module {
 		$icon_type = $content['iconType'] ?? 'none';
 		$icon_html = '';
 
-		if ( 'image' === $icon_type && '' !== ( $content['image'] ?? '' ) ) {
+		$image_raw = $content['image'] ?? '';
+		$image_src = self::resolve_upload_url( $image_raw );
+		$image_alt = is_array( $image_raw ) ? ( $image_raw['alt'] ?? $image_raw['titleText'] ?? '' ) : ( $content['imageAlt'] ?? '' );
+
+		if ( 'image' === $icon_type && '' !== $image_src ) {
 			$icon_html = sprintf(
-				'<div class="squad-icon-wrapper"><img src="%1$s" alt="%2$s" /></div>',
-				esc_url( $content['image'] ),
-				esc_attr( $content['imageAlt'] ?? '' )
+				'<div class="squad-icon-wrapper"><div class="slide-icon-element"><img src="%1$s" alt="%2$s" class="slide-icon-image slide-%3$s-icon-image et_pb_image_wrap" /></div></div>',
+				esc_url( $image_src ),
+				esc_attr( $image_alt ),
+				esc_attr( $side )
 			);
 		} elseif ( 'text' === $icon_type && '' !== ( $content['iconText'] ?? '' ) ) {
 			$icon_html = sprintf(
-				'<div class="squad-icon-wrapper"><span class="slide-icon-text">%1$s</span></div>',
+				'<div class="squad-icon-wrapper"><div class="slide-icon-element"><span class="slide-icon-text">%1$s</span></div></div>',
 				wp_kses_post( $content['iconText'] )
 			);
 		} elseif ( 'icon' === $icon_type && '' !== ( $content['icon'] ?? '' ) ) {
-			$icon_html = '<div class="squad-icon-wrapper"><span class="et-pb-icon"></span></div>';
+			$icon_char = self::resolve_icon( $content['icon'] );
+			if ( '' !== $icon_char ) {
+				$icon_html = sprintf(
+					'<div class="squad-icon-wrapper"><div class="slide-icon-element"><span class="et-pb-icon slide-icon">%1$s</span></div></div>',
+					esc_html( $icon_char )
+				);
+			}
 		}
 
 		$elements = '';
@@ -320,7 +344,7 @@ class Flip_Box extends Module {
 		}
 		if ( '' !== ( $content['subTitle'] ?? '' ) ) {
 			$elements .= sprintf(
-				'<div class="slide-element slide-%1$s-element slide-title-wrapper"><div class="slide-sub-title-text">%2$s</div></div>',
+				'<div class="slide-element slide-%1$s-element slide-subtitle-wrapper"><div class="slide-sub-title-text">%2$s</div></div>',
 				esc_attr( $side ),
 				wp_kses_post( $content['subTitle'] )
 			);
@@ -333,11 +357,18 @@ class Flip_Box extends Module {
 			);
 		}
 		if ( '' !== ( $button['text'] ?? '' ) ) {
-			$elements .= sprintf(
-				'<div class="slide-element slide-%1$s-element slide-button-wrapper"><a class="squad-button" href="%2$s">%3$s</a></div>',
+			$btn_icon_char = self::resolve_icon( $button['icon'] ?? array() );
+			$btn_icon_html = '' !== $btn_icon_char
+				? sprintf( '<span class="et-pb-icon squad-button-icon">%s</span>', esc_html( $btn_icon_char ) )
+				: '';
+			$target        = 'on' === ( $button['urlTarget'] ?? '' ) ? ' target="_blank" rel="noopener noreferrer"' : '';
+			$elements     .= sprintf(
+				'<div class="slide-element slide-%1$s-element slide-button-wrapper"><a class="squad-button" href="%2$s"%5$s>%3$s%4$s</a></div>',
 				esc_attr( $side ),
 				esc_url( $button['url'] ?? '#' ),
-				wp_kses_post( $button['text'] )
+				wp_kses_post( $button['text'] ),
+				$btn_icon_html,
+				$target
 			);
 		}
 
@@ -348,4 +379,5 @@ class Flip_Box extends Module {
 			$elements
 		);
 	}
+
 }

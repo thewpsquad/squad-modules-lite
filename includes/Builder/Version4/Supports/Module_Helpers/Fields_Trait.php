@@ -58,7 +58,7 @@ trait Fields_Trait {
 	 * @param string $field_label The heading toggle label name.
 	 * @param int    $priority    The toggle priority, default is 55.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function get_heading_toggles( string $field_label, int $priority = 55 ): array {
 		$toggles = array(
@@ -165,9 +165,9 @@ trait Fields_Trait {
 	/**
 	 * Add text clip settings.
 	 *
-	 * @param array $options The options for text clip fields.
+	 * @param array<string, mixed> $options The options for text clip fields.
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_text_clip_fields( array $options = array() ): array {
 		$fields   = array();
@@ -291,9 +291,9 @@ trait Fields_Trait {
 	/**
 	 * Add Z Index fields for element.
 	 *
-	 * @param array $options The options for z index fields.
+	 * @param array<string, mixed> $options The options for z index fields.
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function add_z_index_field( array $options = array() ): array {
 		$defaults = array(
@@ -323,13 +323,13 @@ trait Fields_Trait {
 		$config = apply_filters( 'divi_squad_z_index_config', $config, $options );
 
 		// Set label.
-		$label = empty( $config['label'] ) ? __( 'Z Index', 'squad-modules-for-divi' ) : $config['label'];
-		if ( ! empty( $config['label_prefix'] ) ) {
+		$label = '' === $config['label'] ? __( 'Z Index', 'squad-modules-for-divi' ) : $config['label'];
+		if ( '' !== $config['label_prefix'] ) {
 			$label = $config['label_prefix'] . ' ' . $label;
 		}
 
 		// Set description.
-		$description = empty( $config['description'] )
+		$description = '' === $config['description']
 			? __( 'Here you can control element position on the z axis. Elements with higher z-index values will sit atop elements with lower z-index values.', 'squad-modules-for-divi' )
 			: $config['description'];
 
@@ -348,26 +348,26 @@ trait Fields_Trait {
 				'sticky'         => true,
 				'hover'          => 'tabs',
 				'tab_slug'       => $config['tab_slug'],
-				'toggle_slug'    => empty( $config['toggle_slug'] ) ? 'z_index' : $config['toggle_slug'],
+				'toggle_slug'    => '' === $config['toggle_slug'] ? 'z_index' : $config['toggle_slug'],
 			),
 		);
 
 		// Sub-toggle.
-		if ( ! empty( $config['sub_toggle'] ) ) {
+		if ( null !== $config['sub_toggle'] && '' !== $config['sub_toggle'] ) {
 			$field[ $config['attr_name'] ]['sub_toggle'] = $config['sub_toggle'];
 		}
 
 		// Conditional logic.
-		if ( ! empty( $config['depends_show_if'] ) ) {
+		if ( '' !== $config['depends_show_if'] ) {
 			$field[ $config['attr_name'] ]['depends_show_if'] = $config['depends_show_if'];
 		}
-		if ( ! empty( $config['depends_show_if_not'] ) ) {
+		if ( '' !== $config['depends_show_if_not'] ) {
 			$field[ $config['attr_name'] ]['depends_show_if_not'] = $config['depends_show_if_not'];
 		}
-		if ( ! empty( $config['show_if'] ) ) {
+		if ( '' !== $config['show_if'] ) {
 			$field[ $config['attr_name'] ]['show_if'] = $config['show_if'];
 		}
-		if ( ! empty( $config['show_if_not'] ) ) {
+		if ( '' !== $config['show_if_not'] ) {
 			$field[ $config['attr_name'] ]['show_if_not'] = $config['show_if_not'];
 		}
 
@@ -385,7 +385,7 @@ trait Fields_Trait {
 	/**
 	 *  Get general fields.
 	 *
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_general_fields(): array {
 		$general_fields = array(

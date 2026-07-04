@@ -14,12 +14,11 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Animated_Heading\Heading_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;
 use function esc_html__;
 use function in_array;
-use function preg_replace;
 use function sprintf;
 use function trim;
 use function wp_enqueue_script;
@@ -106,6 +105,13 @@ class Animated_Heading extends Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			// ── Content tab / Text group ──────────────────────────────────────
@@ -255,6 +261,17 @@ class Animated_Heading extends Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		wp_enqueue_script( 'squad-module-animated-heading' );
 
@@ -328,20 +345,4 @@ class Animated_Heading extends Module {
 		}
 	}
 
-	/**
-	 * Sanitize a CSS color/background value. NEVER use esc_attr on a CSS value.
-	 *
-	 * @since 4.1.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
-	}
 }

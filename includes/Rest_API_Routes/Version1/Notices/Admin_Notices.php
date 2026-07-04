@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * DiviSquad Admin Notice REST API Integration
  *

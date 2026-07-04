@@ -565,9 +565,9 @@ class Before_After_Image_Slider extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array<string, string> $attrs       List of attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */

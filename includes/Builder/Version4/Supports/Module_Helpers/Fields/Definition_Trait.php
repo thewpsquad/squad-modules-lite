@@ -29,14 +29,13 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @see   Divi/includes/builder/module/woocommerce/CartProducts.php:217
-	 * @see   Divi/includes/builder/module/Blurb.php:144
-	 *
-	 * @see   Divi/includes/builder/class-et-builder-element.php:7607]
-	 *
 	 * @param array<string, mixed> $options The options for the filter field.
 	 *
-	 * @return array The filter configuration array.
+	 * @return array<string, mixed> The filter configuration array.
+	 * @see   Divi/includes/builder/class-et-builder-element.php:7607]
+	 *
+	 * @see   Divi/includes/builder/module/woocommerce/CartProducts.php:217
+	 * @see   Divi/includes/builder/module/Blurb.php:144
 	 */
 	public function add_filters_field( array $options ): array {
 		$defaults = array(
@@ -79,10 +78,10 @@ trait Definition_Trait {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param string $label The label for the border field.
-	 * @param array  $args  Optional. An array of arguments to customize the field.
+	 * @param string               $label The label for the border field.
+	 * @param array<string, mixed> $args  Optional. An array of arguments to customize the field.
 	 *
-	 * @return array Configured border field array for use in Divi modules.
+	 * @return array<string, mixed> Configured border field array for use in Divi modules.
 	 */
 	public function add_border_field( string $label, array $args = array() ): array {
 		$defaults = array(
@@ -144,10 +143,10 @@ trait Definition_Trait {
 	 * @since 1.0.0
 	 * @since 3.2.0 Improved flexibility and alignment with Divi standards.
 	 *
-	 * @param string $label The label for the box shadow field.
-	 * @param array  $args  Optional. An array of arguments to customize the field.
+	 * @param string               $label The label for the box shadow field.
+	 * @param array<string, mixed> $args  Optional. An array of arguments to customize the field.
 	 *
-	 * @return array Configured box shadow field array for use in Divi modules.
+	 * @return array<string, mixed> Configured box shadow field array for use in Divi modules.
 	 */
 	public function add_box_shadow_field( string $label, array $args = array() ): array {
 		$defaults = array(
@@ -215,10 +214,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The yes/no field configuration array.
+	 * @return array<string, mixed> The yes/no field configuration array.
 	 */
 	public function add_yes_no_field( string $label, array $properties = array() ): array {
 		$defaults = array(
@@ -261,10 +260,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The color field configuration array.
+	 * @return array<string, mixed> The color field configuration array.
 	 */
 	public function add_color_field( string $label, array $properties = array() ): array {
 		$defaults = array(
@@ -307,10 +306,10 @@ trait Definition_Trait {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The upload field configuration array.
+	 * @return array<string, mixed> The upload field configuration array.
 	 */
 	public function add_media_upload_field( string $label, array $properties = array() ): array {
 		$defaults = array(
@@ -353,10 +352,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The select box field configuration array.
+	 * @return array<string, mixed> The select box field configuration array.
 	 */
 	public function add_select_box_field( string $label, array $properties = array() ): array {
 		$defaults = array(
@@ -395,10 +394,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The placement field configuration array.
+	 * @return array<string, mixed> The placement field configuration array.
 	 */
 	public function add_placement_field( string $label, array $properties = array() ): array {
 		$child_image_icon_placement = array(
@@ -450,10 +449,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The alignment field configuration array.
+	 * @return array<string, mixed> The alignment field configuration array.
 	 */
 	public function add_alignment_field( string $label, array $properties = array() ): array {
 		$defaults = array(
@@ -498,9 +497,9 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $options The options for transition fields.
+	 * @param array<string, mixed> $options The options for transition fields.
 	 *
-	 * @return array The transition field configuration array.
+	 * @return array<string, array<string, mixed>> The transition field configuration array.
 	 */
 	public function add_transition_fields( array $options = array() ): array {
 		$defaults = array(
@@ -650,11 +649,11 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
-	 * @param array  $conditions Additional conditions for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
+	 * @param array<string, mixed> $conditions Additional conditions for the field.
 	 *
-	 * @return array The range field configuration array.
+	 * @return array<string, mixed> The range field configuration array.
 	 */
 	public function add_range_field( string $label, array $properties = array(), array $conditions = array() ): array {
 		$defaults = array(
@@ -693,7 +692,7 @@ trait Definition_Trait {
 		$properties = wp_parse_args( $properties, $defaults );
 
 		// Merge in any additional conditions.
-		if ( ! empty( $conditions ) ) {
+		if ( count( $conditions ) > 0 ) {
 			foreach ( $conditions as $key => $value ) {
 				$properties[ $key ] = $value;
 			}
@@ -716,10 +715,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The font field configuration array.
+	 * @return array<string, mixed> The font field configuration array.
 	 */
 	public function add_font_field( string $label, array $properties = array() ): array {
 		$defaults = array(
@@ -802,17 +801,17 @@ trait Definition_Trait {
 		);
 
 		// Add conditional sub_toggle if provided.
-		if ( ! empty( $properties['sub_toggle'] ) ) {
+		if ( null !== $properties['sub_toggle'] && '' !== $properties['sub_toggle'] ) {
 			$field['sub_toggle'] = $properties['sub_toggle'];
 		}
 
 		// Add conditional show_if if provided.
-		if ( ! empty( $properties['show_if'] ) ) {
+		if ( null !== $properties['show_if'] && array() !== $properties['show_if'] ) {
 			$field['show_if'] = $properties['show_if'];
 		}
 
 		// Add conditional show_if_not if provided.
-		if ( ! empty( $properties['show_if_not'] ) ) {
+		if ( null !== $properties['show_if_not'] && array() !== $properties['show_if_not'] ) {
 			$field['show_if_not'] = $properties['show_if_not'];
 		}
 
@@ -833,10 +832,10 @@ trait Definition_Trait {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label      The field label.
-	 * @param array  $properties Additional properties for the field.
+	 * @param string               $label      The field label.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The margin and padding field configuration array.
+	 * @return array<string, mixed> The margin and padding field configuration array.
 	 */
 	public function add_margin_padding_field( string $label, array $properties = array() ): array {
 		$defaults = array(

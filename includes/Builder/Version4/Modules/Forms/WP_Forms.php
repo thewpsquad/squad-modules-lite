@@ -79,10 +79,11 @@ class WP_Forms extends Form_Styler {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @see   squad_get_css_selectors() For the structure of the default selectors array.
-		 *
 		 * @param array<string, array<string, string>> $selectors The default CSS selectors.
 		 * @param self                                 $module    The current module instance.
+		 *
+		 * @see   squad_get_css_selectors() For the structure of the default selectors array.
+		 *
 		 */
 		$this->squad_css_selectors = apply_filters( 'divi_squad_module_wpforms_css_selectors', $selectors, $this );
 
@@ -152,7 +153,7 @@ class WP_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @return array<string, array<string, array<string, array>>> Advanced fields configuration
+	 * @return array<string, mixed> Advanced fields configuration
 	 */
 	public function get_advanced_fields_config(): array {
 		$advanced_fields = parent::get_advanced_fields_config();
@@ -183,9 +184,9 @@ class WP_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @param array<string, string> $attrs       List of unprocessed attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of unprocessed attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string Module's rendered output
 	 * @throws Exception If there's an error during rendering.
@@ -242,7 +243,7 @@ class WP_Forms extends Form_Styler {
 				}
 
 				// If no form is selected in the frontend, return empty string.
-				if ( ! DiviUtil::is_fb_enabled() && is_user_logged_in() ) {
+				if ( is_user_logged_in() ) {
 					$message = esc_html__( 'No form selected from the WP Forms settings.', 'squad-modules-for-divi' );
 
 					/**
@@ -379,7 +380,7 @@ class WP_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access protected
 	 *
-	 * @return array Array of general fields.
+	 * @return array<string, mixed> Array of general fields.
 	 */
 	protected function squad_get_general_fields(): array {
 		$fields = array(
@@ -426,7 +427,7 @@ class WP_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access protected
 	 *
-	 * @return array Array of removable fields.
+	 * @return array<int, string> Array of removable fields.
 	 */
 	protected function squad_get_removable_fields(): array {
 		return array(
@@ -456,7 +457,7 @@ class WP_Forms extends Form_Styler {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @return array Font field configurations
+	 * @return array<string, mixed> Font field configurations
 	 */
 	protected function squad_get_font_fields(): array {
 		$font_fields = array(
@@ -544,7 +545,7 @@ class WP_Forms extends Form_Styler {
 	 *
 	 * @sinc 3.2.0
 	 *
-	 * @return array Border field configurations
+	 * @return array<string, mixed> Border field configurations
 	 */
 	protected function squad_get_border_fields(): array {
 		$border_fields = array(
@@ -655,7 +656,7 @@ class WP_Forms extends Form_Styler {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @return array Box shadow field configurations
+	 * @return array<string, mixed> Box shadow field configurations
 	 */
 	protected function squad_get_box_shadow_fields(): array {
 		$box_shadow_fields = array(
@@ -731,9 +732,9 @@ class WP_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access protected
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
-	 * @return array Array of stylesheet selectors.
+	 * @return array<string, mixed> Array of stylesheet selectors.
 	 */
 	protected function squad_get_module_stylesheet_selectors( array $attrs ): array {
 		$options = parent::squad_get_module_stylesheet_selectors( $attrs );
@@ -782,7 +783,7 @@ class WP_Forms extends Form_Styler {
 	 * @access public
 	 * @static
 	 *
-	 * @param array $attrs List of module attributes.
+	 * @param array<string, mixed> $attrs List of module attributes.
 	 *
 	 * @return string The HTML of the selected form or empty string if no form selected.
 	 */

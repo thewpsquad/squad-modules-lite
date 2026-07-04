@@ -58,8 +58,8 @@ class Rate_Limiter {
 	 * Keyed per blog so switch_to_blog() within a request never returns a stale
 	 * key for the wrong site.
 	 *
-	 * @var array<int, string>
 	 * @since 3.4.0
+	 * @var array<int, string>
 	 */
 	private static array $rate_key_cache = array();
 
@@ -116,14 +116,15 @@ class Rate_Limiter {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param bool $can_send     Whether a report can be sent. Default based on count vs. max.
+			 * @param bool $can_send      Whether a report can be sent. Default based on count vs. max.
 			 * @param int  $current_count Current number of reports in the window.
-			 * @param int  $max_reports  Maximum allowed reports per window.
+			 * @param int  $max_reports   Maximum allowed reports per window.
 			 */
 			return apply_filters( 'divi_squad_rate_limit_can_send', $can_send, $current_count, $max_reports );
 
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Rate limit check failed', false );
+
 			return true; // Allow on error for safety.
 		}
 	}
@@ -165,9 +166,9 @@ class Rate_Limiter {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param int $new_count     The new count after increment.
+			 * @param int $new_count      The new count after increment.
 			 * @param int $previous_count The previous count before increment.
-			 * @param int $window        The current window duration in seconds.
+			 * @param int $window         The current window duration in seconds.
 			 */
 			do_action( 'divi_squad_rate_limit_incremented', $new_count, $current, $window );
 
@@ -197,7 +198,8 @@ class Rate_Limiter {
 		 *
 		 * @param int $count Retrieved transient value, default 0 if unset.
 		 */
-		$current_count = $count ?: 0;
+		$current_count = 0 !== $count ? $count : 0;
+
 		return (int) apply_filters( 'divi_squad_rate_limit_current_count', $current_count );
 	}
 
@@ -263,6 +265,7 @@ class Rate_Limiter {
 			return $success;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Rate limit reset failed', false );
+
 			return false;
 		}
 	}
@@ -328,8 +331,8 @@ class Rate_Limiter {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param int    $expires    Retrieved expiration timestamp.
-		 * @param string $rate_key   The transient key.
+		 * @param int    $expires  Retrieved expiration timestamp.
+		 * @param string $rate_key The transient key.
 		 */
 		return apply_filters( 'divi_squad_rate_limit_expires', $expires, $key );
 	}

@@ -121,7 +121,7 @@ class Post_Reading_Time extends Module {
 						'position' => 'outer',
 					),
 					'tab_slug'          => 'advanced',
-					'toggle_slug'       => 'title_element',
+					'toggle_slug'       => 'time_element',
 				),
 			),
 			'margin_padding' => divi_squad()->d4_module_helper->selectors_margin_padding( $this->main_css_element ),
@@ -394,9 +394,9 @@ class Post_Reading_Time extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array<string, string> $attrs       List of attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -485,7 +485,8 @@ class Post_Reading_Time extends Module {
 			}
 		}
 
-		$post_content     = get_post_field( 'post_content', $post );
+		$post_content_raw = get_post_field( 'post_content', $post );
+		$post_content     = is_string( $post_content_raw ) ? $post_content_raw : '';
 		$number_of_images = substr_count( strtolower( $post_content ), '<img ' );
 		$post_content     = wp_strip_all_tags( $post_content );
 		$word_count       = (int) Str::word_count( $post_content );
@@ -532,7 +533,7 @@ class Post_Reading_Time extends Module {
 		$additional_time = 0;
 
 		// For the first image adds 12 seconds, the second image adds 11, ..., for image 10+ add 3 seconds.
-		for ( $i = 1; $i <= $total_images; $i++ ) {
+		for ( $i = 1; $i <= $total_images; $i ++ ) {
 			if ( $i >= 10 ) {
 				$additional_time += 3 * $words_per_minute / 60;
 			} else {
@@ -579,7 +580,7 @@ class Post_Reading_Time extends Module {
 
 			$this->squad_utils->field_css_generations->generate_divider_styles(
 				array(
-					'selector'  => "$this->main_css_element div .time-text-wrapper .time-item.time-divider-element:before",
+					'selector'  => "$this->main_css_element div .time-text-wrapper .time-text-item.time-text-divider-element:before",
 					'important' => true,
 				)
 			);

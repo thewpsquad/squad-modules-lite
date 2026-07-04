@@ -10,13 +10,13 @@
 
 namespace DiviSquad\Builder\Version4\Supports;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Supports\Module_Utilities\Breadcrumbs;
+use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Decorations;
+use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Shapes;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Version4\Supports\Module_Utilities\Divider;
 use DiviSquad\Builder\Version4\Supports\Module_Utilities\Fields\CSS_Generations as Field_CSS_Generations;
 use DiviSquad\Builder\Version4\Supports\Module_Utilities\Fields\Definitions as Field_Definitions;
-use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Shapes;
-use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Decorations;
 
 /**
  * Module Utilities Provider Class

@@ -11,6 +11,7 @@
 namespace DiviSquad\Builder\Version4\Supports\Module_Helpers;
 
 use BadMethodCallException;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Version4\Supports\Module_Utility;
 use InvalidArgumentException;
 use WP_Exception;
@@ -27,6 +28,8 @@ use function wp_trigger_error;
  * @see     \DiviSquad\Base\DiviBuilder\Utils\DeprecationsTrait
  *
  * @package DiviSquad
+ *
+ * @property Module $module The module instance the deprecated utilities are routed through.
  */
 trait Deprecations_Trait {
 	/**
@@ -108,7 +111,7 @@ trait Deprecations_Trait {
 		}
 
 		if ( property_exists( $this, $name ) ) {
-			return $this->$name;
+			return get_object_vars( $this )[ $name ] ?? null;
 		}
 
 		return null;
@@ -120,12 +123,11 @@ trait Deprecations_Trait {
 	 * Handles calls to deprecated methods by routing them to their new implementations
 	 * or throwing appropriate exceptions if the method doesn't exist.
 	 *
-	 * @param string                   $name      The method name.
-	 * @param array<int|string, mixed> $arguments The method arguments.
+	 * @param string            $name      The method name.
+	 * @param array<int, mixed> $arguments The method arguments.
 	 *
 	 * @return mixed The result of the method call.
 	 * @throws InvalidArgumentException If the method does not exist.
-	 * @throws WP_Exception If there's an error processing the call.
 	 */
 	public function __call( string $name, array $arguments ) {
 		/**
@@ -181,7 +183,7 @@ trait Deprecations_Trait {
 		}
 
 		if ( method_exists( $this, $name ) ) {
-			/** @var callable $callback */
+			/** @var callable $callback */ // phpcs:ignore Generic.Commenting.DocComment.MissingShort -- Inline type hint for static analysis; no prose description applicable.
 			$callback = array( $this, $name );
 
 			return call_user_func_array( $callback, $arguments );
@@ -250,8 +252,8 @@ trait Deprecations_Trait {
 	 *
 	 * Routes deprecated method calls to their new implementations in utility classes.
 	 *
-	 * @param string                   $name      The name of the deprecated method.
-	 * @param array<int|string, mixed> $arguments The arguments passed to the method.
+	 * @param string            $name      The name of the deprecated method.
+	 * @param array<int, mixed> $arguments The arguments passed to the method.
 	 *
 	 * @return mixed The result of the method call.
 	 * @throws BadMethodCallException If the deprecated method is not implemented.
@@ -270,6 +272,8 @@ trait Deprecations_Trait {
 
 		if ( isset( $method_map[ $name ] ) && $this->module->squad_utils instanceof Module_Utility ) {
 			[ $utility, $method ] = $method_map[ $name ];
+			$utility = (string) $utility;
+			$method  = (string) $method;
 
 			/**
 			 * Filters whether to handle the deprecated utility method call.
@@ -283,11 +287,14 @@ trait Deprecations_Trait {
 			 * @param array  $arguments   The method arguments.
 			 */
 			$should_handle = (bool) apply_filters( 'divi_squad_handle_deprecated_utility_method_call', true, $name, $utility, $method, $arguments );
-			if ( $should_handle && isset( $this->module->squad_utils->$utility ) && method_exists( $this->module->squad_utils->$utility, $method ) ) {
-				/** @var callable $callback */
-				$callback = array( $this->module->squad_utils->$utility, $method );
 
-				return call_user_func_array( $callback, $arguments );
+			$utility_instance = $this->module->squad_utils->__get( $utility );
+			if ( $should_handle && is_object( $utility_instance ) && method_exists( $utility_instance, $method ) ) {
+				$callback = array( $utility_instance, $method );
+
+				if ( is_callable( $callback ) ) {
+					return call_user_func_array( $callback, $arguments );
+				}
 			}
 		}
 
@@ -356,7 +363,11 @@ trait Deprecations_Trait {
 			$value
 		);
 
-		$this->deprecated_properties[ $name ] = $property_data;
+		$this->deprecated_properties[ $name ] = array(
+			'version' => (string) ( $property_data['version'] ?? $version ),
+			'message' => (string) ( $property_data['message'] ?? $message ),
+			'value'   => $property_data['value'] ?? $value,
+		);
 
 		/**
 		 * Fires after adding a new deprecated property.
@@ -400,7 +411,10 @@ trait Deprecations_Trait {
 			$message
 		);
 
-		$this->deprecated_methods[ $name ] = $method_data;
+		$this->deprecated_methods[ $name ] = array(
+			'version' => (string) ( $method_data['version'] ?? $version ),
+			'message' => (string) ( $method_data['message'] ?? $message ),
+		);
 
 		/**
 		 * Fires after adding a new deprecated method.

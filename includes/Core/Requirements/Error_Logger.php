@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Error logger class for requirements.
  *
@@ -40,15 +39,15 @@ class Error_Logger {
 	 */
 	public function log_requirement_failure( Status_Checker $status_checker ): void {
 		try {
-			// Skip logging for special WordPress request types
+			// Skip logging for special WordPress request types.
 			if ( $this->is_special_request_type() ) {
 				return;
 			}
 
-			// Get the current status.
+			// Get the current status..
 			$status = $status_checker->get_status();
 
-			// Build comprehensive extra data for debugging.
+			// Build comprehensive extra data for debugging..
 			$extra_data = array(
 				'status_details'    => $status,
 				'error_message'     => $status_checker->get_last_error(),
@@ -60,7 +59,7 @@ class Error_Logger {
 				'is_multisite'      => is_multisite() ? 'Yes' : 'No',
 			);
 
-			// Include theme information if available.
+			// Include theme information if available..
 			if ( function_exists( 'wp_get_theme' ) ) {
 				$theme                      = wp_get_theme();
 				$extra_data['active_theme'] = array(
@@ -70,14 +69,14 @@ class Error_Logger {
 				);
 			}
 
-			// Determine the specific failure type with detailed descriptions.
+			// Determine the specific failure type with detailed descriptions..
 			if ( ! (bool) ( $status['is_installed'] ?? false ) ) {
 				$requirement = 'Divi Installation';
 				$current     = 'Not installed';
 				$expected    = 'Divi theme or Divi Builder plugin must be installed';
 				$context     = 'Missing Divi';
 			} elseif ( ! (bool) ( $status['is_active'] ?? false ) ) {
-				// Provide specific context for which component is inactive.
+				// Provide specific context for which component is inactive..
 				if ( (bool) ( $status['is_theme_installed'] ?? false ) ) {
 					$requirement = 'Divi Theme Activation';
 					$current     = 'Divi theme is installed but not activated';
@@ -137,12 +136,12 @@ class Error_Logger {
 				return;
 			}
 
-			// Store requirement failure status in options.
+			// Store requirement failure status in options..
 			update_option( 'divi_squad_requirements_failed', true, false );
 			update_option( 'divi_squad_requirements_context', $context, false );
 			update_option( 'divi_squad_requirements_data', $extra_data, false );
 
-			// Prepare a detailed message for logging.
+			// Prepare a detailed message for logging..
 			$log_message = sprintf(
 				'Requirements check failed: %s. Current: %s. Expected: %s.',
 				$requirement,
@@ -150,7 +149,7 @@ class Error_Logger {
 				$expected
 			);
 
-			// Log using the error method for critical requirements failures.
+			// Log using the error method for critical requirements failures..
 			divi_squad()->log_error(
 				new RuntimeException( $log_message, 500 ),
 				$context
@@ -182,7 +181,7 @@ class Error_Logger {
 				$status_checker
 			);
 		} catch ( Throwable $e ) {
-			// Ensure any errors in the logging process are caught and recorded.
+			// Ensure any errors in the logging process are caught and recorded..
 			divi_squad()->log_error(
 				$e,
 				'Requirements_Logging_Error',
@@ -207,13 +206,13 @@ class Error_Logger {
 	 * @return bool True if the current request is a special request type, false otherwise.
 	 */
 	protected function is_special_request_type(): bool {
-		// Define flags for various request types
+		// Define flags for various request types.
 		$is_ajax_request = false;
 		$is_rest_request = false;
 		$is_cron_job     = false;
 		$is_xml_request  = false;
 
-		// Method 1: Standard WordPress function checks
+		// Method 1: Standard WordPress function checks.
 		if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
 			$is_ajax_request = true;
 		}
@@ -234,13 +233,13 @@ class Error_Logger {
 			$rest_prefix = rest_get_url_prefix();
 			$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
-			// Check if the request URI contains the REST API prefix
+			// Check if the request URI contains the REST API prefix.
 			if ( ( '' !== $request_uri ) && strpos( $request_uri, '/' . $rest_prefix . '/' ) !== false ) {
 				$is_rest_request = true;
 			}
 		}
 
-		// Method 2: Direct script filename check for admin-ajax.php
+		// Method 2: Direct script filename check for admin-ajax.php.
 		if ( isset( $_SERVER['SCRIPT_FILENAME'] ) ) {
 			$script_filename = sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_FILENAME'] ) );
 			if ( strpos( $script_filename, 'admin-ajax.php' ) !== false || basename( $script_filename ) === 'admin-ajax.php' ) {
@@ -252,12 +251,12 @@ class Error_Logger {
 			}
 		}
 
-		// Method 3: Check for AJAX through request parameters and headers
-		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) === 'xmlhttprequest' ) {
+		// Method 3: Check for AJAX through request parameters and headers.
+		if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) ) === 'xmlhttprequest' ) {
 			$is_ajax_request = true;
 		}
 
-		// Method 4: Check for specific AJAX constants
+		// Method 4: Check for specific AJAX constants.
 		if ( defined( 'DOING_AJAX' ) && \DOING_AJAX ) {
 			$is_ajax_request = true;
 		}
@@ -270,7 +269,7 @@ class Error_Logger {
 			$is_cron_job = true;
 		}
 
-		// Return true if any of the special request types are detected
+		// Return true if any of the special request types are detected.
 		return $is_rest_request || $is_ajax_request || $is_cron_job || $is_xml_request;
 	}
 }

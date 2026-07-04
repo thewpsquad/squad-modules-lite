@@ -23,6 +23,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -128,7 +129,7 @@ class Logo_Grid extends Module {
 	 * @param array<string, mixed> $attrs                 Block attributes.
 	 * @param string               $child_modules_content Rendered child HTML.
 	 * @param WP_Block             $block                 Parsed block instance.
-	 * @param object               $elements              ModuleElements instance.
+	 * @param ModuleElements       $elements              ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -145,8 +146,8 @@ class Logo_Grid extends Module {
 			$uid   = self::get_instance_uid( $block );
 
 			$inline_css = self::get_grid_css( $inner, $uid )
-				. self::get_hover_css( $inner, $uid )
-				. self::get_sizing_css( $inner, $uid );
+			              . self::get_hover_css( $inner, $uid )
+			              . self::get_sizing_css( $inner, $uid );
 
 			$grid_html = sprintf(
 				'%1$s<div class="squad-logo-grid">%2$s</div>',
@@ -215,8 +216,8 @@ class Logo_Grid extends Module {
 		$sel = '.' . $uid . ' .squad-logo-grid';
 
 		return "{$sel}{display:grid;grid-template-columns:repeat({$cols_desk},1fr);gap:{$gap}px}"
-			. "@media(max-width:980px){{$sel}{grid-template-columns:repeat({$cols_tab},1fr)}}"
-			. "@media(max-width:767px){{$sel}{grid-template-columns:repeat({$cols_mob},1fr)}}";
+		       . "@media(max-width:980px){{$sel}{grid-template-columns:repeat({$cols_tab},1fr)}}"
+		       . "@media(max-width:767px){{$sel}{grid-template-columns:repeat({$cols_mob},1fr)}}";
 	}
 
 	/**
@@ -230,7 +231,7 @@ class Logo_Grid extends Module {
 	 * @return string Raw CSS (no <style> tags).
 	 */
 	protected static function get_hover_css( array $inner, string $uid ): string {
-		$effect = (string) ( $inner['hoverEffect'] ?? 'grayscale' );
+		$effect  = (string) ( $inner['hoverEffect'] ?? 'grayscale' );
 		$uid_sel = '.' . $uid;
 		$logo    = "{$uid_sel} .squad-logo-grid__logo";
 		$hover   = "{$uid_sel} .squad-logo-grid__item:hover .squad-logo-grid__logo";
@@ -238,16 +239,17 @@ class Logo_Grid extends Module {
 		switch ( $effect ) {
 			case 'grayscale':
 				return "{$logo}{filter:grayscale(100%);transition:filter .3s ease}"
-					. "{$hover}{filter:grayscale(0%)}";
+				       . "{$hover}{filter:grayscale(0%)}";
 
 			case 'opacity':
 				$opacity = max( 0.0, min( 1.0, (float) ( $inner['hoverOpacity'] ?? '0.5' ) ) );
+
 				return "{$logo}{opacity:{$opacity};transition:opacity .3s ease}"
-					. "{$hover}{opacity:1}";
+				       . "{$hover}{opacity:1}";
 
 			case 'zoom':
 				return "{$logo}{transition:transform .3s ease}"
-					. "{$hover}{transform:scale(1.1)}";
+				       . "{$hover}{transform:scale(1.1)}";
 
 			default:
 				return '';
@@ -281,25 +283,5 @@ class Logo_Grid extends Module {
 		}
 
 		return ".{$uid} .squad-logo-grid__logo{{$decl}}";
-	}
-
-	/**
-	 * Validate a CSS length value against an allowlist of units.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value or empty string.
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
 	}
 }

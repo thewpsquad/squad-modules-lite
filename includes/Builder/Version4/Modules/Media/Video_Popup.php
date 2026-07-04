@@ -128,7 +128,7 @@ class Video_Popup extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.4.1
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		$fields = array(
@@ -219,6 +219,14 @@ class Video_Popup extends Module {
 				'depends_show_if_not' => array( 'icon' ),
 				'tab_slug'            => 'general',
 				'toggle_slug'         => 'content',
+			),
+			'trigger_aria_label' => array(
+				'label'       => esc_html__( 'Trigger Accessible Label', 'squad-modules-for-divi' ),
+				'description' => esc_html__( 'Provide an accessible label for the video trigger button (used by screen readers when the trigger shows only an icon).', 'squad-modules-for-divi' ),
+				'type'        => 'text',
+				'default'     => esc_html__( 'Play video', 'squad-modules-for-divi' ),
+				'tab_slug'    => 'general',
+				'toggle_slug' => 'content',
 			),
 			'type'             => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Video Type', 'squad-modules-for-divi' ),
@@ -551,6 +559,8 @@ class Video_Popup extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.4.1
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props() {
 		$fields = parent::get_transition_fields_css_props();
@@ -574,9 +584,9 @@ class Video_Popup extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -597,31 +607,38 @@ class Video_Popup extends Module {
 		wp_enqueue_script( 'squad-module-video-popup' );
 
 		// Set popup style.
-		self::set_style(
-			$render_slug,
-			array(
-				'selector'    => ".squad-vp-modal-open.squad-vp-video-popup-$order_number .mfp-bg",
-				'declaration' => sprintf( 'opacity:1!important;background: %1$s!important;', $this->prop( 'popup_bg', '' ) ),
-			)
-		);
-		self::set_style(
-			$render_slug,
-			array(
-				'selector'    => ".squad-vp-modal-open.squad-vp-video-popup-$order_number .mfp-iframe-holder .mfp-close",
-				'declaration' => sprintf( 'color: %1$s!important;', $this->prop( 'close_icon_color', '' ) ),
-			)
-		);
+		$popup_bg         = self::sanitize_css_background( (string) $this->prop( 'popup_bg', '' ) );
+		$close_icon_color = self::sanitize_css_background( (string) $this->prop( 'close_icon_color', '' ) );
+
+		if ( '' !== $popup_bg ) {
+			self::set_style(
+				$render_slug,
+				array(
+					'selector'    => ".squad-vp-modal-open.squad-vp-video-popup-$order_number .mfp-bg",
+					'declaration' => sprintf( 'opacity:1!important;background: %1$s!important;', $popup_bg ),
+				)
+			);
+		}
+		if ( '' !== $close_icon_color ) {
+			self::set_style(
+				$render_slug,
+				array(
+					'selector'    => ".squad-vp-modal-open.squad-vp-video-popup-$order_number .mfp-iframe-holder .mfp-close",
+					'declaration' => sprintf( 'color: %1$s!important;', $close_icon_color ),
+				)
+			);
+		}
 
 		if ( 'video' === $type ) {
 			$inline_modal = sprintf(
 				'<div class="mfp-hide squad-vp-modal" id="squad-vp-modal-video-popup-%1$s" data-order="%1$s"><div class="video-wrap"><video controls><source type="video/mp4" src="%2$s"></video></div></div>',
 				$order_number,
-				$video
+				esc_url( $video )
 			);
 		}
 
 		if ( 'on' === $this->prop( 'use_overlay', 'off' ) ) {
-			$img_overlay = sprintf( '<div class="video-popup-figure"><img src="%1$s" alt="%2$s"/></div>', $image, $image_alt );
+			$img_overlay = sprintf( '<div class="video-popup-figure"><img src="%1$s" alt="%2$s"/></div>', esc_url( $image ), esc_attr( $image_alt ) );
 		}
 
 		if ( Str::contains( $video_link, 'youtu.be' ) ) {
@@ -630,22 +647,29 @@ class Video_Popup extends Module {
 
 		$this->generate_additional_styles( $attrs );
 
+		$trigger_element     = $this->prop( 'trigger_element', 'icon' );
+		$trigger_aria_label  = $this->prop( 'trigger_aria_label', esc_html__( 'Play video', 'squad-modules-for-divi' ) );
+		$aria_label_attr     = ( 'text' !== $trigger_element )
+			? sprintf( 'aria-label="%1$s"', esc_attr( $trigger_aria_label ) )
+			: '';
+
 		return sprintf(
-			'<div class="video-popup"> %5$s <div class="video-popup-wrap"> <a class="video-popup-trigger popup-%6$s" data-order="%4$s" data-type="%6$s" href="%3$s" %7$s>%1$s</a></div>%2$s</div>',
+			'<div class="video-popup"> %5$s <div class="video-popup-wrap"> <a class="video-popup-trigger popup-%6$s" data-order="%4$s" data-type="%6$s" href="%3$s" %7$s %8$s>%1$s</a></div>%2$s</div>',
 			$this->render_trigger(),
 			$img_overlay,
-			$video_link,
+			esc_url( $video_link ),
 			$order_number,
 			$inline_modal,
 			$type,
-			$data_modal
+			$data_modal,
+			$aria_label_attr
 		);
 	}
 
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
 	 * @return void
 	 */
@@ -664,7 +688,7 @@ class Video_Popup extends Module {
 			)
 		);
 
-		if ( 'on' === $this->prop( 'use_overlay', 'on' ) ) {
+		if ( 'on' === $this->prop( 'use_overlay', 'off' ) ) {
 			et_pb_background_options()->get_background_style(
 				array(
 					'base_prop_name'         => 'image_overlay_background',
@@ -678,7 +702,7 @@ class Video_Popup extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_image_overlay_background_color_gradient' => 'image_overlay_background_use_color_gradient',
-						'image_overlay_background' => 'image_overlay_background_color',
+						'image_overlay_background'                    => 'image_overlay_background_color',
 					),
 				)
 			);
@@ -736,8 +760,8 @@ class Video_Popup extends Module {
 			$this->generate_styles(
 				array(
 					'base_attr_name' => 'icon_opacity',
-					'selector'       => "$this->main_css_element div .video-popup-icon .video-popup-icon svg",
-					'hover_selector' => "$this->main_css_element:hover div .video-popup-icon .video-popup-icon svg",
+					'selector'       => "$this->main_css_element div .video-popup .video-popup-icon svg",
+					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-icon svg",
 					'css_property'   => 'opacity',
 					'render_slug'    => $this->slug,
 					'type'           => 'number',
@@ -869,7 +893,7 @@ class Video_Popup extends Module {
 						'content: "";
 						-webkit-box-shadow: 0 0 0 15px %1$s, 0 0 0 30px %1$s, 0 0 0 45px %1$s;
 						box-shadow: 0 0 0 15px %1$s, 0 0 0 30px %1$s, 0 0 0 45px %1$s;',
-						$this->prop( 'wave_bg', '' )
+						self::sanitize_css_background( (string) $this->prop( 'wave_bg', '' ) )
 					),
 				)
 			);
@@ -917,9 +941,10 @@ class Video_Popup extends Module {
 
 		// Generate text.
 		if ( in_array( $trigger_element, array( 'text', 'icon_text' ), true ) ) {
-			$icon_output_html .= sprintf( '<span class="video-popup-text">%1$s</span>', $this->prop( 'text', 'Play' ) );
+			$icon_output_html .= sprintf( '<span class="video-popup-text">%1$s</span>', esc_html( $this->prop( 'text', 'Play' ) ) );
 		}
 
 		return $icon_output_html;
 	}
+
 }

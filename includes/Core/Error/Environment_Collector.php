@@ -47,7 +47,7 @@ class Environment_Collector {
 	 */
 	public function get_environment_info(): array {
 		try {
-			// Basic environment information.
+			// Basic environment information..
 			$environment = array(
 				'php_version'      => PHP_VERSION,
 				'wp_version'       => get_bloginfo( 'version' ),
@@ -60,14 +60,14 @@ class Environment_Collector {
 				'installed_themes' => $this->get_installed_themes_list(),
 			);
 
-			// Get current theme information.
+			// Get current theme information..
 			$current_theme = wp_get_theme();
 			if ( $current_theme instanceof WP_Theme ) {
 				$environment['active_theme_name']    = $current_theme->get( 'Name' );
 				$environment['active_theme_version'] = $current_theme->get( 'Version' );
 				$environment['active_theme_author']  = $current_theme->get( 'Author' );
 
-				// Check if it's a child theme.
+				// Check if it's a child theme..
 				$parent_theme = $current_theme->parent();
 				if ( $parent_theme instanceof WP_Theme ) {
 					$environment['is_child_theme']       = 'Yes';
@@ -79,7 +79,7 @@ class Environment_Collector {
 				}
 			}
 
-			// Collect detailed Divi detection information from unified utility.
+			// Collect detailed Divi detection information from unified utility..
 			$environment = $this->add_divi_detection_info( $environment );
 
 			/**
@@ -117,34 +117,34 @@ class Environment_Collector {
 	 */
 	protected function add_divi_detection_info( array $environment ): array {
 		try {
-			// Use centralized Divi detection instead of duplicating logic
+			// Use centralized Divi detection instead of duplicating logic.
 			$divi_info = Divi::get_divi_environment_info();
 
-			// Add all relevant Divi info to the environment array
+			// Add all relevant Divi info to the environment array.
 			$environment['divi_version']          = $divi_info['version'];
 			$environment['divi_mode']             = $divi_info['builder_mode'];
 			$environment['divi_detection_method'] = $divi_info['version_detection_method'];
 
-			// Include theme information
+			// Include theme information.
 			if ( isset( $divi_info['theme_name'] ) ) {
 				$environment['active_theme_name'] = $divi_info['theme_name'];
 			}
 
-			// Add child theme info if applicable
+			// Add child theme info if applicable.
 			$environment['is_child_theme'] = $divi_info['is_child_theme'] ? 'Yes' : 'No';
 			if ( $divi_info['is_child_theme'] && ! empty( $divi_info['parent_theme_name'] ) ) {
 				$environment['parent_theme_name'] = $divi_info['parent_theme_name'];
 			}
 
-			// Add modification status
+			// Add modification status.
 			$environment['divi_modified'] = $divi_info['is_modified'];
 
-			// Add constants information if available
+			// Add constants information if available.
 			if ( ! empty( $divi_info['defined_constants'] ) ) {
 				$environment['divi_constants'] = $divi_info['defined_constants'];
 			}
 
-			// Add framework source information
+			// Add framework source information.
 			$environment['divi_framework_source'] = $divi_info['framework_source'];
 
 			return $environment;
@@ -187,7 +187,7 @@ class Environment_Collector {
 
 			$installed_themes = array();
 			foreach ( $wp_themes as $theme ) {
-				// Check if the theme is Divi-based.
+				// Check if the theme is Divi-based..
 				$is_divi_based = false;
 				$name          = $theme->get( 'Name' );
 
@@ -195,17 +195,17 @@ class Environment_Collector {
 					$is_divi_based = true;
 				}
 
-				// Check for Divi as parent.
+				// Check for Divi as parent..
 				$parent = $theme->parent();
 				if ( $parent instanceof WP_Theme && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
 					$is_divi_based = true;
 				}
 
-				// Check for other Divi markers.
+				// Check for other Divi markers..
 				if ( ! $is_divi_based ) {
 					$theme_dir = $theme->get_stylesheet_directory();
 					if ( divi_squad()->get_wp_fs()->exists( $theme_dir . '/includes/builder' ) &&
-					     ( divi_squad()->get_wp_fs()->exists( $theme_dir . '/epanel' ) || divi_squad()->get_wp_fs()->exists( $theme_dir . '/core' ) ) ) {
+						 ( divi_squad()->get_wp_fs()->exists( $theme_dir . '/epanel' ) || divi_squad()->get_wp_fs()->exists( $theme_dir . '/core' ) ) ) {
 						$is_divi_based = true;
 					}
 				}

@@ -14,6 +14,7 @@
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use Throwable;
 use function apply_filters;
 use function get_metadata;
@@ -107,7 +108,7 @@ class WordPress extends Collection {
 	/**
 	 * Available custom field values by post ID.
 	 *
-	 * @var array<int, array<object>>
+	 * @var array<int, array<object{meta_key: string, meta_value: mixed}>>
 	 */
 	protected array $field_values = array();
 
@@ -179,7 +180,7 @@ class WordPress extends Collection {
 	 */
 	public function get_formatted_fields(): array {
 		// Return cached fields if available.
-		if ( ! empty( $this->formatted_fields ) ) {
+		if ( count( $this->formatted_fields ) > 0 ) {
 			return $this->formatted_fields;
 		}
 
@@ -258,10 +259,6 @@ class WordPress extends Collection {
 
 			// Process each field.
 			foreach ( $custom_field_values as $metadata ) {
-				if ( empty( $metadata ) ) {
-					continue;
-				}
-
 				// Skip fields that should be excluded.
 				if ( ! $this->should_include_field( $metadata->meta_key ) ) {
 					continue;
@@ -305,7 +302,7 @@ class WordPress extends Collection {
 	 */
 	public function has_field( int $post_id, string $field_key ): bool {
 		// Return early if invalid parameters.
-		if ( $post_id <= 0 || empty( $field_key ) ) {
+		if ( $post_id <= 0 || '' === $field_key ) {
 			return false;
 		}
 
@@ -337,7 +334,7 @@ class WordPress extends Collection {
 	 */
 	public function get_field_value( int $post_id, string $field_key, $default_value = null ) {
 		// Return early if invalid parameters.
-		if ( $post_id <= 0 || empty( $field_key ) ) {
+		if ( $post_id <= 0 || '' === $field_key ) {
 			return $default_value;
 		}
 
@@ -390,7 +387,7 @@ class WordPress extends Collection {
 		}
 
 		// Skip fields with underscore prefix (hidden WP fields) - WordPress specific check.
-		if ( str_starts_with( $field_key, '_' ) ) {
+		if ( Str::starts_with( $field_key, '_' ) ) {
 			return false;
 		}
 
@@ -414,7 +411,7 @@ class WordPress extends Collection {
 	 */
 	protected function get_available_fields(): array {
 		// Return cached fields if available.
-		if ( ! empty( $this->fields ) ) {
+		if ( count( $this->fields ) > 0 ) {
 			return $this->fields;
 		}
 
@@ -480,7 +477,7 @@ class WordPress extends Collection {
 	 *
 	 * @param int $post_id The ID of the post.
 	 *
-	 * @return array<object> An array of custom field value objects.
+	 * @return array<object{meta_key: string, meta_value: mixed}> An array of custom field value objects.
 	 */
 	protected function get_available_field_values( int $post_id ): array {
 		// Return cached values if available.
@@ -547,8 +544,8 @@ class WordPress extends Collection {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array<object> $field_values The field values.
-			 * @param int           $post_id      The post ID.
+			 * @param array<object{meta_key: string, meta_value: mixed}> $field_values The field values.
+			 * @param int                                                $post_id      The post ID.
 			 */
 			$this->field_values[ $post_id ] = apply_filters(
 				'divi_squad_wp_available_field_values',
@@ -575,7 +572,7 @@ class WordPress extends Collection {
 	 * @param array<string> $meta_keys Array of meta keys to retrieve.
 	 * @param int           $limit     Maximum number of results to return.
 	 *
-	 * @return array<object> An array of post meta value objects.
+	 * @return array<object{meta_key: string, meta_value: mixed}> An array of post meta value objects.
 	 */
 	private function get_post_meta_values( int $post_id, array $meta_keys, int $limit ): array {
 		$values = array();
@@ -584,7 +581,7 @@ class WordPress extends Collection {
 			// Process each meta key.
 			foreach ( $meta_keys as $key ) {
 				// Skip invalid keys.
-				if ( empty( $key ) ) {
+				if ( '' === $key ) {
 					continue;
 				}
 
@@ -592,7 +589,7 @@ class WordPress extends Collection {
 				$meta_values = get_post_meta( $post_id, $key, false );
 
 				// Process each value.
-				if ( ! empty( $meta_values ) ) {
+				if ( is_array( $meta_values ) && count( $meta_values ) > 0 ) {
 					foreach ( $meta_values as $value ) {
 						// Create metadata object.
 						$values[] = (object) array(
@@ -617,10 +614,10 @@ class WordPress extends Collection {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array<object> $values    The post meta values.
-		 * @param int           $post_id   The post ID.
-		 * @param array<string> $meta_keys The meta keys.
-		 * @param int           $limit     The limit.
+		 * @param array<object{meta_key: string, meta_value: mixed}> $values    The post meta values.
+		 * @param int                                                $post_id   The post ID.
+		 * @param array<string>                                      $meta_keys The meta keys.
+		 * @param int                                                $limit     The limit.
 		 */
 		return apply_filters(
 			'divi_squad_wp_post_meta_values',
@@ -663,7 +660,7 @@ class WordPress extends Collection {
 		}
 
 		// Handle date fields.
-		if ( preg_match( '/date|time/i', $field_key ) && is_string( $value ) && strtotime( $value ) ) {
+		if ( 1 === preg_match( '/date|time/i', $field_key ) && is_string( $value ) && false !== strtotime( $value ) ) {
 			return date_i18n( get_option( 'date_format' ), strtotime( $value ) );
 		}
 

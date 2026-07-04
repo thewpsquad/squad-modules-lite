@@ -896,10 +896,10 @@ class Flip_Box extends Module {
 					'label_prefix'    => esc_html__( 'Button', 'squad-modules-for-divi' ),
 					'css'             => array(
 						'main' => array(
-							'border_radii'        => "$this->main_css_element div .flip-box-slides .back-slide .squad-slide-button",
-							'border_radii_hover'  => "$this->main_css_element div .flip-box-slides .back-slide .squad-slide-button:hover",
-							'border_styles'       => "$this->main_css_element div .flip-box-slides .back-slide .squad-slide-button",
-							'border_styles_hover' => "$this->main_css_element div .flip-box-slides .back-slide .squad-slide-button:hover",
+							'border_radii'        => "$this->main_css_element div .flip-box-slides .front-slide .squad-slide-button",
+							'border_radii_hover'  => "$this->main_css_element div .flip-box-slides .front-slide .squad-slide-button:hover",
+							'border_styles'       => "$this->main_css_element div .flip-box-slides .front-slide .squad-slide-button",
+							'border_styles_hover' => "$this->main_css_element div .flip-box-slides .front-slide .squad-slide-button:hover",
 						),
 					),
 					'defaults'        => array(
@@ -1038,7 +1038,7 @@ class Flip_Box extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Text fields definitions.
@@ -1201,7 +1201,7 @@ class Flip_Box extends Module {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $flip_animation_types The flip animation types.
+		 * @param array<string, string> $flip_animation_types The flip animation types.
 		 */
 		$flip_animation_types   = apply_filters(
 			'divi_squad_flip_animation_types',
@@ -1438,11 +1438,11 @@ class Flip_Box extends Module {
 			'button_padding',
 		);
 		foreach ( $button_cleanable_common_features as $button_common_feature ) {
-			$front_button[ "front_$button_common_feature" ]['hover'] = false;
-			$back_button[ "back_$button_common_feature" ]['hover']   = false;
+			$front_button["front_$button_common_feature"]['hover'] = false;
+			$back_button["back_$button_common_feature"]['hover']   = false;
 		}
 		foreach ( $button_cleanable_features as $button_cleanable_feature ) {
-			$front_button[ "front_$button_cleanable_feature" ]['hover'] = false;
+			$front_button["front_$button_cleanable_feature"]['hover'] = false;
 		}
 
 		// Extra features from buttons which are generating hover effects.
@@ -1487,7 +1487,7 @@ class Flip_Box extends Module {
 	 *
 	 * @param string $side The current slide name.
 	 *
-	 * @return array Text related fields.
+	 * @return array<string, array<string, mixed>> Text related fields.
 	 */
 	private function squad_get_side_text_fields( string $side ): array {
 		return array(
@@ -1584,7 +1584,7 @@ class Flip_Box extends Module {
 	 *
 	 * @param string $side The current slide name.
 	 *
-	 * @return array icons and image related fields.
+	 * @return array<string, array<string, mixed>> icons and image related fields.
 	 */
 	private function squad_get_side_icon_images_fields( string $side ): array {
 		// Icon & Image fields definitions.
@@ -1947,7 +1947,7 @@ class Flip_Box extends Module {
 	 *
 	 * @param string $side The current slide name.
 	 *
-	 * @return array Text related fields.
+	 * @return array<string, array<string, mixed>> Text related fields.
 	 */
 	private function squad_get_side_associate_fields( string $side ): array {
 		$wrapper_fields = array(
@@ -2158,7 +2158,7 @@ class Flip_Box extends Module {
 	 *
 	 * @param string $side The current slide name.
 	 *
-	 * @return array order fields.
+	 * @return array<string, array<string, mixed>> order fields.
 	 */
 	private function squad_get_side_order_fields( string $side ): array {
 		return array(
@@ -2209,8 +2209,8 @@ class Flip_Box extends Module {
 			"{$side}_sub_title_order" => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Sub Title Order', 'squad-modules-for-divi' ),
 				array(
-					'description'       => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
-					'range_settings'    => array(
+					'description'    => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
+					'range_settings' => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '15',
@@ -2232,8 +2232,8 @@ class Flip_Box extends Module {
 			"{$side}_body_order"      => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Body Order', 'squad-modules-for-divi' ),
 				array(
-					'description'       => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
-					'range_settings'    => array(
+					'description'    => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
+					'range_settings' => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '15',
@@ -2255,8 +2255,8 @@ class Flip_Box extends Module {
 			"{$side}_button_order"    => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Button Order', 'squad-modules-for-divi' ),
 				array(
-					'description'       => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
-					'range_settings'    => array(
+					'description'    => esc_html__( 'Increase the order number to position the item lower.', 'squad-modules-for-divi' ),
+					'range_settings' => array(
 						'min_limit' => '1',
 						'min'       => '1',
 						'max_limit' => '15',
@@ -2283,7 +2283,7 @@ class Flip_Box extends Module {
 	 *
 	 * @param string $side The current slide name.
 	 *
-	 * @return array z index fields.
+	 * @return array<string, array<string, mixed>> z index fields.
 	 */
 	private function squad_get_side_z_index_fields( string $side ): array {
 		return array(
@@ -2335,15 +2335,15 @@ class Flip_Box extends Module {
 	 *
 	 * @since 3.27.1
 	 *
-	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
-	 *
-	 * @param mixed $raw_value Props raw value.
-	 * @param mixed $args      Arguments.
+	 * @param mixed                $raw_value Props raw value.
+	 * @param array<string, mixed> $args      Arguments.
 	 *
 	 * @return mixed
+	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
+	 *
 	 */
 	public function multi_view_filter_value( $raw_value, $args ) {
-		$name = isset( $args['name'] ) ? $args['name'] : '';
+		$name = isset( $args['name'] ) && is_string( $args['name'] ) ? $args['name'] : '';
 
 		// process font.
 		$icon_fields = array(
@@ -2352,7 +2352,7 @@ class Flip_Box extends Module {
 			'front_button_icon',
 			'back_button_icon',
 		);
-		if ( $raw_value && in_array( $name, $icon_fields, true ) ) {
+		if ( is_string( $raw_value ) && '' !== $raw_value && in_array( $name, $icon_fields, true ) ) {
 			return et_pb_get_extended_font_icon_value( $raw_value, true );
 		}
 
@@ -2361,9 +2361,9 @@ class Flip_Box extends Module {
 			'back_content',
 		);
 
-		if ( $raw_value && in_array( $name, $rich_content_fields, true ) ) {
-			$raw_value = preg_replace( '/^[\w]?<\/p>/smi', '', $raw_value );
-			$raw_value = preg_replace( '/<p>$/smi', '', $raw_value );
+		if ( is_string( $raw_value ) && '' !== $raw_value && in_array( $name, $rich_content_fields, true ) ) {
+			$raw_value = (string) preg_replace( '/^[\w]?<\/p>/smi', '', $raw_value );
+			$raw_value = (string) preg_replace( '/<p>$/smi', '', $raw_value );
 		}
 
 		// process others: fields, image, title.
@@ -2373,9 +2373,9 @@ class Flip_Box extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -2472,8 +2472,8 @@ class Flip_Box extends Module {
 
 		// Working with flip animations.
 		if ( 'rotate' === $animation_type && 'on' === $this->prop( 'flip_3d_effect__enable', 'off' ) ) {
-			$flip_translate_z = $this->prop( 'flip_translate_z', '50px' );
-			$flip_scale       = $this->prop( 'flip_scale', '.9' );
+			$flip_translate_z = (string) preg_replace( '/[^0-9a-zA-Z%.]/', '', $this->prop( 'flip_translate_z', '50px' ) );
+			$flip_scale       = (string) (float) $this->prop( 'flip_scale', '.9' );
 
 			self::set_style(
 				$this->slug,
@@ -2529,8 +2529,8 @@ class Flip_Box extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param string $slide_type The slide type.
-	 * @param array  $attrs      List of attributes.
+	 * @param string               $slide_type The slide type.
+	 * @param array<string, mixed> $attrs      List of attributes.
 	 */
 	private function squad_generate_additional_styles( string $slide_type, array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
@@ -2551,7 +2551,7 @@ class Flip_Box extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					"use_{$slide_type}_wrapper_background_color_gradient" => "{$slide_type}_wrapper_background_use_color_gradient",
-					"{$slide_type}_wrapper_background" => "{$slide_type}_wrapper_background_color",
+					"{$slide_type}_wrapper_background"                    => "{$slide_type}_wrapper_background_color",
 				),
 			)
 		);
@@ -2686,8 +2686,8 @@ class Flip_Box extends Module {
 	/**
 	 * Render the icon which on is active
 	 *
-	 * @param string $slide_type The slide type.
-	 * @param array  $attrs      List of unprocessed attributes.
+	 * @param string               $slide_type The slide type.
+	 * @param array<string, mixed> $attrs      List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -2707,7 +2707,8 @@ class Flip_Box extends Module {
 			);
 
 			if ( 'text' === $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
-				if ( empty( $this->prop( "{$slide_type}_icon_text", '' ) ) ) {
+				$icon_text = $this->prop( "{$slide_type}_icon_text", '' );
+				if ( null === $icon_text || '' === $icon_text ) {
 					return '';
 				}
 
@@ -2723,7 +2724,8 @@ class Flip_Box extends Module {
 			}
 
 			if ( 'icon' === $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
-				if ( empty( $this->prop( "{$slide_type}_icon", '' ) ) ) {
+				$icon_value = $this->prop( "{$slide_type}_icon", '' );
+				if ( null === $icon_value || '' === $icon_value ) {
 					return '';
 				}
 
@@ -2796,7 +2798,8 @@ class Flip_Box extends Module {
 			}
 
 			if ( 'image' === $this->prop( "{$slide_type}_icon_type", 'image' ) ) {
-				if ( empty( $this->prop( "{$slide_type}_image", '' ) ) ) {
+				$image_value = $this->prop( "{$slide_type}_image", '' );
+				if ( null === $image_value || '' === $image_value ) {
 					return '';
 				}
 
@@ -2946,7 +2949,7 @@ class Flip_Box extends Module {
 				$this->generate_styles(
 					array(
 						'base_attr_name' => "{$slide_type}_icon_item_inner_gap",
-						'selector'       => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .flip-slide-container slide-$slide_type-elements-container",
+						'selector'       => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .flip-slide-container .slide-$slide_type-elements-container",
 						'css_property'   => 'gap',
 						'render_slug'    => $this->slug,
 						'type'           => 'gap',
@@ -2956,7 +2959,7 @@ class Flip_Box extends Module {
 				$this->generate_styles(
 					array(
 						'base_attr_name' => "{$slide_type}_icon_horizontal_alignment",
-						'selector'       => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .flip-slide-outer-container slide-$slide_type-elements-outer-container",
+						'selector'       => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .flip-slide-outer-container .slide-$slide_type-elements-outer-container",
 						'css_property'   => 'justify-content',
 						'render_slug'    => $this->slug,
 						'type'           => 'align',
@@ -3006,7 +3009,7 @@ class Flip_Box extends Module {
 					$this->generate_styles(
 						array(
 							'base_attr_name' => "{$slide_type}_icon_wrapper_width",
-							'selector'       => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .flip-slide-outer-container slide-$slide_type-elements-outer-container",
+							'selector'       => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .flip-slide-outer-container .slide-$slide_type-elements-outer-container",
 							'css_property'   => 'width',
 							'render_slug'    => $this->slug,
 							'type'           => 'input',
@@ -3061,8 +3064,8 @@ class Flip_Box extends Module {
 	/**
 	 * Render all text elements for slide with dynamic and multiview support for Flip Box.
 	 *
-	 * @param string $slide_type The slide type.
-	 * @param array  $attrs      List of unprocessed attributes.
+	 * @param string               $slide_type The slide type.
+	 * @param array<string, mixed> $attrs      List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -3078,19 +3081,19 @@ class Flip_Box extends Module {
 				'content'        => "{{{$slide_type}_title}}",
 				'hover_selector' => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide",
 			)
-		);
+		) ?? '';
 		$sub_title_text = $multi_view->render_element(
 			array(
 				'content'        => "{{{$slide_type}_sub_title}}",
 				'hover_selector' => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide",
 			)
-		);
+		) ?? '';
 		$body_text      = $multi_view->render_element(
 			array(
 				'content'        => "{{{$slide_type}_content}}",
 				'hover_selector' => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide",
 			)
-		);
+		) ?? '';
 
 		if ( '' !== $title_text ) {
 			// title margin with default, responsive, hover.
@@ -3113,7 +3116,7 @@ class Flip_Box extends Module {
 
 			$title_text_element = sprintf(
 				'<div class="slide-element slide-%3$s-element slide-title-wrapper"><%1$s class="slide-title-text">%2$s</%1$s></div>',
-				wp_kses_post( $this->prop( "{$slide_type}_title_tag", 'h2' ) ),
+				wp_kses_post( (string) $this->prop( "{$slide_type}_title_tag", 'h2' ) ),
 				wp_kses_post( $title_text ),
 				$slide_type
 			);
@@ -3140,7 +3143,7 @@ class Flip_Box extends Module {
 
 			$sub_title_text_element = sprintf(
 				'<div class="slide-element slide-%3$s-element slide-title-wrapper"><%1$s class="slide-sub-title-text">%2$s</%1$s></div>',
-				wp_kses_post( $this->prop( "{$slide_type}_sub_title_tag", 'h2' ) ),
+				wp_kses_post( (string) $this->prop( "{$slide_type}_sub_title_tag", 'h2' ) ),
 				wp_kses_post( $sub_title_text ),
 				$slide_type
 			);
@@ -3197,8 +3200,8 @@ class Flip_Box extends Module {
 	/**
 	 * Render button text with icon.
 	 *
-	 * @param string $slide_type The slide type.
-	 * @param array  $attrs      List of unprocessed attributes.
+	 * @param string               $slide_type The slide type.
+	 * @param array<string, mixed> $attrs      List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -3229,7 +3232,7 @@ class Flip_Box extends Module {
 				'attrs'          => $button_attrs,
 				'hover_selector' => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide",
 			)
-		);
+		) ?? '';
 
 		if ( '' !== $button_text ) {
 			// Fixed: the custom background doesn't work at frontend.
@@ -3258,7 +3261,7 @@ class Flip_Box extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						"use_{$slide_type}_button_background_color_gradient" => "{$slide_type}_button_background_use_color_gradient",
-						"{$slide_type}_button_background" => "{$slide_type}_button_background_color",
+						"{$slide_type}_button_background"                    => "{$slide_type}_button_background_color",
 					),
 				)
 			);
@@ -3351,7 +3354,7 @@ class Flip_Box extends Module {
 			$font_icon_element = $this->squad_render_button_font_icon( $slide_type );
 			$image_element     = $this->squad_render_button_icon_image( $slide_type );
 
-			if ( ( 'none' !== $this->prop( "{$slide_type}_button_icon_type", 'none' ) ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
+			if ( ( 'none' !== $this->prop( "{$slide_type}_button_icon_type", 'none' ) ) && ( '' !== $font_icon_element || '' !== $image_element ) ) {
 				if ( ( 'on' === $this->prop( "{$slide_type}_button_icon_on_hover", 'off' ) ) ) {
 					$icon_wrapper_class[] = 'show-on-hover';
 
@@ -3473,7 +3476,7 @@ class Flip_Box extends Module {
 					),
 					'hover_selector' => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .squad-slide-button",
 				)
-			);
+			) ?? '';
 		}
 
 		return '';
@@ -3492,7 +3495,7 @@ class Flip_Box extends Module {
 			$image_classes          = array( "squad-{$slide_type}_button-image", 'et_pb_image_wrap' );
 			$image_attachment_class = et_pb_media_options()->get_image_attachment_class( $this->props, "{$slide_type}_button_image" );
 
-			if ( ! empty( $image_attachment_class ) ) {
+			if ( '' !== $image_attachment_class ) {
 				$image_classes[] = esc_attr( $image_attachment_class );
 			}
 
@@ -3532,7 +3535,7 @@ class Flip_Box extends Module {
 					'required'       => "{$slide_type}_button_image",
 					'hover_selector' => "$this->main_css_element div .flip-box .flip-box-slides .$slide_type-slide .squad-slide-button",
 				)
-			);
+			) ?? '';
 		}
 
 		return '';

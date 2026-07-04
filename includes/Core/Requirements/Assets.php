@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Assets manager class for requirements.
  *

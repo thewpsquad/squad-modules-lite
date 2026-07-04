@@ -15,7 +15,6 @@
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Animated_Heading;
 
-use function array_values;
 use function count;
 use function esc_attr;
 use function esc_html;
@@ -144,7 +143,7 @@ final class Heading_Helper {
 			}
 		}
 
-		return array_values( $words );
+		return $words;
 	}
 
 	/**
@@ -225,9 +224,9 @@ final class Heading_Helper {
 		$out   = '';
 		foreach ( $chars as $i => $char ) {
 			$display = ' ' === $char ? '&nbsp;' : esc_html( $char );
-			$out    .= sprintf(
+			$out     .= sprintf(
 				'<span class="squad-anim-heading__char" style="--squad-ah-char:%d">%s</span>',
-				(int) $i,
+				$i,
 				$display
 			);
 		}

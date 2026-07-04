@@ -28,7 +28,7 @@ trait Assets_Core {
 	 * Process asset configuration and return normalized data
 	 *
 	 * @param array<string, mixed> $config       Asset configuration.
-	 * @param array<string>                                                                                                                     $default_deps Default dependencies.
+	 * @param array<string>        $default_deps Default dependencies.
 	 *
 	 * @return array{ path: string, version: string, dependencies: array<string> } Processed asset data
 	 * @throws RuntimeException If asset configuration is invalid.
@@ -166,8 +166,8 @@ trait Assets_Core {
 	 * Resolve the asset file path based on environment and configuration
 	 *
 	 * @param array<string, mixed> $config      Asset configuration.
-	 * @param bool                                                                                                                              $is_local    Whether to resolve local path.
-	 * @param bool                                                                                                                              $return_path Whether to return the resolved path.
+	 * @param bool                 $is_local    Whether to resolve local path.
+	 * @param bool                 $return_path Whether to return the resolved path.
 	 *
 	 * @return string Resolved asset path
 	 * @throws RuntimeException If path cannot be resolved.
@@ -231,7 +231,7 @@ trait Assets_Core {
 		$file = apply_filters( 'divi_squad_resolved_environment_file', $file, $config );
 
 		if ( ! $external ) {
-			$pattern      = 'build/' . $pattern;
+			$pattern     = 'build/' . $pattern;
 			$path_prefix .= 'js' === $extension ? '/scripts' : '/styles';
 		}
 

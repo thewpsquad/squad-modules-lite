@@ -26,6 +26,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -69,6 +70,7 @@ class Video_Popup extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_video_popup' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -149,7 +151,7 @@ class Video_Popup extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -259,7 +261,7 @@ class Video_Popup extends Module {
 					'6' => 'arrow-rectangle-round.svg',
 				);
 
-				$svg_image_id  = $inner['icon'] ?? '1';
+				$svg_image_id  = (string) ( $inner['icon'] ?? '1' );
 				$svg_image_id  = isset( $images[ $svg_image_id ] ) ? $svg_image_id : '1';
 				$svg_image_raw = $image->get_image( $images[ $svg_image_id ], 'svg', false );
 

@@ -70,7 +70,7 @@ trait Table_Population_Trait {
 		$cache_key = 'divi_squad_custom_fields_populated';
 
 		// Check if population is already complete.
-		if ( wp_cache_get( $cache_key ) ) {
+		if ( false !== wp_cache_get( $cache_key ) ) {
 			return;
 		}
 
@@ -191,7 +191,7 @@ trait Table_Population_Trait {
 			$query    = new WP_Query( $args );
 			$post_ids = $query->posts;
 
-			if ( empty( $post_ids ) ) {
+			if ( 0 === count( $post_ids ) ) {
 				divi_squad()->log_debug( 'No posts found for batch processing' );
 
 				return 0;
@@ -202,11 +202,22 @@ trait Table_Population_Trait {
 			$next_id             = 0;
 
 			foreach ( array_chunk( $post_ids, 100 ) as $chunk ) {
-				foreach ( $chunk as $post_id ) {
+				foreach ( $chunk as $post ) {
+					$post_id = $post instanceof \WP_Post ? $post->ID : (int) $post;
+
+					$post_type = get_post_type( $post_id );
+					if ( false === $post_type ) {
+						continue;
+					}
+
 					// Get post meta for the current post.
 					$meta_data = get_post_meta( $post_id, '', true );
+					if ( ! is_array( $meta_data ) ) {
+						continue;
+					}
 
 					foreach ( $meta_data as $meta_key => $meta_values ) {
+						$meta_key = (string) $meta_key;
 						if ( strpos( $meta_key, '_' ) === 0 ) {
 							continue; // Skip hidden meta keys.
 						}
@@ -214,23 +225,23 @@ trait Table_Population_Trait {
 						// Check if meta key already exists in custom table.
 						$exists = $wpdb->get_var(
 							$wpdb->prepare(
-								"SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND post_type = %s",
+								"SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND post_type = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $this->table_name is an internal identifier ({$wpdb->prefix}divi_squad_custom_fields), not user input.
 								$meta_key,
-								get_post_type( $post_id )
+								$post_type
 							)
 						);
 
-						if ( ! $exists ) {
+						if ( null === $exists ) {
 							$meta_keys_to_insert[] = array(
 								'meta_key'  => $meta_key,
-								'post_type' => get_post_type( $post_id ),
+								'post_type' => $post_type,
 							);
 						}
 					}
 				}
 
 				// Insert collected meta keys into custom table.
-				if ( ! empty( $meta_keys_to_insert ) ) {
+				if ( count( $meta_keys_to_insert ) > 0 ) {
 					$values       = array();
 					$placeholders = array();
 
@@ -240,11 +251,12 @@ trait Table_Population_Trait {
 						$values[]       = $item['post_type'];
 					}
 
-					$query  = "INSERT INTO {$this->table_name} (meta_key, post_type) VALUES ";
+					$query = "INSERT INTO {$this->table_name} (meta_key, post_type) VALUES "; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $this->table_name is an internal identifier, not user input.
 					$query .= implode( ',', $placeholders );
 					$query .= ' ON DUPLICATE KEY UPDATE last_updated = CURRENT_TIMESTAMP';
 
-					$result = $wpdb->query( $wpdb->prepare( $query, $values ) );
+					// $query is built from a fixed template plus %s placeholders; values are bound via prepare().
+					$result = $wpdb->query( $wpdb->prepare( $query, $values ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Placeholders bound via prepare() above.
 
 					if ( false === $result ) {
 						divi_squad()->log_debug( 'Batch insert failed: ' . $wpdb->last_error );
@@ -257,6 +269,7 @@ trait Table_Population_Trait {
 			}
 
 			// Get the next meta_id for the next batch.
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery -- Table names are internal identifiers; the LIKE '_%%' pattern is a fixed literal, not user input.
 			$next_id = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT MIN(meta_id)
@@ -274,6 +287,7 @@ trait Table_Population_Trait {
 					array_merge( array( $last_id ), $post_types )
 				)
 			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.LikeWildcardsInQuery
 
 			$next_id = (int) $next_id;
 
@@ -339,7 +353,7 @@ trait Table_Population_Trait {
 	 * Get meta keys that exist in postmeta but not in the collection table using WP_Meta_Query.
 	 *
 	 * @since  3.1.0
-	 * @return array Array of missing meta keys with their post types and occurrence counts.
+	 * @return array<int, array{meta_key: string, post_type: string, occurrence_count: int}> Array of missing meta keys with their post types and occurrence counts.
 	 */
 	public function get_missing_meta_keys(): array {
 		global $wpdb;
@@ -351,8 +365,21 @@ trait Table_Population_Trait {
 
 		// Try to get from cache first.
 		$cached_results = wp_cache_get( $cache_key, 'divi-squad-custom_fields' );
-		if ( false !== $cached_results ) {
-			return $cached_results;
+		if ( is_array( $cached_results ) ) {
+			$normalized = array();
+			foreach ( $cached_results as $row ) {
+				if ( ! is_array( $row ) ) {
+					continue;
+				}
+
+				$normalized[] = array(
+					'meta_key'         => (string) ( $row['meta_key'] ?? '' ),
+					'post_type'        => (string) ( $row['post_type'] ?? '' ),
+					'occurrence_count' => (int) ( $row['occurrence_count'] ?? 0 ),
+				);
+			}
+
+			return $normalized;
 		}
 
 		try {
@@ -384,9 +411,11 @@ trait Table_Population_Trait {
 			$post_ids = $query->posts;
 
 			// Process posts in chunks until no more posts or max_results reached.
-			while ( ! empty( $post_ids ) && count( $results ) < $max_results ) {
+			// phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found -- $results grows inside the loop; a cached count would go stale. count() on a small in-memory array is negligible.
+			while ( count( $post_ids ) > 0 && count( $results ) < $max_results ) {
 				foreach ( array_chunk( $post_ids, 100 ) as $chunk ) {
-					foreach ( $chunk as $post_id ) {
+					foreach ( $chunk as $post ) {
+						$post_id   = $post instanceof \WP_Post ? $post->ID : (int) $post;
 						$post_type = get_post_type( $post_id );
 						if ( ! in_array( $post_type, $post_types, true ) ) {
 							continue;
@@ -394,8 +423,12 @@ trait Table_Population_Trait {
 
 						// Get all meta keys for the post.
 						$meta_data = get_post_meta( $post_id, '', true );
+						if ( ! is_array( $meta_data ) ) {
+							continue;
+						}
 
 						foreach ( $meta_data as $meta_key => $meta_values ) {
+							$meta_key = (string) $meta_key;
 							if ( strpos( $meta_key, '_' ) === 0 ) {
 								continue; // Skip hidden meta keys.
 							}
@@ -403,7 +436,7 @@ trait Table_Population_Trait {
 							// Check if meta key already exists in custom table.
 							$exists = $wpdb->get_var(
 								$wpdb->prepare(
-									"SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND post_type = %s",
+									"SELECT 1 FROM {$this->table_name} WHERE meta_key = %s AND post_type = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $this->table_name is an internal identifier, not user input.
 									$meta_key,
 									$post_type
 								)
@@ -478,7 +511,7 @@ trait Table_Population_Trait {
 	 * Get meta keys count by post type using WP_Meta_Query.
 	 *
 	 * @since  3.1.0
-	 * @return array Array of meta key counts by post type.
+	 * @return array<int, array{post_type: string, unique_keys: int, total_keys: int}> Array of meta key counts by post type.
 	 */
 	public function get_meta_keys_count_by_post_type(): array {
 		$post_types = $this->tracked_post_types;
@@ -487,8 +520,21 @@ trait Table_Population_Trait {
 
 		// Try to get from cache first.
 		$cached_results = wp_cache_get( $cache_key, 'divi-squad-custom_fields' );
-		if ( false !== $cached_results ) {
-			return $cached_results;
+		if ( is_array( $cached_results ) ) {
+			$normalized = array();
+			foreach ( $cached_results as $row ) {
+				if ( ! is_array( $row ) ) {
+					continue;
+				}
+
+				$normalized[] = array(
+					'post_type'   => (string) ( $row['post_type'] ?? '' ),
+					'unique_keys' => (int) ( $row['unique_keys'] ?? 0 ),
+					'total_keys'  => (int) ( $row['total_keys'] ?? 0 ),
+				);
+			}
+
+			return $normalized;
 		}
 
 		try {
@@ -526,44 +572,33 @@ trait Table_Population_Trait {
 			$post_ids = $query->posts;
 
 			// Process posts in chunks.
-			while ( ! empty( $post_ids ) ) {
+			// phpcs:ignore Squiz.PHP.DisallowSizeFunctionsInLoops.Found -- $post_ids is repopulated from a paged WP_Query at the end of each iteration; count() reflects the new page.
+			while ( count( $post_ids ) > 0 ) {
 				foreach ( array_chunk( $post_ids, 100 ) as $chunk ) {
-					foreach ( $chunk as $post_id ) {
+					foreach ( $chunk as $post ) {
+						$post_id   = $post instanceof \WP_Post ? $post->ID : (int) $post;
 						$post_type = get_post_type( $post_id );
-						if ( ! isset( $results[ $post_type ] ) ) {
+						if ( false === $post_type || ! isset( $results[ $post_type ] ) ) {
 							continue;
 						}
 
 						// Get all meta keys for the post.
 						$meta_data = get_post_meta( $post_id, '', true );
-						$meta_keys = array_keys( $meta_data );
+						if ( ! is_array( $meta_data ) ) {
+							continue;
+						}
 
 						// Filter out hidden meta keys.
-						$meta_keys = array_filter(
-							$meta_keys,
-							static function ( $key ) {
-								return strpos( $key, '_' ) !== 0;
+						$visible_keys = array_filter(
+							array_keys( $meta_data ),
+							static function ( $key ): bool {
+								return strpos( (string) $key, '_' ) !== 0;
 							}
 						);
 
 						// Update counts.
-						$results[ $post_type ]['total_keys'] += count( $meta_keys );
-						$results[ $post_type ]['unique_keys'] = count(
-							array_unique(
-								array_merge(
-									array_keys(
-										array_filter(
-											$meta_data,
-											static function ( $key ) {
-												return strpos( $key, '_' ) !== 0;
-											},
-											ARRAY_FILTER_USE_KEY
-										)
-									),
-									array_keys( array_filter( $results[ $post_type ]['unique_keys'] ?? array() ) )
-								)
-							)
-						);
+						$results[ $post_type ]['total_keys']  += count( $visible_keys );
+						$results[ $post_type ]['unique_keys'] = count( array_unique( $visible_keys ) );
 					}
 				}
 
@@ -611,7 +646,7 @@ trait Table_Population_Trait {
 
 		// Estimate 2KB per record and aim to use no more than 80% of available memory.
 		$available_memory = $memory_limit - $base_memory;
-		$optimal_size     = floor( ( $available_memory * 0.8 ) / 2048 );
+		$optimal_size     = (int) floor( ( $available_memory * 0.8 ) / 2048 );
 
 		// Cap at maximum batch size and ensure minimum of 1000.
 		return min( max( 1000, $optimal_size ), $this->batch_size );

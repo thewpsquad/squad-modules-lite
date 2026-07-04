@@ -95,7 +95,12 @@ class Fields extends Manager {
 		$this->batch_size = $this->validate_batch_size( $this->get_optimal_batch_size() );
 
 		// Register hooks for table management.
-		add_action( 'wp_loaded', array( $this, 'is_table_verified' ) );
+		add_action(
+			'wp_loaded',
+			function (): void {
+				$this->is_table_verified();
+			}
+		);
 		add_action( 'wp_loaded', array( $this, 'check_table_version' ) );
 
 		// Register hooks for custom field management.
@@ -319,9 +324,9 @@ class Fields extends Manager {
 	 *
 	 * @since  3.1.1
 	 *
-	 * @param array  $meta_ids  Meta IDs being deleted.
-	 * @param int    $object_id Object ID.
-	 * @param string $meta_key  Meta key.
+	 * @param array<int, int> $meta_ids  Meta IDs being deleted.
+	 * @param int             $object_id Object ID.
+	 * @param string          $meta_key  Meta key.
 	 *
 	 * @return void
 	 */
@@ -334,6 +339,9 @@ class Fields extends Manager {
 		}
 
 		$post_type = get_post_type( $object_id );
+		if ( false === $post_type ) {
+			return;
+		}
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$wpdb->delete(
@@ -379,7 +387,7 @@ class Fields extends Manager {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 		$results = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT DISTINCT meta_key FROM {$this->table_name} WHERE post_type = %s ORDER BY meta_key LIMIT %d",
+				"SELECT DISTINCT meta_key FROM {$this->table_name} WHERE post_type = %s ORDER BY meta_key LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $this->table_name is an internal identifier, not user input.
 				$post_type,
 				$limit
 			)

@@ -25,6 +25,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -60,12 +61,12 @@ class Google_Map extends Module {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param array<string, mixed> $args {
-	 *     Arguments.
+	 * @param array<string, mixed> $args               {
+	 *                                                 Arguments.
 	 *
-	 *     @type object               $classnamesInstance Classnames instance.
-	 *     @type array<string, mixed> $attrs              Module attributes.
-	 * }
+	 * @type object                $classnamesInstance Classnames instance.
+	 * @type array<string, mixed>  $attrs              Module attributes.
+	 *                                                 }
 	 *
 	 * @return void
 	 */
@@ -73,6 +74,7 @@ class Google_Map extends Module {
 		$classnames_instance = $args['classnamesInstance'];
 		$attrs               = $args['attrs'];
 
+		$classnames_instance->add( 'disq_embed_google_map' );
 		$classnames_instance->add(
 			ElementClassnames::classnames(
 				array(
@@ -87,11 +89,11 @@ class Google_Map extends Module {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param array<string, mixed> $args {
-	 *     Arguments.
+	 * @param array<string, mixed> $args     {
+	 *                                       Arguments.
 	 *
-	 *     @type object $elements ModuleElements instance.
-	 * }
+	 * @type ModuleElements        $elements ModuleElements instance.
+	 *                                       }
 	 *
 	 * @return void
 	 */
@@ -157,13 +159,17 @@ class Google_Map extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes saved by the Visual Builder.
 	 * @param string               $content  Inner (child) block content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
 	public static function render_callback( array $attrs, string $content, WP_Block $block, $elements ): string {
 		try {
 			$map_html = self::render_map( $attrs );
+
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
 
 			return DiviModule::render(
 				array(
@@ -180,7 +186,7 @@ class Google_Map extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $map_html,
+					'children'            => $style_components . $map_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -251,7 +257,7 @@ class Google_Map extends Module {
 			$src_url = apply_filters( 'divi_squad_google_map_fallback_url', $src_url, $address, $zoom, null );
 		}
 
-		$iframe_html  = '<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ';
+		$iframe_html = '<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" ';
 		$iframe_html .= 'src="' . esc_url( $src_url ) . '" ';
 		$iframe_html .= 'aria-label="' . esc_attr( $address ) . '"></iframe>';
 

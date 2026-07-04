@@ -15,11 +15,10 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Advanced_Video\Video_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;
 use function esc_html__;
-use function preg_replace;
 use function sprintf;
 use function trim;
 use function wp_enqueue_script;
@@ -76,6 +75,13 @@ class Advanced_Video extends Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		$on_off = array(
 			'off' => esc_html__( 'No', 'squad-modules-for-divi' ),
@@ -330,6 +336,17 @@ class Advanced_Video extends Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$source = (string) $this->prop( 'source', 'youtube' );
 		$source = Video_Helper::is_valid_source( $source ) ? $source : 'youtube';
@@ -408,7 +425,7 @@ class Advanced_Video extends Module {
 		}
 
 		$shadow = 'off' === (string) $this->prop( 'sticky_shadow', 'on' ) ? 'none' : '0 10px 30px rgba(0,0,0,0.35)';
-		$decl  .= sprintf( '--squad-av-sticky-shadow:%s;', $shadow );
+		$decl   .= sprintf( '--squad-av-sticky-shadow:%s;', $shadow );
 
 		self::set_style( $render_slug, array( 'selector' => $root, 'declaration' => $decl ) );
 
@@ -422,12 +439,4 @@ class Advanced_Video extends Module {
 		);
 	}
 
-	/** Sanitize a CSS color/background value — strips `{ } ; < > \ " '`. */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
-	}
 }

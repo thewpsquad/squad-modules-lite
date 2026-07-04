@@ -24,7 +24,12 @@ if ( ! interface_exists( 'ET\Builder\Framework\DependencyManagement\Interfaces\D
 }
 
 use ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface;
+use ET\Builder\Packages\IconLibrary\IconFont\Utils as IconFontUtils;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
+use Throwable;
+use function preg_match;
+use function preg_replace;
 
 /**
  * Abstract Module class for Divi 5.
@@ -36,7 +41,7 @@ use ET\Builder\Packages\ModuleLibrary\ModuleRegistration;
  *
  * @since 3.4.0
  *
- * @see DependencyInterface
+ * @see   DependencyInterface
  */
 abstract class Module implements DependencyInterface {
 
@@ -65,7 +70,7 @@ abstract class Module implements DependencyInterface {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner (child) block content.
 	 * @param \WP_Block            $block    Parsed block instance.
-	 * @param object               $elements Divi 5 ModuleElements helper for rendering/styling.
+	 * @param ModuleElements       $elements Divi 5 ModuleElements helper for rendering/styling.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -134,5 +139,78 @@ abstract class Module implements DependencyInterface {
 		}
 
 		return (string) $value;
+	}
+
+	/**
+	 * Decode a Divi 5 `divi/icon-picker` attribute value to its Unicode glyph character.
+	 *
+	 * Divi 5 icon-picker fields store values as an array — e.g.
+	 * `array( 'unicode' => 'e001', 'type' => 'divi', 'weight' => '400' )`.
+	 * Render callbacks that cast this to `(string)` emit "Array". This helper
+	 * uses `IconFontUtils::process_font_icon()` to look up and return the decoded
+	 * glyph character, matching the pattern established by `ET\Builder` itself.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param mixed $icon Icon attribute value (expects array with 'unicode' key).
+	 *
+	 * @return string Decoded glyph character, or empty string on failure.
+	 */
+	protected static function resolve_icon( $icon ): string {
+		if ( ! is_array( $icon ) || array() === $icon ) {
+			return '';
+		}
+		if ( ! class_exists( IconFontUtils::class ) ) {
+			return '';
+		}
+		try {
+			$processed = IconFontUtils::process_font_icon( $icon );
+		} catch ( Throwable $e ) {
+			return '';
+		}
+		return is_string( $processed ) ? $processed : '';
+	}
+
+	/**
+	 * Sanitize a CSS background / color value.
+	 *
+	 * Strips characters that could break out of a CSS declaration context
+	 * ({}, ;, <, >, ", ', \). Safe to use inside `<style>` blocks and
+	 * inline `style=""` attributes.
+	 *
+	 * @since 3.4.7
+	 *
+	 * @param string $value Raw value from block attrs.
+	 *
+	 * @return string Sanitized value, or empty string.
+	 */
+	protected static function sanitize_css_background( string $value ): string {
+		$value = trim( $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		return (string) preg_replace( '/[{};<>"\'\\\\]/', '', $value );
+	}
+
+	/**
+	 * Sanitize a CSS length value.
+	 *
+	 * Accepts only values matching `<number><unit>` (e.g. `10px`, `1.5rem`,
+	 * `50%`). Returns $fallback when the value does not match, defaulting to
+	 * an empty string so callers can detect and substitute a hardcoded default.
+	 *
+	 * @since 3.4.7
+	 *
+	 * @param string $value    Raw value from block attrs.
+	 * @param string $fallback Returned when $value is invalid (default '').
+	 *
+	 * @return string Validated length string or $fallback.
+	 */
+	protected static function sanitize_css_length( string $value, string $fallback = '' ): string {
+		$value = trim( $value );
+		if ( 1 === preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
+			return $value;
+		}
+		return $fallback;
 	}
 }

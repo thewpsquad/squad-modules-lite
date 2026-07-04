@@ -143,7 +143,7 @@ class Star_Rating extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.4.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// All rating fields.
@@ -460,13 +460,15 @@ class Star_Rating extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.4.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		$fields['stars_color'] = array( 'background' => "$this->main_css_element div .star-rating i" );
 		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'header', "$this->main_css_element div .star-rating-title" );
-		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'typed_text', "$this->main_css_element div .star-rating-text" );
+		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'rating_number', "$this->main_css_element div .star-rating-text" );
 
 		// Default styles.
 		$fields['background_layout'] = array( 'color' => "$this->main_css_element div .star-rating" );
@@ -477,15 +479,15 @@ class Star_Rating extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$stars_schema_markup    = $this->prop( 'stars_schema_markup', 'off' );
-		$stars_display_type     = $this->prop( 'stars_display_type', 'inline' );
+		$stars_display_type     = $this->prop( 'stars_display_type', 'inline-block' );
 		$title_inline_position  = $this->prop( 'title_inline_position', 'left' );
 		$title_stacked_position = $this->prop( 'title_stacked_position', 'bottom' );
 		$title_display          = 'inline-block' === $stars_display_type ? $title_inline_position : $title_stacked_position;
@@ -496,14 +498,14 @@ class Star_Rating extends Module {
 			$title = sprintf(
 				'<%1$s class="star-rating-title et_pb_module_header"><span%3$s>%2$s</span></%1$s>',
 				esc_attr( $this->prop( 'text_element_tag', 'h2' ) ),
-				$title,
+				esc_html( $title ),
 				'on' === $stars_schema_markup ? esc_attr( ' itemprop="name"' ) : ''
 			);
 		}
 
 		// collect rating data with html.
 		$rating_scale = absint( $this->prop( 'rating_scale', 5 ) );
-		$rating       = (float) ( 10 === $rating_scale ) ? $this->prop( 'rating_upto_10', 10 ) : $this->prop( 'rating_upto_5', 5 );
+		$rating       = 10 === $rating_scale ? $this->prop( 'rating_upto_10', 10 ) : $this->prop( 'rating_upto_5', 5 );
 		$stars_output = self::get_star_rating(
 			array(
 				'rating_scale'        => $rating_scale,
@@ -578,7 +580,7 @@ class Star_Rating extends Module {
 	/**
 	 * Generate html markup for stars.
 	 *
-	 * @param array $args List of attributes.
+	 * @param array<string, mixed> $args List of attributes.
 	 *
 	 * @return string
 	 */
@@ -596,19 +598,19 @@ class Star_Rating extends Module {
 		$precision  = ( (float) $args['rating'] ) - $int_rating;
 		$output     = '';
 
-		for ( $stars = 1; $stars <= $args['rating_scale']; $stars++ ) {
+		for ( $stars = 1; $stars <= $args['rating_scale']; $stars ++ ) {
 			if ( $stars <= $int_rating ) {
-				$output .= '<i class="star-full">☆</i>';
+				$output .= '<i class="star-full" aria-hidden="true">☆</i>';
 			} elseif ( $int_rating + 1 === $stars && $precision > 0 ) {
 				// Partial star with precision using CSS custom property.
 				$decimal = number_format( $precision * 100, 0, '', '' );
-				$output .= sprintf(
-					'<i class="star-precision" style="--squad-star-rating-precision: %1$s">☆</i>',
+				$output  .= sprintf(
+					'<i class="star-precision" aria-hidden="true" style="--squad-star-rating-precision: %1$s">☆</i>',
 					esc_attr( $decimal )
 				);
 			} else {
 				// Empty star.
-				$output .= '<i class="star-empty">☆</i>';
+				$output .= '<i class="star-empty" aria-hidden="true">☆</i>';
 			}
 		}
 
@@ -628,7 +630,7 @@ class Star_Rating extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
 	 * @return void
 	 */
@@ -638,7 +640,7 @@ class Star_Rating extends Module {
 
 		$this->add_classname( array( $this->get_text_orientation_classname() ) );
 
-		$stars_display_type     = $this->prop( 'stars_display_type', 'inline' );
+		$stars_display_type     = $this->prop( 'stars_display_type', 'inline-block' );
 		$title_inline_position  = $this->prop( 'title_inline_position', 'left' );
 		$title_stacked_position = $this->prop( 'title_stacked_position', 'bottom' );
 		$title_display          = 'inline-block' === $stars_display_type ? $title_inline_position : $title_stacked_position;

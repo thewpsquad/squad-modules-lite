@@ -426,9 +426,9 @@ class Author_Box extends Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array<string, string> $attrs       List of attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -485,11 +485,15 @@ class Author_Box extends Module {
 			return '';
 		}
 
-		$size = absint( $this->prop( 'avatar_size', '96' ) );
+		$size   = absint( $this->prop( 'avatar_size', '96' ) );
+		$avatar = get_avatar( $user->ID, $size, '', esc_attr( $user->display_name ) );
+		if ( false === $avatar ) {
+			return '';
+		}
 
 		return sprintf(
 			'<div class="squad-author-box__avatar">%s</div>',
-			get_avatar( $user->ID, $size, '', esc_attr( $user->display_name ) )
+			$avatar
 		);
 	}
 
@@ -553,7 +557,7 @@ class Author_Box extends Module {
 		if ( 'on' !== $this->prop( 'show_bio', 'on' ) ) {
 			return '';
 		}
-		if ( empty( $user->description ) ) {
+		if ( '' === $user->description ) {
 			return '';
 		}
 
@@ -625,7 +629,7 @@ class Author_Box extends Module {
 		if ( 'on' !== $this->prop( 'show_website_link', 'on' ) ) {
 			return '';
 		}
-		if ( empty( $user->user_url ) ) {
+		if ( '' === $user->user_url ) {
 			return '';
 		}
 

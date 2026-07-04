@@ -25,6 +25,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -64,6 +65,7 @@ class Logo_Carousel_Item extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_logo_carousel_item' );
 		$args['classnamesInstance']->add( 'swiper-slide' );
 		$args['classnamesInstance']->add( 'squad-logo-carousel__slide' );
 		$args['classnamesInstance']->add(
@@ -150,12 +152,16 @@ class Logo_Carousel_Item extends Module {
 	public static function render_callback( array $attrs, string $content, WP_Block $block, $elements ): string {
 		try {
 			$item      = $attrs['slideItem']['innerContent']['desktop']['value'] ?? array();
-			$image_url = esc_url( $item['image'] ?? '' );
+			$image_url = esc_url( self::resolve_upload_url( $item['image'] ?? '' ) );
 			$logo_link = esc_url( $item['logoLink'] ?? '' );
 			$target    = $item['logoLinkTarget'] ?? '_self';
 			$target    = in_array( $target, array( '_self', '_blank' ), true ) ? $target : '_self';
 
 			$item_html = self::render_logo( $image_url, $item['imageAlt'] ?? '', $logo_link, $target );
+
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
 
 			return DiviModule::render(
 				array(
@@ -169,7 +175,7 @@ class Logo_Carousel_Item extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $item_html,
+					'children'            => $style_components . $item_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -192,7 +198,7 @@ class Logo_Carousel_Item extends Module {
 	 * @return string
 	 */
 	private static function render_logo( string $image_url, string $alt, string $logo_link, string $target ): string {
-		if ( empty( $image_url ) ) {
+		if ( '' === $image_url ) {
 			return '';
 		}
 
@@ -202,8 +208,9 @@ class Logo_Carousel_Item extends Module {
 			esc_attr( $alt )
 		);
 
-		if ( ! empty( $logo_link ) ) {
+		if ( '' !== $logo_link ) {
 			$rel = '_blank' === $target ? ' rel="noopener noreferrer"' : '';
+
 			return sprintf(
 				'<a href="%1$s" target="%2$s"%3$s>%4$s</a>',
 				$logo_link,

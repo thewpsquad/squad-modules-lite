@@ -155,7 +155,7 @@ class Custom_Fields {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param Custom_Fields $this The Custom_Fields instance.
+		 * @param Custom_Fields $custom_fields The Custom_Fields instance.
 		 */
 		do_action( 'divi_squad_before_custom_fields_init', $this );
 
@@ -168,7 +168,7 @@ class Custom_Fields {
 		 * @since 3.1.0
 		 *
 		 * @param Custom_Fields\Manager_Interface $fields_manager The fields manager instance.
-		 * @param Custom_Fields                  $this           The Custom_Fields instance.
+		 * @param Custom_Fields                   $custom_fields  The Custom_Fields instance.
 		 */
 		do_action( 'divi_squad_custom_fields_initialized', $fields_manager, $this );
 	}
@@ -430,8 +430,8 @@ class Custom_Fields {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param int                 $post_id          The post ID.
-			 * @param string              $field_type       The field type.
+			 * @param int                  $post_id          The post ID.
+			 * @param string               $field_type       The field type.
 			 * @param Collection_Interface $fields_processor The processor instance.
 			 */
 			do_action( 'divi_squad_before_get_fields', $post_id, $field_type, $fields_processor );
@@ -443,9 +443,9 @@ class Custom_Fields {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array               $fields           The retrieved fields.
-			 * @param int                 $post_id          The post ID.
-			 * @param string              $field_type       The field type.
+			 * @param array                $fields           The retrieved fields.
+			 * @param int                  $post_id          The post ID.
+			 * @param string               $field_type       The field type.
 			 * @param Collection_Interface $fields_processor The processor instance.
 			 */
 			$fields = apply_filters( 'divi_squad_custom_fields', $fields, $post_id, $field_type, $fields_processor );
@@ -527,7 +527,7 @@ class Custom_Fields {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param string                            $field_type  The field type.
+			 * @param string                             $field_type  The field type.
 			 * @param Custom_Fields\Collection_Interface $fields      The fields processor.
 			 * @param Custom_Fields\Definition_Interface $definitions The definitions processor.
 			 */
@@ -680,8 +680,8 @@ class Custom_Fields {
 	/**
 	 * Get a manager instance of a specific type.
 	 *
-	 * @param string $manager_type The manager type (fields, upgrades, etc.).
-	 * @param array  $args         Optional. Arguments to pass to the manager constructor.
+	 * @param string            $manager_type The manager type (fields, upgrades, etc.).
+	 * @param array<int, mixed> $args         Optional. Arguments to pass to the manager constructor.
 	 *
 	 * @return Custom_Fields\Manager_Interface The manager instance.
 	 * @throws InvalidArgumentException If the manager type is not supported.
@@ -755,7 +755,18 @@ class Custom_Fields {
 			do_action( 'divi_squad_before_get_manager', $processor_class, $manager_type, $constructor_args );
 
 			// Create a new instance of the processor class with constructor args.
-			$this->storage['managers'][ $cache_key ] = new $processor_class( ...$constructor_args );
+			$manager = new $processor_class( ...$constructor_args );
+			if ( ! $manager instanceof Custom_Fields\Manager_Interface ) {
+				throw new InvalidArgumentException(
+					sprintf(
+					/* translators: %s: The invalid manager class */
+						esc_html__( 'The manager class "%s" must implement Manager_Interface.', 'squad-modules-for-divi' ),
+						esc_html( (string) $processor_class )
+					)
+				);
+			}
+
+			$this->storage['managers'][ $cache_key ] = $manager;
 
 			/**
 			 * Action after instantiating a manager.
@@ -763,10 +774,10 @@ class Custom_Fields {
 			 * @since 3.1.0
 			 *
 			 * @param Custom_Fields\Manager_Interface $manager      The manager instance.
-			 * @param string                         $manager_type The manager type.
-			 * @param array                          $args         The constructor arguments.
+			 * @param string                          $manager_type The manager type.
+			 * @param array<int, mixed>               $args         The constructor arguments.
 			 */
-			do_action( 'divi_squad_after_get_manager', $this->storage['managers'][ $cache_key ], $manager_type, $constructor_args );
+			do_action( 'divi_squad_after_get_manager', $manager, $manager_type, $constructor_args );
 		}
 
 		/**
@@ -775,8 +786,8 @@ class Custom_Fields {
 		 * @since 3.1.0
 		 *
 		 * @param Custom_Fields\Manager_Interface $manager      The manager instance.
-		 * @param string                         $manager_type The manager type.
-		 * @param array                          $args         The constructor arguments.
+		 * @param string                          $manager_type The manager type.
+		 * @param array                           $args         The constructor arguments.
 		 */
 		return apply_filters(
 			'divi_squad_manager',
@@ -837,7 +848,21 @@ class Custom_Fields {
 
 		// Get the processor class name and create a unique cache key.
 		$processor_class = $this->get_processor( $storage, $field_type );
-		$cache_key       = md5( $processor_class );
+		if ( null === $processor_class ) {
+			$error_message = apply_filters(
+				'divi_squad_unsupported_field_type_message',
+				sprintf(
+				/* translators: %s: The unsupported field type */
+					esc_html__( 'Unsupported field type: %s', 'squad-modules-for-divi' ),
+					esc_html( $field_type )
+				),
+				$field_type
+			);
+
+			throw new InvalidArgumentException( $error_message ); // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+		}
+
+		$cache_key = md5( $processor_class );
 
 		// Check if an instance already exists in storage.
 		if ( ! isset( $this->storage['instances'][ $cache_key ] ) ) {
@@ -916,7 +941,7 @@ class Custom_Fields {
 		}
 
 		$success = $this->add_processor( self::PROCESSOR_COLLECTIONS, $field_type, $collections_class ) &&
-					$this->add_processor( self::PROCESSOR_DEFINITIONS, $field_type, $definitions_class );
+				   $this->add_processor( self::PROCESSOR_DEFINITIONS, $field_type, $definitions_class );
 
 		if ( $success ) {
 			/**
@@ -998,15 +1023,15 @@ class Custom_Fields {
 
 			// Clear definition fields cache.
 			$def_processor_class = $this->get_processor( self::PROCESSOR_DEFINITIONS, $field_type );
-			if ( $def_processor_class ) {
+			if ( null !== $def_processor_class ) {
 				$definition_key = md5( $def_processor_class );
 				if ( isset( $this->storage['definitions'][ $definition_key ] ) ) {
 					unset( $this->storage['definitions'][ $definition_key ] );
 				}
 			}
-		} elseif ( null !== $field_type && null !== $post_id ) {
+		} elseif ( null !== $field_type ) {
 			$processor_class = $this->get_processor( self::PROCESSOR_COLLECTIONS, $field_type );
-			if ( $processor_class ) {
+			if ( null !== $processor_class ) {
 				$cache_key = md5( $processor_class );
 				if ( isset( $this->storage['options'][ $cache_key ][ $post_id ] ) ) {
 					unset( $this->storage['options'][ $cache_key ][ $post_id ] );

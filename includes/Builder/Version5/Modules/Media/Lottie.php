@@ -26,6 +26,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -64,6 +65,7 @@ class Lottie extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_lottie' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -129,21 +131,22 @@ class Lottie extends Module {
 							'styleProps' => array(
 								'advancedStyles' => array(
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .squad-lottie-wrapper .squad-lottie-player svg path",
 											'attr'                => $attrs['lottie']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$color = $value['color'] ?? '';
 
-												return '' !== $color ? sprintf( 'fill: %s !important;', $color ) : '';
+												$color = self::sanitize_css_background( $color );
+														return '' !== $color ? sprintf( 'fill: %s !important;', $color ) : '';
 											},
 										),
 									),
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .squad-lottie-wrapper .squad-lottie-player",
 											'attr'                => $attrs['lottie']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
@@ -151,10 +154,16 @@ class Lottie extends Module {
 												$declaration = '';
 
 												if ( isset( $value['width'] ) && '' !== $value['width'] ) {
-													$declaration .= sprintf( 'width: %s !important;', $value['width'] );
+													$w = self::sanitize_css_length( (string) $value['width'] );
+													if ( '' !== $w ) {
+														$declaration .= sprintf( 'width: %s !important;', $w );
+													}
 												}
 												if ( isset( $value['height'] ) && '' !== $value['height'] ) {
-													$declaration .= sprintf( 'height: %s !important;', $value['height'] );
+													$h = self::sanitize_css_length( (string) $value['height'] );
+													if ( '' !== $h ) {
+														$declaration .= sprintf( 'height: %s !important;', $h );
+													}
 												}
 
 												return $declaration;
@@ -185,7 +194,7 @@ class Lottie extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes saved by the Visual Builder.
 	 * @param string               $content  Inner (child) block content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -280,4 +289,5 @@ class Lottie extends Module {
 			esc_attr( (string) $data_options )
 		);
 	}
+
 }

@@ -131,7 +131,7 @@ class Drop_Cap_Text extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.4.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Text fields definitions.
@@ -207,6 +207,8 @@ class Drop_Cap_Text extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props() {
 		$fields = parent::get_transition_fields_css_props();
@@ -227,9 +229,9 @@ class Drop_Cap_Text extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -250,7 +252,7 @@ class Drop_Cap_Text extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
 	 * @return void
 	 */

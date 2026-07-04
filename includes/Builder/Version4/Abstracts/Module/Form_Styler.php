@@ -32,7 +32,7 @@ abstract class Form_Styler extends Module {
 	 * CSS Selectors configuration
 	 *
 	 * @since 3.2.0
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	protected array $squad_css_selectors = array();
 
@@ -93,7 +93,7 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param Form_Styler $this Current Form Styler instance
+		 * @param self $module Current Form Styler instance
 		 */
 		do_action( 'divi_squad_form_styler_before_construct', $this );
 
@@ -105,7 +105,7 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param Form_Styler $this Current Form Styler instance
+		 * @param self $module Current Form Styler instance
 		 */
 		do_action( 'divi_squad_form_styler_after_construct', $this );
 	}
@@ -116,7 +116,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access public
 	 *
-	 * @return array Array of toggle settings.
+	 * @return array<string, array<string, mixed>> Array of toggle settings.
 	 */
 	public function get_settings_modal_toggles(): array {
 		$toggles = array(
@@ -182,7 +182,7 @@ abstract class Form_Styler extends Module {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @return array An array of advanced field configurations.
+	 * @return array<string, mixed> An array of advanced field configurations.
 	 */
 	public function get_advanced_fields_config(): array {
 		$advanced_fields = parent::get_advanced_fields_config();
@@ -206,7 +206,7 @@ abstract class Form_Styler extends Module {
 	 * @since  1.0.0
 	 * @access public
 	 *
-	 * @return array Array of fields for the module.
+	 * @return array<string, mixed> Array of fields for the module.
 	 */
 	public function get_fields(): array {
 		$fields = array_merge_recursive(
@@ -220,9 +220,8 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param string $slug   The slug of current module.
-		 *
-		 * @param array  $fields The default fields for the Form Styler.
+		 * @param array<string, mixed> $fields The default fields for the Form Styler.
+		 * @param string               $slug   The slug of current module.
 		 */
 		$fields = (array) apply_filters( 'divi_squad_form_styler_fields', $fields, $this->slug );
 
@@ -235,7 +234,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access public
 	 *
-	 * @return array Custom CSS fields configuration.
+	 * @return array<string, array<string, string>> Custom CSS fields configuration.
 	 */
 	public function get_custom_css_fields_config(): array {
 		return array(
@@ -272,7 +271,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access public
 	 *
-	 * @return array Array of transition fields CSS properties.
+	 * @return array<string, mixed> Array of transition fields CSS properties.
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = (array) parent::get_transition_fields_css_props();
@@ -318,7 +317,7 @@ abstract class Form_Styler extends Module {
 	 *
 	 * @param string $key Dot notation key for the selector.
 	 *
-	 * @return string|array
+	 * @return string|array<string, mixed>
 	 */
 	protected function squad_get_css_selector( string $key ) {
 		$keys  = explode( '.', $key );
@@ -336,10 +335,9 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param string       $key   Original selector key
-		 * @param array        $keys  Exploded selector key parts
-		 *
-		 * @param string|array $value The selector value
+		 * @param string|array<string, mixed> $value The selector value
+		 * @param string                      $key   Original selector key
+		 * @param array<int, string>          $keys  Exploded selector key parts
 		 */
 		return apply_filters( 'divi_squad_form_styler_css_selector', $value, $key, $keys );
 	}
@@ -386,7 +384,7 @@ abstract class Form_Styler extends Module {
 	 * @return string
 	 */
 	protected function squad_get_hover_selector_string( string $key ): ?string {
-		if ( $this->squad_get_css_selector_string( $key, 'hover' ) ) {
+		if ( '' !== $this->squad_get_css_selector_string( $key, 'hover' ) ) {
 			return $this->squad_get_css_selector_string( $key, 'hover' );
 		}
 
@@ -447,9 +445,9 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string       $key     Dot notation key for the selector.
-	 * @param string|array $value   New selector value.
-	 * @param string       $version Selector version (default: 'v1').
+	 * @param string                      $key     Dot notation key for the selector.
+	 * @param string|array<string, mixed> $value   New selector value.
+	 * @param string                      $version Selector version (default: 'v1').
 	 *
 	 * @return void
 	 */
@@ -479,12 +477,12 @@ abstract class Form_Styler extends Module {
 	 */
 	protected function squad_add_hover_to_selector( string $selector ): string {
 		$selector = trim( $selector );
-		if ( empty( $selector ) ) {
+		if ( '' === $selector ) {
 			return '';
 		}
 
-		$parts      = explode( ' ', $selector );
-		$last_part  = &$parts[ count( $parts ) - 1 ];
+		$parts     = explode( ' ', $selector );
+		$last_part = &$parts[ count( $parts ) - 1 ];
 		$last_part .= ':hover';
 
 		/**
@@ -510,7 +508,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of general fields.
+	 * @return array<string, mixed> Array of general fields.
 	 */
 	protected function squad_get_general_fields(): array {
 		/**
@@ -518,8 +516,8 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array       $fields Default array of general fields
-		 * @param Form_Styler $this   Current Form Styler instance
+		 * @param array<string, mixed> $fields Default array of general fields
+		 * @param self                 $module Current Form Styler instance
 		 */
 		return apply_filters( 'divi_squad_form_styler_general_fields', array(), $this );
 	}
@@ -530,7 +528,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of design fields.
+	 * @return array<string, mixed> Array of design fields.
 	 */
 	protected function squad_get_design_fields(): array {
 		$customizable_design_fields = $this->squad_get_customizable_design_fields();
@@ -561,7 +559,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of advanced fields.
+	 * @return array<string, mixed> Array of advanced fields.
 	 */
 	protected function squad_get_advanced_fields(): array {
 		return array();
@@ -573,7 +571,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of background fields.
+	 * @return array<string, mixed> Array of background fields.
 	 */
 	protected function squad_get_background_fields(): array {
 		$wrapper_fields         = $this->squad_add_background_field(
@@ -604,8 +602,8 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array  $background_fields The default background fields for the Form Styler.
-		 * @param string $slug              The current module slug, example: disq_{module_category}_{module_name}
+		 * @param array<string, mixed> $background_fields The default background fields for the Form Styler.
+		 * @param string               $slug              The current module slug, example: disq_{module_category}_{module_name}
 		 */
 		return apply_filters( 'divi_squad_form_styler_background_fields', $background_fields, $this->slug );
 	}
@@ -620,7 +618,7 @@ abstract class Form_Styler extends Module {
 	 *
 	 * @param string $type Either 'title' or 'description'.
 	 *
-	 * @return array The field definition array.
+	 * @return array<string, mixed> The field definition array.
 	 */
 	protected function squad_get_enable_form_field( string $type ): array {
 		$label = ucfirst( $type );
@@ -650,7 +648,7 @@ abstract class Form_Styler extends Module {
 	 *
 	 * @param string $type Either 'title' or 'description'.
 	 *
-	 * @return array An array of affected field names.
+	 * @return array<int, string> An array of affected field names.
 	 */
 	protected function squad_get_enable_form_field_affects( string $type ): array {
 		$prefix = "form_{$type}_";
@@ -679,7 +677,7 @@ abstract class Form_Styler extends Module {
 	 * @param string $base_name   Base name for the field.
 	 * @param string $toggle_slug Toggle slug for the field.
 	 *
-	 * @return array Background field configuration.
+	 * @return array<string, mixed> Background field configuration.
 	 */
 	protected function squad_add_background_field( string $label, string $base_name, string $toggle_slug ): array {
 		return $this->squad_utils->field_definitions->add_background_field(
@@ -699,10 +697,10 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields_after_background List of fields after the background fields.
-	 * @param array $fields_before_margin    List of fields before the margin fields.
+	 * @param array<string, mixed> $fields_after_background List of fields after the background fields.
+	 * @param array<string, mixed> $fields_before_margin    List of fields before the margin fields.
 	 *
-	 * @return array Array of button fields.
+	 * @return array<string, mixed> Array of button fields.
 	 */
 	protected function squad_get_button_fields( array $fields_after_background, array $fields_before_margin ): array {
 		return $this->squad_utils->field_definitions->get_button_fields(
@@ -722,7 +720,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of checkbox and radio fields.
+	 * @return array<string, mixed> Array of checkbox and radio fields.
 	 */
 	protected function squad_get_additional_design_fields(): array {
 		$checkbox_radio_fields = array(
@@ -757,8 +755,8 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array  $checkbox_radio_fields The default checkbox and radio fields for the Form Styler.
-		 * @param string $slug                  The current module slug, example: disq_{module_category}_{module_name}
+		 * @param array<string, mixed> $checkbox_radio_fields The default checkbox and radio fields for the Form Styler.
+		 * @param string               $slug                  The current module slug, example: disq_{module_category}_{module_name}
 		 */
 		return apply_filters( 'divi_squad_form_styler_checkbox_radio_fields', $checkbox_radio_fields, $this->slug );
 	}
@@ -769,7 +767,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of custom spacing fields.
+	 * @return array<string, mixed> Array of custom spacing fields.
 	 */
 	protected function squad_get_custom_spacing_fields(): array {
 		// Get all spacing prefixes from the Forms utility.
@@ -777,6 +775,10 @@ abstract class Form_Styler extends Module {
 
 		// Prepare array to collect all fields.
 		$custom_spacing_fields = array();
+
+		if ( ! is_array( $custom_spacing_prefixes ) ) {
+			$custom_spacing_prefixes = array();
+		}
 
 		// Pre-build all ranges settings array to avoid recreating it.
 		$base_range_settings = array(
@@ -792,7 +794,7 @@ abstract class Form_Styler extends Module {
 
 		// Generate margin and padding fields for each prefix in a single pass.
 		foreach ( $custom_spacing_prefixes as $prefix => $options ) {
-			$label                   = ! empty( $options['label'] ) ? $options['label'] : '';
+			$label                   = isset( $options['label'] ) && '' !== $options['label'] ? $options['label'] : '';
 			$settings                = $base_range_settings;
 			$settings['toggle_slug'] = $prefix;
 
@@ -818,7 +820,7 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array $custom_spacing_fields The generated custom spacing fields.
+		 * @param array<string, mixed> $custom_spacing_fields The generated custom spacing fields.
 		 */
 		return apply_filters( 'divi_squad_form_styler_custom_spacing_fields', $custom_spacing_fields );
 	}
@@ -832,7 +834,7 @@ abstract class Form_Styler extends Module {
 	 * @param string $prefix Element prefix.
 	 * @param string $label  Element label.
 	 *
-	 * @return array Margin and padding fields.
+	 * @return array<string, mixed> Margin and padding fields.
 	 */
 	protected function squad_get_margin_padding_fields( string $prefix, string $label ): array {
 		$base_settings = array(
@@ -869,11 +871,11 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string $label    Field label.
-	 * @param string $type     Field type (custom_margin or custom_padding).
-	 * @param array  $settings Additional field settings.
+	 * @param string               $label    Field label.
+	 * @param string               $type     Field type (custom_margin or custom_padding).
+	 * @param array<string, mixed> $settings Additional field settings.
 	 *
-	 * @return array Custom spacing field configuration.
+	 * @return array<string, mixed> Custom spacing field configuration.
 	 */
 	protected function squad_add_custom_spacing_field( string $label, string $type, array $settings ): array {
 		/**
@@ -881,10 +883,10 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array  $field_settings The field settings to be merged
-		 * @param string $label          Field label
-		 * @param string $type           Field type
-		 * @param array  $settings       Additional settings
+		 * @param array<string, mixed> $field_settings The field settings to be merged
+		 * @param string               $label          Field label
+		 * @param string               $type           Field type
+		 * @param array<string, mixed> $settings       Additional settings
 		 */
 		$field_settings = (array) apply_filters(
 			'divi_squad_form_styler_spacing_field_settings',
@@ -911,7 +913,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of additional custom fields.
+	 * @return array<string, mixed> Array of additional custom fields.
 	 */
 	protected function squad_get_customizable_design_fields(): array {
 		if ( method_exists( $this, 'get_form_styler_additional_custom_fields' ) ) {
@@ -929,7 +931,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of removable fields.
+	 * @return array<int, string> Array of removable fields.
 	 */
 	protected function squad_get_removable_fields(): array {
 		return array();
@@ -941,7 +943,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add transition fields to.
 	 *
 	 * @return void
 	 */
@@ -951,7 +953,7 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array $fields Reference to fields array
+		 * @param array<string, mixed> $fields Reference to fields array
 		 */
 		do_action( 'divi_squad_form_styler_before_add_transition_fields', $fields );
 
@@ -968,7 +970,7 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array $fields Reference to fields array
+		 * @param array<string, mixed> $fields Reference to fields array
 		 */
 		do_action( 'divi_squad_form_styler_after_add_transition_fields', $fields );
 	}
@@ -979,7 +981,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add wrapper transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add wrapper transition fields to.
 	 *
 	 * @return void
 	 */
@@ -998,7 +1000,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add field transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add field transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1018,7 +1020,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add error message transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add error message transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1038,7 +1040,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add success message transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add success message transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1058,7 +1060,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add button transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add button transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1080,7 +1082,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add checkbox and radio transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add checkbox and radio transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1098,7 +1100,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add generic transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add generic transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1125,7 +1127,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
 	 * @return void
 	 */
@@ -1135,8 +1137,8 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array       $attrs  The style attributes
-		 * @param Form_Styler $module The current Form_Styler instance
+		 * @param array<string, mixed> $attrs  The style attributes
+		 * @param self                 $module The current Form_Styler instance
 		 */
 		do_action( 'divi_squad_form_styler_before_generate_styles', $attrs, $this );
 
@@ -1194,9 +1196,9 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
-	 * @return array Array of stylesheet selectors.
+	 * @return array<string, mixed> Array of stylesheet selectors.
 	 */
 	protected function squad_get_module_stylesheet_selectors( array $attrs ): array {
 		$options = array();
@@ -1218,7 +1220,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $options Reference to the array of options to be populated with background options.
+	 * @param array<string, mixed> $options Reference to the array of options to be populated with background options.
 	 */
 	protected function squad_get_background_stylesheet_options( array &$options ): void {
 		$option_fields = $this->squad_get_background_stylesheet_option_fields();
@@ -1241,7 +1243,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An associative array of form elements and their corresponding CSS selectors.
+	 * @return array<string, string> An associative array of form elements and their corresponding CSS selectors.
 	 */
 	protected function squad_get_background_stylesheet_option_fields(): array {
 		$option_fields = array(
@@ -1261,13 +1263,13 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array $option_fields An associative array of background options and their CSS selectors.
-		 *                             Default options include:
-		 *                             - form_wrapper_background: The form
-		 *                             - fields_background: Form fields
-		 *                             - form_button_background: Submit button
-		 *                             - message_error_background: Error message area
-		 *                             - message_success_background: Success message area
+		 * @param array<string, string> $option_fields An associative array of background options and their CSS selectors.
+		 *                                             Default options include:
+		 *                                             - form_wrapper_background: The form
+		 *                                             - fields_background: Form fields
+		 *                                             - form_button_background: Submit button
+		 *                                             - message_error_background: Error message area
+		 *                                             - message_success_background: Success message area
 		 */
 		return apply_filters( 'divi_squad_form_styler_get_background_option_fields', $option_fields );
 	}
@@ -1278,7 +1280,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $options Array of options to add checkbox and radio options to.
+	 * @param array<string, mixed> $options Array of options to add checkbox and radio options to.
 	 *
 	 * @return void
 	 */
@@ -1315,13 +1317,13 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $options Array of options to add button width option to.
-	 * @param array $attrs   List of attributes.
+	 * @param array<string, mixed> $options Array of options to add button width option to.
+	 * @param array<string, mixed> $attrs   List of attributes.
 	 *
 	 * @return void
 	 */
 	protected function squad_add_button_width_stylesheet_option( array &$options, array $attrs ): void {
-		if ( ! empty( $attrs['form_button_custom_width'] ) && 'on' === $attrs['form_button_custom_width'] ) {
+		if ( isset( $attrs['form_button_custom_width'] ) && 'on' === $attrs['form_button_custom_width'] ) {
 			$options['form_button_width'] = array(
 				'type'           => 'default',
 				'selector'       => $this->submit_button_selector,
@@ -1338,7 +1340,7 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $options Array of options to add margin and padding options to.
+	 * @param array<string, mixed> $options Array of options to add margin and padding options to.
 	 *
 	 * @return void
 	 */
@@ -1365,7 +1367,7 @@ abstract class Form_Styler extends Module {
 	 *
 	 * @since  3.2.0
 	 * @access protected
-	 * @return array An associative array of form elements and their corresponding CSS selectors.
+	 * @return array<string, string> An associative array of form elements and their corresponding CSS selectors.
 	 */
 	protected function squad_get_margin_padding_stylesheet_option_fields(): array {
 		$option_fields = array(
@@ -1385,13 +1387,13 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array $option_fields                An associative array of form elements and their CSS selectors.
-		 *                                            Default elements include:
-		 *                                            - wrapper: The form
-		 *                                            - field: Form fields
-		 *                                            - form_button: Submit button
-		 *                                            - message_error: Error message area
-		 *                                            - message_success: Success message area
+		 * @param array<string, string> $option_fields An associative array of form elements and their CSS selectors.
+		 *                                             Default elements include:
+		 *                                             - wrapper: The form
+		 *                                             - field: Form fields
+		 *                                             - form_button: Submit button
+		 *                                             - message_error: Error message area
+		 *                                             - message_success: Success message area
 		 */
 		return apply_filters( 'divi_squad_form_styler_get_margin_padding_option_fields', $option_fields );
 	}
@@ -1414,8 +1416,8 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $attrs   List of attributes.
-	 * @param array $options Control attributes.
+	 * @param array<string, mixed> $attrs   List of attributes.
+	 * @param array<string, mixed> $options Control attributes.
 	 *
 	 * @return void
 	 */
@@ -1484,9 +1486,9 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param string $option_key Option key.
-	 * @param array  $option     Option configuration.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param string               $option_key Option key.
+	 * @param array<string, mixed> $option     Option configuration.
 	 *
 	 * @return void
 	 */
@@ -1519,8 +1521,8 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string $option_key Option key.
-	 * @param array  $option     Option configuration.
+	 * @param string               $option_key Option key.
+	 * @param array<string, mixed> $option     Option configuration.
 	 *
 	 * @return void
 	 */
@@ -1540,9 +1542,9 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string $option_key Option key.
-	 * @param array  $option     Option configuration.
-	 * @param string $data_type  Data type.
+	 * @param string               $option_key Option key.
+	 * @param array<string, mixed> $option     Option configuration.
+	 * @param string               $data_type  Data type.
 	 *
 	 * @return void
 	 */
@@ -1552,9 +1554,9 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array  $style_params Style generation parameters
-		 * @param string $option_key   Option key
-		 * @param array  $option       Option configuration
+		 * @param array<string, mixed> $style_params Style generation parameters
+		 * @param string               $option_key   Option key
+		 * @param array<string, mixed> $option       Option configuration
 		 */
 		$style_params = (array) apply_filters(
 			'divi_squad_form_styler_single_style_params',
@@ -1579,8 +1581,8 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string $option_key Option key.
-	 * @param array  $option     Option configuration.
+	 * @param string               $option_key Option key.
+	 * @param array<string, mixed> $option     Option configuration.
 	 *
 	 * @return void
 	 */
@@ -1619,10 +1621,10 @@ abstract class Form_Styler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields   List of fields.
-	 * @param array $removals List of removable fields.
+	 * @param array<string, mixed> $fields   List of fields.
+	 * @param array<int, string>   $removals List of removable fields.
 	 *
-	 * @return array Updated fields array.
+	 * @return array<string, mixed> Updated fields array.
 	 */
 	protected function squad_remove_pre_assigned_fields( array $fields, array $removals ): array {
 		/**
@@ -1630,8 +1632,8 @@ abstract class Form_Styler extends Module {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array $removals List of field keys to be removed.
-		 * @param array $fields   The complete list of fields.
+		 * @param array<int, string>   $removals List of field keys to be removed.
+		 * @param array<string, mixed> $fields   The complete list of fields.
 		 */
 		$removals = (array) apply_filters( 'divi_squad_form_styler_removable_fields', $removals, $fields );
 

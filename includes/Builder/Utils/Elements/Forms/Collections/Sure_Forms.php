@@ -13,6 +13,7 @@
 namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Forms\Collection;
+use WP_Post;
 use function get_posts;
 
 /**
@@ -27,7 +28,7 @@ class Sure_Forms extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array<string, mixed> An array of SureForms forms data.
+	 * @return array<string, string> An array of SureForms forms data.
 	 */
 	public function get_forms( string $collection ): array {
 		// Check if SureForms is active.
@@ -39,7 +40,7 @@ class Sure_Forms extends Collection {
 			array(
 				'post_type'        => 'sureforms_form',
 				'post_status'      => 'publish',
-				'numberposts'      => -1,
+				'numberposts'      => - 1,
 				'suppress_filters' => false,
 			)
 		);
@@ -54,22 +55,30 @@ class Sure_Forms extends Collection {
 	/**
 	 * Get the ID of a SureForms form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return (int) $form->ID;
+		if ( ! $form instanceof WP_Post ) {
+			return 0;
+		}
+
+		return $form->ID;
 	}
 
 	/**
 	 * Get the title of a SureForms form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return (string) $form->post_title;
+		if ( ! $form instanceof WP_Post ) {
+			return '';
+		}
+
+		return $form->post_title;
 	}
 }

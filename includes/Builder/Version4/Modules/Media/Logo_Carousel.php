@@ -18,8 +18,8 @@ use function absint;
 use function esc_attr;
 use function esc_attr__;
 use function esc_html__;
-use function wp_enqueue_style;
 use function wp_enqueue_script;
+use function wp_enqueue_style;
 use function wp_json_encode;
 
 /**
@@ -119,12 +119,12 @@ class Logo_Carousel extends Module {
 	 * Define module fields.
 	 *
 	 * @since 4.0.0
-	 * @return array<string, mixed>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		return array(
 			// Carousel Settings.
-			'slides_per_view'     => divi_squad()->d4_module_helper->add_range_field(
+			'slides_per_view'  => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Slides Per View', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Number of logos visible at once.', 'squad-modules-for-divi' ),
@@ -143,7 +143,7 @@ class Logo_Carousel extends Module {
 					'toggle_slug'    => 'carousel_settings',
 				)
 			),
-			'space_between'       => divi_squad()->d4_module_helper->add_range_field(
+			'space_between'    => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Space Between Logos', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Gap between logo slides in pixels.', 'squad-modules-for-divi' ),
@@ -160,7 +160,7 @@ class Logo_Carousel extends Module {
 					'toggle_slug'    => 'carousel_settings',
 				)
 			),
-			'loop'                => divi_squad()->d4_module_helper->add_yes_no_field(
+			'loop'             => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Loop', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Loop slides continuously.', 'squad-modules-for-divi' ),
@@ -169,7 +169,7 @@ class Logo_Carousel extends Module {
 					'toggle_slug' => 'carousel_settings',
 				)
 			),
-			'transition_speed'    => divi_squad()->d4_module_helper->add_range_field(
+			'transition_speed' => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Transition Speed (ms)', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Slide animation duration in milliseconds.', 'squad-modules-for-divi' ),
@@ -187,7 +187,7 @@ class Logo_Carousel extends Module {
 				)
 			),
 			// Logo Sizing.
-			'logo_max_width'      => array(
+			'logo_max_width'   => array(
 				'label'       => esc_html__( 'Logo Max Width', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Maximum width of each logo image (e.g. 160px).', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -195,7 +195,7 @@ class Logo_Carousel extends Module {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'logo_settings',
 			),
-			'logo_max_height'     => array(
+			'logo_max_height'  => array(
 				'label'       => esc_html__( 'Logo Max Height', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Maximum height of each logo image (e.g. 80px).', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -204,7 +204,7 @@ class Logo_Carousel extends Module {
 				'toggle_slug' => 'logo_settings',
 			),
 			// Hover Effect.
-			'hover_effect'        => divi_squad()->d4_module_helper->add_select_box_field(
+			'hover_effect'     => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Hover Effect', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Effect applied to logos on hover.', 'squad-modules-for-divi' ),
@@ -220,7 +220,7 @@ class Logo_Carousel extends Module {
 					'toggle_slug' => 'hover_settings',
 				)
 			),
-			'hover_opacity'       => divi_squad()->d4_module_helper->add_range_field(
+			'hover_opacity'    => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Resting Opacity', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Logo opacity at rest (applies when Hover Effect is Opacity).', 'squad-modules-for-divi' ),
@@ -239,7 +239,7 @@ class Logo_Carousel extends Module {
 				)
 			),
 			// Autoplay.
-			'autoplay'            => divi_squad()->d4_module_helper->add_yes_no_field(
+			'autoplay'         => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Enable Autoplay', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Automatically advance slides.', 'squad-modules-for-divi' ),
@@ -249,7 +249,7 @@ class Logo_Carousel extends Module {
 					'toggle_slug' => 'autoplay_settings',
 				)
 			),
-			'autoplay_speed'      => divi_squad()->d4_module_helper->add_range_field(
+			'autoplay_speed'   => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Autoplay Delay (ms)', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Milliseconds between auto-advances.', 'squad-modules-for-divi' ),
@@ -268,7 +268,7 @@ class Logo_Carousel extends Module {
 				)
 			),
 			// Navigation.
-			'show_arrows'         => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_arrows'      => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Arrows', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Display previous/next arrow buttons.', 'squad-modules-for-divi' ),
@@ -277,7 +277,7 @@ class Logo_Carousel extends Module {
 					'toggle_slug' => 'navigation_settings',
 				)
 			),
-			'show_dots'           => divi_squad()->d4_module_helper->add_yes_no_field(
+			'show_dots'        => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Dots', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Display pagination dots.', 'squad-modules-for-divi' ),
@@ -301,7 +301,7 @@ class Logo_Carousel extends Module {
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
-		$order_class = $this->get_module_order_class( $render_slug );
+		$order_class = (string) self::get_module_order_class( $render_slug );
 
 		wp_enqueue_style( 'squad-vendor-swiper' );
 		wp_enqueue_script( 'squad-module-logo-carousel' );
@@ -407,30 +407,6 @@ class Logo_Carousel extends Module {
 	}
 
 	/**
-	 * Sanitize a CSS length value (e.g., 160px, 2rem, 50%).
-	 *
-	 * Returns empty string if the value is not a valid CSS length.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value from module prop.
-	 *
-	 * @return string Sanitized value or empty string.
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-
-		return '';
-	}
-
-	/**
 	 * Build Swiper JSON options string.
 	 *
 	 * @since 4.0.0
@@ -440,9 +416,11 @@ class Logo_Carousel extends Module {
 	 * @return string JSON-encoded options.
 	 */
 	public function get_swiper_options( string $order_class ): string {
-		$spv_desk = max( 1, absint( $this->prop( 'slides_per_view', '4' ) ) );
-		$spv_tab  = max( 1, absint( $this->prop( 'slides_per_view_tablet', '' ) ?: $spv_desk ) );
-		$spv_mob  = max( 1, absint( $this->prop( 'slides_per_view_phone', '' ) ?: 2 ) );
+		$spv_desk    = max( 1, absint( $this->prop( 'slides_per_view', '4' ) ) );
+		$spv_tab_raw = $this->prop( 'slides_per_view_tablet', '' );
+		$spv_tab     = max( 1, '' !== $spv_tab_raw ? absint( $spv_tab_raw ) : $spv_desk );
+		$spv_mob_raw = $this->prop( 'slides_per_view_phone', '' );
+		$spv_mob     = max( 1, '' !== $spv_mob_raw ? absint( $spv_mob_raw ) : 2 );
 
 		$gap   = max( 0, absint( $this->prop( 'space_between', '30' ) ) );
 		$speed = max( 100, absint( $this->prop( 'transition_speed', '500' ) ) );
@@ -498,7 +476,7 @@ class Logo_Carousel extends Module {
 		}
 
 		return '<button class="squad-logo-carousel__arrow squad-logo-carousel__arrow--prev" aria-label="' . esc_attr__( 'Previous slide', 'squad-modules-for-divi' ) . '"></button>'
-			. '<button class="squad-logo-carousel__arrow squad-logo-carousel__arrow--next" aria-label="' . esc_attr__( 'Next slide', 'squad-modules-for-divi' ) . '"></button>';
+		       . '<button class="squad-logo-carousel__arrow squad-logo-carousel__arrow--next" aria-label="' . esc_attr__( 'Next slide', 'squad-modules-for-divi' ) . '"></button>';
 	}
 
 	/**

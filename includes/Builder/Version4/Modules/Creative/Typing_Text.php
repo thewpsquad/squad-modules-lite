@@ -16,6 +16,7 @@ use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Utils\Divi;
 use function esc_html__;
 use function et_pb_background_options;
+use function in_array;
 use function et_pb_multi_view_options;
 use function wp_enqueue_script;
 use function wp_kses_post;
@@ -276,7 +277,7 @@ class Typing_Text extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Text fields definitions.
@@ -864,8 +865,10 @@ class Typing_Text extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		// wrapper styles.
@@ -909,9 +912,9 @@ class Typing_Text extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -920,7 +923,7 @@ class Typing_Text extends Module {
 		$typed_content  = $this->render_typed_text( $attrs );
 		$suffix_content = $this->render_suffix_text( $attrs );
 
-		if ( empty( $prefix_content ) && empty( $typed_content ) && empty( $suffix_content ) ) {
+		if ( '' === $prefix_content && '' === $typed_content && '' === $suffix_content ) {
 			return '';
 		}
 
@@ -929,20 +932,23 @@ class Typing_Text extends Module {
 		wp_enqueue_script( 'squad-module-typing-text' );
 
 		$level = $this->prop( 'text_element_tag', 'h2' );
+		if ( ! in_array( $level, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div' ), true ) ) {
+			$level = 'h2';
+		}
 
 		return sprintf(
 			'<div class="text-elements et_pb_with_background"><%4$s class="text-container">%1$s%2$s%3$s</%4$s></div>',
 			wp_kses_post( $prefix_content ),
 			wp_kses_post( $typed_content ),
 			wp_kses_post( $suffix_content ),
-			wp_kses_post( $level )
+			$level
 		);
 	}
 
 	/**
 	 * Render prefix.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -1015,7 +1021,7 @@ class Typing_Text extends Module {
 			)
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'tag'            => 'span',
 				'attrs'          => array(
@@ -1030,7 +1036,7 @@ class Typing_Text extends Module {
 	/**
 	 * Render typed text.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -1157,7 +1163,7 @@ class Typing_Text extends Module {
 			}
 		}
 
-		$typed_options = wp_json_encode(
+		$typed_options = (string) wp_json_encode(
 			array(
 				'typeSpeed'    => absint( $this->prop( 'typing_speed' ) ),
 				'startDelay'   => absint( $this->prop( 'typing_start_delay' ) ),
@@ -1180,7 +1186,7 @@ class Typing_Text extends Module {
 			}
 		}
 
-		$typed_extra_options = wp_json_encode(
+		$typed_extra_options = (string) wp_json_encode(
 			array(
 				'strings'       => $this->prop( 'typing_text' ),
 				'remove_cursor' => $this->prop( 'remove_cursor_on_end__enable' ),
@@ -1198,7 +1204,7 @@ class Typing_Text extends Module {
 	/**
 	 * Render suffix.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -1271,7 +1277,7 @@ class Typing_Text extends Module {
 			)
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'tag'            => 'span',
 				'attrs'          => array(
@@ -1286,7 +1292,7 @@ class Typing_Text extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
 	 * @return void
 	 */
@@ -1308,7 +1314,7 @@ class Typing_Text extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_wrapper_background_color_gradient' => 'wrapper_background_use_color_gradient',
-					'wrapper_background' => 'wrapper_background_color',
+					'wrapper_background'                    => 'wrapper_background_color',
 				),
 			)
 		);

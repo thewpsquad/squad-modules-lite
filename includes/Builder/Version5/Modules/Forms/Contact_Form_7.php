@@ -43,6 +43,10 @@ class Contact_Form_7 extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/contact-form-7/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_cf7';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

@@ -30,7 +30,7 @@ class Post_Grid_Child extends Child_Module {
 	/**
 	 * The list of element types
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected array $element_types = array();
 
@@ -293,7 +293,7 @@ class Post_Grid_Child extends Child_Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Text fields definitions.
@@ -1080,7 +1080,7 @@ class Post_Grid_Child extends Child_Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 3.1.0
-	 * @return array[]
+	 * @return array<string, mixed>
 	 */
 	public function get_custom_fields(): array {
 		return array_merge_recursive(
@@ -1095,8 +1095,10 @@ class Post_Grid_Child extends Child_Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		// wrapper styles.
@@ -1139,9 +1141,9 @@ class Post_Grid_Child extends Child_Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -1163,16 +1165,16 @@ class Post_Grid_Child extends Child_Module {
 	/**
 	 * Generate styles.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, string> $attrs List of unprocessed attributes.
 	 *
 	 * @return void
 	 */
 	private function squad_generate_all_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
 		$this->props  = array_merge( $attrs, $this->props );
-		$element_type = ! empty( $attrs['element'] ) ? $attrs['element'] : 'none';
+		$element_type = ( isset( $attrs['element'] ) && '' !== $attrs['element'] ) ? $attrs['element'] : 'none';
 
-		if ( 'featured_image' === $element_type && 'on' === $this->prop( 'element_image_fullwidth__enable', ' off' ) ) {
+		if ( 'featured_image' === $element_type && 'on' === $this->prop( 'element_image_fullwidth__enable', 'off' ) ) {
 			self::set_style(
 				$this->slug,
 				array(
@@ -1197,7 +1199,7 @@ class Post_Grid_Child extends Child_Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_wrapper_background_color_gradient' => 'element_wrapper_background_use_color_gradient',
-					'element_wrapper_background' => 'element_wrapper_background_color',
+					'element_wrapper_background'                    => 'element_wrapper_background_color',
 				),
 			)
 		);
@@ -1215,7 +1217,7 @@ class Post_Grid_Child extends Child_Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_background_color_gradient' => 'element_background_use_color_gradient',
-					'element_background' => 'element_background_color',
+					'element_background'                    => 'element_background_color',
 				),
 			)
 		);
@@ -1284,7 +1286,7 @@ class Post_Grid_Child extends Child_Module {
 	/**
 	 * Render post name icon.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, string> $attrs List of attributes.
 	 *
 	 * @return void
 	 */
@@ -1356,7 +1358,7 @@ class Post_Grid_Child extends Child_Module {
 	/**
 	 * Render all styles for icon.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, string> $attrs List of attributes.
 	 *
 	 * @return void
 	 */
@@ -1364,8 +1366,8 @@ class Post_Grid_Child extends Child_Module {
 		$this->props = array_merge( $attrs, $this->props );
 
 		// render icon element for eligible element.
-		$icon_type    = ! empty( $attrs['element_icon_type'] ) ? $attrs['element_icon_type'] : 'icon';
-		$element_type = ! empty( $attrs['element'] ) ? $attrs['element'] : 'none';
+		$icon_type    = ( isset( $attrs['element_icon_type'] ) && '' !== $attrs['element_icon_type'] ) ? $attrs['element_icon_type'] : 'icon';
+		$element_type = ( isset( $attrs['element'] ) && '' !== $attrs['element'] ) ? $attrs['element'] : 'none';
 
 		// Skipping style generating for icon when user select advanced custom field and select the image type.
 		if ( ( 'none' === $icon_type ) || ! $this->is_icon_eligible( $element_type ) ) {
@@ -1483,9 +1485,9 @@ class Post_Grid_Child extends Child_Module {
 
 		// working with icon styles.
 		$placement         = 'element_icon_placement';
-		$placement_desktop = ! empty( $attrs[ $placement ] ) ? $attrs[ $placement ] : 'row';
-		$placement_tablet  = ! empty( $attrs[ "{$placement}_tablet" ] ) ? $attrs[ "{$placement}_tablet" ] : $placement_desktop;
-		$placement_mobile  = ! empty( $attrs[ "{$placement}_phone" ] ) ? $attrs[ "{$placement}_phone" ] : $placement_tablet;
+		$placement_desktop = ( isset( $attrs[ $placement ] ) && '' !== $attrs[ $placement ] ) ? $attrs[ $placement ] : 'row';
+		$placement_tablet  = ( isset( $attrs["{$placement}_tablet"] ) && '' !== $attrs["{$placement}_tablet"] ) ? $attrs["{$placement}_tablet"] : $placement_desktop;
+		$placement_mobile  = ( isset( $attrs["{$placement}_phone"] ) && '' !== $attrs["{$placement}_phone"] ) ? $attrs["{$placement}_phone"] : $placement_tablet;
 
 		// Icon placement with default, responsive, hover.
 		if ( ( 'column' === $placement_desktop ) || ( 'column' === $placement_tablet ) || ( 'column' === $placement_mobile ) ) {

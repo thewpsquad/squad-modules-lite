@@ -110,8 +110,8 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Get default fields for a specific post type.
 	 *
-	 * @param string $post_type The post type for which to retrieve default fields.
-	 * @param array  $options   Additional options to customize the returned fields.
+	 * @param string               $post_type The post type for which to retrieve default fields.
+	 * @param array<string, mixed> $options   Additional options to customize the returned fields.
 	 *
 	 * @return array<string, array<string, mixed>> An array of default custom field definitions for the specified post type.
 	 */
@@ -133,7 +133,7 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Get associated fields.
 	 *
-	 * @param array $fields_types Collect custom fields types.
+	 * @param array<string, string> $fields_types Collect custom fields types.
 	 *
 	 * @return array<string, array<string, mixed>> An array of associated custom field definitions.
 	 */
@@ -184,8 +184,8 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Register a common field definition.
 	 *
-	 * @param string $field_key  The field key.
-	 * @param array  $field_data The field data.
+	 * @param string               $field_key  The field key.
+	 * @param array<string, mixed> $field_data The field data.
 	 *
 	 * @return self
 	 */
@@ -198,8 +198,8 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Register an empty field definition.
 	 *
-	 * @param string $field_key  The field key.
-	 * @param array  $field_data The field data.
+	 * @param string               $field_key  The field key.
+	 * @param array<string, mixed> $field_data The field data.
 	 *
 	 * @return self
 	 */
@@ -212,9 +212,9 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Register a post type field definition.
 	 *
-	 * @param string $post_type  The post type.
-	 * @param string $field_key  The field key.
-	 * @param array  $field_data The field data.
+	 * @param string               $post_type  The post type.
+	 * @param string               $field_key  The field key.
+	 * @param array<string, mixed> $field_data The field data.
 	 *
 	 * @return self
 	 */
@@ -231,8 +231,8 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Register an associated field definition.
 	 *
-	 * @param string $field_key  The field key.
-	 * @param array  $field_data The field data.
+	 * @param string               $field_key  The field key.
+	 * @param array<string, mixed> $field_data The field data.
 	 *
 	 * @return self
 	 */
@@ -245,8 +245,8 @@ abstract class Definition implements Definition_Interface {
 	/**
 	 * Register a not eligible field definition.
 	 *
-	 * @param string $field_key  The field key.
-	 * @param array  $field_data The field data.
+	 * @param string               $field_key  The field key.
+	 * @param array<string, mixed> $field_data The field data.
 	 *
 	 * @return self
 	 */

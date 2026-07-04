@@ -24,13 +24,13 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 use DiviSquad\Builder\Shared\Modules\Creative\Advanced_Video\Video_Helper;
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
 use Throwable;
 use WP_Block;
 use function absint;
-use function preg_replace;
 use function sprintf;
 use function trim;
 use function wp_enqueue_script;
@@ -47,6 +47,15 @@ class Advanced_Video extends Module {
 		return '/build/divi-builder-5/modules-json/advanced-video/';
 	}
 
+	/**
+	 * Add the module classnames.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Classnames arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'disq_advanced_video' );
 		$args['classnamesInstance']->add(
@@ -56,10 +65,28 @@ class Advanced_Video extends Module {
 		);
 	}
 
+	/**
+	 * Assign the module's frontend script data.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Script data arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register the module style declarations.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -89,6 +116,7 @@ class Advanced_Video extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v      = $params['attrValue'] ?? array();
 												$aspect = (string) ( $v['aspectRatio'] ?? '16-9' );
+
 												return sprintf( 'aspect-ratio:%s;', Video_Helper::aspect_value( $aspect ) );
 											},
 										),
@@ -102,6 +130,7 @@ class Advanced_Video extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v     = $params['attrValue'] ?? array();
 												$width = absint( $v['stickyWidth'] ?? 400 );
+
 												return sprintf( '--squad-av-sticky-width:%dpx;', $width );
 											},
 										),
@@ -113,19 +142,28 @@ class Advanced_Video extends Module {
 											'selector'            => "{$args['orderClass']} .squad-video",
 											'attr'                => $attrs['videoStyle']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
-												$v     = $params['attrValue'] ?? array();
-												$size  = absint( $v['playSize'] ?? 68 );
-												$decl  = sprintf( '--squad-av-play-size:%dpx;', $size );
-												$pc    = self::sanitize_css_background( (string) ( $v['playColor'] ?? '' ) );
-												$pb    = self::sanitize_css_background( (string) ( $v['playBg'] ?? '' ) );
-												$ov    = self::sanitize_css_background( (string) ( $v['overlayColor'] ?? '' ) );
-												$fb    = self::sanitize_css_background( (string) ( $v['frameBg'] ?? '' ) );
-												if ( '' !== $pc ) { $decl .= "--squad-av-play-color:{$pc};"; }
-												if ( '' !== $pb ) { $decl .= "--squad-av-play-bg:{$pb};"; }
-												if ( '' !== $ov ) { $decl .= "--squad-av-overlay:{$ov};"; }
-												if ( '' !== $fb ) { $decl .= "--squad-av-frame-bg:{$fb};"; }
+												$v    = $params['attrValue'] ?? array();
+												$size = absint( $v['playSize'] ?? 68 );
+												$decl = sprintf( '--squad-av-play-size:%dpx;', $size );
+												$pc   = self::sanitize_css_background( (string) ( $v['playColor'] ?? '' ) );
+												$pb   = self::sanitize_css_background( (string) ( $v['playBg'] ?? '' ) );
+												$ov   = self::sanitize_css_background( (string) ( $v['overlayColor'] ?? '' ) );
+												$fb   = self::sanitize_css_background( (string) ( $v['frameBg'] ?? '' ) );
+												if ( '' !== $pc ) {
+													$decl .= "--squad-av-play-color:{$pc};";
+												}
+												if ( '' !== $pb ) {
+													$decl .= "--squad-av-play-bg:{$pb};";
+												}
+												if ( '' !== $ov ) {
+													$decl .= "--squad-av-overlay:{$ov};";
+												}
+												if ( '' !== $fb ) {
+													$decl .= "--squad-av-frame-bg:{$fb};";
+												}
 												$shadow = 'off' === (string) ( $v['stickyShadow'] ?? 'on' ) ? 'none' : '0 10px 30px rgba(0,0,0,0.35)';
-												$decl  .= "--squad-av-sticky-shadow:{$shadow};";
+												$decl   .= "--squad-av-sticky-shadow:{$shadow};";
+
 												return $decl;
 											},
 										),
@@ -191,6 +229,10 @@ class Advanced_Video extends Module {
 
 			$shell = Video_Helper::build_shell( $config );
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -203,7 +245,7 @@ class Advanced_Video extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $shell,
+					'children'            => $style_components . $shell,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -211,14 +253,5 @@ class Advanced_Video extends Module {
 
 			return '';
 		}
-	}
-
-	/** Sanitize a CSS color/background value — strips `{ } ; < > \ " '`. */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

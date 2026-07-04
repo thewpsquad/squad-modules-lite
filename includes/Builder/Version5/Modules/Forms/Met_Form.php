@@ -43,6 +43,10 @@ class Met_Form extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/metform/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_metform';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

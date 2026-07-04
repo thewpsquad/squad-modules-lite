@@ -20,9 +20,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Inline_Content\Inline_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -30,7 +31,6 @@ use Throwable;
 use WP_Block;
 use function esc_attr;
 use function esc_html__;
-use function preg_match;
 use function sprintf;
 use function trim;
 
@@ -45,6 +45,15 @@ class Inline_Content extends Module {
 		return '/build/divi-builder-5/modules-json/inline-content/';
 	}
 
+	/**
+	 * Apply module classnames.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Classnames arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'disq_inline_content' );
 		$args['classnamesInstance']->add(
@@ -54,10 +63,28 @@ class Inline_Content extends Module {
 		);
 	}
 
+	/**
+	 * Register module script data.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Script data arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Apply module styles.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -86,6 +113,7 @@ class Inline_Content extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value   = $params['attrValue'] ?? array();
 												$col_gap = self::sanitize_css_length( (string) ( $value['columnGap'] ?? '' ) );
+
 												return '' !== $col_gap ? "column-gap:{$col_gap};" : '';
 											},
 										),
@@ -98,6 +126,7 @@ class Inline_Content extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value   = $params['attrValue'] ?? array();
 												$row_gap = self::sanitize_css_length( (string) ( $value['rowGap'] ?? '' ) );
+
 												return '' !== $row_gap ? "row-gap:{$row_gap};" : '';
 											},
 										),
@@ -156,6 +185,10 @@ class Inline_Content extends Module {
 				$child_modules_content
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? ( $elements->style_components( array( 'attrName' => 'module' ) ) ?? '' )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -168,32 +201,13 @@ class Inline_Content extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $wrapper_html,
+					'children'            => $style_components . $wrapper_html,
 				)
 			);
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to render Divi 5 Inline Content module' );
-			return '';
-		}
-	}
 
-	/**
-	 * Sanitize a CSS length value.
-	 *
-	 * @since 4.1.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
 			return '';
 		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
 	}
 }

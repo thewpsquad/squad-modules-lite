@@ -476,6 +476,8 @@ class Business_Hours extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
@@ -513,9 +515,9 @@ class Business_Hours extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs       List of unprocessed attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of unprocessed attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string module's rendered output
 	 */
@@ -566,7 +568,7 @@ class Business_Hours extends Module {
 	/**
 	 * Process styles for module output.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return void
 	 */

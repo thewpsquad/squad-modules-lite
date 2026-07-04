@@ -54,37 +54,11 @@ class Dashboard extends Base_Route {
 	 */
 	public function get_routes(): array {
 		$routes = array(
-			'/dashboard/stats'    => array(
+			'/dashboard/stats' => array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_stats' ),
 					'permission_callback' => array( $this, 'check_admin_permissions' ),
-				),
-			),
-			'/account/tracking'   => array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'set_tracking' ),
-					'permission_callback' => array( $this, 'check_admin_permissions' ),
-					'args'                => array(
-						'enabled' => array(
-							'type'     => 'boolean',
-							'required' => true,
-						),
-					),
-				),
-			),
-			'/account/activate-license' => array(
-				array(
-					'methods'             => WP_REST_Server::CREATABLE,
-					'callback'            => array( $this, 'activate_license_key' ),
-					'permission_callback' => array( $this, 'check_admin_permissions' ),
-					'args'                => array(
-						'license_key' => array(
-							'type'     => 'string',
-							'required' => true,
-						),
-					),
 				),
 			),
 		);
@@ -189,122 +163,31 @@ class Dashboard extends Base_Route {
 	/**
 	 * Toggle Freemius anonymous usage tracking for this site.
 	 *
-	 * The SDK only exposes a public getter (`is_tracking_allowed()`); the toggle
-	 * lives in the private `toggle_site_tracking()` used by Freemius's own AJAX
-	 * handler, so we invoke it via reflection. It only has effect when the user
-	 * previously opted in (registered); otherwise the SDK is a no-op and we just
-	 * report the current state.
-	 *
-	 * @since 3.5.0
+	 * @since      3.5.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_REST_Response
+	 * @deprecated Canonical route is POST /v2/account/tracking in Account.php.
+	 *             This alias forwards for backwards compatibility.
 	 */
 	public function set_tracking( WP_REST_Request $request ): WP_REST_Response {
-		try {
-			$enabled = (bool) $request->get_param( 'enabled' );
-			$fs      = divi_squad_fs();
-
-			if ( $fs->is_registered( true ) ) {
-				$toggle = new \ReflectionMethod( $fs, 'toggle_site_tracking' );
-				$toggle->setAccessible( true );
-				$toggle->invoke( $fs, $enabled );
-			}
-
-			return rest_ensure_response(
-				array(
-					'code'      => 'success',
-					'allowed'   => (bool) $fs->is_tracking_allowed(),
-					'can_toggle' => (bool) $fs->is_registered( true ),
-				)
-			);
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to toggle usage tracking' );
-
-			return new WP_REST_Response(
-				array(
-					'code'    => 'error',
-					'message' => __( 'Failed to update usage tracking.', 'squad-modules-for-divi' ),
-				),
-				500
-			);
-		}
+		return ( new Account() )->set_tracking( $request );
 	}
 
 	/**
 	 * Activate a Pro license key via Freemius.
 	 *
-	 * Connected sites activate the license directly (the SDK's private
-	 * activate_license, mirroring its own AJAX handler); not-yet-connected sites
-	 * opt in with the key (connect + activate) without redirecting. Returns the
-	 * resulting pro state so the UI can refresh.
-	 *
-	 * @since 3.5.0
+	 * @since      3.5.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_REST_Response
+	 * @deprecated Canonical route is POST /v2/account/license/activate in Account.php.
+	 *             This alias forwards for backwards compatibility.
 	 */
 	public function activate_license_key( WP_REST_Request $request ): WP_REST_Response {
-		try {
-			$license_key = trim( (string) $request->get_param( 'license_key' ) );
-
-			if ( '' === $license_key ) {
-				return new WP_REST_Response(
-					array(
-						'code'    => 'error',
-						'message' => __( 'A license key is required.', 'squad-modules-for-divi' ),
-					),
-					400
-				);
-			}
-
-			$fs      = divi_squad_fs();
-			$message = '';
-
-			if ( $fs->is_registered() ) {
-				$activate = new \ReflectionMethod( $fs, 'activate_license' );
-				$activate->setAccessible( true );
-				$result = $activate->invoke( $fs, $license_key );
-
-				$success = is_array( $result ) && true === ( $result['success'] ?? false );
-				if ( ! $success && is_array( $result ) && isset( $result['error'] ) && '' !== $result['error'] ) {
-					$message = is_string( $result['error'] )
-						? $result['error']
-						: ( is_object( $result['error'] ) && isset( $result['error']->message ) ? (string) $result['error']->message : '' );
-				}
-			} else {
-				// Not connected yet: opt in with the license (connect + activate),
-				// no redirect since this is an async request.
-				$fs->opt_in( false, false, false, $license_key, false, false, false, null, array(), false );
-				$success = $fs->is_paying() || $fs->can_use_premium_code( true );
-			}
-
-			if ( '' === $message && ! $success ) {
-				$message = __( 'Could not activate the license. Check the key and try again.', 'squad-modules-for-divi' );
-			}
-
-			return rest_ensure_response(
-				array(
-					'code'    => $success ? 'success' : 'error',
-					'success' => $success,
-					'is_pro'  => (bool) $fs->can_use_premium_code( true ),
-					'message' => $message,
-				)
-			);
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to activate license' );
-
-			return new WP_REST_Response(
-				array(
-					'code'    => 'error',
-					'success' => false,
-					'message' => __( 'Failed to activate the license.', 'squad-modules-for-divi' ),
-				),
-				500
-			);
-		}
+		return ( new Account() )->activate_license( $request );
 	}
 
 	/**

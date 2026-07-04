@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -27,7 +28,6 @@ use Throwable;
 use WP_Block;
 use function esc_attr;
 use function esc_url;
-use function et_pb_get_extended_font_icon_value;
 use function wp_kses_post;
 
 /**
@@ -58,6 +58,7 @@ class Dual_Button extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_dual_button' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -138,22 +139,22 @@ class Dual_Button extends Module {
 	 */
 	private static function render_button( array $inner, string $element ): string {
 		$camel  = 'left_button' === $element ? 'leftButton' : 'rightButton';
-		$text   = $inner[ "{$camel}Text" ] ?? '';
-		$url    = $inner[ "{$camel}Url" ] ?? '';
-		$target = ( $inner[ "{$camel}UrlNewWindow" ] ?? 'off' ) === 'on' ? '_blank' : '_self';
-		$icon   = $inner[ "{$camel}Icon" ] ?? '';
+		$text   = $inner["{$camel}Text"] ?? '';
+		$url    = $inner["{$camel}Url"] ?? '';
+		$target = ( $inner["{$camel}UrlNewWindow"] ?? 'off' ) === 'on' ? '_blank' : '_self';
+		$icon   = $inner["{$camel}Icon"] ?? '';
 
 		if ( '' === $text ) {
 			return '';
 		}
 
+		$icon_char    = self::resolve_icon( is_array( $icon ) ? $icon : array() );
 		$icon_element = '';
-		if ( '' !== $icon ) {
-			$icon_value   = et_pb_get_extended_font_icon_value( $icon, true );
+		if ( '' !== $icon_char ) {
 			$icon_element = sprintf(
 				'<span class="squad-icon-wrapper"><span class="icon-element"><span class="et-pb-icon squad-%1$s-icon">%2$s</span></span></span>',
 				esc_attr( $element ),
-				esc_attr( $icon_value )
+				esc_html( $icon_char )
 			);
 		}
 
@@ -180,15 +181,14 @@ class Dual_Button extends Module {
 		$is_icon = ( $inner['separatorIconEnable'] ?? 'off' ) === 'on';
 
 		if ( $is_icon ) {
-			$icon = $inner['separatorIcon'] ?? '';
-			if ( '' === $icon ) {
+			$icon_char = self::resolve_icon( $inner['separatorIcon'] ?? array() );
+			if ( '' === $icon_char ) {
 				return '';
 			}
 
-			$icon_value = et_pb_get_extended_font_icon_value( $icon, true );
 			$inner_html = sprintf(
 				'<span class="squad-icon-wrapper"><span class="icon-element"><span class="et-pb-icon squad-separator-icon">%1$s</span></span></span>',
-				esc_attr( $icon_value )
+				esc_html( $icon_char )
 			);
 		} else {
 			$text = $inner['separatorText'] ?? '';
@@ -235,6 +235,10 @@ class Dual_Button extends Module {
 				$right_button
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -247,7 +251,7 @@ class Dual_Button extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $html,
+					'children'            => $style_components . $html,
 				)
 			);
 		} catch ( Throwable $e ) {

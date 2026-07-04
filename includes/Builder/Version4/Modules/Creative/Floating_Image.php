@@ -13,8 +13,8 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Floating_Images\Float_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use function esc_attr;
 use function esc_html__;
 use function esc_url;
@@ -90,6 +90,13 @@ class Floating_Image extends Child_Module {
 		);
 	}
 
+	/**
+	 * Declare fields for the module.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			'image'               => array(
@@ -258,6 +265,17 @@ class Floating_Image extends Child_Module {
 		);
 	}
 
+	/**
+	 * Render the module output.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$src = (string) $this->prop( 'image', '' );
 		if ( '' === $src ) {
@@ -304,14 +322,14 @@ class Floating_Image extends Child_Module {
 		$dist   = self::sanitize_css_length( (string) $this->prop( 'float_distance', '20px' ) );
 		$dur    = (int) abs( (int) $this->prop( 'duration', '4000' ) );
 		$delay  = (int) abs( (int) $this->prop( 'delay', '0' ) );
-		$rotate = (int) max( -90, min( 90, (int) $this->prop( 'rotate_angle', '8' ) ) );
+		$rotate = (int) max( - 90, min( 90, (int) $this->prop( 'rotate_angle', '8' ) ) );
 
 		$raw_easing = (string) $this->prop( 'easing', 'ease-in-out' );
 		$easing     = Float_Helper::is_valid_easing( $raw_easing )
 			? Float_Helper::easing_value( $raw_easing )
 			: 'ease-in-out';
 
-		$decls  = '';
+		$decls = '';
 		$decls .= '' !== $left ? "--squad-float-left: {$left};" : '';
 		$decls .= '' !== $top ? "--squad-float-top: {$top};" : '';
 		$decls .= "--squad-float-duration: {$dur}ms;";
@@ -321,10 +339,10 @@ class Floating_Image extends Child_Module {
 		if ( 'rotate' === $motion ) {
 			$decls .= "--squad-float-rotate: {$rotate}deg;";
 		} elseif ( 'diagonal' === $motion ) {
-			$d      = '' !== $dist ? $dist : '20px';
+			$d     = '' !== $dist ? $dist : '20px';
 			$decls .= "--squad-float-dist-x: {$d}; --squad-float-dist-y: {$d};";
 		} else {
-			$d      = '' !== $dist ? $dist : '20px';
+			$d     = '' !== $dist ? $dist : '20px';
 			$decls .= "--squad-float-dist: {$d};";
 		}
 
@@ -385,15 +403,4 @@ class Floating_Image extends Child_Module {
 		return sprintf( '<a %s>%s</a>', $attrs, $inner );
 	}
 
-	/** Sanitize a CSS length value. */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
 }

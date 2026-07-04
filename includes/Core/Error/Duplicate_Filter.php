@@ -58,8 +58,8 @@ class Duplicate_Filter {
 	/**
 	 * In-memory cache for this request
 	 *
-	 * @var array<string, int>|null
 	 * @since 3.4.0
+	 * @var array<string, int>|null
 	 */
 	private static ?array $cache = null;
 
@@ -105,6 +105,7 @@ class Duplicate_Filter {
 
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Duplicate check failed', false );
+
 			return false; // Allow reporting on error.
 		}
 	}
@@ -145,9 +146,9 @@ class Duplicate_Filter {
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param string               $signature    The error signature.
-			 * @param array<string, mixed> $error_data   The original error data.
-			 * @param bool                 $success      Whether the storage update succeeded.
+			 * @param string               $signature  The error signature.
+			 * @param array<string, mixed> $error_data The original error data.
+			 * @param bool                 $success    Whether the storage update succeeded.
 			 */
 			do_action( 'divi_squad_error_marked_reported', $signature, $error_data, $success );
 
@@ -155,6 +156,7 @@ class Duplicate_Filter {
 
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Mark reported failed', false );
+
 			return false;
 		}
 	}
@@ -192,8 +194,8 @@ class Duplicate_Filter {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array<int|string, mixed> $components  Array of signature components.
-		 * @param array<string, mixed>     $error_data  The original error data.
+		 * @param array<int|string, mixed> $components Array of signature components.
+		 * @param array<string, mixed>     $error_data The original error data.
 		 */
 		$components = (array) apply_filters( 'divi_squad_error_signature_components', $components, $error_data );
 
@@ -317,6 +319,7 @@ class Duplicate_Filter {
 			return $success;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Clear tracked errors failed', false );
+
 			return false;
 		}
 	}
@@ -335,6 +338,7 @@ class Duplicate_Filter {
 			return count( $this->get_tracked_errors() );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Get tracked count failed', false );
+
 			return 0;
 		}
 	}

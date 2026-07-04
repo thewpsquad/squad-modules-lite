@@ -80,7 +80,7 @@ class Breadcrumbs {
 		$category_links = '';
 		$position       = 2;
 
-		$delimiter = ' <li class="breadcrumb-item"><span class="separator et-pb-icon">' . $delimiter . '</span></li> ';
+		$delimiter = ' <li class="breadcrumb-item"><span class="separator et-pb-icon" aria-hidden="true">' . $delimiter . '</span></li> ';
 
 		/**
 		 * Set our own $wp_the_query variable. Do not use the global variable version due to reliability.
@@ -106,7 +106,7 @@ class Breadcrumbs {
 			$parent         = $post_object->post_parent;
 			$post_type      = $post_object->post_type;
 			$post_id        = $post_object->ID;
-			$post_link      = $before . $title . $after;
+			$post_link      = $before . esc_html( $title ) . $after;
 			$parent_string  = '';
 			$post_type_link = '';
 
@@ -169,7 +169,7 @@ class Breadcrumbs {
 						break;
 					}
 
-					$temp_link = sprintf( $link, esc_url( $permalink ), get_the_title( $post_parent->ID ) );
+					$temp_link = sprintf( $link, esc_url( $permalink ), esc_html( get_the_title( $post_parent->ID ) ) );
 					$temp_link = str_replace( 'positionhere', (string) $position++, $temp_link );
 
 					$parent_links[] = $temp_link;
@@ -182,17 +182,17 @@ class Breadcrumbs {
 			}
 
 			// Let's build the breadcrumb trail.
-			if ( $parent_string ) {
+			if ( '' !== $parent_string ) {
 				$trail = $parent_string . $delimiter . $post_link;
 			} else {
 				$trail = $post_link;
 			}
 
-			if ( $post_type_link ) {
+			if ( '' !== $post_type_link ) {
 				$trail = $post_type_link . $delimiter . $trail;
 			}
 
-			if ( $category_links ) {
+			if ( '' !== $category_links ) {
 				$trail = $category_links . $trail;
 			}
 		}
@@ -216,7 +216,7 @@ class Breadcrumbs {
 				}
 
 				// Categories: Tags: is set there.
-				$current_term_link  = $before . $taxonomy_object->labels->singular_name . ': ' . $term_name . $after;
+				$current_term_link  = $before . esc_html( $taxonomy_object->labels->singular_name ) . ': ' . esc_html( $term_name ) . $after;
 				$parent_term_string = '';
 
 				if ( 0 !== $term_parent ) {
@@ -233,7 +233,7 @@ class Breadcrumbs {
 							break;
 						}
 
-						$temp_link = sprintf( $link, $term_link, $term->name );
+						$temp_link = sprintf( $link, esc_url( $term_link ), esc_html( $term->name ) );
 						$temp_link = str_replace( 'positionhere', (string) $position++, $temp_link );
 
 						$parent_term_links[] = $temp_link;
@@ -254,13 +254,13 @@ class Breadcrumbs {
 				if ( ! $queried_object instanceof \WP_User ) {
 					return '';
 				}
-				$trail = esc_html__( 'Author archive for ', 'squad-modules-for-divi' ) . $before . $queried_object->data->display_name . $after;
+				$trail = esc_html__( 'Author archive for ', 'squad-modules-for-divi' ) . $before . esc_html( $queried_object->data->display_name ) . $after;
 			} elseif ( is_date() ) {
 				// Set default variables.
 				$month_name = '';
-				$year       = $wp_the_query->query_vars['year'] ?? '';
-				$monthnum   = $wp_the_query->query_vars['monthnum'] ?? '';
-				$day        = $wp_the_query->query_vars['day'] ?? '';
+				$year       = (string) absint( $wp_the_query->query_vars['year'] ?? 0 );
+				$monthnum   = (string) absint( $wp_the_query->query_vars['monthnum'] ?? 0 );
+				$day        = (string) absint( $wp_the_query->query_vars['day'] ?? 0 );
 
 				// Get the month name if $monthnum has a value.
 				if ( '' !== $monthnum ) {
@@ -271,20 +271,20 @@ class Breadcrumbs {
 				}
 
 				if ( is_year() ) {
-					$trail = $before . $year . $after;
+					$trail = $before . esc_html( $year ) . $after;
 				} elseif ( is_month() ) {
-					$year_link = sprintf( $link, esc_url( get_year_link( $year ) ), $year );
+					$year_link = sprintf( $link, esc_url( get_year_link( (int) $year ) ), esc_html( $year ) );
 					$year_link = str_replace( 'positionhere', (string) $position++, $year_link );
 
-					$trail = $year_link . $delimiter . $before . $month_name . $after;
+					$trail = $year_link . $delimiter . $before . esc_html( $month_name ) . $after;
 				} elseif ( is_day() ) {
-					$year_link = sprintf( $link, esc_url( get_year_link( $year ) ), $year );
+					$year_link = sprintf( $link, esc_url( get_year_link( (int) $year ) ), esc_html( $year ) );
 					$year_link = str_replace( 'positionhere', (string) $position++, $year_link );
 
-					$month_link = sprintf( $link, esc_url( get_month_link( $year, $monthnum ) ), $month_name );
+					$month_link = sprintf( $link, esc_url( get_month_link( (int) $year, (int) $monthnum ) ), esc_html( $month_name ) );
 					$month_link = str_replace( 'positionhere', (string) $position++, $month_link );
 
-					$trail = $year_link . $delimiter . $month_link . $delimiter . $before . $day . $after;
+					$trail = $year_link . $delimiter . $month_link . $delimiter . $before . esc_html( $day ) . $after;
 				}
 			} elseif ( is_post_type_archive() ) {
 				$post_type        = $wp_the_query->query_vars['post_type'];
@@ -308,7 +308,8 @@ class Breadcrumbs {
 
 		// Handle paged pages.
 		if ( is_paged() ) {
-			$current_page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : get_query_var( 'page' );
+			$paged_query_var = get_query_var( 'paged' );
+			$current_page    = 0 !== (int) $paged_query_var ? $paged_query_var : get_query_var( 'page' );
 			/* translators: 1. Page Title */
 			$page_addon = $before . sprintf( esc_html__( ' ( Page %s )', 'squad-modules-for-divi' ), number_format_i18n( $current_page ) ) . $after;
 		}

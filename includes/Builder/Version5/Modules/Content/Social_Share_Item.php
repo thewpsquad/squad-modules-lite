@@ -18,9 +18,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Content\Social_Share\Networks;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -44,6 +45,15 @@ class Social_Share_Item extends Module {
 		return '/build/divi-builder-5/modules-json/social-share-item/';
 	}
 
+	/**
+	 * Add CSS classnames to the module wrapper.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Classnames arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'squad-social-share__item' );
 		$args['classnamesInstance']->add(
@@ -53,10 +63,28 @@ class Social_Share_Item extends Module {
 		);
 	}
 
+	/**
+	 * Register the module's script data.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Script data arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register the module's styles.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -129,6 +157,10 @@ class Social_Share_Item extends Module {
 				}
 			}
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			$icon_html  = sprintf( '<span class="squad-social-share__icon squad-social-share__icon--%s" aria-hidden="true"></span>', esc_attr( $network ) );
 			$label_html = 'icon_text' === $style
 				? sprintf( '<span class="squad-social-share__label">%s</span>', esc_html( $label ) )
@@ -157,7 +189,7 @@ class Social_Share_Item extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $btn_html,
+					'children'            => $style_components . $btn_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -176,6 +208,17 @@ class Social_Share_Item extends Module {
 			: 'squad-ss-' . substr( md5( $raw ), 0, 10 );
 	}
 
+	/**
+	 * Build the per-item inline color CSS.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $item        Item settings (network, color overrides, etc.).
+	 * @param string               $brand_color Default brand color from the Networks registry.
+	 * @param string               $uid         Unique instance identifier used in the selector.
+	 *
+	 * @return string Inline CSS rule (may be empty).
+	 */
 	protected static function get_color_css( array $item, string $brand_color, string $uid ): string {
 		$use_custom = 'on' === ( $item['useCustomColors'] ?? 'off' );
 
@@ -199,26 +242,5 @@ class Social_Share_Item extends Module {
 		}
 
 		return '' !== $decl ? ".{$uid} .squad-social-share__btn{{$decl}}" : '';
-	}
-
-	/**
-	 * Sanitize a CSS background/color value (hex, rgba, gradient, etc.).
-	 *
-	 * Strips characters that could break out of the CSS declaration context
-	 * (`{ } ; < > \ " '`), so a user-supplied color-alpha field cannot inject
-	 * arbitrary CSS. Allows rgba(), gradients, and plain hex values.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

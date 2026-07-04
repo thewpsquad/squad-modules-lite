@@ -25,6 +25,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -34,7 +35,6 @@ use function esc_attr;
 use function esc_html;
 use function in_array;
 use function wp_enqueue_script;
-use function wp_kses_post;
 
 /**
  * Scrolling Text Module class.
@@ -64,6 +64,7 @@ class Scrolling_Text extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_scrolling_text' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -128,8 +129,8 @@ class Scrolling_Text extends Module {
 							'styleProps' => array(
 								'advancedStyles' => array(
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .text-elements .scrolling-element",
 											'attr'                => $attrs['content']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
@@ -197,6 +198,10 @@ class Scrolling_Text extends Module {
 				esc_attr( $inner['pauseOnHover'] ?? 'off' )
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -209,7 +214,7 @@ class Scrolling_Text extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $html,
+					'children'            => $style_components . $html,
 				)
 			);
 		} catch ( Throwable $e ) {

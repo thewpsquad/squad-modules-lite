@@ -12,8 +12,8 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Content;
 
-use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use DiviSquad\Builder\Shared\Modules\Content\Social_Share\Networks;
+use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use function esc_attr;
 use function esc_html;
 use function esc_html__;
@@ -73,6 +73,13 @@ class Social_Share_Item extends Child_Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			'network'             => divi_squad()->d4_module_helper->add_select_box_field(
@@ -123,6 +130,17 @@ class Social_Share_Item extends Child_Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$network = (string) $this->prop( 'network', 'facebook' );
 
@@ -213,27 +231,6 @@ class Social_Share_Item extends Child_Module {
 				);
 			}
 		}
-	}
-
-	/**
-	 * Sanitize a CSS background/color value (hex, rgba, gradient, etc.).
-	 *
-	 * Strips characters that could break out of the CSS declaration context
-	 * (`{ } ; < > \ " '`), so a user-supplied color-alpha field cannot inject
-	 * arbitrary CSS. Allows rgba(), gradients, and plain hex values.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 
 	/**

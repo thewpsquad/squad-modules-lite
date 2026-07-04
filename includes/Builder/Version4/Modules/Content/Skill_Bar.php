@@ -78,6 +78,13 @@ class Skill_Bar extends Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
 			'title'         => array(
@@ -93,7 +100,12 @@ class Skill_Bar extends Module {
 				array(
 					'description' => esc_html__( 'HTML heading tag for the title.', 'squad-modules-for-divi' ),
 					'options'     => array(
-						'h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3', 'h4' => 'H4', 'h5' => 'H5', 'h6' => 'H6',
+						'h1' => 'H1',
+						'h2' => 'H2',
+						'h3' => 'H3',
+						'h4' => 'H4',
+						'h5' => 'H5',
+						'h6' => 'H6',
 					),
 					'default'     => 'h3',
 					'tab_slug'    => 'general',
@@ -125,16 +137,27 @@ class Skill_Bar extends Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		wp_enqueue_script( 'squad-module-skill-bar' );
 
 		$this->apply_spacing_css( $render_slug );
 
-		$title       = $this->prop( 'title', '' );
-		$title_html  = '';
+		$title      = $this->prop( 'title', '' );
+		$title_html = '';
 		if ( '' !== $title ) {
-			$level = $this->prop( 'title_level', 'h3' );
-			$level = in_array( $level, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ? $level : 'h3';
+			$level      = $this->prop( 'title_level', 'h3' );
+			$level      = in_array( $level, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ? $level : 'h3';
 			$title_html = sprintf( '<%1$s class="squad-skill-bar__title">%2$s</%1$s>', $level, esc_html( $title ) );
 		}
 

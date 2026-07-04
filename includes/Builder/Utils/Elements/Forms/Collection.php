@@ -39,10 +39,10 @@ abstract class Collection implements Collection_Interface {
 	/**
 	 * Process form data into a consistent format.
 	 *
-	 * @param array  $forms      Array of form objects.
-	 * @param string $collection Either 'id' or 'title'.
+	 * @param array<int, mixed> $forms      Array of form objects.
+	 * @param string            $collection Either 'id' or 'title'.
 	 *
-	 * @return array Processed form data
+	 * @return array<string, string> Processed form data
 	 */
 	protected function process_form_data( array $forms, string $collection ): array {
 		$processed = array();
@@ -52,7 +52,7 @@ abstract class Collection implements Collection_Interface {
 			$title = $this->get_form_title( $form );
 
 			// Create a unique ID using the form id.
-			$processed[ 'form_' . $id ] = 'title' === $collection ? $title : $id;
+			$processed[ 'form_' . $id ] = 'title' === $collection ? $title : (string) $id;
 		}
 
 		return $processed;

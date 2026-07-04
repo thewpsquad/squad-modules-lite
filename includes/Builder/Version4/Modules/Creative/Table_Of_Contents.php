@@ -14,20 +14,15 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Table_Of_Contents\Toc_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;
-use function esc_attr;
-use function esc_attr__;
-use function esc_html;
 use function esc_html__;
 use function implode;
 use function in_array;
 use function max;
 use function min;
 use function sanitize_text_field;
-use function sprintf;
-use function uniqid;
 use function wp_enqueue_script;
 
 /**
@@ -163,8 +158,12 @@ class Table_Of_Contents extends Module {
 				array(
 					'description' => esc_html__( 'HTML tag used for the title.', 'squad-modules-for-divi' ),
 					'options'     => array(
-						'h1' => 'H1', 'h2' => 'H2', 'h3' => 'H3',
-						'h4' => 'H4', 'h5' => 'H5', 'h6' => 'H6',
+						'h1' => 'H1',
+						'h2' => 'H2',
+						'h3' => 'H3',
+						'h4' => 'H4',
+						'h5' => 'H5',
+						'h6' => 'H6',
 					),
 					'default'     => 'h3',
 					'show_if'     => array( 'show_title' => 'on' ),
@@ -334,7 +333,7 @@ class Table_Of_Contents extends Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
@@ -352,9 +351,9 @@ class Table_Of_Contents extends Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module being rendered.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module being rendered.
 	 *
 	 * @return string
 	 */
@@ -365,7 +364,7 @@ class Table_Of_Contents extends Module {
 		$collapsible = 'on' === $this->prop( 'collapsible', 'off' ) && 'on' === $show_title;
 
 		$props = array();
-		for ( $n = 1; $n <= 6; $n++ ) {
+		for ( $n = 1; $n <= 6; $n ++ ) {
 			$props[ 'include_h' . $n ] = $this->prop( 'include_h' . $n, '' );
 		}
 		$levels = Toc_Helper::selected_levels( $props );

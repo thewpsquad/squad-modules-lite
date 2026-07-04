@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -58,6 +59,7 @@ class Star_Rating extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_star_rating' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -122,8 +124,8 @@ class Star_Rating extends Module {
 							'styleProps' => array(
 								'advancedStyles' => array(
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .star-rating, {$args['orderClass']} .star-rating i, {$args['orderClass']} .star-rating i:before",
 											'attr'                => $attrs['content']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
@@ -131,7 +133,7 @@ class Star_Rating extends Module {
 												$color = $value['starsColor'] ?? '';
 
 												return ( '' !== $color && '#f0ad4e' !== $color )
-													? sprintf( 'color: %s;', esc_attr( $color ) )
+													? sprintf( 'color: %s;', self::sanitize_css_background( $color ) )
 													: '';
 											},
 										),
@@ -173,13 +175,13 @@ class Star_Rating extends Module {
 		$precision  = ( (float) $args['rating'] ) - $int_rating;
 		$output     = '';
 
-		for ( $stars = 1; $stars <= (int) $args['rating_scale']; $stars++ ) {
+		for ( $stars = 1; $stars <= (int) $args['rating_scale']; $stars ++ ) {
 			if ( $stars <= $int_rating ) {
 				$output .= '<i class="star-full">☆</i>';
 			} elseif ( $int_rating + 1 === $stars && $precision > 0 ) {
 				// Partial star with precision using CSS custom property.
 				$decimal = number_format( $precision * 100, 0, '', '' );
-				$output .= sprintf(
+				$output  .= sprintf(
 					'<i class="star-precision" style="--squad-star-rating-precision: %1$s">☆</i>',
 					esc_attr( $decimal )
 				);
@@ -262,6 +264,10 @@ class Star_Rating extends Module {
 				esc_attr( $title_position )
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -274,7 +280,7 @@ class Star_Rating extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $html,
+					'children'            => $style_components . $html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -283,4 +289,5 @@ class Star_Rating extends Module {
 			return '';
 		}
 	}
+
 }

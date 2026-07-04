@@ -48,10 +48,10 @@ final class Counter_Helper {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param float  $value        Raw numeric value.
-	 * @param int    $decimals     Decimal places (assumed already clamped 0–4).
+	 * @param float  $value         Raw numeric value.
+	 * @param int    $decimals      Decimal places (assumed already clamped 0–4).
 	 * @param string $thousands_sep Thousands separator char (may be empty).
-	 * @param string $decimal_sep  Decimal separator char.
+	 * @param string $decimal_sep   Decimal separator char.
 	 *
 	 * @return string
 	 */

@@ -43,6 +43,10 @@ class Ninja_Forms extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/ninja-forms/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_ninja_forms';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

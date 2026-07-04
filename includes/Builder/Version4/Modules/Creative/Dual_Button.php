@@ -301,7 +301,7 @@ class Dual_Button extends Module {
 	 * Declare general fields for the module.
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Button fields definitions.
@@ -712,6 +712,8 @@ class Dual_Button extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props() {
 		$fields = parent::get_transition_fields_css_props();
@@ -779,12 +781,12 @@ class Dual_Button extends Module {
 	 *
 	 * @since 3.27.1
 	 *
-	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
-	 *
-	 * @param mixed $raw_value Props raw value.
-	 * @param array $args      Context data.
+	 * @param mixed                $raw_value Props raw value.
+	 * @param array<string, mixed> $args      Context data.
 	 *
 	 * @return mixed
+	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
+	 *
 	 */
 	public function multi_view_filter_value( $raw_value, $args ) {
 		$name = $args['name'] ?? '';
@@ -795,7 +797,7 @@ class Dual_Button extends Module {
 			'right_button_icon',
 			'separator_icon',
 		);
-		if ( $raw_value && in_array( $name, $icon_fields, true ) ) {
+		if ( ( null !== $raw_value && '' !== $raw_value ) && in_array( $name, $icon_fields, true ) ) {
 			return et_pb_get_extended_font_icon_value( $raw_value, true );
 		}
 
@@ -805,9 +807,9 @@ class Dual_Button extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<int|string, mixed> $attrs       List of attributes.
+	 * @param string                   $content     Content being processed.
+	 * @param string                   $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -829,8 +831,8 @@ class Dual_Button extends Module {
 	/**
 	 * Render element text with icon
 	 *
-	 * @param array  $attrs   List of unprocessed attributes.
-	 * @param string $element Dynamic element key.
+	 * @param array<array-key, mixed> $attrs   List of unprocessed attributes.
+	 * @param string                  $element Dynamic element key.
 	 *
 	 * @return string
 	 */
@@ -868,7 +870,7 @@ class Dual_Button extends Module {
 		}
 
 		// Render text output when it is not empty.
-		if ( ! empty( $element_text ) ) {
+		if ( null !== $element_text && '' !== $element_text ) {
 			$element_bg = "{$element}_background";
 
 			// button background with default, responsive, hover.
@@ -971,7 +973,7 @@ class Dual_Button extends Module {
 			$font_icon_element = $this->squad_render_element_font_icon( $element );
 			$image_element     = $this->squad_render_element_icon_image( $element );
 
-			if ( ( 'none' !== $this->props[ "{$element}_icon_type" ] ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
+			if ( ( 'none' !== $this->props["{$element}_icon_type"] ) && ( '' !== $font_icon_element || '' !== $image_element ) ) {
 				if ( ( 'on' === $this->prop( "{$element}_icon_on_hover", 'off' ) ) ) {
 					$icon_wrapper_class[] = 'show-on-hover';
 
@@ -1045,11 +1047,11 @@ class Dual_Button extends Module {
 	private function squad_render_element_font_icon( string $element ): string {
 		$multi_view = et_pb_multi_view_options( $this );
 
-		if ( ! empty( $this->props[ "{$element}_icon_type" ] ) && 'icon' === $this->props[ "{$element}_icon_type" ] ) {
+		if ( isset( $this->props["{$element}_icon_type"] ) && 'icon' === $this->props["{$element}_icon_type"] ) {
 			$icon_classes = array( 'et-pb-icon', "squad-$element-icon" );
 
 			// Load font Awesome css for frontend.
-			Divi::inject_fa_icons( $this->props[ "{$element}_icon" ] );
+			Divi::inject_fa_icons( $this->props["{$element}_icon"] );
 
 			$element_class = 'separator' !== $element ? ".squad-button.$element" : ".squad-$element";
 
@@ -1097,7 +1099,7 @@ class Dual_Button extends Module {
 					),
 					'hover_selector' => "$this->main_css_element div .elements $element_class",
 				)
-			);
+			) ?? '';
 		}
 
 		return '';
@@ -1112,12 +1114,12 @@ class Dual_Button extends Module {
 	 */
 	private function squad_render_element_icon_image( string $element ): string {
 		$multi_view = et_pb_multi_view_options( $this );
-		if ( ! empty( $this->props[ "{$element}_icon_type" ] ) && 'image' === $this->props[ "{$element}_icon_type" ] ) {
+		if ( isset( $this->props["{$element}_icon_type"] ) && 'image' === $this->props["{$element}_icon_type"] ) {
 			$element_class          = 'separator' !== $element ? ".squad-button.$element" : ".squad-$element";
 			$image_classes          = array( "squad-$element-image", 'et_pb_image_wrap' );
 			$image_attachment_class = et_pb_media_options()->get_image_attachment_class( $this->props, "{$element}_image" );
 
-			if ( ! empty( $image_attachment_class ) ) {
+			if ( '' !== $image_attachment_class ) {
 				$image_classes[] = esc_attr( $image_attachment_class );
 			}
 
@@ -1155,7 +1157,7 @@ class Dual_Button extends Module {
 					'required'       => "{$element}_image",
 					'hover_selector' => "$this->main_css_element div .elements $element_class",
 				)
-			);
+			) ?? '';
 		}
 
 		return '';
@@ -1164,7 +1166,7 @@ class Dual_Button extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<array-key, mixed> $attrs List of attributes.
 	 */
 	private function generate_additional_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
@@ -1185,7 +1187,7 @@ class Dual_Button extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_wrapper_background_color_gradient' => 'wrapper_background_use_color_gradient',
-					'wrapper_background' => 'wrapper_background_color',
+					'wrapper_background'                    => 'wrapper_background_color',
 				),
 			)
 		);
@@ -1264,7 +1266,7 @@ class Dual_Button extends Module {
 	/**
 	 * Render separator text with icon
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<array-key, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -1279,7 +1281,7 @@ class Dual_Button extends Module {
 			$font_icon_element = $this->squad_render_element_font_icon( 'separator' );
 			$image_element     = $this->squad_render_element_icon_image( 'separator' );
 
-			if ( ( 'none' !== $icon_type ) && ( ! empty( $font_icon_element ) || ! empty( $image_element ) ) ) {
+			if ( ( 'none' !== $icon_type ) && ( '' !== $font_icon_element || '' !== $image_element ) ) {
 				$icon_elements = sprintf(
 					'<span class="squad-icon-wrapper"><span class="icon-element">%1$s%2$s</span></span>',
 					wp_kses_post( $font_icon_element ),
@@ -1301,7 +1303,7 @@ class Dual_Button extends Module {
 			}
 		}
 
-		if ( ( 'on' === $is_icon_enable && ! empty( $icon_elements ) ) || ( 'on' !== $is_icon_enable && ! empty( $text_element ) ) ) {
+		if ( ( 'on' === $is_icon_enable && null !== $icon_elements ) || ( 'on' !== $is_icon_enable && null !== $text_element ) ) {
 			// Fixed: the custom background doesn't work at frontend.
 			$this->props = array_merge( $attrs, $this->props );
 
@@ -1326,7 +1328,7 @@ class Dual_Button extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_separator_background_color_gradient' => 'separator_background_use_color_gradient',
-						'separator_background' => 'separator_background_color',
+						'separator_background'                    => 'separator_background_color',
 					),
 				)
 			);

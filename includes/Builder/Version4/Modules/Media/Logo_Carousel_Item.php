@@ -80,16 +80,16 @@ class Logo_Carousel_Item extends Child_Module {
 	 * Define module fields.
 	 *
 	 * @since 4.0.0
-	 * @return array<string, mixed>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		return array(
 			'image'            => divi_squad()->d4_module_helper->add_media_upload_field(
 				esc_html__( 'Logo Image', 'squad-modules-for-divi' ),
 				array(
-					'description'  => esc_html__( 'Upload or select the logo image.', 'squad-modules-for-divi' ),
-					'tab_slug'     => 'general',
-					'toggle_slug'  => 'image_settings',
+					'description' => esc_html__( 'Upload or select the logo image.', 'squad-modules-for-divi' ),
+					'tab_slug'    => 'general',
+					'toggle_slug' => 'image_settings',
 				)
 			),
 			'image_alt'        => array(
@@ -129,20 +129,20 @@ class Logo_Carousel_Item extends Child_Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array<string, mixed> $attrs       Module attributes.
-	 * @param string               $content     Inner content (unused).
-	 * @param string               $render_slug Module render slug.
+	 * @param array<array-key, mixed> $attrs       Module attributes.
+	 * @param string                  $content     Inner content (unused).
+	 * @param string                  $render_slug Module render slug.
 	 *
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
-		$image_url  = esc_url( $this->prop( 'image', '' ) );
-		$logo_link  = esc_url( $this->prop( 'logo_link', '' ) );
-		$target     = $this->prop( 'logo_link_target', '_self' );
-		$target     = in_array( $target, array( '_self', '_blank' ), true ) ? $target : '_self';
+		$image_url = esc_url( $this->prop( 'image', '' ) );
+		$logo_link = esc_url( $this->prop( 'logo_link', '' ) );
+		$target    = $this->prop( 'logo_link_target', '_self' );
+		$target    = in_array( $target, array( '_self', '_blank' ), true ) ? $target : '_self';
 
 		$img_html = '';
-		if ( ! empty( $image_url ) ) {
+		if ( '' !== $image_url ) {
 			$img_html = sprintf(
 				'<img class="squad-logo-carousel__logo" src="%1$s" alt="%2$s" loading="lazy" />',
 				$image_url,
@@ -150,8 +150,9 @@ class Logo_Carousel_Item extends Child_Module {
 			);
 		}
 
-		if ( ! empty( $logo_link ) ) {
+		if ( '' !== $logo_link ) {
 			$rel = '_blank' === $target ? ' rel="noopener noreferrer"' : '';
+
 			return sprintf(
 				'<a href="%1$s" target="%2$s"%3$s>%4$s</a>',
 				$logo_link,

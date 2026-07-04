@@ -30,7 +30,7 @@ class Contact_Form_7 extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of Contact Form 7 data.
+	 * @return array<string, string> An array of Contact Form 7 data.
 	 */
 	public function get_forms( string $collection ): array {
 		if ( ! class_exists( 'WPCF7_ContactForm' ) ) {
@@ -40,7 +40,7 @@ class Contact_Form_7 extends Collection {
 		// Get all Contact Form 7 forms.
 		$forms = WPCF7_ContactForm::find();
 
-		if ( empty( $forms ) ) {
+		if ( count( $forms ) === 0 ) {
 			return array();
 		}
 
@@ -50,22 +50,30 @@ class Contact_Form_7 extends Collection {
 	/**
 	 * Get the ID of a Contact Form 7 form.
 	 *
-	 * @param WPCF7_ContactForm $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return $form->id();
+		if ( is_object( $form ) && method_exists( $form, 'id' ) ) {
+			return (int) $form->id();
+		}
+
+		return 0;
 	}
 
 	/**
 	 * Get the title of a Contact Form 7 form.
 	 *
-	 * @param WPCF7_ContactForm $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return $form->title();
+		if ( is_object( $form ) && method_exists( $form, 'title' ) ) {
+			return (string) $form->title();
+		}
+
+		return '';
 	}
 }

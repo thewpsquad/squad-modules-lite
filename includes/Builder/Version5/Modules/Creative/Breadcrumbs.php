@@ -29,6 +29,7 @@ use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Utils\Divi;
 use ET\Builder\FrontEnd\Module\Style;
 use ET\Builder\Packages\IconLibrary\IconFont\Utils as IconFontUtils;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -66,6 +67,7 @@ class Breadcrumbs extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_breadcrumbs' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -122,38 +124,41 @@ class Breadcrumbs extends Module {
 								),
 								'advancedStyles' => array(
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .breadcrumbs .breadcrumb-list a",
 											'attr'                => $attrs['colors']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 
-												return ! empty( $value['linkColor'] ) ? 'color: ' . $value['linkColor'] . ';' : '';
+												$color = self::sanitize_css_background( (string) ( $value['linkColor'] ?? '' ) );
+															return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
 									),
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .breadcrumbs .separator",
 											'attr'                => $attrs['colors']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 
-												return ! empty( $value['separatorColor'] ) ? 'color: ' . $value['separatorColor'] . ';' : '';
+												$color = self::sanitize_css_background( (string) ( $value['separatorColor'] ?? '' ) );
+															return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
 									),
 									array(
-										'componentName'       => 'divi/common',
-										'props'               => array(
+										'componentName' => 'divi/common',
+										'props'         => array(
 											'selector'            => "{$args['orderClass']} .breadcrumbs .current",
 											'attr'                => $attrs['colors']['innerContent'] ?? array(),
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 
-												return ! empty( $value['currentTextColor'] ) ? 'color: ' . $value['currentTextColor'] . ';' : '';
+												$color = self::sanitize_css_background( (string) ( $value['currentTextColor'] ?? '' ) );
+															return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
 									),
@@ -188,6 +193,10 @@ class Breadcrumbs extends Module {
 		try {
 			$breadcrumbs_html = self::render_breadcrumbs( $attrs );
 
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -200,7 +209,7 @@ class Breadcrumbs extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $breadcrumbs_html,
+					'children'            => $style_components . $breadcrumbs_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -244,7 +253,7 @@ class Breadcrumbs extends Module {
 		$breadcrumbs         = $breadcrumbs_utility->get_hansel_and_gretel(
 			esc_html( $home_text ),
 			esc_html( $before_text ),
-			esc_attr( $delimiter )
+			esc_html( $delimiter )
 		);
 
 		return sprintf(
@@ -279,4 +288,5 @@ class Breadcrumbs extends Module {
 
 		return is_string( $processed ) ? $processed : '';
 	}
+
 }

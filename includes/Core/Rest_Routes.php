@@ -16,6 +16,7 @@ namespace DiviSquad\Core;
 use DiviSquad\Rest_API_Routes\Base_Route;
 use DiviSquad\Rest_API_Routes\Version1\Extensions as Extensions_Version1;
 use DiviSquad\Rest_API_Routes\Version1\Extensions\Copy;
+use DiviSquad\Rest_API_Routes\Version1\Extensions\Login_Experience as Login_Experience_Route;
 use DiviSquad\Rest_API_Routes\Version1\Modules as Modules_Version1;
 use DiviSquad\Rest_API_Routes\Version1\Modules\Post_Grid;
 use DiviSquad\Rest_API_Routes\Version1\Notices\Admin_Notices;
@@ -97,6 +98,7 @@ class Rest_Routes {
 
 		// Extension-specific routes.
 		$this->register_route_class( Copy::class );
+		$this->register_route_class( Login_Experience_Route::class );
 	}
 
 	/**

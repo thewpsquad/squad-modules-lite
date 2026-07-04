@@ -54,8 +54,8 @@ interface Definition_Interface {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param string $post_type The post type for which to retrieve default fields.
-	 * @param array  $options   Additional options to customize the returned fields.
+	 * @param string               $post_type The post type for which to retrieve default fields.
+	 * @param array<string, mixed> $options   Additional options to customize the returned fields.
 	 *
 	 * @return array<string, array<string, mixed>> An array of default custom field definitions for the specified post type.
 	 */

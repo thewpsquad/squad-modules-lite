@@ -54,7 +54,7 @@ class Advanced extends Collection {
 	/**
 	 * Prefixes that should be excluded from custom fields.
 	 *
-	 * @var array<string>
+	 * @var array<string, array<string>>
 	 */
 	protected array $excluded_prefixes = array();
 
@@ -84,21 +84,21 @@ class Advanced extends Collection {
 	/**
 	 * Available ACF field groups organized by post type.
 	 *
-	 * @var array<string, array>
+	 * @var array<string, array<int|string, mixed>>
 	 */
 	protected array $field_groups = array();
 
 	/**
 	 * Available ACF field data organized by group key.
 	 *
-	 * @var array<string, array>
+	 * @var array<string, array<int|string, mixed>>
 	 */
 	protected array $fields_data = array();
 
 	/**
 	 * Available custom field values organized by post ID.
 	 *
-	 * @var array<int, array>
+	 * @var array<int, array<int, object{meta_key: string, meta_value: mixed, field_type?: string}>>
 	 */
 	protected array $field_values = array();
 
@@ -150,7 +150,7 @@ class Advanced extends Collection {
 	 *
 	 * @param int $post_id The ID of the post.
 	 *
-	 * @return array<object> An array of custom field value objects.
+	 * @return array<int, object{meta_key: string, meta_value: mixed, field_type?: string}> An array of custom field value objects.
 	 */
 	public function get_available_field_values( int $post_id ): array {
 		// Return cached values if available.
@@ -163,8 +163,24 @@ class Advanced extends Collection {
 
 		// Try to get from cache.
 		$cached_values = wp_cache_get( $cache_key, 'divi_squad_custom_fields' );
-		if ( false !== $cached_values ) {
-			$this->field_values[ $post_id ] = $cached_values;
+		if ( is_array( $cached_values ) ) {
+			$normalized = array();
+			foreach ( $cached_values as $cached_value ) {
+				if ( is_object( $cached_value ) && property_exists( $cached_value, 'meta_key' ) && property_exists( $cached_value, 'meta_value' ) ) {
+					$entry = (object) array(
+						'meta_key'   => (string) $cached_value->meta_key,
+						'meta_value' => $cached_value->meta_value,
+					);
+
+					if ( property_exists( $cached_value, 'field_type' ) ) {
+						$entry->field_type = (string) $cached_value->field_type;
+					}
+
+					$normalized[] = $entry;
+				}
+			}
+
+			$this->field_values[ $post_id ] = $normalized;
 
 			return $this->field_values[ $post_id ];
 		}
@@ -177,7 +193,7 @@ class Advanced extends Collection {
 		 * @param int $limit   Maximum number of fields to retrieve. Default 30.
 		 * @param int $post_id The post ID.
 		 */
-		$limit = apply_filters( 'divi_squad_acf_fields_limit', 30, $post_id );
+		$limit = (int) apply_filters( 'divi_squad_acf_fields_limit', 30, $post_id );
 
 		// Get all custom fields.
 		$custom_fields                  = $this->get_formatted_fields();
@@ -185,7 +201,7 @@ class Advanced extends Collection {
 
 		// Get values for the current post type.
 		$post_type = get_post_type( $post_id );
-		if ( isset( $custom_fields[ $post_type ] ) ) {
+		if ( false !== $post_type && isset( $custom_fields[ $post_type ] ) ) {
 			$acf_field_keys                 = array_keys( $custom_fields[ $post_type ] );
 			$this->field_values[ $post_id ] = $this->get_post_meta_values( $post_id, $acf_field_keys, $limit );
 		}
@@ -215,21 +231,24 @@ class Advanced extends Collection {
 	 * @param array<string> $acf_field_keys Array of ACF field keys to retrieve.
 	 * @param int           $limit          Maximum number of results to return.
 	 *
-	 * @return array<object> An array of post meta value objects.
+	 * @return array<int, object{meta_key: string, meta_value: mixed, field_type?: string}> An array of post meta value objects.
 	 */
 	private function get_post_meta_values( int $post_id, array $acf_field_keys, int $limit ): array {
 		$values = array();
 
 		// First try to use ACF functions if available.
-		if ( function_exists( 'get_field' ) ) {
+		$get_field        = 'get_field';
+		$get_field_object = 'get_field_object';
+		if ( function_exists( $get_field ) && function_exists( $get_field_object ) ) {
 			foreach ( $acf_field_keys as $key ) {
 				try {
-					$field_object = get_field_object( $key, $post_id );
-					$meta_value   = get_field( $key, $post_id );
+					$field_object = $get_field_object( $key, $post_id );
+					$meta_value   = $get_field( $key, $post_id );
 
 					// Only process non-empty values.
-					if ( ! empty( $meta_value ) ) {
-						$field_type = $field_object['type'] ?? 'text';
+					if ( false !== (bool) $meta_value ) {
+						$field_object = is_array( $field_object ) ? $field_object : array();
+						$field_type   = isset( $field_object['type'] ) ? (string) $field_object['type'] : 'text';
 
 						// Process the value based on field type.
 						$processed_value = $this->process_field_value( $meta_value, $field_type, $field_object );
@@ -248,7 +267,7 @@ class Advanced extends Collection {
 				} catch ( Throwable $e ) {
 					// Fallback to regular post meta.
 					$meta_value = get_post_meta( $post_id, $key, true );
-					if ( ! empty( $meta_value ) ) {
+					if ( false !== (bool) $meta_value ) {
 						$values[] = (object) array(
 							'meta_key'   => $key,
 							'meta_value' => $meta_value,
@@ -264,7 +283,7 @@ class Advanced extends Collection {
 			// Fallback to regular post meta.
 			foreach ( $acf_field_keys as $key ) {
 				$meta_value = get_post_meta( $post_id, $key, true );
-				if ( ! empty( $meta_value ) ) {
+				if ( false !== (bool) $meta_value ) {
 					$values[] = (object) array(
 						'meta_key'   => $key,
 						'meta_value' => $meta_value,
@@ -294,9 +313,9 @@ class Advanced extends Collection {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed  $value        The field value.
-	 * @param string $field_type   The field type.
-	 * @param array  $field_object The complete field object (optional).
+	 * @param mixed                   $value        The field value.
+	 * @param string                  $field_type   The field type.
+	 * @param array<array-key, mixed> $field_object The complete field object (optional).
 	 *
 	 * @return mixed The processed value.
 	 */
@@ -305,19 +324,19 @@ class Advanced extends Collection {
 			case 'image':
 				// Return full image HTML if it's an image field.
 				if ( is_numeric( $value ) ) {
-					return wp_get_attachment_image( $value, 'full' );
+					return wp_get_attachment_image( (int) $value, 'full' );
 				}
 
 				// If it's an array with ID, use that.
 				if ( is_array( $value ) && isset( $value['ID'] ) ) {
-					return wp_get_attachment_image( $value['ID'], 'full' );
+					return wp_get_attachment_image( (int) $value['ID'], 'full' );
 				}
 				break;
 
 			case 'file':
 				// Return file URL if it's a file field.
 				if ( is_numeric( $value ) ) {
-					return wp_get_attachment_url( $value );
+					return wp_get_attachment_url( (int) $value );
 				}
 
 				// If it's an array with URL, use that.
@@ -332,9 +351,9 @@ class Advanced extends Collection {
 					$images = array();
 					foreach ( $value as $item ) {
 						if ( is_numeric( $item ) ) {
-							$images[] = wp_get_attachment_image( $item, 'full' );
+							$images[] = wp_get_attachment_image( (int) $item, 'full' );
 						} elseif ( is_array( $item ) && isset( $item['ID'] ) ) {
-							$images[] = wp_get_attachment_image( $item['ID'], 'full' );
+							$images[] = wp_get_attachment_image( (int) $item['ID'], 'full' );
 						}
 					}
 
@@ -370,16 +389,19 @@ class Advanced extends Collection {
 		}
 
 		// If fields are already cached, return them.
-		if ( ! empty( $this->fields ) ) {
+		if ( count( $this->fields ) > 0 ) {
 			return $this->fields;
 		}
 
 		// Get post types to process.
 		$post_types = $this->get_supported_post_types();
 
-		// Initialize fields array if empty.
-		if ( empty( $this->fields ) ) {
-			$this->fields = array();
+		$get_field_groups = 'acf_get_field_groups';
+		$get_fields       = 'acf_get_fields';
+
+		// Bail out if the ACF group/field helpers are not available.
+		if ( ! function_exists( $get_field_groups ) || ! function_exists( $get_fields ) ) {
+			return $this->fields;
 		}
 
 		// Process each post type.
@@ -394,32 +416,42 @@ class Advanced extends Collection {
 
 			try {
 				// Get ACF field groups for this post type.
-				$this->field_groups[ $post_type ] = \acf_get_field_groups( array( 'post_type' => $post_type ) );
+				$this->field_groups[ $post_type ] = (array) $get_field_groups( array( 'post_type' => $post_type ) );
 
 				// Process each field group.
 				foreach ( $this->field_groups[ $post_type ] as $group ) {
+					if ( ! is_array( $group ) || ! isset( $group['key'] ) ) {
+						continue;
+					}
+
+					$group_key = (string) $group['key'];
+
 					// Skip if already processed.
-					if ( isset( $this->fields_data[ $group['key'] ] ) ) {
+					if ( isset( $this->fields_data[ $group_key ] ) ) {
 						continue;
 					}
 
 					// Get fields for this group.
-					$this->fields_data[ $group['key'] ] = \acf_get_fields( $group['key'] );
+					$this->fields_data[ $group_key ] = (array) $get_fields( $group_key );
 
 					// Process each field.
-					foreach ( $this->fields_data[ $group['key'] ] as $acf_field ) {
+					foreach ( $this->fields_data[ $group_key ] as $acf_field ) {
+						if ( ! is_array( $acf_field ) || ! isset( $acf_field['type'], $acf_field['name'], $acf_field['label'] ) ) {
+							continue;
+						}
+
 						// Skip unsupported field types.
 						if ( ! in_array( $acf_field['type'], $this->get_supported_field_types(), true ) ) {
 							continue;
 						}
 
 						// Skip fields that should be excluded.
-						if ( ! $this->should_include_field( $acf_field['name'] ) ) {
+						if ( ! $this->should_include_field( (string) $acf_field['name'] ) ) {
 							continue;
 						}
 
 						// Add field to formatted fields.
-						$this->fields[ $post_type ][ $acf_field['name'] ] = $acf_field['label'];
+						$this->fields[ $post_type ][ (string) $acf_field['name'] ] = (string) $acf_field['label'];
 					}
 				}
 			} catch ( Throwable $e ) {
@@ -496,7 +528,7 @@ class Advanced extends Collection {
 		$custom_field_values = $this->get_available_field_values( $post_id );
 
 		foreach ( $custom_field_values as $metadata ) {
-			if ( empty( $metadata ) ) {
+			if ( ! is_object( $metadata ) ) {
 				continue;
 			}
 
@@ -512,7 +544,7 @@ class Advanced extends Collection {
 			if ( isset( $metadata->field_type ) && 'image' === $metadata->field_type ) {
 				// Add image URLs for image fields.
 				if ( is_numeric( $metadata->meta_value ) ) {
-					$image_url = wp_get_attachment_url( $metadata->meta_value );
+					$image_url                                                       = wp_get_attachment_url( (int) $metadata->meta_value );
 					$this->custom_fields[ $post_id ][ $metadata->meta_key . '_url' ] = $image_url;
 				}
 			}
@@ -541,7 +573,7 @@ class Advanced extends Collection {
 	 */
 	public function has_field( int $post_id, string $field_key ): bool {
 		// Return early if invalid parameters.
-		if ( $post_id <= 0 || empty( $field_key ) ) {
+		if ( $post_id <= 0 || '' === $field_key ) {
 			return false;
 		}
 
@@ -552,8 +584,9 @@ class Advanced extends Collection {
 		}
 
 		// Check if field exists using ACF function if available.
-		if ( function_exists( '\get_field' ) ) {
-			$value = \get_field( $field_key, $post_id );
+		$get_field = 'get_field';
+		if ( function_exists( $get_field ) ) {
+			$value = $get_field( $field_key, $post_id );
 
 			return null !== $value && '' !== $value;
 		}
@@ -575,7 +608,7 @@ class Advanced extends Collection {
 	 */
 	public function get_field_value( int $post_id, string $field_key, $default_value = null ) {
 		// Return early if invalid parameters.
-		if ( $post_id <= 0 || empty( $field_key ) ) {
+		if ( $post_id <= 0 || '' === $field_key ) {
 			return $default_value;
 		}
 
@@ -586,18 +619,21 @@ class Advanced extends Collection {
 		}
 
 		// Get field value using ACF function if available.
-		if ( function_exists( 'get_field' ) ) {
-			$value = get_field( $field_key, $post_id );
+		$get_field        = 'get_field';
+		$get_field_object = 'get_field_object';
+		if ( function_exists( $get_field ) && function_exists( $get_field_object ) ) {
+			$value = $get_field( $field_key, $post_id );
 
 			// Process value based on field type.
 			if ( null !== $value && '' !== $value ) {
 				try {
-					$field_object = get_field_object( $field_key, $post_id );
-					if ( $field_object && isset( $field_object['type'] ) ) {
-						$value = $this->process_field_value( $value, $field_object['type'], $field_object );
+					$field_object = $get_field_object( $field_key, $post_id );
+					if ( is_array( $field_object ) && isset( $field_object['type'] ) ) {
+						$value = $this->process_field_value( $value, (string) $field_object['type'], $field_object );
 					}
 				} catch ( Throwable $e ) {
 					// Ignore errors and use the original value.
+					unset( $e );
 				}
 
 				return $value;

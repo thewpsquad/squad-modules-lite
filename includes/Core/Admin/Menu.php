@@ -233,30 +233,6 @@ class Menu {
 					'page_title' => esc_html__( 'Divi Squad ‹ Dashboard', 'squad-modules-for-divi' ),
 				)
 			);
-			$this->register_submenu(
-				array(
-					'name'       => esc_html__( 'Modules', 'squad-modules-for-divi' ),
-					'url'        => sprintf( '%s#/modules', admin_url( 'admin.php?page=' . divi_squad()->get_admin_menu_slug() ) ),
-					'capability' => 'manage_options',
-					'page_title' => esc_html__( 'Divi Squad ‹ Modules', 'squad-modules-for-divi' ),
-				)
-			);
-			$this->register_submenu(
-				array(
-					'name'       => esc_html__( 'Extensions', 'squad-modules-for-divi' ),
-					'url'        => sprintf( '%s#/extensions', admin_url( 'admin.php?page=' . divi_squad()->get_admin_menu_slug() ) ),
-					'capability' => 'manage_options',
-					'page_title' => esc_html__( 'Divi Squad ‹ Extensions', 'squad-modules-for-divi' ),
-				)
-			);
-			$this->register_submenu(
-				array(
-					'name'       => esc_html__( "What's New", 'squad-modules-for-divi' ),
-					'url'        => sprintf( '%1$s#/whats-new/%2$s', admin_url( 'admin.php?page=' . divi_squad()->get_admin_menu_slug() ), divi_squad()->get_version_dot() ),
-					'capability' => 'manage_options',
-					'page_title' => esc_html__( 'Divi Squad ‹ What\'s New', 'squad-modules-for-divi' ),
-				)
-			);
 
 			/**
 			 * Action after registering default menus.

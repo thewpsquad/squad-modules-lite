@@ -21,9 +21,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Table_Of_Contents\Toc_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -125,6 +126,7 @@ class Table_Of_Contents extends Module {
 												$value = $params['attrValue'] ?? array();
 
 												$color = self::sanitize_css_background( (string) ( $value['activeLinkColor'] ?? '' ) );
+
 												return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
@@ -138,6 +140,7 @@ class Table_Of_Contents extends Module {
 												$value = $params['attrValue'] ?? array();
 
 												$color = self::sanitize_css_background( (string) ( $value['markerColor'] ?? '' ) );
+
 												return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
@@ -176,7 +179,7 @@ class Table_Of_Contents extends Module {
 			$collapsible = 'on' === ( $inner['collapsible'] ?? 'off' ) && 'on' === $show_title;
 
 			$props = array();
-			for ( $n = 1; $n <= 6; $n++ ) {
+			for ( $n = 1; $n <= 6; $n ++ ) {
 				$props[ 'include_h' . $n ] = ( $inner[ 'includeH' . $n ] ?? '' );
 			}
 			$levels = Toc_Helper::selected_levels( $props );
@@ -208,6 +211,10 @@ class Table_Of_Contents extends Module {
 				(string) ( $inner['titleTag'] ?? 'h3' )
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -220,7 +227,7 @@ class Table_Of_Contents extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $shell,
+					'children'            => $style_components . $shell,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -228,26 +235,5 @@ class Table_Of_Contents extends Module {
 
 			return '';
 		}
-	}
-
-	/**
-	 * Sanitize a CSS background/color value (hex, rgba, gradient, etc.).
-	 *
-	 * Strips characters that could break out of the CSS declaration context
-	 * (`{ } ; < > \ " '`), so a user-supplied color-alpha field cannot inject
-	 * arbitrary CSS. Allows rgba(), gradients, and plain hex values.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

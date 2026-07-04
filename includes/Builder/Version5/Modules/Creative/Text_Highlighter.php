@@ -21,19 +21,17 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Text_Highlighter\Highlight_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
 use Throwable;
 use WP_Block;
 use function absint;
-use function esc_attr;
-use function preg_replace;
 use function sprintf;
-use function str_replace;
 use function trim;
 use function wp_enqueue_script;
 
@@ -123,6 +121,7 @@ class Text_Highlighter extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $value['highlightColor'] ?? '' ) );
+
 												return '' !== $color ? 'color: ' . $color . ';' : '';
 											},
 										),
@@ -135,6 +134,7 @@ class Text_Highlighter extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value        = $params['attrValue'] ?? array();
 												$stroke_width = absint( $value['strokeWidth'] ?? 3 );
+
 												return $stroke_width > 0 ? 'stroke-width: ' . $stroke_width . ';' : '';
 											},
 										),
@@ -151,6 +151,7 @@ class Text_Highlighter extends Module {
 												// transform on an absolutely-positioned SVG element.
 												$value          = $params['attrValue'] ?? array();
 												$svg_position_y = (int) ( $value['svgPositionY'] ?? 0 );
+
 												return 0 !== $svg_position_y
 													? sprintf( 'margin-top: %dpx;', $svg_position_y )
 													: '';
@@ -166,6 +167,7 @@ class Text_Highlighter extends Module {
 												$value   = $params['attrValue'] ?? array();
 												$align   = (string) ( $value['contentAlign'] ?? '' );
 												$allowed = array( 'left', 'center', 'right' );
+
 												return in_array( $align, $allowed, true )
 													? 'text-align: ' . $align . ';'
 													: '';
@@ -212,7 +214,7 @@ class Text_Highlighter extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner block content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -246,6 +248,10 @@ class Text_Highlighter extends Module {
 
 			$shell = Highlight_Helper::build_shell( $config );
 
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -258,7 +264,7 @@ class Text_Highlighter extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $shell,
+					'children'            => $style_components . $shell,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -266,22 +272,5 @@ class Text_Highlighter extends Module {
 
 			return '';
 		}
-	}
-
-	/**
-	 * Sanitize a CSS color/background value.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

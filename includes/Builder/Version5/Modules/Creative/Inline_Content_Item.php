@@ -18,10 +18,11 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Inline_Content\Inline_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Utils\Divi;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -32,7 +33,6 @@ use function esc_html;
 use function esc_url;
 use function et_pb_get_extended_font_icon_value;
 use function in_array;
-use function preg_match;
 use function sprintf;
 use function trim;
 use function wp_kses_post;
@@ -48,6 +48,13 @@ class Inline_Content_Item extends Module {
 		return '/build/divi-builder-5/modules-json/inline-content-item/';
 	}
 
+	/**
+	 * Add CSS classnames to the module wrapper.
+	 *
+	 * @param array<string, mixed> $args Divi module classnames args.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'squad-inline__item-wrapper' );
 		$args['classnamesInstance']->add(
@@ -57,10 +64,24 @@ class Inline_Content_Item extends Module {
 		);
 	}
 
+	/**
+	 * Register module script data.
+	 *
+	 * @param array<string, mixed> $args Divi module script data args.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register module styles.
+	 *
+	 * @param array<string, mixed> $args Divi module styles args.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -90,6 +111,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $value['iconColor'] ?? '' ) );
+
 												return '' !== $color ? "color:{$color};" : '';
 											},
 										),
@@ -103,6 +125,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$size  = self::sanitize_css_length( (string) ( $value['iconSize'] ?? '' ) );
+
 												return '' !== $size ? "font-size:{$size};" : '';
 											},
 										),
@@ -116,6 +139,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$w     = self::sanitize_css_length( (string) ( $value['imageWidth'] ?? '' ) );
+
 												return '' !== $w ? "width:{$w};" : '';
 											},
 										),
@@ -129,6 +153,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$h     = self::sanitize_css_length( (string) ( $value['imageHeight'] ?? '' ) );
+
 												return '' !== $h ? "height:{$h};" : '';
 											},
 										),
@@ -142,6 +167,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$r     = self::sanitize_css_length( (string) ( $value['imageRadius'] ?? '' ) );
+
 												return '' !== $r ? "border-radius:{$r};" : '';
 											},
 										),
@@ -155,6 +181,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$len   = self::sanitize_css_length( (string) ( $value['dividerLength'] ?? '' ) );
+
 												return '' !== $len ? "height:{$len};" : '';
 											},
 										),
@@ -168,6 +195,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$thick = self::sanitize_css_length( (string) ( $value['dividerThickness'] ?? '' ) );
+
 												return '' !== $thick ? "border-top-width:{$thick};" : '';
 											},
 										),
@@ -181,6 +209,7 @@ class Inline_Content_Item extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$value = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $value['dividerColor'] ?? '' ) );
+
 												return '' !== $color ? "background-color:{$color};border-color:{$color};" : '';
 											},
 										),
@@ -235,6 +264,10 @@ class Inline_Content_Item extends Module {
 				$inner_html
 			);
 
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -247,11 +280,12 @@ class Inline_Content_Item extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $item_html,
+					'children'            => $style_components . $item_html,
 				)
 			);
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to render Divi 5 Inline Content Item module' );
+
 			return '';
 		}
 	}
@@ -263,7 +297,6 @@ class Inline_Content_Item extends Module {
 	 *
 	 * @param string               $type Validated content type.
 	 * @param array<string, mixed> $item Deserialized itemSettings inner content.
-	 * @param string               $uid  Per-instance UID for scoped CSS.
 	 *
 	 * @return string Inner HTML (empty = skip child).
 	 */
@@ -291,6 +324,7 @@ class Inline_Content_Item extends Module {
 			return '';
 		}
 		$span = sprintf( '<span class="squad-inline__text">%s</span>', esc_html( $text ) );
+
 		return self::maybe_wrap_link( $span, $item );
 	}
 
@@ -309,12 +343,13 @@ class Inline_Content_Item extends Module {
 			'<span class="squad-inline__icon"><span class="et-pb-icon">%s</span></span>',
 			wp_kses_post( $icon_value )
 		);
+
 		return self::maybe_wrap_link( $html, $item );
 	}
 
 	/** @param array<string, mixed> $item */
 	protected static function render_image( array $item ): string {
-		$src = (string) ( $item['image'] ?? '' );
+		$src = self::resolve_upload_url( $item['image'] ?? '' );
 		if ( '' === $src ) {
 			return '';
 		}
@@ -325,6 +360,7 @@ class Inline_Content_Item extends Module {
 			esc_url( $src ),
 			esc_attr( $alt )
 		);
+
 		return self::maybe_wrap_link( $html, $item );
 	}
 
@@ -397,26 +433,5 @@ class Inline_Content_Item extends Module {
 		}
 
 		return sprintf( '<a %s>%s</a>', $attrs, $inner );
-	}
-
-	/** Sanitize a CSS length value. */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
-
-	/** Sanitize a CSS background/color value — strips `{ } ; < > \ " '`. */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

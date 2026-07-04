@@ -79,9 +79,8 @@ trait Detect_Plugin_Life {
 	 * release structure (/includes). This is the inverse of is_dev().
 	 *
 	 * @since      3.2.0
-	 * @deprecated 3.2.0 Use $this->is_prod() instead
-	 *
 	 * @return bool Returns true if running in production environment, false otherwise.
+	 * @deprecated 3.2.0 Use $this->is_prod() instead
 	 */
 	public function is_prod(): bool {
 		try {

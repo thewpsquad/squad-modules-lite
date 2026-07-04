@@ -752,6 +752,24 @@
                 "name": "divi/text"
               }
             },
+            "urlTarget": {
+              "groupSlug": "contentFrontButton",
+              "attrName": "frontButton.innerContent",
+              "subName": "urlTarget",
+              "label": "Open in New Tab",
+              "description": "Open the front button link in a new browser tab.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 25,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
             "icon": {
               "groupSlug": "contentFrontButton",
               "attrName": "frontButton.innerContent",
@@ -816,6 +834,24 @@
               "component": {
                 "type": "field",
                 "name": "divi/text"
+              }
+            },
+            "urlTarget": {
+              "groupSlug": "contentBackButton",
+              "attrName": "backButton.innerContent",
+              "subName": "urlTarget",
+              "label": "Open in New Tab",
+              "description": "Open the back button link in a new browser tab.",
+              "features": {
+                "sticky": false,
+                "responsive": false,
+                "hover": false
+              },
+              "render": true,
+              "priority": 25,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
               }
             },
             "icon": {

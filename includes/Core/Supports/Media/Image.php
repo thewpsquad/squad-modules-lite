@@ -107,9 +107,8 @@ class Image {
 	 * @param string $type      Image type.
 	 * @param bool   $as_base64 Whether to return base64 encoded image.
 	 *
-	 * @throws RuntimeException If image path is not valid or accessible.
-	 *
 	 * @return string|WP_Error Base64 encoded image, raw image data, or error.
+	 * @throws RuntimeException If image path is not valid or accessible.
 	 */
 	public function get_image( string $image, string $type, bool $as_base64 = true ) {
 		try {
@@ -320,9 +319,8 @@ class Image {
 	 *
 	 * @param string $image Image filename.
 	 *
-	 * @throws RuntimeException If image file cannot be read or processed.
-	 *
 	 * @return string|WP_Error Raw image data or error.
+	 * @throws RuntimeException If image file cannot be read or processed.
 	 */
 	protected function get_image_raw( string $image ) {
 		try {
@@ -492,9 +490,8 @@ class Image {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @throws RuntimeException If path validation fails.
-	 *
 	 * @return bool Whether the path is valid.
+	 * @throws RuntimeException If path validation fails.
 	 */
 	protected function validate_path(): bool {
 		try {

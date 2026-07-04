@@ -29,8 +29,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
+use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection_Interface;
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -42,39 +44,38 @@ use WP_Term;
 use WP_User;
 use function absint;
 use function add_query_arg;
+use function esc_attr;
+use function esc_html;
+use function esc_html__;
+use function esc_url;
+use function esc_url_raw;
+use function get_author_posts_url;
+use function get_avatar;
+use function get_category_link;
+use function get_comments_number;
+use function get_permalink;
+use function get_post_class;
 use function get_queried_object;
+use function get_query_var;
 use function get_search_query;
+use function get_tag_link;
+use function get_the_post_thumbnail;
+use function get_userdata;
 use function is_archive;
 use function is_author;
 use function is_date;
 use function is_search;
 use function is_singular;
 use function is_wp_error;
-use function esc_attr;
-use function esc_html;
-use function esc_html__;
-use function esc_url;
-use function esc_url_raw;
-use function et_pb_get_extended_font_icon_value;
-use function get_query_var;
-use function paginate_links;
-use function get_author_posts_url;
-use function get_avatar;
-use function get_category_link;
-use function get_comments_number;
-use function get_tag_link;
-use function get_permalink;
-use function get_post_class;
-use function get_the_post_thumbnail;
-use function get_userdata;
 use function number_format_i18n;
+use function paginate_links;
 use function sanitize_key;
 use function wp_date;
+use function wp_enqueue_script;
 use function wp_get_post_categories;
 use function wp_get_post_tags;
-use function wp_kses_post;
-use function wp_enqueue_script;
 use function wp_json_encode;
+use function wp_kses_post;
 use function wp_reset_postdata;
 use function wp_strip_all_tags;
 
@@ -210,7 +211,8 @@ class Post_Grid extends Module {
 
 			$columns = absint( $inner['listNumberOfColumns'] ?? 3 );
 			$columns = $columns > 0 ? $columns : 3;
-			$gap     = (string) ( $inner['listItemGap'] ?? '30px' );
+			$gap     = self::sanitize_css_length( (string) ( $inner['listItemGap'] ?? '30px' ) );
+			$gap     = '' !== $gap ? $gap : '30px';
 
 			$grid_html = sprintf(
 				'<ul class="squad-post-container" style="list-style-type: none; --squad-post-grid-columns: %1$d; --squad-post-grid-gap: %2$s;">%3$s</ul>',
@@ -221,6 +223,10 @@ class Post_Grid extends Module {
 
 			$grid_html .= self::render_load_more( $inner, $query, $child_modules_content );
 			$grid_html .= self::render_pagination( $inner, $query );
+
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
 
 			return DiviModule::render(
 				array(
@@ -234,7 +240,7 @@ class Post_Grid extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $grid_html,
+					'children'            => $style_components . $grid_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -269,11 +275,11 @@ class Post_Grid extends Module {
 			if ( 'category' === $display_by && '' !== ( $inner['listPostIncludeCategories'] ?? '' ) ) {
 				$args['cat'] = sanitize_text_field( (string) $inner['listPostIncludeCategories'] );
 			} elseif ( 'tag' === $display_by && '' !== ( $inner['listPostIncludeTags'] ?? '' ) ) {
-				$args['tag__in'] = array_filter( array_map( 'absint', explode( ',', (string) $inner['listPostIncludeTags'] ) ) );
+				$args['tag__in'] = array_filter( array_map( 'absint', explode( ',', (string) $inner['listPostIncludeTags'] ) ), static fn( int $id ): bool => $id > 0 );
 			}
 		}
 
-		$exclude = array_filter( array_map( 'absint', explode( ',', (string) ( $inner['listPostExclude'] ?? '' ) ) ) );
+		$exclude = array_filter( array_map( 'absint', explode( ',', (string) ( $inner['listPostExclude'] ?? '' ) ) ), static fn( int $id ): bool => $id > 0 );
 		if ( count( $exclude ) > 0 ) {
 			$args['post__not_in'] = isset( $args['post__not_in'] ) ? array_merge( (array) $args['post__not_in'], $exclude ) : $exclude;
 		}
@@ -329,11 +335,11 @@ class Post_Grid extends Module {
 			$args['author'] = $queried->ID;
 		} elseif ( $queried instanceof WP_Term && is_archive() ) {
 			$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-				array(
-					'taxonomy' => $queried->taxonomy,
-					'field'    => 'term_id',
-					'terms'    => $queried->term_id,
-				),
+			                            array(
+				                            'taxonomy' => $queried->taxonomy,
+				                            'field'    => 'term_id',
+				                            'terms'    => $queried->term_id,
+			                            ),
 			);
 		} elseif ( is_search() ) {
 			$args['s'] = get_search_query();
@@ -426,10 +432,10 @@ class Post_Grid extends Module {
 		if ( 'category' === $display_by && '' !== ( $client_args['categories'] ?? '' ) ) {
 			$args['cat'] = sanitize_text_field( (string) $client_args['categories'] );
 		} elseif ( 'tag' === $display_by && '' !== ( $client_args['tags'] ?? '' ) ) {
-			$args['tag__in'] = array_filter( array_map( 'absint', explode( ',', (string) $client_args['tags'] ) ) );
+			$args['tag__in'] = array_filter( array_map( 'absint', explode( ',', (string) $client_args['tags'] ) ), static fn( int $id ): bool => $id > 0 );
 		}
 
-		$exclude = array_filter( array_map( 'absint', explode( ',', (string) ( $client_args['exclude'] ?? '' ) ) ) );
+		$exclude = array_filter( array_map( 'absint', explode( ',', (string) ( $client_args['exclude'] ?? '' ) ) ), static fn( int $id ): bool => $id > 0 );
 		if ( count( $exclude ) > 0 ) {
 			$args['post__not_in'] = $exclude;
 		}
@@ -529,16 +535,13 @@ class Post_Grid extends Module {
 		);
 
 		// Optional button icon.
-		$icon_html = '';
-		$icon      = (string) ( $inner['loadMoreIcon'] ?? '' );
-		if ( '' !== $icon && function_exists( 'et_pb_get_extended_font_icon_value' ) ) {
-			$icon_value = et_pb_get_extended_font_icon_value( $icon, true );
-			if ( '' !== $icon_value ) {
-				$icon_html = sprintf(
-					'<span class="squad-icon-wrapper"><span class="icon-element"><span class="et-pb-icon squad-button-icon">%s</span></span></span>',
-					esc_attr( $icon_value )
-				);
-			}
+		$icon_html  = '';
+		$icon_char  = self::resolve_icon( $inner['loadMoreIcon'] ?? array() );
+		if ( '' !== $icon_char ) {
+			$icon_html = sprintf(
+				'<span class="squad-icon-wrapper"><span class="icon-element"><span class="et-pb-icon squad-button-icon">%s</span></span></span>',
+				esc_html( $icon_char )
+			);
 		}
 
 		$placement  = 'right' === ( $inner['loadMoreIconPlacement'] ?? 'left' ) ? 'right' : 'left';
@@ -645,8 +648,8 @@ class Post_Grid extends Module {
 			return $html;
 		}
 
-		$icon = (string) ( $config['elementIcon'] ?? '' );
-		if ( '' === $icon ) {
+		$icon_char = self::resolve_icon( $config['elementIcon'] ?? array() );
+		if ( '' === $icon_char ) {
 			return $html;
 		}
 
@@ -656,20 +659,11 @@ class Post_Grid extends Module {
 			return $html;
 		}
 
-		if ( ! function_exists( 'et_pb_get_extended_font_icon_value' ) ) {
-			return $html;
-		}
-
-		$icon_value = et_pb_get_extended_font_icon_value( $icon, true );
-		if ( '' === $icon_value ) {
-			return $html;
-		}
-
 		$placement = 'right' === ( $config['elementIconPlacement'] ?? 'left' ) ? 'right' : 'left';
 		$icon_html = sprintf(
 			'<span class="squad-element-icon-wrapper placement-%1$s"><span class="icon-element"><span class="et-pb-icon squad-element-icon">%2$s</span></span></span>',
 			esc_attr( $placement ),
-			esc_attr( $icon_value )
+			esc_html( $icon_char )
 		);
 
 		// Insert the icon just inside the element wrapper, before or after the body.
@@ -745,8 +739,9 @@ class Post_Grid extends Module {
 		}
 
 		if ( 'on' === ( $config['elementContentLength'] ?? 'off' ) ) {
-			$length  = absint( $config['elementContentLengthValue'] ?? 20 );
-			$words   = preg_split( '/\s+/', trim( $content ) ) ?: array();
+			$length = absint( $config['elementContentLengthValue'] ?? 20 );
+			$words  = preg_split( '/\s+/', trim( $content ) );
+			$words  = false !== $words ? $words : array();
 			if ( count( $words ) > $length ) {
 				$content = implode( ' ', array_slice( $words, 0, $length ) ) . '&hellip;';
 			}
@@ -814,11 +809,14 @@ class Post_Grid extends Module {
 		$format = (string) ( $config['elementDateFormat'] ?? '' );
 		$format = '' !== $format ? $format : 'M j, Y';
 
+		$timestamp = strtotime( $date );
+		$formatted = false !== $timestamp ? wp_date( $format, $timestamp ) : false;
+
 		return sprintf(
 			'<div class="%s"><time datetime="%s">%s</time></div>',
 			esc_attr( $class ),
 			esc_attr( $date ),
-			esc_html( wp_date( $format, strtotime( $date ) ) )
+			esc_html( false !== $formatted ? $formatted : $date )
 		);
 	}
 
@@ -909,7 +907,7 @@ class Post_Grid extends Module {
 
 		try {
 			$fields = divi_squad()->custom_fields_element->get( 'custom_fields' );
-			if ( ! $fields->has_field( $post->ID, $key ) ) {
+			if ( ! $fields instanceof Collection_Interface || ! $fields->has_field( $post->ID, $key ) ) {
 				return '';
 			}
 			$value = $fields->get_field_value( $post->ID, $key );
@@ -947,7 +945,7 @@ class Post_Grid extends Module {
 
 		try {
 			$fields = divi_squad()->custom_fields_element->get( 'custom_fields' );
-			if ( ! $fields->has_field( $post->ID, $key ) ) {
+			if ( ! $fields instanceof Collection_Interface || ! $fields->has_field( $post->ID, $key ) ) {
 				return '';
 			}
 			$value = $fields->get_field_value( $post->ID, $key );
@@ -979,7 +977,7 @@ class Post_Grid extends Module {
 	 */
 	protected static function element_categories( array $config, WP_Post $post, string $class ): string {
 		$categories = wp_get_post_categories( $post->ID, array( 'fields' => 'all' ) );
-		if ( 0 === count( $categories ) ) {
+		if ( is_wp_error( $categories ) || 0 === count( $categories ) ) {
 			return '';
 		}
 
@@ -1008,7 +1006,7 @@ class Post_Grid extends Module {
 	 */
 	protected static function element_tags( array $config, WP_Post $post, string $class ): string {
 		$tags = wp_get_post_tags( $post->ID );
-		if ( 0 === count( $tags ) ) {
+		if ( is_wp_error( $tags ) || 0 === count( $tags ) ) {
 			return '';
 		}
 
@@ -1086,8 +1084,8 @@ class Post_Grid extends Module {
 		$next_text = (string) ( $inner['paginationNextText'] ?? '' );
 		$next_text = '' !== $next_text ? $next_text : esc_html__( 'Next', 'squad-modules-for-divi' );
 
-		$prev_icon = self::render_pagination_icon( (string) ( $inner['paginationOldEntriesIcon'] ?? '' ), 'old' );
-		$next_icon = self::render_pagination_icon( (string) ( $inner['paginationNextEntriesIcon'] ?? '' ), 'next' );
+		$prev_icon = self::render_pagination_icon( self::resolve_icon( $inner['paginationOldEntriesIcon'] ?? array() ), 'old' );
+		$next_icon = self::render_pagination_icon( self::resolve_icon( $inner['paginationNextEntriesIcon'] ?? array() ), 'next' );
 
 		$prev = $prev_icon . ( $icon_only ? '' : sprintf( '<span class="entries-text">%s</span>', esc_html( $prev_text ) ) );
 		$next = ( $icon_only ? '' : sprintf( '<span class="entries-text">%s</span>', esc_html( $next_text ) ) ) . $next_icon;
@@ -1152,19 +1150,15 @@ class Post_Grid extends Module {
 	 * @return string
 	 */
 	protected static function render_pagination_icon( string $icon, string $dir ): string {
-		if ( '' === $icon || ! function_exists( 'et_pb_get_extended_font_icon_value' ) ) {
+		if ( '' === $icon ) {
 			return '';
 		}
 
-		$value = et_pb_get_extended_font_icon_value( $icon, true );
-		if ( '' === $value ) {
-			return '';
-		}
-
+		// $icon is already the decoded glyph character from resolve_icon().
 		return sprintf(
 			'<span class="et-pb-icon squad-pagination_%1$s_entries-icon">%2$s</span>',
-			esc_attr( 'next' === $dir ? 'next' : 'old' ),
-			esc_attr( $value )
+			esc_attr( $dir ),
+			esc_html( $icon )
 		);
 	}
 
@@ -1177,5 +1171,4 @@ class Post_Grid extends Module {
 	 */
 	protected static function render_notice( string $message ): string {
 		return sprintf( '<div class="squad-notice squad-post-grid-notice">%s</div>', esc_html( $message ) );
-	}
-}
+	}}

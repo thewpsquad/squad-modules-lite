@@ -29,7 +29,7 @@ class Formidable extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of Formidable Forms data.
+	 * @return array<string, string> An array of Formidable Forms data.
 	 */
 	public function get_forms( string $collection ): array {
 		// Check if Formidable Forms is active.
@@ -40,7 +40,7 @@ class Formidable extends Collection {
 		// Get all Formidable Forms.
 		$forms = \FrmForm::get_published_forms();
 
-		if ( empty( $forms ) ) {
+		if ( ! is_array( $forms ) || 0 === count( $forms ) ) {
 			return array();
 		}
 
@@ -50,22 +50,30 @@ class Formidable extends Collection {
 	/**
 	 * Get the ID of a Formidable Form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return (int) $form->id;
+		if ( is_object( $form ) && property_exists( $form, 'id' ) ) {
+			return (int) $form->id;
+		}
+
+		return 0;
 	}
 
 	/**
 	 * Get the title of a Formidable Form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return $form->name;
+		if ( is_object( $form ) && property_exists( $form, 'name' ) ) {
+			return (string) $form->name;
+		}
+
+		return '';
 	}
 }

@@ -43,6 +43,10 @@ class Formidable extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/formidable/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_formidable';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Requirements main class.
  *
@@ -80,7 +79,7 @@ class Requirements implements Hookable {
 	 * @since 3.5.0 Refactored to use composition
 	 */
 	public function __construct() {
-		// Initialize dependencies
+		// Initialize dependencies.
 		$this->status_checker  = new Status_Checker();
 		$this->assets_manager  = new Assets();
 		$this->admin_page      = new Admin_Page( $this->status_checker );
@@ -99,10 +98,10 @@ class Requirements implements Hookable {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		// Use the new check_requirements method on init instead of is_fulfilled directly.
+		// Use the new check_requirements method on init instead of is_fulfilled directly..
 		add_action( 'init', array( $this, 'check_requirements' ) );
 
-		// Add hooks for theme/plugin activation events.
+		// Add hooks for theme/plugin activation events..
 		add_action( 'activated_plugin', array( $this, 'check_requirements_on_plugin_activation' ) );
 		add_action( 'after_switch_theme', array( $this, 'check_requirements_on_theme_activation' ) );
 
@@ -123,19 +122,19 @@ class Requirements implements Hookable {
 	 * @return void
 	 */
 	public function check_requirements(): void {
-		// Check if requirements are fulfilled.
+		// Check if requirements are fulfilled..
 		$is_fulfilled = $this->is_fulfilled();
 
-		// If requirements are not fulfilled, log the failure.
+		// If requirements are not fulfilled, log the failure..
 		if ( ! $is_fulfilled ) {
-			// Throttle: only re-log if we haven't logged in the last hour.
+			// Throttle: only re-log if we haven't logged in the last hour..
 			if ( false === get_transient( 'divi_squad_req_logged' ) ) {
 				$this->error_logger->log_requirement_failure( $this->status_checker );
 				set_transient( 'divi_squad_req_logged', 1, HOUR_IN_SECONDS );
 			}
 		} else {
-			// If requirements are now fulfilled, but we had a previous failure,
-			// clean up the failure flags.
+			// If requirements are now fulfilled, but we had a previous failure,.
+			// clean up the failure flags..
 			$requirements_failed = (bool) get_option( 'divi_squad_requirements_failed', false );
 			if ( $requirements_failed ) {
 				delete_option( 'divi_squad_requirements_failed' );
@@ -143,7 +142,7 @@ class Requirements implements Hookable {
 				delete_option( 'divi_squad_requirements_data' );
 				delete_transient( 'divi_squad_req_logged' );
 
-				// Log the successful resolution.
+				// Log the successful resolution..
 				divi_squad()->log_info(
 					'Requirements now fulfilled',
 					'Requirements_Resolved',
@@ -164,7 +163,7 @@ class Requirements implements Hookable {
 	 * @return void
 	 */
 	public function check_requirements_on_plugin_activation( string $plugin ): void {
-		// Check if we have a previously failed requirement.
+		// Check if we have a previously failed requirement..
 		$requirements_failed = (bool) get_option( 'divi_squad_requirements_failed', false );
 
 		if ( ! $requirements_failed ) {
@@ -192,17 +191,17 @@ class Requirements implements Hookable {
 		}
 
 		if ( $is_divi_plugin ) {
-			// Reset status cache to force a fresh check.
+			// Reset status cache to force a fresh check..
 			$this->status_checker->reset_cache();
 
-			// Check if requirements are now met.
+			// Check if requirements are now met..
 			if ( $this->is_fulfilled() ) {
-				// Requirements are now met, clean up.
+				// Requirements are now met, clean up..
 				delete_option( 'divi_squad_requirements_failed' );
 				delete_option( 'divi_squad_requirements_context' );
 				delete_option( 'divi_squad_requirements_data' );
 
-				// Log the successful resolution.
+				// Log the successful resolution..
 				divi_squad()->log_info(
 					'Requirements now fulfilled after plugin activation: ' . $plugin,
 					'Requirements_Resolved',
@@ -223,26 +222,26 @@ class Requirements implements Hookable {
 	 * @return void
 	 */
 	public function check_requirements_on_theme_activation( string $theme_name ): void {
-		// Check if we have a previously failed requirement.
+		// Check if we have a previously failed requirement..
 		$requirements_failed = (bool) get_option( 'divi_squad_requirements_failed', false );
 
 		if ( ! $requirements_failed ) {
 			return;
 		}
 
-		// Check if the activated theme is Divi or Extra.
+		// Check if the activated theme is Divi or Extra..
 		if ( false !== stripos( $theme_name, 'divi' ) || false !== stripos( $theme_name, 'extra' ) ) {
-			// Reset status cache to force a fresh check.
+			// Reset status cache to force a fresh check..
 			$this->status_checker->reset_cache();
 
-			// Check if requirements are now met.
+			// Check if requirements are now met..
 			if ( $this->is_fulfilled() ) {
-				// Requirements are now met, clean up.
+				// Requirements are now met, clean up..
 				delete_option( 'divi_squad_requirements_failed' );
 				delete_option( 'divi_squad_requirements_context' );
 				delete_option( 'divi_squad_requirements_data' );
 
-				// Log the successful resolution.
+				// Log the successful resolution..
 				divi_squad()->log_info(
 					'Requirements now fulfilled after theme activation: ' . $theme_name,
 					'Requirements_Resolved',

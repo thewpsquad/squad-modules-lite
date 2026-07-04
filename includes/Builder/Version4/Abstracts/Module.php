@@ -17,6 +17,8 @@ use DiviSquad\Builder\Version4\Supports\Module_Utility;
 use DiviSquad\Core\Supports\Links;
 use ET_Builder_Module;
 use Throwable;
+use function preg_match;
+use function preg_replace;
 
 /**
  * Abstract Module class
@@ -27,8 +29,8 @@ use Throwable;
  * @since   1.5.0
  * @package DiviSquad
  *
- * @property array  $props
- * @property string $render_slug
+ * @property array<string, mixed> $props
+ * @property string               $render_slug
  */
 #[\AllowDynamicProperties]
 abstract class Module extends ET_Builder_Module implements Module_Interface {
@@ -42,7 +44,7 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 	/**
 	 * Default options for divider
 	 *
-	 * @var array|mixed|string|null
+	 * @var array<string, mixed>
 	 */
 	public array $squad_divider_defaults;
 
@@ -56,7 +58,7 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 	/**
 	 * The list of icon eligible element
 	 *
-	 * @var array
+	 * @var array<int, string>
 	 */
 	protected array $icon_not_eligible_elements = array();
 
@@ -97,7 +99,7 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 	/**
 	 * Get module defined fields + automatically generated fields
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_complete_fields(): array {
 		$fields = parent::get_complete_fields();
@@ -181,9 +183,9 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @param Throwable $error       The exception or error to log.
-	 * @param array     $context     Additional context for the error.
-	 * @param bool      $send_report Whether to send an error report.
+	 * @param Throwable            $error       The exception or error to log.
+	 * @param array<string, mixed> $context     Additional context for the error.
+	 * @param bool                 $send_report Whether to send an error report.
 	 *
 	 * @return void
 	 */
@@ -192,7 +194,7 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 		$error_context = array_merge(
 			array(
 				'module'         => static::class,
-				'module_slug'    => $this->slug ?? '',
+				'module_slug'    => $this->slug,
 				'module_version' => divi_squad()->get_version_dot(),
 				'is_vb'          => et_core_is_fb_enabled(),
 				'is_bfb'         => et_builder_bfb_enabled(),
@@ -334,5 +336,48 @@ abstract class Module extends ET_Builder_Module implements Module_Interface {
 		 * @param Module $module  The module instance.
 		 */
 		return apply_filters( 'divi_squad_rendered_notice', $notice, $message, $type, $this );
+	}
+
+	/**
+	 * Sanitize a CSS background / color value.
+	 *
+	 * Strips characters that could break out of a CSS declaration context
+	 * ({}, ;, <, >, ", ', \). Safe to use inside `set_style()` declaration
+	 * strings and inline `style=""` attributes.
+	 *
+	 * @since 3.4.7
+	 *
+	 * @param string $value Raw value from module props.
+	 *
+	 * @return string Sanitized value, or empty string.
+	 */
+	protected static function sanitize_css_background( string $value ): string {
+		$value = trim( $value );
+		if ( '' === $value ) {
+			return '';
+		}
+		return (string) preg_replace( '/[{};<>"\'\\\\]/', '', $value );
+	}
+
+	/**
+	 * Sanitize a CSS length value.
+	 *
+	 * Accepts only values matching `<number><unit>` (e.g. `10px`, `1.5rem`,
+	 * `50%`). Returns $fallback when the value does not match, defaulting to
+	 * an empty string so callers can detect and substitute a hardcoded default.
+	 *
+	 * @since 3.4.7
+	 *
+	 * @param string $value    Raw value from module props.
+	 * @param string $fallback Returned when $value is invalid (default '').
+	 *
+	 * @return string Validated length string or $fallback.
+	 */
+	protected static function sanitize_css_length( string $value, string $fallback = '' ): string {
+		$value = trim( $value );
+		if ( 1 === preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
+			return $value;
+		}
+		return $fallback;
 	}
 }

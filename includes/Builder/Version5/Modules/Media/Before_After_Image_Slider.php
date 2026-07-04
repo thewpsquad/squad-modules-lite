@@ -27,6 +27,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -40,7 +41,6 @@ use function sanitize_text_field;
 use function sprintf;
 use function wp_enqueue_script;
 use function wp_json_encode;
-use function wp_kses_post;
 
 /**
  * Before After Image Slider Module class.
@@ -70,6 +70,7 @@ class Before_After_Image_Slider extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_bai_slider' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -148,7 +149,7 @@ class Before_After_Image_Slider extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes saved by the Visual Builder.
 	 * @param string               $content  Inner (child) block content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */

@@ -25,6 +25,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -66,6 +67,7 @@ class Image_Carousel_Item extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_image_carousel_item' );
 		$args['classnamesInstance']->add( 'swiper-slide' );
 		$args['classnamesInstance']->add( 'squad-image-carousel__slide' );
 		$args['classnamesInstance']->add(
@@ -155,11 +157,15 @@ class Image_Carousel_Item extends Module {
 	public static function render_callback( array $attrs, string $content, WP_Block $block, $elements ): string {
 		try {
 			$item_attrs = $attrs['slideItem']['innerContent']['desktop']['value'] ?? array();
-			$image_url  = esc_url( $item_attrs['image'] ?? '' );
+			$image_url  = esc_url( self::resolve_upload_url( $item_attrs['image'] ?? '' ) );
+
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
 
 			$item_html = sprintf(
 				'<div class="squad-image-carousel__item"%s>%s%s</div>',
-				! empty( $image_url ) ? sprintf( ' data-src="%s"', $image_url ) : '',
+				'' !== $image_url ? sprintf( ' data-src="%s"', $image_url ) : '',
 				self::render_image( $attrs ),
 				self::render_overlay( $attrs )
 			);
@@ -176,7 +182,7 @@ class Image_Carousel_Item extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $item_html,
+					'children'            => $style_components . $item_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -197,9 +203,9 @@ class Image_Carousel_Item extends Module {
 	 */
 	private static function render_image( array $attrs ): string {
 		$item = $attrs['slideItem']['innerContent']['desktop']['value'] ?? array();
-		$url  = esc_url( $item['image'] ?? '' );
+		$url  = esc_url( self::resolve_upload_url( $item['image'] ?? '' ) );
 
-		if ( empty( $url ) ) {
+		if ( '' === $url ) {
 			return '';
 		}
 

@@ -37,7 +37,7 @@ class Forms {
 	 * Supported form types with their corresponding processor classes.
 	 *
 	 * @since 1.5.0
-	 * @var array<string, string>
+	 * @var array<string, class-string<Collection_Interface>>
 	 */
 	protected array $supported_form_types = array(
 		'cf7'           => Forms\Collections\Contact_Form_7::class,

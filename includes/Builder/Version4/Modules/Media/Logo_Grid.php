@@ -99,12 +99,12 @@ class Logo_Grid extends Module {
 	 * Define module fields.
 	 *
 	 * @since 4.0.0
-	 * @return array<string, mixed>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		return array(
 			// Grid Settings.
-			'columns'       => divi_squad()->d4_module_helper->add_range_field(
+			'columns'         => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Columns', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Number of logo columns.', 'squad-modules-for-divi' ),
@@ -123,7 +123,7 @@ class Logo_Grid extends Module {
 					'toggle_slug'    => 'grid_settings',
 				)
 			),
-			'gap'           => divi_squad()->d4_module_helper->add_range_field(
+			'gap'             => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Gap', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Gap between logo items in pixels.', 'squad-modules-for-divi' ),
@@ -158,7 +158,7 @@ class Logo_Grid extends Module {
 				'toggle_slug' => 'logo_settings',
 			),
 			// Hover Effect.
-			'hover_effect'  => divi_squad()->d4_module_helper->add_select_box_field(
+			'hover_effect'    => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Hover Effect', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Effect applied to logos on hover.', 'squad-modules-for-divi' ),
@@ -174,7 +174,7 @@ class Logo_Grid extends Module {
 					'toggle_slug' => 'hover_settings',
 				)
 			),
-			'hover_opacity' => divi_squad()->d4_module_helper->add_range_field(
+			'hover_opacity'   => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Resting Opacity', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Logo opacity at rest (applies when Hover Effect is Opacity).', 'squad-modules-for-divi' ),
@@ -227,9 +227,15 @@ class Logo_Grid extends Module {
 	 * @return void
 	 */
 	public function apply_grid_css( string $render_slug ): void {
+		$cols_tablet_raw = (string) $this->prop( 'columns_tablet', '' );
+		$cols_phone_raw  = (string) $this->prop( 'columns_phone', '' );
+
+		$cols_tab_value = ( '' === $cols_tablet_raw || '0' === $cols_tablet_raw ) ? 3 : $cols_tablet_raw;
+		$cols_mob_value = ( '' === $cols_phone_raw || '0' === $cols_phone_raw ) ? 2 : $cols_phone_raw;
+
 		$cols_desk = max( 1, absint( $this->prop( 'columns', '4' ) ) );
-		$cols_tab  = max( 1, absint( $this->prop( 'columns_tablet', '' ) ?: 3 ) );
-		$cols_mob  = max( 1, absint( $this->prop( 'columns_phone', '' ) ?: 2 ) );
+		$cols_tab  = max( 1, absint( $cols_tab_value ) );
+		$cols_mob  = max( 1, absint( $cols_mob_value ) );
 		$gap       = max( 0, absint( $this->prop( 'gap', '30' ) ) );
 
 		self::set_style( $render_slug, array(
@@ -335,23 +341,4 @@ class Logo_Grid extends Module {
 		) );
 	}
 
-	/**
-	 * Validate a CSS length value against an allowlist of units.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value or empty string.
-	 */
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
 }

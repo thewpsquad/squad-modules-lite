@@ -90,11 +90,11 @@ abstract class Manager implements Manager_Interface {
 	 *
 	 * @since 3.1.1
 	 *
-	 * @param string   $key        The cache key.
-	 * @param callable $callback   The function to generate the data if not cached.
-	 * @param array    $args       Arguments to pass to the callback.
-	 * @param int|null $expiration Optional. The expiration time of the cached data in seconds.
-	 *                             Default is the manager's cache_expiration.
+	 * @param string            $key        The cache key.
+	 * @param callable          $callback   The function to generate the data if not cached.
+	 * @param array<int, mixed> $args       Arguments to pass to the callback.
+	 * @param int|null          $expiration Optional. The expiration time of the cached data in seconds.
+	 *                                      Default is the manager's cache_expiration.
 	 *
 	 * @return mixed The cached or generated data.
 	 */

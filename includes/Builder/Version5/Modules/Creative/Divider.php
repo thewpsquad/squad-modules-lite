@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -27,7 +28,6 @@ use Throwable;
 use WP_Block;
 use function esc_attr;
 use function esc_url;
-use function sanitize_html_class;
 use function wp_enqueue_script;
 use function wp_json_encode;
 use function wp_kses_post;
@@ -60,6 +60,7 @@ class Divider extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_divider' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -139,7 +140,7 @@ class Divider extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -214,15 +215,15 @@ class Divider extends Module {
 
 		$content = sprintf(
 			'<span class="%1$s"><hr/></span>%3$s<span class="%2$s"><hr/></span>',
-			wp_kses_post( implode( ' ', $divider_left ) ),
-			wp_kses_post( implode( ' ', $divider_right ) ),
+			esc_attr( implode( ' ', $divider_left ) ),
+			esc_attr( implode( ' ', $divider_right ) ),
 			$icon
 		);
 
 		return sprintf(
 			'<div class="%2$s">%1$s</div>',
 			$content,
-			wp_kses_post( implode( ' ', $wrapper_classes ) )
+			esc_attr( implode( ' ', $wrapper_classes ) )
 		);
 	}
 
@@ -247,11 +248,17 @@ class Divider extends Module {
 		} elseif ( 'icon' === $divider_type ) {
 			switch ( $divider_icon_type ) {
 				case 'icon':
-					$element = '<span class="et-pb-icon divider-icon"></span>';
+					$icon_char = self::resolve_icon( $inner['dividerIcon'] ?? array() );
+					if ( '' !== $icon_char ) {
+						$element = sprintf(
+							'<span class="et-pb-icon divider-icon">%s</span>',
+							esc_html( $icon_char )
+						);
+					}
 					break;
 
 				case 'image':
-					$image = $inner['dividerImage'] ?? '';
+					$image = self::resolve_upload_url( $inner['dividerImage'] ?? '' );
 					$alt   = $inner['dividerImageAlt'] ?? '';
 
 					if ( '' !== $image ) {

@@ -29,7 +29,7 @@ class Forminator extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of Forminator Forms data.
+	 * @return array<string, string> An array of Forminator Forms data.
 	 */
 	public function get_forms( string $collection ): array {
 		// Check if Forminator is active.
@@ -40,7 +40,7 @@ class Forminator extends Collection {
 		// Get all Forminator Forms.
 		$forms = \Forminator_API::get_forms();
 
-		if ( empty( $forms ) ) {
+		if ( ! is_array( $forms ) || count( $forms ) === 0 ) {
 			return array();
 		}
 
@@ -50,22 +50,22 @@ class Forminator extends Collection {
 	/**
 	 * Get the ID of a Forminator Form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return (int) $form->id;
+		return is_object( $form ) && isset( $form->id ) ? (int) $form->id : 0;
 	}
 
 	/**
 	 * Get the title of a Forminator Form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return $form->name;
+		return is_object( $form ) && isset( $form->name ) ? (string) $form->name : '';
 	}
 }

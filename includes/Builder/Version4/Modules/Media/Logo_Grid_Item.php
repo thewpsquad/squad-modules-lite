@@ -85,7 +85,7 @@ class Logo_Grid_Item extends Child_Module {
 	 * Define module fields.
 	 *
 	 * @since 4.0.0
-	 * @return array<string, mixed>
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		return array(
@@ -134,9 +134,9 @@ class Logo_Grid_Item extends Child_Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array<string, mixed> $attrs       Module attributes.
-	 * @param string               $content     Inner content (unused).
-	 * @param string               $render_slug Module render slug.
+	 * @param array<array-key, mixed> $attrs       Module attributes.
+	 * @param string                  $content     Inner content (unused).
+	 * @param string                  $render_slug Module render slug.
 	 *
 	 * @return string
 	 */
@@ -146,7 +146,7 @@ class Logo_Grid_Item extends Child_Module {
 		$target    = $this->prop( 'logo_link_target', '_self' );
 		$target    = in_array( $target, array( '_self', '_blank' ), true ) ? $target : '_self';
 
-		if ( empty( $image_url ) ) {
+		if ( '' === $image_url ) {
 			return '';
 		}
 
@@ -156,8 +156,9 @@ class Logo_Grid_Item extends Child_Module {
 			esc_attr( $this->prop( 'image_alt', '' ) )
 		);
 
-		if ( ! empty( $logo_link ) ) {
+		if ( '' !== $logo_link ) {
 			$rel = '_blank' === $target ? ' rel="noopener noreferrer"' : '';
+
 			return sprintf(
 				'<a href="%1$s" target="%2$s"%3$s>%4$s</a>',
 				$logo_link,

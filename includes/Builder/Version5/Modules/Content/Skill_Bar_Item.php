@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -40,6 +41,15 @@ class Skill_Bar_Item extends Module {
 		return '/build/divi-builder-5/modules-json/skill-bar-item/';
 	}
 
+	/**
+	 * Add CSS classnames to the module wrapper.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Classnames arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'squad-skill-bar__item' );
 		$args['classnamesInstance']->add(
@@ -49,10 +59,28 @@ class Skill_Bar_Item extends Module {
 		);
 	}
 
+	/**
+	 * Register the module's script data.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Script data arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register the module's styles.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -100,6 +128,10 @@ class Skill_Bar_Item extends Module {
 
 			$inline_css = self::get_bar_css( $item, $uid );
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			$bar_html = sprintf(
 				'%1$s<div class="squad-skill-bar__wrapper"><div class="squad-skill-bar__fill" style="--squad-sb-level:%2$d%%">%3$s</div></div>',
 				'' !== $inline_css ? sprintf( '<style>%s</style>', $inline_css ) : '',
@@ -119,7 +151,7 @@ class Skill_Bar_Item extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $bar_html,
+					'children'            => $style_components . $bar_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -138,6 +170,16 @@ class Skill_Bar_Item extends Module {
 			: 'squad-sb-' . substr( md5( $raw ), 0, 10 );
 	}
 
+	/**
+	 * Build the scoped inline CSS for a single skill bar.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $item Skill bar item values.
+	 * @param string               $uid  Unique scoping class for this instance.
+	 *
+	 * @return string Scoped CSS (may be empty).
+	 */
 	protected static function get_bar_css( array $item, string $uid ): string {
 		$sel_wrap = ".{$uid} .squad-skill-bar__wrapper";
 		$sel_fill = ".{$uid} .squad-skill-bar__fill";
@@ -174,37 +216,5 @@ class Skill_Bar_Item extends Module {
 		}
 
 		return $css;
-	}
-
-	/**
-	 * Sanitize a CSS background value (color or gradient).
-	 *
-	 * Strips characters that could break out of the CSS declaration/block
-	 * context (`{ } ; < > \` and quotes), so a user-supplied gradient/color
-	 * field cannot inject arbitrary CSS into the scoped <style> block.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
-	}
-
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
 	}
 }

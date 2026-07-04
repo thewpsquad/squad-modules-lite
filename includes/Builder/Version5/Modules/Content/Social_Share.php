@@ -22,6 +22,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -67,6 +68,15 @@ class Social_Share extends Module {
 		return '/build/divi-builder-5/modules-json/social-share/';
 	}
 
+	/**
+	 * Add CSS classnames to the module wrapper.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Classnames arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'disq_social_share' );
 		$args['classnamesInstance']->add(
@@ -76,10 +86,28 @@ class Social_Share extends Module {
 		);
 	}
 
+	/**
+	 * Register the module's script data.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Script data arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register the module's styles.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -157,6 +185,10 @@ class Social_Share extends Module {
 
 			$inline_css = self::get_layout_css( $inner, $uid );
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			$wrapper_html = sprintf(
 				'%1$s<div class="squad-social-share squad-social-share--%2$s squad-social-share--shape-%3$s squad-social-share--hover-%4$s squad-social-share--style-%5$s">%6$s<div class="squad-social-share__list">%7$s</div></div>',
 				'' !== $inline_css ? sprintf( '<style>%s</style>', $inline_css ) : '',
@@ -180,7 +212,7 @@ class Social_Share extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $wrapper_html,
+					'children'            => $style_components . $wrapper_html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -240,6 +272,16 @@ class Social_Share extends Module {
 			: 'squad-ss-' . substr( md5( $raw ), 0, 10 );
 	}
 
+	/**
+	 * Build the scoped inline CSS for the share layout.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array<string, mixed> $inner Parent inner content values.
+	 * @param string               $uid   Unique scoping class for this instance.
+	 *
+	 * @return string Scoped CSS (may be empty).
+	 */
 	protected static function get_layout_css( array $inner, string $uid ): string {
 		$gap     = self::sanitize_css_length( (string) ( $inner['itemGap'] ?? '10px' ) );
 		$columns = max( 1, min( 8, (int) ( $inner['columns'] ?? 4 ) ) );
@@ -274,37 +316,5 @@ class Social_Share extends Module {
 		}
 
 		return $css;
-	}
-
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
-
-	/**
-	 * Sanitize a CSS background/color value (hex, rgba, gradient, etc.).
-	 *
-	 * Strips characters that could break out of the CSS declaration context
-	 * (`{ } ; < > \ " '`), so a user-supplied color-picker value cannot inject
-	 * arbitrary CSS. Allows rgba(), gradients, and plain hex values.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

@@ -28,7 +28,7 @@ class Divider extends Module_Utility {
 	/**
 	 * Get show options for divider.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function get_show_options(): array {
 		return $this->get_module_property( 'squad_divider_show_options', array() );
@@ -44,13 +44,13 @@ class Divider extends Module_Utility {
 	public function get_default( string $field ): string {
 		$defaults = $this->get_module_property( 'squad_divider_defaults', array() );
 
-		return ! empty( $defaults[ $field ] ) ? $defaults[ $field ] : '';
+		return isset( $defaults[ $field ] ) && '' !== $defaults[ $field ] ? $defaults[ $field ] : '';
 	}
 
 	/**
 	 * Get the default data.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function get_defaults(): array {
 		return $this->get_module_property( 'squad_divider_defaults', array() );
@@ -72,9 +72,9 @@ class Divider extends Module_Utility {
 		$global_divider_weight = ET_Global_Settings::get_value( $weight_option_name );
 
 		$this->module->squad_divider_defaults = array(
-			'divider_style'    => ! empty( $global_divider_style ) ? $global_divider_style : 'solid',
-			'divider_position' => ! empty( $global_divider_position ) ? $global_divider_position : 'bottom',
-			'divider_weight'   => ! empty( $global_divider_weight ) ? $global_divider_weight : '2px',
+			'divider_style'    => '' !== (string) $global_divider_style ? $global_divider_style : 'solid',
+			'divider_position' => '' !== (string) $global_divider_position ? $global_divider_position : 'bottom',
+			'divider_weight'   => '' !== (string) $global_divider_weight ? $global_divider_weight : '2px',
 		);
 
 		// Show divider options are modifiable via customizer.
@@ -87,9 +87,9 @@ class Divider extends Module_Utility {
 	/**
 	 * Get the field for divider module
 	 *
-	 * @param array $options The options for divider module fields.
+	 * @param array<string, mixed> $options The options for divider module fields.
 	 *
-	 * @return array the field
+	 * @return array<string, array<string, mixed>> the field
 	 */
 	public function get_fields( array $options = array() ): array {
 		// Collect toggle slug.

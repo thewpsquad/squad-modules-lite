@@ -40,7 +40,7 @@ class Date_Time {
 
 		if ( $gmt_offset ) {
 			$offset = (int) get_option( 'gmt_offset' );
-			
+
 			$date += ( $offset * HOUR_IN_SECONDS );
 		}
 

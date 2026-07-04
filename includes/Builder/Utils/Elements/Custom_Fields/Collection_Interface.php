@@ -85,12 +85,12 @@ interface Collection_Interface {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param int    $post_id  The ID of the post.
-	 * @param string $meta_key The meta key to retrieve.
-	 * @param array  $options  Additional options for retrieving the meta value such as:
-	 *                         - 'single' (bool): Whether to return a single value.
-	 *                         - 'default' (mixed): Default value if field not found.
-	 *                         - 'sanitize_callback' (callable): Function to sanitize the value.
+	 * @param int                  $post_id  The ID of the post.
+	 * @param string               $meta_key The meta key to retrieve.
+	 * @param array<string, mixed> $options  Additional options for retrieving the meta value such as:
+	 *                                       - 'single' (bool): Whether to return a single value.
+	 *                                       - 'default' (mixed): Default value if field not found.
+	 *                                       - 'sanitize_callback' (callable): Function to sanitize the value.
 	 *
 	 * @return mixed The meta value if successful, default value if not found.
 	 */

@@ -22,6 +22,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -43,6 +44,13 @@ class Skill_Bar extends Module {
 		return '/build/divi-builder-5/modules-json/skill-bar/';
 	}
 
+	/**
+	 * Add module-specific classnames.
+	 *
+	 * @param array<string, mixed> $args Classnames arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'disq_skill_bar' );
 		$args['classnamesInstance']->add(
@@ -52,10 +60,24 @@ class Skill_Bar extends Module {
 		);
 	}
 
+	/**
+	 * Set module script data.
+	 *
+	 * @param array<string, mixed> $args Script data arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Add module styles.
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -86,6 +108,16 @@ class Skill_Bar extends Module {
 		);
 	}
 
+	/**
+	 * Render the Skill Bar module on the frontend.
+	 *
+	 * @param array<string, mixed> $attrs                 Block attributes.
+	 * @param string               $child_modules_content Inner (child) block content.
+	 * @param WP_Block             $block                 Parsed block instance.
+	 * @param ModuleElements       $elements              ModuleElements instance.
+	 *
+	 * @return string Rendered HTML.
+	 */
 	public static function render_callback( array $attrs, string $child_modules_content, WP_Block $block, $elements ): string {
 		try {
 			if ( '' === trim( $child_modules_content ) ) {
@@ -148,29 +180,25 @@ class Skill_Bar extends Module {
 			: 'squad-sb-' . substr( md5( $raw ), 0, 10 );
 	}
 
+	/**
+	 * Build the inline spacing CSS for the skill bar wrapper.
+	 *
+	 * @param array<string, mixed> $inner The module's content inner values.
+	 * @param string               $uid   Unique instance identifier used as the CSS scope.
+	 *
+	 * @return string The generated CSS, or an empty string when no spacing is set.
+	 */
 	protected static function get_spacing_css( array $inner, string $uid ): string {
 		$bar_gap   = self::sanitize_css_length( (string) ( $inner['barSpacing'] ?? '20px' ) );
 		$title_gap = self::sanitize_css_length( (string) ( $inner['titleSpacing'] ?? '10px' ) );
 
 		$css = '';
 		if ( '' !== $bar_gap ) {
-			$css .= ".{$uid} .squad-skill-bar .disq_skill_bar_item{margin-bottom:{$bar_gap}}";
+			$css .= ".{$uid} .squad-skill-bar .squad-skill-bar__item{margin-bottom:{$bar_gap};}";
 		}
 		if ( '' !== $title_gap ) {
-			$css .= ".{$uid} .squad-skill-bar__title{margin-bottom:{$title_gap}}";
+			$css .= ".{$uid} .squad-skill-bar__title{margin-bottom:{$title_gap};}";
 		}
 
 		return $css;
-	}
-
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
-}
+	}}

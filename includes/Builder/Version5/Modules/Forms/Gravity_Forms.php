@@ -46,6 +46,10 @@ class Gravity_Forms extends Form_Styler {
 		return '/build/divi-builder-5/modules-json/gravity-forms/';
 	}
 
+	protected static function get_root_classname(): string {
+		return 'disq_form_styler_gravity_forms';
+	}
+
 	/**
 	 * The Squad forms-element type key.
 	 *

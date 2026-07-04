@@ -167,7 +167,7 @@ trait Common_Trait {
 			 *
 			 * @since 3.3.3
 			 *
-			 * @param \Exception $e           The exception that occurred.
+			 * @param \Throwable $e           The exception that occurred.
 			 * @param string     $clean_props The cleaned props string that caused the error.
 			 * @param string     $content     The original content.
 			 */
@@ -285,9 +285,9 @@ trait Common_Trait {
 				 *
 				 * @since 3.3.3
 				 *
-				 * @param array  $module_explode The module label after exploding by underscore.
-				 * @param array  $module         The current module being processed.
-				 * @param string $has_underscore The position of the underscore in the label.
+				 * @param array $module_explode The module label after exploding by underscore.
+				 * @param array $module         The current module being processed.
+				 * @param int   $has_underscore The position of the underscore in the label.
 				 */
 				$module_explode = apply_filters( 'divi_squad_utils_module_explode', $module_explode, $module, $has_underscore );
 
@@ -362,7 +362,7 @@ trait Common_Trait {
 	 *
 	 * @param string $main_css_element Main css selector of element.
 	 *
-	 * @return array{use_padding: bool, use_margin: bool, css: array{important: string, margin: string, padding: string}}
+	 * @return array<string, mixed>
 	 */
 	public function selectors_margin_padding( string $main_css_element ): array {
 		/**
@@ -440,7 +440,7 @@ trait Common_Trait {
 	 *
 	 * @param string $main_css_element Main css selector of element.
 	 *
-	 * @return array{css: array{main: string, hover: string}}
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function selectors_default( string $main_css_element ): array {
 		/**
@@ -475,7 +475,7 @@ trait Common_Trait {
 	 *
 	 * @param string $main_css_element Main css selector of an element.
 	 *
-	 * @return array{settings: array{color: string}, css: array{main: string, hover: string}}
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function selectors_background( string $main_css_element ): array {
 		/**
@@ -515,9 +515,9 @@ trait Common_Trait {
 	 *
 	 * @param string $field Field name.
 	 *
-	 * @return string|string[]
+	 * @return string
 	 */
-	public function field_to_css_prop( string $field ) {
+	public function field_to_css_prop( string $field ): string {
 		/**
 		 * Filter the field name before converting to CSS property.
 		 *
@@ -534,9 +534,9 @@ trait Common_Trait {
 		 *
 		 * @since SQUAD_MODULES_CORE_SINCE
 		 *
-		 * @param string|string[] $css_prop The CSS property.
-		 * @param string          $field    The original field name.
+		 * @param string $css_prop The CSS property.
+		 * @param string $field    The original field name.
 		 */
-		return apply_filters( 'divi_squad_utils_after_field_to_css_prop', $css_prop, $field );
+		return (string) apply_filters( 'divi_squad_utils_after_field_to_css_prop', $css_prop, $field );
 	}
 }

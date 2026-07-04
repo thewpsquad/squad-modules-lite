@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * DeprecatedClassLoader Trait
  *
@@ -397,9 +398,8 @@ trait Deprecated_Class_Loader {
 	 *
 	 * @param string $file_path File path to load.
 	 *
-	 * @throws RuntimeException If file path is invalid or file cannot be loaded.
-	 *
 	 * @return bool Success status
+	 * @throws RuntimeException If file path is invalid or file cannot be loaded.
 	 */
 	private function load_class_file( string $file_path ): bool {
 		try {

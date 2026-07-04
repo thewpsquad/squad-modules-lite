@@ -115,7 +115,7 @@ class Gradient_Text extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// Text fields definitions.
@@ -168,8 +168,10 @@ class Gradient_Text extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		// Default styles.
@@ -181,14 +183,15 @@ class Gradient_Text extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
-		if ( empty( $this->prop( 'gradient_text', array() ) ) ) {
+		$gradient_text = $this->prop( 'gradient_text', array() );
+		if ( '' === $gradient_text || array() === $gradient_text ) {
 			return '';
 		}
 
@@ -197,9 +200,11 @@ class Gradient_Text extends Module {
 		$gradient_text_html = '';
 
 		if ( count( $gradient_texts ) > 0 ) {
-			foreach ( $gradient_texts as $gradient_text ) {
-				$gradient_text_html .= "<span>{$gradient_text['value']}</span> <br/>";
+			$spans = array();
+			foreach ( $gradient_texts as $gradient_text_item ) {
+				$spans[] = '<span>' . esc_html( $gradient_text_item['value'] ) . '</span>';
 			}
+			$gradient_text_html = implode( '<br/>', $spans );
 		}
 
 		$this->squad_generate_additional_styles( $attrs );
@@ -214,7 +219,7 @@ class Gradient_Text extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 */
 	private function squad_generate_additional_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.

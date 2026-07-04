@@ -14,20 +14,12 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
 
-use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Text_Highlighter\Highlight_Helper;
+use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;
-use function esc_attr;
-use function esc_html;
 use function esc_html__;
-use function implode;
-use function preg_replace;
-use function sanitize_key;
 use function sprintf;
-use function str_replace;
-use function trim;
 use function wp_enqueue_script;
-use function wp_unique_id;
 
 /**
  * Text Highlighter module class.
@@ -328,17 +320,17 @@ class Text_Highlighter extends Module {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module being rendered.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module being rendered.
 	 *
 	 * @return string
 	 */
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		wp_enqueue_script( 'squad-module-text-highlighter' );
 
-		$type     = (string) $this->prop( 'highlight_type', 'underline' );
-		$tag_raw  = (string) $this->prop( 'heading_tag', 'h2' );
+		$type    = (string) $this->prop( 'highlight_type', 'underline' );
+		$tag_raw = (string) $this->prop( 'heading_tag', 'h2' );
 
 		$config = array(
 			'prefix'          => (string) $this->prop( 'prefix_text', '' ),

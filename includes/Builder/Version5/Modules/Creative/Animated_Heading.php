@@ -21,9 +21,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Animated_Heading\Heading_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -31,7 +32,6 @@ use Throwable;
 use WP_Block;
 use function absint;
 use function in_array;
-use function preg_replace;
 use function sprintf;
 use function trim;
 use function wp_enqueue_script;
@@ -47,6 +47,13 @@ class Animated_Heading extends Module {
 		return '/build/divi-builder-5/modules-json/animated-heading/';
 	}
 
+	/**
+	 * Add the module classnames.
+	 *
+	 * @param array<string, mixed> $args Classnames arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'disq_animated_heading' );
 		$args['classnamesInstance']->add(
@@ -56,10 +63,24 @@ class Animated_Heading extends Module {
 		);
 	}
 
+	/**
+	 * Assign the module's frontend script data.
+	 *
+	 * @param array<string, mixed> $args Script data arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register the module style declarations.
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -94,6 +115,7 @@ class Animated_Heading extends Module {
 												$easing   = Heading_Helper::is_valid_easing( $raw_ease )
 													? Heading_Helper::easing_value( $raw_ease )
 													: 'ease-in-out';
+
 												return sprintf(
 													'--squad-ah-duration:%dms;--squad-ah-easing:%s;--squad-ah-stagger:%dms;',
 													$duration,
@@ -112,6 +134,7 @@ class Animated_Heading extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v     = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $v['rotatingColor'] ?? '' ) );
+
 												return '' !== $color ? "color:{$color};" : '';
 											},
 										),
@@ -126,6 +149,7 @@ class Animated_Heading extends Module {
 												$v       = $params['attrValue'] ?? array();
 												$align   = (string) ( $v['contentAlign'] ?? '' );
 												$allowed = array( 'left', 'center', 'right' );
+
 												return in_array( $align, $allowed, true ) ? "text-align:{$align};" : '';
 											},
 										),
@@ -181,6 +205,10 @@ class Animated_Heading extends Module {
 
 			$shell = Heading_Helper::build_shell( $config );
 
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -193,7 +221,7 @@ class Animated_Heading extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $shell,
+					'children'            => $style_components . $shell,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -201,14 +229,5 @@ class Animated_Heading extends Module {
 
 			return '';
 		}
-	}
-
-	/** Sanitize a CSS color/background value — strips `{ } ; < > \ " '`. */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
 	}
 }

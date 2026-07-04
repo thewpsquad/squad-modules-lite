@@ -130,30 +130,33 @@ final class Video_Helper {
 
 		switch ( $source ) {
 			case 'youtube':
-				if ( preg_match( '~(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/|v/))([A-Za-z0-9_-]{11})~', $url, $m ) ) {
+				if ( 1 === preg_match( '~(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/|v/))([A-Za-z0-9_-]{11})~', $url, $m ) ) {
 					return $m[1];
 				}
-				if ( preg_match( '~^[A-Za-z0-9_-]{11}$~', $url ) ) {
+				if ( 1 === preg_match( '~^[A-Za-z0-9_-]{11}$~', $url ) ) {
 					return $url;
 				}
+
 				return '';
 
 			case 'vimeo':
-				if ( preg_match( '~vimeo\.com/(?:video/|channels/[A-Za-z0-9]+/|groups/[A-Za-z0-9]+/videos/)?(\d+)~', $url, $m ) ) {
+				if ( 1 === preg_match( '~vimeo\.com/(?:video/|channels/[A-Za-z0-9]+/|groups/[A-Za-z0-9]+/videos/)?(\d+)~', $url, $m ) ) {
 					return $m[1];
 				}
-				if ( preg_match( '~^\d+$~', $url ) ) {
+				if ( 1 === preg_match( '~^\d+$~', $url ) ) {
 					return $url;
 				}
+
 				return '';
 
 			case 'dailymotion':
-				if ( preg_match( '~(?:dailymotion\.com/(?:embed/)?video/|dai\.ly/)([A-Za-z0-9]+)~', $url, $m ) ) {
+				if ( 1 === preg_match( '~(?:dailymotion\.com/(?:embed/)?video/|dai\.ly/)([A-Za-z0-9]+)~', $url, $m ) ) {
 					return $m[1];
 				}
-				if ( preg_match( '~^[A-Za-z0-9]+$~', $url ) ) {
+				if ( 1 === preg_match( '~^[A-Za-z0-9]+$~', $url ) ) {
 					return $url;
 				}
+
 				return '';
 
 			default:
@@ -209,6 +212,7 @@ final class Video_Helper {
 				if ( $end > $start ) {
 					$params['end'] = $end;
 				}
+
 				return 'https://www.youtube.com/embed/' . $id . '?' . http_build_query( $params );
 
 			case 'vimeo':
@@ -218,10 +222,11 @@ final class Video_Helper {
 					'loop'     => $loop,
 					'controls' => $controls,
 				);
-				$url = 'https://player.vimeo.com/video/' . $id . '?' . http_build_query( $params );
+				$url    = 'https://player.vimeo.com/video/' . $id . '?' . http_build_query( $params );
 				if ( $start > 0 ) {
 					$url .= '#t=' . $start . 's';
 				}
+
 				return $url;
 
 			case 'dailymotion':
@@ -233,6 +238,7 @@ final class Video_Helper {
 				if ( $start > 0 ) {
 					$params['start'] = $start;
 				}
+
 				return 'https://www.dailymotion.com/embed/video/' . $id . '?' . http_build_query( $params );
 
 			default:
@@ -253,6 +259,7 @@ final class Video_Helper {
 		if ( ! is_numeric( $raw ) ) {
 			return 0;
 		}
+
 		return (int) max( 0, (int) $raw );
 	}
 
@@ -338,8 +345,8 @@ final class Video_Helper {
 			return '';
 		}
 
-		$has_poster   = 'on' === (string) $config['use_poster'] && '' !== (string) $config['poster_image'];
-		$sticky_on    = 'on' === (string) $config['sticky'] && 'inline' === $display;
+		$has_poster    = 'on' === (string) $config['use_poster'] && '' !== (string) $config['poster_image'];
+		$sticky_on     = 'on' === (string) $config['sticky'] && 'inline' === $display;
 		$sticky_mobile = 'on' === (string) $config['sticky_mobile'];
 
 		$classes = array(
@@ -428,6 +435,7 @@ final class Video_Helper {
 
 		if ( '' !== $file ) {
 			$autoplay = 'on' === (string) $config['autoplay'] ? ' autoplay muted' : '';
+
 			return sprintf(
 				'<video class="squad-video__video" src="%s" controls playsinline%s></video>',
 				esc_url( $file ),

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Admin page class for requirements.
  *
@@ -56,12 +55,12 @@ class Admin_Page implements Hookable {
 	 * @return void
 	 */
 	public function register_hooks(): void {
-		// Register action hooks for the requirements template.
+		// Register action hooks for the requirements template..
 		add_action( 'divi_squad_after_minimum_requirements', array( $this, 'add_extended_requirements_info' ) );
 		add_action( 'divi_squad_debug_info_items', array( $this, 'add_debug_info_items' ) );
 		add_action( 'divi_squad_after_standard_sections', array( $this, 'add_custom_sections' ), 10, 3 );
 
-		// Register filters for requirements template.
+		// Register filters for requirements template..
 		add_filter( 'divi_squad_required_divi_version', array( $this, 'filter_divi_required_version' ) );
 		add_filter( 'divi_squad_plugin_life_type', array( $this, 'filter_plugin_life_type' ) );
 		add_filter( 'divi_squad_render_status_badge', array( $this, 'filter_render_status_badge' ), 10, 2 );
@@ -92,10 +91,10 @@ class Admin_Page implements Hookable {
 	 * @return void
 	 */
 	public function register_admin_page(): void {
-		// Load the image class.
+		// Load the image class..
 		$image = divi_squad()->load_image( '/build/admin/images/logos' );
 
-		// Get the menu icon.
+		// Get the menu icon..
 		$menu_icon = $image->get_image( 'divi-squad-d-menu.svg', 'svg' );
 		if ( is_wp_error( $menu_icon ) ) {
 			$menu_icon = 'dashicons-warning';
@@ -104,7 +103,7 @@ class Admin_Page implements Hookable {
 		$page_slug  = divi_squad()->get_admin_menu_slug();
 		$capability = 'manage_options';
 
-		// Register the admin page.
+		// Register the admin page..
 		add_menu_page(
 			__( 'Divi Squad', 'squad-modules-for-divi' ),
 			__( 'Divi Squad', 'squad-modules-for-divi' ),
@@ -115,7 +114,7 @@ class Admin_Page implements Hookable {
 			divi_squad()->get_admin_menu_position()
 		);
 
-		// Register the admin page.
+		// Register the admin page..
 		add_submenu_page(
 			$page_slug,
 			__( 'Requirements', 'squad-modules-for-divi' ),
@@ -135,7 +134,7 @@ class Admin_Page implements Hookable {
 	 * @return void
 	 */
 	public function clean_admin_content_section(): void {
-		// Check if the current screen is available.
+		// Check if the current screen is available..
 		if ( Helper::is_squad_page() ) {
 			remove_all_actions( 'admin_notices' );
 			remove_all_actions( 'network_admin_notices' );
@@ -157,17 +156,17 @@ class Admin_Page implements Hookable {
 			$status       = $this->status_checker->get_status();
 			$is_fulfilled = $this->status_checker->is_fulfilled();
 
-			// Get the required Divi version
+			// Get the required Divi version.
 			$required_version = $this->status_checker->get_required_version();
 
-			// Prepare content for the notice container
+			// Prepare content for the notice container.
 			$content = $this->get_notice_content();
 
-			// Add unified status information
+			// Add unified status information.
 			$status['is_fulfilled']          = $is_fulfilled;
 			$status['divi_detection_method'] = Divi::get_version_detection_method();
 
-			// Load the template with prepared data
+			// Load the template with prepared data.
 			load_template(
 				divi_squad()->get_template_path( 'requirements.php' ),
 				true,
@@ -180,7 +179,7 @@ class Admin_Page implements Hookable {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Error displaying requirements page', false );
 
-			// Fallback basic display if template fails
+			// Fallback basic display if template fails.
 			$this->display_fallback_page( $e );
 		}
 	}
@@ -199,53 +198,53 @@ class Admin_Page implements Hookable {
 		$is_fulfilled = $this->status_checker->is_fulfilled();
 
 		?>
-        <div class="wrap">
-            <h1><?php esc_html_e( 'Squad Modules Requirements', 'squad-modules-for-divi' ); ?></h1>
+		<div class="wrap">
+			<h1><?php esc_html_e( 'Squad Modules Requirements', 'squad-modules-for-divi' ); ?></h1>
 
 			<?php if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) : ?>
-                <div class="notice notice-warning">
-                    <p><?php esc_html_e( 'Error loading requirements template:', 'squad-modules-for-divi' ); ?><?php echo esc_html( $error->getMessage() ); ?></p>
-                </div>
+				<div class="notice notice-warning">
+					<p><?php esc_html_e( 'Error loading requirements template:', 'squad-modules-for-divi' ); ?><?php echo esc_html( $error->getMessage() ); ?></p>
+				</div>
 			<?php endif; ?>
 
 			<?php echo $this->get_notice_content(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Function escapes its output ?>
 
-            <table class="widefat" style="margin-top: 20px;">
-                <thead>
-                <tr>
-                    <th><?php esc_html_e( 'Requirement', 'squad-modules-for-divi' ); ?></th>
-                    <th><?php esc_html_e( 'Status', 'squad-modules-for-divi' ); ?></th>
-                    <th><?php esc_html_e( 'Details', 'squad-modules-for-divi' ); ?></th>
-                </tr>
-                </thead>
-                <tbody>
+			<table class="widefat" style="margin-top: 20px;">
+				<thead>
+				<tr>
+					<th><?php esc_html_e( 'Requirement', 'squad-modules-for-divi' ); ?></th>
+					<th><?php esc_html_e( 'Status', 'squad-modules-for-divi' ); ?></th>
+					<th><?php esc_html_e( 'Details', 'squad-modules-for-divi' ); ?></th>
+				</tr>
+				</thead>
+				<tbody>
 				<?php foreach ( $status as $key => $item ) : ?>
 					<?php if ( is_array( $item ) && isset( $item['state'], $item['description'], $item['info'] ) ) : ?>
-                        <tr>
-                            <td><?php echo esc_html( $item['description'] ); ?></td>
-                            <td>
+						<tr>
+							<td><?php echo esc_html( $item['description'] ); ?></td>
+							<td>
 								<?php if ( 'success' === $item['state'] ) : ?>
-                                    <span style="color: #46b450;">✓</span>
+									<span style="color: #46b450;">✓</span>
 								<?php elseif ( 'error' === $item['state'] ) : ?>
-                                    <span style="color: #dc3232;">✗</span>
+									<span style="color: #dc3232;">✗</span>
 								<?php else : ?>
-                                    <span style="color: #ffb900;">?</span>
+									<span style="color: #ffb900;">?</span>
 								<?php endif; ?>
-                            </td>
-                            <td><?php echo esc_html( $item['info'] ); ?></td>
-                        </tr>
+							</td>
+							<td><?php echo esc_html( $item['info'] ); ?></td>
+						</tr>
 					<?php endif; ?>
 				<?php endforeach; ?>
-                </tbody>
-            </table>
+				</tbody>
+			</table>
 
-            <p>
-                <a href="<?php echo esc_url( admin_url() ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Dashboard', 'squad-modules-for-divi' ); ?></a>
+			<p>
+				<a href="<?php echo esc_url( admin_url() ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Dashboard', 'squad-modules-for-divi' ); ?></a>
 				<?php if ( $is_fulfilled ) : ?>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=divi_squad' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Go to Squad Modules Dashboard', 'squad-modules-for-divi' ); ?></a>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=divi_squad' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Go to Squad Modules Dashboard', 'squad-modules-for-divi' ); ?></a>
 				<?php endif; ?>
-            </p>
-        </div>
+			</p>
+		</div>
 		<?php
 	}
 
@@ -260,7 +259,7 @@ class Admin_Page implements Hookable {
 	 * @return void
 	 */
 	public function add_badges( string $plugin_life_type ): void {
-		// Add the nightly badge.
+		// Add the nightly badge..
 		if ( 'nightly' === $plugin_life_type ) {
 			printf(
 				'<li class="nightly-badge"><span class="badge-name">%s</span><span class="badge-version">%s</span></li>',
@@ -269,7 +268,7 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// Add the stable lite badge.
+		// Add the stable lite badge..
 		if ( 'stable' === $plugin_life_type ) {
 			printf(
 				'<li class="stable-lite-badge"><span class="badge-name">%s</span><span class="badge-version">%s</span></li>',
@@ -303,7 +302,7 @@ class Admin_Page implements Hookable {
 			esc_html( $message )
 		);
 
-		// Add an action button if provided.
+		// Add an action button if provided..
 		if ( ! empty( $action['url'] ) ) {
 			$output .= sprintf(
 				'<div class="divi-squad-notice-action">
@@ -394,7 +393,7 @@ class Admin_Page implements Hookable {
 	 * @return array<array<string, mixed>> Filtered requirement rows configuration.
 	 */
 	public function filter_requirement_rows_config( array $rows, array $status, string $required_version ): array {
-		// Divi Theme Installed row.
+		// Divi Theme Installed row..
 		$rows[] = array(
 			'id'        => 'theme_installed',
 			'label'     => __( 'Divi Theme Installed', 'squad-modules-for-divi' ),
@@ -402,7 +401,7 @@ class Admin_Page implements Hookable {
 			'show'      => true,
 			'condition' => true,
 		);
-		// Divi Builder Plugin Installed row.
+		// Divi Builder Plugin Installed row..
 		$rows[] = array(
 			'id'        => 'plugin_installed',
 			'label'     => __( 'Divi Builder Plugin Installed', 'squad-modules-for-divi' ),
@@ -410,7 +409,7 @@ class Admin_Page implements Hookable {
 			'show'      => true,
 			'condition' => true,
 		);
-		// Divi Theme Activated row.
+		// Divi Theme Activated row..
 		$rows[] = array(
 			'id'        => 'theme_active',
 			'label'     => __( 'Divi Theme Activated', 'squad-modules-for-divi' ),
@@ -418,7 +417,7 @@ class Admin_Page implements Hookable {
 			'show'      => true,
 			'condition' => $status['is_theme_installed'] ?? false,
 		);
-		// Divi Builder Plugin Activated row.
+		// Divi Builder Plugin Activated row..
 		$rows[] = array(
 			'id'        => 'plugin_active',
 			'label'     => __( 'Divi Builder Plugin Activated', 'squad-modules-for-divi' ),
@@ -426,7 +425,7 @@ class Admin_Page implements Hookable {
 			'show'      => true,
 			'condition' => $status['is_plugin_installed'] ?? false,
 		);
-		// Divi Theme Version row.
+		// Divi Theme Version row..
 		$rows[] = array(
 			'id'           => 'theme_version',
 			'label'        => __( 'Divi Theme Version', 'squad-modules-for-divi' ),
@@ -440,7 +439,7 @@ class Admin_Page implements Hookable {
 			),
 			'version_info' => $status['theme_version'] ?? esc_html__( 'Unknown', 'squad-modules-for-divi' ),
 		);
-		// Divi Builder Plugin Version row.
+		// Divi Builder Plugin Version row..
 		$rows[] = array(
 			'id'           => 'plugin_version',
 			'label'        => __( 'Divi Builder Plugin Version', 'squad-modules-for-divi' ),
@@ -456,7 +455,7 @@ class Admin_Page implements Hookable {
 		);
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			// Add an informational row about debug mode.
+			// Add an informational row about debug mode..
 			$rows[] = array(
 				'id'           => 'wp_debug',
 				'label'        => __( 'WordPress Debug Mode', 'squad-modules-for-divi' ),
@@ -488,30 +487,30 @@ class Admin_Page implements Hookable {
 	public function filter_minimum_requirements( array $requirements, string $required_version ): array {
 		$requirements[] = array(
 			'name'  => __( 'Divi Theme/Builder:', 'squad-modules-for-divi' ),
-			// Translators: %s is the required version.
+			// Translators: %s is the required version..
 			'value' => sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), $required_version ),
 		);
 		$requirements[] = array(
 			'name'  => __( 'WordPress:', 'squad-modules-for-divi' ),
-			// Translators: %s is the required version.
+			// Translators: %s is the required version..
 			'value' => sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), apply_filters( 'divi_squad_required_wp_version', '6.0' ) ),
 		);
 		$requirements[] = array(
 			'name'  => __( 'PHP:', 'squad-modules-for-divi' ),
-			// Translators: %s is the required version.
+			// Translators: %s is the required version..
 			'value' => sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), apply_filters( 'divi_squad_required_php_version', '7.4' ) ),
 		);
 
-		// Add server requirements if appropriate.
+		// Add server requirements if appropriate..
 		$php_memory_limit = ini_get( 'memory_limit' );
 		$required_memory  = '128M';
 
-		// Only add memory requirement if it's a concern.
+		// Only add memory requirement if it's a concern..
 		if ( $this->status_checker->convert_memory_to_bytes( $php_memory_limit ) < $this->status_checker->convert_memory_to_bytes( $required_memory ) ) {
 			$requirements[] = array(
 				'name'  => __( 'PHP Memory Limit:', 'squad-modules-for-divi' ),
 				'value' => sprintf(
-				// Translators: %s is the recommended memory limit.
+				// Translators: %s is the recommended memory limit..
 					__( 'Recommended: %1$s or higher (Current: %2$s)', 'squad-modules-for-divi' ),
 					$required_memory,
 					$php_memory_limit
@@ -519,13 +518,13 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// Check for max execution time if it's too low.
+		// Check for max execution time if it's too low..
 		$max_execution_time = ini_get( 'max_execution_time' );
 		if ( '0' !== $max_execution_time && (int) $max_execution_time < 30 ) {
 			$requirements[] = array(
 				'name'  => __( 'PHP Max Execution Time:', 'squad-modules-for-divi' ),
 				'value' => sprintf(
-				// Translators: %s is the recommended max execution time.
+				// Translators: %s is the recommended max execution time..
 					__( 'Recommended: 30 seconds or higher (Current: %s seconds)', 'squad-modules-for-divi' ),
 					$max_execution_time
 				),
@@ -548,7 +547,7 @@ class Admin_Page implements Hookable {
 	 */
 	public function add_extended_requirements_info(): void {
 		try {
-			// For example, we could add a note about recommended hosting environments.
+			// For example, we could add a note about recommended hosting environments..
 			$show_hosting_info = apply_filters( 'divi_squad_show_hosting_recommendations', false );
 
 			if ( $show_hosting_info ) {
@@ -593,7 +592,7 @@ class Admin_Page implements Hookable {
 	 */
 	public function add_custom_sections( array $status, string $required_version, bool $is_fulfilled ): void {
 		try {
-			// For example, add a troubleshooting section if requirements aren't met.
+			// For example, add a troubleshooting section if requirements aren't met..
 			if ( ! $is_fulfilled && apply_filters( 'divi_squad_show_troubleshooting_section', true ) ) {
 				echo '<div class="requirements-section">';
 				printf( '<h3>%s</h3>', esc_html__( 'Troubleshooting', 'squad-modules-for-divi' ) );
@@ -659,14 +658,14 @@ class Admin_Page implements Hookable {
 	 */
 	public function add_debug_info_items(): void {
 		try {
-			// Server software info.
+			// Server software info..
 			printf(
 				'<li><strong>%s</strong> %s</li>',
 				esc_html__( 'Server Software:', 'squad-modules-for-divi' ),
 				esc_html( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown' ) ) )
 			);
 
-			// MySQL version.
+			// MySQL version..
 			global $wpdb;
 			$mysql_version = $wpdb->db_version();
 
@@ -676,14 +675,14 @@ class Admin_Page implements Hookable {
 				esc_html( $mysql_version )
 			);
 
-			// Max execution time.
+			// Max execution time..
 			printf(
 				'<li><strong>%s</strong> %s</li>',
 				esc_html__( 'PHP Max Execution Time:', 'squad-modules-for-divi' ),
 				esc_html( ini_get( 'max_execution_time' ) . 's' )
 			);
 
-			// Active theme.
+			// Active theme..
 			$theme = wp_get_theme();
 			printf(
 				'<li><strong>%s</strong> %s</li>',
@@ -704,12 +703,17 @@ class Admin_Page implements Hookable {
 		}
 	}
 
+	/**
+	 * Get the HTML content for the admin notice.
+	 *
+	 * @return string Notice HTML.
+	 */
 	protected function get_notice_content(): string {
 		$status           = $this->status_checker->get_status();
 		$required_version = $this->status_checker->get_required_version();
 		$is_fulfilled     = $this->status_checker->is_fulfilled();
 
-		// Theme is active but outdated.
+		// Theme is active but outdated..
 		if ( ( $status['is_theme_active'] ?? false ) && version_compare( $status['theme_version'] ?? '0.0.0', $required_version, '<' ) ) {
 			return $this->render_notice_banner(
 				'warning',
@@ -728,7 +732,7 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// Plugin is active but outdated.
+		// Plugin is active but outdated..
 		if ( ( $status['is_plugin_active'] ?? false ) && version_compare( $status['plugin_version'] ?? '0.0.0', $required_version, '<' ) ) {
 			return $this->render_notice_banner(
 				'warning',
@@ -747,7 +751,7 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// Theme is installed but not active.
+		// Theme is installed but not active..
 		if ( ( $status['is_theme_installed'] ?? false ) && ! ( $status['is_theme_active'] ?? false ) ) {
 			return $this->render_notice_banner(
 				'error',
@@ -761,7 +765,7 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// Plugin is installed but not active.
+		// Plugin is installed but not active..
 		if ( ( $status['is_plugin_installed'] ?? false ) && ! ( $status['is_plugin_active'] ?? false ) ) {
 			return $this->render_notice_banner(
 				'error',
@@ -775,7 +779,7 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// Not installed — fallback when nothing is installed or general failure.
+		// Not installed — fallback when nothing is installed or general failure..
 		if ( ! $is_fulfilled ) {
 			return $this->render_notice_banner(
 				'error',
@@ -789,7 +793,7 @@ class Admin_Page implements Hookable {
 			);
 		}
 
-		// All requirements are met.
+		// All requirements are met..
 		return $this->render_notice_banner(
 			'success',
 			__( 'Divi Requirements Met', 'squad-modules-for-divi' ),

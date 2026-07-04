@@ -78,10 +78,11 @@ class Gravity_Forms extends Form_Styler {
 		 *
 		 * @since  3.2.0
 		 *
-		 * @see    squad_get_css_selectors() For the structure of the default selectors array.
-		 *
 		 * @param array<string, array<string, string>> $selectors The default array of CSS selectors from squad_get_css_selectors().
 		 * @param self                                 $module    The GravityForms instance.
+		 *
+		 * @see    squad_get_css_selectors() For the structure of the default selectors array.
+		 *
 		 */
 		$this->squad_css_selectors = apply_filters( 'divi_squad_module_gravity_forms_css_selectors', $selectors, $this );
 
@@ -216,7 +217,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @return array<string, array<string, array<string, array>>> An array of advanced field configurations.
+	 * @return array<string, array<string, array<string, array<string, mixed>>>> An array of advanced field configurations.
 	 */
 	public function get_advanced_fields_config(): array {
 		$advanced_fields = parent::get_advanced_fields_config();
@@ -247,9 +248,9 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  1.2.0
 	 * @access public
 	 *
-	 * @param array<string, string> $attrs       List of unprocessed attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of unprocessed attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string The HTML output of the module.
 	 */
@@ -306,7 +307,7 @@ class Gravity_Forms extends Form_Styler {
 				}
 
 				// If no form is selected in the frontend, return empty string.
-				if ( ! DiviUtil::is_fb_enabled() && is_user_logged_in() ) {
+				if ( is_user_logged_in() ) {
 					$message = esc_html__( 'No form selected from the Gravity Forms settings.', 'squad-modules-for-divi' );
 
 					/**
@@ -527,7 +528,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of general fields.
+	 * @return array<string, mixed> Array of general fields.
 	 */
 	protected function squad_get_general_fields(): array {
 		return array(
@@ -576,7 +577,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array
+	 * @return array<int, string>
 	 */
 	protected function squad_get_removable_fields(): array {
 		return array(
@@ -607,7 +608,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Array of design fields.
+	 * @return array<string, mixed> Array of design fields.
 	 */
 	protected function squad_get_design_fields(): array {
 		$parent_fields             = parent::squad_get_design_fields();
@@ -631,7 +632,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An array of form title field definitions.
+	 * @return array<string, mixed> An array of form title field definitions.
 	 */
 	protected function squad_get_form_title_fields(): array {
 		$background_fields     = $this->squad_add_background_field(
@@ -655,7 +656,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An array of form description field definitions.
+	 * @return array<string, mixed> An array of form description field definitions.
 	 */
 	protected function squad_get_form_description_fields(): array {
 		$background_fields     = $this->squad_add_background_field(
@@ -679,7 +680,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An array of validation message field definitions.
+	 * @return array<string, mixed> An array of validation message field definitions.
 	 */
 	protected function squad_get_validation_message_fields(): array {
 		$background_fields     = $this->squad_add_background_field(
@@ -701,7 +702,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Font field configurations
+	 * @return array<string, mixed> Font field configurations
 	 */
 	protected function squad_get_font_fields(): array {
 		$font_fields = array(
@@ -855,7 +856,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Border field configurations
+	 * @return array<string, mixed> Border field configurations
 	 */
 	protected function squad_get_border_fields(): array {
 		$border_fields = array(
@@ -1039,7 +1040,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array Box shadow field configurations
+	 * @return array<string, mixed> Box shadow field configurations
 	 */
 	protected function squad_get_box_shadow_fields(): array {
 		$box_shadow_fields = array(
@@ -1143,7 +1144,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add transition fields to.
 	 *
 	 * @return void
 	 */
@@ -1194,14 +1195,19 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add wrapper transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add wrapper transition fields to.
 	 *
 	 * @return void
 	 */
 	protected function squad_add_form_title_transition_fields( array &$fields ): void {
-		$fields['form_title_background_color'] = array( 'background' => $this->squad_get_css_selector_string( 'typography.title' ) );
-		$fields['form_title_margin']           = array( 'margin' => $this->squad_get_css_selector_string( 'typography.title' ) );
-		$fields['form_title_padding']          = array( 'padding' => $this->squad_get_css_selector_string( 'typography.title' ) );
+		$fields = array_merge(
+			$fields,
+			array(
+				'form_title_background_color' => array( 'background' => $this->squad_get_css_selector_string( 'typography.title' ) ),
+				'form_title_margin'           => array( 'margin' => $this->squad_get_css_selector_string( 'typography.title' ) ),
+				'form_title_padding'          => array( 'padding' => $this->squad_get_css_selector_string( 'typography.title' ) ),
+			)
+		);
 		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'form_title_text', $this->squad_get_css_selector_string( 'typography.title' ) );
 		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'form_title', $this->squad_get_css_selector_string( 'typography.title' ) );
 		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'form_title', $this->squad_get_css_selector_string( 'typography.title' ) );
@@ -1213,14 +1219,19 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add wrapper transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add wrapper transition fields to.
 	 *
 	 * @return void
 	 */
 	protected function squad_add_form_description_transition_fields( array &$fields ): void {
-		$fields['form_description_background_color'] = array( 'background' => $this->squad_get_css_selector_string( 'typography.description' ) );
-		$fields['form_description_margin']           = array( 'margin' => $this->squad_get_css_selector_string( 'typography.description' ) );
-		$fields['form_description_padding']          = array( 'padding' => $this->squad_get_css_selector_string( 'typography.description' ) );
+		$fields = array_merge(
+			$fields,
+			array(
+				'form_description_background_color' => array( 'background' => $this->squad_get_css_selector_string( 'typography.description' ) ),
+				'form_description_margin'           => array( 'margin' => $this->squad_get_css_selector_string( 'typography.description' ) ),
+				'form_description_padding'          => array( 'padding' => $this->squad_get_css_selector_string( 'typography.description' ) ),
+			)
+		);
 		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'form_description_text', $this->squad_get_css_selector_string( 'typography.description' ) );
 		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'form_description', $this->squad_get_css_selector_string( 'typography.description' ) );
 		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'form_description', $this->squad_get_css_selector_string( 'typography.description' ) );
@@ -1234,14 +1245,19 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields Array of fields to add validation message transition fields to.
+	 * @param array<string, mixed> $fields Array of fields to add validation message transition fields to.
 	 *
 	 * @return void
 	 */
 	protected function squad_add_validation_message_transition_fields( array &$fields ): void {
-		$fields['message_validation_background_color'] = array( 'background' => $this->squad_get_css_selector_string( 'messages.validation' ) );
-		$fields['message_validation_margin']           = array( 'margin' => $this->squad_get_css_selector_string( 'messages.validation' ) );
-		$fields['message_validation_padding']          = array( 'padding' => $this->squad_get_css_selector_string( 'messages.validation' ) );
+		$fields = array_merge(
+			$fields,
+			array(
+				'message_validation_background_color' => array( 'background' => $this->squad_get_css_selector_string( 'messages.validation' ) ),
+				'message_validation_margin'           => array( 'margin' => $this->squad_get_css_selector_string( 'messages.validation' ) ),
+				'message_validation_padding'          => array( 'padding' => $this->squad_get_css_selector_string( 'messages.validation' ) ),
+			)
+		);
 		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'message_validation_text', $this->squad_get_css_selector_string( 'messages.validation' ) );
 		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'message_validation', $this->squad_get_css_selector_string( 'messages.validation' ) );
 		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'message_validation', $this->squad_get_css_selector_string( 'messages.validation' ) );
@@ -1253,7 +1269,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An associative array of form elements and their corresponding CSS selectors.
+	 * @return array<string, string> An associative array of form elements and their corresponding CSS selectors.
 	 */
 	protected function squad_get_background_stylesheet_option_fields(): array {
 		$parent_fields = parent::squad_get_background_stylesheet_option_fields();
@@ -1275,7 +1291,7 @@ class Gravity_Forms extends Form_Styler {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @return array An associative array of form elements and their corresponding CSS selectors.
+	 * @return array<string, string> An associative array of form elements and their corresponding CSS selectors.
 	 */
 	protected function squad_get_margin_padding_stylesheet_option_fields(): array {
 		$parent_fields = parent::squad_get_margin_padding_stylesheet_option_fields();

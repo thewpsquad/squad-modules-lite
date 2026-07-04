@@ -93,7 +93,7 @@ class Lottie extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		// All field types.
@@ -153,7 +153,6 @@ class Lottie extends Module {
 						'none'         => esc_html__( 'None', 'squad-modules-for-divi' ),
 					),
 					'default_on_front' => 'freeze-click',
-					'depends_show_if'  => 'lottie',
 					'affects'          => array(
 						'lottie_mouseout_action',
 						'lottie_click_action',
@@ -294,7 +293,6 @@ class Lottie extends Module {
 					),
 					'default'          => '1',
 					'default_on_front' => '1',
-					'depends_show_if'  => 'lottie',
 					'tab_slug'         => 'general',
 					'toggle_slug'      => 'lottie_animation',
 				),
@@ -325,7 +323,6 @@ class Lottie extends Module {
 						'-1' => esc_html__( 'Reverse', 'squad-modules-for-divi' ),
 					),
 					'default_on_front' => '1',
-					'depends_show_if'  => 'lottie',
 					'tab_slug'         => 'general',
 					'toggle_slug'      => 'lottie_animation',
 				)
@@ -339,7 +336,6 @@ class Lottie extends Module {
 						'canvas' => esc_html__( 'Canvas', 'squad-modules-for-divi' ),
 					),
 					'default_on_front' => 'svg',
-					'depends_show_if'  => 'lottie',
 					'affects'          => array(
 						'lottie_mode',
 					),
@@ -353,7 +349,6 @@ class Lottie extends Module {
 				esc_html__( 'Lottie Color', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can define a custom color for lottie image.', 'squad-modules-for-divi' ),
-					'depends_show_if' => 'lottie',
 					'tab_slug'        => 'advanced',
 					'toggle_slug'     => 'lottie_image',
 				)
@@ -371,7 +366,6 @@ class Lottie extends Module {
 					),
 					'default_unit'    => 'px',
 					'hover'           => false,
-					'depends_show_if' => 'lottie',
 					'tab_slug'        => 'advanced',
 					'toggle_slug'     => 'lottie_image',
 				)
@@ -388,7 +382,6 @@ class Lottie extends Module {
 						'step'      => '1',
 					),
 					'default_unit'    => 'px',
-					'depends_show_if' => 'lottie',
 					'hover'           => false,
 					'tab_slug'        => 'advanced',
 					'toggle_slug'     => 'lottie_image',
@@ -409,6 +402,8 @@ class Lottie extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props() {
 		$fields                  = parent::get_transition_fields_css_props();
@@ -422,9 +417,9 @@ class Lottie extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -491,21 +486,21 @@ class Lottie extends Module {
 		}
 
 		$module_references = array(
-			'lottie_trigger_method'  => $this->prop( 'divider_icon_lottie_trigger_method', 'freeze-click' ),
-			'lottie_mouseout_action' => $this->prop( 'divider_icon_lottie_mouseout_action', 'no_action' ),
-			'lottie_click_action'    => $this->prop( 'divider_icon_lottie_click_action', 'no_action' ),
-			'lottie_scroll'          => $this->prop( 'divider_icon_lottie_scroll', 'row' ),
-			'lottie_play_on_hover'   => $this->prop( 'divider_icon_lottie_play_on_hover', 'off' ),
-			'lottie_loop'            => $this->prop( 'divider_icon_lottie_loop', 'off' ),
-			'lottie_loop_no_times'   => $this->prop( 'divider_icon_lottie_loop_no_times', '0' ),
-			'lottie_delay'           => $this->prop( 'divider_icon_lottie_delay', '0' ),
-			'lottie_speed'           => $this->prop( 'divider_icon_lottie_speed', '1' ),
-			'lottie_mode'            => $this->prop( 'divider_icon_lottie_mode', 'normal' ),
-			'lottie_direction'       => $this->prop( 'divider_icon_lottie_direction', '1' ),
-			'lottie_renderer'        => $this->prop( 'divider_icon_lottie_renderer', 'svg' ),
+			'lottie_trigger_method'  => $this->prop( 'lottie_trigger_method', 'freeze-click' ),
+			'lottie_mouseout_action' => $this->prop( 'lottie_mouseout_action', 'no_action' ),
+			'lottie_click_action'    => $this->prop( 'lottie_click_action', 'no_action' ),
+			'lottie_scroll'          => $this->prop( 'lottie_scroll', 'row' ),
+			'lottie_play_on_hover'   => $this->prop( 'lottie_play_on_hover', 'off' ),
+			'lottie_loop'            => $this->prop( 'lottie_loop', 'off' ),
+			'lottie_loop_no_times'   => $this->prop( 'lottie_loop_no_times', '0' ),
+			'lottie_delay'           => $this->prop( 'lottie_delay', '0' ),
+			'lottie_speed'           => $this->prop( 'lottie_speed', '1' ),
+			'lottie_mode'            => $this->prop( 'lottie_mode', 'normal' ),
+			'lottie_direction'       => $this->prop( 'lottie_direction', '1' ),
+			'lottie_renderer'        => $this->prop( 'lottie_renderer', 'svg' ),
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'tag'   => 'div',
 				'attrs' => array(

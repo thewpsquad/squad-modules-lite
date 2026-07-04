@@ -160,7 +160,7 @@ class Site_Health {
 			$activated_time = divi_squad()->memory->get( 'activation_time' );
 			$installed_date = Date_Time::datetime_format( $activated_time, '', true );
 
-			// Get centralized Divi environment info
+			// Get centralized Divi environment info.
 			$divi_info = Divi::get_divi_environment_info();
 
 			$fields = array(
@@ -317,7 +317,7 @@ class Site_Health {
 		try {
 			$current_theme = wp_get_theme();
 
-			// Get comprehensive Divi environment info from the unified utility
+			// Get comprehensive Divi environment info from the unified utility.
 			$divi_info = Divi::get_divi_environment_info();
 
 			// Basic theme information.
@@ -352,7 +352,7 @@ class Site_Health {
 				);
 			}
 
-			// Use unified Divi environment info for detection results
+			// Use unified Divi environment info for detection results.
 			$fields['divi-version'] = array(
 				'label' => esc_html__( 'Detected Divi Version', 'squad-modules-for-divi' ),
 				'value' => '0.0.0' !== $divi_info['version'] ? $divi_info['version'] : esc_html__( 'Not detected', 'squad-modules-for-divi' ),
@@ -382,7 +382,7 @@ class Site_Health {
 				'value' => $divi_info['framework_source'],
 			);
 
-			// Add theme type detection info
+			// Add theme type detection info.
 			$fields['theme-type'] = array(
 				'label' => esc_html__( 'Theme Type', 'squad-modules-for-divi' ),
 				'value' => $this->get_theme_type_description( $divi_info ),
@@ -402,7 +402,7 @@ class Site_Health {
 					: esc_html__( 'No', 'squad-modules-for-divi' ),
 			);
 
-			// Add requirements check
+			// Add requirements check.
 			$fields['meets-requirements'] = array(
 				'label' => esc_html__( 'Meets Version Requirements', 'squad-modules-for-divi' ),
 				'value' => $divi_info['meets_requirements']
@@ -463,6 +463,7 @@ class Site_Health {
 	 * @access private
 	 *
 	 * @param array<string, mixed> $divi_info Divi environment information.
+	 *
 	 * @return string Description of the theme type.
 	 */
 	private function get_theme_type_description( array $divi_info ): string {
@@ -472,7 +473,7 @@ class Site_Health {
 
 		if ( $divi_info['is_child_theme'] ) {
 			return sprintf(
-				// translators: %s is the parent theme name.
+			// translators: %s is the parent theme name.
 				esc_html__( 'Child Theme of %s', 'squad-modules-for-divi' ),
 				$divi_info['parent_theme_name']
 			);
@@ -509,7 +510,7 @@ class Site_Health {
 		$technical_fields = array();
 
 		try {
-			// Divi constants from unified info
+			// Divi constants from unified info.
 			if ( isset( $divi_info['defined_constants'] ) && is_array( $divi_info['defined_constants'] ) ) {
 				$constants_values = array();
 
@@ -527,7 +528,7 @@ class Site_Health {
 				);
 			}
 
-			// Divi functions from unified info
+			// Divi functions from unified info.
 			if ( isset( $divi_info['available_functions'] ) && is_array( $divi_info['available_functions'] ) ) {
 				$technical_fields['divi-functions'] = array(
 					'label' => esc_html__( 'Divi Functions', 'squad-modules-for-divi' ),
@@ -559,7 +560,7 @@ class Site_Health {
 				}
 			}
 
-			// Add full Divi environment info for advanced debugging
+			// Add full Divi environment info for advanced debugging.
 			$technical_fields['full-divi-environment'] = array(
 				'label' => esc_html__( 'Full Divi Environment Info', 'squad-modules-for-divi' ),
 				'value' => '<pre>' . esc_html( (string) wp_json_encode( $divi_info, JSON_PRETTY_PRINT ) ) . '</pre>',

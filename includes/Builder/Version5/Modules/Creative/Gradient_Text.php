@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -56,6 +57,7 @@ class Gradient_Text extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_gradient_text' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -135,9 +137,9 @@ class Gradient_Text extends Module {
 	 */
 	private static function build_gradient( array $inner ): string {
 		$type      = $inner['gradientType'] ?? 'linear';
-		$direction = $inner['gradientDirection'] ?? '90deg';
-		$start     = $inner['gradientStart'] ?? '#1f7016';
-		$end       = $inner['gradientEnd'] ?? '#29c4a9';
+		$direction = self::sanitize_css_background( (string) ( $inner['gradientDirection'] ?? '90deg' ) );
+		$start     = self::sanitize_css_background( (string) ( $inner['gradientStart'] ?? '#1f7016' ) );
+		$end       = self::sanitize_css_background( (string) ( $inner['gradientEnd'] ?? '#29c4a9' ) );
 
 		if ( 'radial' === $type ) {
 			return sprintf( 'radial-gradient(circle, %1$s 0%%, %2$s 100%%)', $start, $end );
@@ -145,7 +147,6 @@ class Gradient_Text extends Module {
 
 		return sprintf( 'linear-gradient(%1$s, %2$s 0%%, %3$s 100%%)', $direction, $start, $end );
 	}
-
 	/**
 	 * Render callback for the Gradient Text module.
 	 *
@@ -178,9 +179,13 @@ class Gradient_Text extends Module {
 			$html = sprintf(
 				'<div class="gradient-text-wrapper et_pb_with_background"><%2$s class="gradient-text-element" style="%3$s"><span>%1$s</span></%2$s></div>',
 				wp_kses_post( $text ),
-				wp_kses_post( $tag ),
+				tag_escape( $tag ),
 				esc_attr( $style )
 			);
+
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
 
 			return DiviModule::render(
 				array(
@@ -194,7 +199,7 @@ class Gradient_Text extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $html,
+					'children'            => $style_components . $html,
 				)
 			);
 		} catch ( Throwable $e ) {

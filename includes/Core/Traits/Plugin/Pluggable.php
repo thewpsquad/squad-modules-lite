@@ -313,7 +313,7 @@ trait Pluggable {
 	 * @since  3.4.0
 	 * @access public
 	 *
-	 * @param string $path The asset path
+	 * @param string $path The asset path.
 	 *
 	 * @return bool
 	 */

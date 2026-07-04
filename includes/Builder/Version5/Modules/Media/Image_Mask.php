@@ -30,6 +30,7 @@ use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Decorations;
 use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Shapes;
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -40,6 +41,8 @@ use function esc_html;
 use function esc_url;
 use function explode;
 use function in_array;
+use function is_array;
+use function preg_replace;
 use function sprintf;
 use function wp_kses;
 
@@ -71,6 +74,7 @@ class Image_Mask extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_image_mask' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -163,6 +167,13 @@ class Image_Mask extends Module {
 			$decoration2 = $attrs['decoration2']['innerContent']['desktop']['value'] ?? array();
 			$viewbox     = $attrs['viewbox']['innerContent']['desktop']['value'] ?? array();
 
+			$image       = is_array( $image ) ? $image : array();
+			$mask        = is_array( $mask ) ? $mask : array();
+			$border      = is_array( $border ) ? $border : array();
+			$decoration1 = is_array( $decoration1 ) ? $decoration1 : array();
+			$decoration2 = is_array( $decoration2 ) ? $decoration2 : array();
+			$viewbox     = is_array( $viewbox ) ? $viewbox : array();
+
 			$unique_id = (string) ( $block->parsed_block['id'] ?? 'image-mask' );
 			$unique_id = preg_replace( '/[^a-zA-Z0-9_-]/', '-', $unique_id );
 
@@ -182,6 +193,10 @@ class Image_Mask extends Module {
 
 			$html = sprintf( '<div class="image-elements et_pb_with_background">%s</div>', $svg );
 
+			$style_components = $elements instanceof ModuleElements
+				? (string) $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -194,7 +209,7 @@ class Image_Mask extends Module {
 					'classnamesFunction'  => array( self::class, 'module_classnames' ),
 					'stylesComponent'     => array( self::class, 'module_styles' ),
 					'scriptDataComponent' => array( self::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $html,
+					'children'            => $style_components . $html,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -242,11 +257,14 @@ class Image_Mask extends Module {
 		}
 
 		// Mask transformations.
+		$rotate_deg     = preg_replace( '/[^0-9.]/', '', (string) ( $mask['maskShapeRotate'] ?? '0' ) );
+		$scale_x        = preg_replace( '/[^0-9.\-]/', '', (string) ( $mask['maskShapeScaleX'] ?? '1' ) );
+		$scale_y        = preg_replace( '/[^0-9.\-]/', '', (string) ( $mask['maskShapeScaleY'] ?? '1' ) );
 		$mask_transform = sprintf(
-			'rotate(%s) scale(%s, %s)',
-			(string) ( $mask['maskShapeRotate'] ?? '0deg' ),
-			(string) ( $mask['maskShapeScaleX'] ?? '1' ),
-			(string) ( $mask['maskShapeScaleY'] ?? '1' )
+			'rotate(%sdeg) scale(%s, %s)',
+			'' !== $rotate_deg ? $rotate_deg : '0',
+			'' !== $scale_x ? $scale_x : '1',
+			'' !== $scale_y ? $scale_y : '1'
 		);
 
 		$mask_flips = explode( '|', (string) ( $mask['maskShapeFlip'] ?? '' ) );
@@ -327,7 +345,7 @@ class Image_Mask extends Module {
 				$inline_styles .= sprintf(
 					'%%order_class%% .%s{fill: %s;}',
 					$decoration_class,
-					esc_attr( (string) ( $values['layerBackgroundColor'] ?? $default_color ) )
+					self::sanitize_css_background( (string) ( $values['layerBackgroundColor'] ?? $default_color ) )
 				);
 
 				$decoration_transform = sprintf(
@@ -337,8 +355,8 @@ class Image_Mask extends Module {
 					(string) ( $values['layerScale'] ?? ( 2 === $layer ? '1' : '0.8' ) ),
 					(string) ( $values['layerRotate'] ?? ( 2 === $layer ? '30deg' : '45deg' ) )
 				);
-				$decoration_svg   = $decoration_util->get_decoration( (string) $element, $decoration_class );
-				$decoration_group = sprintf(
+				$decoration_svg       = $decoration_util->get_decoration( (string) $element, $decoration_class );
+				$decoration_group     = sprintf(
 					'<g transform="%s">%s</g>',
 					esc_attr( $decoration_transform ),
 					$decoration_svg
@@ -406,7 +424,7 @@ class Image_Mask extends Module {
 			$mask_body,
 			$layer_1_enabled ? $layer_1_background : '',
 			$bottom_layers,
-			esc_url( (string) $image_src ),
+			esc_url( $image_src ),
 			esc_attr( (string) ( $image['imageWidth'] ?? '100%' ) ),
 			esc_attr( (string) ( $image['imageHeight'] ?? '100%' ) ),
 			esc_attr( $image_transform ),
@@ -489,5 +507,4 @@ class Image_Mask extends Module {
 		}
 
 		return (string) $mask_shape;
-	}
-}
+	}}

@@ -20,14 +20,17 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
 use Throwable;
 use WP_Block;
 use function absint;
+use function count;
 use function esc_attr;
 use function in_array;
+use function is_array;
 use function wp_enqueue_script;
 use function wp_json_encode;
 use function wp_kses_post;
@@ -60,6 +63,7 @@ class Typing_Text extends Module {
 	 * @return void
 	 */
 	public static function module_classnames( array $args ): void {
+		$args['classnamesInstance']->add( 'disq_typing_text' );
 		$args['classnamesInstance']->add(
 			ElementClassnames::classnames(
 				array(
@@ -136,7 +140,7 @@ class Typing_Text extends Module {
 	 * @param array<string, mixed> $attrs    Block attributes.
 	 * @param string               $content  Inner content.
 	 * @param WP_Block             $block    Parsed block instance.
-	 * @param object               $elements ModuleElements instance.
+	 * @param ModuleElements       $elements ModuleElements instance.
 	 *
 	 * @return string Rendered HTML.
 	 */
@@ -223,7 +227,7 @@ class Typing_Text extends Module {
 	 */
 	protected static function render_typed_text( array $inner ): string {
 		$phrases = $inner['typingText'] ?? array();
-		if ( empty( $phrases ) ) {
+		if ( ! is_array( $phrases ) || count( $phrases ) === 0 ) {
 			return '';
 		}
 

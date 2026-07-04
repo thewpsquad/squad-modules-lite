@@ -215,7 +215,7 @@ class Breadcrumbs extends Module {
 	 *
 	 * @since 1.4.0
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
@@ -236,9 +236,9 @@ class Breadcrumbs extends Module {
 	 *
 	 * @since 1.4.0
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module being rendered.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module being rendered.
 	 *
 	 * @return string
 	 */
@@ -246,7 +246,7 @@ class Breadcrumbs extends Module {
 		$before_html = '';
 		if ( '' !== $this->prop( 'before_icon', '' ) ) {
 			$before_icon = esc_attr( et_pb_process_font_icon( $this->prop( 'before_icon', '' ) ) );
-			$before_html = sprintf( '<span class="before-icon et-pb-icon">%1$s</span>', $before_icon );
+			$before_html = sprintf( '<span class="before-icon et-pb-icon" aria-hidden="true">%1$s</span>', $before_icon );
 		}
 
 		// Generating the Breadcrumbs.
@@ -276,7 +276,7 @@ class Breadcrumbs extends Module {
 	 * @since  1.4.0
 	 * @access protected
 	 *
-	 * @param array $attrs Module attributes.
+	 * @param array<string, mixed> $attrs Module attributes.
 	 *
 	 * @return void
 	 */

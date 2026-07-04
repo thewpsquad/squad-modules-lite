@@ -21,9 +21,10 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Builder\Shared\Modules\Creative\Image_Reveal\Reveal_Helper;
+use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
+use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
 use ET\Builder\Packages\Module\Module as DiviModule;
 use ET\Builder\Packages\Module\Options\Css\CssStyle;
 use ET\Builder\Packages\Module\Options\Element\ElementClassnames;
@@ -46,6 +47,13 @@ class Image_Reveal extends Module {
 		return '/build/divi-builder-5/modules-json/image-reveal/';
 	}
 
+	/**
+	 * Add the module classnames.
+	 *
+	 * @param array<string, mixed> $args Classnames arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_classnames( array $args ): void {
 		$args['classnamesInstance']->add( 'disq_image_reveal' );
 		$args['classnamesInstance']->add(
@@ -55,10 +63,24 @@ class Image_Reveal extends Module {
 		);
 	}
 
+	/**
+	 * Assign the module's frontend script data.
+	 *
+	 * @param array<string, mixed> $args Script data arguments.
+	 *
+	 * @return void
+	 */
 	public static function module_script_data( array $args ): void {
 		$args['elements']->script_data( array( 'attrName' => 'module' ) );
 	}
 
+	/**
+	 * Register the module style declarations.
+	 *
+	 * @param array<string, mixed> $args Style arguments provided by Divi.
+	 *
+	 * @return void
+	 */
 	public static function module_styles( array $args ): void {
 		$attrs    = $args['attrs'] ?? array();
 		$elements = $args['elements'];
@@ -93,6 +115,7 @@ class Image_Reveal extends Module {
 												$easing   = Reveal_Helper::is_valid_easing( $raw_ease )
 													? Reveal_Helper::easing_value( $raw_ease )
 													: 'ease-in-out';
+
 												return sprintf(
 													'--squad-ir-duration:%dms;--squad-ir-delay:%dms;--squad-ir-easing:%s;',
 													$duration,
@@ -111,6 +134,7 @@ class Image_Reveal extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v    = $params['attrValue'] ?? array();
 												$zoom = self::sanitize_scale( (string) ( $v['zoomScale'] ?? '1.1' ) );
+
 												return sprintf( '--squad-ir-zoom:%s;', $zoom );
 											},
 										),
@@ -124,6 +148,7 @@ class Image_Reveal extends Module {
 											'declarationFunction' => static function ( $params ) {
 												$v     = $params['attrValue'] ?? array();
 												$color = self::sanitize_css_background( (string) ( $v['revealColor'] ?? '' ) );
+
 												return '' !== $color ? "background:{$color};" : '';
 											},
 										),
@@ -160,7 +185,7 @@ class Image_Reveal extends Module {
 		try {
 			$inner = $attrs['revealSettings']['innerContent']['desktop']['value'] ?? array();
 
-			$image = trim( (string) ( $inner['image'] ?? '' ) );
+			$image = self::resolve_upload_url( $inner['image'] ?? '' );
 			if ( '' === $image ) {
 				return '';
 			}
@@ -189,6 +214,10 @@ class Image_Reveal extends Module {
 
 			$shell = Reveal_Helper::build_shell( $config );
 
+			$style_components = $elements instanceof ModuleElements
+				? $elements->style_components( array( 'attrName' => 'module' ) )
+				: '';
+
 			return DiviModule::render(
 				array(
 					'orderIndex'          => $block->parsed_block['orderIndex'],
@@ -201,7 +230,7 @@ class Image_Reveal extends Module {
 					'classnamesFunction'  => array( static::class, 'module_classnames' ),
 					'stylesComponent'     => array( static::class, 'module_styles' ),
 					'scriptDataComponent' => array( static::class, 'module_script_data' ),
-					'children'            => $elements->style_components( array( 'attrName' => 'module' ) ) . $shell,
+					'children'            => $style_components . $shell,
 				)
 			);
 		} catch ( Throwable $e ) {
@@ -214,15 +243,7 @@ class Image_Reveal extends Module {
 	/** Sanitize a numeric scale value for CSS (digits + single dot only). */
 	private static function sanitize_scale( string $value ): string {
 		$clean = (string) preg_replace( '/[^0-9.]/', '', trim( $value ) );
-		return '' !== $clean ? $clean : '1.1';
-	}
 
-	/** Sanitize a CSS color/background value — strips `{ } ; < > \ " '`. */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
+		return '' !== $clean ? $clean : '1.1';
 	}
 }

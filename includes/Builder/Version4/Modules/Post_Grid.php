@@ -12,6 +12,7 @@
 
 namespace DiviSquad\Builder\Version4\Modules;
 
+use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection_Interface;
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use DiviSquad\Utils\Divi;
@@ -1443,9 +1444,9 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array<string, string> $attrs       List of unprocessed attributes.
-	 * @param string                $content     Content being processed.
-	 * @param string                $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of unprocessed attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string module's rendered output.
 	 */
@@ -1488,12 +1489,12 @@ class Post_Grid extends Module {
 	/**
 	 * Filter multi view value.
 	 *
-	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
-	 *
 	 * @param mixed                 $raw_value Props raw value.
 	 * @param array<string, string> $args      Props arguments.
 	 *
 	 * @return mixed
+	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
+	 *
 	 */
 	public function multi_view_filter_value( $raw_value, $args ) {
 		$name = $args['name'] ?? '';
@@ -1553,9 +1554,9 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array                                     $attrs      List of unprocessed attributes.
-	 * @param string|array|null                         $content    Content being processed.
-	 * @param ET_Builder_Module_Helper_MultiViewOptions $multi_view Multiview object instance.
+	 * @param array<string, mixed>                             $attrs      List of unprocessed attributes.
+	 * @param string|array<string, mixed>|null                 $content    Content being processed.
+	 * @param ET_Builder_Module_Helper_MultiViewOptions|string $multi_view Multiview object instance.
 	 *
 	 * @return string the html output for the post-grid.
 	 * @throws Exception Thrown when the callback is not callable.
@@ -1665,8 +1666,9 @@ class Post_Grid extends Module {
 			ob_start();
 
 			// Collect all child modules from Html content.
-			$pattern = '/<div\s+class="[^"]*disq_post_grid_child[^"]*"[^>]*>.*?<\/div>\s+<\/div>/is';
-			if ( is_numeric( preg_match_all( $pattern, $content, $matches ) ) && isset( $matches[0] ) && count( $matches[0] ) ) {
+			$pattern     = '/<div\s+class="[^"]*disq_post_grid_child[^"]*"[^>]*>.*?<\/div>\s+<\/div>/is';
+			$match_count = preg_match_all( $pattern, $content, $matches );
+			if ( is_int( $match_count ) && $match_count > 0 ) {
 				// Catch module with the main wrapper.
 				$child_modules = $matches[0];
 
@@ -1674,10 +1676,10 @@ class Post_Grid extends Module {
 				foreach ( $child_modules as $child_module_content ) {
 					$child_raw_props = divi_squad()->d4_module_helper->collect_raw_props( $child_module_content );
 					$child_props     = divi_squad()->d4_module_helper->collect_child_json_props( $child_raw_props );
-					$child_props     = isset( $child_props[0] ) && count( $child_props[0] ) ? $child_props[0] : array();
+					$child_props     = isset( $child_props[0] ) && is_array( $child_props[0] ) && count( $child_props[0] ) > 0 ? $child_props[0] : array();
 
 					if ( count( $child_props ) > 0 ) {
-						$child_prop_markup = sprintf( '%s,||', wp_json_encode( $child_props ) );
+						$child_prop_markup = sprintf( '%s,||', (string) wp_json_encode( $child_props ) );
 						$html_output       = $callback( $post, $child_props );
 
 						// check available content.
@@ -1694,6 +1696,7 @@ class Post_Grid extends Module {
 
 			return (string) ob_get_clean();
 		} catch ( Throwable $e ) {
+			ob_get_clean();
 			divi_squad()->log_error( $e, 'Error in Squad Post Grid module render method' );
 
 			return '';
@@ -1705,10 +1708,10 @@ class Post_Grid extends Module {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array $attrs   List of unprocessed attributes.
-	 * @param mixed $content Content being processed.
+	 * @param array<string, mixed> $attrs   List of unprocessed attributes.
+	 * @param mixed                $content Content being processed.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected static function squad_build_post_query_args( array $attrs, $content = '' ): array {
 		global $paged;
@@ -1748,9 +1751,9 @@ class Post_Grid extends Module {
 	/**
 	 * Add query arguments for the current loop.
 	 *
-	 * @param array $query_args Existing query arguments.
+	 * @param array<string, mixed> $query_args Existing query arguments.
 	 *
-	 * @return array Updated query arguments.
+	 * @return array<string, mixed> Updated query arguments.
 	 */
 	protected static function squad_add_current_loop_args( array $query_args ): array {
 		$queried_object = get_queried_object();
@@ -1781,10 +1784,10 @@ class Post_Grid extends Module {
 	/**
 	 * Add query arguments for related posts.
 	 *
-	 * @param array   $query_args Existing query arguments.
-	 * @param WP_Post $post       Current post object.
+	 * @param array<string, mixed> $query_args Existing query arguments.
+	 * @param WP_Post              $post       Current post object.
 	 *
-	 * @return array Updated query arguments.
+	 * @return array<string, mixed> Updated query arguments.
 	 */
 	protected static function squad_add_related_post_args( array $query_args, WP_Post $post ): array {
 		$categories = wp_get_post_categories( $post->ID, array( 'fields' => 'ids' ) );
@@ -1806,10 +1809,10 @@ class Post_Grid extends Module {
 	/**
 	 * Add query arguments for custom display options.
 	 *
-	 * @param array $query_args Existing query arguments.
-	 * @param array $attrs      Module attributes.
+	 * @param array<string, mixed> $query_args Existing query arguments.
+	 * @param array<string, mixed> $attrs      Module attributes.
 	 *
-	 * @return array Updated query arguments.
+	 * @return array<string, mixed> Updated query arguments.
 	 */
 	protected static function squad_add_custom_display_args( array $query_args, array $attrs ): array {
 		$display_by = isset( $attrs['list_post_display_by'] ) ? sanitize_key( $attrs['list_post_display_by'] ) : 'recent';
@@ -1828,11 +1831,11 @@ class Post_Grid extends Module {
 	/**
 	 * Add query arguments for post offset.
 	 *
-	 * @param array $query_args Existing query arguments.
-	 * @param array $attrs      Module attributes.
-	 * @param int   $paged      Current page number.
+	 * @param array<string, mixed> $query_args Existing query arguments.
+	 * @param array<string, mixed> $attrs      Module attributes.
+	 * @param int                  $paged      Current page number.
 	 *
-	 * @return array Updated query arguments.
+	 * @return array<string, mixed> Updated query arguments.
 	 */
 	protected static function squad_add_offset_args( array $query_args, array $attrs, int $paged ): array {
 		$offset = isset( $attrs['list_post_offset'] ) ? absint( $attrs['list_post_offset'] ) : 0;
@@ -1851,11 +1854,11 @@ class Post_Grid extends Module {
 	/**
 	 * Add query arguments for pagination.
 	 *
-	 * @param array $query_args Existing query arguments.
-	 * @param array $attrs      Module attributes.
-	 * @param int   $paged      Current page number.
+	 * @param array<string, mixed> $query_args Existing query arguments.
+	 * @param array<string, mixed> $attrs      Module attributes.
+	 * @param int                  $paged      Current page number.
 	 *
-	 * @return array Updated query arguments.
+	 * @return array<string, mixed> Updated query arguments.
 	 */
 	protected static function squad_add_pagination_args( array $query_args, array $attrs, int $paged ): array {
 		$pagination = isset( $attrs['pagination__enable'] ) ? sanitize_key( $attrs['pagination__enable'] ) : 'off';
@@ -1888,9 +1891,9 @@ class Post_Grid extends Module {
 	/**
 	 * Get queried arguments for client side rendering.
 	 *
-	 * @param array<string, string> $attrs List of module attributes.
+	 * @param array<string, mixed> $attrs List of module attributes.
 	 *
-	 * @return array<string, string> Filtered query arguments.
+	 * @return array<string, mixed> Filtered query arguments.
 	 */
 	protected static function squad_get_client_query_args( array $attrs ): array {
 		// Allowed properties.
@@ -1912,8 +1915,8 @@ class Post_Grid extends Module {
 		// Remove empty values.
 		return array_filter(
 			$query_arguments,
-			static function ( $string ) {
-				return strlen( $string );
+			static function ( $string ): bool {
+				return '' !== (string) $string;
 			}
 		);
 	}
@@ -1965,7 +1968,7 @@ class Post_Grid extends Module {
 
 			printf(
 				'<script type="application/json" style="display: none">%s</script>',
-				wp_json_encode( $post_data )
+				(string) wp_json_encode( $post_data )
 			);
 		}
 
@@ -2064,10 +2067,10 @@ class Post_Grid extends Module {
 			'tags'             => $tags_data,
 			'permalink'        => get_permalink( $post->ID ),
 			'gravatar'         => get_avatar( $post->post_author, 40 ),
-			'author_posts_url' => get_author_posts_url( $post->post_author ),
+			'author_posts_url' => get_author_posts_url( absint( $post->post_author ) ),
 			'formatted'        => array(
-				'publish'  => wp_date( $date_replacement, strtotime( $post->post_date ) ),
-				'modified' => wp_date( $date_replacement, strtotime( $post->post_modified ) ),
+				'publish'  => wp_date( $date_replacement, (int) strtotime( $post->post_date ) ),
+				'modified' => wp_date( $date_replacement, (int) strtotime( $post->post_modified ) ),
 			),
 			'custom_fields'    => divi_squad()->custom_fields_element->get_fields( 'custom_fields', $post->ID ),
 			'acf_fields'       => divi_squad()->custom_fields_element->get_fields( 'acf_fields', $post->ID ),
@@ -2091,14 +2094,19 @@ class Post_Grid extends Module {
 	/**
 	 * Render the pagination or load more button.
 	 *
-	 * @param WP_Query                                  $post_query The WP_Query object.
-	 * @param array                                     $attrs      The module attributes.
-	 * @param string|array|null                         $content    The content being processed.
-	 * @param ET_Builder_Module_Helper_MultiViewOptions $multi_view The multiview object instance.
+	 * @param WP_Query                                              $post_query The WP_Query object.
+	 * @param array<string, mixed>                                  $attrs      The module attributes.
+	 * @param string|array<string, mixed>|null                      $content    The content being processed.
+	 * @param ET_Builder_Module_Helper_MultiViewOptions|string|null $multi_view The multiview object instance.
 	 *
 	 * @return void
 	 */
 	protected static function squad_maybe_render_pagination( WP_Query $post_query, array $attrs, $content = null, $multi_view = null ): void {
+		// A valid multi-view instance is required to render the pagination markup.
+		if ( ! $multi_view instanceof ET_Builder_Module_Helper_MultiViewOptions ) {
+			return;
+		}
+
 		// Identify the current page state.
 		$is_divi_builder = isset( $content ) && is_array( $content );
 
@@ -2111,7 +2119,7 @@ class Post_Grid extends Module {
 		$is_posts_exists = $post_query->found_posts > $posts_per_page;
 
 		if ( ! $is_divi_builder && $is_posts_exists && 'off' === $is_rest_query && 'on' === $load_more ) {
-			$button_text = $multi_view->render_element(
+			$button_text = (string) $multi_view->render_element(
 				array(
 					'tag'            => 'span',
 					'content'        => '{{load_more_button_text}}',
@@ -2137,7 +2145,7 @@ class Post_Grid extends Module {
 				}
 
 				if ( 'icon' === $button_icon_type ) {
-					$icon_element = $multi_view->render_element(
+					$icon_element = (string) $multi_view->render_element(
 						array(
 							'content'        => '{{load_more_button_icon}}',
 							'attrs'          => array(
@@ -2152,11 +2160,11 @@ class Post_Grid extends Module {
 					$image_classes          = 'squad-load-more-button-image et_pb_image_wrap';
 					$image_attachment_class = et_pb_media_options()->get_image_attachment_class( $attrs, 'load_more_button_image' );
 
-					if ( ! empty( $image_attachment_class ) ) {
+					if ( '' !== $image_attachment_class ) {
 						$image_classes .= " $image_attachment_class";
 					}
 
-					$icon_element = $multi_view->render_element(
+					$icon_element = (string) $multi_view->render_element(
 						array(
 							'tag'            => 'img',
 							'attrs'          => array(
@@ -2170,7 +2178,7 @@ class Post_Grid extends Module {
 					);
 				}
 
-				if ( ( 'none' !== $button_icon_type ) && ! empty( $icon_element ) ) {
+				if ( ( 'none' !== $button_icon_type ) && '' !== $icon_element ) {
 					if ( 'on' === $button_icon_hover ) {
 						$icon_wrapper_class .= ' show-on-hover';
 					}
@@ -2202,8 +2210,8 @@ class Post_Grid extends Module {
 					wp_kses_post( $button_text ),
 					wp_kses_post( $icon_element_html ),
 					esc_attr( $button_classes ),
-					wp_json_encode( $button_options ),
-					wp_json_encode( $query_options )
+					esc_attr( (string) wp_json_encode( $button_options ) ),
+					(string) wp_json_encode( $query_options )
 				);
 			}
 		}
@@ -2212,14 +2220,19 @@ class Post_Grid extends Module {
 	/**
 	 * Render the pagination or load more button.
 	 *
-	 * @param WP_Query                                  $post_query The WP_Query object.
-	 * @param array                                     $attrs      The module attributes.
-	 * @param string|array|null                         $content    The content being processed.
-	 * @param ET_Builder_Module_Helper_MultiViewOptions $multi_view The multiview object instance.
+	 * @param WP_Query                                              $post_query The WP_Query object.
+	 * @param array<string, mixed>                                  $attrs      The module attributes.
+	 * @param string|array<string, mixed>|null                      $content    The content being processed.
+	 * @param ET_Builder_Module_Helper_MultiViewOptions|string|null $multi_view The multiview object instance.
 	 *
 	 * @return void
 	 */
 	protected static function squad_maybe_render_load_more_button( WP_Query $post_query, array $attrs, $content = null, $multi_view = null ): void {
+		// A valid multi-view instance is required to render the pagination markup.
+		if ( ! $multi_view instanceof ET_Builder_Module_Helper_MultiViewOptions ) {
+			return;
+		}
+
 		// Identify the current page state.
 		$is_divi_builder = isset( $content ) && is_array( $content );
 
@@ -2255,6 +2268,10 @@ class Post_Grid extends Module {
 			if ( 'on' !== $icon_only__enable ) {
 				$prev_text .= sprintf( '<span class="entries-text">%1$s</span>', esc_html( $old_entries_text ) );
 				$next_text .= sprintf( '<span class="entries-text">%1$s</span>', esc_html( $next_entries_text ) );
+			} else {
+				// Icon-only mode: add visually-hidden labels so screen readers can announce prev/next.
+				$prev_text .= sprintf( '<span class="screen-reader-text">%1$s</span>', esc_html( $old_entries_text ) );
+				$next_text .= sprintf( '<span class="screen-reader-text">%1$s</span>', esc_html( $next_entries_text ) );
 			}
 
 			// Set icon for pagination next element.
@@ -2270,23 +2287,28 @@ class Post_Grid extends Module {
 			);
 
 			// Collect all links for pagination.
-			$paginate_links = paginate_links(
+			$paginate_links_result = paginate_links(
 				array(
 					'format'    => '?paged=%#%',
-					'current'   => max( 1, get_query_var( 'paged' ) ),
-					'total'     => $post_query->max_num_pages,
+					'current'   => max( 1, (int) get_query_var( 'paged' ) ),
+					'total'     => (int) $post_query->max_num_pages,
 					'prev_text' => $prev_text,
 					'next_text' => $next_text,
 					'type'      => 'array',
 				)
 			);
 
-			if ( isset( $paginate_links ) && count( $paginate_links ) ) {
+			// Normalize to a concrete list of link strings. paginate_links() returns
+			// void/null when there are fewer than two pages, in which case this yields
+			// an empty array and the pagination markup below is skipped.
+			$paginate_links = is_array( $paginate_links_result ) ? array_values( $paginate_links_result ) : array();
+
+			if ( count( $paginate_links ) > 0 ) {
 				print '<div class="squad-pagination clearfix">';
 				$is_prev_found  = false;
 				$is_next_found  = false;
-				$first_paginate = array_shift( $paginate_links );
-				$last_paginate  = array_pop( $paginate_links );
+				$first_paginate = (string) array_shift( $paginate_links );
+				$last_paginate  = (string) array_pop( $paginate_links );
 
 				$paginate_prev_text = '';
 				$paginate_next_text = '';
@@ -2309,12 +2331,12 @@ class Post_Grid extends Module {
 				}
 
 				// Show the last paginated numbers.
-				if ( ( 'on' === $numbers__enable ) && ( false === $is_prev_found || false === $is_next_found || count( $paginate_links ) ) ) {
+				if ( ( 'on' === $numbers__enable ) && ( false === $is_prev_found || false === $is_next_found || count( $paginate_links ) > 0 ) ) {
 					print '<div class="pagination-numbers">';
 					if ( false === $is_prev_found ) {
 						print wp_kses_post( $first_paginate );
 					}
-					if ( count( $paginate_links ) ) {
+					if ( count( $paginate_links ) > 0 ) {
 						foreach ( $paginate_links as $paginate_link ) {
 							print wp_kses_post( $paginate_link );
 						}
@@ -2338,7 +2360,7 @@ class Post_Grid extends Module {
 	/**
 	 * Render icon which on is active.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 *
 	 * @return string
 	 */
@@ -2364,7 +2386,7 @@ class Post_Grid extends Module {
 	/**
 	 * Render icon.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -2374,7 +2396,7 @@ class Post_Grid extends Module {
 			$element_type = $attrs['element'] ?? 'none';
 			$icon_classes = array( 'et-pb-icon', 'squad-element-icon' );
 
-			return $multi_view->render_element(
+			return (string) $multi_view->render_element(
 				array(
 					'custom_props'   => $attrs,
 					'content'        => '{{element_icon}}',
@@ -2392,7 +2414,7 @@ class Post_Grid extends Module {
 	/**
 	 * Render image.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -2409,7 +2431,7 @@ class Post_Grid extends Module {
 				$image_classes[] = esc_attr( $image_attachment_class );
 			}
 
-			return $multi_view->render_element(
+			return (string) $multi_view->render_element(
 				array(
 					'custom_props'   => $attrs,
 					'tag'            => 'img',
@@ -2431,7 +2453,7 @@ class Post_Grid extends Module {
 	/**
 	 * Render image.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -2441,7 +2463,7 @@ class Post_Grid extends Module {
 			$element_type      = $attrs['element'] ?? 'none';
 			$icon_text_classes = array( 'squad-element-icon-text' );
 
-			return $multi_view->render_element(
+			return (string) $multi_view->render_element(
 				array(
 					'custom_props'   => $attrs,
 					'content'        => '{{element_icon_text}}',
@@ -2461,8 +2483,8 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array         $attrs List of attributes.
-	 * @param false|WP_Post $post  The current post object.
+	 * @param array<string, mixed> $attrs List of attributes.
+	 * @param false|WP_Post        $post  The current post object.
 	 *
 	 * @return string
 	 */
@@ -2543,30 +2565,30 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post       The post object.
-	 * @param string  $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param WP_Post              $post       The post object.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_title_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$post_title = $post->post_title;
-		if ( empty( $post_title ) ) {
+		if ( '' === $post_title ) {
 			return '';
 		}
 
-		$title_tag = isset( $attrs['element_title_tag'] ) ? sanitize_text_field( $attrs['element_title_tag'] ) : 'span';
+		$title_tag = isset( $attrs['element_title_tag'] ) ? sanitize_text_field( (string) $attrs['element_title_tag'] ) : 'span';
 		$content   = sprintf( '<span class="element-text">%s</span>', ucfirst( $post_title ) );
 
 		$title_icon = '';
-		if ( isset( $attrs['element_title_icon__enable'] ) && 'on' === $attrs['element_title_icon__enable'] && ! empty( $attrs['element_title_icon'] ) ) {
+		if ( isset( $attrs['element_title_icon__enable'] ) && 'on' === $attrs['element_title_icon__enable'] && '' !== ( $attrs['element_title_icon'] ?? '' ) ) {
 			$title_icon = $this->squad_render_post_title_font_icon( $attrs );
 		}
 
 		$output = sprintf( '<%1$s class="element-text">%2$s</%1$s>%3$s', esc_attr( $title_tag ), $content, wp_kses_post( $title_icon ) );
 
 		if ( isset( $attrs['link_to_post__enable'] ) && 'on' === $attrs['link_to_post__enable'] ) {
-			$output = sprintf( '<a href="%s" title="%s">%s</a>', esc_url( get_permalink( $post->ID ) ), esc_attr( $post_title ), $output );
+			$output = sprintf( '<a href="%s" title="%s">%s</a>', esc_url( (string) get_permalink( $post->ID ) ), esc_attr( $post_title ), $output );
 		}
 
 		return sprintf( '<div class="%s">%s</div>', esc_attr( $class_name ), $output );
@@ -2578,15 +2600,15 @@ class Post_Grid extends Module {
 	 * @since 1.0.0
 	 * @since 3.1.8 Added the ability to link to the post.
 	 *
-	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post       The post object.
-	 * @param string  $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param WP_Post              $post       The post object.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_image_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$post_image = get_the_post_thumbnail( $post->ID, 'full' );
-		if ( empty( $post_image ) ) {
+		if ( '' === $post_image ) {
 			return '';
 		}
 
@@ -2596,7 +2618,7 @@ class Post_Grid extends Module {
 		if ( isset( $attrs['link_to_post__enable'] ) && 'on' === $attrs['link_to_post__enable'] ) {
 			$permalink  = get_permalink( $post->ID );
 			$post_title = get_the_title( $post->ID );
-			if ( $permalink ) {
+			if ( false !== $permalink ) {
 				$output = sprintf(
 					'<a href="%1$s" title="%2$s" class="image-link">%3$s</a>',
 					esc_url( $permalink ),
@@ -2618,17 +2640,17 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post       The post object.
-	 * @param string  $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param WP_Post              $post       The post object.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_content_element( array $attrs, WP_Post $post, string $class_name ): string {
-		$post_excerpt__enable = isset( $attrs['element_excerpt__enable'] ) ? sanitize_text_field( $attrs['element_excerpt__enable'] ) : 'off';
+		$post_excerpt__enable = isset( $attrs['element_excerpt__enable'] ) ? sanitize_text_field( (string) $attrs['element_excerpt__enable'] ) : 'off';
 		$post_content         = ( 'on' === $post_excerpt__enable ) ? $post->post_excerpt : wp_strip_all_tags( $post->post_content );
 
-		if ( empty( $post_content ) ) {
+		if ( '' === $post_content ) {
 			return '';
 		}
 
@@ -2668,17 +2690,20 @@ class Post_Grid extends Module {
 		 *
 		 * @return string
 		 */
-		$character_map = apply_filters( 'divi_squad_post_query_content_character_map', $character_map );
+		$character_map = (string) apply_filters( 'divi_squad_post_query_content_character_map', $character_map );
 
 		// Use Str::word_count with the character map.
 		$words = Str::word_count( $content, 2, $character_map );
 
-		if ( count( $words ) > $length ) {
-			$truncated_words   = array_slice( $words, 0, $length, true );
-			$last_word_pos     = array_key_last( $truncated_words );
-			$truncated_content = mb_substr( $content, 0, $last_word_pos + mb_strlen( $truncated_words[ $last_word_pos ] ) );
+		if ( is_array( $words ) && count( $words ) > $length ) {
+			$truncated_words = array_slice( $words, 0, $length, true );
+			$last_word_pos   = array_key_last( $truncated_words );
 
-			return $truncated_content . '...';
+			if ( null !== $last_word_pos ) {
+				$truncated_content = mb_substr( $content, 0, $last_word_pos + mb_strlen( $truncated_words[ $last_word_pos ] ) );
+
+				return $truncated_content . '...';
+			}
 		}
 
 		return $content;
@@ -2689,20 +2714,20 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post       The post object.
-	 * @param string  $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param WP_Post              $post       The post object.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_author_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$author = get_userdata( absint( $post->post_author ) );
-		if ( ! $author ) {
+		if ( false === $author ) {
 			return '';
 		}
 
 		$default_name_type = 'nickname';
-		$author_name_type  = isset( $attrs['element_author_name_type'] ) ? sanitize_text_field( $attrs['element_author_name_type'] ) : $default_name_type;
+		$author_name_type  = isset( $attrs['element_author_name_type'] ) ? sanitize_text_field( (string) $attrs['element_author_name_type'] ) : $default_name_type;
 
 		$content = $this->squad_get_author_name( $author, $author_name_type );
 
@@ -2755,9 +2780,9 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post       The post object.
-	 * @param string  $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param WP_Post              $post       The post object.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2765,16 +2790,16 @@ class Post_Grid extends Module {
 		$gravatar_size = isset( $attrs['element_gravatar_size'] ) ? absint( $attrs['element_gravatar_size'] ) : 40;
 		$gravatar      = get_avatar( $post->post_author, $gravatar_size );
 
-		if ( empty( $gravatar ) ) {
+		if ( ! is_string( $gravatar ) || '' === $gravatar ) {
 			return '';
 		}
 
 		$output = $gravatar;
 
 		// Check if linking to gravatar is enabled.
-		$gravatar_enable = isset( $attrs['link_to_gravatar__enable'] ) ? sanitize_text_field( $attrs['link_to_gravatar__enable'] ) : 'off';
+		$gravatar_enable = isset( $attrs['link_to_gravatar__enable'] ) ? sanitize_text_field( (string) $attrs['link_to_gravatar__enable'] ) : 'off';
 		if ( 'on' === $gravatar_enable ) {
-			$author = get_userdata( $post->post_author );
+			$author = get_userdata( absint( $post->post_author ) );
 			if ( $author instanceof WP_User ) {
 				$author_url  = get_author_posts_url( $author->ID );
 				$author_name = $author->display_name;
@@ -2831,7 +2856,7 @@ class Post_Grid extends Module {
 			'<div class="%s"><time datetime="%s">%s</time></div>',
 			esc_attr( $class_name ),
 			esc_attr( $date ),
-			esc_html( wp_date( $date_format, strtotime( $date ) ) )
+			esc_html( (string) wp_date( $date_format, (int) strtotime( $date ) ) )
 		);
 	}
 
@@ -2840,9 +2865,9 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param int    $post_id    The post ID.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param int                  $post_id    The post ID.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2850,12 +2875,12 @@ class Post_Grid extends Module {
 		$permalink_url   = get_permalink( $post_id );
 		$read_more_title = esc_html__( 'Read the post', 'squad-modules-for-divi' );
 		$default_text    = esc_html__( 'Read More', 'squad-modules-for-divi' );
-		$read_more_text  = isset( $attrs['element_read_more_text'] ) ? sanitize_text_field( $attrs['element_read_more_text'] ) : $default_text;
+		$read_more_text  = isset( $attrs['element_read_more_text'] ) ? sanitize_text_field( (string) $attrs['element_read_more_text'] ) : $default_text;
 
 		return sprintf(
 			'<div class="%s"><a href="%s" title="%s">%s</a></div>',
 			esc_attr( $class_name ),
-			esc_url( $permalink_url ),
+			esc_url( (string) $permalink_url ),
 			esc_attr( $read_more_title ),
 			esc_html( $read_more_text )
 		);
@@ -2866,15 +2891,15 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post       The post object.
-	 * @param string  $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param WP_Post              $post       The post object.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_comments_element( array $attrs, WP_Post $post, string $class_name ): string {
-		$comment_before_text = isset( $attrs['element_comment_before'] ) ? sanitize_text_field( $attrs['element_comment_before'] ) : '';
-		$comment_after_text  = isset( $attrs['element_comments_after'] ) ? sanitize_text_field( $attrs['element_comments_after'] ) : '';
+		$comment_before_text = isset( $attrs['element_comment_before'] ) ? sanitize_text_field( (string) $attrs['element_comment_before'] ) : '';
+		$comment_after_text  = isset( $attrs['element_comments_after'] ) ? sanitize_text_field( (string) $attrs['element_comments_after'] ) : '';
 
 		return sprintf(
 			'<div class="%s"><span class="element-text">%s%s%s</span></div>',
@@ -2890,19 +2915,19 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param int    $post_id    The post ID.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param int                  $post_id    The post ID.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_categories_element( array $attrs, int $post_id, string $class_name ): string {
 		$categories = wp_get_post_categories( $post_id, array( 'fields' => 'all' ) );
-		if ( empty( $categories ) ) {
+		if ( is_wp_error( $categories ) || count( $categories ) === 0 ) {
 			return '';
 		}
 
-		$categories_separator = isset( $attrs['element_categories_sepa'] ) ? $attrs['element_categories_sepa'] : '';
+		$categories_separator = isset( $attrs['element_categories_sepa'] ) ? (string) $attrs['element_categories_sepa'] : '';
 		$link_enabled         = isset( $attrs['link_to_categories__enable'] ) && 'on' === $attrs['link_to_categories__enable'];
 
 		$category_links = array();
@@ -2934,19 +2959,19 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param int    $post_id    The post ID.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param int                  $post_id    The post ID.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_tags_element( array $attrs, int $post_id, string $class_name ): string {
 		$tags = wp_get_post_tags( $post_id, array( 'fields' => 'all' ) );
-		if ( empty( $tags ) ) {
+		if ( is_wp_error( $tags ) || count( $tags ) === 0 ) {
 			return '';
 		}
 
-		$tags_separator = isset( $attrs['element_tags_sepa'] ) ? $attrs['element_tags_sepa'] : '';
+		$tags_separator = isset( $attrs['element_tags_sepa'] ) ? (string) $attrs['element_tags_sepa'] : '';
 		$link_enabled   = isset( $attrs['link_to_tags__enable'] ) && 'on' === $attrs['link_to_tags__enable'];
 
 		$tag_links = array();
@@ -2978,14 +3003,14 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_divider_element( array $attrs, string $class_name ): string {
 		if ( isset( $attrs['show_divider'] ) && 'on' === $attrs['show_divider'] ) {
-			$divider_position = isset( $attrs['divider_position'] ) ? sanitize_text_field( $attrs['divider_position'] ) : 'bottom';
+			$divider_position = isset( $attrs['divider_position'] ) ? sanitize_text_field( (string) $attrs['divider_position'] ) : 'bottom';
 			$divider_classes  = implode( ' ', array( 'divider-element', $divider_position ) );
 
 			return sprintf(
@@ -3003,17 +3028,18 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_custom_text_element( array $attrs, string $class_name ): string {
-		if ( empty( $attrs['element_custom_text'] ) ) {
+		$custom_text_raw = isset( $attrs['element_custom_text'] ) ? (string) $attrs['element_custom_text'] : '';
+		if ( '' === $custom_text_raw ) {
 			return '';
 		}
 
-		$custom_text = sanitize_text_field( $attrs['element_custom_text'] );
+		$custom_text = sanitize_text_field( $custom_text_raw );
 
 		return sprintf(
 			'<div class="%s"><span class="element-text">%s</span></div>',
@@ -3027,36 +3053,37 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param int    $post_id    The post ID.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param int                  $post_id    The post ID.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_custom_field_element( array $attrs, int $post_id, string $class_name ): string {
-		if ( empty( $attrs['element_custom_field_post'] ) ) {
+		$custom_field_key = isset( $attrs['element_custom_field_post'] ) ? (string) $attrs['element_custom_field_post'] : '';
+		if ( '' === $custom_field_key ) {
 			return '';
 		}
 
-		$custom_field_key = $attrs['element_custom_field_post'];
-		$custom_field     = divi_squad()->custom_fields_element->get( 'custom_fields' );
-		if ( ! $custom_field->has_field( $post_id, $custom_field_key ) ) {
+		$custom_field = divi_squad()->custom_fields_element->get( 'custom_fields' );
+		if ( ! $custom_field instanceof Collection_Interface || ! $custom_field->has_field( $post_id, $custom_field_key ) ) {
 			return '';
 		}
 
 		$custom_field_value = $custom_field->get_field_value( $post_id, $custom_field_key );
-		if ( empty( $custom_field_value ) ) {
+		$custom_field_text  = is_scalar( $custom_field_value ) ? (string) $custom_field_value : '';
+		if ( '' === $custom_field_text || '0' === $custom_field_text ) {
 			return '';
 		}
 
-		$comment_before_text = isset( $attrs['element_custom_field_before'] ) ? sanitize_text_field( $attrs['element_custom_field_before'] ) : '';
-		$comment_after_text  = isset( $attrs['element_custom_field_after'] ) ? sanitize_text_field( $attrs['element_custom_field_after'] ) : '';
+		$comment_before_text = isset( $attrs['element_custom_field_before'] ) ? sanitize_text_field( (string) $attrs['element_custom_field_before'] ) : '';
+		$comment_after_text  = isset( $attrs['element_custom_field_after'] ) ? sanitize_text_field( (string) $attrs['element_custom_field_after'] ) : '';
 
 		return sprintf(
 			'<div class="%s"><span class="element-text">%s%s%s</span></div>',
 			esc_attr( $class_name ),
 			esc_html( $comment_before_text ),
-			esc_html( $custom_field_value ),
+			esc_html( $custom_field_text ),
 			esc_html( $comment_after_text )
 		);
 	}
@@ -3066,30 +3093,31 @@ class Post_Grid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
-	 * @param int    $post_id    The post ID.
-	 * @param string $class_name The class name for the element.
+	 * @param array<string, mixed> $attrs      List of attributes.
+	 * @param int                  $post_id    The post ID.
+	 * @param string               $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
 	protected function squad_render_advanced_custom_field_element( array $attrs, int $post_id, string $class_name ): string {
-		if ( empty( $attrs['element_advanced_custom_field_post'] ) ) {
+		$acf_field_key = isset( $attrs['element_advanced_custom_field_post'] ) ? (string) $attrs['element_advanced_custom_field_post'] : '';
+		if ( '' === $acf_field_key ) {
 			return '';
 		}
 
-		$acf_field_key  = $attrs['element_advanced_custom_field_post'];
 		$acf_fields     = divi_squad()->custom_fields_element->get( 'custom_fields' );
-		$acf_field_type = isset( $attrs['element_advanced_custom_field_type'] ) ? sanitize_text_field( $attrs['element_advanced_custom_field_type'] ) : 'text';
+		$acf_field_type = isset( $attrs['element_advanced_custom_field_type'] ) ? sanitize_text_field( (string) $attrs['element_advanced_custom_field_type'] ) : 'text';
 
 		// Add new body class when user set advanced custom field image class.
 		$class_name .= sprintf( ' advanced_custom_field__%1$s', $acf_field_type );
 
-		if ( ! $acf_fields->has_field( $post_id, $acf_field_key ) ) {
+		if ( ! $acf_fields instanceof Collection_Interface || ! $acf_fields->has_field( $post_id, $acf_field_key ) ) {
 			return '';
 		}
 
 		$acf_field_value = $acf_fields->get_field_value( $post_id, $acf_field_key );
-		if ( empty( $acf_field_value ) ) {
+		$acf_field_text  = is_scalar( $acf_field_value ) ? (string) $acf_field_value : '';
+		if ( '' === $acf_field_text || '0' === $acf_field_text ) {
 			return '';
 		}
 
@@ -3098,8 +3126,8 @@ class Post_Grid extends Module {
 		$acf_before_text = '';
 		$acf_after_text  = '';
 		if ( 'text' === $acf_field_type ) {
-			$acf_before_text = isset( $attrs['element_advanced_custom_field_before'] ) ? sanitize_text_field( $attrs['element_advanced_custom_field_before'] ) : '';
-			$acf_after_text  = isset( $attrs['element_advanced_custom_field_after'] ) ? sanitize_text_field( $attrs['element_advanced_custom_field_after'] ) : '';
+			$acf_before_text = isset( $attrs['element_advanced_custom_field_before'] ) ? sanitize_text_field( (string) $attrs['element_advanced_custom_field_before'] ) : '';
+			$acf_after_text  = isset( $attrs['element_advanced_custom_field_after'] ) ? sanitize_text_field( (string) $attrs['element_advanced_custom_field_after'] ) : '';
 		}
 
 		return sprintf(
@@ -3163,7 +3191,7 @@ class Post_Grid extends Module {
 			$icon_classes[] = 'always_show';
 		}
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'custom_props'   => $attrs,
 				'content'        => '{{element_title_icon}}',
@@ -3178,13 +3206,15 @@ class Post_Grid extends Module {
 	/**
 	 * Generate styles.
 	 *
-	 * @param array<string, string> $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return void
 	 */
 	protected function squad_generate_all_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
-		$this->props = array_merge( $attrs, $this->props );
+		// Union (not array_merge) preserves string-keyed prop names so the
+		// $props array<string, mixed> type holds; existing props win over $attrs.
+		$this->props = $this->props + $attrs;
 
 		// Post columns default, responsive.
 		$this->squad_utils->field_css_generations->generate_additional_styles(
@@ -3224,7 +3254,7 @@ class Post_Grid extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_post_wrapper_background_color_gradient' => 'post_wrapper_background_use_color_gradient',
-					'post_wrapper_background' => 'post_wrapper_background_color',
+					'post_wrapper_background'                    => 'post_wrapper_background_color',
 				),
 			)
 		);
@@ -3242,7 +3272,7 @@ class Post_Grid extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_wrapper_background_color_gradient' => 'element_wrapper_background_use_color_gradient',
-					'element_wrapper_background' => 'element_wrapper_background_color',
+					'element_wrapper_background'                    => 'element_wrapper_background_color',
 				),
 			)
 		);
@@ -3259,7 +3289,7 @@ class Post_Grid extends Module {
 				'use_background_mask'    => false,
 				'prop_name_aliases'      => array(
 					'use_element_background_color_gradient' => 'element_background_use_color_gradient',
-					'element_background' => 'element_background_color',
+					'element_background'                    => 'element_background_color',
 				),
 			)
 		);
@@ -3348,13 +3378,15 @@ class Post_Grid extends Module {
 	/**
 	 * Generate styles.
 	 *
-	 * @param array<string, string> $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return void
 	 */
 	protected function squad_generate_layout_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
-		$this->props = array_merge( $attrs, $this->props );
+		// Union (not array_merge) preserves string-keyed prop names so the
+		// $props array<string, mixed> type holds; existing props win over $attrs.
+		$this->props = $this->props + $attrs;
 
 		if ( 'on' === $this->prop( 'load_more__enable', 'off' ) ) {
 			// button background with default, responsive, hover.
@@ -3372,7 +3404,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_button_background_color_gradient' => 'button_background_use_color_gradient',
-						'button_background' => 'button_background_color',
+						'button_background'                    => 'button_background_color',
 					),
 				)
 			);
@@ -3628,7 +3660,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_pagination_wrapper_background_color_gradient' => 'pagination_wrapper_background_use_color_gradient',
-						'pagination_wrapper_background' => 'pagination_wrapper_background_color',
+						'pagination_wrapper_background'                    => 'pagination_wrapper_background_color',
 					),
 				)
 			);
@@ -3646,7 +3678,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_pagination_background_color_gradient' => 'pagination_background_use_color_gradient',
-						'pagination_background' => 'pagination_background_color',
+						'pagination_background'                    => 'pagination_background_color',
 					),
 				)
 			);
@@ -3664,7 +3696,7 @@ class Post_Grid extends Module {
 					'use_background_mask'    => false,
 					'prop_name_aliases'      => array(
 						'use_active_pagination_background_color_gradient' => 'active_pagination_background_use_color_gradient',
-						'active_pagination_background' => 'active_pagination_background_color',
+						'active_pagination_background'                    => 'active_pagination_background_color',
 					),
 				)
 			);

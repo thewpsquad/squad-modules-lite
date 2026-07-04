@@ -418,12 +418,11 @@ class Modules {
 	/**
 	 * Load modules for Divi 4 or Divi 5
 	 *
-	 * @deprecated 3.3.0
-	 *
 	 * @param string        $path            Modules directory path.
 	 * @param string|object $dependency_tree DependencyTree instance.
 	 *
 	 * @return void
+	 * @deprecated 3.3.0
 	 */
 	public function load_modules( string $path, $dependency_tree = '' ): void { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
 		_deprecated_function( __METHOD__, '3.3.0', 'divi_squad()->modules->load_divi4_modules() or divi_squad()->modules->load_divi5_modules()' );

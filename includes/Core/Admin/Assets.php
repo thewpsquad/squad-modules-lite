@@ -367,7 +367,7 @@ class Assets implements Hookable {
 			return str_repeat( '•', $length );
 		}
 
-		return str_repeat( '•', $length - 4 ) . substr( $key, -4 );
+		return str_repeat( '•', $length - 4 ) . substr( $key, - 4 );
 	}
 
 	/**
@@ -619,7 +619,7 @@ class Assets implements Hookable {
 	private function get_versions(): array {
 		try {
 			$versions = array(
-				'plugin' => divi_squad()->get_version(),
+				'plugin' => divi_squad()->get_version_dot(),
 				'divi'   => DiviUtil::get_builder_version(),
 			);
 

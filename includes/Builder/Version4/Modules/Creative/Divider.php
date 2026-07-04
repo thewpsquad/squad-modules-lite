@@ -194,7 +194,7 @@ class Divider extends Module {
 	 * Declare general fields for the module
 	 *
 	 * @since 1.0.0
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_fields(): array {
 		$divider_default_fields     = array(
@@ -1133,6 +1133,8 @@ class Divider extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
 	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
@@ -1160,12 +1162,12 @@ class Divider extends Module {
 	/**
 	 * Filter multi view value.
 	 *
-	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
-	 *
-	 * @param mixed $raw_value Props raw value.
-	 * @param array $args      Context data.
+	 * @param mixed                $raw_value Props raw value.
+	 * @param array<string, mixed> $args      Context data.
 	 *
 	 * @return mixed
+	 * @see   ET_Builder_Module_Helper_MultiViewOptions::filter_value
+	 *
 	 */
 	public function multi_view_filter_value( $raw_value, array $args ) {
 		$name = $args['name'] ?? '';
@@ -1183,9 +1185,9 @@ class Divider extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, mixed> $attrs       List of attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
@@ -1233,7 +1235,7 @@ class Divider extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, mixed> $attrs List of attributes.
 	 */
 	protected function squad_generate_additional_styles( array $attrs ): void {
 		// Fixed: a custom background doesn't work at frontend.
@@ -1284,7 +1286,7 @@ class Divider extends Module {
 	/**
 	 * Render divider.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, mixed> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
@@ -1479,7 +1481,7 @@ class Divider extends Module {
 			)
 		);
 
-		$no_of_line = 'on' === $this->prop( 'multiple_divider', 'off' ) ? absint( $this->prop( 'multiple_divider_no', '2' ) ) : 1;
+		$no_of_line = 'on' === $this->prop( 'multiple_divider', 'off' ) ? max( 1, absint( $this->prop( 'multiple_divider_no', '2' ) ) ) : 1;
 		$hr_tags    = array_fill( 0, $no_of_line, '<hr/>' );
 
 		return sprintf(
@@ -1507,7 +1509,7 @@ class Divider extends Module {
 				array(
 					'base_attr_name' => 'divider_image_icon_background_color',
 					'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element",
-					'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element",
+					'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element",
 					'css_property'   => 'background-color',
 					'render_slug'    => $this->slug,
 					'type'           => 'color',
@@ -1583,7 +1585,7 @@ class Divider extends Module {
 			array(
 				'base_attr_name' => 'divider_icon_color',
 				'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element .et-pb-icon",
-				'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element .et-pb-icon",
+				'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element .et-pb-icon",
 				'css_property'   => 'color',
 				'render_slug'    => $this->slug,
 				'type'           => 'color',
@@ -1594,7 +1596,7 @@ class Divider extends Module {
 			array(
 				'base_attr_name' => 'divider_icon_size',
 				'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element .et-pb-icon",
-				'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element .et-pb-icon",
+				'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element .et-pb-icon",
 				'css_property'   => 'font-size',
 				'render_slug'    => $this->slug,
 				'type'           => 'range',
@@ -1605,7 +1607,7 @@ class Divider extends Module {
 			array(
 				'base_attr_name' => 'divider_icon_size',
 				'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element",
-				'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element",
+				'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element",
 				'css_property'   => 'font-size',
 				'render_slug'    => $this->slug,
 				'type'           => 'range',
@@ -1613,7 +1615,7 @@ class Divider extends Module {
 			)
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'content'        => '{{divider_icon}}',
 				'attrs'          => array( 'class' => 'et-pb-icon divider-icon' ),
@@ -1659,7 +1661,7 @@ class Divider extends Module {
 			array(
 				'base_attr_name' => 'divider_image_width',
 				'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element img",
-				'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element img",
+				'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element img",
 				'css_property'   => 'width',
 				'render_slug'    => $this->slug,
 				'type'           => 'range',
@@ -1670,7 +1672,7 @@ class Divider extends Module {
 			array(
 				'base_attr_name' => 'divider_image_height',
 				'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element img",
-				'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element img",
+				'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element img",
 				'css_property'   => 'height',
 				'render_slug'    => $this->slug,
 				'type'           => 'range',
@@ -1681,7 +1683,7 @@ class Divider extends Module {
 			array(
 				'base_attr_name' => 'divider_image_width',
 				'selector'       => "$this->main_css_element div .divider-elements .divider-icon-wrapper .icon-element",
-				'hover_selector' => "$this->main_css_element div .divider-elements:hover divider-icon-wrapper .icon-element",
+				'hover_selector' => "$this->main_css_element div .divider-elements:hover .divider-icon-wrapper .icon-element",
 				'css_property'   => 'width',
 				'render_slug'    => $this->slug,
 				'type'           => 'range',
@@ -1689,7 +1691,7 @@ class Divider extends Module {
 			)
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'tag'            => 'img',
 				'attrs'          => array(
@@ -1725,7 +1727,7 @@ class Divider extends Module {
 			)
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'content' => '{{divider_icon_text}}',
 				'attrs'   => array(
@@ -1814,7 +1816,7 @@ class Divider extends Module {
 			'lottie_renderer'        => $this->prop( 'divider_icon_lottie_renderer', 'svg' ),
 		);
 
-		return $multi_view->render_element(
+		return (string) $multi_view->render_element(
 			array(
 				'tag'            => 'span',
 				'attrs'          => array(

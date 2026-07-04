@@ -38,9 +38,9 @@ trait Registration {
 	/**
 	 * Register a script with WordPress
 	 *
-	 * @param string                                                                                                                          $handle Script identifier.
-	 * @param array<string, mixed> $config Asset configuration.
-	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null}                                                                        $args   Additional arguments.
+	 * @param string                                                   $handle Script identifier.
+	 * @param array<string, mixed>                                     $config Asset configuration.
+	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null} $args   Additional arguments.
 	 */
 	protected function register_wp_script( string $handle, array $config, array $args = array() ): bool {
 		try {
@@ -222,9 +222,9 @@ trait Registration {
 	/**
 	 * Register a stylesheet with WordPress
 	 *
-	 * @param string                                                                                                                          $handle Style identifier.
+	 * @param string               $handle Style identifier.
 	 * @param array<string, mixed> $config Asset configuration.
-	 * @param string                                                                                                                          $media  Media type.
+	 * @param string               $media  Media type.
 	 */
 	protected function register_wp_style( string $handle, array $config, string $media = 'all' ): bool {
 		try {

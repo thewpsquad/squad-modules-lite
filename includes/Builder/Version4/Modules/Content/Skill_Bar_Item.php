@@ -90,9 +90,14 @@ class Skill_Bar_Item extends Child_Module {
 		);
 	}
 
+	/**
+	 * Declare general fields for the module.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
 	public function get_fields(): array {
 		return array(
-			'use_name'        => divi_squad()->d4_module_helper->add_yes_no_field(
+			'use_name'       => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Show Name', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Show the skill name text.', 'squad-modules-for-divi' ),
@@ -102,7 +107,7 @@ class Skill_Bar_Item extends Child_Module {
 					'toggle_slug'      => 'bar_content',
 				)
 			),
-			'name'            => array(
+			'name'           => array(
 				'label'       => esc_html__( 'Name', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'The skill name text.', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -111,7 +116,7 @@ class Skill_Bar_Item extends Child_Module {
 				'tab_slug'    => 'general',
 				'toggle_slug' => 'bar_content',
 			),
-			'level'           => divi_squad()->d4_module_helper->add_range_field(
+			'level'          => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Level', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Fill percentage (0–100). This is the animation target.', 'squad-modules-for-divi' ),
@@ -122,7 +127,7 @@ class Skill_Bar_Item extends Child_Module {
 					'toggle_slug'    => 'bar_content',
 				)
 			),
-			'hide_level'      => divi_squad()->d4_module_helper->add_yes_no_field(
+			'hide_level'     => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Hide Level Text', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Hide the percentage label.', 'squad-modules-for-divi' ),
@@ -131,7 +136,7 @@ class Skill_Bar_Item extends Child_Module {
 					'toggle_slug' => 'bar_content',
 				)
 			),
-			'text_placement'  => divi_squad()->d4_module_helper->add_select_box_field(
+			'text_placement' => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Text Placement', 'squad-modules-for-divi' ),
 				array(
 					'description' => esc_html__( 'Place the name/level text inside or above the bar.', 'squad-modules-for-divi' ),
@@ -144,7 +149,7 @@ class Skill_Bar_Item extends Child_Module {
 					'toggle_slug' => 'bar_content',
 				)
 			),
-			'bar_height'      => divi_squad()->d4_module_helper->add_range_field(
+			'bar_height'     => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Bar Height', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Height of the bar track.', 'squad-modules-for-divi' ),
@@ -155,7 +160,7 @@ class Skill_Bar_Item extends Child_Module {
 					'toggle_slug'    => 'bar_style',
 				)
 			),
-			'bar_radius'      => divi_squad()->d4_module_helper->add_range_field(
+			'bar_radius'     => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Bar Border Radius', 'squad-modules-for-divi' ),
 				array(
 					'description'    => esc_html__( 'Corner radius of the bar track.', 'squad-modules-for-divi' ),
@@ -165,7 +170,7 @@ class Skill_Bar_Item extends Child_Module {
 					'toggle_slug'    => 'bar_style',
 				)
 			),
-			'track_color'     => array(
+			'track_color'    => array(
 				'label'       => esc_html__( 'Track Color', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Background color of the bar track.', 'squad-modules-for-divi' ),
 				'type'        => 'color-alpha',
@@ -173,7 +178,7 @@ class Skill_Bar_Item extends Child_Module {
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'colors',
 			),
-			'track_gradient'  => array(
+			'track_gradient' => array(
 				'label'       => esc_html__( 'Track Gradient', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Optional CSS gradient for the track (overrides Track Color).', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -181,7 +186,7 @@ class Skill_Bar_Item extends Child_Module {
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'colors',
 			),
-			'fill_color'      => array(
+			'fill_color'     => array(
 				'label'       => esc_html__( 'Fill Color', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Background color of the filled portion.', 'squad-modules-for-divi' ),
 				'type'        => 'color-alpha',
@@ -189,7 +194,7 @@ class Skill_Bar_Item extends Child_Module {
 				'tab_slug'    => 'advanced',
 				'toggle_slug' => 'colors',
 			),
-			'fill_gradient'   => array(
+			'fill_gradient'  => array(
 				'label'       => esc_html__( 'Fill Gradient', 'squad-modules-for-divi' ),
 				'description' => esc_html__( 'Optional CSS gradient for the fill (overrides Fill Color).', 'squad-modules-for-divi' ),
 				'type'        => 'text',
@@ -200,6 +205,15 @@ class Skill_Bar_Item extends Child_Module {
 		);
 	}
 
+	/**
+	 * Render module output.
+	 *
+	 * @param array<string, mixed> $attrs       List of unprocessed attributes.
+	 * @param string               $content     Content being processed.
+	 * @param string               $render_slug Slug of module that is used for rendering output.
+	 *
+	 * @return string
+	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		$this->apply_bar_css( $render_slug );
 
@@ -258,34 +272,4 @@ class Skill_Bar_Item extends Child_Module {
 		}
 	}
 
-	/**
-	 * Sanitize a CSS background value (color or gradient).
-	 *
-	 * Strips characters that could break out of the CSS declaration context,
-	 * so a user-supplied gradient/color field cannot inject arbitrary CSS.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Raw value.
-	 *
-	 * @return string Sanitized value (may be empty).
-	 */
-	private static function sanitize_css_background( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		return (string) preg_replace( '/[{};<>\\\\"\']/', '', $value );
-	}
-
-	private static function sanitize_css_length( string $value ): string {
-		$value = trim( $value );
-		if ( '' === $value ) {
-			return '';
-		}
-		if ( preg_match( '/^\d+(\.\d+)?(px|em|rem|%|vh|vw|vmin|vmax|ch|ex|cm|mm|pt|pc)$/', $value ) ) {
-			return $value;
-		}
-		return '';
-	}
 }

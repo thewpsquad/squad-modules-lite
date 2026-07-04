@@ -24,6 +24,7 @@ namespace DiviSquad\Builder\Version4\Modules\Media;
 
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use function apply_filters;
+use function esc_attr;
 use function esc_attr__;
 use function esc_html__;
 use function et_builder_i18n;
@@ -109,7 +110,7 @@ class Image_Mask extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return array[] Array of field definitions for the module.
+	 * @return array<string, array<string, mixed>> Array of field definitions for the module.
 	 */
 	public function get_fields(): array {
 		// Image fields definitions.
@@ -353,8 +354,8 @@ class Image_Mask extends Module {
 		foreach ( array( 2, 3 ) as $layer ) {
 			$current_layer = (string) ( $layer - 1 ); // Adjust layer index for display.
 
-			$decoration_fields[ "layer_{$layer}_enable" ] = divi_squad()->d4_module_helper->add_yes_no_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_enable"]           = divi_squad()->d4_module_helper->add_yes_no_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Enable Decoration Layer %s', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -374,8 +375,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "decoration_element_{$layer}" ] = divi_squad()->d4_module_helper->add_select_box_field(
-				// translators: %s is the layer number.
+			$decoration_fields["decoration_element_{$layer}"]     = divi_squad()->d4_module_helper->add_select_box_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Decoration Element %s', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -392,8 +393,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "layer_{$layer}_above_image" ] = divi_squad()->d4_module_helper->add_yes_no_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_above_image"]      = divi_squad()->d4_module_helper->add_yes_no_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Place Decoration Element %s Above Image', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -405,8 +406,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "layer_{$layer}_background_color" ] = divi_squad()->d4_module_helper->add_color_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_background_color"] = divi_squad()->d4_module_helper->add_color_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Decoration %s Color', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -417,8 +418,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "layer_{$layer}_horz" ] = divi_squad()->d4_module_helper->add_range_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_horz"]             = divi_squad()->d4_module_helper->add_range_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Decoration %s Horizontal Position', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -435,8 +436,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "layer_{$layer}_vert" ] = divi_squad()->d4_module_helper->add_range_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_vert"]             = divi_squad()->d4_module_helper->add_range_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Decoration %s Vertical Position', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -453,8 +454,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "layer_{$layer}_scale" ] = divi_squad()->d4_module_helper->add_range_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_scale"]            = divi_squad()->d4_module_helper->add_range_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Decoration %s Scale', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -471,8 +472,8 @@ class Image_Mask extends Module {
 					'toggle_slug'     => "decoration_{$current_layer}",
 				)
 			);
-			$decoration_fields[ "layer_{$layer}_rotate" ] = divi_squad()->d4_module_helper->add_range_field(
-				// translators: %s is the layer number.
+			$decoration_fields["layer_{$layer}_rotate"]           = divi_squad()->d4_module_helper->add_range_field(
+			// translators: %s is the layer number.
 				sprintf( esc_html__( 'Decoration %s Rotation', 'squad-modules-for-divi' ), $current_layer ),
 				array(
 					// translators: %s is the layer number.
@@ -514,7 +515,7 @@ class Image_Mask extends Module {
 				array(
 					'description'     => esc_html__( 'Adjust the minimum X coordinate of the SVG viewBox.', 'squad-modules-for-divi' ),
 					'range_settings'  => array(
-						'min'  => -1000,
+						'min'  => - 1000,
 						'max'  => 1000,
 						'step' => 1,
 					),
@@ -530,7 +531,7 @@ class Image_Mask extends Module {
 				array(
 					'description'     => esc_html__( 'Adjust the minimum Y coordinate of the SVG viewBox.', 'squad-modules-for-divi' ),
 					'range_settings'  => array(
-						'min'  => -1000,
+						'min'  => - 1000,
 						'max'  => 1000,
 						'step' => 1,
 					),
@@ -666,9 +667,9 @@ class Image_Mask extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<array-key, mixed> $attrs       List of attributes.
+	 * @param string                  $content     Content being processed.
+	 * @param string                  $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string The complete HTML output for the module.
 	 */
@@ -690,10 +691,10 @@ class Image_Mask extends Module {
 		 * @param array      $attrs      List of module attributes.
 		 * @param Image_Mask $module     Current module instance.
 		 */
-		$mask_shape = apply_filters( 'divi_squad_module_image_mask_shape', $mask_shape, $attrs, $this );
+		$mask_shape = (string) apply_filters( 'divi_squad_module_image_mask_shape', $mask_shape, $attrs, $this );
 
 		// Ensure mask shape is properly escaped for SVG output.
-		if ( ! empty( $mask_shape ) ) {
+		if ( '' !== $mask_shape ) {
 			$mask_shape = wp_kses(
 				$mask_shape,
 				array(
@@ -815,24 +816,31 @@ class Image_Mask extends Module {
 		foreach ( array( 2, 3 ) as $layer ) {
 			if ( $this->prop( "layer_{$layer}_enable", 'off' ) === 'on' && $this->prop( "decoration_element_{$layer}", 'none' ) !== 'none' ) {
 				$decoration_class = "s0{$layer}";
-				self::set_style(
-					$render_slug,
-					array(
-						'selector'    => "%%order_class%% .{$decoration_class}",
-						'declaration' => sprintf( 'fill: %s;', $this->prop( "layer_{$layer}_background_color", 2 === $layer ? '#ff0000' : '#00ff00' ) ),
-					)
-				);
+				$fill_color = self::sanitize_css_background( (string) $this->prop( "layer_{$layer}_background_color", 2 === $layer ? '#ff0000' : '#00ff00' ) );
+				if ( '' !== $fill_color ) {
+					self::set_style(
+						$render_slug,
+						array(
+							'selector'    => "%%order_class%% .{$decoration_class}",
+							'declaration' => sprintf( 'fill: %s;', $fill_color ),
+						)
+					);
+				}
+				$horz                 = (float) $this->prop( "layer_{$layer}_horz", 2 === $layer ? '25' : '-15' );
+				$vert                 = (float) $this->prop( "layer_{$layer}_vert", 2 === $layer ? '-25' : '30' );
+				$scale                = (float) $this->prop( "layer_{$layer}_scale", 2 === $layer ? '1' : '0.8' );
+				$rotate               = (float) $this->prop( "layer_{$layer}_rotate", 2 === $layer ? '30' : '45' );
 				$decoration_transform = sprintf(
-					'translate(%s%%, %s%%) scale(%s) rotate(%s)',
-					$this->prop( "layer_{$layer}_horz", 2 === $layer ? '25' : '-15' ),
-					$this->prop( "layer_{$layer}_vert", 2 === $layer ? '-25' : '30' ),
-					$this->prop( "layer_{$layer}_scale", 2 === $layer ? '1' : '0.8' ),
-					$this->prop( "layer_{$layer}_rotate", 2 === $layer ? '30deg' : '45deg' )
+					'translate(%s%%, %s%%) scale(%s) rotate(%sdeg)',
+					$horz,
+					$vert,
+					$scale,
+					$rotate
 				);
 				$decoration_svg       = $this->squad_utils->masking_decorations->get_decoration( $this->prop( "decoration_element_{$layer}", 'none' ), $decoration_class );
 				$decoration_group     = sprintf(
 					'<g transform="%s">%s</g>',
-					$decoration_transform,
+					esc_attr( $decoration_transform ),
 					$decoration_svg
 				);
 				if ( $this->prop( "layer_{$layer}_above_image", 3 === $layer ? 'on' : 'off' ) === 'on' ) {
@@ -896,4 +904,5 @@ class Image_Mask extends Module {
 			$top_layers
 		);
 	}
+
 }

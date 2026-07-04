@@ -20,9 +20,9 @@ class Definitions extends Module_Utility {
 	/**
 	 *  Add button fields.
 	 *
-	 * @param array $options The options for button fields.
+	 * @param array<string, mixed> $options The options for button fields.
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_button_fields( array $options = array() ): array {
 		$defaults = array(
@@ -143,7 +143,7 @@ class Definitions extends Module_Utility {
 				'type'             => 'select_icon',
 				'option_category'  => 'basic_option',
 				'class'            => array( 'et-pb-font-icon' ),
-				'default_on_front' => ! empty( $config['button_icon'] ) ? '&#x4e;||divi||400' : '',
+				'default_on_front' => '' !== $config['button_icon'] ? '&#x4e;||divi||400' : '',
 				'depends_show_if'  => 'icon',
 				'tab_slug'         => 'general',
 				'toggle_slug'      => $config['toggle_slug'],
@@ -214,9 +214,9 @@ class Definitions extends Module_Utility {
 	/**
 	 *  Add button associated fields.
 	 *
-	 * @param array $options The options for button fields.
+	 * @param array<string, mixed> $options The options for button fields.
 	 *
-	 * @return array
+	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_button_associated_fields( array $options = array() ): array {
 		$defaults = array(
@@ -574,9 +574,9 @@ class Definitions extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $properties Properties for the background field.
+	 * @param array<string, mixed> $properties Properties for the background field.
 	 *
-	 * @return array The background field configuration array.
+	 * @return array<string, array<string, mixed>> The background field configuration array.
 	 */
 	public function add_background_field( array $properties = array() ): array {
 		[ $label, $base_name, $context, $tab_slug, $toggle_slug ] = $this->get_background_field_options( $properties );
@@ -626,9 +626,9 @@ class Definitions extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $properties Additional properties for the field.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array Background field options.
+	 * @return array<int, string> Background field options.
 	 */
 	public function get_background_field_options( array $properties = array() ): array {
 		$label       = $properties['label'] ?? '';
@@ -645,10 +645,10 @@ class Definitions extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $properties        Additional properties for the field.
-	 * @param array $background_fields The additional background fields for the current field.
+	 * @param array<string, mixed>                $properties        Additional properties for the field.
+	 * @param array<string, array<string, mixed>> $background_fields The additional background fields for the current field.
 	 *
-	 * @return array Complete background field configuration.
+	 * @return array<string, array<string, mixed>> Complete background field configuration.
 	 */
 	protected function add_background_fields( array $properties = array(), array $background_fields = array() ): array {
 		[ $label, $base_name, $context, $tab_slug, $toggle_slug ] = $this->get_background_field_options( $properties );
@@ -694,9 +694,9 @@ class Definitions extends Module_Utility {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $properties Additional properties for the field.
+	 * @param array<string, mixed> $properties Additional properties for the field.
 	 *
-	 * @return array The background gradient field configuration array.
+	 * @return array<string, array<string, mixed>> The background gradient field configuration array.
 	 */
 	public function add_background_gradient_field( array $properties = array() ): array {
 		[ , $base_name, $context, $tab_slug, $toggle_slug ] = $this->get_background_field_options( $properties );

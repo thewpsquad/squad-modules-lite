@@ -45,14 +45,14 @@ class Post_Grid extends Base_Route {
 	 */
 	public function get_routes(): array {
 		$routes = array(
-			'/module/post-grid/load-more'        => array(
+			'/module/post-grid/load-more'       => array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'load_more_posts' ),
 					'permission_callback' => array( $this, 'check_load_more_permissions' ),
 				),
 			),
-			'/module/post-grid/load-more-divi5'  => array(
+			'/module/post-grid/load-more-divi5' => array(
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'load_more_posts_divi5' ),

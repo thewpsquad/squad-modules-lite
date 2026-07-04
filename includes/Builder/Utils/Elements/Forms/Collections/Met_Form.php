@@ -27,7 +27,7 @@ class Met_Form extends Collection {
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array<string, mixed> An array of MetForm forms data.
+	 * @return array<string, string> An array of MetForm forms data.
 	 */
 	public function get_forms( string $collection ): array {
 		// Check if MetForm is active.
@@ -37,9 +37,9 @@ class Met_Form extends Collection {
 
 		$forms = get_posts(
 			array(
-				'post_type'      => 'metform-form',
-				'post_status'    => 'publish',
-				'numberposts'    => -1,
+				'post_type'        => 'metform-form',
+				'post_status'      => 'publish',
+				'numberposts'      => - 1,
 				'suppress_filters' => false,
 			)
 		);
@@ -54,22 +54,22 @@ class Met_Form extends Collection {
 	/**
 	 * Get the ID of a MetForm form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form post object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return (int) $form->ID;
+		return is_object( $form ) && isset( $form->ID ) ? (int) $form->ID : 0;
 	}
 
 	/**
 	 * Get the title of a MetForm form.
 	 *
-	 * @param object $form The form object.
+	 * @param mixed $form The form post object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return (string) $form->post_title;
+		return is_object( $form ) && isset( $form->post_title ) ? (string) $form->post_title : '';
 	}
 }

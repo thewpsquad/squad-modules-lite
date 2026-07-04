@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Status checker class.
  *
@@ -82,6 +81,7 @@ class Status_Checker {
 	 * @since  3.2.0
 	 * @access public
 	 *
+	 * @throws \RuntimeException When a requirement check fails (caught internally).
 	 * @return bool True if all requirements are met, false otherwise.
 	 */
 	public function is_fulfilled(): bool {
@@ -287,10 +287,10 @@ class Status_Checker {
 		switch ( $last ) {
 			case 'g':
 				$value *= 1024;
-			// Fall through intended.
+				// Fall through intended.
 			case 'm':
 				$value *= 1024;
-			// Fall through intended.
+				// Fall through intended.
 			case 'k':
 				$value *= 1024;
 		}
