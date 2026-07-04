@@ -2,11 +2,21 @@
 /**
  * Template file to the plugin copy post or cpt.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.3
  *
- * @var array $args Arguments passed to the template.
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
+ * @var array<string, mixed> $args {
+ *     Arguments passed to the template.
+ *
+ *     @type bool  $site_is_multi  Whether the site is a multisite.
+ *     @type int   $current_site   The current site's ID.
+ *     @type array $blog_sites {
+ *          An associative array of blog site IDs and names. Each element represents a blog site with:
+ *         @type int    $id   The blog site ID.
+ *         @type string $name The blog site name.
+ *     }
+ * }
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +29,7 @@ if ( 0 === count( $args ) ) {
 
 ?>
 
-<div class="ext-copy-content" id="squad_ext_copy_content" style="display: none;">
+<div class="squad-ext-copy-content" id="squad_ext_copy_content" style="display: none;">
 	<fieldset class="options-container">
 		<legend class="container-label" ><?php echo esc_html__( 'Copy Options', 'squad-modules-for-divi' ); ?></legend>
 		<div class="fieldset-container">
@@ -39,7 +49,6 @@ if ( 0 === count( $args ) ) {
 						</option>
 
 						<?php if ( isset( $args['blog_sites'] ) && function_exists( 'is_multisite' ) && is_multisite() ) : ?>
-
 							<?php foreach ( $args['blog_sites'] as $divi_squad_blog_site  => $divi_squad_blog_site_name ) : ?>
 								<?php if ( absint( $divi_squad_blog_site ) !== $args['current_site'] ) : ?>
 
@@ -63,7 +72,7 @@ if ( 0 === count( $args ) ) {
 	</button>
 </div>
 
-<div class="ext-copy-loader-overlay" style="opacity: 0">
+<div class="squad-ext-copy-loader-overlay" id="squad_ext_copy_loader_overlay" style="opacity: 0">
 	<div class="ext-copy-text-overlay">
 		<h1 class="overlay-title-text">
 			<?php echo esc_html__( 'Please wait, copying in progress...', 'squad-modules-for-divi' ); ?>

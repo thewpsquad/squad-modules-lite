@@ -1,5 +1,4 @@
 <?php // phpcs:ignore WordPress.Files.FileName
-
 /**
  * The Post Duplicator extension class for Divi Squad.
  *
@@ -10,9 +9,8 @@
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Base\Extension;
-use DiviSquad\Utils\Asset;
-use DiviSquad\Utils\WP;
+use DiviSquad\Core\Assets;
+use DiviSquad\Utils\Helper;
 use WP_Post;
 use WP_User;
 use function add_action;
@@ -22,7 +20,6 @@ use function esc_attr;
 use function esc_attr__;
 use function esc_html__;
 use function get_current_blog_id;
-use function get_current_screen;
 use function get_object_taxonomies;
 use function get_post;
 use function is_multisite;
@@ -66,10 +63,11 @@ class Copy extends Extension {
 		do_action( 'divi_squad_ext_copy_before_loaded', $this );
 
 		// Add CSS body class name for the available post or page.
-		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
+		add_filter( 'divi_squad_body_classes', array( $this, 'admin_body_class' ) );
 
-		// Enqueuing scripts.
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		// Register and enqueue admin assets.
+		add_action( 'divi_squad_register_admin_assets', array( $this, 'register' ) );
+		add_action( 'divi_squad_enqueue_admin_assets', array( $this, 'enqueue' ) );
 
 		// Load the template at footer.
 		add_action( 'admin_footer', array( $this, 'admin_footer_template' ) );
@@ -105,48 +103,131 @@ class Copy extends Extension {
 	/**
 	 * Add CSS body class name for the available post or page.
 	 *
-	 * @param string $classes An array of body class names.
+	 * @param array<string> $classes An array of body class names.
 	 *
-	 * @return string
+	 * @return array<string>
 	 */
-	public function admin_body_class( string $classes ): string {
+	public function admin_body_class( array $classes ): array {
 		if ( ! $this->is_allowed_admin_screen() ) {
 			return $classes;
 		}
 
 		// Update body classes.
-		$classes .= ' divi-squad-ext-copy-this';
+		$classes[] = 'ext-copy-this';
 
 		return $classes;
 	}
 
 	/**
-	 * Enqueuing scripts for all admin pages.
+	 * Register the extension assets.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param Assets $assets The assets manager.
 	 *
 	 * @return void
 	 */
-	public function admin_enqueue_scripts(): void {
-		if ( ! $this->is_allowed_admin_screen() ) {
+	public function register( Assets $assets ): void {
+		if ( ! $this->is_allowed_admin_screen() || ! current_user_can( 'edit_posts' ) ) {
 			return;
 		}
 
-		if ( current_user_can( 'edit_posts' ) ) {
-			Asset::register_script( 'vendor-tooltipster', Asset::vendor_asset_path( 'tooltipster.bundle' ) );
-			Asset::register_style( 'vendor-tooltipster', Asset::vendor_asset_path( 'tooltipster.bundle', array( 'ext' => 'css' ) ) );
-			Asset::register_script( 'vendor-toast', Asset::vendor_asset_path( 'jquery.toast' ), array( 'jquery' ) );
-			Asset::register_style( 'vendor-toast', Asset::vendor_asset_path( 'jquery.toast', array( 'ext' => 'css' ) ) );
+		// Register vendor assets.
+		$assets->register_script(
+			'vendor-tooltipster',
+			array(
+				'file' => 'tooltipster.bundle',
+				'path' => 'vendor',
+				'deps' => array( 'jquery' ),
+			)
+		);
+		$assets->register_style(
+			'vendor-tooltipster',
+			array(
+				'file' => 'tooltipster.bundle',
+				'path' => 'vendor',
+				'ext'  => 'css',
+			)
+		);
+		$assets->register_script(
+			'vendor-toast',
+			array(
+				'file' => 'jquery.toast',
+				'path' => 'vendor',
+				'deps' => array( 'jquery' ),
+			)
+		);
+		$assets->register_style(
+			'vendor-toast',
+			array(
+				'file' => 'jquery.toast',
+				'path' => 'vendor',
+				'ext'  => 'css',
+			)
+		);
 
-			Asset::enqueue_script( 'ext-copy', Asset::extension_asset_path( 'copy' ), array( 'lodash', 'jquery', 'wp-api-fetch', 'squad-vendor-tooltipster', 'squad-vendor-toast' ) );
-			Asset::enqueue_style( 'ext-copy', Asset::extension_asset_path( 'copy', array( 'ext' => 'css' ) ), array( 'squad-vendor-tooltipster', 'squad-vendor-toast' ) );
-			Asset::enqueue_script( 'ext-copy-bulk', Asset::extension_asset_path( 'copy-bulk' ), array( 'lodash', 'jquery', 'wp-api-fetch', 'squad-vendor-toast' ) );
-			Asset::enqueue_style( 'ext-copy-bulk', Asset::extension_asset_path( 'copy-bulk', array( 'ext' => 'css' ) ), array( 'squad-vendor-toast' ) );
+		// Register extension assets.
+		$assets->register_script(
+			'ext-copy-any-post-types',
+			array(
+				'file' => 'copy-any-post-types',
+				'path' => 'extensions',
+				'deps' => array( 'lodash', 'jquery', 'wp-api-fetch', 'squad-vendor-tooltipster', 'squad-vendor-toast' ),
+			)
+		);
+		$assets->register_style(
+			'ext-copy-any-post-types',
+			array(
+				'file' => 'copy-any-post-types',
+				'path' => 'extensions',
+				'ext'  => 'css',
+				'deps' => array( 'squad-vendor-tooltipster', 'squad-vendor-toast' ),
+			)
+		);
+		$assets->register_script(
+			'ext-copy-any-post-types-bulk',
+			array(
+				'file' => 'copy-any-post-types-bulk',
+				'path' => 'extensions',
+				'deps' => array( 'lodash', 'jquery', 'wp-api-fetch', 'squad-vendor-toast' ),
+			)
+		);
+		$assets->register_style(
+			'ext-copy-any-post-types-bulk',
+			array(
+				'file' => 'copy-any-post-types-bulk',
+				'path' => 'extensions',
+				'ext'  => 'css',
+				'deps' => array( 'squad-vendor-toast' ),
+			)
+		);
+	}
 
-			// Load localize data.
-			add_filter( 'divi_squad_assets_backend_extra_data', array( $this, 'wp_localize_script_data' ) );
-
-			// Load script translations.
-			WP::set_script_translations( 'squad-ext-copy', divi_squad()->get_name() );
+	/**
+	 * Enqueue the extension assets.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @param Assets $assets The assets manager.
+	 *
+	 * @return void
+	 */
+	public function enqueue( Assets $assets ): void {
+		if ( ! $this->is_allowed_admin_screen() || ! current_user_can( 'edit_posts' ) ) {
+			return;
 		}
+
+		// Enqueue vendor assets.
+		$assets->enqueue_script( 'vendor-tooltipster' );
+		$assets->enqueue_style( 'vendor-tooltipster' );
+		$assets->enqueue_script( 'vendor-toast' );
+		$assets->enqueue_style( 'vendor-toast' );
+
+		// Enqueue extension assets.
+		$assets->enqueue_script( 'ext-copy-any-post-types' );
+		$assets->enqueue_style( 'ext-copy-any-post-types' );
+		$assets->enqueue_script( 'ext-copy-any-post-types-bulk' );
+		$assets->enqueue_style( 'ext-copy-any-post-types-bulk' );
 	}
 
 	/**
@@ -175,7 +256,7 @@ class Copy extends Extension {
 
 		// The template path.
 		$template_path = sprintf( '%1$s/extensions/copy.php', divi_squad()->get_template_path() );
-		if ( current_user_can( 'edit_posts' ) && file_exists( $template_path ) ) {
+		if ( current_user_can( 'edit_posts' ) && divi_squad()->get_wp_fs()->exists( $template_path ) ) {
 			load_template( $template_path, true, $template_args );
 		}
 	}
@@ -186,9 +267,6 @@ class Copy extends Extension {
 	 * @return bool
 	 */
 	public function is_allowed_admin_screen(): bool {
-		// Get the current screen.
-		$screen = get_current_screen();
-
 		/**
 		 * Filters the allowed screen for the extension.
 		 *
@@ -200,43 +278,16 @@ class Copy extends Extension {
 		 */
 		$allowed_screen = \apply_filters( 'divi_squad_ext_copy_allowed_screen', array( 'post', 'edit-post', 'page', 'edit-page' ) );
 
-		return $screen instanceof \WP_Screen && in_array( $screen->id, $allowed_screen, true );
-	}
-
-	/**
-	 * Set localize data for admin area.
-	 *
-	 * @param array $exists_data Exists extra data.
-	 *
-	 * @return array
-	 */
-	public function wp_localize_script_data( array $exists_data ): array {
-		$screen = get_current_screen();
-		// Check if the current screen is not a WP_Screen object.
-		if ( ! $screen instanceof \WP_Screen ) {
-			return $exists_data;
-		}
-
-		// Localize data.
-		$admin_localize = array(
-			'l10n' => array(
-				'copy'             => esc_html__( 'Copy', 'squad-modules-for-divi' ),
-				'copy_toast_title' => esc_html__( 'Squad Copy Extension', 'squad-modules-for-divi' ),
-				'copy_empty_post'  => esc_html__( 'Kindly choose a minimum of one row for copying.', 'squad-modules-for-divi' ),
-				'unknown_er'       => esc_html__( 'Something went wrong!', 'squad-modules-for-divi' ),
-			),
-		);
-
-		return array_merge( $exists_data, $admin_localize );
+		return Helper::is_screen_allowed( $allowed_screen );
 	}
 
 	/**
 	 * Add the duplicate link to post, page, and custom actions
 	 *
-	 * @param string[] $actions An array of row action links. Defaults are 'Edit', 'Quick Edit', 'Restore', 'Trash', 'Delete Permanently', 'Preview', and 'View'.
-	 * @param WP_Post  $post    The post-object.
+	 * @param array<string, string> $actions An array of row action links. Defaults are 'Edit', 'Quick Edit', 'Restore', 'Trash', 'Delete Permanently', 'Preview', and 'View'.
+	 * @param WP_Post               $post    The post-object.
 	 *
-	 * @return string[] An array of row action links.
+	 * @return array<string, string> An array of row action links.
 	 */
 	public function row_actions( array $actions, WP_Post $post ): array {
 		if ( 'trash' !== $post->post_status && current_user_can( 'edit_posts' ) ) {
@@ -254,9 +305,9 @@ class Copy extends Extension {
 	/**
 	 * Add duplicate action in the bulk actions menu of the list table.
 	 *
-	 * @param array $actions An array of the available bulk actions.
+	 * @param array<string, string> $actions An array of the available bulk actions.
 	 *
-	 * @return string[] An array of bulk actions.
+	 * @return array<string, string> An array of bulk actions.
 	 */
 	public function bulk_actions( array $actions ): array {
 		if ( current_user_can( 'edit_posts' ) ) {
@@ -307,12 +358,12 @@ class Copy extends Extension {
 	/**
 	 * Duplicate the post.
 	 *
-	 * @param array $options The post duplication options.
+	 * @param array<string, mixed> $options The post duplication options.
 	 *
 	 * @return void
 	 * @throws \RuntimeException When the post duplication failed.
 	 */
-	public static function duplicate_the_post( array $options ) {
+	public static function duplicate_the_post( array $options ): void {
 		// Get access to the database.
 		global $wpdb, $current_user, $blog_id;
 
@@ -322,7 +373,7 @@ class Copy extends Extension {
 		$site_id    = isset( $options['site_id'] ) ? absint( sanitize_text_field( $options['site_id'] ) ) : 1;
 
 		// Check the requested post ids is empty or not.
-		if ( empty( $post_ids ) ) {
+		if ( count( $post_ids ) === 0 ) {
 			throw new \RuntimeException( esc_html__( 'Kindly choose a minimum of one row for copying.', 'squad-modules-for-divi' ) );
 		}
 
@@ -336,104 +387,109 @@ class Copy extends Extension {
 			throw new \RuntimeException( esc_html__( 'You do not have permission to access this endpoint.', 'squad-modules-for-divi' ) );
 		}
 
-		if ( 0 !== count( $post_ids ) ) {
-			$is_copy_done = false;
+		$is_copy_done = false;
 
-			/**
-			 * Loop through all the selected posts and duplicate them.
-			 *
-			 * @param int $post_id The post ID.
-			 * @param int $interval The post duplication interval.
-			 */
-			foreach ( $post_ids as $post_id ) {
-				$post = sanitize_post( get_post( absint( $post_id ) ), 'db' );
-				if ( $post instanceof WP_Post ) {
+		/**
+		 * Loop through all the selected posts and duplicate them.
+		 *
+		 * @param array<int> $post_ids The post IDs.
+		 * @param int        $post_id  The post ID.
+		 * @param int        $interval The post duplication interval.
+		 */
+		foreach ( $post_ids as $post_id ) {
+			$post_object = get_post( absint( $post_id ) );
+			if ( ! $post_object instanceof WP_Post ) {
+				continue;
+			}
 
-					// Switch to target blog site when multisite available.
-					if ( $site_id !== $blog_id && is_multisite() ) {
-						switch_to_blog( $site_id );
-					}
+			$post = sanitize_post( $post_object, 'db' );
+			if ( $post instanceof WP_Post ) {
 
-					for ( $interval = 1; $interval <= $post_count; $interval++ ) {
-						$args = array(
-							'post_status'    => 'draft',
-							'comment_status' => $post->comment_status,
-							'ping_status'    => $post->ping_status,
-							'post_author'    => $current_user->ID,
-							'post_content'   => $post->post_content,
-							'post_excerpt'   => $post->post_excerpt,
-							'post_name'      => $post->post_name,
-							'post_parent'    => $post->post_parent,
-							'post_password'  => $post->post_password,
-							'post_title'     => 1 === $post_count ? $post->post_title : "$post->post_title #$interval",
-							'post_type'      => $post->post_type,
-							'to_ping'        => $post->to_ping,
-							'menu_order'     => $post->menu_order,
-						);
+				// Switch to target blog site when multisite available.
+				if ( $site_id !== $blog_id && is_multisite() ) {
+					switch_to_blog( $site_id );
+				}
 
-						$new_post_id = wp_insert_post( $args );
+				for ( $interval = 1; $interval <= $post_count; $interval++ ) {
+					$args = array(
+						'post_status'    => 'draft',
+						'comment_status' => $post->comment_status,
+						'ping_status'    => $post->ping_status,
+						'post_author'    => $current_user->ID,
+						'post_content'   => $post->post_content,
+						'post_excerpt'   => $post->post_excerpt,
+						'post_name'      => $post->post_name,
+						'post_parent'    => $post->post_parent,
+						'post_password'  => $post->post_password,
+						'post_title'     => 1 === $post_count ? $post->post_title : "$post->post_title #$interval",
+						'post_type'      => $post->post_type,
+						'to_ping'        => $post->to_ping,
+						'menu_order'     => $post->menu_order,
+					);
 
-						// get all current post-terms ad set them to the new post-draft.
-						$taxonomies = get_object_taxonomies( $post->post_type );
-						foreach ( $taxonomies as $taxonomy ) {
-							$post_terms = wp_get_object_terms( array( absint( $post_id ) ), $taxonomy, array( 'fields' => 'slugs' ) );
+					$new_post_id = wp_insert_post( $args );
 
-							// set the post terms.
-							wp_set_object_terms( $new_post_id, $post_terms, $taxonomy );
+					// get all current post-terms ad set them to the new post-draft.
+					$taxonomies = get_object_taxonomies( $post->post_type );
+					foreach ( $taxonomies as $taxonomy ) {
+						$post_terms = wp_get_object_terms( array( absint( $post_id ) ), $taxonomy, array( 'fields' => 'slugs' ) );
+						if ( is_wp_error( $post_terms ) ) {
+							continue;
 						}
 
-						// Duplicate all post meta just in two SQL queries.
-						$meta_data = get_post_meta( absint( $post_id ) );
-						if ( 0 !== count( $meta_data ) ) {
-							$query  = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) VALUES ";
-							$values = array();
+						// set the post terms.
+						wp_set_object_terms( $new_post_id, $post_terms, $taxonomy );
+					}
 
-							foreach ( $meta_data as $meta_key => $meta_value ) {
-								// Do not duplicate the following post meta.
-								$excluded_defaults = array( '_wp_old_slug', '_wp_old_date', '_edit_lock', '_edit_last', '_wp_trash_meta_status', '_wp_trash_meta_time', 'fakerpress_flag' );
+					// Duplicate all post meta just in two SQL queries.
+					$meta_data = get_post_meta( absint( $post_id ) );
+					if ( 0 !== count( $meta_data ) ) {
+						$query  = "INSERT INTO $wpdb->postmeta (post_id, meta_key, meta_value) VALUES ";
+						$values = array();
 
-								/**
-								 * Filters the excluded meta keys for post duplication.
-								 *
-								 * @since 3.0.0
-								 *
-								 * @param string[] $excluded_meta_keys The excluded meta keys.
-								 *
-								 * @return string[]
-								 */
-								$excluded_meta_keys = apply_filters( 'divi_squad_ext_copy_excluded_meta_keys', $excluded_defaults );
-								if ( in_array( $meta_key, $excluded_meta_keys, true ) ) {
-									continue;
-								}
+						foreach ( $meta_data as $meta_key => $meta_value ) {
+							// Do not duplicate the following post meta.
+							$excluded_defaults = array( '_wp_old_slug', '_wp_old_date', '_edit_lock', '_edit_last', '_wp_trash_meta_status', '_wp_trash_meta_time', 'fakerpress_flag' );
 
-								$values[] = $wpdb->prepare( '(%d, %s, %s)', $new_post_id, $meta_key, $meta_value[0] );
+							/**
+							 * Filters the excluded meta keys for post duplication.
+							 *
+							 * @since 3.0.0
+							 *
+							 * @param string[] $excluded_meta_keys The excluded meta keys.
+							 *
+							 * @return string[]
+							 */
+							$excluded_meta_keys = apply_filters( 'divi_squad_ext_copy_excluded_meta_keys', $excluded_defaults );
+							if ( in_array( $meta_key, $excluded_meta_keys, true ) ) {
+								continue;
 							}
 
-							// Join all values.
-							$query .= implode( ', ', $values );
-
-							// Insert the post meta.
-							$wpdb->query( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+							$values[] = $wpdb->prepare( '(%d, %s, %s)', $new_post_id, $meta_key, $meta_value[0] );
 						}
-					}
 
-					// Rollback to current blog site when multisite available.
-					if ( $site_id !== $blog_id && is_multisite() ) {
-						switch_to_blog( absint( $blog_id ) );
-					}
+						// Join all values.
+						$query .= implode( ', ', $values );
 
-					$is_copy_done = true;
-				} else {
-					$is_copy_done = false;
-					break;
+						// Insert the post meta.
+						$wpdb->query( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared
+					}
 				}
-			}
 
-			if ( ! $is_copy_done ) {
-				throw new \RuntimeException( esc_html__( 'Post(s) duplication failed.', 'squad-modules-for-divi' ) );
+				// Rollback to current blog site when multisite available.
+				if ( $site_id !== $blog_id && is_multisite() ) {
+					switch_to_blog( absint( $blog_id ) );
+				}
+
+				$is_copy_done = true;
+			} else {
+				$is_copy_done = false;
+				break;
 			}
-		} else {
-			throw new \RuntimeException( esc_html__( 'Kindly choose a minimum of one post for copying.', 'squad-modules-for-divi' ) );
+		}
+
+		if ( ! $is_copy_done ) {
+			throw new \RuntimeException( esc_html__( 'Post(s) duplication failed.', 'squad-modules-for-divi' ) );
 		}
 	}
 }

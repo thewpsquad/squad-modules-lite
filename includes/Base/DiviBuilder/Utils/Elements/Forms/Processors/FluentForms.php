@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Fluent Forms Processor
+ * Fluent Forms Collection
  *
  * Handles the retrieval and processing of Fluent Forms.
  *
@@ -15,7 +15,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Processors;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Form;
 
 /**
- * Fluent Forms Processor
+ * Fluent Forms Collection
  *
  * Handles the retrieval and processing of Fluent Forms.
  *

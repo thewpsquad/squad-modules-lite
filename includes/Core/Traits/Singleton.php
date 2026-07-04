@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Singleton trait for creating a single instance of a class.
  *
@@ -9,11 +8,16 @@
 
 namespace DiviSquad\Core\Traits;
 
+use Throwable;
+
 /**
  * Singleton trait.
  *
- * @package DiviSquad
+ * Provides functionality to ensure only one instance of a class exists.
+ * Classes using this trait should implement initialize() method for setup.
+ *
  * @since   1.0.0
+ * @package DiviSquad
  */
 trait Singleton {
 
@@ -27,7 +31,7 @@ trait Singleton {
 	/**
 	 * Get the instance of the current class.
 	 *
-	 * @return self
+	 * @return static The singleton instance.
 	 */
 	public static function get_instance() {
 		if ( null === static::$instance ) {
@@ -40,7 +44,8 @@ trait Singleton {
 	/**
 	 * Create an instance of the current class.
 	 *
-	 * @return self
+	 * @return static
+	 * @throws \RuntimeException When all attempts to create an instance fail.
 	 */
 	private static function create_instance() {
 		try {
@@ -48,17 +53,33 @@ trait Singleton {
 			$instance->initialize();
 
 			return $instance;
-		} catch ( \Exception $e ) {
+		} catch ( Throwable $e ) {
+			// Log the error with better context.
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			error_log( 'SQUAD ERROR: ' . $e->getMessage() );
+			error_log(
+				sprintf(
+					'SQUAD ERROR in %s: %s (in %s:%d)',
+					static::class,
+					$e->getMessage(),
+					$e->getFile(),
+					$e->getLine()
+				)
+			);
 
-			// Fallback: Ensure a valid instance is always returned.
+			// Fallback: Create a basic instance without initialization.
 			try {
 				return new static();
-			} catch ( \Exception $e ) {
-				error_log( 'SQUAD FATAL ERROR: Unable to create instance: ' . $e->getMessage() );
+			} catch ( Throwable $e ) {
+				error_log(
+					sprintf(
+						'SQUAD FATAL ERROR: Unable to create instance of %s: %s',
+						static::class,
+						$e->getMessage()
+					)
+				);
 
-				return null; // Fallback if all attempts to create an instance fail.
+				// We still need to return something of the correct type.
+				throw new \RuntimeException( 'Failed to create singleton instance' );
 			}
 			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
@@ -66,8 +87,13 @@ trait Singleton {
 
 	/**
 	 * Initialize the instance.
+	 *
+	 * Classes using this trait can implement init_properties() and init_hooks()
+	 * which will be automatically called during initialization.
+	 *
+	 * @return void
 	 */
-	protected function initialize() {
+	protected function initialize(): void {
 		// Initialize properties.
 		if ( method_exists( $this, 'init_properties' ) ) {
 			$this->init_properties();
@@ -80,18 +106,22 @@ trait Singleton {
 	}
 
 	/**
-	 * Serializing instances of this class is forbidden.
+	 * Prevent unserializing of the instance.
 	 *
-	 * @access public
-	 * @since  1.0.0
+	 * @throws \RuntimeException Always throws an exception.
+	 * @return void
 	 */
-	public function __wakeup() {}
+	public function __wakeup(): void {
+		throw new \RuntimeException( 'Cannot unserialize singleton' );
+	}
 
 	/**
-	 * Cloning is forbidden.
+	 * Prevent cloning of the instance.
 	 *
-	 * @access private
-	 * @since  1.0.0
+	 * @throws \RuntimeException Always throws an exception.
+	 * @return void
 	 */
-	private function __clone() {}
+	private function __clone() {
+		throw new \RuntimeException( 'Cloning is not allowed for singleton' );
+	}
 }

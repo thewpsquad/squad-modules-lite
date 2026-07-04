@@ -26,15 +26,15 @@ $divi_squad_image = new Image( divi_squad()->get_path( '/build/admin/images' ) )
 $divi_squad_image_allowed_html = $divi_squad_image->get_image_allowed_html();
 
 // Check if image is validated.
-if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
+if ( ! $divi_squad_image->is_path_validated() ) {
 	return;
 }
 ?>
 
-<div class="notice divi-squad-banner is-dismissible <?php echo esc_attr( $args['wrapper_classes'] ); ?>">
+<div class="notice divi-squad-banner is-dismissible <?php echo esc_attr( $args['wrapper_classes'] ?? '' ); ?>">
 
 	<div class="divi-squad-banner-logo">
-		<?php if ( ! empty( $args['logo'] ) ) : ?>
+		<?php if ( '' !== ( $args['logo'] ?? '' ) ) : ?>
 			<?php $divi_squad_notice_logo = $divi_squad_image->get_image( $args['logo'], 'svg', false ); ?>
 			<?php if ( ! is_wp_error( $divi_squad_notice_logo ) ) : ?>
 				<?php echo wp_kses( $divi_squad_notice_logo, $divi_squad_image_allowed_html ); ?>
@@ -43,24 +43,24 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 	</div>
 
 	<div class="divi-squad-banner-content">
-		<?php if ( ! empty( $args['title'] ) ) : ?>
+		<?php if ( '' !== ( $args['title'] ?? '' ) ) : ?>
 			<h2><?php echo esc_html( $args['title'] ); ?></h2>
 		<?php endif; ?>
 
-		<?php if ( ! empty( $args['content'] ) ) : ?>
+		<?php if ( '' !== ( $args['content'] ?? '' ) ) : ?>
 			<p><?php echo wp_kses_post( $args['content'] ); ?></p>
 		<?php endif; ?>
 
-		<?php if ( ! empty( $args['action-buttons'] ) ) : ?>
+		<?php if ( array() !== ( $args['action-buttons'] ?? array() ) ) : ?>
 			<div class="divi-squad-notice-action">
-				<?php if ( ! empty( $args['action-buttons']['left'] ) ) : ?>
+				<?php if ( array() !== ( $args['action-buttons']['left'] ?? array() ) ) : ?>
 					<div class="divi-squad-notice-action-left">
 						<?php foreach ( $args['action-buttons']['left'] as $divi_squad_left_button ) : ?>
-							<a href="<?php echo esc_url( $divi_squad_left_button['link'] ); ?>" target="_blank" class="<?php echo esc_attr( $divi_squad_left_button['classes'] ); ?>" style="<?php echo ! empty( $divi_squad_left_button['style'] ) ? esc_attr( $divi_squad_left_button['style'] ) : ''; ?>">
-								<?php if ( ! empty( $divi_squad_left_button['icon'] ) ) : ?>
+							<a href="<?php echo esc_url( $divi_squad_left_button['link'] ); ?>" target="_blank" class="<?php echo esc_attr( $divi_squad_left_button['classes'] ); ?>" style="<?php echo esc_attr( $divi_squad_left_button['style'] ) ?? ''; ?>">
+								<?php if ( '' !== ( $divi_squad_left_button['icon'] ?? '' ) ) : ?>
 									<span class="dashicons <?php echo esc_attr( $divi_squad_left_button['icon'] ); ?>"></span>
 								<?php endif; ?>
-								<?php if ( ! empty( $divi_squad_left_button['icon_svg'] ) ) : ?>
+								<?php if ( '' !== ( $divi_squad_left_button['icon_svg'] ?? '' ) ) : ?>
 									<?php $divi_squad_notice_left_button_icon = $divi_squad_image->get_image( $divi_squad_left_button['icon_svg'], 'svg', false ); ?>
 									<?php if ( ! is_wp_error( $divi_squad_notice_left_button_icon ) ) : ?>
 										<?php echo wp_kses( $divi_squad_notice_left_button_icon, $divi_squad_image_allowed_html ); ?>
@@ -72,14 +72,14 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 					</div>
 				<?php endif; ?>
 
-				<?php if ( ! empty( $args['action-buttons']['right'] ) ) : ?>
+				<?php if ( array() !== ( $args['action-buttons']['right'] ?? array() ) ) : ?>
 					<div class="divi-squad-notice-action-right">
 						<?php foreach ( $args['action-buttons']['right'] as $divi_squad_right_button ) : ?>
-							<a href="<?php echo esc_url( $divi_squad_right_button['link'] ); ?>" target="_blank" class="<?php echo esc_attr( $divi_squad_right_button['classes'] ); ?>" style="<?php echo ! empty( $divi_squad_right_button['style'] ) ? esc_attr( $divi_squad_right_button['style'] ) : ''; ?>">
-								<?php if ( ! empty( $divi_squad_right_button['icon'] ) ) : ?>
+							<a href="<?php echo esc_url( $divi_squad_right_button['link'] ); ?>" target="_blank" class="<?php echo esc_attr( $divi_squad_right_button['classes'] ); ?>" style="<?php echo esc_attr( $divi_squad_right_button['style'] ) ?? ''; ?>">
+								<?php if ( '' !== ( $divi_squad_right_button['icon'] ?? '' ) ) : ?>
 									<span class="dashicons <?php echo esc_attr( $divi_squad_right_button['icon'] ); ?>"></span>
 								<?php endif; ?>
-								<?php if ( ! empty( $divi_squad_right_button['icon_svg'] ) ) : ?>
+								<?php if ( '' !== ( $divi_squad_right_button['icon_svg'] ?? '' ) ) : ?>
 									<?php $divi_squad_notice_right_button_icon = $divi_squad_image->get_image( $divi_squad_right_button['icon_svg'], 'svg', false ); ?>
 									<?php if ( ! is_wp_error( $divi_squad_notice_right_button_icon ) ) : ?>
 										<?php echo wp_kses( $divi_squad_notice_right_button_icon, $divi_squad_image_allowed_html ); ?>
@@ -96,7 +96,7 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 
 	</div>
 
-	<?php if ( ! empty( $args['is_dismissible'] ) ) : ?>
+	<?php if ( '' !== ( $args['is_dismissible'] ?? '' ) ) : ?>
 		<button type="button" class="notice-dismiss">
 			<span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'squad-modules-for-divi' ); ?></span>
 		</button>

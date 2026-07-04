@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Formidable Processor
+ * Formidable Collection
  *
  * Handles the retrieval and processing of Formidable Forms.
  *
@@ -15,7 +15,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Processors;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Form;
 
 /**
- * Formidable Forms Processor
+ * Formidable Forms Collection
  *
  * Handles the retrieval and processing of Formidable Forms.
  *

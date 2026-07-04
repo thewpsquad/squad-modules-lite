@@ -9,7 +9,7 @@
 
 namespace DiviSquad\Core\Supports;
 
-use DiviSquad\Core\Supports\Utils\DateTime;
+use DiviSquad\Core\Supports\Utils\Date_Time;
 
 /**
  * Site Health Info Manager.
@@ -61,7 +61,7 @@ class Site_Health {
 	 */
 	private function get_info_fields(): array {
 		$activated_time = divi_squad()->memory->get( 'activation_time' );
-		$installed_date = DateTime::datetime_format( $activated_time, '', true );
+		$installed_date = Date_Time::datetime_format( $activated_time, '', true );
 
 		$fields = array(
 			'version-core'      => array(

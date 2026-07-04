@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Contact Form 7 Processor
+ * Contact Form 7 Collection
  *
  * Handles the retrieval and processing of Fluent Forms.
  *

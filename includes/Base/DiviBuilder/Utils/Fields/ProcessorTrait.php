@@ -19,7 +19,7 @@ use function et_pb_responsive_options;
 use function wp_parse_args;
 
 /**
- * Field Processor class.
+ * Field Collection class.
  *
  * @package DiviSquad
  * @since   1.0.0

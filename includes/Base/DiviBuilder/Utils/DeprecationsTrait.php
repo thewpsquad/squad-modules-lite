@@ -17,6 +17,8 @@ use InvalidArgumentException;
 use WP_Exception;
 use function apply_filters;
 use function wp_trigger_error;
+use function esc_html;
+use function do_action;
 
 /**
  * Deprecated Methods And Properties Trait
@@ -35,7 +37,7 @@ trait DeprecationsTrait {
 	/**
 	 * Array of deprecated properties.
 	 *
-	 * @var array
+	 * @var array<string, array{version: string, message: string, value: mixed}>
 	 */
 	private array $deprecated_properties = array(
 		'squad_divider_defaults'     => array(
@@ -60,7 +62,7 @@ trait DeprecationsTrait {
 	/**
 	 * Array of deprecated methods.
 	 *
-	 * @var array
+	 * @var array<string, array{version: string, message: string}>
 	 */
 	private array $deprecated_methods = array(
 		'get_hansel_and_gretel'        => array(
@@ -106,11 +108,52 @@ trait DeprecationsTrait {
 	 * @throws InvalidArgumentException|WP_Exception If the property does not exist.
 	 */
 	public function __get( string $name ) {
-		if ( array_key_exists( $name, $this->deprecated_properties ) ) {
-			$deprecated_info    = $this->deprecated_properties[ $name ];
+		/**
+		 * Filters the list of deprecated properties.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $deprecated_properties Array of deprecated property names and their configurations.
+		 */
+		$deprecated_properties = (array) apply_filters( 'divi_squad_deprecated_properties', $this->deprecated_properties );
+
+		if ( array_key_exists( $name, $deprecated_properties ) ) {
+			$deprecated_info    = $deprecated_properties[ $name ];
 			$deprecated_version = $deprecated_info['version'] ?? $this->deprecated_version;
+
+			/**
+			 * Filters the deprecated version for a specific property.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param string $deprecated_version The deprecated version.
+			 * @param string $name              The property name.
+			 */
+			$deprecated_version = (string) apply_filters( 'divi_squad_deprecated_property_version', $deprecated_version, $name );
+
+			/**
+			 * Fires before triggering a deprecated property warning.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param string $name              The property name.
+			 * @param string $deprecated_version The deprecated version.
+			 * @param array  $deprecated_info    The deprecated property information.
+			 */
+			do_action( 'divi_squad_before_deprecated_property_warning', $name, $deprecated_version, $deprecated_info );
+
 			$this->trigger_deprecated_warning( $name, $deprecated_version, $deprecated_info['message'], 'property' );
-			return $deprecated_info['value'];
+
+			/**
+			 * Filters the value of a deprecated property before returning it.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param mixed  $value             The property value.
+			 * @param string $name              The property name.
+			 * @param array  $deprecated_info    The deprecated property information.
+			 */
+			return apply_filters( 'divi_squad_deprecated_property_value', $deprecated_info['value'], $name, $deprecated_info );
 		}
 
 		if ( property_exists( $this, $name ) ) {
@@ -123,11 +166,14 @@ trait DeprecationsTrait {
 	/**
 	 * Magic method to handle deprecated method calls.
 	 *
-	 * @param string $name      The method name.
-	 * @param array  $arguments The method arguments.
+	 * Handles calls to deprecated methods by routing them to their new implementations
+	 * or throwing appropriate exceptions if the method doesn't exist.
+	 *
+	 * @param string                   $name      The method name.
+	 * @param array<int|string, mixed> $arguments The method arguments.
 	 *
 	 * @return mixed The result of the method call.
-	 * @throws InvalidArgumentException|WP_Exception If the method does not exist.
+	 * @throws InvalidArgumentException|WP_Exception If the method does not exist or there's an error processing the call.
 	 */
 	public function __call( string $name, array $arguments ) {
 		/**
@@ -137,7 +183,8 @@ trait DeprecationsTrait {
 		 *
 		 * @param array $deprecated_methods Array of deprecated method names and their configurations.
 		 */
-		$deprecated_methods = apply_filters( 'divi_squad_deprecated_methods', $this->deprecated_methods );
+		$deprecated_methods = (array) apply_filters( 'divi_squad_deprecated_methods', $this->deprecated_methods );
+
 		if ( array_key_exists( $name, $deprecated_methods ) ) {
 			$deprecated_info    = $deprecated_methods[ $name ];
 			$deprecated_version = $deprecated_info['version'] ?? $this->deprecated_version;
@@ -148,15 +195,43 @@ trait DeprecationsTrait {
 			 * @since 3.1.0
 			 *
 			 * @param string $deprecated_version The deprecated version.
+			 * @param string $name              The method name.
 			 */
-			$deprecated_version = apply_filters( 'divi_squad_deprecated_version', $deprecated_version );
+			$deprecated_version = (string) apply_filters( 'divi_squad_deprecated_method_version', $deprecated_version, $name );
+
+			/**
+			 * Fires before triggering a deprecated method warning.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param string $name              The method name.
+			 * @param string $deprecated_version The deprecated version.
+			 * @param array  $arguments         The method arguments.
+			 * @param array  $deprecated_info    The deprecated method information.
+			 */
+			do_action( 'divi_squad_before_deprecated_method_warning', $name, $deprecated_version, $arguments, $deprecated_info );
+
 			$this->trigger_deprecated_warning( $name, $deprecated_version, $deprecated_info['message'], 'method' );
 
-			return $this->handle_deprecated_utility_method( $name, $arguments );
+			/**
+			 * Filters whether to handle the deprecated method call.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param bool   $handle_call       Whether to handle the deprecated method call.
+			 * @param string $name              The method name.
+			 * @param array  $arguments         The method arguments.
+			 * @param array  $deprecated_info    The deprecated method information.
+			 */
+			if ( (bool) apply_filters( 'divi_squad_handle_deprecated_method_call', true, $name, $arguments, $deprecated_info ) ) {
+				return $this->handle_deprecated_utility_method( $name, $arguments );
+			}
 		}
 
 		if ( method_exists( $this, $name ) ) {
-			return call_user_func_array( array( $this, $name ), $arguments );
+			/** @var callable $callback */
+			$callback = array( $this, $name );
+			return call_user_func_array( $callback, $arguments );
 		}
 
 		throw new InvalidArgumentException( sprintf( 'Method %s does not exist.', esc_html( $name ) ) );
@@ -164,6 +239,8 @@ trait DeprecationsTrait {
 
 	/**
 	 * Trigger a deprecated warning.
+	 *
+	 * Triggers a WordPress deprecation warning with the specified message.
 	 *
 	 * @param string $name    The name of the deprecated element.
 	 * @param string $version The version since deprecation.
@@ -173,16 +250,55 @@ trait DeprecationsTrait {
 	 * @return void
 	 * @throws WP_Exception If the error cannot be triggered.
 	 */
-	private function trigger_deprecated_warning( string $name, string $version, string $message, string $type ) {
+	private function trigger_deprecated_warning( string $name, string $version, string $message, string $type ): void {
+		/**
+		 * Filters the deprecation warning message.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $message The deprecation warning message.
+		 * @param string $name    The name of the deprecated element.
+		 * @param string $version The version since deprecation.
+		 * @param string $type    The type of the deprecated element.
+		 */
+		$message = (string) apply_filters( 'divi_squad_deprecated_warning_message', $message, $name, $version, $type );
+
 		$full_message = sprintf( 'The %s $%s is deprecated since version %s. %s', $type, $name, $version, $message );
-		wp_trigger_error( '', $full_message, E_USER_DEPRECATED );
+
+		/**
+		 * Filters whether to trigger the deprecation warning.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param bool   $trigger_warning Whether to trigger the deprecation warning.
+		 * @param string $name           The name of the deprecated element.
+		 * @param string $version        The version since deprecation.
+		 * @param string $type           The type of the deprecated element.
+		 */
+		if ( (bool) apply_filters( 'divi_squad_trigger_deprecated_warning', true, $name, $version, $type ) ) {
+			wp_trigger_error( '', $full_message, E_USER_DEPRECATED );
+		}
+
+		/**
+		 * Fires after triggering a deprecation warning.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $name           The name of the deprecated element.
+		 * @param string $version        The version since deprecation.
+		 * @param string $type           The type of the deprecated element.
+		 * @param string $full_message   The full deprecation warning message.
+		 */
+		do_action( 'divi_squad_after_deprecated_warning', $name, $version, $type, $full_message );
 	}
 
 	/**
 	 * Handle calls to deprecated utility methods.
 	 *
-	 * @param string $name      The name of the deprecated method.
-	 * @param array  $arguments The arguments passed to the method.
+	 * Routes deprecated method calls to their new implementations in utility classes.
+	 *
+	 * @param string                   $name      The name of the deprecated method.
+	 * @param array<int|string, mixed> $arguments The arguments passed to the method.
 	 *
 	 * @return mixed The result of the method call.
 	 * @throws BadMethodCallException If the deprecated method is not implemented.
@@ -206,13 +322,27 @@ trait DeprecationsTrait {
 		 *
 		 * @param array $method_map Array of deprecated method names and their configurations.
 		 */
-		$method_map = apply_filters( 'divi_squad_deprecated_method_map', $method_map );
+		$method_map = (array) apply_filters( 'divi_squad_deprecated_method_map', $method_map );
 
 		if ( isset( $method_map[ $name ] ) && $this->element->squad_utils instanceof Base ) {
-			$utility = $method_map[ $name ][0];
-			$method  = $method_map[ $name ][1];
-			if ( isset( $this->element->squad_utils->$utility ) && method_exists( $this->element->squad_utils->$utility, $method ) ) {
-				return call_user_func_array( array( $this->element->squad_utils->$utility, $method ), $arguments );
+			[$utility, $method] = $method_map[ $name ];
+
+			/**
+			 * Filters whether to handle the deprecated utility method call.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param bool   $handle_call Whether to handle the deprecated utility method call.
+			 * @param string $name        The method name.
+			 * @param string $utility     The utility class name.
+			 * @param string $method      The method name in the utility class.
+			 * @param array  $arguments   The method arguments.
+			 */
+			$should_handle =(bool) apply_filters( 'divi_squad_handle_deprecated_utility_method_call', true, $name, $utility, $method, $arguments );
+			if ( $should_handle && isset( $this->element->squad_utils->$utility ) && method_exists( $this->element->squad_utils->$utility, $method ) ) {
+				/** @var callable $callback */
+				$callback = array( $this->element->squad_utils->$utility, $method );
+				return call_user_func_array( $callback, $arguments );
 			}
 		}
 
@@ -226,8 +356,24 @@ trait DeprecationsTrait {
 	 *
 	 * @return void
 	 */
-	public function set_deprecated_version( string $version ) {
-		$this->deprecated_version = $version;
+	public function set_deprecated_version( string $version ): void {
+		/**
+		 * Filters the default deprecated version before setting it.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $version The new deprecated version.
+		 */
+		$this->deprecated_version = (string) apply_filters( 'divi_squad_set_deprecated_version', $version );
+
+		/**
+		 * Fires after setting the default deprecated version.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $version The new deprecated version.
+		 */
+		do_action( 'divi_squad_after_set_deprecated_version', $this->deprecated_version );
 	}
 
 	/**
@@ -240,12 +386,42 @@ trait DeprecationsTrait {
 	 *
 	 * @return void
 	 */
-	public function add_deprecated_property( string $name, string $version, string $message, $value ) {
-		$this->deprecated_properties[ $name ] = array(
-			'version' => $version,
-			'message' => $message,
-			'value'   => $value,
+	public function add_deprecated_property( string $name, string $version, string $message, $value ): void {
+		/**
+		 * Filters the deprecated property data before adding it.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array  $property_data The deprecated property data.
+		 * @param string $name         The property name.
+		 * @param string $version      The version since deprecation.
+		 * @param string $message      The deprecation message.
+		 * @param mixed  $value        The default value.
+		 */
+		$property_data = (array) apply_filters(
+			'divi_squad_add_deprecated_property_data',
+			array(
+				'version' => $version,
+				'message' => $message,
+				'value'   => $value,
+			),
+			$name,
+			$version,
+			$message,
+			$value
 		);
+
+		$this->deprecated_properties[ $name ] = $property_data;
+
+		/**
+		 * Fires after adding a new deprecated property.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $name           The property name.
+		 * @param array  $property_data  The deprecated property data.
+		 */
+		do_action( 'divi_squad_after_add_deprecated_property', $name, $property_data );
 	}
 
 	/**
@@ -257,10 +433,38 @@ trait DeprecationsTrait {
 	 *
 	 * @return void
 	 */
-	public function add_deprecated_method( string $name, string $version, string $message ) {
-		$this->deprecated_methods[ $name ] = array(
-			'version' => $version,
-			'message' => $message,
+	public function add_deprecated_method( string $name, string $version, string $message ): void {
+		/**
+		 * Filters the deprecated method data before adding it.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array  $method_data The deprecated method data.
+		 * @param string $name        The method name.
+		 * @param string $version     The version since deprecation.
+		 * @param string $message     The deprecation message.
+		 */
+		$method_data = (array) apply_filters(
+			'divi_squad_add_deprecated_method_data',
+			array(
+				'version' => $version,
+				'message' => $message,
+			),
+			$name,
+			$version,
+			$message
 		);
+
+		$this->deprecated_methods[ $name ] = $method_data;
+
+		/**
+		 * Fires after adding a new deprecated method.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $name        The method name.
+		 * @param array  $method_data The deprecated method data.
+		 */
+		do_action( 'divi_squad_after_add_deprecated_method', $name, $method_data );
 	}
 }

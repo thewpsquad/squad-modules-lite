@@ -17,7 +17,6 @@ use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Utils\Helper;
 use DiviSquad\Core\Supports\Media\Image;
 use DiviSquad\Core\Supports\Polyfills\Str;
-use function divi_squad;
 use function esc_attr__;
 use function esc_html__;
 use function et_builder_accent_color;
@@ -41,10 +40,10 @@ class VideoPopup extends Module {
 	 * @return void
 	 * @since 1.4.1
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Video Popup', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Video Popups', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/video-popup.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'video-popup.svg' );
 
 		$this->slug             = 'disq_video_popup';
 		$this->vb_support       = 'on';
@@ -134,7 +133,7 @@ class VideoPopup extends Module {
 	 * @return array[]
 	 * @since 1.4.1
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		$fields = array(
 			'use_overlay'      => Utils::add_yes_no_field(
 				esc_html__( 'Use Overlay Image', 'squad-modules-for-divi' ),
@@ -584,7 +583,7 @@ class VideoPopup extends Module {
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$inline_modal = '';
 		$image        = $this->props['image'];
 		$image_alt    = $this->props['alt'];
@@ -592,11 +591,12 @@ class VideoPopup extends Module {
 		$type         = $this->props['type'];
 		$video        = $this->props['video'];
 		$img_overlay  = '';
-		$order_class  = self::get_module_order_class( $render_slug );
+		$order_class  = (string) self::get_module_order_class( $render_slug );
 		$order_number = str_replace( array( $this->slug, '_' ), '', $order_class );
 		$data_modal   = 'video' === $type ? sprintf( 'data-mfp-src="#squad-vp-modal-video-popup-%1$s"', $order_number ) : '';
 
 		// Enqueue scripts.
+		wp_enqueue_style( 'magnific-popup' );
 		wp_enqueue_script( 'squad-module-video-popup' );
 
 		// Set popup style.
@@ -700,7 +700,7 @@ class VideoPopup extends Module {
 				$this->slug,
 				array(
 					'selector'    => "$this->main_css_element div .video-popup-trigger",
-					'declaration' => 'justify-content: center; position: absolute; left: 0; top: 0;',
+					'declaration' => 'content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;',
 				)
 			);
 		}
@@ -712,6 +712,16 @@ class VideoPopup extends Module {
 					'selector'       => "$this->main_css_element div .video-popup .video-popup-icon svg",
 					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-icon svg",
 					'css_property'   => 'fill',
+					'render_slug'    => $this->slug,
+					'type'           => 'color',
+				)
+			);
+			$this->generate_styles(
+				array(
+					'base_attr_name' => 'icon_bg',
+					'selector'       => "$this->main_css_element div .video-popup .video-popup-icon",
+					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-icon",
+					'css_property'   => 'background-color',
 					'render_slug'    => $this->slug,
 					'type'           => 'color',
 				)
@@ -734,16 +744,6 @@ class VideoPopup extends Module {
 					'css_property'   => 'opacity',
 					'render_slug'    => $this->slug,
 					'type'           => 'number',
-				)
-			);
-			$this->generate_styles(
-				array(
-					'base_attr_name' => 'icon_bg',
-					'selector'       => "$this->main_css_element div .video-popup .video-popup-icon",
-					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-icon",
-					'css_property'   => 'background-color',
-					'render_slug'    => $this->slug,
-					'type'           => 'color',
 				)
 			);
 			$this->generate_styles(
@@ -778,59 +778,47 @@ class VideoPopup extends Module {
 			);
 		}
 
-		if ( 'icon' !== $this->prop( 'trigger_element', 'icon' ) ) {
-			if ( 'on' === $this->prop( 'use_text_box', 'off' ) ) {
-				$this->generate_styles(
-					array(
-						'base_attr_name' => 'text_box_width',
-						'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
-						'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
-						'css_property'   => 'width',
-						'render_slug'    => $this->slug,
-						'type'           => 'range',
-					)
-				);
-				$this->generate_styles(
-					array(
-						'base_attr_name' => 'text_box_height',
-						'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
-						'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
-						'css_property'   => 'height',
-						'render_slug'    => $this->slug,
-						'type'           => 'range',
-					)
-				);
-				$this->generate_styles(
-					array(
-						'base_attr_name' => 'text_box_bg',
-						'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
-						'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
-						'css_property'   => 'background-color',
-						'render_slug'    => $this->slug,
-						'type'           => 'color',
-					)
-				);
-				$this->generate_styles(
-					array(
-						'base_attr_name' => 'text_box_radius',
-						'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
-						'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
-						'css_property'   => 'border-radius',
-						'render_slug'    => $this->slug,
-						'type'           => 'range',
-					)
-				);
-			}
-
-			if ( 'on' === $this->prop( 'use_overlay', 'on' ) ) {
-				self::set_style(
-					$this->slug,
-					array(
-						'selector'    => "$this->main_css_element .video-popup-trigger",
-						'declaration' => 'justify-content: center; position: absolute; left: 0; top: 0;',
-					)
-				);
-			}
+		if ( ( 'icon' !== $this->prop( 'trigger_element', 'icon' ) ) && 'on' === $this->prop( 'use_text_box', 'off' ) ) {
+			$this->generate_styles(
+				array(
+					'base_attr_name' => 'text_box_width',
+					'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
+					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
+					'css_property'   => 'width',
+					'render_slug'    => $this->slug,
+					'type'           => 'range',
+				)
+			);
+			$this->generate_styles(
+				array(
+					'base_attr_name' => 'text_box_height',
+					'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
+					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
+					'css_property'   => 'height',
+					'render_slug'    => $this->slug,
+					'type'           => 'range',
+				)
+			);
+			$this->generate_styles(
+				array(
+					'base_attr_name' => 'text_box_bg',
+					'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
+					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
+					'css_property'   => 'background-color',
+					'render_slug'    => $this->slug,
+					'type'           => 'color',
+				)
+			);
+			$this->generate_styles(
+				array(
+					'base_attr_name' => 'text_box_radius',
+					'selector'       => "$this->main_css_element div .video-popup .video-popup-text",
+					'hover_selector' => "$this->main_css_element:hover div .video-popup .video-popup-text",
+					'css_property'   => 'border-radius',
+					'render_slug'    => $this->slug,
+					'type'           => 'range',
+				)
+			);
 		}
 
 		if ( 'icon_text' === $this->prop( 'trigger_element', 'icon' ) ) {
@@ -909,7 +897,7 @@ class VideoPopup extends Module {
 			$image = new Image( divi_squad()->get_path( '/build/admin/images/icons' ) );
 
 			// Check if image is validated.
-			if ( is_wp_error( $image->is_path_validated() ) ) {
+			if ( ! $image->is_path_validated() ) {
 				return $icon_output_html;
 			}
 

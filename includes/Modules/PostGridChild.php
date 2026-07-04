@@ -33,7 +33,7 @@ class PostGridChild extends Module {
 	 *
 	 * @var array
 	 */
-	protected $element_types = array();
+	protected array $element_types = array();
 
 	/**
 	 * Initiate Module.
@@ -42,7 +42,7 @@ class PostGridChild extends Module {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name   = esc_html__( 'Post Element', 'squad-modules-for-divi' );
 		$this->plural = esc_html__( 'Post Elements', 'squad-modules-for-divi' );
 
@@ -153,15 +153,16 @@ class PostGridChild extends Module {
 			'background'     => Utils::selectors_background( $this->main_css_element ),
 			'filters'        => array(
 				'child_filters_target' => Utils::add_filters_field(
-					et_builder_i18n( 'Icon' ),
-					'advanced',
-					'element_icon_element',
 					array(
-						'main'  => "$this->main_css_element div .post-elements span.squad-element-icon-wrapper",
-						'hover' => "$this->main_css_element div .post-elements:hover span.squad-element-icon-wrapper",
-					),
-					array( 'element_icon_type' ),
-					array( 'none', 'icon', 'text' )
+						'label'       => et_builder_i18n( 'Icon' ),
+						'toggle_slug' => 'element_icon_element',
+						'css'         => array(
+							'main'  => "$this->main_css_element div .post-elements span.squad-element-icon-wrapper",
+							'hover' => "$this->main_css_element div .post-elements:hover span.squad-element-icon-wrapper",
+						),
+						'depends_on'  => array( 'element_icon_type' ),
+						'show_if_not' => array( 'none', 'icon', 'text' ),
+					)
 				),
 			),
 			'borders'        => array(
@@ -296,7 +297,7 @@ class PostGridChild extends Module {
 	 * @return array[]
 	 * @since 1.0.0
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		// Text fields definitions.
 		$element_fields = array(
 			'element' => Utils::add_select_box_field(
@@ -1083,10 +1084,10 @@ class PostGridChild extends Module {
 	 * @return array[]
 	 * @since 3.1.0
 	 */
-	public function get_custom_fields() {
+	public function get_custom_fields(): array {
 		return array_merge_recursive(
-			Utils\Elements\CustomFields::get_definitions( 'custom_fields' ),
-			Utils\Elements\CustomFields::get_definitions( 'acf_fields' )
+			divi_squad()->custom_fields->get_definitions( 'custom_fields' ),
+			divi_squad()->custom_fields->get_definitions( 'acf_fields' )
 		);
 	}
 
@@ -1146,7 +1147,7 @@ class PostGridChild extends Module {
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed, Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed, Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		if ( 'none' !== $this->prop( 'element', 'none' ) ) {
 			$this->squad_generate_all_styles( $attrs );
 			$this->squad_generate_element_title_font_icon_styles( $attrs );
@@ -1168,7 +1169,7 @@ class PostGridChild extends Module {
 	 *
 	 * @return void
 	 */
-	private function squad_generate_all_styles( $attrs ) {
+	private function squad_generate_all_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
 		$this->props  = array_merge( $attrs, $this->props );
 		$element_type = ! empty( $attrs['element'] ) ? $attrs['element'] : 'none';
@@ -1289,7 +1290,7 @@ class PostGridChild extends Module {
 	 *
 	 * @return void
 	 */
-	private function squad_generate_element_title_font_icon_styles( $attrs ) {
+	private function squad_generate_element_title_font_icon_styles( array $attrs ): void {
 		if ( isset( $attrs['element_title_icon__enable'] ) && 'on' === $attrs['element_title_icon__enable'] && '' !== $attrs['element_title_icon'] ) {
 			$this->props = array_merge( $this->props, $attrs );
 
@@ -1361,7 +1362,7 @@ class PostGridChild extends Module {
 	 *
 	 * @return void
 	 */
-	private function squad_generate_all_icon_styles( $attrs ) {
+	private function squad_generate_all_icon_styles( array $attrs ): void {
 		$this->props = array_merge( $attrs, $this->props );
 
 		// render icon element for eligible element.

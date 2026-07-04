@@ -24,13 +24,13 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Used to migrate field names.
 	 *
-	 * @var array
+	 * @var array<array<string, array<string>>>
 	 */
 	public static array $field_name_migrations = array();
 	/**
 	 * Array of hooks.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	public static array $hooks = array(
 		'the_content',
@@ -61,13 +61,17 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Array of already migrated data.
 	 *
-	 * @var array
+	 * @var array{field_name_changes: non-empty-array<string, array<string, array{new_name: string, version: string}>>, name_changes: array<string, string>, value_changes: array<string, string>, value_changes: array<string, array<string, string>>}
 	 */
-	public static array $migrated = array();
+	public static array $migrated = array( // @phpstan-ignore-line property.defaultValue
+		'field_name_changes' => array(),
+		'name_changes'       => array(),
+		'value_changes'      => array(),
+	);
 	/**
 	 * Array of migrations in format( [ 'version' => 'name of migration script' ] ).
 	 *
-	 * @var string[]
+	 * @var array<string, string>
 	 */
 	public static array $migrations = array(
 		'4.24' => Migration\PostElement::class,
@@ -75,13 +79,13 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Migrations by version.
 	 *
-	 * @var array
+	 * @var array<array<int|string, Migration>>
 	 */
 	public static array $migrations_by_version = array();
 	/**
 	 * Used to exclude names in case of BB.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected static array $bb_excluded_name_changes = array();
 	/**
@@ -108,7 +112,7 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Get all modules to need to be migrated.
 	 *
-	 * @return array
+	 * @return array<string> List of modules.
 	 */
 	abstract public function get_modules(): array;
 
@@ -119,7 +123,7 @@ abstract class Migration implements MigrationInterface {
 	 * - key as new field
 	 * - value consists affected fields as old field and module location
 	 *
-	 * @return array New and old fields need to be migrated.
+	 * @return array<string, array<string, array<string, array<string>>>> New and old fields need to be migrated.
 	 */
 	abstract public function get_fields(): array;
 
@@ -139,6 +143,8 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @since 4.16.0
 	 * @link  https://make.wordpress.org/core/handbook/testing/automated-testing/writing-phpunit-tests/#shared-setup-between-related-tests
+	 *
+	 * @return void
 	 */
 	public static function tear_down() {
 		remove_filter( 'et_pb_module_processed_fields', array( self::class, 'maybe_override_processed_fields' ) );
@@ -149,17 +155,12 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Maybe override processed fields.
 	 *
-	 * @param array  $fields      Shortcode fields.
-	 * @param string $module_slug Internal system name for the module type.
+	 * @param array<string, array<string, string>> $fields      Shortcode fields.
+	 * @param string                               $module_slug Internal system name for the module type.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public static function maybe_override_processed_fields( array $fields, string $module_slug ): array {
-		/**
-		 * List of migrations.
-		 *
-		 * @var Migration[] $migrations
-		 */
 		$migrations = self::get_migrations( 'all' );
 
 		foreach ( $migrations as $migration ) {
@@ -176,9 +177,9 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @param string $module_version Module version.
 	 *
-	 * @return array|mixed
+	 * @return array<Migration>
 	 */
-	public static function get_migrations( string $module_version ) {
+	public static function get_migrations( string $module_version ): array {
 		if ( isset( self::$migrations_by_version[ $module_version ] ) ) {
 			return self::$migrations_by_version[ $module_version ];
 		}
@@ -194,7 +195,7 @@ abstract class Migration implements MigrationInterface {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @var Migration[] $migrations
+		 * @var array<string, Migration> $migrations
 		 */
 		$migrations = apply_filters( 'divi_squad_builder_module_migrations', self::$migrations );
 
@@ -229,10 +230,10 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Handle field name migrations.
 	 *
-	 * @param array  $fields      Shortcode fields.
-	 * @param string $module_slug Internal system name for the module type.
+	 * @param array<string, array<string, string>> $fields  Shortcode fields.
+	 * @param string                               $module_slug Internal system name for the module type.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
 	public function handle_field_name_migrations( array $fields, string $module_slug ): array {
 		if ( ! in_array( $module_slug, $this->get_modules(), true ) ) {
@@ -266,13 +267,13 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Migrate field names.
 	 *
-	 * @param array  $fields  Shortcode fields.
-	 * @param string $slug    Internal system name for the module type.
-	 * @param string $version Version of the migration.
+	 * @param array<string, array<string, string>> $fields  Shortcode fields.
+	 * @param string                               $slug    Internal system name for the module type.
+	 * @param string                               $version Version of the migration.
 	 *
-	 * @return array
+	 * @return array<string, array<string, string>>
 	 */
-	protected static function migrate_field_names( array $fields, string $slug, string $version ) {
+	protected static function migrate_field_names( array $fields, string $slug, string $version ): array {
 		foreach ( self::$field_name_migrations[ $slug ] as $new_name => $old_names ) {
 			foreach ( $old_names as $old_name ) {
 				if ( ! isset( $fields[ $old_name ] ) ) {
@@ -296,17 +297,17 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Maybe override shortcode attributes.
 	 *
-	 * @param array  $attrs                          Shortcode attributes.
-	 * @param array  $unprocessed_attrs              Attributes that have not yet been processed.
-	 * @param string $module_slug                    Internal system name for the module type.
-	 * @param string $module_address                 Location of the current module on the page.
-	 * @param mixed  $content                        Text/HTML content within the current module.
-	 * @param bool   $maybe_global_presets_migration Whether to include global presets.
+	 * @param array<string, mixed> $attrs                          Shortcode attributes.
+	 * @param array<string, mixed> $unprocessed_attrs              Attributes that have not yet been processed.
+	 * @param string               $module_slug                    Internal system name for the module type.
+	 * @param string               $module_address                 Location of the current module on the page.
+	 * @param mixed                $content                        Text/HTML content within the current module.
+	 * @param bool                 $maybe_global_presets_migration Whether to include global presets.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public static function maybe_override_shortcode_attributes( array $attrs, array $unprocessed_attrs, string $module_slug, string $module_address, $content = '', bool $maybe_global_presets_migration = false ): array {
-		if ( empty( $attrs['_builder_version'] ) ) {
+		if ( '' === $attrs['_builder_version'] ) {
 			$attrs['_builder_version'] = '3.0.47';
 		}
 
@@ -316,13 +317,6 @@ abstract class Migration implements MigrationInterface {
 
 		self::$maybe_global_presets_migration = $maybe_global_presets_migration;
 
-		/**
-		 * List of migrations.
-		 *
-		 * @var Migration[] $migrations
-		 */
-		$migrations = self::get_migrations( $attrs['_builder_version'] );
-
 		// Register address-based name module's field name change.
 		if ( isset( self::$migrated['field_name_changes'][ $module_slug ] ) ) {
 			foreach ( self::$migrated['field_name_changes'][ $module_slug ] as $old_name => $name_change ) {
@@ -331,6 +325,8 @@ abstract class Migration implements MigrationInterface {
 				}
 			}
 		}
+
+		$migrations = self::get_migrations( $attrs['_builder_version'] );
 
 		foreach ( $migrations as $migration ) {
 			$migrated_attrs_count = 0;
@@ -362,9 +358,9 @@ abstract class Migration implements MigrationInterface {
 
 					// If a value is set in the "unprocessed_attrs" list for the current field we're
 					// looking at (field_name), then inherit that value as the "before" state.
-					$current_value = isset( $unprocessed_attrs[ $field_name ] ) ? $unprocessed_attrs[ $field_name ] : '';
+					$current_value = $unprocessed_attrs[ $field_name ] ?? '';
 
-					$saved_value = isset( $attrs[ $field_name ] ) ? $attrs[ $field_name ] : '';
+					$saved_value = $attrs[ $field_name ] ?? '';
 
 					$new_value = $migration->migrate( $field_name, $current_value, $module_slug, $saved_value, $affected_field, $attrs, $content, $module_address );
 
@@ -402,22 +398,22 @@ abstract class Migration implements MigrationInterface {
 	 * @return bool
 	 */
 	public static function should_handle_render( string $slug ): bool {
-		// Get all module slugs to compare against this slug
+		// Get all module slugs to compare against this slug.
 		$all_module_slugs = ET_Builder_Element::get_all_module_slugs();
 		if ( ! in_array( $slug, $all_module_slugs, true ) ) {
 			return false;
 		}
 
-		// Check current hook
+		// Check current hook.
 		global $wp_current_filter;
 		$current_hook = $wp_current_filter[0];
 
-		// Return cached decision if hook hasn't changed
+		// Return cached decision if hook hasn't changed.
 		if ( $current_hook === self::$last_hook_checked ) {
 			return self::$last_hook_check_decision;
 		}
 
-		// Update last checked hook
+		// Update last checked hook.
 		self::$last_hook_checked = $current_hook;
 
 		/**
@@ -436,6 +432,7 @@ abstract class Migration implements MigrationInterface {
 		 * @return array Modified array of hook names where migrations should run.
 		 */
 		$hooks = apply_filters( 'divi_squad_builder_module_migrations_hooks', self::$hooks );
+
 		foreach ( $hooks as $hook ) {
 			if ( $hook === $current_hook && did_action( $hook ) > 1 ) {
 				self::$last_hook_check_decision = false;
@@ -450,14 +447,14 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Migrate from old value into new value.
 	 *
-	 * @param string $field_name       Current field name within the current module.
-	 * @param mixed  $current_value    Current field value within the current module.
-	 * @param string $module_slug      Internal system name for the module type.
-	 * @param mixed  $saved_value      Saved field value within the current module.
-	 * @param string $saved_field_name Saved field name within the current module.
-	 * @param array  $attrs            Shortcode attributes.
-	 * @param mixed  $content          Text/HTML content within the current module.
-	 * @param string $module_address   Location of the current module on the page.
+	 * @param string               $field_name       Current field name within the current module.
+	 * @param mixed                $current_value    Current field value within the current module.
+	 * @param string               $module_slug      Internal system name for the module type.
+	 * @param mixed                $saved_value      Saved field value within the current module.
+	 * @param string               $saved_field_name Saved field name within the current module.
+	 * @param array<string, mixed> $attrs            Shortcode attributes.
+	 * @param mixed                $content          Text/HTML content within the current module.
+	 * @param string               $module_address   Location of the current module on the page.
 	 *
 	 * @return mixed
 	 */
@@ -466,15 +463,15 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Maybe override content.
 	 *
-	 * @param mixed  $content           Text/HTML content within the current module.
-	 * @param array  $attrs             Shortcode attributes.
-	 * @param array  $unprocessed_attrs Attributes that have not yet been processed.
-	 * @param string $module_slug       Internal system name for the module type.
+	 * @param mixed                $content           Text/HTML content within the current module.
+	 * @param array<string, mixed> $attrs             Shortcode attributes.
+	 * @param array<string, mixed> $unprocessed_attrs Attributes that have not yet been processed.
+	 * @param string               $module_slug       Internal system name for the module type.
 	 *
 	 * @return mixed
 	 */
 	public static function maybe_override_content( $content, array $attrs, array $unprocessed_attrs, string $module_slug ) {
-		if ( empty( $attrs['_builder_version'] ) ) {
+		if ( '' === $attrs['_builder_version'] ) {
 			$attrs['_builder_version'] = '3.0.47';
 		}
 
@@ -482,28 +479,23 @@ abstract class Migration implements MigrationInterface {
 			return $content;
 		}
 
-		/**
-		 * List of migrations.
-		 *
-		 * @var Migration[] $migrations
-		 */
 		$migrations = self::get_migrations( $attrs['_builder_version'] );
 
 		foreach ( $migrations as $migration ) {
-			$migrated_content = false;
-
 			if ( ! in_array( $module_slug, $migration->get_content_migration_modules(), true ) ) {
 				continue;
 			}
 
-			foreach ( $migration->get_content_migration_modules() as $module ) {
+			$migrated_content = false;
+			$modules          = $migration->get_content_migration_modules();
+
+			foreach ( $modules as $module ) {
 				$new_content = $migration->migrate_content( $module_slug, $attrs, $content );
 
 				if ( $new_content !== $content ) {
+					$content          = $new_content;
 					$migrated_content = true;
 				}
-
-				$content = $new_content;
 			}
 
 			if ( $migrated_content ) {
@@ -517,7 +509,7 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Get all modules to need to be migrated.
 	 *
-	 * @return array
+	 * @return array<string> List of modules.
 	 */
 	public function get_content_migration_modules(): array {
 		return array();
@@ -526,9 +518,9 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * This could have been written as abstract, but it's not as common to be expected to be implemented by every migration
 	 *
-	 * @param string $module_slug Internal system name for the module type.
-	 * @param array  $attrs       Shortcode attributes.
-	 * @param mixed  $content     Text/HTML content within the current module.
+	 * @param string               $module_slug Internal system name for the module type.
+	 * @param array<string, mixed> $attrs       Shortcode attributes.
+	 * @param mixed                $content     Text/HTML content within the current module.
 	 *
 	 * @return mixed
 	 */

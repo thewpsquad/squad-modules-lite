@@ -43,7 +43,7 @@ class PluginRowActions extends Asset {
 	/**
 	 * The plugin row meta actions.
 	 *
-	 * @return  array
+	 * @return  array<string>
 	 * @throws \Exception When the Freemius SDK is not loaded.
 	 */
 	public function get_row_actions(): array {
@@ -71,7 +71,7 @@ class PluginRowActions extends Asset {
 		);
 
 		// Add the pricing link to the plugin row meta.
-		if ( divi_squad_fs() instanceof \Freemius && divi_squad_fs()->is_free_plan() ) {
+		if ( divi_squad_fs()->is_free_plan() ) {
 			$links[] = sprintf(
 				'<a href="%1$s?utm_campaign=wporg&utm_source=wp_plugin_dashboard&utm_medium=rowmeta" target="_blank" aria-label="%2$s">%2$s</a>',
 				esc_url( Links::PRICING_URL ),

@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.3.0 =
+Major performance improvements, bug fixes, and enhanced module loading system. New performance optimization framework and developer API improvements.
+
 = 3.2.5 =
 Bug fixing for Flip box module
 

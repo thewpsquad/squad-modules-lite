@@ -51,7 +51,7 @@ class PluginActionLinks extends Asset {
 	/**
 	 * The plugin action links.
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	public function get_action_links(): array {
 		$manage_modules_url = admin_url( 'admin.php?page=divi_squad_dashboard#/modules' );

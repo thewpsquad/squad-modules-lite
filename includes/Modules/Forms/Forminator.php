@@ -174,7 +174,7 @@ class Forminator extends FormStyler {
 	 * @access public
 	 *
 	 * @param array  $attrs       List of unprocessed attributes.
-	 * @param string $content     StaticContent being processed.
+	 * @param string $content     Content being processed.
 	 * @param string $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string Module's rendered output

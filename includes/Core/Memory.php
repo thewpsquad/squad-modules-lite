@@ -128,8 +128,15 @@ class Memory {
 				wp_cache_get_last_changed( 'options' );
 			}
 
-			// Get legacy options to migrate
-			$legacy_options       = apply_filters( 'divi_squad_legacy_memory_options', array( 'disq-settings', 'disq_settings' ) );
+			/**
+			 * Filters the legacy options to migrate.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param array $legacy_options Array of legacy option names.
+			 */
+			$legacy_options = apply_filters( 'divi_squad_legacy_memory_options', array( 'disq-settings', 'disq_settings' ) );
+
 			$migration_log        = array();
 			$migration_successful = true;
 

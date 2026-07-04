@@ -18,4 +18,4 @@ namespace DiviSquad\Managers;
  * @since       1.0.0
  * @deprecated  3.0.0 marked as deprecated.
  */
-class Extensions extends \DiviSquad\Managers\Features\Extensions {}
+class Extensions extends Features\Extensions {}

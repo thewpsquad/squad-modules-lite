@@ -786,12 +786,12 @@ class GravityForms extends FormStyler {
 
 		return array(
 			"{$prefix}_margin"  => Utils::add_margin_padding_field(
-				// translators: Field Label
+				// translators: Field Label.
 				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
 				array_merge( $field_attributes, array( 'type' => 'custom_margin' ) )
 			),
 			"{$prefix}_padding" => Utils::add_margin_padding_field(
-				// translators: Field Label
+				// translators: Field Label.
 				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
 				array_merge( $field_attributes, array( 'type' => 'custom_padding' ) )
 			),
@@ -1341,7 +1341,7 @@ class GravityForms extends FormStyler {
 	 *
 	 * @return void
 	 */
-	protected function squad_add_validation_message_transition_fields( &$fields ): void {
+	protected function squad_add_validation_message_transition_fields( array &$fields ): void {
 		$fields['message_validation_background_color'] = array( 'background' => $this->squad_get_css_selector_string( 'messages.validation' ) );
 		$fields['message_validation_margin']           = array( 'margin' => $this->squad_get_css_selector_string( 'messages.validation' ) );
 		$fields['message_validation_padding']          = array( 'padding' => $this->squad_get_css_selector_string( 'messages.validation' ) );

@@ -51,7 +51,7 @@ class LRCart {
 		 *
 		 * @since 3.1.4
 		 *
-		 * @param string $character_map The character map.
+		 * @param array<string> $character_map Character map.
 		 */
 		$character_map = apply_filters( 'divi_squad_language_recognition_chart_characters', $character_map );
 

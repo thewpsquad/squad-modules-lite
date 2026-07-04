@@ -9,7 +9,7 @@
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Base\Extension;
+use DiviSquad\Extensions\Extension;
 use function add_action;
 use function add_filter;
 use function add_shortcode;
@@ -31,9 +31,9 @@ class Divi_Layout_Shortcode extends Extension {
 	/**
 	 * Create New Admin Column
 	 *
-	 * @param array $columns Exists columns array data.
+	 * @param array<string, string> $columns Exists columns array data.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function create_shortcode_column( array $columns ): array {
 		$columns[ $this->get_column_slug() ] = $this->get_column_name();
@@ -87,7 +87,7 @@ class Divi_Layout_Shortcode extends Extension {
 	/**
 	 * Create New Shortcode
 	 *
-	 * @param array|string|mixed $atts The attributes of the current shortcode.
+	 * @param array<string, mixed>|string|mixed $atts The attributes of the current shortcode.
 	 *
 	 * @return string
 	 */

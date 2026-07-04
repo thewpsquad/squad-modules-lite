@@ -27,14 +27,15 @@ trait CommonTrait {
 	 *
 	 * @param string $html_content json data raw content from module.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
+	 * @throws \JsonException When json error found.
 	 */
 	public static function decode_json_data( string $html_content ): array {
 		// Collect data as unmanaged json string.
 		$data = stripslashes( html_entity_decode( $html_content ) );
 
 		// Return json data as array for better management.
-		return json_decode( $data, true );
+		return json_decode( $data, true, 512, JSON_THROW_ON_ERROR );
 	}
 
 	/**
@@ -53,7 +54,7 @@ trait CommonTrait {
 	 *
 	 * @param string $content The raw content form child element.
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 * @throws \RuntimeException When json error found.
 	 */
 	public static function collect_child_json_props( string $content ): array {
@@ -89,10 +90,10 @@ trait CommonTrait {
 	/**
 	 * Collect all modules from Divi Builder.
 	 *
-	 * @param array $modules_array  All modules array..
-	 * @param array $allowed_prefix The allowed prefix list.
+	 * @param array<string, array{label: string, title: string}> $modules_array  All modules array.
+	 * @param array<string>                                      $allowed_prefix The allowed prefix list.
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public static function get_all_modules( array $modules_array, array $allowed_prefix = array() ): array {
 		// Initiate default data.
@@ -106,7 +107,8 @@ trait CommonTrait {
 		$all_prefix = array_merge( $default_allowed_prefix, $allowed_prefix );
 
 		foreach ( $modules_array as $module ) {
-			if ( strpos( $module['label'], '_' ) ) {
+			$has_underscore = strpos( $module['label'], '_' );
+			if ( false !== $has_underscore ) {
 				$module_explode = explode( '_', $module['label'] );
 
 				if ( in_array( $module_explode[0], $all_prefix, true ) ) {
@@ -121,15 +123,15 @@ trait CommonTrait {
 	/**
 	 * Clean order class name from the class list for current module.
 	 *
-	 * @param array  $classnames All CSS classes name the module has.
-	 * @param string $slug       Utils slug.
+	 * @param array<string> $classnames All CSS classes name the module has.
+	 * @param string        $slug Utils slug.
 	 *
-	 * @return string[]
+	 * @return array<string>
 	 */
 	public static function clean_order_class( array $classnames, string $slug ): array {
 		return array_filter(
 			$classnames,
-			function ( $classname ) use ( $slug ) {
+			static function ( $classname ) use ( $slug ) {
 				return 0 !== strpos( $classname, "{$slug}_" );
 			}
 		);
@@ -140,7 +142,7 @@ trait CommonTrait {
 	 *
 	 * @param string $main_css_element Main css selector of element.
 	 *
-	 * @return array
+	 * @return array{use_padding: bool, use_margin: bool, css: array{important: string, margin: string, padding: string}}
 	 */
 	public static function selectors_margin_padding( string $main_css_element ): array {
 		return array(
@@ -159,7 +161,7 @@ trait CommonTrait {
 	 *
 	 * @param string $main_css_element Main css selector of an element.
 	 *
-	 * @return array[]
+	 * @return array<string, array<string, mixed>>
 	 */
 	public static function selectors_max_width( string $main_css_element ): array {
 		return array_merge(
@@ -177,7 +179,7 @@ trait CommonTrait {
 	 *
 	 * @param string $main_css_element Main css selector of element.
 	 *
-	 * @return array[]
+	 * @return array{css: array{main: string, hover: string}}
 	 */
 	public static function selectors_default( string $main_css_element ): array {
 		return array(
@@ -193,7 +195,7 @@ trait CommonTrait {
 	 *
 	 * @param string $main_css_element Main css selector of an element.
 	 *
-	 * @return array[]
+	 * @return array{settings: array{color: string}, css: array{main: string, hover: string}}
 	 */
 	public static function selectors_background( string $main_css_element ): array {
 		return array_merge(

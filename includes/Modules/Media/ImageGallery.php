@@ -19,7 +19,6 @@ use ET_Builder_Module_Helper_Overlay as OverlayHelper;
 use WP_Post;
 use function _wp_get_image_size_from_meta;
 use function apply_filters;
-use function divi_squad;
 use function esc_attr;
 use function esc_html__;
 use function et_builder_i18n;
@@ -51,10 +50,10 @@ class ImageGallery extends Module {
 	 * @return void
 	 * @since 1.2.0
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Image Gallery', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Image Galleries', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/image-gallery.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'image-gallery.svg' );
 
 		$this->slug             = 'disq_image_gallery';
 		$this->vb_support       = 'on';
@@ -136,12 +135,12 @@ class ImageGallery extends Module {
 			'filters'        => array(
 				'default'              => Utils::selectors_default( $this->main_css_element ),
 				'child_filters_target' => Utils::add_filters_field(
-					et_builder_i18n( 'Image' ),
-					'advanced',
-					'image',
 					array(
-						'main'  => "$this->main_css_element div .gallery-images img",
-						'hover' => "$this->main_css_element div .gallery-images img:hover",
+						'toggle_slug' => 'image',
+						'css'         => array(
+							'main'  => "$this->main_css_element div .gallery-images img",
+							'hover' => "$this->main_css_element div .gallery-images img:hover",
+						),
 					)
 				),
 			),
@@ -166,7 +165,7 @@ class ImageGallery extends Module {
 	 * @return array[]
 	 * @since 1.0.0
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		// Image fields definitions.
 		$image_fields = array(
 			'gallery_ids' => array(
@@ -410,7 +409,7 @@ class ImageGallery extends Module {
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		// Show a notice message in the frontend if the list item is empty.
 		if ( empty( $this->prop( 'gallery_ids', '' ) ) ) {
 			return sprintf(
@@ -500,7 +499,7 @@ class ImageGallery extends Module {
 	 *
 	 * @return string|null Attachments data
 	 */
-	public function get_gallery_html( $args = array() ) {
+	public function get_gallery_html( array $args = array() ): ?string {
 		// Get gallery item data.
 		$attachments = self::get_gallery( $args );
 
@@ -557,7 +556,7 @@ class ImageGallery extends Module {
 	 *
 	 * @return array|WP_Post[] Attachments data
 	 */
-	public static function get_gallery( $args = array(), $conditional_tags = array(), $current_page = array() ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public static function get_gallery( array $args = array(), array $conditional_tags = array(), array $current_page = array() ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$attachments = array();
 
 		$defaults = array(
@@ -622,7 +621,7 @@ class ImageGallery extends Module {
 	 * @param string        $images_quantity Quantity of images to display.
 	 * @param int           $image_count     Count of images per page.
 	 */
-	public function render_gallery_items( $attachments, $images_quantity, $image_count ) {
+	public function render_gallery_items( $attachments, string $images_quantity, int $image_count ): void {
 		/**
 		 * Loop through each attachment and render the image.
 		 *

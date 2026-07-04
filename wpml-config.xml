@@ -1,33 +1,7 @@
 <wpml-config>
     <built-with-page-builder>/\[(et_pb_section|et_pb_row|et_pb_column)/</built-with-page-builder>
-    <shortcode-list>disq_accordion,disq_accordion_child,disq_bai_slider,disq_business_hours,disq_business_day,disq_divider,disq_dual_button,disq_flip_box,disq_image_mask,disq_lottie,disq_post_grid,disq_post_grid_child,disq_typing_text,disq_post_reading_time,disq_glitch_text,disq_scrolling_text,disq_star_rating,disq_breadcrumbs,disq_drop_cap_text</shortcode-list>
+    <shortcode-list>disq_accordion_child,disq_bai_slider,disq_business_hours,disq_business_day,disq_divider,disq_dual_button,disq_flip_box,disq_image_mask,disq_lottie,disq_post_grid,disq_post_grid_child,disq_typing_text,disq_post_reading_time,disq_glitch_text,disq_scrolling_text,disq_star_rating,disq_breadcrumbs,disq_drop_cap_text</shortcode-list>
     <shortcodes>
-        <shortcode>
-            <tag>disq_accordion</tag>
-            <attributes>
-                <attribute type="media-url">background_image</attribute>
-            </attributes>
-        </shortcode>
-        <shortcode>
-            <tag>disq_accordion_child</tag>
-            <attributes>
-                <attribute>accordion_title</attribute>
-                <attribute>accordion_title_phone</attribute>
-                <attribute>accordion_title_tablet</attribute>
-                <attribute>accordion_title_hover</attribute>
-                <attribute encoding="allow_html_tags">content</attribute>
-                <attribute encoding="allow_html_tags">content_phone</attribute>
-                <attribute encoding="allow_html_tags">content_tablet</attribute>
-                <attribute encoding="allow_html_tags">content_hover</attribute>
-                <attribute>alt</attribute>
-                <attribute>accordion_icon_text</attribute>
-                <attribute type="media-url">accordion_image</attribute>
-                <attribute type="media-url">background_image</attribute>
-                <attribute type="link">accordion_title_url</attribute>
-                <attribute type="link">link_option_url</attribute>
-                <attribute type="link">url</attribute>
-            </attributes>
-        </shortcode>
         <shortcode>
             <tag>disq_bai_slider</tag>
             <attributes>

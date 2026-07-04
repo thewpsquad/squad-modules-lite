@@ -9,7 +9,7 @@
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Base\Extension;
+use DiviSquad\Extensions\Extension;
 use function add_filter;
 
 /**
@@ -23,9 +23,9 @@ class Font_Upload extends Extension {
 	/**
 	 * Allow extra mime type file upload in the current installation.
 	 *
-	 * @param array $existing_mimes The existing mime lists.
+	 * @param array<string, bool|string> $existing_mimes The existing mime lists.
 	 *
-	 * @return array All mime lists with newly appended mimes.
+	 * @return array<string, bool|string> All mime lists with newly appended mimes.
 	 */
 	public function hook_add_extra_mime_types( array $existing_mimes ): array {
 		return array_merge( $existing_mimes, $this->get_available_mime_types() );
@@ -34,7 +34,7 @@ class Font_Upload extends Extension {
 	/**
 	 * All mime lists with newly appended mimes.
 	 *
-	 * @return array
+	 * @return array<string, bool|string>
 	 */
 	protected function get_available_mime_types(): array {
 		return array(

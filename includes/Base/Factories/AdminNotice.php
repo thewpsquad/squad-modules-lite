@@ -41,7 +41,7 @@ final class AdminNotice extends Factory {
 		add_filter( 'admin_body_class', array( $this, 'add_body_classes' ), 0 );
 
 		// Load localize data.
-		add_filter( 'divi_squad_assets_backend_extra_data', array( $this, 'wp_localize_script_data' ), 0 );
+		add_filter( 'divi_squad_global_localize_data', array( $this, 'wp_localize_script_data' ), 0 );
 	}
 
 	/**
@@ -73,7 +73,7 @@ final class AdminNotice extends Factory {
 	public function add_admin_notices() {
 		if ( ! empty( self::$registries ) ) {
 			foreach ( self::$registries as $notice ) {
-				if ( $notice->can_render_it() && file_exists( $notice->get_template() ) ) {
+				if ( $notice->can_render_it() && divi_squad()->get_wp_fs()->exists( $notice->get_template() ) ) {
 					load_template( $notice->get_template(), false, $notice->get_template_args() );
 				}
 			}

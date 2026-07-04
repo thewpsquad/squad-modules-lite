@@ -1,5 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName, WordPress.PHP.DevelopmentFunctions
-
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Squad Modules Core Class
  *
@@ -9,7 +8,7 @@
  * @since       1.0.0
  *
  * @author      The WP Squad <support@squadmodules.com>
- * @copyright   2023-2024 The WP Squad (https://thewpsquad.com/)
+ * @copyright   2023-2025 The WP Squad (https://thewpsquad.com/)
  * @license     GPL-3.0-only
  * @link        https://squadmodules.com
  * @package     DiviSquad
@@ -17,13 +16,8 @@
 
 namespace DiviSquad;
 
-use DiviSquad\Core\Cache;
-use DiviSquad\Core\Memory;
-use DiviSquad\Core\Requirements;
-use DiviSquad\Core\Publisher;
-use DiviSquad\Core\Supports\Polyfills\Constant;
+use DiviSquad\Settings\Migration;
 use Freemius;
-use Freemius_Exception;
 use RuntimeException;
 use Throwable;
 
@@ -41,20 +35,57 @@ use Throwable;
  * @since   1.0.0
  * @package DiviSquad
  *
- * @property Core\Cache                    $cache          Cache manager.
- * @property Core\Memory                   $memory         Memory manager.
- * @property Core\Requirements             $requirements   Requirements checker.
- * @property Core\Supports\Site_Health     $site_health    Site health manager.
- * @property Managers\Features\Modules     $modules        Module manager.
- * @property Managers\Features\Extensions  $extensions     Extension manger.
+ * @property Core\Requirements                    $requirements   Requirements checker.
+ * @property Core\Memory                          $memory         Memory manager.
+ * @property Core\Cache                           $cache          Cache manager.
+ * @property Core\Assets                          $assets         Assets Manager
+ * @property Core\Distribution                    $distribution   Distribution manager.
+ * @property Core\Supports\Site_Health            $site_health    Site health manager.
+ * @property Core\Modules                         $modules        Module manager.
+ * @property Core\Extensions                      $extensions     Extension manger.
+ * @property Core\RestRoutes                      $rest_routes    REST API manager.
+ * @property Builder\Utils\Elements\Custom_Fields $custom_fields  Custom fields manager.
  */
-final class SquadModules extends Integrations\Core {
+final class SquadModules {
 
-	use Core\Traits\DeprecatedClassLoader;
-	use Core\Traits\DetectPluginLife;
-	use Core\Traits\Logger;
+	use Core\Traits\Chainable_Container;
+	use Core\Traits\Deprecations\Deprecated_Class_Loader;
+	use Core\Traits\Plugin\Detect_Plugin_Life;
+	use Core\Traits\Plugin\Logger;
 	use Core\Traits\Singleton;
-	use Core\Traits\UseWPFilesystem;
+	use Core\Traits\WP\Use_WP_Filesystem;
+
+	/**
+	 * The plugin options.
+	 *
+	 * @var array<string, string>
+	 */
+	protected array $options = array();
+
+	/**
+	 * The Plugin name.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
+	 */
+	protected string $name;
+
+	/**
+	 * The Plugin Text Domain.
+	 *
+	 * @var string
+	 */
+	protected string $textdomain;
+
+	/**
+	 * The Plugin Version.
+	 *
+	 * @since 1.4.5
+	 *
+	 * @var string
+	 */
+	protected string $version;
 
 	/**
 	 * Admin menu slug used for the plugin's dashboard page.
@@ -70,7 +101,7 @@ final class SquadModules extends Integrations\Core {
 	 * @since 3.2.0
 	 * @var Freemius|null
 	 */
-	private ?Freemius $publisher = null;
+	private ?Freemius $distributor = null;
 
 	/**
 	 * Plugin Constructor
@@ -82,9 +113,6 @@ final class SquadModules extends Integrations\Core {
 	 * - Loading deprecated class compatibility
 	 *
 	 * @since  3.2.0 Added system requirements check
-	 * @since  3.1.0 Added error handling and logging
-	 * @since  3.0.0 Added plugin initialization on 'plugin_loaded' hook
-	 * @since  3.0.0 Added publisher initialization on 'plugin_loaded' hook
 	 * @since  1.0.0 Initial implementation
 	 */
 	private function __construct() {
@@ -102,7 +130,7 @@ final class SquadModules extends Integrations\Core {
 			$this->load_initials();
 			$this->register_hooks();
 		} catch ( Throwable $e ) {
-			$this->log_error( $e, 'Constructor initialization failed' );
+			$this->log_error( $e, 'Constructor initialization failed', false );
 		}
 	}
 
@@ -120,13 +148,16 @@ final class SquadModules extends Integrations\Core {
 	private function register_hooks(): void {
 		$plugin_basename = $this->get_basename();
 
-		// Register activation and deactivation hooks
+		// Register activation and deactivation hooks.
 		add_action( "activate_$plugin_basename", array( $this, 'hook_activation' ) );
 		add_action( "deactivate_$plugin_basename", array( $this, 'hook_deactivation' ) );
 
-		// Register plugin hooks
-		add_action( 'divi_squad_after_requirements_validation', array( $this, 'init_publisher' ), Constant::PHP_INT_MIN );
-		add_action( 'init', array( $this, 'run' ), Constant::PHP_INT_MIN );
+		// Register plugin hooks.
+		// Note: init_publisher hook is no longer needed since publisher is initialized in prerequisites.
+		add_action( 'init', array( $this, 'run' ) );
+
+		// Only configure the publisher after requirements validation.
+		add_action( 'divi_squad_after_requirements_validation', array( $this, 'configure_distributor' ) );
 
 		/**
 		 * Fires after plugin hooks are registered.
@@ -146,7 +177,7 @@ final class SquadModules extends Integrations\Core {
 	 *
 	 * @return void
 	 */
-	public function hook_activation() {
+	public function hook_activation(): void {
 		try {
 			// Store the previous version if it's different from the current version.
 			$version_value = (string) $this->memory->get( 'version', $this->get_version_dot() );
@@ -168,16 +199,14 @@ final class SquadModules extends Integrations\Core {
 			$can_clean_cache  = (bool) apply_filters( 'divi_squad_clean_cache_on_activation', true );
 			$is_cache_deleted = (bool) $this->memory->get( 'is_cache_deleted', false );
 			if ( ! $is_cache_deleted && $can_clean_cache ) {
-				// Clean the Divi Builder old cache from the current installation.
-				$cache_path = wp_normalize_path( WP_CONTENT_DIR ) . 'et-cache';
-				$can_write  = $this->get_wp_fs()->is_writable( $cache_path ) && ! $this->get_wp_fs()->is_file( $cache_path );
-
-				if ( $can_write && $this->get_wp_fs()->exists( $cache_path ) ) {
-					$this->get_wp_fs()->rmdir( $cache_path );
-
-					// Store the status.
-					$this->memory->set( 'is_cache_deleted', true );
+				// Force the legacy backend builder to reload its template cache.
+				// This ensures that custom modules are available for use right away.
+				if ( function_exists( 'et_pb_force_regenerate_templates' ) ) {
+					\et_pb_force_regenerate_templates();
 				}
+
+				// Store the status.
+				$this->memory->set( 'is_cache_deleted', true );
 			}
 
 			/**
@@ -199,7 +228,7 @@ final class SquadModules extends Integrations\Core {
 	 *
 	 * @return void
 	 */
-	public function hook_deactivation() {
+	public function hook_deactivation(): void {
 		try {
 			// Set plugin deactivation time and version.
 			$this->memory->set( 'version', $this->get_version_dot() );
@@ -252,17 +281,26 @@ final class SquadModules extends Integrations\Core {
 	 * @access private
 	 *
 	 * @return void
-	 * @throws RuntimeException If plugin data cannot be retrieved
+	 * @throws RuntimeException If plugin data cannot be retrieved.
 	 */
 	public function init_plugin_data(): void {
-		// Get the plugin data
+		// Get the plugin data.
 		$options = $this->get_plugin_data( DIVI_SQUAD_PLUGIN_FILE );
 
-		// Set basic plugin properties
-		$this->textdomain = $options['TextDomain'] ?? 'squad-modules-for-divi';
-		$this->version    = $options['Version'] ?? '1.0.0';
-		$this->name       = $this->textdomain;
+		// Set basic plugin properties.
+		$this->name       = 'squad-modules-for-divi';
+		$this->textdomain = $options['TextDomain'] ?? $this->name; // @phpstan-ignore assign.propertyType
+		$this->version    = $options['Version'] ?? '1.0.0'; // @phpstan-ignore assign.propertyType
 		$this->options    = wp_parse_args( $options, array( 'RequiresDIVI' => '4.14.0' ) );
+
+		/**
+		 * Filters the plugin options.
+		 *
+		 * @since 3.2.3
+		 *
+		 * @param array $options Plugin options.
+		 */
+		$this->options = apply_filters( 'divi_squad_options', $this->options );
 
 		/**
 		 * Fires after the plugin data is initialized.
@@ -287,9 +325,22 @@ final class SquadModules extends Integrations\Core {
 	 * @return void
 	 */
 	public function init_prerequisites(): void {
-		$this->container['requirements'] = new Requirements();
-		$this->container['memory']       = new Memory();
-		$this->container['cache']        = new Cache();
+		$this->container['requirements'] = new Core\Requirements( $this );
+		$this->container['distribution'] = new Core\Distribution( $this );
+		$this->container['memory']       = new Core\Memory();
+		$this->container['cache']        = new Core\Cache();
+		$this->container['assets']       = new Core\Assets();
+
+		/**
+		 * Fires after the plugin prerequisites are initialized.
+		 *
+		 * This action allows executing code after the plugin prerequisites have been set up.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param SquadModules $plugin Current plugin instance.
+		 */
+		do_action( 'divi_squad_after_prerequisites_init', $this );
 	}
 
 	/**
@@ -298,7 +349,7 @@ final class SquadModules extends Integrations\Core {
 	 * @since  3.0.0
 	 * @access protected
 	 *
-	 * @return array
+	 * @return array<string, array<string, array<string, mixed>>>
 	 */
 	protected function get_deprecated_classes_list(): array {
 		return array(
@@ -306,19 +357,123 @@ final class SquadModules extends Integrations\Core {
 			\DiviSquad\Admin\Plugin\AdminFooterText::class => array(),
 			\DiviSquad\Admin\Plugin\ActionLinks::class     => array(),
 			\DiviSquad\Admin\Plugin\RowMeta::class         => array(),
+			\DiviSquad\Base\Core::class                    => array(),
 			\DiviSquad\Base\Memory::class                  => array(),
 			\DiviSquad\Base\DiviBuilder\IntegrationAPIBase::class => array(),
 			\DiviSquad\Base\DiviBuilder\IntegrationAPI::class => array(),
+			\DiviSquad\Base\DiviBuilder\Integration::class => array(),
+			\DiviSquad\Base\DiviBuilder\Integration\ShortcodeAPI::class => array(),
 			\DiviSquad\Base\DiviBuilder\Utils\UtilsInterface::class => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\Database\DatabaseUtils::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Traits\TablePopulationTrait::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\DefinitionInterface::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definition::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions\Advanced::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions\WordPress::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\ManagerInterface::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Manager::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers\Fields::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers\Upgraders::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\ProcessorInterface::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processor::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors\Advanced::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors\WordPress::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields::class => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
 			\DiviSquad\Base\Factories\AdminMenu\MenuCore::class => array(),
-			\DiviSquad\Base\Factories\BrandAsset\BrandAsset::class => array(),
 			\DiviSquad\Base\Factories\BrandAsset\BrandAssetInterface::class => array(),
-			\DiviSquad\Base\Factories\PluginAsset\PluginAsset::class => array(),
+			\DiviSquad\Base\Factories\BrandAsset\BrandAsset::class => array(),
+			\DiviSquad\Base\Factories\PluginAsset\AssetInterface::class => array(),
+			\DiviSquad\Base\Factories\PluginAsset\Asset::class => array(),
 			\DiviSquad\Base\Factories\PluginAsset\PluginAssetInterface::class => array(),
+			\DiviSquad\Base\Factories\PluginAsset\PluginAsset::class => array(),
+			\DiviSquad\Base\Factories\PluginAsset::class   => array(),
+			\DiviSquad\Base\Factories\RestRoute\RouteInterface::class => array(),
+			\DiviSquad\Base\Factories\RestRoute\Route::class => array(),
+			\DiviSquad\Base\Factories\RestRoute::class     => array(),
+			\DiviSquad\Base\Factories\SquadFeatures::class => array(),
 			\DiviSquad\Integrations\Admin::class           => array(),
+			\DiviSquad\Integrations\Core::class            => array(),
 			\DiviSquad\Integrations\WP::class              => array(),
 			\DiviSquad\Managers\Assets::class              => array(),
+			\DiviSquad\Managers\Emails\ErrorReport::class  => array(),
 			\DiviSquad\Managers\Extensions::class          => array(),
+			\DiviSquad\Managers\Features\Extensions::class => array(),
+			\DiviSquad\Managers\Features\Modules::class    => array(),
 			\DiviSquad\Managers\Modules::class             => array(),
 			\DiviSquad\Base\DiviBuilder\DiviSquad_Module::class => array(
 				'action' => array(
@@ -334,27 +489,27 @@ final class SquadModules extends Integrations\Core {
 			),
 			\DiviSquad\Utils\Media\Filesystem::class       => array(),
 			\DiviSquad\Utils\Polyfills\Str::class          => array(),
+			\DiviSquad\Utils\Asset::class                  => array(),
 			\DiviSquad\Utils\Singleton::class              => array(),
 		);
 	}
 
 	/**
-	 * Initialize the publisher.
+	 * Configure the publisher instance.
 	 *
-	 * This method initializes the publisher instance if the current request is in the admin area
-	 * and the `Publisher` class is available.
+	 * This is called after requirements are validated to complete the publisher setup.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @return void
 	 */
-	public function init_publisher(): void {
+	public function configure_distributor(): void {
 		try {
-			$publisher = $this->get_publisher();
+			$publisher = $this->get_distributor();
 
-			// Set the plugin ID and key
-			$publisher->set_basename( false, DIVI_SQUAD_PLUGIN_FILE );
+			// Set the plugin ID and key.
+			$publisher->set_basename( false, DIVI_SQUAD_PLUGIN_FILE ); // @phpstan-ignore-line argument.type
 
 			/**
 			 * Fires after the publisher is initialized.
@@ -366,7 +521,7 @@ final class SquadModules extends Integrations\Core {
 			 */
 			do_action( 'divi_squad_after_publisher_init', $this, $publisher );
 		} catch ( Throwable $e ) {
-			$this->log_error( $e, 'Publisher initialization failed' );
+			$this->log_error( $e, 'Distribution initialization failed' );
 		}
 	}
 
@@ -374,20 +529,24 @@ final class SquadModules extends Integrations\Core {
 	 * Get the Freemius instance.
 	 *
 	 * @return Freemius
-	 * @throws Freemius_Exception If the publisher cannot be initialized
+	 * @throws RuntimeException If the publisher is not initialized properly.
 	 */
-	public function get_publisher(): Freemius {
-		global $divi_squad_fs;
-
-		// Return cached instance if available
-		if ( $this->publisher instanceof Freemius ) {
-			return $this->publisher;
+	public function get_distributor(): Freemius {
+		// Return cached instance if available.
+		if ( $this->distributor instanceof Freemius ) {
+			return $this->distributor;
 		}
 
-		// Initialize publisher if needed
-		if ( ! isset( $divi_squad_fs ) && class_exists( Publisher::class ) ) {
-			$publisher     = new Publisher( $this );
-			$divi_squad_fs = $publisher->get_fs();
+		// Get the publisher from the container.
+		if ( ! isset( $this->container['distribution'] ) || ! ( $this->container['distribution'] instanceof Core\Distribution ) ) {
+			throw new RuntimeException( 'Distribution is not initialized properly.' );
+		}
+
+		$distribution = $this->container['distribution'];
+
+		// Initialize global Freemius instance if needed.
+		if ( ! isset( $this->distributor ) ) {
+			$divi_squad_fs = $distribution->get_fs();
 
 			/**
 			 * Fires after the Freemius instance is set up.
@@ -398,11 +557,11 @@ final class SquadModules extends Integrations\Core {
 			 */
 			do_action( 'divi_squad_after_fs_init', $divi_squad_fs );
 
-			// Cache the instance
-			$this->publisher = $divi_squad_fs;
+			// Cache the instance.
+			$this->distributor = $divi_squad_fs;
 		}
 
-		return $divi_squad_fs;
+		return $this->distributor;
 	}
 
 	/**
@@ -429,7 +588,7 @@ final class SquadModules extends Integrations\Core {
 			 */
 			do_action( 'divi_squad_preparing_loading', $this );
 
-			$this->load_text_domain();
+			// Load the plugin assets.
 			$this->load_plugin_assets();
 
 			/**
@@ -438,13 +597,15 @@ final class SquadModules extends Integrations\Core {
 			 * This action allows executing code before the plugin's requirements check is performed.
 			 *
 			 * @since 3.2.3
+			 * @since 3.3.0 From now, we show the notice to admin, ensure all are functional in the frontend if they are used.
 			 *
 			 * @param bool         $is_met Whether the plugin's requirements are met. Default is false.
 			 * @param SquadModules $plugin Current plugin instance. Use this to access plugin properties and methods.
 			 */
-			if ( ! apply_filters( 'divi_squad_requirements_is_met', $this->requirements->is_fulfilled(), $this ) ) {
+			$requirements_is_met = apply_filters( 'divi_squad_requirements_is_met', $this->requirements->is_fulfilled(), $this );
+			if ( ! $requirements_is_met && is_admin() ) {
+				$this->requirements->log_requirement_failure();
 				$this->requirements->register_pre_loaded_admin_page();
-
 				return;
 			}
 
@@ -455,16 +616,16 @@ final class SquadModules extends Integrations\Core {
 			 * and before the plugin begins loading its core components.
 			 *
 			 * @since 3.2.0
-			 * @see \DiviSquad\Core\Requirements::is_fulfilled() For the requirements validation logic
+			 * @see Core\Requirements::is_fulfilled() For the requirements validation logic
 			 *
+			 * @param bool         $is_met Whether the plugin's requirements are met. Default is true.
 			 * @param SquadModules $plugin Current plugin instance. Use this to access plugin properties and methods.
 			 */
-			do_action( 'divi_squad_after_requirements_validation', $this );
+			do_action( 'divi_squad_after_requirements_validation', $requirements_is_met, $this );
 
-			$this->init_containers();
+			$this->load_containers();
+			$this->load_addons();
 			$this->load_components();
-			$this->localize_scripts_data();
-			$this->load_additional_components();
 
 			/**
 			 * Fires after the plugin is fully loaded.
@@ -484,15 +645,6 @@ final class SquadModules extends Integrations\Core {
 	}
 
 	/**
-	 * Load the local text domain.
-	 *
-	 * @return void
-	 */
-	public function load_text_domain() {
-		load_plugin_textdomain( $this->textdomain );
-	}
-
-	/**
 	 * Load Plugin Prerequisite Components
 	 *
 	 * Loads all core plugin prerequisite components.
@@ -503,8 +655,11 @@ final class SquadModules extends Integrations\Core {
 	 * @return void
 	 */
 	protected function load_plugin_assets(): void {
-		$this->load_global_assets();
-		Managers\PluginAssets::load();
+		if ( is_admin() ) {
+			new Core\Assets\Admin();
+		}
+
+		new Core\Assets\Modules();
 
 		/**
 		 * Fires after the plugin prerequisite components are loaded.
@@ -521,10 +676,15 @@ final class SquadModules extends Integrations\Core {
 	 *
 	 * @return void
 	 */
-	protected function init_containers() {
-		$this->container['site_health'] = new Core\Supports\Site_Health();
-		$this->container['modules']     = new Managers\Features\Modules();
-		$this->container['extensions']  = new Managers\Features\Extensions();
+	protected function load_containers(): void {
+		$this->container['modules']       = new Core\Modules();
+		$this->container['extensions']    = new Core\Extensions();
+		$this->container['rest_routes']   = new Core\RestRoutes();
+		$this->container['custom_fields'] = new Builder\Utils\Elements\Custom_Fields();
+
+		if ( is_admin() ) {
+			$this->container['site_health'] = new Core\Supports\Site_Health();
+		}
 
 		/**
 		 * Fires after the plugin containers are initialized.
@@ -550,7 +710,8 @@ final class SquadModules extends Integrations\Core {
 	protected function load_components(): void {
 		$this->load_extensions();
 		$this->load_modules_for_builder();
-		$this->load_admin();
+		$this->load_rest_apis();
+		$this->load_admin_components();
 
 		/**
 		 * Fires after the plugin components are loaded.
@@ -563,37 +724,51 @@ final class SquadModules extends Integrations\Core {
 	}
 
 	/**
-	 * Load Additional Plugin Components
-	 *
-	 * Loads components that require WordPress initialization first.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 *
-	 * @return void
-	 * @throws Throwable If an error occurs while loading additional components
-	 */
-	public function load_additional_components(): void {
-		Base\DiviBuilder\Utils\Elements\CustomFields::init();
-
-		/**
-		 * Fires after additional components are loaded.
-		 *
-		 * @since 3.1.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_additional_components', $this );
-	}
-
-	/**
 	 * Load all extensions.
 	 *
 	 * @return void
 	 */
-	protected function load_extensions() {
-		// Load all extensions.
-		$this->extensions->load_extensions( realpath( dirname( __DIR__ ) ) );
+	protected function load_extensions(): void {
+		// Load Extensions.
+		new Integrations\Extensions();
+
+		// Load the extensions.
+		$this->extensions->init();
+
+		/**
+		 * Fires after the extensions are loaded.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param SquadModules $instance The SquadModules instance.
+		 */
+		do_action( 'divi_squad_load_extensions', $this );
+	}
+
+	/**
+	 * Load the divi custom modules for the divi builder.
+	 *
+	 * @return void
+	 */
+	protected function load_modules_for_builder(): void {
+		// Load the settings migration.
+		Migration::init();
+
+		// Load Placeholder, Modules, etc.
+		new Integrations\DiviBuilderPlaceholders();
+		new Integrations\DiviBuilder();
+
+		// Load the modules.
+		$this->modules->init();
+
+		/**
+		 * Fires after the modules are loaded for the builder.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param SquadModules $instance The SquadModules instance.
+		 */
+		do_action( 'divi_squad_load_modules_for_builder', $this );
 	}
 
 	/**
@@ -601,15 +776,121 @@ final class SquadModules extends Integrations\Core {
 	 *
 	 * @return void
 	 */
-	protected function load_admin() {
-		\DiviSquad\Managers\Ajax::load();
-		\DiviSquad\Managers\RestRoutes::load();
+	protected function load_rest_apis(): void {
+		// Load the REST APIs.
+		$this->rest_routes->init();
 
-		if ( is_admin() ) {
-			\DiviSquad\Managers\Branding::load();
-			\DiviSquad\Managers\Menus::load();
-			\DiviSquad\Managers\Notices::load();
+		/**
+		 * Fires after the REST APIs are loaded.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param SquadModules $instance The SquadModules instance.
+		 */
+		do_action( 'divi_squad_load_rest_apis', $this );
+	}
+
+	/**
+	 * The admin interface asset and others.
+	 *
+	 * @return void
+	 */
+	protected function load_admin_components(): void {
+		if ( ! is_admin() ) {
+			return;
 		}
+
+		Managers\Branding::load();
+		Managers\Menus::load();
+		Managers\Notices::load();
+
+		/**
+		 * Fires after the admin components are loaded.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param SquadModules $instance The SquadModules instance.
+		 */
+		do_action( 'divi_squad_load_admin_components', $this );
+	}
+
+	/**
+	 * Load Addon
+	 *
+	 * Loads components that require WordPress initialization first.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @return void
+	 * @throws Throwable If an error occurs while loading addon.
+	 */
+	protected function load_addons(): void {
+		$this->custom_fields->init();
+		Base\DiviBuilder\Utils\Elements\CustomFields::init();
+
+		/**
+		 * Fires after addon are loaded.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param SquadModules $instance The SquadModules instance.
+		 */
+		do_action( 'divi_squad_load_addons', $this );
+	}
+
+	/**
+	 * Resolve the plugin data.
+	 *
+	 * @param string $plugin_file Absolute path to the main plugin file.
+	 *
+	 * @return array<string, bool|string> Parses the plugin contents to retrieve plugin's metadata.
+	 * @throws RuntimeException If the plugin file does not exist or the function cannot be included.
+	 */
+	public function get_plugin_data( string $plugin_file ): array {
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			$plugin_path = $this->get_wp_path() . 'wp-admin/includes/plugin.php';
+
+			if ( $this->get_wp_fs()->exists( $plugin_path ) ) {
+				require_once $plugin_path;
+			} else {
+				throw new RuntimeException( "The 'wp-admin/includes/plugin.php' file loading failed. Cannot retrieve plugin data." );
+			}
+		}
+
+		return get_plugin_data( $plugin_file, false, false );
+	}
+
+	/**
+	 * Get the plugin admin menu slug.
+	 *
+	 * @return string
+	 */
+	public function get_admin_menu_slug(): string {
+		/**
+		 * Filter the plugin admin menu slug.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $admin_menu_slug The plugin admin menu slug.
+		 */
+		return apply_filters( 'divi_squad_admin_main_menu_slug', $this->admin_menu_slug );
+	}
+
+	/**
+	 * Get the plugin admin menu position.
+	 *
+	 * @return int
+	 */
+	public function get_admin_menu_position(): int {
+		/**
+		 * Filter the plugin admin menu position.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $admin_menu_position The plugin admin menu position.
+		 */
+		return apply_filters( 'divi_squad_admin_menu_position', 101 );
 	}
 
 	/**
@@ -618,7 +899,7 @@ final class SquadModules extends Integrations\Core {
 	 * @since  1.0.0
 	 * @access public
 	 *
-	 * @return array
+	 * @return array<string, string>
 	 */
 	public function get_options(): array {
 		return $this->options;
@@ -630,8 +911,8 @@ final class SquadModules extends Integrations\Core {
 	 * @since  1.0.0
 	 * @access public
 	 *
-	 * @param string $key           The option key.
-	 * @param mixed  $default_value The default value if the option doesn't exist.
+	 * @param string              $key           The option key.
+	 * @param string|integer|bool $default_value The default value if the option doesn't exist.
 	 *
 	 * @return mixed
 	 */
@@ -663,7 +944,7 @@ final class SquadModules extends Integrations\Core {
 	 * @return string
 	 */
 	public function get_version(): string {
-		return $this->version;
+		return $this->is_dev() ? (string) time() : $this->version;
 	}
 
 	/**
@@ -679,6 +960,24 @@ final class SquadModules extends Integrations\Core {
 	}
 
 	/**
+	 * Get the plugin name.
+	 *
+	 * @return string
+	 */
+	public function get_name(): string {
+		return $this->name;
+	}
+
+	/**
+	 * Get the plugin text domain.
+	 *
+	 * @return string
+	 */
+	public function get_textdomain(): string {
+		return $this->textdomain;
+	}
+
+	/**
 	 * Get the plugin base name.
 	 *
 	 * @since  1.0.0
@@ -688,6 +987,18 @@ final class SquadModules extends Integrations\Core {
 	 */
 	public function get_basename(): string {
 		return plugin_basename( DIVI_SQUAD_PLUGIN_FILE );
+	}
+
+	/**
+	 * Retrieve the WordPress root path.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @return string
+	 */
+	public function get_wp_path(): string {
+		return trailingslashit( ABSPATH );
 	}
 
 	/**
@@ -701,7 +1012,26 @@ final class SquadModules extends Integrations\Core {
 	 * @return string
 	 */
 	public function get_path( string $path = '' ): string {
-		return wp_normalize_path( dirname( DIVI_SQUAD_PLUGIN_FILE ) . $path );
+		// Normalize and clean the base plugin directory path.
+		$base_path = wp_normalize_path( dirname( DIVI_SQUAD_PLUGIN_FILE ) );
+
+		// Clean and normalize the requested path.
+		$path = wp_normalize_path( $path );
+		$path = ltrim( $path, '/' );
+
+		// Combine paths using proper directory separator.
+		$full_path = '' !== $path ? path_join( $base_path, $path ) : $base_path;
+
+		/**
+		 * Filter the plugin path.
+		 *
+		 * @since 3.2.3
+		 *
+		 * @param string       $full_path Absolute path within plugin directory
+		 * @param string       $path      Relative path that was requested
+		 * @param SquadModules $plugin    The plugin instance
+		 */
+		return apply_filters( 'divi_squad_plugin_path', $full_path, $path, $this );
 	}
 
 	/**
@@ -710,34 +1040,21 @@ final class SquadModules extends Integrations\Core {
 	 * @since  1.0.0
 	 * @access public
 	 *
-	 * @return string
-	 */
-	public function get_template_path(): string {
-		return $this->get_path( '/templates' );
-	}
-
-	/**
-	 * Get the plugin asset URL.
-	 *
-	 * @since  1.0.0
-	 * @access public
+	 * @param string $path The path to append.
 	 *
 	 * @return string
 	 */
-	public function get_asset_url(): string {
-		return trailingslashit( $this->get_url() . 'build' );
-	}
-
-	/**
-	 * Get the plugin directory URL.
-	 *
-	 * @since  1.0.0
-	 * @access public
-	 *
-	 * @return string
-	 */
-	public function get_url(): string {
-		return plugin_dir_url( DIVI_SQUAD_PLUGIN_FILE );
+	public function get_template_path( string $path = '' ): string {
+		/**
+		 * Filter the plugin template path.
+		 *
+		 * @since 3.2.3
+		 *
+		 * @param string       $template_path The template path.
+		 * @param string       $path          The path to append.
+		 * @param SquadModules $plugin        The plugin instance.
+		 */
+		return apply_filters( 'divi_squad_template_path', $this->get_path( '/templates/' . $path ), $path, $this );
 	}
 
 	/**
@@ -746,21 +1063,82 @@ final class SquadModules extends Integrations\Core {
 	 * @since  1.0.0
 	 * @access public
 	 *
+	 * @param string $path The path to append.
+	 *
 	 * @return string
 	 */
-	public function get_icon_path(): string {
-		return trailingslashit( $this->get_path() ) . 'build/admin/icons';
+	public function get_icon_path( string $path = '' ): string {
+		/**
+		 * Filter the plugin icon path.
+		 *
+		 * @since 3.2.3
+		 *
+		 * @param string       $icon_path The icon path.
+		 * @param string       $path      The path to append.
+		 * @param SquadModules $plugin    The plugin instance.
+		 */
+		return apply_filters( 'divi_squad_icon_path', $this->get_path( '/build/admin/icons/' . $path ), $path, $this );
 	}
 
 	/**
-	 * Retrieve the WordPress root path.
+	 * Get the plugin languages path.
 	 *
-	 * @since  1.0.0
+	 * @since  3.2.3
 	 * @access public
 	 *
 	 * @return string
 	 */
-	public function get_wp_path(): string {
-		return trailingslashit( ABSPATH );
+	public function get_languages_path(): string {
+		return $this->get_path( '/languages' );
+	}
+
+	/**
+	 * Get the plugin directory URL.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @param string $path The path to append.
+	 *
+	 * @return string
+	 */
+	public function get_url( string $path = '' ): string {
+		$base_url = plugin_dir_url( DIVI_SQUAD_PLUGIN_FILE );
+		$path     = ltrim( $path, '/' );
+		$url      = '' !== $path ? trailingslashit( $base_url ) . $path : $base_url;
+
+		/**
+		 * Filter the plugin URL.
+		 *
+		 * @since 3.2.3
+		 *
+		 * @param string       $url    The plugin URL.
+		 * @param string       $path   The path to append.
+		 * @param SquadModules $plugin The plugin instance.
+		 */
+		return apply_filters( 'divi_squad_plugin_url', $url, $path, $this );
+	}
+
+	/**
+	 * Get the plugin asset URL.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @param string $path The path to append.
+	 *
+	 * @return string
+	 */
+	public function get_asset_url( string $path = '' ): string {
+		/**
+		 * Filter the plugin asset URL.
+		 *
+		 * @since 3.2.3
+		 *
+		 * @param string       $url    The plugin asset URL.
+		 * @param string       $path   The path to append.
+		 * @param SquadModules $plugin The plugin instance.
+		 */
+		return apply_filters( 'divi_squad_asset_url', $this->get_url( 'build/' . $path ), $path, $this );
 	}
 }

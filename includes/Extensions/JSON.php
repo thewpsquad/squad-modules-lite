@@ -9,7 +9,7 @@
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Base\Extension;
+use DiviSquad\Extensions\Extension;
 use function add_filter;
 use function wp_strip_all_tags;
 
@@ -26,9 +26,9 @@ class JSON extends Extension {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $existing_mimes The existing mime lists.
+	 * @param array<string, string> $existing_mimes The existing mime lists.
 	 *
-	 * @return array All mime lists with newly appended mimes.
+	 * @return array<string, string> All mime lists with newly appended mimes.
 	 */
 	public function hook_add_extra_mime_types( array $existing_mimes ): array {
 		return array_merge( $existing_mimes, $this->get_available_mime_types() );
@@ -37,7 +37,7 @@ class JSON extends Extension {
 	/**
 	 * All mime lists with newly appended mimes.
 	 *
-	 * @return array
+	 * @return array<string, string> All mime lists with newly appended mimes.
 	 */
 	public function get_available_mime_types(): array {
 		return array(
@@ -49,9 +49,11 @@ class JSON extends Extension {
 	/**
 	 * Filters the "real" file type of the given file.
 	 *
-	 * @param array  $wp_checked Values for the extension, mime type, and corrected filename.
+	 * @param array<string, bool|string>  $wp_checked Values for the extension, mime type, and corrected filename.
 	 * @param string $file       Full path to the file.
 	 * @param string $filename   The name of the file.
+	 *
+	 * @return array<string, bool|string> Values for the extension, mime type, and corrected filename.
 	 */
 	public function hook_wp_check_filetype_and_ext( array $wp_checked, string $file, string $filename ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
 		$ext             = false;
@@ -83,7 +85,7 @@ class JSON extends Extension {
 
 		$flag             = false;
 		$mime_type_values = array_keys( $this->get_available_mime_types() );
-		if ( ! empty( $mime_type_values ) ) {
+		if ( count( $mime_type_values ) > 0 ) {
 			foreach ( $mime_type_values as $line ) {
 				// Ignore to the right of '#' on a line.
 				$line = substr( $line, 0, strcspn( $line, '#' ) );

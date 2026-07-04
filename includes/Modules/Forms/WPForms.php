@@ -224,23 +224,6 @@ class WPForms extends FormStyler {
 
 			$form_html = static::squad_form_styler__get_form_html( $attrs );
 
-			// If no form is selected in Visual Builder, return notice
-			if ( empty( $form_html ) && DiviUtil::is_fb_enabled() ) {
-				$message = __( 'Please select a form.', 'squad-modules-for-divi' );
-
-				/**
-				 * Filters the message shown when no form is selected.
-				 *
-				 * @since 3.2.0
-				 *
-				 * @param string $message The default message.
-				 * @param array  $attrs   The module attributes.
-				 */
-				$message = apply_filters( 'divi_squad_module_wpforms_no_form_message', $message, $attrs );
-
-				return $this->render_notice( $message, 'warning' );
-			}
-
 			// If no form HTML, return empty string
 			if ( empty( $form_html ) ) {
 
@@ -821,7 +804,7 @@ class WPForms extends FormStyler {
 		}
 
 		$form_id_hash = $attrs['form_id'];
-		$form_id_raw  = divi_squad()->memory->get( "form_id_original_{$form_id_hash}", '' );
+		$form_id_raw  = divi_squad()->memory->get( "form_id_original_$form_id_hash", '' );
 
 		if ( empty( $form_id_raw ) ) {
 			$collection = FormsUtil::get_forms_by( 'wpforms', 'id' );
@@ -841,7 +824,7 @@ class WPForms extends FormStyler {
 			}
 
 			$form_id_raw = $collection[ $attrs['form_id'] ];
-			divi_squad()->memory->set( "form_id_original_{$form_id_hash}", $form_id_raw );
+			divi_squad()->memory->set( "form_id_original_$form_id_hash", $form_id_raw );
 			divi_squad()->memory->sync_data();
 		}
 

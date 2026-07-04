@@ -14,6 +14,7 @@ namespace DiviSquad\Modules;
 
 use DiviSquad\Base\DiviBuilder\Module;
 use DiviSquad\Base\DiviBuilder\Utils;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use DiviSquad\Utils\Helper;
 use function esc_attr;
 use function esc_html__;
@@ -41,10 +42,10 @@ class PostReadingTime extends Module {
 	 * @return void
 	 * @since 1.2.2
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Post Reading Time', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Post Reading Times', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/post-reading-time.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'post-reading-time.svg' );
 
 		$this->slug             = 'disq_post_reading_time';
 		$this->vb_support       = 'on';
@@ -157,10 +158,11 @@ class PostReadingTime extends Module {
 	/**
 	 * Declare general fields for the module
 	 *
-	 * @return array[]
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		// Text fields definitions.
 		$text_fields = array(
 			'time_prefix_text'          => array(
@@ -365,8 +367,10 @@ class PostReadingTime extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>>
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 		// time styles.
 		$fields['time_background_color'] = array( 'background' => "$this->main_css_element div .time-text-wrapper .time-text-container " );
@@ -391,13 +395,13 @@ class PostReadingTime extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, string> $attrs       List of attributes.
+	 * @param string                $content     Content being processed.
+	 * @param string                $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		// Collect actual reading time.
 		$reading_time_text = $this->squad_reading_time_text( array_merge( $attrs, $this->props ) );
 
@@ -427,14 +431,14 @@ class PostReadingTime extends Module {
 	/**
 	 * Get the reading time text
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, string> $attrs List of attributes.
 	 *
 	 * @return string
 	 */
-	private function squad_reading_time_text( $attrs ) {
+	private function squad_reading_time_text( array $attrs ): string {
 		if ( in_the_loop() ) {
 			// Get the reading time.
-			$time_text = $this->disq_calculate_reading_time( get_the_ID(), $attrs );
+			$time_text = $this->squad_calculate_reading_time( get_the_ID(), $attrs );
 
 			return sprintf( '<div class="time-text-item time-text-element" data-text="%1$s"></div>', esc_attr( $time_text ) );
 		}
@@ -448,43 +452,45 @@ class PostReadingTime extends Module {
 	 * Gets the post-content, counts the images, strips shortcodes, and strips tags.
 	 * Then count the words. Converts images into a word count and outputs the total reading time.
 	 *
-	 * @param int   $post  The Post ID.
-	 * @param array $attrs List of attributes.
+	 * @param int                   $post  The Post ID.
+	 * @param array<string, string> $attrs List of attributes.
 	 *
 	 * @return false|float|string The total reading time for the article or string if it's 0.
 	 */
-	public function disq_calculate_reading_time( $post, $attrs ) {
-		$current_post_type = get_post_type();
-		if ( 'post' === $current_post_type ) {
-			if ( in_the_loop() && is_singular() ) {
-				$args           = array( 'post_id' => $post );  // use post_id, not post_ID.
-				$comments       = get_comments( $args );
-				$comment_string = '';
+	public function squad_calculate_reading_time( int $post, array $attrs ) {
+		$current_post_type  = get_post_type();
+		$comment_word_count = 0;
+		if ( ( 'post' === $current_post_type ) && in_the_loop() && is_singular() ) {
+			$args           = array( 'post_id' => $post );  // use post_id, not post_ID.
+			$comments       = get_comments( $args );
+			$comment_string = '';
 
+			if ( is_array( $comments ) && count( $comments ) > 0 ) {
+				/* @var \WP_Comment[] $comments */
 				foreach ( $comments as $comment ) {
-					$comment_string = $comment_string . ' ' . $comment->comment_content;
+					if ( ! $comment instanceof \WP_Comment ) {
+						continue;
+					}
+
+					// Get the comment content and strip it of HTML tags.
+					$comment_string .= ' ' . wp_strip_all_tags( $comment->comment_content );
 				}
 
-				$comment_word_count = ( count( preg_split( '/\s+/', $comment_string ) ) );
-
-			} else {
-				$comment_word_count = 0;
+				$comment_word_count = Str::word_count( $comment_string );
 			}
-		} else {
-			$comment_word_count = 0;
 		}
 
 		$post_content     = get_post_field( 'post_content', $post );
 		$number_of_images = substr_count( strtolower( $post_content ), '<img ' );
 		$post_content     = wp_strip_all_tags( $post_content );
-		$word_count       = count( preg_split( '/\s+/', $post_content ) );
+		$word_count       = Str::word_count( $post_content );
 
 		if ( isset( $attrs['calculate_comments__enable'] ) && 'on' === $attrs['calculate_comments__enable'] ) {
 			$word_count += $comment_word_count;
 		}
 
 		// Calculate additional time added to post by images.
-		$additional_words_for_images = $this->disq_calculate_images( $number_of_images, $attrs['words_per_minute'] );
+		$additional_words_for_images = $this->squad_calculate_images( $number_of_images, $attrs['words_per_minute'] );
 
 		if ( isset( $attrs['calculate_images__enable'] ) && 'yes' === $attrs['calculate_images__enable'] ) {
 			$word_count += $additional_words_for_images;
@@ -507,13 +513,14 @@ class PostReadingTime extends Module {
 	/**
 	 * Adds additional reading time for images.
 	 *
+	 * @since 1.1.0
+	 *
 	 * @param int   $total_images     number of images in post.
 	 * @param array $words_per_minute words per minute.
 	 *
 	 * @return int Additional time added to the reading time by images.
-	 * @since 1.1.0
 	 */
-	public function disq_calculate_images( $total_images, $words_per_minute ) {
+	public function squad_calculate_images( int $total_images, array $words_per_minute ) {
 		$additional_time = 0;
 
 		// For the first image adds 12 seconds, the second image adds 11, ..., for image 10+ add 3 seconds.
@@ -536,22 +543,22 @@ class PostReadingTime extends Module {
 	 *
 	 * @return string
 	 */
-	private function squad_render_time_optional_text( $attribute, $css_selector ) {
-		if ( ! empty( $this->prop( $attribute, '' ) ) ) {
-			return sprintf( '<div class="%1$s" data-text="%2$s"></div>', esc_attr( $css_selector ), esc_attr( $this->prop( $attribute, '' ) ) );
+	private function squad_render_time_optional_text( string $attribute, string $css_selector ): string {
+		if ( empty( $this->prop( $attribute, '' ) ) ) {
+			return '';
 		}
 
-		return '';
+		return sprintf( '<div class="%1$s" data-text="%2$s"></div>', esc_attr( $css_selector ), esc_attr( $this->prop( $attribute, '' ) ) );
 	}
 
 	/**
 	 * Render time suffix
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, string> $attrs List of unprocessed attributes.
 	 *
 	 * @return string
 	 */
-	private function squad_render_time_divider( $attrs ) {
+	private function squad_render_time_divider( array $attrs ): string {
 		if ( 'on' === $this->prop( 'show_divider', 'off' ) ) {
 			// Fixed: a custom background doesn't work at frontend.
 			$this->props = array_merge( $attrs, $this->props );
@@ -581,9 +588,9 @@ class PostReadingTime extends Module {
 	/**
 	 * Renders additional styles for the module output.
 	 *
-	 * @param array $attrs List of attributes.
+	 * @param array<string, string> $attrs List of attributes.
 	 */
-	private function squad_generate_additional_styles( $attrs ) {
+	private function squad_generate_additional_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
 		$this->props = array_merge( $attrs, $this->props );
 

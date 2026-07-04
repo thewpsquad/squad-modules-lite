@@ -11,7 +11,7 @@
 namespace DiviSquad\Managers\Notices;
 
 use DiviSquad\Base\Factories\AdminNotice\Notice;
-use function divi_squad;
+use Exception;
 use function esc_html__;
 
 /**
@@ -31,13 +31,16 @@ class Discount extends Notice {
 
 	/**
 	 * Check if we can render notice.
+	 *
+	 * @return bool
+	 * @throws Exception If the notice can't be rendered.
 	 */
 	public function can_render_it(): bool {
 		static $can_render = false;
 
 		if ( ! isset( $can_render ) ) {
-			$can_use_premium_code = divi_squad_fs() instanceof \Freemius && divi_squad_fs()->can_use_premium_code();
-			$is_pro_notice_closed = divi_squad()->memory->get( 'beta_campaign_notice_close', false );
+			$can_use_premium_code = divi_squad_fs()->can_use_premium_code();
+			$is_pro_notice_closed = (bool) divi_squad()->memory->get( 'beta_campaign_notice_close', false );
 
 			$can_render = ! $can_use_premium_code && ! $is_pro_notice_closed;
 		}
@@ -58,7 +61,7 @@ class Discount extends Notice {
 	/**
 	 * Get the template args.
 	 *
-	 * @return array
+	 * @return array<string, string|bool>
 	 */
 	public function get_template_args(): array {
 		return array(

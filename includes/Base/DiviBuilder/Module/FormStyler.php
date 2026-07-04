@@ -1,5 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName
-
+<?php
 /**
  * Abstract FormStyler Class
  *
@@ -318,7 +317,7 @@ abstract class FormStyler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string $key Dot notation key for the selector
+	 * @param string $key Dot notation key for the selector.
 	 *
 	 * @return string|array|null
 	 */
@@ -361,8 +360,8 @@ abstract class FormStyler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string $key   Dot notation key for the selector
-	 * @param string $state Selector state (default: 'normal')
+	 * @param string $key   Dot notation key for the selector.
+	 * @param string $state Selector state (default: 'normal').
 	 *
 	 * @return string
 	 */
@@ -383,7 +382,7 @@ abstract class FormStyler extends Module {
 	/**
 	 * Get hover selector string
 	 *
-	 * @param string $key Dot notation key for the selector
+	 * @param string $key Dot notation key for the selector.
 	 *
 	 * @return string
 	 */
@@ -449,10 +448,11 @@ abstract class FormStyler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param string|array $value   New selector value
-	 * @param string       $version Selector version (default: 'v1')
+	 * @param string       $key Dot notation key for the selector.
+	 * @param string|array $value New selector value.
+	 * @param string       $version Selector version (default: 'v1').
 	 *
-	 * @param string       $key     Dot notation key for the selector
+	 * @return void
 	 */
 	protected function squad_update_css_selector( string $key, $value, string $version = 'v1' ): void {
 		$keys   = explode( '.', $key );
@@ -641,7 +641,7 @@ abstract class FormStyler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $fields_after_background List of fields after the background fields
+	 * @param array $fields_after_background List of fields after the background fields.
 	 * @param array $fields_before_margin    List of fields before the margin fields.
 	 *
 	 * @return array Array of button fields.
@@ -714,13 +714,13 @@ abstract class FormStyler extends Module {
 	 * @return array Array of custom spacing fields.
 	 */
 	protected function squad_get_custom_spacing_fields(): array {
-		// Get all spacing prefixes from the Forms utility
+		// Get all spacing prefixes from the Forms utility.
 		$custom_spacing_prefixes = Utils\Elements\Forms::get_custom_spacing_prefixes();
 
-		// Prepare array to collect all fields
+		// Prepare array to collect all fields.
 		$custom_spacing_fields = array();
 
-		// Pre-build all ranges settings array to avoid recreating it
+		// Pre-build all ranges settings array to avoid recreating it.
 		$base_range_settings = array(
 			'range_settings' => array(
 				'min_limit' => '1',
@@ -732,23 +732,23 @@ abstract class FormStyler extends Module {
 			'tab_slug'       => 'advanced',
 		);
 
-		// Generate margin and padding fields for each prefix in a single pass
+		// Generate margin and padding fields for each prefix in a single pass.
 		foreach ( $custom_spacing_prefixes as $prefix => $options ) {
 			$label                   = ! empty( $options['label'] ) ? $options['label'] : '';
 			$settings                = $base_range_settings;
 			$settings['toggle_slug'] = $prefix;
 
-			// Add margin field
+			// Add margin field.
 			$custom_spacing_fields[ "{$prefix}_margin" ] = $this->squad_add_custom_spacing_field(
-				// translators: Field Label
+				// translators: %s: Component name for margin setting.
 				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
 				'custom_margin',
 				$settings
 			);
 
-			// Add padding field
+			// Add padding field.
 			$custom_spacing_fields[ "{$prefix}_padding" ] = $this->squad_add_custom_spacing_field(
-				// translators: Field Label
+				// translators: %s: Component name for padding setting.
 				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
 				'custom_padding',
 				$settings
@@ -791,13 +791,13 @@ abstract class FormStyler extends Module {
 
 		return array(
 			"{$prefix}_margin"  => $this->squad_add_custom_spacing_field(
-				// translators: Field Label
+				// translators: %s: Element Label for margin.
 				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
 				'custom_margin',
 				$base_settings
 			),
 			"{$prefix}_padding" => $this->squad_add_custom_spacing_field(
-				// translators: Field Label
+				// translators: %s: Element Label for padding.
 				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
 				'custom_padding',
 				$base_settings
@@ -1560,9 +1560,8 @@ abstract class FormStyler extends Module {
 	 * @since  3.2.0
 	 * @access protected
 	 *
-	 * @param array $removals List of removable fields.
-	 *
 	 * @param array $fields   List of fields.
+	 * @param array $removals List of removable fields.
 	 *
 	 * @return array Updated fields array.
 	 */

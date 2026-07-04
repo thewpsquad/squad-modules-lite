@@ -34,10 +34,10 @@ class ImageMask extends Module {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Image Mask', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Image Masks', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/image-mask.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'image-mask.svg' );
 
 		$this->slug             = 'disq_image_mask';
 		$this->vb_support       = 'on';
@@ -94,7 +94,7 @@ class ImageMask extends Module {
 	 * @return array[]
 	 * @since 1.0.0
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		// Image fields definitions.
 		$image_fields = array(
 			'image' => array(
@@ -342,7 +342,7 @@ class ImageMask extends Module {
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$overflow   = 'overflow: visible';
 		$image_src  = $this->prop( 'image' );
 		$alt_text   = $this->_esc_attr( 'alt' );

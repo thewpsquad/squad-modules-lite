@@ -9,10 +9,14 @@
 
 namespace DiviSquad\Utils;
 
-use function divi_squad;
 use function get_option;
+use function get_plugins;
 use function get_site_option;
 use function is_multisite;
+use function wp_localize_script;
+use function wp_set_script_translations;
+use const WP_HOME; // @phpstan-ignore-line constant.notFound
+use const WP_SITEURL; // @phpstan-ignore-line constant.notFound
 
 /**
  * WP Helper class.
@@ -29,11 +33,11 @@ class WP {
 	 */
 	public static function is_playground(): bool {
 		// Check if WP_HOME or WP_SITEURL contains "playground.wordpress.net".
-		if ( defined( 'WP_HOME' ) && strpos( \WP_HOME, 'playground.wordpress.net' ) !== false ) {
+		if ( defined( 'WP_HOME' ) && strpos( WP_HOME, 'playground.wordpress.net' ) !== false ) {
 			return true;
 		}
 
-		if ( defined( 'WP_SITEURL' ) && strpos( \WP_SITEURL, 'playground.wordpress.net' ) !== false ) {
+		if ( defined( 'WP_SITEURL' ) && strpos( WP_SITEURL, 'playground.wordpress.net' ) !== false ) {
 			return true;
 		}
 
@@ -101,7 +105,7 @@ class WP {
 	/**
 	 * Get the active plugins name and versions.
 	 *
-	 * @return array
+	 * @return array<array<string, string>>
 	 */
 	public static function get_active_plugins(): array {
 		static $plugins_list;
@@ -127,7 +131,7 @@ class WP {
 	/**
 	 * Get the active plugins' information.
 	 *
-	 * @return array
+	 * @return array<array<string, string>>
 	 */
 	public static function get_active_plugins_info(): array {
 		static $all_active_plugins;
@@ -140,7 +144,7 @@ class WP {
 			require_once divi_squad()->get_wp_path() . 'wp-admin/includes/plugin.php';
 		}
 
-		$all_plugins        = \get_plugins();
+		$all_plugins        = get_plugins();
 		$active_plugins     = get_option( 'active_plugins', array() );
 		$all_active_plugins = array();
 
@@ -170,12 +174,22 @@ class WP {
 	 *
 	 * @return bool True if the text domain was successfully localized, false otherwise.
 	 */
-	public static function set_script_translations( string $handle, string $domain = 'default', string $path = '' ): bool {
-		if ( function_exists( '\wp_set_script_translations' ) ) {
-			return \wp_set_script_translations( $handle, $domain, $path );
+	public static function set_script_translations( string $handle, string $domain = '', string $path = '' ): bool {
+		// Check if script is registered.
+		if ( ! wp_script_is( $handle, 'registered' ) ) {
+			return false;
 		}
 
-		return false;
+		// Set defaults if empty.
+		$domain = '' !== $domain ? $domain : divi_squad()->get_name();
+		$path   = '' !== $path ? $path : divi_squad()->get_languages_path();
+
+		// Basic path validation.
+		if ( '' !== $path && ! is_dir( $path ) ) {
+			return false;
+		}
+
+		return wp_set_script_translations( $handle, $domain, $path );
 	}
 
 	/**
@@ -183,9 +197,9 @@ class WP {
 	 *
 	 * Works only if the script has already been registered.
 	 *
-	 * @param string $handle      The Script handle the data will be attached to.
-	 * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
-	 * @param array  $l10n        The data itself. The data can be either a single or multidimensional array.
+	 * @param string               $handle      The Script handle the data will be attached to.
+	 * @param string               $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
+	 * @param array<string, mixed> $l10n        Data to be localized.
 	 *
 	 * @return bool True if the script was successfully localized, false otherwise.
 	 */

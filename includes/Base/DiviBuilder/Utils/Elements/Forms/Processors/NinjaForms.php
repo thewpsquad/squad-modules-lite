@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Ninja Forms Processor
+ * Ninja Forms Collection
  *
  * Handles the retrieval and processing of Ninja Forms.
  *
@@ -15,7 +15,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Processors;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Form;
 
 /**
- * Ninja Forms Processor
+ * Ninja Forms Collection
  *
  * Handles the retrieval and processing of Ninja Forms.
  *

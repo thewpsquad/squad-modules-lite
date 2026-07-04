@@ -1,4 +1,24 @@
 == Changelog ==
+= 3.3.0 (04-04-2025) =
+
+**New Features:**
+- Added new performance optimization framework for all modules
+- Introduced improved module loading system for faster page rendering
+- Enhanced developer API for better extensibility
+
+**Bug Fixes:**
+- Fixed inconsistent module behavior in certain edge cases
+- Resolved compatibility issues with the latest Divi updates
+- Fixed styling inconsistencies in form modules
+
+**Improvements:**
+- Enhanced code consistency and organization across multiple files
+- Improved import order for better performance and maintainability
+- Optimized core functionality for faster loading times
+- Updated dependencies to latest compatible versions
+- Improved compatibility with WordPress 6.7
+- Reduced JavaScript bundle size for faster loading
+
 = 3.2.5 (28-02-2025) =
 
 **Bug Fixes:**

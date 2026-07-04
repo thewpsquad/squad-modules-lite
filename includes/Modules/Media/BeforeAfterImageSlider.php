@@ -40,10 +40,10 @@ class BeforeAfterImageSlider extends Module {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Before After Image Slider', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Before After Image Sliders', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/before-after-image-slider.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'before-after-image-slider.svg' );
 
 		$this->slug             = 'disq_bai_slider';
 		$this->vb_support       = 'on';
@@ -123,12 +123,12 @@ class BeforeAfterImageSlider extends Module {
 			'background'     => Utils::selectors_background( $this->main_css_element ),
 			'filters'        => array(
 				'child_filters_target' => Utils::add_filters_field(
-					'',
-					'advanced',
-					'before_image_filter',
 					array(
-						'main'  => "$this->main_css_element div .compare-images.icv .icv__img.icv__img-b",
-						'hover' => "$this->main_css_element div .compare-images.icv:hover .icv__img.icv__img-b",
+						'toggle_slug' => 'before_image_filter',
+						'css'         => array(
+							'main'  => "$this->main_css_element div .compare-images.icv .icv__img.icv__img-b",
+							'hover' => "$this->main_css_element div .compare-images.icv:hover .icv__img.icv__img-b",
+						),
 					)
 				),
 				'css'                  => array(
@@ -231,10 +231,10 @@ class BeforeAfterImageSlider extends Module {
 	/**
 	 * Declare general fields for the module
 	 *
-	 * @return array[]
+	 * @return array<string, array<string, string>> List of fields.
 	 * @since 1.0.0
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		// Image fields definitions.
 		$image_fields = array_merge(
 			$this->squad_get_image_fields( 'before' ),
@@ -433,9 +433,9 @@ class BeforeAfterImageSlider extends Module {
 	 *
 	 * @param string $image_type The current image name.
 	 *
-	 * @return array image and associated fields.
+	 * @return array<string, array<string, string>> List of fields.
 	 */
-	private function squad_get_image_fields( $image_type ) {
+	private function squad_get_image_fields( string $image_type ): array {
 		// Image fields definitions.
 		$image_fields_all = array(
 			"{$image_type}_image" => array(
@@ -536,8 +536,10 @@ class BeforeAfterImageSlider extends Module {
 	 * Add form field options group and background image on the field list.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array<string, array<string, string>> List of fields.
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		// before label styles.
@@ -565,13 +567,13 @@ class BeforeAfterImageSlider extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, string>  $attrs       List of attributes.
+	 * @param string                 $content     Content being processed.
+	 * @param string                 $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$multi_view   = et_pb_multi_view_options( $this );
 		$before_label = $multi_view->render_element(
 			array(
@@ -616,10 +618,10 @@ class BeforeAfterImageSlider extends Module {
 		$default_after_image  = sprintf( '<img alt="" src="%1$s" class="%2$s" style="%3$s;"/>', $default_image_url, $default_class, 'filter: brightness(60%)' );
 
 		// Verify and set actual and fallback image for before and after.
-		$before_image = ! empty( $this->prop( 'before_image', '' ) ) ? $this->squad_render_image( 'before' ) : $default_before_image;
-		$after_image  = ! empty( $this->prop( 'after_image', '' ) ) ? $this->squad_render_image( 'after' ) : $default_after_image;
+		$before_image = '' !== $this->prop( 'before_image', '' ) ? $this->squad_render_image( 'before' ) : $default_before_image;
+		$after_image  = '' !== $this->prop( 'after_image', '' ) ? $this->squad_render_image( 'after' ) : $default_after_image;
 
-		if ( empty( $this->prop( 'before_image', '' ) ) && empty( $this->prop( 'after_image', '' ) ) ) {
+		if ( '' !== $this->prop( 'before_image', '' ) && '' !== $this->prop( 'after_image', '' ) ) {
 			$empty_notice = sprintf(
 				'<div class="squad-notice" style="margin-bottom: 20px;">%s</div>',
 				esc_html__( 'Add before and after images for comprehension. You are see a preview.', 'squad-modules-for-divi' )
@@ -651,13 +653,13 @@ class BeforeAfterImageSlider extends Module {
 	 *
 	 * @return string
 	 */
-	private function squad_render_image( $image_type ) {
+	private function squad_render_image( string $image_type ): string {
 		$multi_view = et_pb_multi_view_options( $this );
 		$alt_text   = $this->_esc_attr( "{$image_type}_alt" );
 
 		$image_classes          = 'squad-image et_pb_image_wrap';
 		$image_attachment_class = et_pb_media_options()->get_image_attachment_class( $this->props, "'{$image_type}_image' " );
-		if ( ! empty( $image_attachment_class ) ) {
+		if ( '' !== $image_attachment_class ) {
 			$image_classes .= " $image_attachment_class";
 		}
 
@@ -678,11 +680,11 @@ class BeforeAfterImageSlider extends Module {
 	/**
 	 * Process styles for module output.
 	 *
-	 * @param array $attrs List of unprocessed attributes.
+	 * @param array<string, string> $attrs List of unprocessed attributes.
 	 *
 	 * @return void
 	 */
-	private function squad_generate_all_styles( $attrs ) {
+	private function squad_generate_all_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
 		$this->props = array_merge( $attrs, $this->props );
 
@@ -761,25 +763,5 @@ class BeforeAfterImageSlider extends Module {
 				'type'           => 'padding',
 			)
 		);
-
-		// phpcs:disable
-
-		// Add height and width support for images.
-		// $additional_props = array( 'width', 'max_width', 'height', 'min_height', 'max_height' );
-		// foreach ( $additional_props as $additional_prop ) {
-		// $css_property = str_replace( '_', '-', $additional_prop );
-		// $this->generate_styles(
-		// array(
-		// 'attrs'          => $this->props,
-		// 'base_attr_name' => $additional_prop,
-		// 'selector'       => "$this->main_css_element div .compare-images, $this->main_css_element div .compare-images img",
-		// 'css_property'   => $css_property,
-		// 'render_slug'    => $this->slug,
-		// 'type'           => 'range',
-		// )
-		// );
-		// }
-
-		// phpcs:enable
 	}
 }

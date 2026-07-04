@@ -38,10 +38,10 @@ class GoogleMap extends Module {
 	 * @return void
 	 * @since 1.4.7
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Google Embed Map', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Google Embed Maps', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/google-map.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'google-map.svg' );
 
 		$this->slug             = 'disq_embed_google_map';
 		$this->vb_support       = 'on';
@@ -94,10 +94,10 @@ class GoogleMap extends Module {
 	/**
 	 * Declare general fields for the module
 	 *
-	 * @return array[]
+	 * @return array<string, array<string, string>>
 	 * @since 1.4.7
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		return array(
 			'google_maps_script_notice' => array(
 				'type'        => 'warning',
@@ -162,13 +162,13 @@ class GoogleMap extends Module {
 	/**
 	 * Renders the module output.
 	 *
-	 * @param array  $attrs       List of attributes.
-	 * @param string $content     Content being processed.
-	 * @param string $render_slug Slug of module that is used for rendering output.
+	 * @param array<string, string> $attrs       List of attributes.
+	 * @param string                $content     Content being processed.
+	 * @param string                $render_slug Slug of module that is used for rendering output.
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		$address = $this->props['address'];
 		$zoom    = $this->props['zoom'];
 

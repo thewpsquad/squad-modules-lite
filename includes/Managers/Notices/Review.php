@@ -12,7 +12,6 @@ namespace DiviSquad\Managers\Notices;
 
 use DiviSquad\Base\Factories\AdminNotice\Notice;
 use DiviSquad\Core\Supports\Links;
-use function divi_squad;
 use function esc_html__;
 
 /**
@@ -37,18 +36,19 @@ class Review extends Notice {
 	 *
 	 * @var int
 	 */
-	private $first_time_show = 7;
+	private int $first_time_show = 7;
 
 	/**
 	 * Init constructor.
 	 */
 	public function __construct() {
-		// Set review flag and time for the first time.
-		if ( empty( divi_squad()->memory->get( 'review_flag' ) ) && empty( divi_squad()->memory->get( 'next_review_time' ) ) ) {
-			// Calculate estimated next review time.
-			$activation = divi_squad()->memory->get( 'activation_time' );
+		$review_flag = divi_squad()->memory->get( 'review_flag' );
+		$next_time   = divi_squad()->memory->get( 'next_review_time' );
+
+		if ( '' === $review_flag && '' === $next_time ) {
+			$activation = (int) divi_squad()->memory->get( 'activation_time' );
 			$first_time = $this->first_time_show * DAY_IN_SECONDS;
-			$next_time  = ! empty( $activation ) ? $activation : time();
+			$next_time  = 0 !== $activation ? $activation : time();
 
 			// Update the database for next review.
 			divi_squad()->memory->set( 'review_flag', false );
@@ -61,7 +61,7 @@ class Review extends Notice {
 	 */
 	public function can_render_it(): bool {
 		// Check if the review flag is set.
-		if ( divi_squad()->memory->get( 'review_flag' ) ) {
+		if ( true === divi_squad()->memory->get( 'review_flag' ) ) {
 			return false;
 		}
 
@@ -82,8 +82,9 @@ class Review extends Notice {
 	/**
 	 * Get the template arguments
 	 *
-	 * @return array
 	 * @since 3.0.0
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function get_template_args(): array {
 		// phpcs:disable
@@ -131,6 +132,7 @@ class Review extends Notice {
 					array(
 						'link'    => Links::RATTING_URL,
 						'classes' => 'button-primary divi-squad-notice-action-button',
+						'style'   => '',
 						'text'    => esc_html__( 'Ok, you deserve it!', 'squad-modules-for-divi' ),
 						'icon'    => 'dashicons-external',
 					),
@@ -153,6 +155,7 @@ class Review extends Notice {
 					array(
 						'link'     => Links::ISSUES_URL,
 						'classes'  => 'support',
+						'style'    => '',
 						'text'     => esc_html__( 'Help Needed? Create a Issue', 'squad-modules-for-divi' ),
 						'icon_svg' => 'icons/question.svg',
 					),

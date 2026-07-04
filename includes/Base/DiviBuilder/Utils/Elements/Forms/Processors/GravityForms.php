@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Gravity Forms Processor
+ * Gravity Forms Collection
  *
  * Handles the retrieval and processing of Gravity Forms.
  *
@@ -15,7 +15,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Processors;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Form;
 
 /**
- * Gravity Forms Processor
+ * Gravity Forms Collection
  *
  * Handles the retrieval and processing of Gravity Forms.
  *

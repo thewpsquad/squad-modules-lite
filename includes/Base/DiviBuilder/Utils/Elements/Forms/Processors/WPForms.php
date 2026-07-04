@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * WPForms Processor
+ * WPForms Collection
  *
  * Handles the retrieval and processing of WPForms.
  *
@@ -16,7 +16,7 @@ use DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Form;
 use WP_Post;
 
 /**
- * WPForms Processor
+ * WPForms Collection
  *
  * Handles the retrieval and processing of WPForms.
  *

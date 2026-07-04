@@ -11,7 +11,7 @@
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Base\Extension;
+use DiviSquad\Extensions\Extension;
 use function add_filter;
 use function wp_check_filetype;
 
@@ -28,9 +28,9 @@ class SVG extends Extension {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $existing_mimes The existing mime lists.
+	 * @param array<string, string> $existing_mimes The existing mime lists.
 	 *
-	 * @return array All mime lists with newly appended mimes.
+	 * @return array<string, string> All mime lists with newly appended mimes.
 	 */
 	public function hook_add_extra_mime_types( array $existing_mimes ): array {
 		return array_merge( $existing_mimes, $this->get_available_mime_types() );
@@ -39,7 +39,7 @@ class SVG extends Extension {
 	/**
 	 * All mime lists with newly appended mimes.
 	 *
-	 * @return array
+	 * @return array<string, string> All mime lists with newly appended mimes.
 	 */
 	public function get_available_mime_types(): array {
 		return array(
@@ -50,19 +50,21 @@ class SVG extends Extension {
 	/**
 	 * Filters the "real" file type of the given file.
 	 *
-	 * @param array         $wp_check Values for the extension, mime type, and corrected filename.
-	 * @param string        $file     Full path to the file.
-	 * @param string        $filename The name of the file.
-	 * @param string[]|null $mimes    Array of mime types keyed by their file extension regex.
+	 * @param array<string, bool|string> $wp_check Values for the extension, mime type, and corrected filename.
+	 * @param string                     $file     Full path to the file.
+	 * @param string                     $filename The name of the file.
+	 * @param string[]|null              $mimes    Array of mime types keyed by their file extension regex.
+	 *
+	 * @return array<string, bool|string> Values for the extension, mime type, and corrected filename.
 	 */
-	public function enable__upload( array $wp_check, string $file, string $filename, $mimes = null ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
-		if ( ! $wp_check['type'] ) {
+	public function enable_upload( array $wp_check, string $file, string $filename, $mimes = null ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
+		if ( ! is_string( $wp_check['type'] ) ) {
 			$check_filetype  = wp_check_filetype( $filename, $mimes );
 			$ext             = $check_filetype['ext'];
 			$type            = $check_filetype['type'];
 			$proper_filename = $filename;
 
-			if ( $type && 'svg' !== $ext && 0 === strpos( $type, 'image/' ) ) {
+			if ( is_string( $type ) && 'svg' !== $ext && 0 === strpos( $type, 'image/' ) ) {
 				$ext  = false;
 				$type = false;
 			}
@@ -90,6 +92,6 @@ class SVG extends Extension {
 	protected function load(): void {
 		add_filter( 'mime_types', array( $this, 'hook_add_extra_mime_types' ) );
 		add_filter( 'upload_mimes', array( $this, 'hook_add_extra_mime_types' ) );
-		add_filter( 'wp_check_filetype_and_ext', array( $this, 'enable__upload' ), 10, 4 );
+		add_filter( 'wp_check_filetype_and_ext', array( $this, 'enable_upload' ), 10, 4 );
 	}
 }

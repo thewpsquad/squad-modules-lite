@@ -37,10 +37,10 @@ class Lottie extends Module {
 	 * @return void
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Lottie Image', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Lottie Images', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/lottie.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'lottie.svg' );
 
 		$this->slug             = 'disq_lottie';
 		$this->vb_support       = 'on';
@@ -98,7 +98,7 @@ class Lottie extends Module {
 	 * @return array[]
 	 * @since 1.0.0
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		// All field types.
 		$lottie_fields            = array(
 			'lottie_src_type'   => Utils::add_select_box_field(
@@ -431,98 +431,96 @@ class Lottie extends Module {
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
-		$multi_view = et_pb_multi_view_options( $this );
-
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		wp_enqueue_script( 'squad-module-lottie' );
 
 		return sprintf(
 			'<div class="squad-lottie-wrapper">%1$s</div>',
-			wp_kses_post( $this->squad_render_lottie( $multi_view ) )
+			wp_kses_post( $this->squad_render_lottie() )
 		);
 	}
 
 	/**
 	 * Render item lottie image
 	 *
-	 * @param ET_Builder_Module_Helper_MultiViewOptions $multi_view Multiview object instance.
-	 *
 	 * @return string
 	 */
-	private function squad_render_lottie( $multi_view ) {
-		if ( '' !== $this->props['lottie_src_type'] && ( '' !== $this->props['lottie_src_upload'] || '' !== $this->props['lottie_src_remote'] ) ) {
-			$lottie_image_classes = array( 'squad-lottie-player', 'lottie-player-container' );
-
-			$lottie_type     = isset( $this->props['lottie_src_type'] ) ? $this->props['lottie_src_type'] : '';
-			$lottie_src_prop = 'local' === $lottie_type ? '{{lottie_src_upload}}' : '{{lottie_src_remote}}';
-
-			// Set background color for Icon.
-			$this->generate_styles(
-				array(
-					'base_attr_name' => 'lottie_color',
-					'selector'       => "$this->main_css_element .squad-lottie-wrapper .squad-lottie-player svg path",
-					'css_property'   => 'fill',
-					'render_slug'    => $this->slug,
-					'type'           => 'color',
-					'important'      => true,
-				)
-			);
-			// Set width for Image.
-			$this->generate_styles(
-				array(
-					'base_attr_name' => 'lottie_width',
-					'selector'       => "$this->main_css_element .squad-lottie-wrapper .squad-lottie-player",
-					'css_property'   => 'width',
-					'render_slug'    => $this->slug,
-					'type'           => 'range',
-					'important'      => true,
-				)
-			);
-			// Set height for Image.
-			$this->generate_styles(
-				array(
-					'base_attr_name' => 'lottie_height',
-					'selector'       => "$this->main_css_element .squad-lottie-wrapper .squad-lottie-player",
-					'css_property'   => 'height',
-					'render_slug'    => $this->slug,
-					'type'           => 'range',
-					'important'      => true,
-				)
-			);
-
-			$module_references = array(
-				'lottie_trigger_method'  => isset( $this->props['lottie_trigger_method'] ) ? $this->props['lottie_trigger_method'] : '',
-				'lottie_mouseout_action' => isset( $this->props['lottie_mouseout_action'] ) ? $this->props['lottie_mouseout_action'] : '',
-				'lottie_click_action'    => isset( $this->props['lottie_click_action'] ) ? $this->props['lottie_click_action'] : '',
-				'lottie_scroll'          => isset( $this->props['lottie_scroll'] ) ? $this->props['lottie_scroll'] : '',
-				'lottie_play_on_hover'   => isset( $this->props['lottie_play_on_hover'] ) ? $this->props['lottie_play_on_hover'] : '',
-				'lottie_loop'            => isset( $this->props['lottie_loop'] ) ? $this->props['lottie_loop'] : '',
-				'lottie_loop_no_times'   => isset( $this->props['lottie_loop_no_times'] ) ? $this->props['lottie_loop_no_times'] : '',
-				'lottie_delay'           => isset( $this->props['lottie_delay'] ) ? $this->props['lottie_delay'] : '',
-				'lottie_speed'           => isset( $this->props['lottie_speed'] ) ? $this->props['lottie_speed'] : '',
-				'lottie_mode'            => isset( $this->props['lottie_mode'] ) ? $this->props['lottie_mode'] : '',
-				'lottie_direction'       => isset( $this->props['lottie_direction'] ) ? $this->props['lottie_direction'] : '',
-				'lottie_renderer'        => isset( $this->props['lottie_renderer'] ) ? $this->props['lottie_renderer'] : '',
-			);
-
-			return $multi_view->render_element(
-				array(
-					'tag'   => 'div',
-					'attrs' => array(
-						'style'        => 'margin: 0px auto; outline: none; overflow: hidden;',
-						'class'        => implode( ' ', $lottie_image_classes ),
-						'data-src'     => $lottie_src_prop,
-						'data-options' => wp_json_encode(
-							array(
-								'fieldPrefix'     => '',
-								'moduleReference' => $module_references,
-							)
-						),
-					),
-				)
-			);
+	private function squad_render_lottie(): string {
+		if ( '' === $this->props['lottie_src_type'] || ( '' === $this->props['lottie_src_upload'] && '' === $this->props['lottie_src_remote'] ) ) {
+			return '';
 		}
 
-		return '';
+		$multi_view = et_pb_multi_view_options( $this );
+
+		$lottie_image_classes = array( 'squad-lottie-player', 'lottie-player-container' );
+
+		$lottie_type     = $this->props['lottie_src_type'] ?? '';
+		$lottie_src_prop = 'local' === $lottie_type ? '{{lottie_src_upload}}' : '{{lottie_src_remote}}';
+
+		// Set background color for Icon.
+		$this->generate_styles(
+			array(
+				'base_attr_name' => 'lottie_color',
+				'selector'       => "$this->main_css_element .squad-lottie-wrapper .squad-lottie-player svg path",
+				'css_property'   => 'fill',
+				'render_slug'    => $this->slug,
+				'type'           => 'color',
+				'important'      => true,
+			)
+		);
+		// Set width for Image.
+		$this->generate_styles(
+			array(
+				'base_attr_name' => 'lottie_width',
+				'selector'       => "$this->main_css_element .squad-lottie-wrapper .squad-lottie-player",
+				'css_property'   => 'width',
+				'render_slug'    => $this->slug,
+				'type'           => 'range',
+				'important'      => true,
+			)
+		);
+		// Set height for Image.
+		$this->generate_styles(
+			array(
+				'base_attr_name' => 'lottie_height',
+				'selector'       => "$this->main_css_element .squad-lottie-wrapper .squad-lottie-player",
+				'css_property'   => 'height',
+				'render_slug'    => $this->slug,
+				'type'           => 'range',
+				'important'      => true,
+			)
+		);
+
+		$module_references = array(
+			'lottie_trigger_method'  => $this->prop( 'divider_icon_lottie_trigger_method', 'freeze-click' ),
+			'lottie_mouseout_action' => $this->prop( 'divider_icon_lottie_mouseout_action', 'no_action' ),
+			'lottie_click_action'    => $this->prop( 'divider_icon_lottie_click_action', 'no_action' ),
+			'lottie_scroll'          => $this->prop( 'divider_icon_lottie_scroll', 'row' ),
+			'lottie_play_on_hover'   => $this->prop( 'divider_icon_lottie_play_on_hover', 'off' ),
+			'lottie_loop'            => $this->prop( 'divider_icon_lottie_loop', 'off' ),
+			'lottie_loop_no_times'   => $this->prop( 'divider_icon_lottie_loop_no_times', '0' ),
+			'lottie_delay'           => $this->prop( 'divider_icon_lottie_delay', '0' ),
+			'lottie_speed'           => $this->prop( 'divider_icon_lottie_speed', '1' ),
+			'lottie_mode'            => $this->prop( 'divider_icon_lottie_mode', 'normal' ),
+			'lottie_direction'       => $this->prop( 'divider_icon_lottie_direction', '1' ),
+			'lottie_renderer'        => $this->prop( 'divider_icon_lottie_renderer', 'svg' ),
+		);
+
+		return $multi_view->render_element(
+			array(
+				'tag'   => 'div',
+				'attrs' => array(
+					'style'        => 'margin: 0px auto; outline: none; overflow: hidden;',
+					'class'        => implode( ' ', $lottie_image_classes ),
+					'data-src'     => $lottie_src_prop,
+					'data-options' => wp_json_encode(
+						array(
+							'fieldPrefix'     => '',
+							'moduleReference' => $module_references,
+						)
+					),
+				),
+			)
+		);
 	}
 }

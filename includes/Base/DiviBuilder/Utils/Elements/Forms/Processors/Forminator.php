@@ -1,7 +1,7 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Forminator Forms Processor
+ * Forminator Forms Collection
  *
  * Handles the retrieval and processing of Forminator Forms.
  *
@@ -17,7 +17,7 @@ use Forminator_API;
 use Forminator_Base_Form_Model;
 
 /**
- * Forminator Forms Processor
+ * Forminator Forms Collection
  *
  * Handles the retrieval and processing of Forminator Forms.
  *

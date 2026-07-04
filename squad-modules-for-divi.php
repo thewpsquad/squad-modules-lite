@@ -15,8 +15,8 @@
  * Plugin Name:         Squad Modules Lite
  * Plugin URI:          https://squadmodules.com/
  * Description:         The Essential Divi plugin, offering 25+ stunning free modules like Advanced Divider, Flip box, and more.
- * Version:             3.2.5
- * Requires at least:   5.8.0
+ * Version:             3.3.0
+ * Requires at least:   6.0
  * Requires PHP:        7.4
  * Author:              The WP Squad
  * Author URI:          https://squadmodules.com/
@@ -26,55 +26,32 @@
  * Domain Path:         /languages
  */
 
-// Prevent direct access
+// Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Direct access forbidden.' );
 }
 
-// Define plugin constants
+// Define plugin constants.
 if ( ! defined( 'DIVI_SQUAD_PLUGIN_FILE' ) ) {
 	define( 'DIVI_SQUAD_PLUGIN_FILE', __FILE__ );
 }
 
-/**
- * Custom autoloader for plugin classes.
- *
- * @param string $class_name Full class name including namespace.
- */
-spl_autoload_register(
-	function ( $class_name ) {
-		// Only handle our namespace
-		if ( strpos( $class_name, 'DiviSquad\\' ) !== 0 ) {
-			return;
-		}
+if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+	return;
+}
 
-		// Convert namespace to file path
-		$class_path = str_replace(
-			array( 'DiviSquad\\', '\\' ),
-			array( '', DIRECTORY_SEPARATOR ),
-			$class_name
-		);
-
-		// Build full file path
-		$file = plugin_dir_path( __FILE__ ) . 'includes' . DIRECTORY_SEPARATOR . $class_path . '.php';
-		$file = realpath( $file );
-
-		// Include file if it exists
-		if ( $file && file_exists( $file ) ) {
-			require_once $file;
-		}
-	}
-);
+// Load the Composer autoloader.
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * Get the main plugin instance
+ * Retrieves the main plugin instance.
  *
- * Returns the singleton instance of the main plugin class. This instance is used
- * throughout the plugin to maintain state and coordinate functionality.
+ * Provides a singleton instance to manage the plugin's state and functionality.
  *
- * @since 1.0.0
- * @return DiviSquad\SquadModules Main plugin instance
- * @throws RuntimeException If plugin instance cannot be created
+ * @since 3.2.4
+ *
+ * @return DiviSquad\SquadModules Returns the main plugin instance.
+ * @throws RuntimeException If the plugin instance cannot be created.
  */
 function divi_squad(): DiviSquad\SquadModules {
 	return DiviSquad\SquadModules::get_instance();
@@ -82,17 +59,21 @@ function divi_squad(): DiviSquad\SquadModules {
 
 if ( ! function_exists( 'divi_squad_fs' ) ) {
 	/**
-	 * Get Freemius SDK instance
+	 * Retrieves the Freemius SDK instance.
 	 *
-	 * Returns the singleton instance of the Freemius SDK integration. This is used
-	 * for licensing, analytics, and deployment functionality.
+	 * Returns the singleton instance of the Freemius SDK integration, which
+	 * manages licensing, analytics, and deployment features for the plugin.
+	 * Note that the function expects the Freemius instance to be available;
+	 * otherwise, an Exception is thrown.
 	 *
 	 * @since 1.0.0
-	 * @return Freemius Freemius instance or null if initialization fails
-	 * @throws Exception If Freemius SDK is not available
+	 * @since 3.3.0 Updated to use get_publisher() which now returns the instance from the container
+	 *
+	 * @return Freemius The Freemius SDK instance for handling licensing and analytics.
+	 * @throws Exception If the Freemius SDK is not available.
 	 */
 	function divi_squad_fs(): Freemius {
-		return divi_squad()->get_publisher();
+		return divi_squad()->get_distributor();
 	}
 }
 

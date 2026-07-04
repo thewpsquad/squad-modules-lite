@@ -1,13 +1,14 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Builder Utils Helper Class which helps all module classes.
  *
  * This file contains the DefinitionTrait which provides utility methods for
  * creating various field definitions used in Divi Builder modules.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Fields;
@@ -28,25 +29,31 @@ trait DefinitionTrait {
 	/**
 	 * Adds a filter field configuration for Divi modules.
 	 *
+	 * @see Divi/includes/builder/class-et-builder-element.php:7607]
+	 * @see Divi/includes/builder/module/woocommerce/CartProducts.php:217
+	 * @see Divi/includes/builder/module/Blurb.php:144
+	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label         The label for the filter.
-	 * @param string $tab_slug      The tab slug under which the filter is grouped.
-	 * @param string $toggle_slug   The toggle slug for the specific setting group.
-	 * @param array  $css_selectors The CSS selectors for targeting the element.
-	 * @param array  $depends_on    Dependencies that determine when the filter is active.
-	 * @param array  $show_if_not   Conditions under which the filter should not be shown.
+	 * @param array<string, mixed> $options The options for the filter field.
 	 *
 	 * @return array The filter configuration array.
 	 */
-	public static function add_filters_field( string $label, string $tab_slug, string $toggle_slug, array $css_selectors, array $depends_on = array(), array $show_if_not = array() ): array {
-		return array(
-			'label'               => $label,
-			'tab_slug'            => $tab_slug,
-			'toggle_slug'         => $toggle_slug,
-			'css'                 => $css_selectors,
-			'depends_on'          => $depends_on,
-			'depends_show_if_not' => $show_if_not,
+	public static function add_filters_field( array $options ): array {
+		return wp_parse_args(
+			$options,
+			array(
+				'label'            => et_builder_i18n( 'Image' ),
+				'type'             => 'filters',
+				'option_category'  => 'layout',
+				'tab_slug'         => 'advanced',
+				'toggle_slug'      => '',
+				'css'              => '',
+				'default_on_front' => '',
+				'show_if'          => null,
+				'show_if_not'      => null,
+				'depends_on'       => null,
+			)
 		);
 	}
 
@@ -84,7 +91,7 @@ trait DefinitionTrait {
 		$args = wp_parse_args( $args, $defaults );
 
 		return array(
-			'label_prefix' => ! empty( $args['label_prefix'] ) ? $args['label_prefix'] : $label,
+			'label_prefix' => '' !== $args['label_prefix'] ? $args['label_prefix'] : $label,
 			'css'          => $args['css'],
 			'defaults'     => $args['defaults'],
 			'tab_slug'     => $args['tab_slug'],
@@ -482,7 +489,7 @@ trait DefinitionTrait {
 	 * @return array The background field configuration array.
 	 */
 	public function add_background_field( array $properties = array() ): array {
-		list(, $base_name, $context, $tab_slug, $toggle_slug) = self::get_background_field_options( $properties );
+		list( , $base_name, $context, $tab_slug, $toggle_slug ) = self::get_background_field_options( $properties );
 
 		$background_fields = array_merge_recursive(
 			$this->element->generate_background_options( $base_name, 'color', $tab_slug, $toggle_slug, $context ),
@@ -523,7 +530,7 @@ trait DefinitionTrait {
 	 * @return array Complete background field configuration.
 	 */
 	protected function add_background_fields( array $properties = array(), array $background_fields = array() ): array {
-		list($label, $base_name, $context, $tab_slug, $toggle_slug) = self::get_background_field_options( $properties );
+		list( $label, $base_name, $context, $tab_slug, $toggle_slug ) = self::get_background_field_options( $properties );
 
 		$default_bg_color = ET_Global_Settings::get_value( 'all_buttons_bg_color' );
 		$defaults         = array(
@@ -571,7 +578,7 @@ trait DefinitionTrait {
 	 * @return array The background gradient field configuration array.
 	 */
 	public function add_background_gradient_field( array $properties = array() ): array {
-		list(, $base_name, $context, $tab_slug, $toggle_slug) = self::get_background_field_options( $properties );
+		list( , $base_name, $context, $tab_slug, $toggle_slug ) = self::get_background_field_options( $properties );
 
 		$background_fields = $this->element->generate_background_options( $base_name, 'gradient', $tab_slug, $toggle_slug, $context );
 

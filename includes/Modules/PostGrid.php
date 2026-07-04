@@ -15,7 +15,6 @@ namespace DiviSquad\Modules;
 use DiviSquad\Base\DiviBuilder\Module;
 use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Utils\Divi;
-use DiviSquad\Utils\Helper;
 use DiviSquad\Utils\LRCart;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use ET_Builder_Module_Helper_MultiViewOptions;
@@ -73,10 +72,10 @@ class PostGrid extends Module {
 	 *
 	 * @return void
 	 */
-	public function init() {
+	public function init(): void {
 		$this->name      = esc_html__( 'Post Grid', 'squad-modules-for-divi' );
 		$this->plural    = esc_html__( 'Post Grids', 'squad-modules-for-divi' );
-		$this->icon_path = Helper::fix_slash( divi_squad()->get_icon_path() . '/post-grid.svg' );
+		$this->icon_path = divi_squad()->get_icon_path( 'post-grid.svg' );
 
 		$this->slug             = 'disq_post_grid';
 		$this->child_slug       = 'disq_post_grid_child';
@@ -502,7 +501,7 @@ class PostGrid extends Module {
 	 *
 	 * @return void
 	 */
-	public function squad_init_custom_hooks() {
+	public function squad_init_custom_hooks(): void {
 		add_filter( 'divi_squad_post_query_current_post_element_outside', array( $this, 'wp_hook_squad_current_outside_post_element' ), 10, 2 );
 		add_filter( 'divi_squad_post_query_current_post_element_main', array( $this, 'wp_hook_squad_current_main_post_element' ), 10, 2 );
 	}
@@ -512,7 +511,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	public function add_new_child_text() {
+	public function add_new_child_text(): string {
 		return esc_html__( 'Add New Element', 'squad-modules-for-divi' );
 	}
 
@@ -523,7 +522,7 @@ class PostGrid extends Module {
 	 *
 	 * @return array[]
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		$general_settings = array(
 			'inherit_current_loop'          => Utils::add_yes_no_field(
 				esc_html__( 'Posts For Current Page', 'squad-modules-for-divi' ),
@@ -1398,7 +1397,7 @@ class PostGrid extends Module {
 	 *
 	 * @return array
 	 */
-	public function get_transition_fields_css_props() {
+	public function get_transition_fields_css_props(): array {
 		$fields = parent::get_transition_fields_css_props();
 
 		// wrapper styles.
@@ -1449,7 +1448,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string module's rendered output.
 	 */
-	public function render( $attrs, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
+	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		// Show a notice message in the frontend if the list item is empty.
 		if ( empty( $content ) ) {
 			return sprintf(
@@ -1516,7 +1515,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	public function wp_hook_squad_current_outside_post_element( $post, $content ) {
+	public function wp_hook_squad_current_outside_post_element( $post, $content ): string {
 		$callback = function ( $post, $child_prop ) {
 			return $this->squad_render_post_element( $post, $child_prop, 'on' );
 		};
@@ -1532,7 +1531,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	public function wp_hook_squad_current_main_post_element( $post, $content ) {
+	public function wp_hook_squad_current_main_post_element( $post, $content ): string {
 		$callback = function ( $post, $child_prop ) {
 			return $this->squad_render_post_element( $post, $child_prop, 'off' );
 		};
@@ -1551,9 +1550,9 @@ class PostGrid extends Module {
 	 *
 	 * @return string the html output for the post-grid.
 	 */
-	public static function squad_get_posts_html( $attrs, $content = null, $multi_view = null ) {
+	public static function squad_get_posts_html( $attrs, $content = null, $multi_view = null ): string {
 		// Set the default values.
-		$is_rest_query = ! empty( $attrs['is_rest_query'] ) ? $attrs['is_rest_query'] : 'off';
+		$is_rest_query = $attrs['is_rest_query'] ?? 'off';
 
 		$query_args = static::squad_build_post_query_args( $attrs, $content );
 		$post_query = new WP_Query( $query_args );
@@ -1570,7 +1569,12 @@ class PostGrid extends Module {
 
 		while ( $post_query->have_posts() ) {
 			$post_query->the_post();
-			static::squad_render_current_post( get_post(), $attrs, $content );
+			$post = get_post();
+			if ( ! $post instanceof WP_Post ) {
+				continue;
+			}
+
+			static::squad_render_current_post( $post, $attrs, $content );
 		}
 
 		if ( 'off' === $is_rest_query ) {
@@ -1595,15 +1599,15 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_post_element( $post, $child_prop, $expected_state ) {
-		$outside_enable = isset( $child_prop['element_outside__enable'] ) ? $child_prop['element_outside__enable'] : 'off';
+	protected function squad_render_post_element( $post, $child_prop, $expected_state ): string {
+		$outside_enable = $child_prop['element_outside__enable'] ?? 'off';
 
 		if ( $outside_enable !== $expected_state ) {
 			return '';
 		}
 
-		$element_type = isset( $child_prop['element'] ) ? $child_prop['element'] : 'none';
-		$icon_type    = isset( $child_prop['element_icon_type'] ) ? $child_prop['element_icon_type'] : 'icon';
+		$element_type = $child_prop['element'] ?? 'none';
+		$icon_type    = $child_prop['element_icon_type'] ?? 'icon';
 
 		$output = '';
 
@@ -1641,7 +1645,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_generate_props_content( $post, $content, $callback ) {
+	protected function squad_generate_props_content( $post, $content, $callback ): string {
 		ob_start();
 
 		// Collect all child modules from Html content.
@@ -1685,7 +1689,7 @@ class PostGrid extends Module {
 	 *
 	 * @return array
 	 */
-	protected static function squad_build_post_query_args( $attrs, $content = null ) {
+	protected static function squad_build_post_query_args( $attrs, $content = null ): array {
 		global $paged;
 
 		$query_args = array(
@@ -1726,7 +1730,7 @@ class PostGrid extends Module {
 	 * @param array $query_args Existing query arguments.
 	 * @return array Updated query arguments.
 	 */
-	protected static function squad_add_current_loop_args( $query_args ) {
+	protected static function squad_add_current_loop_args( $query_args ): array {
 		$queried_object = get_queried_object();
 
 		if ( $queried_object instanceof WP_Post && is_singular() ) {
@@ -1757,7 +1761,7 @@ class PostGrid extends Module {
 	 * @param WP_Post $post       Current post object.
 	 * @return array Updated query arguments.
 	 */
-	protected static function squad_add_related_post_args( $query_args, $post ) {
+	protected static function squad_add_related_post_args( $query_args, $post ): array {
 		$categories = wp_get_post_categories( $post->ID, array( 'fields' => 'ids' ) );
 		if ( ! empty( $categories ) ) {
 			$query_args['cat'] = implode( ',', $categories );
@@ -1781,7 +1785,7 @@ class PostGrid extends Module {
 	 * @param array $attrs      Module attributes.
 	 * @return array Updated query arguments.
 	 */
-	protected static function squad_add_custom_display_args( $query_args, $attrs ) {
+	protected static function squad_add_custom_display_args( $query_args, $attrs ): array {
 		$display_by = ! empty( $attrs['list_post_display_by'] ) ? $attrs['list_post_display_by'] : 'recent';
 
 		if ( 'category' === $display_by && ! empty( $attrs['list_post_include_categories'] ) ) {
@@ -1801,7 +1805,7 @@ class PostGrid extends Module {
 	 * @param int   $paged      Current page number.
 	 * @return array Updated query arguments.
 	 */
-	protected static function squad_add_offset_args( $query_args, $attrs, $paged ) {
+	protected static function squad_add_offset_args( $query_args, $attrs, $paged ): array {
 		$offset = ! empty( $attrs['list_post_offset'] ) ? absint( $attrs['list_post_offset'] ) : 0;
 		if ( $offset > 0 ) {
 			if ( ! empty( $attrs['pagination__enable'] ) && 'on' === $attrs['pagination__enable'] && $paged > 1 ) {
@@ -1821,7 +1825,7 @@ class PostGrid extends Module {
 	 * @param int   $paged      Current page number.
 	 * @return array Updated query arguments.
 	 */
-	protected static function squad_add_pagination_args( $query_args, $attrs, $paged ) {
+	protected static function squad_add_pagination_args( $query_args, $attrs, $paged ): array {
 		if ( ! empty( $attrs['pagination__enable'] ) && 'on' === $attrs['pagination__enable'] ) {
 			$query_args['paged'] = $paged;
 		}
@@ -1834,7 +1838,7 @@ class PostGrid extends Module {
 	 * @param array $query_args Existing query arguments.
 	 * @return array Updated query arguments.
 	 */
-	protected static function squad_add_date_args( $query_args ) {
+	protected static function squad_add_date_args( $query_args ): array {
 		$date_queries = array( 'year', 'monthnum', 'w', 'day', 'hour', 'minute', 'second' );
 		foreach ( $date_queries as $key ) {
 			$value = get_query_var( $key );
@@ -1851,7 +1855,7 @@ class PostGrid extends Module {
 	 * @param array $attrs List of module attributes.
 	 * @return array Filtered query arguments.
 	 */
-	protected static function squad_get_client_query_args( $attrs ) {
+	protected static function squad_get_client_query_args( $attrs ): array {
 		// Allowed properties.
 		$allowed_props = array(
 			'inherit_current_loop',
@@ -1890,12 +1894,12 @@ class PostGrid extends Module {
 	 *
 	 * @return void
 	 */
-	protected static function squad_render_current_post( $post, $attrs, $content = null ) {
+	protected static function squad_render_current_post( $post, $attrs, $content = null ): void {
 		// Identify the current page state.
 		$is_divi_builder = isset( $content ) && is_array( $content );
 
 		// Set the default values.
-		$date_format  = ! empty( $attrs['date_format'] ) ? $attrs['date_format'] : 'M j, Y';
+		$date_format  = $attrs['date_format'] ?? 'M j, Y';
 		$post_classes = get_post_class( 'post', $post );
 
 		printf( '<li class="%s">', esc_attr( implode( ' ', $post_classes ) ) );
@@ -1903,7 +1907,12 @@ class PostGrid extends Module {
 		if ( $is_divi_builder ) {
 			$date_replacement = str_replace( '\\\\', '\\', $date_format );
 			$author           = get_userdata( absint( $post->post_author ) );
-			$post_data        = self::squad_prepare_post_data( $post, $author, $date_replacement );
+
+			if ( ! $author instanceof WP_User ) {
+				$author = new WP_User( 1 );
+			}
+
+			$post_data = self::squad_prepare_post_data( $post, $author, $date_replacement );
 
 			/**
 			 * Filters the post data for the frontend.
@@ -1973,28 +1982,32 @@ class PostGrid extends Module {
 	 *
 	 * @return array
 	 */
-	protected static function squad_prepare_post_data( $post, $author, $date_replacement ) {
+	protected static function squad_prepare_post_data( $post, $author, $date_replacement ): array {
 		// Get categories with permalinks
 		$categories      = wp_get_post_categories( $post->ID, array( 'fields' => 'all' ) );
 		$categories      = ! $categories instanceof \WP_Error ? $categories : array();
-		$categories_data = array();
-		foreach ( $categories as $key => $category ) {
-			$categories_data[ $key ] = array(
-				'name'      => $category->name,
-				'permalink' => get_category_link( $category->term_id ),
-			);
-		}
+		$categories_data = array_map(
+			static function ( $category ) {
+				return array(
+					'name'      => $category->name,
+					'permalink' => get_category_link( $category->term_id ),
+				);
+			},
+			$categories
+		);
 
 		// Get tags with permalinks
 		$tags      = wp_get_post_tags( $post->ID, array( 'fields' => 'all' ) );
 		$tags      = ! $tags instanceof \WP_Error ? $tags : array();
-		$tags_data = array();
-		foreach ( $tags as $key => $tag ) {
-			$tags_data[ $key ] = array(
-				'name'      => $tag->name,
-				'permalink' => get_tag_link( $tag->term_id ),
-			);
-		}
+		$tags_data = array_map(
+			static function ( $tag ) {
+				return array(
+					'name'      => $tag->name,
+					'permalink' => get_tag_link( $tag->term_id ),
+				);
+			},
+			$tags
+		);
 
 		$post_data = array(
 			'id'               => $post->ID,
@@ -2021,8 +2034,8 @@ class PostGrid extends Module {
 				'publish'  => wp_date( $date_replacement, strtotime( $post->post_date ) ),
 				'modified' => wp_date( $date_replacement, strtotime( $post->post_modified ) ),
 			),
-			'custom_fields'    => Utils\Elements\CustomFields::get_fields( 'custom_fields', $post->ID ),
-			'acf_fields'       => Utils\Elements\CustomFields::get_fields( 'acf_fields', $post->ID ),
+			'custom_fields'    => divi_squad()->custom_fields->get_fields( 'custom_fields', $post->ID ),
+			'acf_fields'       => divi_squad()->custom_fields->get_fields( 'acf_fields', $post->ID ),
 		);
 
 		/**
@@ -2044,20 +2057,20 @@ class PostGrid extends Module {
 	 * Render the pagination or load more button.
 	 *
 	 * @param WP_Query                                  $post_query The WP_Query object.
-	 * @param array                                     $attrs The module attributes.
-	 * @param string|array|null                         $content The content being processed.
+	 * @param array                                     $attrs      The module attributes.
+	 * @param string|array|null                         $content    The content being processed.
 	 * @param ET_Builder_Module_Helper_MultiViewOptions $multi_view The multiview object instance.
 	 *
 	 * @return void
 	 */
-	protected static function squad_maybe_render_pagination( $post_query, $attrs, $content = null, $multi_view = null ) {
+	protected static function squad_maybe_render_pagination( WP_Query $post_query, array $attrs, $content = null, $multi_view = null ): void {
 		// Identify the current page state.
 		$is_divi_builder = isset( $content ) && is_array( $content );
 
 		// Set the default values.
-		$is_rest_query  = ! empty( $attrs['is_rest_query'] ) ? $attrs['is_rest_query'] : 'off';
-		$load_more      = ! empty( $attrs['load_more__enable'] ) ? $attrs['load_more__enable'] : 'off';
-		$posts_per_page = ! empty( $attrs['list_post_count'] ) ? absint( $attrs['list_post_count'] ) : 10;
+		$is_rest_query  = $attrs['is_rest_query'] ?? 'off';
+		$load_more      = $attrs['load_more__enable'] ?? 'off';
+		$posts_per_page = isset( $attrs['list_post_count'] ) ? absint( $attrs['list_post_count'] ) : 10;
 
 		// Verify the ability of load more of pagination.
 		$is_posts_exists = $post_query->found_posts > $posts_per_page;
@@ -2079,10 +2092,10 @@ class PostGrid extends Module {
 				$icon_element       = '';
 				$icon_wrapper_class = 'squad-icon-wrapper';
 				$button_classes     = 'squad-load-more-button et_pb_with_background';
-				$button_icon_hover  = isset( $attrs['load_more_button_icon_on_hover'] ) ? $attrs['load_more_button_icon_on_hover'] : 'off';
-				$animation__enable  = isset( $attrs['load_more_button_hover_animation__enable'] ) ? $attrs['load_more_button_hover_animation__enable'] : 'off';
-				$animation_type     = isset( $attrs['load_more_button_hover_animation_type'] ) ? $attrs['load_more_button_hover_animation_type'] : 'fill';
-				$button_icon_type   = isset( $attrs['load_more_button_icon_type'] ) ? $attrs['load_more_button_icon_type'] : 'icon';
+				$button_icon_hover  = $attrs['load_more_button_icon_on_hover'] ?? 'off';
+				$animation__enable  = $attrs['load_more_button_hover_animation__enable'] ?? 'off';
+				$animation_type     = $attrs['load_more_button_hover_animation_type'] ?? 'fill';
+				$button_icon_type   = $attrs['load_more_button_icon_type'] ?? 'icon';
 
 				if ( 'on' === $animation__enable ) {
 					$button_classes .= " $animation_type";
@@ -2165,20 +2178,20 @@ class PostGrid extends Module {
 	 * Render the pagination or load more button.
 	 *
 	 * @param WP_Query                                  $post_query The WP_Query object.
-	 * @param array                                     $attrs The module attributes.
-	 * @param string|array|null                         $content The content being processed.
+	 * @param array                                     $attrs      The module attributes.
+	 * @param string|array|null                         $content    The content being processed.
 	 * @param ET_Builder_Module_Helper_MultiViewOptions $multi_view The multiview object instance.
 	 *
 	 * @return void
 	 */
-	protected static function squad_maybe_render_load_more_button( $post_query, $attrs, $content = null, $multi_view = null ) {
+	protected static function squad_maybe_render_load_more_button( WP_Query $post_query, array $attrs, $content = null, $multi_view = null ): void {
 		// Identify the current page state.
 		$is_divi_builder = isset( $content ) && is_array( $content );
 
 		// Set the default values.
-		$is_rest_query  = ! empty( $attrs['is_rest_query'] ) ? $attrs['is_rest_query'] : 'off';
-		$pagination     = ! empty( $attrs['pagination__enable'] ) ? $attrs['pagination__enable'] : 'off';
-		$posts_per_page = ! empty( $attrs['list_post_count'] ) ? absint( $attrs['list_post_count'] ) : 10;
+		$is_rest_query  = $attrs['is_rest_query'] ?? 'off';
+		$pagination     = $attrs['pagination__enable'] ?? 'off';
+		$posts_per_page = isset( $attrs['list_post_count'] ) ? absint( $attrs['list_post_count'] ) : 10;
 
 		// Verify the ability of load more of pagination.
 		$is_posts_exists = $post_query->found_posts > $posts_per_page;
@@ -2186,10 +2199,10 @@ class PostGrid extends Module {
 		if ( ! $is_divi_builder && $is_posts_exists && 'off' === $is_rest_query && 'on' === $pagination ) {
 			$prev_text         = ''; // &#x3c;
 			$next_text         = ''; // &#x3d;
-			$icon_only__enable = ! empty( $attrs['pagination_icon_only__enable'] ) ? $attrs['pagination_icon_only__enable'] : 'off';
-			$numbers__enable   = ! empty( $attrs['pagination_numbers__enable'] ) ? $attrs['pagination_numbers__enable'] : 'off';
-			$old_entries_text  = ! empty( $attrs['pagination_old_entries_text'] ) ? esc_html( $attrs['pagination_old_entries_text'] ) : __( 'Old Entries', 'squad-modules-for-divi' );
-			$next_entries_text = ! empty( $attrs['pagination_next_entries_text'] ) ? esc_html( $attrs['pagination_next_entries_text'] ) : __( 'Next Entries', 'squad-modules-for-divi' );
+			$icon_only__enable = $attrs['pagination_icon_only__enable'] ?? 'off';
+			$numbers__enable   = $attrs['pagination_numbers__enable'] ?? 'off';
+			$old_entries_text  = isset( $attrs['pagination_old_entries_text'] ) ? esc_html( $attrs['pagination_old_entries_text'] ) : __( 'Old Entries', 'squad-modules-for-divi' );
+			$next_entries_text = isset( $attrs['pagination_next_entries_text'] ) ? esc_html( $attrs['pagination_next_entries_text'] ) : __( 'Next Entries', 'squad-modules-for-divi' );
 
 			// Set icon for pagination prev element.
 			$prev_text .= $multi_view->render_element(
@@ -2294,7 +2307,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_element_icon( $attrs ) {
+	protected function squad_render_element_icon( array $attrs ): string {
 		$wrapper_classes = array( 'squad-element-icon-wrapper' );
 
 		if ( isset( $attrs['element_icon_on_hover'] ) && 'on' === $attrs['element_icon_on_hover'] ) {
@@ -2320,7 +2333,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_element_font_icon( $attrs ) {
+	protected function squad_render_element_font_icon( array $attrs ): string {
 		if ( 'icon' === $attrs['element_icon_type'] ) {
 			$multi_view   = et_pb_multi_view_options( $this );
 			$element_type = isset( $attrs['element'] ) ? $attrs['element'] : 'none';
@@ -2348,7 +2361,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_element_icon_image( $attrs ) {
+	protected function squad_render_element_icon_image( array $attrs ): string {
 		if ( 'image' === $attrs['element_icon_type'] ) {
 			$multi_view    = et_pb_multi_view_options( $this );
 			$alt_text      = $this->_esc_attr( 'alt' );
@@ -2388,7 +2401,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_element_icon_text( $attrs ) {
+	protected function squad_render_element_icon_text( array $attrs ): string {
 		if ( 'text' === $attrs['element_icon_type'] ) {
 			$multi_view        = et_pb_multi_view_options( $this );
 			$element_type      = isset( $attrs['element'] ) ? $attrs['element'] : 'none';
@@ -2419,7 +2432,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_post_element_body( $attrs, $post ) {
+	protected function squad_render_post_element_body( array $attrs, $post ): string {
 		$element    = isset( $attrs['element'] ) ? $attrs['element'] : 'none';
 		$class_name = sprintf( 'et_pb_with_background squad-post-element squad-post-element__%s', esc_attr( $element ) );
 		$post_id    = $post->ID;
@@ -2494,12 +2507,12 @@ class PostGrid extends Module {
 	 * @since 1.0.0
 	 *
 	 * @param array   $attrs      List of attributes.
-	 * @param WP_Post $post      The post object.
+	 * @param WP_Post $post       The post object.
 	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
-	protected function squad_render_title_element( $attrs, $post, $class_name ) {
+	protected function squad_render_title_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$post_title = $post->post_title;
 		if ( empty( $post_title ) ) {
 			return '';
@@ -2534,7 +2547,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_image_element( $attrs, $post, $class_name ) {
+	protected function squad_render_image_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$post_image = get_the_post_thumbnail( $post->ID, 'full' );
 		if ( empty( $post_image ) ) {
 			return '';
@@ -2574,7 +2587,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_content_element( $attrs, $post, $class_name ) {
+	protected function squad_render_content_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$post_excerpt__enable = isset( $attrs['element_excerpt__enable'] ) ? sanitize_text_field( $attrs['element_excerpt__enable'] ) : 'off';
 		$post_content         = ( 'on' === $post_excerpt__enable ) ? $post->post_excerpt : wp_strip_all_tags( $post->post_content );
 
@@ -2606,7 +2619,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_truncate_content( $content, $length ) {
+	protected function squad_truncate_content( string $content, int $length ): string {
 		$character_map = LRCart::get_character_map();
 
 		/**
@@ -2620,7 +2633,7 @@ class PostGrid extends Module {
 		 */
 		$character_map = apply_filters( 'divi_squad_post_query_content_character_map', $character_map );
 
-		// Use Str::word_count with the character map
+		// Use Str::word_count with the character map.
 		$words = Str::word_count( $content, 2, $character_map );
 
 		if ( count( $words ) > $length ) {
@@ -2644,7 +2657,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_author_element( $attrs, $post, $class_name ) {
+	protected function squad_render_author_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$author = get_userdata( absint( $post->post_author ) );
 		if ( ! $author ) {
 			return '';
@@ -2684,7 +2697,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_get_author_name( $author, $author_name_type ) {
+	protected function squad_get_author_name( WP_User $author, string $author_name_type ): string {
 		switch ( $author_name_type ) {
 			case 'nickname':
 				return $author->nickname;
@@ -2710,7 +2723,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_gravatar_element( $attrs, $post, $class_name ) {
+	protected function squad_render_gravatar_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$gravatar_size = isset( $attrs['element_gravatar_size'] ) ? absint( $attrs['element_gravatar_size'] ) : 40;
 		$gravatar      = get_avatar( $post->post_author, $gravatar_size );
 
@@ -2754,7 +2767,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_date_element( $attrs, $post, $class_name ) {
+	protected function squad_render_date_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$element_date_type = isset( $attrs['element_date_type'] ) ? sanitize_text_field( $attrs['element_date_type'] ) : 'publish';
 		$date_format       = isset( $attrs['parent_prop_date_format'] ) ? json_decode( sanitize_text_field( $attrs['parent_prop_date_format'] ), true ) : array( 'date_format' => 'M j, Y' );
 		$date_format       = isset( $date_format['date_format'] ) ? $date_format['date_format'] : 'M j, Y';
@@ -2781,7 +2794,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_read_more_element( $attrs, $post_id, $class_name ) {
+	protected function squad_render_read_more_element( array $attrs, int $post_id, string $class_name ): string {
 		$permalink_url   = get_permalink( $post_id );
 		$read_more_title = esc_html__( 'Read the post', 'squad-modules-for-divi' );
 		$default_text    = esc_html__( 'Read More', 'squad-modules-for-divi' );
@@ -2807,7 +2820,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_comments_element( $attrs, $post, $class_name ) {
+	protected function squad_render_comments_element( array $attrs, WP_Post $post, string $class_name ): string {
 		$comment_before_text = isset( $attrs['element_comment_before'] ) ? sanitize_text_field( $attrs['element_comment_before'] ) : '';
 		$comment_after_text  = isset( $attrs['element_comments_after'] ) ? sanitize_text_field( $attrs['element_comments_after'] ) : '';
 
@@ -2831,7 +2844,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_categories_element( $attrs, $post_id, $class_name ) {
+	protected function squad_render_categories_element( array $attrs, int $post_id, string $class_name ): string {
 		$categories = wp_get_post_categories( $post_id, array( 'fields' => 'all' ) );
 		if ( empty( $categories ) ) {
 			return '';
@@ -2875,7 +2888,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_tags_element( $attrs, $post_id, $class_name ) {
+	protected function squad_render_tags_element( array $attrs, int $post_id, string $class_name ): string {
 		$tags = wp_get_post_tags( $post_id, array( 'fields' => 'all' ) );
 		if ( empty( $tags ) ) {
 			return '';
@@ -2918,7 +2931,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_divider_element( $attrs, $class_name ) {
+	protected function squad_render_divider_element( array $attrs, string $class_name ): string {
 		if ( isset( $attrs['show_divider'] ) && 'on' === $attrs['show_divider'] ) {
 			$divider_position = isset( $attrs['divider_position'] ) ? sanitize_text_field( $attrs['divider_position'] ) : 'bottom';
 			$divider_classes  = implode( ' ', array( 'divider-element', $divider_position ) );
@@ -2943,7 +2956,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_custom_text_element( $attrs, $class_name ) {
+	protected function squad_render_custom_text_element( array $attrs, string $class_name ): string {
 		if ( empty( $attrs['element_custom_text'] ) ) {
 			return '';
 		}
@@ -2968,13 +2981,13 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_custom_field_element( $attrs, $post_id, $class_name ) {
+	protected function squad_render_custom_field_element( array $attrs, int $post_id, string $class_name ): string {
 		if ( empty( $attrs['element_custom_field_post'] ) ) {
 			return '';
 		}
 
 		$custom_field_key = $attrs['element_custom_field_post'];
-		$custom_field     = Utils\Elements\CustomFields::get( 'custom_fields' );
+		$custom_field     = divi_squad()->custom_fields->get( 'custom_fields' );
 		if ( ! $custom_field->has_field( $post_id, $custom_field_key ) ) {
 			return '';
 		}
@@ -3007,13 +3020,13 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_advanced_custom_field_element( $attrs, $post_id, $class_name ) {
+	protected function squad_render_advanced_custom_field_element( array $attrs, int $post_id, string $class_name ): string {
 		if ( empty( $attrs['element_advanced_custom_field_post'] ) ) {
 			return '';
 		}
 
 		$acf_field_key  = $attrs['element_advanced_custom_field_post'];
-		$acf_fields     = Utils\Elements\CustomFields::get( 'acf_fields' );
+		$acf_fields     = divi_squad()->custom_fields->get( 'custom_fields' );
 		$acf_field_type = isset( $attrs['element_advanced_custom_field_type'] ) ? sanitize_text_field( $attrs['element_advanced_custom_field_type'] ) : 'text';
 
 		// Add new body class when user set advanced custom field image class.
@@ -3057,7 +3070,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_format_acf_field_value( $attrs, $acf_field_value, $acf_field_type ) {
+	protected function squad_format_acf_field_value( array $attrs, $acf_field_value, string $acf_field_type ): string {
 		switch ( $acf_field_type ) {
 			case 'email':
 				$acf_email_text = isset( $attrs['element_advanced_custom_field_email_text'] ) ? sanitize_text_field( $attrs['element_advanced_custom_field_email_text'] ) : $acf_field_value;
@@ -3086,7 +3099,7 @@ class PostGrid extends Module {
 	 *
 	 * @return string
 	 */
-	protected function squad_render_post_title_font_icon( $attrs ) {
+	protected function squad_render_post_title_font_icon( array $attrs ): string {
 		$multi_view   = et_pb_multi_view_options( $this );
 		$element_type = isset( $attrs['element'] ) ? $attrs['element'] : 'none';
 		$icon_classes = array( 'et-pb-icon', 'squad-element_title-icon' );
@@ -3114,7 +3127,7 @@ class PostGrid extends Module {
 	 *
 	 * @return void
 	 */
-	protected function squad_generate_all_styles( $attrs ) {
+	protected function squad_generate_all_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
 		$this->props = array_merge( $attrs, $this->props );
 
@@ -3284,7 +3297,7 @@ class PostGrid extends Module {
 	 *
 	 * @return void
 	 */
-	protected function squad_generate_layout_styles( $attrs ) {
+	protected function squad_generate_layout_styles( array $attrs ): void {
 		// Fixed: the custom background doesn't work at frontend.
 		$this->props = array_merge( $attrs, $this->props );
 

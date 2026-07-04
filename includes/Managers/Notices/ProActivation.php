@@ -11,7 +11,7 @@
 namespace DiviSquad\Managers\Notices;
 
 use DiviSquad\Base\Factories\AdminNotice\Notice;
-use function divi_squad;
+use Exception;
 use function esc_html__;
 use function wp_nonce_url;
 
@@ -33,14 +33,14 @@ class ProActivation extends Notice {
 	/**
 	 * Check if we can render notice.
 	 *
-	 * @throws \Exception If the notice can't be rendered.
+	 * @throws Exception If the notice can't be rendered.
 	 */
 	public function can_render_it(): bool {
 		static $can_render = false;
 
 		if ( ! isset( $can_render ) ) {
-			$can_use_premium_code = divi_squad_fs() instanceof \Freemius && divi_squad_fs()->can_use_premium_code();
-			$is_pro_notice_closed = divi_squad()->memory->get( 'pro_activation_notice_close', false );
+			$can_use_premium_code = divi_squad_fs()->can_use_premium_code();
+			$is_pro_notice_closed = (bool) divi_squad()->memory->get( 'pro_activation_notice_close', false );
 
 			if ( ! $is_pro_notice_closed && $can_use_premium_code && ! divi_squad()->is_pro_activated() ) {
 				if ( ! function_exists( '\get_plugins' ) ) {
@@ -65,8 +65,9 @@ class ProActivation extends Notice {
 	/**
 	 * Filters the CSS classes for the body tag in the admin.
 	 *
-	 * @return string
 	 * @since 1.2.5
+	 *
+	 * @return string
 	 */
 	public function get_body_classes(): string {
 		return 'divi-squad-notice';
@@ -75,8 +76,9 @@ class ProActivation extends Notice {
 	/**
 	 * Get the template arguments
 	 *
-	 * @return array
 	 * @since 3.0.0
+	 *
+	 * @return array<string, mixed>
 	 */
 	public function get_template_args(): array {
 		return array(
@@ -95,6 +97,7 @@ class ProActivation extends Notice {
 						'text'    => esc_html__( 'Active Pro Plugin', 'squad-modules-for-divi' ),
 						'classes' => 'button-primary divi-squad-notice-action-button',
 						'icon'    => 'dashicons-external',
+						'style'   => '',
 					),
 				),
 			),

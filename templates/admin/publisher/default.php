@@ -2,11 +2,12 @@
 /**
  * Template file
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  *
- * @var array|string $args Arguments passed to the template.
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
+ *
+ * @var array<string>|string $args Arguments passed to the template.
  */
 
 if ( ! ( defined( 'ABSPATH' ) && is_string( $args ) ) ) {

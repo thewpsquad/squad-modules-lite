@@ -78,4 +78,13 @@ class Links {
 	 * @var string
 	 */
 	const TRANSLATE_URL = 'https://translate.wordpress.org/projects/wp-plugins/squad-modules-for-divi';
+
+	/**
+	 * The plugin premium support URL.
+	 *
+	 * @since 3.3.0
+	 *
+	 * @var string
+	 */
+	const PREMIUM_SUPPORT_URL = 'https://squadmodules.com/support/';
 }

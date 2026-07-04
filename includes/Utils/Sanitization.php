@@ -36,13 +36,18 @@ class Sanitization {
 	 *
 	 * @link https://github.com/WordPress/WordPress-Coding-Standards/wiki/Sanitizing-array-input-data
 	 *
-	 * @return array|string
+	 * @return array<array<int|string>|string>|string
 	 */
 	public static function sanitize_array( $value ) {
 		if ( is_array( $value ) ) {
-			return array_map( array( self::class, 'sanitize_array' ), $value );
+			return array_map( // @phpstan-ignore-line return.type
+				static function ( $item ) {
+					return is_array( $item ) ? self::sanitize_array( $item ) : sanitize_text_field( $item );
+				},
+				$value
+			);
 		}
 
-		return is_scalar( $value ) ? sanitize_text_field( $value ) : $value;
+		return is_string( $value ) ? sanitize_text_field( $value ) : $value;
 	}
 }

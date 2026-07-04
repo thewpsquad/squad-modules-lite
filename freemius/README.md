@@ -25,7 +25,7 @@ If you're a WordPress plugin or theme developer and are interested in monetizing
 
 https://dashboard.freemius.com/register/
 
-Once you have your account setup and are familiar with how it all works you're ready to begin [integrating Freemius](https://freemius.com/help/documentation/wordpress-sdk/integrating-freemius-sdk/) into your WordPress product 
+Once you have your account setup and are familiar with how it all works you're ready to begin [integrating Freemius](https://freemius.com/help/documentation/wordpress-sdk/integrating-freemius-sdk/) into your WordPress product
 
 You can see some of the existing WordPress.org plugins & themes that are already utilizing the power of Freemius here:
 
@@ -132,9 +132,9 @@ Add logic which will only be available in your premium plugin version:
 <?php
     // This "if" block will be auto removed from the Free version.
     if ( my_prefix_fs()->is__premium_only() ) {
-    
+
         // ... premium only logic ...
-        
+
     }
 ?>
 ```
@@ -232,7 +232,7 @@ Add logic for specified paid plan:
 ```
 
 ## Excluding files and folders from the free plugin version
-There are [two ways](https://freemius.com/help/documentation/wordpress-sdk/software-licensing/#excluding_files_and_folders_from_the_free_plugin_version) to exclude files from your free version. 
+There are [two ways](https://freemius.com/help/documentation/wordpress-sdk/software-licensing/#excluding_files_and_folders_from_the_free_plugin_version) to exclude files from your free version.
 
 1. Add `__premium_only` just before the file extension. For example, functions__premium_only.php will be only included in the premium plugin version. This works for all types of files, not only PHP.
 2. Add `@fs_premium_only` a special meta tag to the plugin's main PHP file header. Example:
@@ -242,7 +242,7 @@ There are [two ways](https://freemius.com/help/documentation/wordpress-sdk/softw
 	 * Plugin Name: My Very Awesome Plugin
 	 * Plugin URI:  http://my-awesome-plugin.com
 	 * Description: Create and manage Awesomeness right in WordPress.
-	 * Version:     1.0.0
+	 * VersionConfig:     1.0.0
 	 * Author:      Awesomattic
 	 * Author URI:  http://my-awesome-plugin.com/me/
 	 * License:     GPLv2
@@ -255,7 +255,7 @@ There are [two ways](https://freemius.com/help/documentation/wordpress-sdk/softw
 	if ( ! defined( 'ABSPATH' ) ) {
 		exit;
 	}
-    
+
     // ... my code ...
 ?>
 ```
@@ -268,11 +268,11 @@ Based on [WordPress.org Guidelines](https://wordpress.org/plugins/about/guidelin
 Therefore, if you want to deploy your free plugin's version to WordPress.org, make sure you wrap all your premium code with `if ( my_prefix_fs()->{{ method }}__premium_only() )` or use [some of the other methods](https://freemius.com/help/documentation/wordpress-sdk/software-licensing/) provided by the SDK to exclude premium features & files from the free version.
 
 ## Deployment
-Zip your Freemius product’s root folder and [upload it in the Deployment section](https://freemius.com/help/documentation/selling-with-freemius/deployment/) in the *Freemius Developer's Dashboard*. 
+Zip your Freemius product’s root folder and [upload it in the Deployment section](https://freemius.com/help/documentation/selling-with-freemius/deployment/) in the *Freemius Developer's Dashboard*.
 The plugin/theme will automatically be scanned and processed by a custom-developed *PHP Processor* which will auto-generate two versions of your plugin:
 
 1. **Premium version**: Identical to your uploaded version, including all code (except your `secret_key`). Will be enabled for download ONLY for your paying or in trial customers.
-2. **Free version**: The code stripped from all your paid features (based on the logic added wrapped in `{ method }__premium_only()`). 
+2. **Free version**: The code stripped from all your paid features (based on the logic added wrapped in `{ method }__premium_only()`).
 
 The free version is the one that you should give your users to download. Therefore, download the free generated version and upload to your site. Or, if your plugin was WordPress.org compliant and you made sure to exclude all your premium code with the different provided techniques, you can deploy the downloaded free version to the .org repo.
 

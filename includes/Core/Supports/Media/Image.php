@@ -1,10 +1,9 @@
 <?php
 namespace DiviSquad\Core\Supports\Media;
 
-use DiviSquad\Core\Traits\UseWPFilesystem;
+use DiviSquad\Core\Traits\WP\Use_WP_Filesystem;
 use RuntimeException;
 use WP_Error;
-use WP_Filesystem_Base;
 
 /**
  * The Image Class with performance optimizations.
@@ -13,7 +12,7 @@ use WP_Filesystem_Base;
  * @since   3.0.0
  */
 class Image {
-	use UseWPFilesystem;
+	use Use_WP_Filesystem;
 
 	/**
 	 * Cache of loaded images.
@@ -46,16 +45,9 @@ class Image {
 	/**
 	 * Path validation status.
 	 *
-	 * @var bool|WP_Error
+	 * @var bool
 	 */
-	protected $path_validated;
-
-	/**
-	 * File modification time cache.
-	 *
-	 * @var array
-	 */
-	protected array $mtime_cache = array();
+	protected bool $path_validated;
 
 	/**
 	 * Constructor with enhanced initialization.
@@ -84,12 +76,12 @@ class Image {
 				);
 			}
 
-			// Generate cache keys
+			// Generate cache keys.
 			$format    = $as_base64 ? 'base64' : 'raw';
 			$image_key = "{$type}_{$image}_{$format}";
 			$cache_key = "image_{$format}_" . md5( $this->path . $image_key );
 
-			// Try memory cache first
+			// Try memory cache first.
 			if ( isset( $this->images[ $image_key ] ) ) {
 				return $this->images[ $image_key ];
 			}
@@ -102,27 +94,27 @@ class Image {
 				return $cached_data;
 			}
 
-			// Validate image type
+			// Validate image type.
 			if ( ! $this->validate_image_type( $type ) ) {
 				throw new RuntimeException(
 					sprintf(
-					// translators: %s: image type
+					// translators: %s: image type.
 						esc_html__( 'Image type (%s) is not supported.', 'squad-modules-for-divi' ),
 						esc_html( $type )
 					)
 				);
 			}
 
-			// Get raw image data
+			// Get raw image data.
 			$image_data = $this->get_image_raw( $image );
 			if ( is_wp_error( $image_data ) ) {
 				throw new RuntimeException( $image_data->get_error_message() );
 			}
 
-			// Process image based on format
+			// Process image based on format.
 			$processed_image = $as_base64 ? $this->process_as_base64( $image_data, $type ) : $image_data;
 
-			// Cache the processed image
+			// Cache the processed image.
 			$this->images[ $image_key ] = $processed_image;
 			divi_squad()->cache->set( $cache_key, $processed_image, 'divi-squad', HOUR_IN_SECONDS );
 
@@ -141,10 +133,10 @@ class Image {
 	 * @return string Base64 encoded image data.
 	 */
 	protected function process_as_base64( string $image_data, string $type ): string {
-		// Convert SVG type for proper MIME type
+		// Convert SVG type for proper MIME type.
 		$mime_type = ( 'svg' === $type ) ? 'svg+xml' : $type;
 
-		// Generate base64 data
+		// Generate base64 data.
 		$base64_data = 'data:image/' . $mime_type . ';base64,' . base64_encode( $image_data );
 
 		/**
@@ -170,7 +162,7 @@ class Image {
 			$image_path = $this->path . '/' . $image;
 			$cache_key  = 'image_raw_' . md5( $image_path );
 
-			// Check cache first
+			// Check cache first.
 			$cached_content = divi_squad()->cache->get( $cache_key );
 			if ( false !== $cached_content ) {
 				return $cached_content;
@@ -179,38 +171,38 @@ class Image {
 			if ( ! $this->get_wp_fs()->exists( $image_path ) ) {
 				throw new RuntimeException(
 					sprintf(
-					// translators: %s: image path
+					// translators: %s: image path.
 						esc_html__( 'Image file (%s) does not exist.', 'squad-modules-for-divi' ),
 						esc_html( $image_path )
 					)
 				);
 			}
 
-			// Get file size for memory management
+			// Get file size for memory management.
 			$file_size = $this->get_wp_fs()->size( $image_path );
 			if ( $file_size > wp_convert_hr_to_bytes( '64M' ) ) {
 				throw new RuntimeException(
 					sprintf(
-					// translators: %s: image path
+					// translators: %s: image path.
 						esc_html__( 'Image file (%s) is too large to process.', 'squad-modules-for-divi' ),
 						esc_html( $image_path )
 					)
 				);
 			}
 
-			// Read file with error handling
+			// Read file with error handling.
 			$content = $this->get_wp_fs()->get_contents( $image_path );
 			if ( false === $content ) {
 				throw new RuntimeException(
 					sprintf(
-					// translators: %s: image path
+					// translators: %s: image path.
 						esc_html__( 'Failed to read image file (%s).', 'squad-modules-for-divi' ),
 						esc_html( $image_path )
 					)
 				);
 			}
 
-			// Cache the content
+			// Cache the content.
 			divi_squad()->cache->set( $cache_key, $content, 'divi-squad', HOUR_IN_SECONDS );
 
 			return $content;
@@ -243,14 +235,15 @@ class Image {
 	/**
 	 * Validate the image directory path.
 	 *
-	 * @return bool|WP_Error
+	 * @return bool
+	 * @throws RuntimeException If the path is not a directory or not readable.
 	 */
-	protected function validate_path() {
+	protected function validate_path(): bool {
 		try {
 			if ( ! $this->get_wp_fs()->is_dir( $this->path ) ) {
 				throw new RuntimeException(
 					sprintf(
-					// translators: %s: image path
+					// translators: %s: image path.
 						esc_html__( 'Image path (%s) is not a directory.', 'squad-modules-for-divi' ),
 						esc_html( $this->path )
 					)
@@ -260,7 +253,7 @@ class Image {
 			if ( ! $this->get_wp_fs()->is_readable( $this->path ) ) {
 				throw new RuntimeException(
 					sprintf(
-					// translators: %s: image path
+					// translators: %s: image path.
 						esc_html__( 'Image path (%s) is not readable.', 'squad-modules-for-divi' ),
 						esc_html( $this->path )
 					)
@@ -271,26 +264,25 @@ class Image {
 			divi_squad()->cache->set( $cache_key, true, 'divi-squad', DAY_IN_SECONDS );
 
 			return true;
-
 		} catch ( RuntimeException $e ) {
-			return new WP_Error( 'divi_squad_path_validation', $e->getMessage() );
+			return false;
 		}
 	}
 
 	/**
 	 * Check if the image path is validated.
 	 *
-	 * @return bool|WP_Error
+	 * @return bool
 	 */
-	public function is_path_validated() {
-		if ( $this->path_validated instanceof WP_Error ) {
-			return $this->path_validated;
+	public function is_path_validated(): bool {
+		if ( ! $this->path_validated ) {
+			return false;
 		}
 
 		$cache_key = 'path_valid_' . md5( $this->path );
 		$is_valid  = divi_squad()->cache->get( $cache_key );
 
-		if ( $is_valid === false ) {
+		if ( false === $is_valid ) {
 			$this->path_validated = $this->validate_path();
 
 			return $this->path_validated;
@@ -307,11 +299,11 @@ class Image {
 	public function clear_cache(): void {
 		$this->images = array();
 
-		// Clear path validation cache
+		// Clear path validation cache.
 		$path_cache_key = 'path_valid_' . md5( $this->path );
 		divi_squad()->cache->delete( $path_cache_key, 'divi-squad' );
 
-		// Clear HTML defaults cache
+		// Clear HTML defaults cache.
 		$html_cache_key = 'divi_squad_kses_defaults';
 		divi_squad()->cache->delete( $html_cache_key, 'divi-squad' );
 
@@ -368,8 +360,8 @@ class Image {
 
 		// Enhanced SVG support with security considerations
 		$svg_args = array(
-			'data'  => array(),
-			'svg'   => array(
+			'data'           => array(),
+			'svg'            => array(
 				'class'               => true,
 				'aria-hidden'         => true,
 				'aria-labelledby'     => true,
@@ -386,24 +378,24 @@ class Image {
 				'stroke-linejoin'     => true,
 				'xmlns:xlink'         => true,
 			),
-			'path'  => array(
+			'path'           => array(
 				'd'    => true,
 				'fill' => true,
 				'id'   => true,
 			),
-			'g'     => array(
+			'g'              => array(
 				'fill'      => true,
 				'transform' => true,
 				'id'        => true,
 			),
-			'title' => array(
+			'title'          => array(
 				'title' => true,
 				'id'    => true,
 			),
-			'desc'  => array(
+			'desc'           => array(
 				'id' => true,
 			),
-			'defs'  => array(
+			'defs'           => array(
 				'id' => true,
 			),
 			'stop'           => array(
