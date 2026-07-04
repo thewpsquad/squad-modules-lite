@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Main migration class.
@@ -10,6 +11,10 @@
  */
 
 namespace DiviSquad\Settings;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use ET_Builder_Element;
 

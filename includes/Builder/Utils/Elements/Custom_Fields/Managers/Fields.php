@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Custom Fields Query Manager
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Managers;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Database\Database_Utils;
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Manager;

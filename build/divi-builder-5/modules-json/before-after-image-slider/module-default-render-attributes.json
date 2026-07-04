@@ -1,0 +1,31 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Before After Image Slider"
+        }
+      }
+    }
+  },
+  "compare": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "imageLabelEnable": "off",
+          "imageLabelHoverEnable": "off",
+          "slideDirectionMode": "horizontal",
+          "slideTriggerType": "click",
+          "slideControlColor": "#FFFFFF",
+          "slideControlStartPoint": "25",
+          "slideControlShadowEnable": "off",
+          "slideControlCircleEnable": "off",
+          "slideControlCircleBlurEnable": "off",
+          "slideControlSmoothingEnable": "off",
+          "slideControlSmoothingAmount": "100"
+        }
+      }
+    }
+  }
+}

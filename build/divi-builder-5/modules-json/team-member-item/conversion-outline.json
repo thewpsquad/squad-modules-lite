@@ -1,0 +1,40 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "name": "module.decoration.fonts",
+      "position": "module.decoration.fonts",
+      "bio": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "image": "member.innerContent.*.image",
+    "name": "member.innerContent.*.name",
+    "position": "member.innerContent.*.position",
+    "bio": "member.innerContent.*.bio",
+    "alignment": "member.innerContent.*.alignment",
+    "use_social": "member.innerContent.*.useSocial",
+    "social_facebook": "member.innerContent.*.socialFacebook",
+    "social_x_twitter": "member.innerContent.*.socialXTwitter",
+    "social_linkedin": "member.innerContent.*.socialLinkedin",
+    "social_instagram": "member.innerContent.*.socialInstagram",
+    "social_youtube": "member.innerContent.*.socialYoutube",
+    "social_website": "member.innerContent.*.socialWebsite"
+  }
+}

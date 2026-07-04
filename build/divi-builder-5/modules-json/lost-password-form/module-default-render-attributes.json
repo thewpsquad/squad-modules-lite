@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Lost Password Form"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layout": "card",
+          "showLogo": "on",
+          "titleText": "Reset your password",
+          "showSubtitle": "on",
+          "subtitleText": "Enter your email and we'll send a reset link.",
+          "usernameLabel": "Username or Email",
+          "buttonText": "Send Reset Link",
+          "showLoginLink": "on",
+          "successMessage": "Check your email for a reset link."
+        }
+      }
+    }
+  }
+}

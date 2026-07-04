@@ -1,0 +1,75 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "image": "css.*.image"
+  },
+  "module": {
+    "image": "image.innerContent.*.image",
+    "alt": "image.innerContent.*.alt",
+    "image_width": "image.innerContent.*.imageWidth",
+    "image_height": "image.innerContent.*.imageHeight",
+    "image_horizontal_position": "image.innerContent.*.imageHorizontalPosition",
+    "image_vertical_position": "image.innerContent.*.imageVerticalPosition",
+    "customMaskShapeEnable": "maskShape.innerContent.*.customMaskShapeEnable",
+    "customMaskShapeImage": "maskShape.innerContent.*.customMaskShapeImage",
+    "mask_shape_image": "maskShape.innerContent.*.maskShapeImage",
+    "mask_shape_secondary": "maskShape.innerContent.*.maskShapeSecondary",
+    "mask_shape_rotate": "maskShape.innerContent.*.maskShapeRotate",
+    "mask_shape_scale_x": "maskShape.innerContent.*.maskShapeScaleX",
+    "mask_shape_scale_y": "maskShape.innerContent.*.maskShapeScaleY",
+    "mask_shape_flip": "maskShape.innerContent.*.maskShapeFlip",
+    "layer_1_enable": "borderLayer.innerContent.*.layer1Enable",
+    "layer_1_background_type": "borderLayer.innerContent.*.layer1BackgroundType",
+    "layer_1_background_color": "borderLayer.innerContent.*.layer1BackgroundColor",
+    "layer_1_gradient_color_start": "borderLayer.innerContent.*.layer1GradientColorStart",
+    "layer_1_gradient_color_end": "borderLayer.innerContent.*.layer1GradientColorEnd",
+    "layer_2_enable": "decoration1.innerContent.*.layerEnable",
+    "decoration_element_2": "decoration1.innerContent.*.decorationElement",
+    "layer_2_above_image": "decoration1.innerContent.*.layerAboveImage",
+    "layer_2_background_color": "decoration1.innerContent.*.layerBackgroundColor",
+    "layer_2_horz": "decoration1.innerContent.*.layerHorz",
+    "layer_2_vert": "decoration1.innerContent.*.layerVert",
+    "layer_2_scale": "decoration1.innerContent.*.layerScale",
+    "layer_2_rotate": "decoration1.innerContent.*.layerRotate",
+    "layer_3_enable": "decoration2.innerContent.*.layerEnable",
+    "decoration_element_3": "decoration2.innerContent.*.decorationElement",
+    "layer_3_above_image": "decoration2.innerContent.*.layerAboveImage",
+    "layer_3_background_color": "decoration2.innerContent.*.layerBackgroundColor",
+    "layer_3_horz": "decoration2.innerContent.*.layerHorz",
+    "layer_3_vert": "decoration2.innerContent.*.layerVert",
+    "layer_3_scale": "decoration2.innerContent.*.layerScale",
+    "layer_3_rotate": "decoration2.innerContent.*.layerRotate",
+    "enable_custom_viewbox": "viewbox.innerContent.*.enableCustomViewbox",
+    "viewbox_min_x": "viewbox.innerContent.*.viewboxMinX",
+    "viewbox_min_y": "viewbox.innerContent.*.viewboxMinY",
+    "viewbox_width": "viewbox.innerContent.*.viewboxWidth",
+    "viewbox_height": "viewbox.innerContent.*.viewboxHeight"
+  }
+}

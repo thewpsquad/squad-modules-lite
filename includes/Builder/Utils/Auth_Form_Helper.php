@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Shared helper for the Auth form modules (Login, Register, Lost/Reset Password).
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Utils;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Utils\Divi as DiviUtil;
 use WP_User;

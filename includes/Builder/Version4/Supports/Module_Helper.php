@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Builder Utils Class
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Supports;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils as CommonUtils;
 use DiviSquad\Builder\Version4\Abstracts\Module;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Database utilities for table management.
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Database;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 // phpcs:disable Generic.Files.LineLength.MaxExceeded, Generic.Files.LineLength.TooLong -- Detailed array-shape @param/@return PHPDocs (table schema definitions) are long by nature and cannot be wrapped.
 

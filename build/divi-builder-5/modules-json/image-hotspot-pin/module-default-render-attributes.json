@@ -1,0 +1,28 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Hotspot Pin"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "posX": "50",
+          "posY": "50",
+          "markerType": "dot",
+          "icon": "",
+          "number": "",
+          "tooltipTitle": "Hotspot",
+          "tooltipContent": "Describe this point of interest.",
+          "tooltipPosition": "top"
+        }
+      }
+    }
+  }
+}

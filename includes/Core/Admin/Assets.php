@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Admin Assets Manager
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Core\Admin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Assets as Assets_Manager;
 use DiviSquad\Core\Contracts\Hookable;
@@ -410,11 +415,10 @@ class Assets implements Hookable {
 	}
 
 	/**
-	 * Get Freemius checkout configuration for FS.Checkout.
+	 * Get the checkout configuration for the admin app.
 	 *
-	 * Exposes only the publishable Freemius identifiers (plugin_id + public_key)
-	 * plus graceful-degradation fallback URLs. Plan IDs and prices come from the
-	 * Freemius dashboard product config and are intentionally left empty here.
+	 * Checkout is hosted by Freemius; the admin app only needs the upgrade and
+	 * pricing page URLs. No prices live in this plugin.
 	 *
 	 * @return array<string, mixed>
 	 */
@@ -422,25 +426,13 @@ class Assets implements Hookable {
 		try {
 			$fs = divi_squad_fs();
 
-			// get_id()/get_public_key() are the publishable Freemius identifiers; the
-			// surrounding try/catch returns the known fallback id if the SDK lacks them.
-			$plugin_id  = (int) $fs->get_id();
-			$public_key = (string) $fs->get_public_key();
-
 			$config = array(
-				'plugin_id'   => $plugin_id,
-				'public_key'  => $public_key,
-				// TODO-from-product-config: plan IDs live in the Freemius dashboard,
-				// not in this repo. Until wired, FS.Checkout falls back to upgrade_url.
-				'plan_ids'    => array(),
 				'upgrade_url' => $fs->get_upgrade_url(),
 				'pricing_url' => $fs->pricing_url(),
 			);
 
 			/**
-			 * Filter the Freemius checkout config exposed to the admin app.
-			 *
-			 * Use this filter to inject `plan_ids` from product config when available.
+			 * Filter the checkout config exposed to the admin app.
 			 *
 			 * @param array<string, mixed> $config Checkout configuration.
 			 */
@@ -449,9 +441,6 @@ class Assets implements Hookable {
 			divi_squad()->log_error( $e, 'Failed to get checkout config' );
 
 			return array(
-				'plugin_id'   => 14784,
-				'public_key'  => '',
-				'plan_ids'    => array(),
 				'upgrade_url' => '',
 				'pricing_url' => '',
 			);

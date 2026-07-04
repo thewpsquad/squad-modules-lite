@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Duplicate Filter
@@ -15,6 +16,10 @@
  */
 
 namespace DiviSquad\Core\Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Throwable;
 

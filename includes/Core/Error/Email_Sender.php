@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Error Email Sender
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core\Error;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Throwable;
 use WP_Error;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Sanitization helper class for sanitizing values.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Utils;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function sanitize_text_field;
 

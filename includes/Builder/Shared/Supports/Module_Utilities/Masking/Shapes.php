@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Builder Utils Helper Class which help to the all module class.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 // phpcs:disable Generic.Files.LineLength.MaxExceeded, Generic.Files.LineLength.TooLong -- This file holds inline SVG mask path data; the long lines are single SVG strings that cannot be wrapped.
 

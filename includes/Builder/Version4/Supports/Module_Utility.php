@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Module Utilities Provider Class
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Supports;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Shared\Supports\Module_Utilities\Breadcrumbs;
 use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Decorations;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Notice Interface
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Core\Admin\Notices;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Notice Interface

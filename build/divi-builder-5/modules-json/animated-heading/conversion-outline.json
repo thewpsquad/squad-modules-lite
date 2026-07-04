@@ -1,0 +1,51 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "prefix_text": "module.decoration.fonts",
+      "rotating_text": "module.decoration.fonts",
+      "suffix_text": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "prefix_text": "headingSettings.innerContent.*.prefixText",
+    "rotating_text": "headingSettings.innerContent.*.rotatingText",
+    "suffix_text": "headingSettings.innerContent.*.suffixText",
+    "heading_tag": "headingSettings.innerContent.*.headingTag",
+    "granularity": "headingSettings.innerContent.*.granularity",
+    "effect": "headingSettings.innerContent.*.effect",
+    "duration": "headingSettings.innerContent.*.duration",
+    "rotation_delay": "headingSettings.innerContent.*.rotationDelay",
+    "easing": "headingSettings.innerContent.*.easing",
+    "letter_stagger": "headingSettings.innerContent.*.letterStagger",
+    "rotating_color": "headingStyle.innerContent.*.rotatingColor",
+    "content_align": "headingStyle.innerContent.*.contentAlign"
+  }
+}

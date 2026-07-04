@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Form Interface
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Forms;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Form Interface

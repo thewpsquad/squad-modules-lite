@@ -1,0 +1,43 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "after": "css.*.after",
+    "before": "css.*.before",
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "time_prefix_text": "content.innerContent.*.timePrefixText",
+    "time_suffix_text": "content.innerContent.*.timeSuffixText",
+    "time_suffix_text_singular": "content.innerContent.*.timeSuffixTextSingular",
+    "time_text_tag": "content.innerContent.*.timeTextTag",
+    "words_per_minute": "content.innerContent.*.wordsPerMinute",
+    "calculate_comments__enable": "content.innerContent.*.calculateComments",
+    "calculate_images__enable": "content.innerContent.*.calculateImages"
+  }
+}

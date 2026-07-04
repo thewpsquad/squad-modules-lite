@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Image Hotspots helper.
@@ -17,6 +18,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Media\Image_Hotspots;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function esc_attr;
 use function esc_html;

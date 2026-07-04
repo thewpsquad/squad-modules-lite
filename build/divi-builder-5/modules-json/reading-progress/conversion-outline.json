@@ -1,0 +1,46 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "default": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "bar_style": "readingProgressSettings.innerContent.*.barStyle",
+    "position": "readingProgressSettings.innerContent.*.position",
+    "target_selector": "readingProgressSettings.innerContent.*.targetSelector",
+    "bar_color": "readingProgressSettings.innerContent.*.barColor",
+    "use_gradient": "readingProgressSettings.innerContent.*.useGradient",
+    "gradient_end": "readingProgressSettings.innerContent.*.gradientEnd",
+    "bar_height": "readingProgressSettings.innerContent.*.barHeight",
+    "hide_on_complete": "readingProgressSettings.innerContent.*.hideOnComplete",
+    "show_percent": "readingProgressSettings.innerContent.*.showPercent"
+  }
+}

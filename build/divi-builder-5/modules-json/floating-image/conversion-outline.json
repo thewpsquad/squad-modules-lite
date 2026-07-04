@@ -1,0 +1,39 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "borders": {
+      "default": "module.decoration.border",
+      "image": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow",
+      "image": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "image": "itemSettings.innerContent.*.image",
+    "image_alt": "itemSettings.innerContent.*.imageAlt",
+    "motion_type": "itemSettings.innerContent.*.motionType",
+    "horizontal_position": "itemSettings.innerContent.*.horizontalPosition",
+    "vertical_position": "itemSettings.innerContent.*.verticalPosition",
+    "float_distance": "itemSettings.innerContent.*.floatDistance",
+    "rotate_angle": "itemSettings.innerContent.*.rotateAngle",
+    "duration": "itemSettings.innerContent.*.duration",
+    "delay": "itemSettings.innerContent.*.delay",
+    "easing": "itemSettings.innerContent.*.easing",
+    "use_link": "itemSettings.innerContent.*.useLink",
+    "link_url": "itemSettings.innerContent.*.linkUrl",
+    "link_new_window": "itemSettings.innerContent.*.linkNewWindow",
+    "image_max_width": "itemSettings.innerContent.*.imageMaxWidth",
+    "image_max_height": "itemSettings.innerContent.*.imageMaxHeight"
+  }
+}

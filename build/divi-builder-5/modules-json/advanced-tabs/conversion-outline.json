@@ -1,0 +1,31 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "layout": "tabs.innerContent.*.layout",
+    "tab_alignment": "tabs.innerContent.*.tabAlignment",
+    "active_tab": "tabs.innerContent.*.activeTab",
+    "mobile_accordion": "tabs.innerContent.*.mobileAccordion",
+    "enable_hash": "tabs.innerContent.*.enableHash",
+    "tab_text_color": "tabs.innerContent.*.tabTextColor",
+    "active_bg_color": "tabs.innerContent.*.activeBgColor",
+    "active_text_color": "tabs.innerContent.*.activeTextColor"
+  }
+}

@@ -308,8 +308,7 @@
                   "max": 100,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -334,8 +333,7 @@
                   "max": 8000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -360,8 +358,7 @@
                   "max": 2.5,
                   "step": 0.1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

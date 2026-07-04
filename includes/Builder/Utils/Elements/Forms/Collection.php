@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Builder Form Utils Helper Class
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Forms;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Abstract class for form processing.

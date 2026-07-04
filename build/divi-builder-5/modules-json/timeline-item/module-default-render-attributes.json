@@ -1,0 +1,30 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Timeline Item"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "title": "Timeline Title",
+          "dateLabel": "",
+          "content": "Timeline content goes here.",
+          "markerType": "dot",
+          "icon": "",
+          "image": "",
+          "imageAlt": "",
+          "markerNumber": "",
+          "itemLink": "",
+          "itemLinkTarget": "_self"
+        }
+      }
+    }
+  }
+}

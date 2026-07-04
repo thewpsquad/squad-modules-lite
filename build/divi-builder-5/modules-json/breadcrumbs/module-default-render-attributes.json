@@ -1,0 +1,35 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Breadcrumbs"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "homeText": "Home",
+          "beforeText": ""
+        }
+      }
+    }
+  },
+  "separator": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "icon": {
+            "unicode": "&#x39;",
+            "type": "divi",
+            "weight": "400"
+          }
+        }
+      }
+    }
+  }
+}

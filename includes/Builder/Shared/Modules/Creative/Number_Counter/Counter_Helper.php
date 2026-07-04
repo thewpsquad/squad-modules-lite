@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Number Counter helper.
@@ -15,6 +16,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Number_Counter;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function abs;
 use function absint;

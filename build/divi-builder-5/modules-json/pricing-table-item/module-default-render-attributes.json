@@ -1,0 +1,31 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Pricing Plan"
+        }
+      }
+    }
+  },
+  "plan": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "title": "Starter",
+          "price": "$29",
+          "period": "/mo",
+          "description": "",
+          "ribbon": "",
+          "isFeatured": "off",
+          "features": "10 projects\n5 GB storage\nEmail support\n- Priority support",
+          "buttonText": "Get Started",
+          "buttonUrl": "#",
+          "buttonTextColor": "#ffffff",
+          "accentColor": "#5E2EFF"
+        }
+      }
+    }
+  }
+}

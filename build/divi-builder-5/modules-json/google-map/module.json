@@ -113,8 +113,7 @@
                   "max": 22,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

@@ -27,7 +27,7 @@
           "conditions": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -211,8 +211,7 @@
                   "max": 4,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -237,8 +236,7 @@
                   "max": 10000,
                   "step": 100,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

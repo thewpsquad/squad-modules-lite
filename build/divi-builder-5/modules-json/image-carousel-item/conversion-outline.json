@@ -1,0 +1,36 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "image": "css.*.image",
+    "overlay": "css.*.overlay",
+    "caption": "css.*.caption",
+    "button": "css.*.button"
+  },
+  "module": {
+    "image": "slideItem.innerContent.*.image",
+    "image_alt": "slideItem.innerContent.*.imageAlt",
+    "show_caption": "slideItem.innerContent.*.showCaption",
+    "caption_text": "slideItem.innerContent.*.captionText",
+    "show_button": "slideItem.innerContent.*.showButton",
+    "button_text": "slideItem.innerContent.*.buttonText",
+    "button_url": "slideItem.innerContent.*.buttonUrl",
+    "button_target": "slideItem.innerContent.*.buttonTarget",
+    "show_overlay": "slideItem.innerContent.*.showOverlay"
+  }
+}

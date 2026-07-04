@@ -1,0 +1,31 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Charts"
+        }
+      }
+    }
+  },
+  "chartsSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "chartType": "bar",
+          "labels": "Q1\nQ2\nQ3\nQ4",
+          "datasets": "Sales: 12,19,3,5",
+          "colors": "",
+          "showLegend": "on",
+          "showGrid": "on",
+          "beginAtZero": "on",
+          "animateOnScroll": "on",
+          "chartHeight": "300",
+          "title": "",
+          "borderWidth": "2"
+        }
+      }
+    }
+  }
+}

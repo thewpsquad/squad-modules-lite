@@ -5,7 +5,7 @@
   "title": "Testimonial",
   "titles": "Testimonials",
   "moduleIcon": "squad-modules/testimonial",
-  "moduleClassName": "squad-testimonial-item",
+  "moduleClassName": "disq_testimonial_item",
   "category": "child-module",
   "folder": "squad-modules",
   "parentModuleName": "squad-modules/testimonial",
@@ -24,7 +24,7 @@
           "boxShadow": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "spacing": {}
         }
       },

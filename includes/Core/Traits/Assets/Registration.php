@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Asset Registration Trait
@@ -10,6 +11,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Assets;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Utils\WP as WPUtil;
 use RuntimeException;

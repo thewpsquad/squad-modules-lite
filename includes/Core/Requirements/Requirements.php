@@ -1,4 +1,5 @@
 <?php
+declare( strict_types=1 );
 /**
  * Requirements main class.
  *
@@ -6,11 +7,15 @@
  *
  * @since   3.2.0
  * @since   3.4.0 Improved error handling and constant detection
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Requirements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Contracts\Hookable;
 use Throwable;
@@ -22,7 +27,7 @@ use Throwable;
  * notifications when requirements are not met.
  *
  * @since   3.2.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  */
 class Requirements implements Hookable {
 	/**

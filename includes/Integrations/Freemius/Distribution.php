@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The publisher connection class
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Integrations\Freemius;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Assets;
 use DiviSquad\Core\Contracts\Hookable;

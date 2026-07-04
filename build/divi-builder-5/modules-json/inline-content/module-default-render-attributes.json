@@ -1,0 +1,24 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Inline Content"
+        }
+      }
+    }
+  },
+  "layoutSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "contentAlignment": "left",
+          "verticalAlign": "center",
+          "columnGap": "12px",
+          "rowGap": "8px"
+        }
+      }
+    }
+  }
+}

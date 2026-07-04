@@ -1,0 +1,30 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Data Table"
+        }
+      }
+    }
+  },
+  "dataTable": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "columns": "Feature\nBasic\nPro",
+          "responsiveMode": "stack",
+          "highlightColumn": "0",
+          "stickyHeader": "off",
+          "stripedRows": "on",
+          "sortable": "off",
+          "ribbonText": "",
+          "headerBgColor": "",
+          "headerTextColor": "",
+          "cellTextColor": ""
+        }
+      }
+    }
+  }
+}

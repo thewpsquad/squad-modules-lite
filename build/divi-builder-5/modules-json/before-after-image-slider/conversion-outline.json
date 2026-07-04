@@ -1,0 +1,53 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "after": "css.*.after",
+    "before": "css.*.before",
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "before_image": "images.innerContent.*.beforeImage",
+    "before_alt": "images.innerContent.*.beforeAlt",
+    "before_label": "images.innerContent.*.beforeLabel",
+    "after_image": "images.innerContent.*.afterImage",
+    "after_alt": "images.innerContent.*.afterAlt",
+    "after_label": "images.innerContent.*.afterLabel",
+    "image_label__enable": "compare.innerContent.*.imageLabelEnable",
+    "image_label_hover__enable": "compare.innerContent.*.imageLabelHoverEnable",
+    "slide_direction_mode": "compare.innerContent.*.slideDirectionMode",
+    "slide_trigger_type": "compare.innerContent.*.slideTriggerType",
+    "slide_control_color": "compare.innerContent.*.slideControlColor",
+    "slide_control_start_point": "compare.innerContent.*.slideControlStartPoint",
+    "slide_control_shadow__enable": "compare.innerContent.*.slideControlShadowEnable",
+    "slide_control_circle__enable": "compare.innerContent.*.slideControlCircleEnable",
+    "slide_control_circle_blur__enable": "compare.innerContent.*.slideControlCircleBlurEnable",
+    "slide_control_smoothing__enable": "compare.innerContent.*.slideControlSmoothingEnable",
+    "slide_control_smoothing_amount": "compare.innerContent.*.slideControlSmoothingAmount"
+  }
+}

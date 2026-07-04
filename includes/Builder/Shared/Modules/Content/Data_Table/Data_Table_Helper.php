@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Data Table helper.
@@ -16,6 +17,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Content\Data_Table;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function esc_attr;
 use function esc_html;

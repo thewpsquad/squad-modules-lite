@@ -1,0 +1,23 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Social Share Item"
+        }
+      }
+    }
+  },
+  "itemSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "network": "facebook",
+          "customLabel": "",
+          "useCustomColors": "off"
+        }
+      }
+    }
+  }
+}

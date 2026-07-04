@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Branding Manager
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Core\Admin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Admin\Branding\Brand_Asset_Base;
 use DiviSquad\Core\Admin\Branding\Brand_Asset_Interface;

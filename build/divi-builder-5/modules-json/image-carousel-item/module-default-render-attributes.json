@@ -1,0 +1,26 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Carousel Item"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "showCaption": "off",
+          "showButton": "off",
+          "buttonText": "Learn More",
+          "buttonUrl": "#",
+          "buttonTarget": "_self",
+          "showOverlay": "off"
+        }
+      }
+    }
+  }
+}

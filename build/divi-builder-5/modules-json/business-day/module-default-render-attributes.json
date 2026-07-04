@@ -1,0 +1,25 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Business Day"
+        }
+      }
+    }
+  },
+  "dayContent": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "day": "Monday",
+          "time": "9:00 AM - 5:00 PM",
+          "dualTime": "off",
+          "offDay": "off",
+          "timeSeparator": "-"
+        }
+      }
+    }
+  }
+}

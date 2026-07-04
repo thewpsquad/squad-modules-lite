@@ -190,8 +190,7 @@
                   "max": 1000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -215,8 +214,7 @@
                   "max": 1000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             }
@@ -489,8 +487,7 @@
                   "max": 2,
                   "step": 0.01,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -515,8 +512,7 @@
                   "max": 2,
                   "step": 0.01,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -851,8 +847,7 @@
                   "max": 3,
                   "step": 0.01,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -1068,8 +1063,7 @@
                   "max": 3,
                   "step": 0.01,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -1166,8 +1160,7 @@
                   "max": 1000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -1192,8 +1185,7 @@
                   "max": 1000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -1218,8 +1210,7 @@
                   "max": 2000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -1244,8 +1235,7 @@
                   "max": 2000,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             }

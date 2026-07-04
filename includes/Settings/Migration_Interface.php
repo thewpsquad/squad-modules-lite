@@ -1,14 +1,19 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Interface for Squad Modules Migration.
  *
  * @since   3.0.0
- * @package DiviSquad\Settings
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Settings;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Migration Interface

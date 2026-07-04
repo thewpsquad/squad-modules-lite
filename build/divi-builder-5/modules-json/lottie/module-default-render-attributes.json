@@ -1,0 +1,33 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Lottie Image"
+        }
+      }
+    }
+  },
+  "lottie": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "srcType": "remote",
+          "triggerMethod": "freeze-click",
+          "mouseoutAction": "no_action",
+          "clickAction": "no_action",
+          "scroll": "row",
+          "playOnHover": "off",
+          "loop": "off",
+          "loopNoTimes": "0",
+          "delay": "0",
+          "speed": "1",
+          "mode": "normal",
+          "direction": "1",
+          "renderer": "svg"
+        }
+      }
+    }
+  }
+}

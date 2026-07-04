@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Advanced Button Module Class which extends the Divi Builder Module Class.
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Shared\Modules\Creative\Advanced_Button\Button_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module;

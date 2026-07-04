@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * DiviSquad Admin Notice REST API Integration
@@ -8,7 +9,7 @@
  * and managing notice actions.
  *
  * @since      3.3.3
- * @package    DiviSquad
+ * @package DiviSquad
  * @subpackage DiviSquad\Rest_API_Routes\Version1\notices
  * @author     The WP Squad <support@squadmodules.com>
  * @license    GPL-3.0-only
@@ -16,6 +17,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Notices;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Rest_API_Routes\Base_Route;
 use Throwable;

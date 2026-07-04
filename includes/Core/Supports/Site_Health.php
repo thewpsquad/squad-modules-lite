@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * DiviSquad Site Health Integration
@@ -10,13 +11,17 @@
  * @since      3.1.0
  * @since      3.4.0 Updated to use centralized Divi constant detection
  * @since      3.4.4 Updated to use the unified Divi detection system
- * @package    DiviSquad
+ * @package DiviSquad
  * @author     The WP Squad <support@squadmodules.com>
  * @license    GPL-3.0-only
  * @link       https://squadmodules.com
  */
 
 namespace DiviSquad\Core\Supports;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Extensions;
 use DiviSquad\Core\Requirements\Requirements;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * REST Routes Manager
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Rest_API_Routes\Base_Route;
 use DiviSquad\Rest_API_Routes\Version1\Extensions as Extensions_Version1;

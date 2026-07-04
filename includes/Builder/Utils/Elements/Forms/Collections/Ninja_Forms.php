@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Ninja Forms Collection
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Elements\Forms\Collection;
 

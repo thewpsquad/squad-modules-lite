@@ -1,0 +1,57 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "number_text": "module.decoration.fonts",
+      "label_text": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "mode": "countdownSettings.innerContent.*.mode",
+    "target_date": "countdownSettings.innerContent.*.targetDate",
+    "evergreen_duration": "countdownSettings.innerContent.*.evergreenDuration",
+    "timezone": "countdownSettings.innerContent.*.timezone",
+    "on_expiry": "countdownSettings.innerContent.*.onExpiry",
+    "expiry_message": "countdownSettings.innerContent.*.expiryMessage",
+    "redirect_url": "countdownSettings.innerContent.*.redirectUrl",
+    "show_days": "countdownSettings.innerContent.*.showDays",
+    "show_hours": "countdownSettings.innerContent.*.showHours",
+    "show_minutes": "countdownSettings.innerContent.*.showMinutes",
+    "show_seconds": "countdownSettings.innerContent.*.showSeconds",
+    "label_days": "countdownSettings.innerContent.*.labelDays",
+    "label_hours": "countdownSettings.innerContent.*.labelHours",
+    "label_minutes": "countdownSettings.innerContent.*.labelMinutes",
+    "label_seconds": "countdownSettings.innerContent.*.labelSeconds",
+    "separator": "countdownSettings.innerContent.*.separator",
+    "number_color": "colors.innerContent.*.numberColor",
+    "label_color": "colors.innerContent.*.labelColor",
+    "separator_color": "colors.innerContent.*.separatorColor"
+  }
+}

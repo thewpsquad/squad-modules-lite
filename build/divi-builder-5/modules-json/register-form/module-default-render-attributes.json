@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Register Form"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layout": "card",
+          "showLogo": "on",
+          "showTitle": "on",
+          "titleText": "Create an account",
+          "usernameLabel": "Username",
+          "emailLabel": "Email Address",
+          "showLoginLink": "on",
+          "privacyNotice": "",
+          "buttonText": "Register"
+        }
+      }
+    }
+  }
+}

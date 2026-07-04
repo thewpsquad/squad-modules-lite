@@ -1,0 +1,45 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Text Highlighter"
+        }
+      }
+    }
+  },
+  "highlightSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "prefixText": "",
+          "highlightedText": "highlighted",
+          "suffixText": "",
+          "headingTag": "h2",
+          "highlightType": "underline",
+          "animate": "on",
+          "animDuration": "1200",
+          "animDelay": "0",
+          "animLoop": "off",
+          "useGradient": "off",
+          "gradientStart": "#6a33d7",
+          "gradientEnd": "#d433c4",
+          "gradientAngle": "90"
+        }
+      }
+    }
+  },
+  "highlightStyle": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "highlightColor": "#6a33d7",
+          "strokeWidth": "3",
+          "svgPositionY": "0",
+          "contentAlign": "left"
+        }
+      }
+    }
+  }
+}

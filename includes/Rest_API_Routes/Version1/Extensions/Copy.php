@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Copy Extension REST API
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Extensions;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Extensions\WordPress\Copy as CopyExtension;
 use DiviSquad\Rest_API_Routes\Base_Route;

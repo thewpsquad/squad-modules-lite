@@ -207,8 +207,7 @@
                   "max": 2,
                   "step": 0.1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

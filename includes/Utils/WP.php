@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * WP helper class for WordPress functions.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Utils;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function get_option;
 use function get_plugins;

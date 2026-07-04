@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Advanced Video Module (Divi 4 shortcode).
@@ -14,6 +15,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Shared\Modules\Creative\Advanced_Video\Video_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module;

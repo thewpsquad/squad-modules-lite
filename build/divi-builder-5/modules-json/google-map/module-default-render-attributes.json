@@ -1,0 +1,22 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Google Embed Map"
+        }
+      }
+    }
+  },
+  "map": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "address": "1233 Howard St Apt 3A San Francisco, CA 94103-2775",
+          "zoom": "10"
+        }
+      }
+    }
+  }
+}

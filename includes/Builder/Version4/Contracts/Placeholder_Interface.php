@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The Placeholder Interface for Divi Builder
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Contracts;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Interface for the Placeholder class.

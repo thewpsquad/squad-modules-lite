@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Plugin Life Detection Trait
@@ -8,7 +9,7 @@
  * the plugin is running in development, freemium, or premium mode.
  *
  * @since      3.2.0
- * @package    DiviSquad
+ * @package DiviSquad
  * @subpackage DiviSquad\Core\Traits\Plugin
  * @author     The WP Squad <support@squadmodules.com>
  * @license    GPL-3.0-only
@@ -16,6 +17,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Plugin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Utils\WP;
 use Throwable;

@@ -1,0 +1,23 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Pricing Table"
+        }
+      }
+    }
+  },
+  "plans": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "columns": "3",
+          "columnGap": "24px",
+          "rowGap": "24px"
+        }
+      }
+    }
+  }
+}

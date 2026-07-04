@@ -1,0 +1,44 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "after": "css.*.after",
+    "before": "css.*.before",
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "element": "element.innerContent.*.element",
+    "element_title_tag": "element.innerContent.*.elementTitleTag",
+    "link_to_post__enable": "element.innerContent.*.linkToPost",
+    "element_excerpt__enable": "element.innerContent.*.elementExcerpt",
+    "element_ex_con_length__enable": "element.innerContent.*.elementContentLength",
+    "element_ex_con_length": "element.innerContent.*.elementContentLengthValue",
+    "element_author_name_type": "element.innerContent.*.elementAuthorNameType",
+    "link_to_author__enable": "element.innerContent.*.linkToAuthor",
+    "element_date_type": "element.innerContent.*.elementDateType",
+    "element_read_more_text": "element.innerContent.*.elementReadMoreText",
+    "link_to_categories__enable": "element.innerContent.*.linkToCategories",
+    "link_to_tags__enable": "element.innerContent.*.linkToTags",
+    "element_custom_text": "element.innerContent.*.elementCustomText"
+  }
+}

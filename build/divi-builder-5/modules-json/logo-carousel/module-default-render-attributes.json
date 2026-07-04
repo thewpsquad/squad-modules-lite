@@ -1,0 +1,32 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Logo Carousel"
+        }
+      }
+    }
+  },
+  "carousel": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "slidesPerView": "4",
+          "spaceBetween": "30",
+          "loop": "on",
+          "transitionSpeed": "500",
+          "logoMaxWidth": "160px",
+          "logoMaxHeight": "80px",
+          "hoverEffect": "grayscale",
+          "hoverOpacity": "0.5",
+          "autoplay": "off",
+          "autoplaySpeed": "3000",
+          "showArrows": "on",
+          "showDots": "off"
+        }
+      }
+    }
+  }
+}

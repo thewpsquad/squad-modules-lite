@@ -27,6 +27,7 @@
           "conditions": {},
           "disabledOn": {},
           "filters": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -202,17 +203,7 @@
               "priority": 10,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "posterImage": {
@@ -297,17 +288,7 @@
               "priority": 10,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "muted": {
@@ -325,17 +306,7 @@
               "priority": 20,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "loop": {
@@ -353,17 +324,7 @@
               "priority": 30,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "controls": {
@@ -381,17 +342,7 @@
               "priority": 40,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "startTime": {
@@ -415,8 +366,7 @@
                   "max": 3600,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -441,8 +391,7 @@
                   "max": 3600,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -461,17 +410,7 @@
               "priority": 10,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "stickyPosition": {
@@ -529,8 +468,7 @@
                   "max": 800,
                   "step": 10,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -549,17 +487,7 @@
               "priority": 40,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             }
           }
@@ -650,8 +578,7 @@
                   "max": 160,
                   "step": 2,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -699,17 +626,7 @@
               "priority": 60,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             }
           }

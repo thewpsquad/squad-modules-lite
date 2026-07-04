@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Modules Manager Class
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Traits\Collection_Filter;
 use DiviSquad\Core\Traits\Requirements_Checker;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Login Experience Extension REST API
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Extensions;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Extensions\WordPress\Login_Experience as Login_Experience_Ext;
 use DiviSquad\Rest_API_Routes\Base_Route;

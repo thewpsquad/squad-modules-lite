@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Advanced Custom Fields Processor
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Collections;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection;
 use Throwable;

@@ -27,6 +27,7 @@
           "conditions": {},
           "disabledOn": {},
           "filters": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -231,8 +232,7 @@
                   "max": 10000,
                   "step": 100,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             }

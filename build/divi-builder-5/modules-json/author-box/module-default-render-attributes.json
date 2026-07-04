@@ -1,0 +1,32 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Author Box"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layout": "horizontal",
+          "showAvatar": "on",
+          "avatarSize": "96",
+          "showName": "on",
+          "nameTag": "h4",
+          "showBio": "on",
+          "showPostsLink": "on",
+          "postsLinkText": "View all posts",
+          "postsLinkTarget": "_blank",
+          "showWebsiteLink": "on",
+          "websiteLinkText": "Visit website",
+          "websiteLinkTarget": "_blank"
+        }
+      }
+    }
+  }
+}

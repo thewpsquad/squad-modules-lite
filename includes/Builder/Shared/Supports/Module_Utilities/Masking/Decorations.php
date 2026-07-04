@@ -1,5 +1,10 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 namespace DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Decorations class for generating SVG decorative elements.

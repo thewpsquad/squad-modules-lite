@@ -1,0 +1,37 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "quote": "module.decoration.fonts",
+      "name": "module.decoration.fonts",
+      "role": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "content": "testimonial.innerContent.*.content",
+    "author": "testimonial.innerContent.*.author",
+    "role": "testimonial.innerContent.*.role",
+    "company": "testimonial.innerContent.*.company",
+    "avatar": "testimonial.innerContent.*.avatar",
+    "use_rating": "testimonial.innerContent.*.useRating",
+    "rating": "testimonial.innerContent.*.rating",
+    "star_color": "testimonial.innerContent.*.starColor",
+    "alignment": "testimonial.innerContent.*.alignment"
+  }
+}

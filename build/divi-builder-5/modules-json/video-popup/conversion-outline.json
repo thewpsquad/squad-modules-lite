@@ -1,0 +1,56 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "trigger": "module.decoration.fonts"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "after": "css.*.after",
+    "before": "css.*.before",
+    "main_element": "css.*.mainElement",
+    "image": "css.*.image",
+    "icon_wrapper": "css.*.iconWrapper",
+    "icon": "css.*.icon",
+    "text": "css.*.text"
+  },
+  "module": {
+    "use_overlay": "popup.innerContent.*.useOverlay",
+    "image": "popup.innerContent.*.image",
+    "alt": "popup.innerContent.*.alt",
+    "trigger_element": "popup.innerContent.*.triggerElement",
+    "icon": "popup.innerContent.*.icon",
+    "text": "popup.innerContent.*.text",
+    "type": "popup.innerContent.*.type",
+    "video_link": "popup.innerContent.*.videoLink",
+    "video": "popup.innerContent.*.video",
+    "use_animation": "popup.innerContent.*.useAnimation",
+    "wave_bg": "popup.innerContent.*.waveBg",
+    "icon_alignment": "popup.innerContent.*.iconAlignment",
+    "icon_spacing": "popup.innerContent.*.iconSpacing"
+  }
+}

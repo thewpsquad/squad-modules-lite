@@ -1,0 +1,44 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "title": "css.*.title",
+    "stars": "css.*.stars",
+    "rating_number": "css.*.ratingNumber"
+  },
+  "module": {
+    "rating_scale": "content.innerContent.*.ratingScale",
+    "rating_upto_5": "content.innerContent.*.rating",
+    "rating_upto_10": "content.innerContent.*.rating",
+    "title": "content.innerContent.*.title",
+    "title_inline_position": "content.innerContent.*.titlePosition",
+    "title_stacked_position": "content.innerContent.*.titlePosition",
+    "show_number": "content.innerContent.*.showNumber",
+    "stars_color": "content.innerContent.*.starsColor"
+  }
+}

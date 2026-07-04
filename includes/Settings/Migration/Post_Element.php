@@ -1,14 +1,19 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Migration process to migrate image into Featured Image of Post Element modules.
  *
  * @since   2.0.0
- * @package DiviSquad\Settings
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Settings\Migration;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Settings\Migration;
 

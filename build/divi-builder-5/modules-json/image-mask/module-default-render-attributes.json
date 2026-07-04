@@ -1,0 +1,98 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Mask"
+        }
+      }
+    }
+  },
+  "image": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "alt": "",
+          "imageWidth": "100%",
+          "imageHeight": "100%",
+          "imageHorizontalPosition": "0",
+          "imageVerticalPosition": "0"
+        }
+      }
+    }
+  },
+  "maskShape": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "customMaskShapeEnable": "off",
+          "maskShapeImage": "shape-01",
+          "maskShapeSecondary": "off",
+          "maskShapeRotate": "0deg",
+          "maskShapeScaleX": "1",
+          "maskShapeScaleY": "1",
+          "maskShapeFlip": ""
+        }
+      }
+    }
+  },
+  "borderLayer": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layer1Enable": "on",
+          "layer1BackgroundType": "gradient",
+          "layer1BackgroundColor": "#ffffff",
+          "layer1GradientColorStart": "#ff5733",
+          "layer1GradientColorEnd": "#33c4ff"
+        }
+      }
+    }
+  },
+  "decoration1": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layerEnable": "on",
+          "decorationElement": "lined-circle",
+          "layerAboveImage": "off",
+          "layerBackgroundColor": "#ff0000",
+          "layerHorz": "25%",
+          "layerVert": "-25%",
+          "layerScale": "1",
+          "layerRotate": "30deg"
+        }
+      }
+    }
+  },
+  "decoration2": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layerEnable": "off",
+          "decorationElement": "dotted-square",
+          "layerAboveImage": "on",
+          "layerBackgroundColor": "#00ff00",
+          "layerHorz": "-15%",
+          "layerVert": "30%",
+          "layerScale": "0.8",
+          "layerRotate": "45deg"
+        }
+      }
+    }
+  },
+  "viewbox": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "enableCustomViewbox": "off",
+          "viewboxMinX": "0",
+          "viewboxMinY": "0",
+          "viewboxWidth": "1000",
+          "viewboxHeight": "1000"
+        }
+      }
+    }
+  }
+}

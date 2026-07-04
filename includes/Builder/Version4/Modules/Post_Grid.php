@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The Post Grid Module Class which extend the Divi Builder Module Class.
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection_Interface;
 use DiviSquad\Builder\Version4\Abstracts\Module;

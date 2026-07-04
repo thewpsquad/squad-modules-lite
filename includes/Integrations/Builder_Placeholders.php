@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The DiviBackend integration helper for Divi Builder
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Integrations;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Placeholder;
 use DiviSquad\Utils\Helper;

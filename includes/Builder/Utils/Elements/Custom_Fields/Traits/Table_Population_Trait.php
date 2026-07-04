@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Table Population Trait
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Traits;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Throwable;
 use WP_Query;

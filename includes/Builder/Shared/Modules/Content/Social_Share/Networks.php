@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Social Share Networks registry.
@@ -18,6 +19,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Content\Social_Share;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function array_key_exists;
 use function rawurlencode;

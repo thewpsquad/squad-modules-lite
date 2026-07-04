@@ -1,6 +1,11 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 namespace DiviSquad\Builder\Version4\Supports\Module_Utilities\Fields;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module_Utility;
 use ET_Global_Settings;

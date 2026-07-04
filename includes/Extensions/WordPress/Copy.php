@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The Post Duplicator extension class for Divi Squad.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Extensions\WordPress;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Assets;
 use DiviSquad\Extensions\Abstracts\Base_Extension;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Abstract Module Utility Base Class
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Abstracts;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Abstract Module Utility Base Class

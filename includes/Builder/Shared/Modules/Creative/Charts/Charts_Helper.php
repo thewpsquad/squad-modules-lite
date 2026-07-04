@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Charts helper.
@@ -15,6 +16,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Charts;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function array_filter;
 use function array_map;

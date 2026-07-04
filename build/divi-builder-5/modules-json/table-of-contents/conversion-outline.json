@@ -1,0 +1,59 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "title_text": "module.decoration.fonts",
+      "link_text": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "show_title": "tocSettings.innerContent.*.showTitle",
+    "title": "tocSettings.innerContent.*.title",
+    "title_tag": "tocSettings.innerContent.*.titleTag",
+    "include_h1": "tocSettings.innerContent.*.includeH1",
+    "include_h2": "tocSettings.innerContent.*.includeH2",
+    "include_h3": "tocSettings.innerContent.*.includeH3",
+    "include_h4": "tocSettings.innerContent.*.includeH4",
+    "include_h5": "tocSettings.innerContent.*.includeH5",
+    "include_h6": "tocSettings.innerContent.*.includeH6",
+    "content_selector": "tocSettings.innerContent.*.contentSelector",
+    "min_headings": "tocSettings.innerContent.*.minHeadings",
+    "list_style": "tocSettings.innerContent.*.listStyle",
+    "smooth_scroll": "tocSettings.innerContent.*.smoothScroll",
+    "scroll_offset": "tocSettings.innerContent.*.scrollOffset",
+    "scroll_spy": "tocSettings.innerContent.*.scrollSpy",
+    "collapsible": "tocSettings.innerContent.*.collapsible",
+    "default_collapsed": "tocSettings.innerContent.*.defaultCollapsed",
+    "sticky": "tocSettings.innerContent.*.sticky",
+    "sticky_offset": "tocSettings.innerContent.*.stickyOffset",
+    "active_link_color": "colors.innerContent.*.activeLinkColor",
+    "marker_color": "colors.innerContent.*.markerColor"
+  }
+}

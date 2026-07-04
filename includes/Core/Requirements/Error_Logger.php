@@ -1,15 +1,20 @@
 <?php
+declare( strict_types=1 );
 /**
  * Error logger class for requirements.
  *
  * Handles logging errors related to requirements.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Requirements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use RuntimeException;
 use Throwable;
@@ -20,7 +25,7 @@ use Throwable;
  * Manages error logging for requirements.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  */
 class Error_Logger {
 	/**

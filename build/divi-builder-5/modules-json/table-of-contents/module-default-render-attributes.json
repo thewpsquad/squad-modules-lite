@@ -1,0 +1,49 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Table of Contents"
+        }
+      }
+    }
+  },
+  "tocSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "showTitle": "on",
+          "title": "Table of Contents",
+          "titleTag": "h3",
+          "includeH1": "off",
+          "includeH2": "on",
+          "includeH3": "on",
+          "includeH4": "on",
+          "includeH5": "off",
+          "includeH6": "off",
+          "contentSelector": "",
+          "listStyle": "unordered",
+          "minHeadings": "1",
+          "smoothScroll": "on",
+          "scrollOffset": "0",
+          "scrollSpy": "on",
+          "collapsible": "off",
+          "defaultCollapsed": "off",
+          "sticky": "off",
+          "stickyOffset": "0"
+        }
+      }
+    }
+  },
+  "colors": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "activeLinkColor": "",
+          "markerColor": ""
+        }
+      }
+    }
+  }
+}

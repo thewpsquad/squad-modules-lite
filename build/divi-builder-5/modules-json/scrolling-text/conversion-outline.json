@@ -1,0 +1,44 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "scrolling_text": "module.decoration.font"
+    },
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "scrolling_element": "css.*.scrollingElement"
+  },
+  "module": {
+    "scrolling_text": "content.innerContent.*.scrollingText",
+    "text_element_tag": "content.innerContent.*.textTag",
+    "scrolling_direction": "content.innerContent.*.direction",
+    "outline_text__enable": "content.innerContent.*.outlineText",
+    "pause_on_hover__enable": "content.innerContent.*.pauseOnHover",
+    "repeat_text__enable": "content.innerContent.*.repeatText",
+    "scrolling_speed": "content.innerContent.*.speed"
+  }
+}

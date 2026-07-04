@@ -1,0 +1,27 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Gallery"
+        }
+      }
+    }
+  },
+  "gallery": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "orientation": "landscape",
+          "galleryOrderBy": "default",
+          "imagesQuantity": "default",
+          "galleryImageCount": "4",
+          "columnsCount": "4",
+          "imagesInnerGap": "10px",
+          "showInLightbox": "off"
+        }
+      }
+    }
+  }
+}

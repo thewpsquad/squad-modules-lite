@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Array Helper class for utility functions.
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Throwable;
 

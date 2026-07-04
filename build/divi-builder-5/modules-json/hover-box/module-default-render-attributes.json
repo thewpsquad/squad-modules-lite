@@ -1,0 +1,47 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Hover Box"
+        }
+      }
+    }
+  },
+  "hoverSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "image": "",
+          "imageAlt": "",
+          "imageHoverFx": "zoom-in",
+          "persistentTitle": "",
+          "useIcon": "off",
+          "icon": "",
+          "title": "Hover Title",
+          "content": "",
+          "buttonText": "",
+          "buttonUrl": "",
+          "buttonNewWindow": "off",
+          "overlayAnimation": "fade",
+          "contentValign": "center"
+        }
+      }
+    }
+  },
+  "hoverDesign": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "boxHeight": "300px",
+          "overlayBg": "rgba(0,0,0,0.6)",
+          "overlayOpacity": "100",
+          "iconColor": "",
+          "iconSize": "32px",
+          "contentAlign": "center"
+        }
+      }
+    }
+  }
+}

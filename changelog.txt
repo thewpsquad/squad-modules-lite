@@ -1,7 +1,19 @@
 == Changelog ==
+= 4.3.1 (30-06-2026) =
+
+**Improvements:**
+- All 61 modules now display their correct icon in the Divi 5 Visual Builder module palette.
+- Improved stability and consistency of all modules in the Divi 5 Visual Builder.
+
+**Bug fixes:**
+- Fixed several Divi 5 module settings panels that could show blank or incorrect controls in the Visual Builder.
+- Fixed module decoration settings (fonts, background, design) for modules where they were not applying correctly in Divi 5.
+- Fixed a packaging issue where required plugin files could be missing from the downloaded zip in some environments.
+- Hardened all PHP files against edge-case loading issues on non-standard WordPress setups.
+
 = 4.3.0 =
 
-**New Modules — Tier 2 "Free-tier disruptors" (modules other Divi packs charge for):**
+**New Modules — (modules other Divi packs charge for):**
 - **Countdown Timer** — evergreen and fixed-date modes, on-expiry actions (hide/redirect/show message), timezone-aware, no external JS.
 - **Timeline** — vertical and horizontal orientation, alternating/one-side layouts, scroll-triggered reveal, icon/image/number markers; repeatable child items.
 - **Data / Comparison Table** — responsive (stack/scroll), highlight column/row, sticky header, optional client-side sort, ribbon and CSV-style paste; repeatable child rows.

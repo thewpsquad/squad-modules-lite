@@ -1,0 +1,45 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "title": "module.decoration.fonts",
+      "body": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "element_type": "iconBox.innerContent.*.elementType",
+    "icon": "iconBox.innerContent.*.icon",
+    "image": "iconBox.innerContent.*.image",
+    "image_alt": "iconBox.innerContent.*.imageAlt",
+    "lottie_src": "iconBox.innerContent.*.lottieSrc",
+    "lottie_loop": "iconBox.innerContent.*.lottieLoop",
+    "title": "iconBox.innerContent.*.title",
+    "title_level": "iconBox.innerContent.*.titleLevel",
+    "content": "iconBox.innerContent.*.content",
+    "use_badge": "iconBox.innerContent.*.useBadge",
+    "badge_text": "iconBox.innerContent.*.badgeText",
+    "link_url": "iconBox.innerContent.*.linkUrl",
+    "link_target": "iconBox.innerContent.*.linkTarget",
+    "icon_placement": "iconBox.innerContent.*.iconPlacement",
+    "alignment": "iconBox.innerContent.*.alignment",
+    "icon_color": "iconBox.innerContent.*.iconColor",
+    "icon_bg_color": "iconBox.innerContent.*.iconBgColor",
+    "icon_size": "iconBox.innerContent.*.iconSize"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Dual Button"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "leftButtonText": "Click Here",
+          "leftButtonIcon": "&#x4e;||divi||400",
+          "leftButtonUrl": "#",
+          "leftButtonUrlNewWindow": "off",
+          "rightButtonText": "Read More",
+          "rightButtonIcon": "&#x24;||divi||400",
+          "rightButtonUrl": "#",
+          "rightButtonUrlNewWindow": "off",
+          "separatorText": "OR",
+          "separatorIcon": "&#x4e;||divi||400",
+          "separatorIconEnable": "off"
+        }
+      }
+    }
+  }
+}

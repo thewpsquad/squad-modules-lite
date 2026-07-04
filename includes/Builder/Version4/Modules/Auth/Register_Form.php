@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Register Form Module — Divi 4.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Auth;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Auth_Form_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module;

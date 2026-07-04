@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Helper functions to work with dates, time and timezones.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Core\Supports\Utils;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Helper functions to work with dates, time and timezones.

@@ -1,0 +1,48 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "prefix_text": "content.innerContent.*.prefixText",
+    "typing_text": "content.innerContent.*.typingText",
+    "suffix_text": "content.innerContent.*.suffixText",
+    "text_element_tag": "content.innerContent.*.textElementTag",
+    "typing_speed": "content.innerContent.*.typingSpeed",
+    "typing_start_delay": "content.innerContent.*.typingStartDelay",
+    "typing_back_speed": "content.innerContent.*.typingBackSpeed",
+    "typing_back_delay": "content.innerContent.*.typingBackDelay",
+    "typing_fade_out_delay": "content.innerContent.*.typingFadeOutDelay",
+    "typing_loop__enable": "content.innerContent.*.typingLoop",
+    "typing_shuffle__enable": "content.innerContent.*.typingShuffle",
+    "typing_fade_out__enable": "content.innerContent.*.typingFadeOut",
+    "typing_cursor__enable": "content.innerContent.*.typingCursor",
+    "typing_cursor_character": "content.innerContent.*.typingCursorCharacter",
+    "remove_cursor_on_end__enable": "content.innerContent.*.removeCursorOnEnd"
+  }
+}

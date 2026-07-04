@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Chainable Container Trait
@@ -8,7 +9,7 @@
  * for fluent property setting and access within classes.
  *
  * @since      3.3.3
- * @package    DiviSquad
+ * @package DiviSquad
  * @subpackage DiviSquad\Core\Traits
  * @author     The WP Squad <support@squadmodules.com>
  * @license    GPL-3.0-only
@@ -16,6 +17,10 @@
  */
 
 namespace DiviSquad\Core\Traits;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Chainable_Container Trait

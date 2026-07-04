@@ -1,0 +1,34 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "panel": "css.*.panel",
+    "toggle": "css.*.toggle"
+  },
+  "module": {
+    "position": "chatButton.innerContent.*.position",
+    "toggle_icon": "chatButton.innerContent.*.toggleIcon",
+    "toggle_label": "chatButton.innerContent.*.toggleLabel",
+    "header_title": "chatButton.innerContent.*.headerTitle",
+    "greeting": "chatButton.innerContent.*.greeting",
+    "button_color": "chatButton.innerContent.*.buttonColor",
+    "schedule_enabled": "chatButton.innerContent.*.scheduleEnabled",
+    "schedule_start": "chatButton.innerContent.*.scheduleStart",
+    "schedule_end": "chatButton.innerContent.*.scheduleEnd"
+  }
+}

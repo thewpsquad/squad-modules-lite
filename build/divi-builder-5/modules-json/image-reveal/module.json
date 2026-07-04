@@ -142,17 +142,7 @@
               "priority": 20,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "trigger": {
@@ -266,8 +256,7 @@
                   "max": 4000,
                   "step": 50,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -292,8 +281,7 @@
                   "max": 5000,
                   "step": 50,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -358,8 +346,7 @@
                   "max": 100,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             }
@@ -425,17 +412,7 @@
               "priority": 20,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "zoomScale": {
@@ -459,8 +436,7 @@
                   "max": 2,
                   "step": 0.05,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             }

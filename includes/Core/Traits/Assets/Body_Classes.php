@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Body Classes Trait
@@ -10,6 +11,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Assets;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Body Classes Management Trait

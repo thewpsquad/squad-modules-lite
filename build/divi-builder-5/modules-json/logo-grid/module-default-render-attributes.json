@@ -1,0 +1,28 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Logo Grid"
+        }
+      }
+    }
+  },
+  "grid": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "columns": "4",
+          "columnsTablet": "3",
+          "columnsPhone": "2",
+          "gap": "30",
+          "logoMaxWidth": "160px",
+          "logoMaxHeight": "80px",
+          "hoverEffect": "grayscale",
+          "hoverOpacity": "0.5"
+        }
+      }
+    }
+  }
+}

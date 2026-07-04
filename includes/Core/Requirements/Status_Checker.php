@@ -1,15 +1,20 @@
 <?php
+declare( strict_types=1 );
 /**
  * Status checker class.
  *
  * Handles checking the Divi theme and plugin requirements.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Requirements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Utils\Divi;
 use RuntimeException;
@@ -21,7 +26,7 @@ use Throwable;
  * Checks if Divi requirements are met.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  */
 class Status_Checker {
 	/**

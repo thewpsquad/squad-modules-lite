@@ -2,13 +2,9 @@
 <path fill="#5E2EFF" d="M0 21.25A21.25 21.25 0 0 1 21.25 0h127.5A21.25 21.25 0 0 1 170 21.25v127.5A21.25 21.25 0 0 1 148.75 170H21.25A21.25 21.25 0 0 1 0 148.75V21.25Zm159.375 0a10.623 10.623 0 0 0-10.625-10.625H21.25A10.625 10.625 0 0 0 10.625 21.25v127.5a10.625 10.625 0 0 0 10.625 10.625h127.5a10.624 10.624 0 0 0 10.625-10.625V21.25Z"/>
 <g transform="translate(49 49) scale(3)">
 <g fill="none" stroke="#5E2EFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-<rect x="2.5" y="3" width="19" height="14" rx="2"/>
-<path d="M2.5 13l5-4 4 3"/>
-<circle cx="16" cy="9" r="1.5"/>
+<circle cx="12" cy="12" r="10"/>
+<circle cx="12" cy="12" r="6"/>
+<circle cx="12" cy="12" r="2"/>
 </g>
-<g fill="#5E2EFF">
-<path d="M16 14c-2.2 0-4 1.8-4 4 0 2.7 4 5.5 4 5.5s4-2.8 4-5.5c0-2.2-1.8-4-4-4Z"/>
-</g>
-<circle cx="16" cy="18" r="1.6" fill="#fff"/>
 </g>
 </svg>

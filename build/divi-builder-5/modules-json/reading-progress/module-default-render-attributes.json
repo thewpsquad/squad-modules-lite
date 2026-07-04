@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Reading Progress"
+        }
+      }
+    }
+  },
+  "readingProgressSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "barStyle": "bar",
+          "position": "top",
+          "targetSelector": "",
+          "barColor": "",
+          "useGradient": "off",
+          "gradientEnd": "",
+          "barHeight": "4",
+          "hideOnComplete": "off",
+          "showPercent": "off"
+        }
+      }
+    }
+  }
+}

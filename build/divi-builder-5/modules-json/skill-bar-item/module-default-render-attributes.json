@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Skill Bar Item"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "useName": "on",
+          "name": "Web Design",
+          "level": "70",
+          "hideLevel": "off",
+          "textPlacement": "inside",
+          "barHeight": "30px",
+          "barRadius": "40px",
+          "trackColor": "#dddddd",
+          "fillColor": "#5E2EFF"
+        }
+      }
+    }
+  }
+}

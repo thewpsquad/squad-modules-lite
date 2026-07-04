@@ -1,0 +1,61 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "persistent_text": "module.decoration.fonts",
+      "title_text": "module.decoration.fonts",
+      "content_text": "module.decoration.fonts"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "hoverbox_image": "css.*.hoverboxImage",
+    "hoverbox_overlay": "css.*.hoverboxOverlay",
+    "hoverbox_button": "css.*.hoverboxButton"
+  },
+  "module": {
+    "image": "hoverSettings.innerContent.*.image",
+    "image_alt": "hoverSettings.innerContent.*.imageAlt",
+    "image_hover_fx": "hoverSettings.innerContent.*.imageHoverFx",
+    "persistent_title": "hoverSettings.innerContent.*.persistentTitle",
+    "use_icon": "hoverSettings.innerContent.*.useIcon",
+    "icon": "hoverSettings.innerContent.*.icon",
+    "title": "hoverSettings.innerContent.*.title",
+    "content": "hoverSettings.innerContent.*.content",
+    "button_text": "hoverSettings.innerContent.*.buttonText",
+    "button_url": "hoverSettings.innerContent.*.buttonUrl",
+    "button_new_window": "hoverSettings.innerContent.*.buttonNewWindow",
+    "overlay_animation": "hoverSettings.innerContent.*.overlayAnimation",
+    "content_valign": "hoverSettings.innerContent.*.contentValign",
+    "box_height": "hoverDesign.innerContent.*.boxHeight",
+    "overlay_bg": "hoverDesign.innerContent.*.overlayBg",
+    "overlay_opacity": "hoverDesign.innerContent.*.overlayOpacity",
+    "icon_color": "hoverDesign.innerContent.*.iconColor",
+    "icon_size": "hoverDesign.innerContent.*.iconSize",
+    "text_alignment": "hoverDesign.innerContent.*.contentAlign"
+  }
+}

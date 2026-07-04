@@ -1,0 +1,45 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "text_font": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "content_type": "itemSettings.innerContent.*.contentType",
+    "text": "itemSettings.innerContent.*.text",
+    "icon": "itemSettings.innerContent.*.icon",
+    "image": "itemSettings.innerContent.*.image",
+    "image_alt": "itemSettings.innerContent.*.imageAlt",
+    "button_text": "itemSettings.innerContent.*.buttonText",
+    "button_url": "itemSettings.innerContent.*.buttonUrl",
+    "button_new_window": "itemSettings.innerContent.*.buttonNewWindow",
+    "divider_style": "itemSettings.innerContent.*.dividerStyle",
+    "use_link": "itemSettings.innerContent.*.useLink",
+    "link_url": "itemSettings.innerContent.*.linkUrl",
+    "link_new_window": "itemSettings.innerContent.*.linkNewWindow",
+    "icon_color": "itemSettings.innerContent.*.iconColor",
+    "icon_size": "itemSettings.innerContent.*.iconSize",
+    "image_width": "itemSettings.innerContent.*.imageWidth",
+    "image_height": "itemSettings.innerContent.*.imageHeight",
+    "image_radius": "itemSettings.innerContent.*.imageRadius",
+    "divider_length": "itemSettings.innerContent.*.dividerLength",
+    "divider_thickness": "itemSettings.innerContent.*.dividerThickness",
+    "divider_color": "itemSettings.innerContent.*.dividerColor"
+  }
+}

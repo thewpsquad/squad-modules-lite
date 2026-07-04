@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Builder Form Utils Helper Class
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Elements\Forms\Collection_Interface;
 use InvalidArgumentException;

@@ -145,6 +145,66 @@
           }
         }
       }
+    },
+    "pricingContainer": {
+      "type": "object",
+      "selector": "{{selector}} .squad-pricing-tables",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designPricingContainer",
+              "attrName": "pricingContainer.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          },
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designPricingContainer",
+              "attrName": "pricingContainer.decoration.border",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "boxShadow": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designPricingContainer",
+              "attrName": "pricingContainer.decoration.boxShadow",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/box-shadow",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designPricingContainer",
+              "attrName": "pricingContainer.decoration.spacing",
+              "priority": 40,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "settings": {
@@ -158,6 +218,17 @@
           "name": "divi/composite",
           "props": {
             "groupLabel": "Layout"
+          }
+        }
+      },
+      "designPricingContainer": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "designPricingContainer",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Tables Container"
           }
         }
       }

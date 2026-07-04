@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The Font Upload extension class for Divi Squad.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Extensions\Visual_Builder;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Extensions\Abstracts\Base_Extension;
 use function add_filter;

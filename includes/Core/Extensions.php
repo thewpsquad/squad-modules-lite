@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Extensions Manager Class
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Core\Traits\Collection_Filter;

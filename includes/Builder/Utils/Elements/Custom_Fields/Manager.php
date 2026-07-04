@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Manager Abstract Class
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Class Manager

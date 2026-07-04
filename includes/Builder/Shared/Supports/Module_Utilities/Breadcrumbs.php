@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Breadcrumbs Utils Helper
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Supports\Module_Utilities;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DateTime;
 use function esc_html;

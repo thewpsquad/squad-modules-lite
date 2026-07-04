@@ -1,15 +1,20 @@
 <?php
+declare( strict_types=1 );
 /**
  * Assets manager class for requirements.
  *
  * Handles registration and enqueueing of assets for the requirements page.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Requirements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Assets as Assets_Manager;
 use DiviSquad\Core\Contracts\Hookable;
@@ -22,7 +27,7 @@ use Throwable;
  * Manages assets for the requirements page.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  */
 class Assets implements Hookable {
 	/**

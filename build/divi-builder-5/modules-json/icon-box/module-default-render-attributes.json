@@ -1,0 +1,38 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Icon Box"
+        }
+      }
+    }
+  },
+  "iconBox": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "elementType": "icon",
+          "icon": "",
+          "image": "",
+          "imageAlt": "",
+          "lottieSrc": "",
+          "lottieLoop": "on",
+          "title": "Your Feature",
+          "titleLevel": "h3",
+          "content": "Describe this feature in a sentence or two.",
+          "useBadge": "off",
+          "badgeText": "New",
+          "linkUrl": "",
+          "linkTarget": "off",
+          "iconPlacement": "top",
+          "alignment": "center",
+          "iconColor": "#5E2EFF",
+          "iconBgColor": "",
+          "iconSize": "48px"
+        }
+      }
+    }
+  }
+}

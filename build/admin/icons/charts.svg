@@ -2,11 +2,9 @@
 <path fill="#5E2EFF" d="M0 21.25A21.25 21.25 0 0 1 21.25 0h127.5A21.25 21.25 0 0 1 170 21.25v127.5A21.25 21.25 0 0 1 148.75 170H21.25A21.25 21.25 0 0 1 0 148.75V21.25Zm159.375 0a10.623 10.623 0 0 0-10.625-10.625H21.25A10.625 10.625 0 0 0 10.625 21.25v127.5a10.625 10.625 0 0 0 10.625 10.625h127.5a10.624 10.624 0 0 0 10.625-10.625V21.25Z"/>
 <g transform="translate(49 49) scale(3)">
 <g fill="none" stroke="#5E2EFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-<path d="M3 21h18"/>
-<path d="M6 21V13"/>
-<path d="M11 21V8"/>
-<path d="M16 21V11"/>
-<path d="M21 21V5"/>
+<path d="M5 21v-6"/>
+<path d="M12 21V3"/>
+<path d="M19 21V9"/>
 </g>
 </g>
 </svg>

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Animated Heading helper.
@@ -14,6 +15,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Animated_Heading;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function count;
 use function esc_attr;

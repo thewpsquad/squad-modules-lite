@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * REST API Routes for Modules (v2)
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Rest_API_Routes\Version1\Modules as Modules_V1;
 use DiviSquad\Utils\WP;

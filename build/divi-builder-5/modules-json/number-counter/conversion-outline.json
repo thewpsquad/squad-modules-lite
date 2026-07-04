@@ -1,0 +1,56 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "number_text": "module.decoration.fonts",
+      "affix_text": "module.decoration.fonts",
+      "title_text": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "start_number": "counterSettings.innerContent.*.startNumber",
+    "end_number": "counterSettings.innerContent.*.endNumber",
+    "number_prefix": "counterSettings.innerContent.*.numberPrefix",
+    "number_suffix": "counterSettings.innerContent.*.numberSuffix",
+    "thousands_separator": "counterSettings.innerContent.*.thousandsSeparator",
+    "decimal_separator": "counterSettings.innerContent.*.decimalSeparator",
+    "decimal_places": "counterSettings.innerContent.*.decimalPlaces",
+    "duration": "counterSettings.innerContent.*.duration",
+    "easing": "counterSettings.innerContent.*.easing",
+    "title": "counterSettings.innerContent.*.title",
+    "title_position": "counterSettings.innerContent.*.titlePosition",
+    "use_media": "counterSettings.innerContent.*.useMedia",
+    "icon": "counterSettings.innerContent.*.icon",
+    "image": "counterSettings.innerContent.*.image",
+    "media_position": "counterSettings.innerContent.*.mediaPosition",
+    "number_color": "colors.innerContent.*.numberColor",
+    "icon_color": "colors.innerContent.*.iconColor"
+  }
+}

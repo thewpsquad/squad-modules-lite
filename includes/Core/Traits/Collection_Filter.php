@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Collection Filter trait for filtering arrays with callbacks.
@@ -8,6 +9,10 @@
  */
 
 namespace DiviSquad\Core\Traits;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Throwable;
 

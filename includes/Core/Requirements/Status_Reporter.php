@@ -1,15 +1,20 @@
 <?php
+declare( strict_types=1 );
 /**
  * Status reporter class.
  *
  * Handles reporting of system requirements status.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Requirements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Contracts\Hookable;
 
@@ -19,7 +24,7 @@ use DiviSquad\Core\Contracts\Hookable;
  * Manages reporting of requirements status.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  */
 class Status_Reporter implements Hookable {
 	/**

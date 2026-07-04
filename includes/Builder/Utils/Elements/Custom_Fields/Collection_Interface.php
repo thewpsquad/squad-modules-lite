@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Custom Field Collection Interface
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Custom Field Collection Interface

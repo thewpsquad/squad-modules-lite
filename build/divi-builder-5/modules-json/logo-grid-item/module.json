@@ -6,8 +6,9 @@
   "titles": "Logo Grid Items",
   "moduleIcon": "squad-modules/logo-grid",
   "moduleClassName": "disq_logo_grid_item",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
+  "parentModuleName": "squad-modules/logo-grid",
   "attributes": {
     "module": {
       "type": "object",

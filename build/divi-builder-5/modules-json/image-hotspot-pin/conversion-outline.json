@@ -1,0 +1,36 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "default": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "marker": "css.*.marker",
+    "tooltip": "css.*.tooltip"
+  },
+  "module": {
+    "pos_x": "slideItem.innerContent.*.posX",
+    "pos_y": "slideItem.innerContent.*.posY",
+    "marker_type": "slideItem.innerContent.*.markerType",
+    "icon": "slideItem.innerContent.*.icon",
+    "number": "slideItem.innerContent.*.number",
+    "tooltip_title": "slideItem.innerContent.*.tooltipTitle",
+    "tooltip_content": "slideItem.innerContent.*.tooltipContent",
+    "tooltip_position": "slideItem.innerContent.*.tooltipPosition"
+  }
+}

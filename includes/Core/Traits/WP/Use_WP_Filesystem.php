@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The Filesystem class.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Core\Traits\WP;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use WP_Filesystem_Base;
 

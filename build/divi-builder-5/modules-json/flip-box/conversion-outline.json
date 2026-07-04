@@ -1,0 +1,67 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "link_options": "module.advanced.link",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "front_slide": "css.*.frontSlide",
+    "back_slide": "css.*.backSlide"
+  },
+  "module": {
+    "front_title": "front.innerContent.*.title",
+    "front_sub_title": "front.innerContent.*.subTitle",
+    "front_content": "front.innerContent.*.content",
+    "front_icon_type": "front.innerContent.*.iconType",
+    "front_icon": "front.innerContent.*.icon",
+    "front_image": "front.innerContent.*.image",
+    "front_icon_text": "front.innerContent.*.iconText",
+    "front_button_text": "frontButton.innerContent.*.text",
+    "front_button_url": "frontButton.innerContent.*.url",
+    "front_button_icon": "frontButton.innerContent.*.icon",
+    "back_title": "back.innerContent.*.title",
+    "back_sub_title": "back.innerContent.*.subTitle",
+    "back_content": "back.innerContent.*.content",
+    "back_icon_type": "back.innerContent.*.iconType",
+    "back_icon": "back.innerContent.*.icon",
+    "back_image": "back.innerContent.*.image",
+    "back_icon_text": "back.innerContent.*.iconText",
+    "back_button_text": "backButton.innerContent.*.text",
+    "back_button_url": "backButton.innerContent.*.url",
+    "back_button_icon": "backButton.innerContent.*.icon",
+    "flip_animation_type": "flip.innerContent.*.animationType",
+    "flip_animation_d_lrbt": "flip.innerContent.*.direction",
+    "flip_3d_effect__enable": "flip.innerContent.*.enable3d",
+    "flip_translate_z": "flip.innerContent.*.translateZ",
+    "flip_scale": "flip.innerContent.*.scale",
+    "flip_move_both_slide__enable": "flip.innerContent.*.moveBothSlides",
+    "flip_swap_slide__enable": "flip.innerContent.*.swapSlide",
+    "flip_custom_height__enable": "flip.innerContent.*.customHeightEnable",
+    "flip_custom_height": "flip.innerContent.*.customHeight",
+    "flip_elements_hr_alignment": "flip.innerContent.*.horizontalAlignment",
+    "flip_elements_vr_alignment": "flip.innerContent.*.verticalAlignment"
+  }
+}

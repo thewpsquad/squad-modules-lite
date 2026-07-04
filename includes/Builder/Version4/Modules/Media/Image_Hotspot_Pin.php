@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Image Hotspot Pin (child) Module (Divi 4 shortcode).
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Media;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Shared\Modules\Media\Image_Hotspots\Image_Hotspots_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;

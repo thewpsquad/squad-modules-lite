@@ -1,0 +1,26 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Gradient Text"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "gradientText": "Your Gradient Text",
+          "gradientTextTag": "p",
+          "gradientType": "linear",
+          "gradientDirection": "90deg",
+          "gradientStart": "#1f7016",
+          "gradientEnd": "#29c4a9"
+        }
+      }
+    }
+  }
+}

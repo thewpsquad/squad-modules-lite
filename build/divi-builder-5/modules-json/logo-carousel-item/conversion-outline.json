@@ -1,0 +1,28 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "image": "css.*.image"
+  },
+  "module": {
+    "image": "slideItem.innerContent.*.image",
+    "image_alt": "slideItem.innerContent.*.imageAlt",
+    "logo_link": "slideItem.innerContent.*.logoLink",
+    "logo_link_target": "slideItem.innerContent.*.logoLinkTarget"
+  }
+}

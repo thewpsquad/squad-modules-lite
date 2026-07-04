@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Module Assets Manager
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Assets as Assets_Manager;
 use DiviSquad\Core\Contracts\Hookable;

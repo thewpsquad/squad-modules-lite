@@ -8,14 +8,14 @@
  * @package     DiviSquad
  * @link        https://squadmodules.com/
  * @author      The WP Squad <support@squadmodules.com>
- * @copyright   2023-2025 The WP Squad (https://thewpsquad.com/)
+ * @copyright   2023-2026 The WP Squad (https://thewpsquad.com/)
  * @license     GPL-3.0-only
  *
  * @wordpress-plugin
  * Plugin Name:         Squad Modules Lite
  * Plugin URI:          https://squadmodules.com/
  * Description:         The essential Divi plugin: 61 free Divi 5 & Divi 4 modules — countdown, timeline, charts, data table, chat button, and more.
- * Version:             4.3.0
+ * Version:             4.3.1
  * Requires at least:   6.0
  * Requires PHP:        7.4
  * Author:              The WP Squad

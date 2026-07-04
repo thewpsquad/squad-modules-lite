@@ -33,6 +33,7 @@
           "conditions": {},
           "disabledOn": {},
           "filters": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -141,8 +142,7 @@
                   "max": 20,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -161,17 +161,7 @@
               "priority": 40,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "enableHash": {
@@ -189,17 +179,7 @@
               "priority": 50,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "tabTextColor": {

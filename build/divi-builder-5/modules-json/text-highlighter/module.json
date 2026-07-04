@@ -27,7 +27,7 @@
           "conditions": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -220,7 +220,7 @@
               "priority": 10,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button"
+                "name": "divi/toggle"
               }
             },
             "animDuration": {
@@ -244,8 +244,7 @@
                   "max": 5000,
                   "step": 100,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -270,8 +269,7 @@
                   "max": 3000,
                   "step": 100,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -290,7 +288,7 @@
               "priority": 40,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button"
+                "name": "divi/toggle"
               }
             },
             "useGradient": {
@@ -308,7 +306,7 @@
               "priority": 10,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button"
+                "name": "divi/toggle"
               }
             },
             "gradientStart": {
@@ -364,8 +362,7 @@
                   "max": 360,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             }
@@ -438,8 +435,7 @@
                   "max": 20,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -464,8 +460,7 @@
                   "max": 20,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -484,7 +479,20 @@
               "priority": 40,
               "component": {
                 "type": "field",
-                "name": "divi/text-align"
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "left": {
+                      "label": "Left"
+                    },
+                    "center": {
+                      "label": "Center"
+                    },
+                    "right": {
+                      "label": "Right"
+                    }
+                  }
+                }
               }
             }
           }

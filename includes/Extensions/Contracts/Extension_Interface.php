@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The Interface for Extension.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Extensions\Contracts;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Extension Interface.

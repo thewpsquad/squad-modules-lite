@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Requirements Checker trait for verifying plugin dependencies.
@@ -8,6 +9,10 @@
  */
 
 namespace DiviSquad\Core\Traits;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Requirements Checker trait.

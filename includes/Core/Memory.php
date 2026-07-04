@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Memory management class for WordPress options
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Core;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use InvalidArgumentException;
 use RuntimeException;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * String Helper class for utility
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * String Helper class.

@@ -135,17 +135,7 @@
               "priority": 30,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "revealStagger": {
@@ -169,8 +159,7 @@
                   "max": 600,
                   "step": 10,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

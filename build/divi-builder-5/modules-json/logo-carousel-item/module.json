@@ -6,8 +6,9 @@
   "titles": "Logo Carousel Items",
   "moduleIcon": "squad-modules/logo-carousel",
   "moduleClassName": "disq_logo_carousel_item",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
+  "parentModuleName": "squad-modules/logo-carousel",
   "attributes": {
     "module": {
       "type": "object",

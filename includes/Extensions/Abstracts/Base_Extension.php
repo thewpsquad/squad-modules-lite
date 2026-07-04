@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The base class for Extension.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Extensions\Abstracts;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Memory;
 use DiviSquad\Extensions\Contracts\Extension_Interface;

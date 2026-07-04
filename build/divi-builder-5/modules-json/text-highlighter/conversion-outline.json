@@ -1,0 +1,56 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "prefix_text": "module.decoration.fonts",
+      "highlight_text": "module.decoration.fonts",
+      "suffix_text": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "prefix_text": "highlightSettings.innerContent.*.prefixText",
+    "highlighted_text": "highlightSettings.innerContent.*.highlightedText",
+    "suffix_text": "highlightSettings.innerContent.*.suffixText",
+    "heading_tag": "highlightSettings.innerContent.*.headingTag",
+    "highlight_type": "highlightSettings.innerContent.*.highlightType",
+    "animate": "highlightSettings.innerContent.*.animate",
+    "anim_duration": "highlightSettings.innerContent.*.animDuration",
+    "anim_delay": "highlightSettings.innerContent.*.animDelay",
+    "anim_loop": "highlightSettings.innerContent.*.animLoop",
+    "use_gradient": "highlightSettings.innerContent.*.useGradient",
+    "gradient_start": "highlightSettings.innerContent.*.gradientStart",
+    "gradient_end": "highlightSettings.innerContent.*.gradientEnd",
+    "gradient_angle": "highlightSettings.innerContent.*.gradientAngle",
+    "highlight_color": "highlightStyle.innerContent.*.highlightColor",
+    "stroke_width": "highlightStyle.innerContent.*.strokeWidth",
+    "svg_position_y": "highlightStyle.innerContent.*.svgPositionY",
+    "content_align": "highlightStyle.innerContent.*.contentAlign"
+  }
+}

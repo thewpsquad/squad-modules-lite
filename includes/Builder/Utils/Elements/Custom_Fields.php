@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Custom Fields Utils Helper
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Utils\Elements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection_Interface;
 use InvalidArgumentException;

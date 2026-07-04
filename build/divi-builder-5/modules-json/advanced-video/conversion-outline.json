@@ -1,0 +1,59 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "source": "videoSettings.innerContent.*.source",
+    "video_url": "videoSettings.innerContent.*.videoUrl",
+    "video_file": "videoSettings.innerContent.*.videoFile",
+    "display": "videoSettings.innerContent.*.display",
+    "aspect_ratio": "videoSettings.innerContent.*.aspectRatio",
+    "use_poster": "videoSettings.innerContent.*.usePoster",
+    "poster_image": "videoSettings.innerContent.*.posterImage",
+    "poster_alt": "videoSettings.innerContent.*.posterAlt",
+    "play_icon": "videoSettings.innerContent.*.playIcon",
+    "autoplay": "videoSettings.innerContent.*.autoplay",
+    "muted": "videoSettings.innerContent.*.muted",
+    "loop": "videoSettings.innerContent.*.loop",
+    "controls": "videoSettings.innerContent.*.controls",
+    "start_time": "videoSettings.innerContent.*.startTime",
+    "end_time": "videoSettings.innerContent.*.endTime",
+    "sticky": "videoSettings.innerContent.*.sticky",
+    "sticky_position": "videoSettings.innerContent.*.stickyPosition",
+    "sticky_width": "videoSettings.innerContent.*.stickyWidth",
+    "sticky_mobile": "videoSettings.innerContent.*.stickyMobile",
+    "play_color": "videoStyle.innerContent.*.playColor",
+    "play_bg": "videoStyle.innerContent.*.playBg",
+    "play_size": "videoStyle.innerContent.*.playSize",
+    "overlay_color": "videoStyle.innerContent.*.overlayColor",
+    "frame_bg": "videoStyle.innerContent.*.frameBg",
+    "sticky_shadow": "videoStyle.innerContent.*.stickyShadow"
+  }
+}

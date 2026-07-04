@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Team Member Item (child) Module Class.
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Content;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module\Child_Module;
 use function esc_attr;

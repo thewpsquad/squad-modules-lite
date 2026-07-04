@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Chat Button Module (Divi 4 shortcode).
@@ -17,6 +18,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Shared\Modules\Creative\Chat_Button\Chat_Button_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module;

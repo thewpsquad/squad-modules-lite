@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * The plugin link management class for the plugin dashboard at admin area.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Core\Supports;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 /**
  * Link Class

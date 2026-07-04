@@ -1,0 +1,47 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Countdown Timer"
+        }
+      }
+    }
+  },
+  "countdownSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "mode": "fixed",
+          "targetDate": "2026-12-31 23:59:59",
+          "evergreenDuration": "86400",
+          "timezone": "site",
+          "onExpiry": "message",
+          "expiryMessage": "This offer has expired.",
+          "redirectUrl": "",
+          "showDays": "on",
+          "showHours": "on",
+          "showMinutes": "on",
+          "showSeconds": "on",
+          "labelDays": "Days",
+          "labelHours": "Hours",
+          "labelMinutes": "Minutes",
+          "labelSeconds": "Seconds",
+          "separator": "colon"
+        }
+      }
+    }
+  },
+  "colors": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "numberColor": "",
+          "labelColor": "",
+          "separatorColor": ""
+        }
+      }
+    }
+  }
+}

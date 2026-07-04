@@ -151,6 +151,66 @@
           }
         }
       }
+    },
+    "memberContainer": {
+      "type": "object",
+      "selector": "{{selector}} .squad-team-members",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMemberContainer",
+              "attrName": "memberContainer.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          },
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMemberContainer",
+              "attrName": "memberContainer.decoration.border",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "boxShadow": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMemberContainer",
+              "attrName": "memberContainer.decoration.boxShadow",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/box-shadow",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designMemberContainer",
+              "attrName": "memberContainer.decoration.spacing",
+              "priority": 40,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "settings": {
@@ -164,6 +224,17 @@
           "name": "divi/composite",
           "props": {
             "groupLabel": "Layout"
+          }
+        }
+      },
+      "designMemberContainer": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "designMemberContainer",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Members Container"
           }
         }
       }

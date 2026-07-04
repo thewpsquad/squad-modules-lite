@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * DeprecatedClassLoader Trait
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Deprecations;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use RuntimeException;
 use Throwable;

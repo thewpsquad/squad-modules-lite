@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Builder Utils FieldsTrait
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Supports\Module_Helpers;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function apply_filters;
 use function esc_html__;

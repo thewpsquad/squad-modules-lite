@@ -5,7 +5,7 @@
   "title": "Tab",
   "titles": "Tabs",
   "moduleIcon": "squad-modules/advanced-tabs",
-  "moduleClassName": "squad-advanced-tabs-item",
+  "moduleClassName": "disq_advanced_tabs_item",
   "category": "child-module",
   "folder": "squad-modules",
   "parentModuleName": "squad-modules/advanced-tabs",
@@ -24,7 +24,7 @@
           "boxShadow": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "spacing": {}
         }
       },

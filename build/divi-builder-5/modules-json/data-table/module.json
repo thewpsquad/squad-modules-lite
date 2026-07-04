@@ -33,6 +33,7 @@
           "conditions": {},
           "disabledOn": {},
           "filters": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -128,8 +129,7 @@
                   "max": 10,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -148,17 +148,7 @@
               "priority": 40,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "stripedRows": {
@@ -176,17 +166,7 @@
               "priority": 50,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "sortable": {
@@ -204,17 +184,7 @@
               "priority": 60,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             },
             "ribbonText": {

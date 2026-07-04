@@ -1,0 +1,38 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Social Share"
+        }
+      }
+    }
+  },
+  "shareSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "shareSource": "current",
+          "customUrl": "",
+          "customTitle": "",
+          "customDesc": "",
+          "headerShow": "off",
+          "headerTitle": "Share this",
+          "headerSubtitle": "",
+          "buttonStyle": "icon",
+          "enablePopup": "on",
+          "orientation": "inline",
+          "columns": "4",
+          "itemGap": "10px",
+          "buttonShape": "rounded",
+          "hoverEffect": "fill",
+          "iconSize": "18px",
+          "iconColor": "#ffffff",
+          "buttonBg": "",
+          "buttonPadding": "12px"
+        }
+      }
+    }
+  }
+}

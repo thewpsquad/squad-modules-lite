@@ -5,7 +5,7 @@
   "title": "Pricing Plan",
   "titles": "Pricing Plans",
   "moduleIcon": "squad-modules/pricing-table",
-  "moduleClassName": "squad-pricing-table-item",
+  "moduleClassName": "disq_pricing_table_item",
   "category": "child-module",
   "folder": "squad-modules",
   "parentModuleName": "squad-modules/pricing-table",
@@ -24,7 +24,7 @@
           "boxShadow": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "spacing": {}
         }
       },

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Review Notice Class
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Core\Admin\Notices;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Supports\Links;
 use DiviSquad\Utils\Helper;

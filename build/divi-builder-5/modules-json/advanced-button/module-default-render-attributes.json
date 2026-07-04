@@ -1,0 +1,42 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Advanced Button"
+        }
+      }
+    }
+  },
+  "buttonSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "buttonText": "Click Here",
+          "subText": "",
+          "buttonUrl": "",
+          "urlNewWindow": "off",
+          "addNofollow": "off",
+          "useIcon": "off",
+          "icon": "",
+          "iconPlacement": "left",
+          "iconOnHover": "off",
+          "hoverEffect": "none",
+          "contentAlignment": "left"
+        }
+      }
+    }
+  },
+  "iconDesign": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "iconColor": "",
+          "iconSize": "16px",
+          "iconSpacing": "8px"
+        }
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@
   "title": "Team Member",
   "titles": "Team Members",
   "moduleIcon": "squad-modules/team-member",
-  "moduleClassName": "squad-team-member-item",
+  "moduleClassName": "disq_team_member_item",
   "category": "child-module",
   "folder": "squad-modules",
   "parentModuleName": "squad-modules/team-member",
@@ -24,7 +24,7 @@
           "boxShadow": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "spacing": {}
         }
       },

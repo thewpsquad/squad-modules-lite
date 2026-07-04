@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Text Highlighter helper.
@@ -14,6 +15,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Text_Highlighter;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function absint;
 use function cos;

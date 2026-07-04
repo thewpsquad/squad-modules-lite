@@ -1,0 +1,38 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "carousel": "css.*.carousel",
+    "arrow": "css.*.arrow",
+    "dots": "css.*.dots"
+  },
+  "module": {
+    "slides_per_view": "carousel.innerContent.*.slidesPerView",
+    "space_between": "carousel.innerContent.*.spaceBetween",
+    "loop": "carousel.innerContent.*.loop",
+    "transition_speed": "carousel.innerContent.*.transitionSpeed",
+    "logo_max_width": "carousel.innerContent.*.logoMaxWidth",
+    "logo_max_height": "carousel.innerContent.*.logoMaxHeight",
+    "hover_effect": "carousel.innerContent.*.hoverEffect",
+    "hover_opacity": "carousel.innerContent.*.hoverOpacity",
+    "autoplay": "carousel.innerContent.*.autoplay",
+    "autoplay_speed": "carousel.innerContent.*.autoplaySpeed",
+    "show_arrows": "carousel.innerContent.*.showArrows",
+    "show_dots": "carousel.innerContent.*.showDots"
+  }
+}

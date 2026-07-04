@@ -1,0 +1,53 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Advanced Video"
+        }
+      }
+    }
+  },
+  "videoSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "source": "youtube",
+          "videoUrl": "",
+          "videoFile": "",
+          "display": "inline",
+          "aspectRatio": "16-9",
+          "usePoster": "on",
+          "posterImage": "",
+          "posterAlt": "",
+          "playIcon": "circle",
+          "autoplay": "off",
+          "muted": "off",
+          "loop": "off",
+          "controls": "on",
+          "startTime": "0",
+          "endTime": "0",
+          "sticky": "off",
+          "stickyPosition": "bottom-right",
+          "stickyWidth": "400",
+          "stickyMobile": "off"
+        }
+      }
+    }
+  },
+  "videoStyle": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "playColor": "#ffffff",
+          "playBg": "rgba(0,0,0,0.6)",
+          "playSize": "68",
+          "overlayColor": "",
+          "frameBg": "#000000",
+          "stickyShadow": "on"
+        }
+      }
+    }
+  }
+}

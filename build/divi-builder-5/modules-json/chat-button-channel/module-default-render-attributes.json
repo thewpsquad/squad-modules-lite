@@ -1,0 +1,25 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Chat Channel"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "channelType": "whatsapp",
+          "identifier": "",
+          "prefilledMessage": "",
+          "label": "",
+          "channelColor": ""
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Advanced Tabs Module Class.
@@ -14,6 +15,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Content;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Logger Trait
@@ -8,11 +9,15 @@
  * for extensibility.
  *
  * @since      3.2.0
- * @package    DiviSquad
+ * @package DiviSquad
  * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Traits\Plugin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Supports\Polyfills\Str;
 use Throwable;

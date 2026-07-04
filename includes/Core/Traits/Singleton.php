@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Singleton trait for creating a single instance of a class.
@@ -8,6 +9,10 @@
  */
 
 namespace DiviSquad\Core\Traits;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use RuntimeException;
 use Throwable;

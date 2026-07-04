@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Class for managing image operations with performance optimizations.
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core\Supports\Media;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Traits\WP\Use_WP_Filesystem;
 use RuntimeException;

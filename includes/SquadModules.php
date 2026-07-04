@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Squad Modules Core Class
@@ -11,10 +12,14 @@
  * @copyright   2023-2025 The WP Squad (https://squadmodules.com/)
  * @license     GPL-3.0-only
  * @link        https://squadmodules.com
- * @package     DiviSquad
+ * @package DiviSquad
  */
 
 namespace DiviSquad;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Freemius;
 use RuntimeException;

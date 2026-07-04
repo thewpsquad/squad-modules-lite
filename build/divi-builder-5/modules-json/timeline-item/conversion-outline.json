@@ -1,0 +1,38 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "default": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "marker": "css.*.marker",
+    "card": "css.*.card"
+  },
+  "module": {
+    "title": "slideItem.innerContent.*.title",
+    "date_label": "slideItem.innerContent.*.dateLabel",
+    "content": "slideItem.innerContent.*.content",
+    "marker_type": "slideItem.innerContent.*.markerType",
+    "icon": "slideItem.innerContent.*.icon",
+    "image": "slideItem.innerContent.*.image",
+    "image_alt": "slideItem.innerContent.*.imageAlt",
+    "marker_number": "slideItem.innerContent.*.markerNumber",
+    "item_link": "slideItem.innerContent.*.itemLink",
+    "item_link_target": "slideItem.innerContent.*.itemLinkTarget"
+  }
+}

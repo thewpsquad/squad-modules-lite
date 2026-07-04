@@ -1,15 +1,20 @@
 <?php
+declare( strict_types=1 );
 /**
  * Admin page class for requirements.
  *
  * Handles the admin UI for displaying requirements status.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Requirements;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Core\Supports\Polyfills\Constant;
@@ -23,7 +28,7 @@ use Throwable;
  * Manages the admin page for requirements.
  *
  * @since   3.5.0
- * @package DiviSquad\Core\Requirements
+ * @package DiviSquad
  */
 class Admin_Page implements Hookable {
 	/**

@@ -1,0 +1,25 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Video Popup"
+        }
+      }
+    }
+  },
+  "popup": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "useOverlay": "off",
+          "triggerElement": "icon",
+          "icon": "1",
+          "text": "Play",
+          "type": "yt"
+        }
+      }
+    }
+  }
+}

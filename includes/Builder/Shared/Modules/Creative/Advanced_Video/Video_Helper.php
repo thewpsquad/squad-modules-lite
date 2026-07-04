@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Advanced Video helper.
@@ -17,6 +18,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Advanced_Video;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function esc_attr;
 use function esc_url;

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * DiviSquad AI Abilities Integration
@@ -7,7 +8,7 @@
  * following the official WordPress AI Abilities API (WordPress 6.9+).
  *
  * @since      3.5.0
- * @package    DiviSquad
+ * @package DiviSquad
  * @author     The WP Squad <support@squadmodules.com>
  * @license    GPL-3.0-only
  * @link       https://squadmodules.com
@@ -16,6 +17,10 @@
  */
 
 namespace DiviSquad\Core\Supports;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use Throwable;
 use WP_Error;

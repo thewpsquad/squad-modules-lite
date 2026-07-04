@@ -1,7 +1,11 @@
 <svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="170" height="170" rx="20" fill="white"/>
-<rect x="34" y="30" width="80" height="14" rx="5" fill="#6A4BFF"/>
-<rect x="34" y="62" width="102" height="13" rx="5" fill="#E5E7EB"/>
-<rect x="34" y="87" width="102" height="13" rx="5" fill="#E5E7EB"/>
-<rect x="34" y="112" width="64" height="28" rx="7" fill="#6A4BFF"/>
+<path fill="#5E2EFF" d="M0 21.25A21.25 21.25 0 0 1 21.25 0h127.5A21.25 21.25 0 0 1 170 21.25v127.5A21.25 21.25 0 0 1 148.75 170H21.25A21.25 21.25 0 0 1 0 148.75V21.25Zm159.375 0a10.623 10.623 0 0 0-10.625-10.625H21.25A10.625 10.625 0 0 0 10.625 21.25v127.5a10.625 10.625 0 0 0 10.625 10.625h127.5a10.624 10.624 0 0 0 10.625-10.625V21.25Z"/>
+<g transform="translate(49 49) scale(3)">
+<g fill="none" stroke="#5E2EFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M15 12h-5"/>
+<path d="M15 8h-5"/>
+<path d="M19 17V5a2 2 0 0 0-2-2H4"/>
+<path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/>
+</g>
+</g>
 </svg>

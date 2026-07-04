@@ -6,8 +6,9 @@
   "titles": "Data Table Rows",
   "moduleIcon": "squad-modules/data-table",
   "moduleClassName": "disq_data_table_row",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
+  "parentModuleName": "squad-modules/data-table",
   "attributes": {
     "module": {
       "type": "object",
@@ -75,17 +76,7 @@
               "priority": 20,
               "component": {
                 "type": "field",
-                "name": "divi/yes-no-button",
-                "props": {
-                  "options": {
-                    "off": {
-                      "label": "No"
-                    },
-                    "on": {
-                      "label": "Yes"
-                    }
-                  }
-                }
+                "name": "divi/toggle"
               }
             }
           }

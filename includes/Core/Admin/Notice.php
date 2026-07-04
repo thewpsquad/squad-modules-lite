@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Admin Notice Manager
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Core\Admin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Admin\Notices\Notice_Interface;
 use DiviSquad\Core\Admin\Notices\Pro_Activation_Notice;

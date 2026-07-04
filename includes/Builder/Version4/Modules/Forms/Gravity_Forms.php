@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * GravityForms Form Styler Module
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Forms;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module\Form_Styler;
 use DiviSquad\Utils\Divi as DiviUtil;

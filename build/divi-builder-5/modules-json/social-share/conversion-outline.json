@@ -1,0 +1,46 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "label": "module.decoration.fonts",
+      "header_title": "module.decoration.fonts",
+      "header_subtitle": "module.decoration.fonts"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "share_source": "shareSettings.innerContent.*.shareSource",
+    "custom_url": "shareSettings.innerContent.*.customUrl",
+    "custom_title": "shareSettings.innerContent.*.customTitle",
+    "custom_desc": "shareSettings.innerContent.*.customDesc",
+    "header_show": "shareSettings.innerContent.*.headerShow",
+    "header_title": "shareSettings.innerContent.*.headerTitle",
+    "header_subtitle": "shareSettings.innerContent.*.headerSubtitle",
+    "button_style": "shareSettings.innerContent.*.buttonStyle",
+    "enable_popup": "shareSettings.innerContent.*.enablePopup",
+    "orientation": "shareSettings.innerContent.*.orientation",
+    "columns": "shareSettings.innerContent.*.columns",
+    "item_gap": "shareSettings.innerContent.*.itemGap",
+    "button_shape": "shareSettings.innerContent.*.buttonShape",
+    "hover_effect": "shareSettings.innerContent.*.hoverEffect",
+    "icon_size": "shareSettings.innerContent.*.iconSize",
+    "icon_color": "shareSettings.innerContent.*.iconColor",
+    "button_bg": "shareSettings.innerContent.*.buttonBg",
+    "button_padding": "shareSettings.innerContent.*.buttonPadding"
+  }
+}

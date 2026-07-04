@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Floating Images helper.
@@ -14,6 +15,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Floating_Images;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function implode;
 use function in_array;

@@ -1,0 +1,33 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Floating Image"
+        }
+      }
+    }
+  },
+  "itemSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "image": "",
+          "imageAlt": "",
+          "motionType": "up-down",
+          "horizontalPosition": "0%",
+          "verticalPosition": "0%",
+          "floatDistance": "20px",
+          "rotateAngle": "8",
+          "duration": "4000",
+          "delay": "0",
+          "easing": "ease-in-out",
+          "useLink": "off",
+          "linkUrl": "",
+          "linkNewWindow": "off"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Chat Button"
+        }
+      }
+    }
+  },
+  "chatButton": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "position": "bottom-right",
+          "toggleIcon": "",
+          "toggleLabel": "Open chat",
+          "headerTitle": "Chat with us",
+          "greeting": "",
+          "buttonColor": "",
+          "scheduleEnabled": "off",
+          "scheduleStart": "9",
+          "scheduleEnd": "17"
+        }
+      }
+    }
+  }
+}

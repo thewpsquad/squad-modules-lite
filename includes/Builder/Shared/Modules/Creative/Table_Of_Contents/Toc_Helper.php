@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Table of Contents helper.
@@ -14,6 +15,10 @@
  */
 
 namespace DiviSquad\Builder\Shared\Modules\Creative\Table_Of_Contents;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use function absint;
 use function esc_attr;

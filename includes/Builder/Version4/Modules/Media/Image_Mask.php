@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Image Mask Module Class which extend the Divi Builder Module Class.
@@ -21,6 +22,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Media;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use function apply_filters;

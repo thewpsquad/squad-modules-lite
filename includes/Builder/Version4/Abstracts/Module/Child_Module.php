@@ -1,4 +1,5 @@
 <?php // phpcs:disable WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Abstract Child Module Class
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Abstracts\Module;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module;
 

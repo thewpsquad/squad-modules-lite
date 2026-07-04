@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Brand Assets Trait
@@ -8,6 +9,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Assets;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Utils\Divi as DiviUtil;
 use Throwable;

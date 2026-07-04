@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * REST API Routes for the Admin Dashboard (v2)
@@ -13,6 +14,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Rest_API_Routes\Base_Route;
 use DiviSquad\Utils\Divi as DiviUtil;

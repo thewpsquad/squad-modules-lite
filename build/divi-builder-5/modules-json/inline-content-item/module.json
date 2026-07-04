@@ -6,7 +6,7 @@
   "titles": "Inline Content Items",
   "moduleIcon": "squad-modules/inline-content",
   "moduleClassName": "disq_inline_content_item",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
   "parentModuleName": "squad-modules/inline-content",
   "attributes": {
@@ -22,12 +22,13 @@
         },
         "decoration": {
           "animation": {},
+          "background": {},
           "border": {},
           "boxShadow": {},
           "conditions": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "overflow": {},
           "position": {},
           "scroll": {},
@@ -126,7 +127,7 @@
               "priority": 30,
               "component": {
                 "type": "field",
-                "name": "divi/select-icon"
+                "name": "divi/icon-picker"
               }
             },
             "image": {
@@ -312,7 +313,7 @@
               "priority": 10,
               "component": {
                 "type": "field",
-                "name": "divi/color"
+                "name": "divi/color-picker"
               }
             },
             "iconSize": {
@@ -499,7 +500,7 @@
               "priority": 30,
               "component": {
                 "type": "field",
-                "name": "divi/color"
+                "name": "divi/color-picker"
               }
             }
           }

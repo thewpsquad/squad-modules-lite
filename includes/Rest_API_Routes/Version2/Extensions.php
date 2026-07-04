@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * REST API Routes for Extensions (v2)
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Rest_API_Routes\Version1\Extensions as Extensions_V1;
 use Exception;

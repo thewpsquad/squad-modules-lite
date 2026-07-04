@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Plugin Row Meta Asset
@@ -11,6 +12,10 @@
  */
 
 namespace DiviSquad\Core\Admin\Branding;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Supports\Links;
 

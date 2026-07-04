@@ -6,8 +6,9 @@
   "titles": "Image Carousel Items",
   "moduleIcon": "squad-modules/image-carousel",
   "moduleClassName": "disq_image_carousel_item",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
+  "parentModuleName": "squad-modules/image-carousel",
   "attributes": {
     "module": {
       "type": "object",

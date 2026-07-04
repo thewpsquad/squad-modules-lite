@@ -1,0 +1,46 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Typing Text"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "prefixText": "My",
+          "typingText": [
+            {
+              "value": "first text",
+              "checked": 0,
+              "dragID": 0
+            },
+            {
+              "value": "second text",
+              "checked": 0,
+              "dragID": 1
+            }
+          ],
+          "suffixText": "is here.",
+          "textElementTag": "h2",
+          "typingSpeed": "100",
+          "typingStartDelay": "0",
+          "typingBackSpeed": "50",
+          "typingBackDelay": "500",
+          "typingFadeOutDelay": "500",
+          "typingLoop": "off",
+          "typingShuffle": "off",
+          "typingFadeOut": "off",
+          "typingCursor": "on",
+          "typingCursorCharacter": "|",
+          "removeCursorOnEnd": "off"
+        }
+      }
+    }
+  }
+}

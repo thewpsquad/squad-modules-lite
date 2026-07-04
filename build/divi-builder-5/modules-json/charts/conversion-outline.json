@@ -1,0 +1,48 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "fonts": {
+      "default": "module.decoration.fonts"
+    },
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "chart_type": "chartsSettings.innerContent.*.chartType",
+    "labels": "chartsSettings.innerContent.*.labels",
+    "datasets": "chartsSettings.innerContent.*.datasets",
+    "colors": "chartsSettings.innerContent.*.colors",
+    "show_legend": "chartsSettings.innerContent.*.showLegend",
+    "show_grid": "chartsSettings.innerContent.*.showGrid",
+    "begin_at_zero": "chartsSettings.innerContent.*.beginAtZero",
+    "animate_on_scroll": "chartsSettings.innerContent.*.animateOnScroll",
+    "chart_height": "chartsSettings.innerContent.*.chartHeight",
+    "title": "chartsSettings.innerContent.*.title",
+    "border_width": "chartsSettings.innerContent.*.borderWidth"
+  }
+}

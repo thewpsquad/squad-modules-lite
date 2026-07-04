@@ -1,0 +1,38 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Login Form"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layout": "card",
+          "showLogo": "on",
+          "showTitle": "on",
+          "titleText": "Welcome back",
+          "showSubtitle": "off",
+          "subtitleText": "",
+          "usernameLabel": "Username or Email",
+          "passwordLabel": "Password",
+          "usernamePlaceholder": "",
+          "passwordPlaceholder": "",
+          "showRememberMe": "on",
+          "rememberMeLabel": "Remember me",
+          "showForgotLink": "on",
+          "forgotLinkText": "Forgot password?",
+          "showRegisterLink": "off",
+          "registerLinkText": "Create an account",
+          "buttonText": "Log In",
+          "afterLoginUrl": ""
+        }
+      }
+    }
+  }
+}

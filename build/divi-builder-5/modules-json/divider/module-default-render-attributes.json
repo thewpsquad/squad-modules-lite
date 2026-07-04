@@ -1,0 +1,28 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Advanced Divider"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "dividerType": "icon",
+          "dividerIconType": "icon",
+          "dividerIconText": "Your Title Goes Here",
+          "dividerIcon": "&#x4e;||divi||400",
+          "lottieSrcType": "remote",
+          "dividerColor": "#7ebec5",
+          "dividerWeight": "2px",
+          "dividerPosition": "center"
+        }
+      }
+    }
+  }
+}

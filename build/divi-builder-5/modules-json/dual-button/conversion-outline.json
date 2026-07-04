@@ -1,0 +1,50 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "left_button": "css.*.leftButton",
+    "left_button_icon": "css.*.leftButtonIcon",
+    "right_button": "css.*.rightButton",
+    "right_button_icon": "css.*.rightButtonIcon",
+    "button_separator": "css.*.buttonSeparator",
+    "wrapper": "css.*.wrapper"
+  },
+  "module": {
+    "left_button_text": "content.innerContent.*.leftButtonText",
+    "left_button_icon": "content.innerContent.*.leftButtonIcon",
+    "left_button_url": "content.innerContent.*.leftButtonUrl",
+    "left_button_url_new_window": "content.innerContent.*.leftButtonUrlNewWindow",
+    "right_button_text": "content.innerContent.*.rightButtonText",
+    "right_button_icon": "content.innerContent.*.rightButtonIcon",
+    "right_button_url": "content.innerContent.*.rightButtonUrl",
+    "right_button_url_new_window": "content.innerContent.*.rightButtonUrlNewWindow",
+    "separator_text": "content.innerContent.*.separatorText",
+    "separator_icon": "content.innerContent.*.separatorIcon",
+    "separator_icon__enable": "content.innerContent.*.separatorIconEnable"
+  }
+}

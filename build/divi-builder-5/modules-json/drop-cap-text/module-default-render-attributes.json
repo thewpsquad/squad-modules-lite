@@ -1,0 +1,22 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Drop Cap Text"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "dropCapLetter": "A",
+          "bodyContent": "Add your drop cap paragraph here. The first letter is styled as a large drop cap to draw the reader in."
+        }
+      }
+    }
+  }
+}

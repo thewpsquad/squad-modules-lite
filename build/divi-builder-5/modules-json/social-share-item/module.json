@@ -6,8 +6,9 @@
   "titles": "Social Share Items",
   "moduleIcon": "squad-modules/social-share",
   "moduleClassName": "disq_social_share_child",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
+  "parentModuleName": "squad-modules/social-share",
   "attributes": {
     "module": {
       "type": "object",

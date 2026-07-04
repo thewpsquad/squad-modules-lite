@@ -1,0 +1,27 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Scrolling Text"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "scrollingText": "Your Scrolling Text Here",
+          "textTag": "h2",
+          "direction": "left",
+          "outlineText": "off",
+          "pauseOnHover": "off",
+          "repeatText": "off",
+          "speed": "7500"
+        }
+      }
+    }
+  }
+}

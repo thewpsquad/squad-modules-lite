@@ -1,0 +1,56 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "after": "css.*.after",
+    "before": "css.*.before",
+    "main_element": "css.*.mainElement",
+    "lottie-wrapper": "css.*.lottieWrapper",
+    "lottie-container": "css.*.lottieContainer"
+  },
+  "module": {
+    "lottie_src_type": "lottie.innerContent.*.srcType",
+    "lottie_src_remote": "lottie.innerContent.*.srcRemote",
+    "lottie_src_upload": "lottie.innerContent.*.srcUpload",
+    "lottie_trigger_method": "lottie.innerContent.*.triggerMethod",
+    "lottie_mouseout_action": "lottie.innerContent.*.mouseoutAction",
+    "lottie_click_action": "lottie.innerContent.*.clickAction",
+    "lottie_scroll": "lottie.innerContent.*.scroll",
+    "lottie_play_on_hover": "lottie.innerContent.*.playOnHover",
+    "lottie_loop": "lottie.innerContent.*.loop",
+    "lottie_loop_no_times": "lottie.innerContent.*.loopNoTimes",
+    "lottie_delay": "lottie.innerContent.*.delay",
+    "lottie_speed": "lottie.innerContent.*.speed",
+    "lottie_mode": "lottie.innerContent.*.mode",
+    "lottie_direction": "lottie.innerContent.*.direction",
+    "lottie_renderer": "lottie.innerContent.*.renderer",
+    "lottie_color": "lottie.innerContent.*.color",
+    "lottie_width": "lottie.innerContent.*.width",
+    "lottie_height": "lottie.innerContent.*.height"
+  }
+}

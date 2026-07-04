@@ -1,0 +1,23 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Testimonial"
+        }
+      }
+    }
+  },
+  "testimonials": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "columns": "3",
+          "columnGap": "30px",
+          "rowGap": "30px"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "after": "css.*.after",
+    "before": "css.*.before",
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "layout": "content.innerContent.*.layout",
+    "author_user_id": "content.innerContent.*.authorUserId",
+    "show_avatar": "content.innerContent.*.showAvatar",
+    "avatar_size": "content.innerContent.*.avatarSize",
+    "show_name": "content.innerContent.*.showName",
+    "name_tag": "content.innerContent.*.nameTag",
+    "show_bio": "content.innerContent.*.showBio",
+    "show_posts_link": "content.innerContent.*.showPostsLink",
+    "posts_link_text": "content.innerContent.*.postsLinkText",
+    "posts_link_target": "content.innerContent.*.postsLinkTarget",
+    "show_website_link": "content.innerContent.*.showWebsiteLink",
+    "website_link_text": "content.innerContent.*.websiteLinkText",
+    "website_link_target": "content.innerContent.*.websiteLinkTarget"
+  }
+}

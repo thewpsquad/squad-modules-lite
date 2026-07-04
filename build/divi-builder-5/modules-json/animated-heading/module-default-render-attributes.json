@@ -1,0 +1,40 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Animated Heading"
+        }
+      }
+    }
+  },
+  "headingSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "prefixText": "",
+          "rotatingText": "Fast\nSimple\nPowerful",
+          "suffixText": "",
+          "headingTag": "h2",
+          "granularity": "word",
+          "effect": "fade",
+          "duration": "600",
+          "rotationDelay": "1500",
+          "easing": "ease-in-out",
+          "letterStagger": "40"
+        }
+      }
+    }
+  },
+  "headingStyle": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "rotatingColor": "",
+          "contentAlign": "left"
+        }
+      }
+    }
+  }
+}

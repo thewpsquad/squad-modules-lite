@@ -1,0 +1,27 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Reset Password Form"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "layout": "card",
+          "showLogo": "on",
+          "titleText": "Set new password",
+          "newPasswordLabel": "New Password",
+          "confirmPasswordLabel": "Confirm Password",
+          "showStrengthMeter": "on",
+          "buttonText": "Save Password"
+        }
+      }
+    }
+  }
+}

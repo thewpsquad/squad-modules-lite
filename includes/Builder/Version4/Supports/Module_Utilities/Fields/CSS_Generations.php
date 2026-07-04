@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Builder Utils Fields ProcessorTrait
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Supports\Module_Utilities\Fields;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module_Utility;
 use ET_Builder_Element;

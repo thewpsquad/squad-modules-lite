@@ -1,0 +1,43 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Reveal"
+        }
+      }
+    }
+  },
+  "revealSettings": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "image": "",
+          "alt": "",
+          "titleText": "",
+          "linkUrl": "",
+          "linkNewWindow": "off",
+          "trigger": "scroll",
+          "revealStyle": "overlay",
+          "direction": "ltr",
+          "duration": "600",
+          "delay": "0",
+          "easing": "ease-in-out",
+          "threshold": "50"
+        }
+      }
+    }
+  },
+  "revealStyleGroup": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "revealColor": "#000000",
+          "hoverZoom": "off",
+          "zoomScale": "1.1"
+        }
+      }
+    }
+  }
+}

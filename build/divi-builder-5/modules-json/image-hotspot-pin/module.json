@@ -24,7 +24,7 @@
           "boxShadow": {},
           "disabledOn": {},
           "filters": {},
-          "fonts": {},
+          "font": {},
           "spacing": {}
         }
       },
@@ -66,8 +66,7 @@
                   "max": 100,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },
@@ -92,8 +91,7 @@
                   "max": 100,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

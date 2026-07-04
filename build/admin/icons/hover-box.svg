@@ -1,12 +1,17 @@
 <svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill="#5E2EFF" d="M0 21.25A21.25 21.25 0 0 1 21.25 0h127.5A21.25 21.25 0 0 1 170 21.25v127.5A21.25 21.25 0 0 1 148.75 170H21.25A21.25 21.25 0 0 1 0 148.75V21.25Zm159.375 0a10.623 10.623 0 0 0-10.625-10.625H21.25A10.625 10.625 0 0 0 10.625 21.25v127.5a10.625 10.625 0 0 0 10.625 10.625h127.5a10.624 10.624 0 0 0 10.625-10.625V21.25Z"/>
 <g transform="translate(49 49) scale(3)">
-<g fill="none" stroke="#5E2EFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-<rect x="2" y="3" width="20" height="18" rx="2"/>
-<rect x="2" y="12" width="20" height="9" rx="0" fill="#5E2EFF" fill-opacity="0.15" stroke-width="0"/>
-<circle cx="12" cy="14.5" r="1.5"/>
-<line x1="8" y1="17.5" x2="16" y2="17.5"/>
-<polyline points="4 10 7 6 10 9 13.5 5 20 10"/>
+<g fill="none" stroke="#5E2EFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12.034 12.681a.498.498 0 0 1 .647-.647l9 3.5a.5.5 0 0 1-.033.943l-3.444 1.068a1 1 0 0 0-.66.66l-1.067 3.443a.5.5 0 0 1-.943.033z"/>
+<path d="M5 3a2 2 0 0 0-2 2"/>
+<path d="M19 3a2 2 0 0 1 2 2"/>
+<path d="M5 21a2 2 0 0 1-2-2"/>
+<path d="M9 3h1"/>
+<path d="M9 21h2"/>
+<path d="M14 3h1"/>
+<path d="M3 9v1"/>
+<path d="M21 9v2"/>
+<path d="M3 14v1"/>
 </g>
 </g>
 </svg>

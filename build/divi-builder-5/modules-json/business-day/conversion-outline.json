@@ -1,0 +1,33 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "day": "css.*.dayName",
+    "time": "css.*.dayTime"
+  },
+  "module": {
+    "day": "dayContent.innerContent.*.day",
+    "time": "dayContent.innerContent.*.time",
+    "dual_time__enable": "dayContent.innerContent.*.dualTime",
+    "start_time": "dayContent.innerContent.*.startTime",
+    "end_time": "dayContent.innerContent.*.endTime",
+    "time_separator": "dayContent.innerContent.*.timeSeparator",
+    "off_day__enable": "dayContent.innerContent.*.offDay",
+    "off_day_label": "dayContent.innerContent.*.offDayLabel"
+  }
+}

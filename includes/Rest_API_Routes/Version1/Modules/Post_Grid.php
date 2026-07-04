@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Post Grid Load More REST API
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Modules;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Modules\Post_Grid as Post_Grid_Module;
 use DiviSquad\Core\Supports\Polyfills\Str;

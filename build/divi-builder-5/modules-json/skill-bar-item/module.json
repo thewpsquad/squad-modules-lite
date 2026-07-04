@@ -6,8 +6,9 @@
   "titles": "Skill Bar Items",
   "moduleIcon": "squad-modules/skill-bar",
   "moduleClassName": "disq_skill_bar_item",
-  "category": "module",
+  "category": "child-module",
   "folder": "squad-modules",
+  "parentModuleName": "squad-modules/skill-bar",
   "attributes": {
     "module": {
       "type": "object",
@@ -99,8 +100,7 @@
                   "max": 100,
                   "step": 1,
                   "allowedUnits": [],
-                  "defaultUnit": "",
-                  "unitless": true
+                  "defaultUnit": ""
                 }
               }
             },

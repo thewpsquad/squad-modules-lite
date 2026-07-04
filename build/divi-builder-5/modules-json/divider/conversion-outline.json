@@ -1,0 +1,45 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "divider_type": "content.innerContent.*.dividerType",
+    "divider_icon_text": "content.innerContent.*.dividerIconText",
+    "divider_icon_type": "content.innerContent.*.dividerIconType",
+    "divider_icon": "content.innerContent.*.dividerIcon",
+    "divider_image": "content.innerContent.*.dividerImage",
+    "alt": "content.innerContent.*.dividerImageAlt",
+    "divider_icon_lottie_src_type": "content.innerContent.*.lottieSrcType",
+    "divider_icon_lottie_src_remote": "content.innerContent.*.lottieSrcRemote",
+    "divider_icon_lottie_src_upload": "content.innerContent.*.lottieSrcUpload",
+    "divider_color": "content.innerContent.*.dividerColor",
+    "divider_weight": "content.innerContent.*.dividerWeight",
+    "divider_position": "content.innerContent.*.dividerPosition"
+  }
+}

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Logo Carousel Module Class which extend the Divi Builder Module Class.
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Media;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use function absint;

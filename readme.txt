@@ -5,7 +5,7 @@ Tags: divi, divi-5, divi builder, divi module, divi addons
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.3.0
+Stable tag: 4.3.1
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -134,7 +134,7 @@ Replace the default WordPress login screens with fully branded, Divi-styled page
 
 **Upgrade to Squad Modules Pro**
 
-Already shipping with 54 free modules — Pro adds **30+ premium modules and extensions** for advanced layouts and dynamic content, all with the same native Divi 5 + Divi 4 support:
+Already shipping with 61 free modules — Pro adds **30+ premium modules and extensions** for advanced layouts and dynamic content, all with the same native Divi 5 + Divi 4 support:
 
 - **Advanced List** & **Taxonomy List** — design rich, structured lists from any data.
 - **Advanced Blurb** & **Advanced Heading** (multi-part) — pixel-perfect headings and feature blocks.
@@ -182,7 +182,7 @@ If this plugin saves you time, please [leave a 5-star review](https://wordpress.
 == Frequently Asked Questions ==
 
 **Is Squad Modules Lite free?**
-Yes, completely free with no feature limits on the 54 included modules. [Squad Modules Pro](https://squadmodules.com/pricing?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) adds 30+ premium modules.
+Yes, completely free with no feature limits on the 61 included modules. [Squad Modules Pro](https://squadmodules.com/pricing?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) adds 30+ premium modules.
 
 **Do I need the Divi theme or Divi Builder to use this plugin?**
 Yes. Squad Modules extends Divi, so you need the Divi theme, the Extra theme, or the Divi Builder plugin (4.13 or higher, including Divi 5) installed and active. It does not work as a standalone page builder.
@@ -191,7 +191,7 @@ Yes. Squad Modules extends Divi, so you need the Divi theme, the Extra theme, or
 No. Only the modules and extensions you enable load assets on the front end — everything you disable adds zero CSS or JavaScript. Assets are scoped per module, so a page only loads what it actually uses. You can toggle anything off from the dashboard to keep your site lean.
 
 **How is Squad Modules different from other free Divi module packs?**
-Two things: scale and Divi 5 readiness. Squad Modules ships 54 free modules — the largest free Divi module library — and *every* one of them runs natively in the Divi 5 Visual Builder via the Block API, not just a subset of "static" modules. You also keep full Divi 4 support in the same plugin, with nothing to migrate.
+Two things: scale and Divi 5 readiness. Squad Modules ships 61 free modules — the largest free Divi module library — and *every* one of them runs natively in the Divi 5 Visual Builder via the Block API, not just a subset of "static" modules. You also keep full Divi 4 support in the same plugin, with nothing to migrate.
 
 **Can I switch from another Divi modules plugin without rebuilding my pages?**
 Squad Modules installs alongside your current setup, so you can adopt its modules gradually. Pages built with another plugin's modules are unaffected. We recommend backing up before any major change, then rebuilding sections with Squad modules at your own pace.
@@ -199,8 +199,8 @@ Squad Modules installs alongside your current setup, so you can adopt its module
 **Does it work with Divi 5 and the new Visual Builder?**
 Yes. Every module runs as a native Divi 5 Block API module with full Visual Builder support — live preview, design controls, and frontend output. Divi 4 builder support is also fully maintained.
 
-**Are all 54 modules available in both Divi 4 and Divi 5?**
-Almost. All 54 modules run natively in the Divi 5 Visual Builder. 53 of them also run in the classic Divi 4 builder — the only Divi 5-exclusive module is Post Carousel. Everything else behaves identically in both builders.
+**Are all 61 modules available in both Divi 4 and Divi 5?**
+Almost. All 61 modules run natively in the Divi 5 Visual Builder. 60 of them also run in the classic Divi 4 builder — the only Divi 5-exclusive module is Post Carousel. Everything else behaves identically in both builders.
 
 **Do I need to migrate anything when switching from Divi 4 to Divi 5?**
 No. The same plugin handles both builders. Pages built in Divi 4 keep working in Divi 4; new pages built in Divi 5 use the native Divi 5 modules. Nothing to migrate or convert.
@@ -221,8 +221,8 @@ Updates are tested against all supported Divi and WordPress versions before rele
 Free: [WordPress.org support forum](https://wordpress.org/support/plugin/squad-modules-for-divi/) or [Facebook community](https://www.facebook.com/groups/squadmodules/). Pro: [priority email support](https://squadmodules.com/support?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink).
 
 == Screenshots ==
-1. Dashboard — Divi 5 Ready badge, live stats (54 modules, 8 extensions, Divi 5 detected), quick actions, module library breakdown, and What's New feed.
-2. Modules management — toggle all 54 free modules on/off by category (Creative, Image & Media, Dynamic Content, Content, Form Styler, Auth) with search and bulk actions.
+1. Dashboard — Divi 5 Ready badge, live stats (61 modules, 8 extensions, Divi 5 detected), quick actions, module library breakdown, and What's New feed.
+2. Modules management — toggle all 61 free modules on/off by category (Creative, Image & Media, Dynamic Content, Content, Form Styler, Auth) with search and bulk actions.
 3. Extensions management — Copy Post/Page, Divi Library Shortcode, Login Experience (Custom Login Page, Forgot Password, Reset Password), and Media Upload extensions with page assignment controls.
 4. What's New — full in-dashboard changelog timeline showing fixes, new modules, and releases.
 5. Flip Box (Divi 5) — cards that flip on hover with image, title, subtitle, body, and CTA; rotate, slide, zoom, fade, open, and diagonal animation types.
@@ -235,11 +235,14 @@ Free: [WordPress.org support forum](https://wordpress.org/support/plugin/squad-m
 12. Login Experience — fully branded wp-login.php replacement built with Divi modules (Login Form, Register Form, Lost Password, Reset Password).
 
 == Upgrade Notice ==
+= 4.3.1 =
+Patch: all 61 modules now show the correct icon in the Divi 5 Visual Builder, several VB settings panels are fixed, and a packaging issue is resolved. No migration; existing pages keep working.
+
 = 4.3.0 =
 Feature release: 7 new free modules — Countdown Timer, Timeline, Data / Comparison Table, Charts, Floating Chat Button, Reading Progress Bar, and Image Hotspots — features other Divi packs charge for, each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 61 modules. Chart.js loads only on pages with a Charts module. No migration; existing pages keep working.
 
 = 4.2.0 =
-Feature release: 5 new free modules — Team Member, Testimonial, Pricing Table, Icon Box, and Advanced Tabs — each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 54 modules, the largest of any free Divi pack. No migration; existing pages keep working.
+Feature release: 5 new free modules — Team Member, Testimonial, Pricing Table, Icon Box, and Advanced Tabs — each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 61 modules, the largest of any free Divi pack. No migration; existing pages keep working.
 
 = 4.1.1 =
 Security and bug-fix patch: resolves XSS and CSS injection vulnerabilities in multiple Divi 4 and Divi 5 modules, fixes output-buffer leaks in auth form modules, corrects wrong CSS selectors and inverted form conditions, and improves Visual Builder previews for 9 Divi 5 modules.
@@ -248,9 +251,21 @@ Security and bug-fix patch: resolves XSS and CSS injection vulnerabilities in mu
 Feature release: a rebuilt React admin dashboard (live stats, module/extension management, dark mode) and 15 new modules including Social Share, Table of Contents, Number Counter, Advanced Button, Hover Box, Animated Heading, Image Carousel, and Logo Grid. The admin page slug changed from "divi_squad_dashboard" to "divi_squad"; old bookmarks are redirected automatically. Divi 4 and Divi 5 builder support continue unchanged.
 
 == Changelog ==
+= 4.3.1 (30-06-2026) =
+
+**Improvements:**
+- All 61 modules now display their correct icon in the Divi 5 Visual Builder module palette.
+- Improved stability and consistency of all modules in the Divi 5 Visual Builder.
+
+**Bug fixes:**
+- Fixed several Divi 5 module settings panels that could show blank or incorrect controls in the Visual Builder.
+- Fixed module decoration settings (fonts, background, design) for modules where they were not applying correctly in Divi 5.
+- Fixed a packaging issue where required plugin files could be missing from the downloaded zip in some environments.
+- Hardened all PHP files against edge-case loading issues on non-standard WordPress setups.
+
 = 4.3.0 =
 
-**New Modules — Tier 2 "Free-tier disruptors" (modules other Divi packs charge for):**
+**New Modules — (modules other Divi packs charge for):**
 - **Countdown Timer** — evergreen and fixed-date modes, on-expiry actions (hide/redirect/show message), timezone-aware, no external JS.
 - **Timeline** — vertical and horizontal orientation, alternating/one-side layouts, scroll-triggered reveal, icon/image/number markers; repeatable child items.
 - **Data / Comparison Table** — responsive (stack/scroll), highlight column/row, sticky header, optional client-side sort, ribbon and CSV-style paste; repeatable child rows.
@@ -274,7 +289,7 @@ Feature release: a rebuilt React admin dashboard (live stats, module/extension m
 - **Advanced Tabs** — tabbed content with horizontal / vertical layouts, mobile-accordion mode, icon tabs, URL-hash deep-linking and full keyboard/ARIA support; repeatable child Tab items.
 
 **Improvements:**
-- The free module library grows to 54 modules — the largest of any free Divi pack — with 53 running in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
+- The free module library grows to 61 modules — the largest of any free Divi pack — with 60 running in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
 - Extended WPML String Translation config for every new module's translatable attributes.
 
 = 4.1.1 (19-06-2026) =

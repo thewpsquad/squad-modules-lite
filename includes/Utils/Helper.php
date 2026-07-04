@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Generic helper class for utility.
@@ -9,6 +10,10 @@
  */
 
 namespace DiviSquad\Utils;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use WP_Error;
 use WP_Screen;

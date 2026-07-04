@@ -1,0 +1,55 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "animation": "module.decoration.animation",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "fonts": {
+      "sub_text": "module.decoration.fonts"
+    },
+    "height": "module.decoration.sizing",
+    "margin_padding": "module.decoration.spacing",
+    "max_width": "module.decoration.sizing",
+    "module": "module.advanced.htmlAttributes",
+    "overflow": "module.decoration.overflow",
+    "position_fields": "module.decoration.position",
+    "scroll": "module.decoration.scroll",
+    "sticky": "module.decoration.sticky",
+    "transform": "module.decoration.transform",
+    "transition": "module.decoration.transition",
+    "z_index": "module.decoration.zIndex"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "button_link": "css.*.buttonLink",
+    "button_icon": "css.*.buttonIcon",
+    "button_text": "css.*.buttonText",
+    "button_sub": "css.*.buttonSub"
+  },
+  "module": {
+    "button_text": "buttonSettings.innerContent.*.buttonText",
+    "sub_text": "buttonSettings.innerContent.*.subText",
+    "button_url": "buttonSettings.innerContent.*.buttonUrl",
+    "url_new_window": "buttonSettings.innerContent.*.urlNewWindow",
+    "add_nofollow": "buttonSettings.innerContent.*.addNofollow",
+    "use_icon": "buttonSettings.innerContent.*.useIcon",
+    "icon": "buttonSettings.innerContent.*.icon",
+    "icon_placement": "buttonSettings.innerContent.*.iconPlacement",
+    "icon_on_hover": "buttonSettings.innerContent.*.iconOnHover",
+    "hover_effect": "buttonSettings.innerContent.*.hoverEffect",
+    "icon_color": "iconDesign.innerContent.*.iconColor",
+    "icon_size": "iconDesign.innerContent.*.iconSize",
+    "icon_spacing": "iconDesign.innerContent.*.iconSpacing",
+    "content_alignment": "buttonSettings.innerContent.*.contentAlignment"
+  }
+}

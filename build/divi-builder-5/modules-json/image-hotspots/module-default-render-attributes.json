@@ -1,0 +1,24 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Hotspots"
+        }
+      }
+    }
+  },
+  "imageHotspots": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "image": "",
+          "imageAlt": "",
+          "trigger": "hover",
+          "pinColor": ""
+        }
+      }
+    }
+  }
+}

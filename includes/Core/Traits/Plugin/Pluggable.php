@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Pluggable Trait
@@ -8,6 +9,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Plugin;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Supports\Media\Image;
 use RuntimeException;

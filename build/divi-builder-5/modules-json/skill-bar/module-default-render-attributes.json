@@ -1,0 +1,24 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Skill Bar"
+        }
+      }
+    }
+  },
+  "bars": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "title": "",
+          "titleLevel": "h3",
+          "barSpacing": "20px",
+          "titleSpacing": "10px"
+        }
+      }
+    }
+  }
+}

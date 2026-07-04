@@ -1,0 +1,52 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Flip Box"
+        }
+      }
+    }
+  },
+  "flip": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "animationType": "rotate",
+          "direction": "right",
+          "enable3d": "off",
+          "moveBothSlides": "off",
+          "swapSlide": "off",
+          "customHeightEnable": "off",
+          "horizontalAlignment": "center",
+          "verticalAlignment": "center"
+        }
+      }
+    }
+  },
+  "front": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "iconType": "icon",
+          "title": "Your Title Here",
+          "subTitle": "Subtitle",
+          "content": "Add the front content of your flip box here. Keep it short and engaging."
+        }
+      }
+    }
+  },
+  "back": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "iconType": "icon",
+          "title": "Back Title",
+          "subTitle": "Subtitle",
+          "content": "Add the back content of your flip box here. Reveal more details on hover or tap."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Glitch Text"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "glitchText": "Glitch Text",
+          "glitchTag": "p",
+          "glitchEffect": "one",
+          "primaryColor": "#FF0000FF",
+          "secondaryColor": "#0000FFFF"
+        }
+      }
+    }
+  }
+}

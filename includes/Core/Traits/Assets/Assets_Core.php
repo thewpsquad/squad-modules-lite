@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+declare( strict_types=1 );
 
 /**
  * Asset Management Trait
@@ -12,6 +13,10 @@
  */
 
 namespace DiviSquad\Core\Traits\Assets;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	die( 'Direct access forbidden.' );
+}
 
 use DiviSquad\Core\Supports\Polyfills\Str;
 use RuntimeException;

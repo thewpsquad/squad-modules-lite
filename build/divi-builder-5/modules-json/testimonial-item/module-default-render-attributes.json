@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Testimonial"
+        }
+      }
+    }
+  },
+  "testimonial": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "content": "This product changed the way our team works. Highly recommended!",
+          "author": "Jane Doe",
+          "role": "Marketing Lead",
+          "company": "",
+          "avatar": "",
+          "useRating": "on",
+          "rating": "5",
+          "starColor": "#FFB400",
+          "alignment": "left"
+        }
+      }
+    }
+  }
+}

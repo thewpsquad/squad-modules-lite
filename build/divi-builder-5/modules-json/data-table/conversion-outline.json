@@ -1,0 +1,36 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement",
+    "table": "css.*.table",
+    "header": "css.*.header",
+    "row": "css.*.row"
+  },
+  "module": {
+    "columns": "dataTable.innerContent.*.columns",
+    "responsive_mode": "dataTable.innerContent.*.responsiveMode",
+    "highlight_column": "dataTable.innerContent.*.highlightColumn",
+    "sticky_header": "dataTable.innerContent.*.stickyHeader",
+    "striped_rows": "dataTable.innerContent.*.stripedRows",
+    "sortable": "dataTable.innerContent.*.sortable",
+    "ribbon_text": "dataTable.innerContent.*.ribbonText",
+    "header_bg_color": "dataTable.innerContent.*.headerBgColor",
+    "header_text_color": "dataTable.innerContent.*.headerTextColor",
+    "cell_text_color": "dataTable.innerContent.*.cellTextColor"
+  }
+}
