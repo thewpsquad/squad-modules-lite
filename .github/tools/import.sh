@@ -2,7 +2,7 @@
 
 # Set variables
 SVN_REPO_URL="https://plugins.svn.wordpress.org/squad-modules-for-divi/"
-GITHUB_REPO_URL="https://github.com/thewpsquad/squad-modules"
+GITHUB_REPO_URL="https://github.com/thewpsquad/squad-modules-lite"
 WORK_DIR="./../../"
 
 # Create working directory

@@ -1,80 +1,71 @@
 name: Sync SVN to GitHub
 
+# Mirrors WordPress.org SVN tags into this repo (one commit + tag per release).
+# Fired on release by a repository_dispatch from thewpsquad/squad-modules-for-divi
+# (its "Mirror release to Lite repo" workflow dispatches this after a version ships
+# to SVN). Also runnable manually from the Actions tab. import.sh backfills ALL
+# missing tags, so a single run self-heals any gap.
 on:
-  schedule:
-    - cron: '0 */6 * * *'  # Runs every 6 hours
-  workflow_dispatch:  # Allows manual triggering
+  repository_dispatch:
+    types: [release-published]
+  workflow_dispatch:
+
+# Built-in GITHUB_TOKEN pushes commits/tags and creates releases in THIS repo.
+permissions:
+  contents: write
 
 env:
   SVN_REPO_URL: https://plugins.svn.wordpress.org/squad-modules-for-divi/
-  GITHUB_REPO: thewpsquad/squad-modules
 
 jobs:
   sync-svn-to-github:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          token: ${{ secrets.PERSONAL_TOKEN }}  # Use PAT for checkout
+          fetch-depth: 0 # full tag history needed to detect what is already mirrored
 
       - name: Install SVN
-        run: sudo apt-get install subversion
+        run: sudo apt-get update && sudo apt-get install -y subversion
 
-      - name: Check if upgrade is needed
-        id: check_upgrade
+      - name: Configure Git
         run: |
-          # Get latest SVN tag
-          LATEST_SVN_TAG=$(svn ls ${{ env.SVN_REPO_URL }}/tags | grep -v '^trunk/' | sort -V | tail -n 1 | sed 's/\///g')
-          echo "Latest SVN tag: $LATEST_SVN_TAG"
-          
-          # Get latest Git tag
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check if sync is needed
+        id: check
+        run: |
+          LATEST_SVN_TAG=$(svn ls "${SVN_REPO_URL}tags" | grep -v '^trunk/' | sort -V | tail -n1 | sed 's#/##g')
           LATEST_GIT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
-          echo "Latest Git tag: $LATEST_GIT_TAG"
-          
-          # Compare tags
+          echo "Latest SVN tag: $LATEST_SVN_TAG / latest Git tag: $LATEST_GIT_TAG"
           if [ "$LATEST_SVN_TAG" != "$LATEST_GIT_TAG" ]; then
-            echo "UPGRADE_NEEDED=true" >> $GITHUB_OUTPUT
-            echo "Upgrade needed"
+            echo "needed=true" >> "$GITHUB_OUTPUT"
           else
-            echo "UPGRADE_NEEDED=false" >> $GITHUB_OUTPUT
-            echo "No upgrade needed"
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+            echo "Already up to date; nothing to sync."
           fi
 
-      - name: Make import.sh executable
-        if: steps.check_upgrade.outputs.UPGRADE_NEEDED == 'true'
-        run: chmod +x ./.github/tools/import.sh
-
       - name: Sync SVN to GitHub
-        if: steps.check_upgrade.outputs.UPGRADE_NEEDED == 'true'
+        if: steps.check.outputs.needed == 'true'
         run: |
+          chmod +x ./.github/tools/import.sh
           cd ./.github/tools
           ./import.sh
 
-      - name: Configure Git
-        if: steps.check_upgrade.outputs.UPGRADE_NEEDED == 'true'
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-
-      - name: Push changes
-        if: steps.check_upgrade.outputs.UPGRADE_NEEDED == 'true'
+      - name: Create GitHub releases for newly imported tags
+        if: steps.check.outputs.needed == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push origin main --tags
-
-      - name: Create Releases
-        if: steps.check_upgrade.outputs.UPGRADE_NEEDED == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        run: |
-          NEW_TAGS=$(git tag --points-at HEAD)
-          for TAG in $NEW_TAGS
-          do
-            gh release create "$TAG" \
-              --title "Release $TAG" \
-              --notes "This is an automatic release created from SVN tag $TAG" \
-              --generate-notes
+          for TAG in $(git tag --points-at HEAD); do
+            if gh release view "$TAG" >/dev/null 2>&1; then
+              echo "Release $TAG already exists; skipping."
+            else
+              gh release create "$TAG" \
+                --title "Release $TAG" \
+                --notes "Automated release mirrored from WordPress.org SVN tag $TAG." \
+                --generate-notes
+            fi
           done
