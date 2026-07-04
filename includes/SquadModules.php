@@ -120,44 +120,38 @@ final class SquadModules implements Core\Contracts\Hookable {
 	private static bool $is_initializing = false;
 
 	/**
-	 * Plugin Constructor
+	 * Initialize the plugin.
 	 *
-	 * Initializes the plugin by:
-	 * - Setting up core plugin properties
-	 * - Initializing memory management
-	 * - Registering WordPress hooks
-	 * - Loading deprecated class compatibility
+	 * @since 3.4.1
 	 *
-	 * @since  3.4.0 Added circular dependency prevention
-	 * @since  3.2.0 Added system requirements check
-	 * @since  1.0.0 Initial implementation
+	 * @return void
 	 */
-	private function __construct() {
+	public function init(): void {
 		try {
 			// Set basic logger identifier immediately for early error logging
 			$this->set_log_identifier( 'Squad Modules' );
 
 			/**
-			 * Action fired before plugin constructor initialization begins.
+			 * Action fired before plugin initialization begins.
 			 *
 			 * @since 3.4.0
 			 */
-			do_action( 'divi_squad_before_constructor' );
+			do_action( 'divi_squad_before_initialization' );
 
 			// Initialize core plugin components
 			$this->load_initials();
 			$this->register_hooks();
 
 			/**
-			 * Action fired after plugin constructor initialization completes.
+			 * Action fired after plugin initialization completes.
 			 *
 			 * @since 3.4.0
 			 *
 			 * @param SquadModules $plugin The plugin instance.
 			 */
-			do_action( 'divi_squad_after_constructor', $this );
+			do_action( 'divi_squad_after_initialization', $this );
 		} catch ( Throwable $e ) {
-			$this->log_error( $e, 'Constructor initialization failed', false );
+			$this->log_error( $e, 'Initialization failed', false );
 		}
 	}
 
@@ -475,85 +469,85 @@ final class SquadModules implements Core\Contracts\Hookable {
 		);
 
 		return array(
-			'Admin/Assets.php'                             => array(),
-			'Admin/Plugin/AdminFooterText.php'             => array(),
-			'Admin/Plugin/ActionLinks.php'                 => array(),
-			'Admin/Plugin/RowMeta.php'                     => array(),
-			'Base/Core.php'                                => array(),
-			'Base/Memory.php'                              => array(),
-			'Base/DiviBuilder/Integration.php'             => $builder_load_config,
-			'Base/DiviBuilder/IntegrationAPIBase.php'      => $builder_load_config,
-			'Base/DiviBuilder/Integration/ShortcodeAPI.php' => $builder_load_config,
-			'Base/DiviBuilder/IntegrationAPI.php'          => $builder_load_config,
-			'Base/DiviBuilder/Module.php'                  => $builder_load_config,
-			'Base/DiviBuilder/DiviSquad_Module.php'        => $builder_load_config,
-			'Base/DiviBuilder/Module/FormStyler.php'       => $builder_load_config,
-			'Base/DiviBuilder/Placeholder.php'             => array(),
-			'Base/DiviBuilder/Utils/Database/DatabaseUtils.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields.php' => $core_load_config,
+			'Admin/Assets.php'                                                             => array(),
+			'Admin/Plugin/AdminFooterText.php'                                             => array(),
+			'Admin/Plugin/ActionLinks.php'                                                 => array(),
+			'Admin/Plugin/RowMeta.php'                                                     => array(),
+			'Base/Core.php'                                                                => array(),
+			'Base/Memory.php'                                                              => array(),
+			'Base/DiviBuilder/Integration.php'                                             => $builder_load_config,
+			'Base/DiviBuilder/IntegrationAPIBase.php'                                      => $builder_load_config,
+			'Base/DiviBuilder/Integration/ShortcodeAPI.php'                                => $builder_load_config,
+			'Base/DiviBuilder/IntegrationAPI.php'                                          => $builder_load_config,
+			'Base/DiviBuilder/Module.php'                                                  => $builder_load_config,
+			'Base/DiviBuilder/DiviSquad_Module.php'                                        => $builder_load_config,
+			'Base/DiviBuilder/Module/FormStyler.php'                                       => $builder_load_config,
+			'Base/DiviBuilder/Placeholder.php'                                             => array(),
+			'Base/DiviBuilder/Utils/Database/DatabaseUtils.php'                            => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields.php'                             => $core_load_config,
 			'Base/DiviBuilder/Utils/Elements/CustomFields/Traits/TablePopulationTrait.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/DefinitionInterface.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Definition.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/WordPress.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/ManagerInterface.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Manager.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Fields.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Upgraders.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/ProcessorInterface.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Processor.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Processors/Advanced.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Processors/WordPress.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/Breadcrumbs.php' => array(),
-			'Base/DiviBuilder/Utils/Elements/Divider.php'  => array(),
-			'Base/DiviBuilder/Utils/Elements/MaskShape.php' => array(),
-			'Base/DiviBuilder/Utils/Fields/CompatibilityTrait.php' => array(),
-			'Base/DiviBuilder/Utils/Fields/DefinitionTrait.php' => array(),
-			'Base/DiviBuilder/Utils/Fields/ProcessorTrait.php' => array(),
-			'Base/DiviBuilder/Utils/UtilsInterface.php'    => array(),
-			'Base/DiviBuilder/Utils/CommonTrait.php'       => array(),
-			'Base/DiviBuilder/Utils/DeprecationsTrait.php' => array(),
-			'Base/DiviBuilder/Utils/FieldsTrait.php'       => array(),
-			'Base/DiviBuilder/Utils/Base.php'              => array(),
-			'Base/DiviBuilder/Utils.php'                   => array(),
-			'Base/Factories/FactoryBase/FactoryInterface.php' => array(),
-			'Base/Factories/FactoryBase/Factory.php'       => array(),
-			'Base/Factories/AdminMenu/MenuInterface.php'   => array(),
-			'Base/Factories/AdminMenu/Menu.php'            => array(),
-			'Base/Factories/AdminMenu/MenuCore.php'        => array(),
-			'Base/Factories/AdminMenu.php'                 => array(),
-			'Base/Factories/AdminNotice/NoticeInterface.php' => array(),
-			'Base/Factories/AdminNotice/Notice.php'        => array(),
-			'Base/Factories/AdminNotice.php'               => array(),
-			'Base/Factories/BrandAsset/AssetInterface.php' => array(),
-			'Base/Factories/BrandAsset/Asset.php'          => array(),
-			'Base/Factories/BrandAsset/BrandAssetInterface.php' => array(),
-			'Base/Factories/BrandAsset/BrandAsset.php'     => array(),
-			'Base/Factories/BrandAsset.php'                => array(),
-			'Base/Factories/PluginAsset/AssetInterface.php' => array(),
-			'Base/Factories/PluginAsset/Asset.php'         => array(),
-			'Base/Factories/PluginAsset/PluginAssetInterface.php' => array(),
-			'Base/Factories/PluginAsset/PluginAsset.php'   => array(),
-			'Base/Factories/PluginAsset.php'               => array(),
-			'Base/Factories/RestRoute/RouteInterface.php'  => array(),
-			'Base/Factories/RestRoute/Route.php'           => array(),
-			'Base/Factories/RestRoute.php'                 => array(),
-			'Base/Factories/SquadFeatures.php'             => array(),
-			'Integrations/Admin.php'                       => array(),
-			'Integrations/Core.php'                        => array(),
-			'Integrations/WP.php'                          => array(),
-			'Managers/Assets.php'                          => array(),
-			'Managers/Emails/ErrorReport.php'              => array(),
-			'Modules/PostGridChild.php'                    => $builder_load_config,
-			'Modules/PostGridChild/PostGridChild.php'      => $builder_load_config,
-			'Managers/Features/Extensions.php'             => array(),
-			'Managers/Features/Modules.php'                => array(),
-			'Managers/Extensions.php'                      => array(),
-			'Managers/Modules.php'                         => array(),
-			'Utils/Media/Filesystem.php'                   => array(),
-			'Utils/Polyfills/Str.php'                      => array(),
-			'Utils/Asset.php'                              => array(),
-			'Utils/Singleton.php'                          => array(),
+			'Base/DiviBuilder/Utils/Elements/CustomFields/DefinitionInterface.php'         => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Definition.php'                  => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php'        => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/WordPress.php'       => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/ManagerInterface.php'            => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Manager.php'                     => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Fields.php'             => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Upgraders.php'          => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/ProcessorInterface.php'          => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Processor.php'                   => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Processors/Advanced.php'         => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/CustomFields/Processors/WordPress.php'        => $core_load_config,
+			'Base/DiviBuilder/Utils/Elements/Breadcrumbs.php'                              => array(),
+			'Base/DiviBuilder/Utils/Elements/Divider.php'                                  => array(),
+			'Base/DiviBuilder/Utils/Elements/MaskShape.php'                                => array(),
+			'Base/DiviBuilder/Utils/Fields/CompatibilityTrait.php'                         => array(),
+			'Base/DiviBuilder/Utils/Fields/DefinitionTrait.php'                            => array(),
+			'Base/DiviBuilder/Utils/Fields/ProcessorTrait.php'                             => array(),
+			'Base/DiviBuilder/Utils/UtilsInterface.php'                                    => array(),
+			'Base/DiviBuilder/Utils/CommonTrait.php'                                       => array(),
+			'Base/DiviBuilder/Utils/DeprecationsTrait.php'                                 => array(),
+			'Base/DiviBuilder/Utils/FieldsTrait.php'                                       => array(),
+			'Base/DiviBuilder/Utils/Base.php'                                              => array(),
+			'Base/DiviBuilder/Utils.php'                                                   => array(),
+			'Base/Factories/FactoryBase/FactoryInterface.php'                              => array(),
+			'Base/Factories/FactoryBase/Factory.php'                                       => array(),
+			'Base/Factories/AdminMenu/MenuInterface.php'                                   => array(),
+			'Base/Factories/AdminMenu/Menu.php'                                            => array(),
+			'Base/Factories/AdminMenu/MenuCore.php'                                        => array(),
+			'Base/Factories/AdminMenu.php'                                                 => array(),
+			'Base/Factories/AdminNotice/NoticeInterface.php'                               => array(),
+			'Base/Factories/AdminNotice/Notice.php'                                        => array(),
+			'Base/Factories/AdminNotice.php'                                               => array(),
+			'Base/Factories/BrandAsset/AssetInterface.php'                                 => array(),
+			'Base/Factories/BrandAsset/Asset.php'                                          => array(),
+			'Base/Factories/BrandAsset/BrandAssetInterface.php'                            => array(),
+			'Base/Factories/BrandAsset/BrandAsset.php'                                     => array(),
+			'Base/Factories/BrandAsset.php'                                                => array(),
+			'Base/Factories/PluginAsset/AssetInterface.php'                                => array(),
+			'Base/Factories/PluginAsset/Asset.php'                                         => array(),
+			'Base/Factories/PluginAsset/PluginAssetInterface.php'                          => array(),
+			'Base/Factories/PluginAsset/PluginAsset.php'                                   => array(),
+			'Base/Factories/PluginAsset.php'                                               => array(),
+			'Base/Factories/RestRoute/RouteInterface.php'                                  => array(),
+			'Base/Factories/RestRoute/Route.php'                                           => array(),
+			'Base/Factories/RestRoute.php'                                                 => array(),
+			'Base/Factories/SquadFeatures.php'                                             => array(),
+			'Integrations/Admin.php'                                                       => array(),
+			'Integrations/Core.php'                                                        => array(),
+			'Integrations/WP.php'                                                          => array(),
+			'Managers/Assets.php'                                                          => array(),
+			'Managers/Emails/ErrorReport.php'                                              => array(),
+			'Modules/PostGridChild.php'                                                    => $builder_load_config,
+			'Modules/PostGridChild/PostGridChild.php'                                      => $builder_load_config,
+			'Managers/Features/Extensions.php'                                             => array(),
+			'Managers/Features/Modules.php'                                                => array(),
+			'Managers/Extensions.php'                                                      => array(),
+			'Managers/Modules.php'                                                         => array(),
+			'Utils/Media/Filesystem.php'                                                   => array(),
+			'Utils/Polyfills/Str.php'                                                      => array(),
+			'Utils/Asset.php'                                                              => array(),
+			'Utils/Singleton.php'                                                          => array(),
 		);
 	}
 

@@ -31,85 +31,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Prepare severity class based on error code.
-$severity_class = 'medium';
-if ( isset( $error_code ) ) {
-	if ( is_numeric( $error_code ) && $error_code >= 500 ) {
-		$severity_class = 'high';
-	} elseif ( is_numeric( $error_code ) && $error_code >= 400 ) {
-		$severity_class = 'medium';
-	} elseif ( stripos( $error_message, 'fatal' ) !== false || stripos( $error_message, 'critical' ) !== false ) {
-		$severity_class = 'high';
-	} elseif ( stripos( $error_message, 'warning' ) !== false ) {
-		$severity_class = 'medium';
-	} elseif ( stripos( $error_message, 'notice' ) !== false ) {
-		$severity_class = 'low';
-	}
+// Ensure required variables are available with fallbacks
+try {
+	// All data should be pre-processed in the Reporter class
+	// Just provide fallbacks for any potentially missing values
+	$error_type          = $error_type ?? 'Unknown Error';
+	$severity_class      = $severity_class ?? 'medium';
+	$error_message       = $error_message ?? 'Unknown error';
+	$error_code          = $error_code ?? '';
+	$error_file          = $error_file ?? '';
+	$error_line          = $error_line ?? 0;
+	$relative_file_path  = $relative_file_path ?? 'Unknown file';
+	$formatted_timestamp = $formatted_timestamp ?? wp_date( 'Y-m-d H:i:s e' );
+	$error_reference     = $error_reference ?? substr( md5( microtime() ), 0, 8 );
+	$client_wp_version   = $client_wp_version ?? 'Unknown';
+	$php_version         = $php_version ?? 'Unknown';
+	$plugin_version      = $plugin_version ?? 'Unknown';
+	$divi_version        = $divi_version ?? 'Unknown';
+	$user_info           = $user_info ?? '';
+	$divi_theme_info     = $divi_theme_info ?? array();
+
+	/**
+	 * Action hook fired immediately before the error report email is rendered.
+	 *
+	 * This hook allows modules and extensions to perform last-minute modifications
+	 * or additional processing before the error report template is rendered.
+	 * It provides access to key error information for developers to use
+	 * in their hook callbacks.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @param string $severity_class  The determined severity class (high/medium/low).
+	 * @param string $error_type      The categorized error type (Core Error, Module Error, etc.).
+	 * @param string $error_reference The unique error reference ID for tracking.
+	 */
+	do_action( 'divi_squad_error_report_pre_render', $severity_class, $error_type, $error_reference );
+} catch ( Exception $e ) {
+	divi_squad()->log_debug( 'Error in email template: ' . $e->getMessage() );
 }
-
-// Format the timestamp to be more readable
-$formatted_timestamp = isset( $timestamp ) ? wp_date( 'Y-m-d H:i:s e', (int) strtotime( $timestamp ) ) : wp_date( 'Y-m-d H:i:s e' );
-
-// Get error type and category
-$error_type = 'Unknown Error';
-if ( isset( $error_file ) ) {
-	if ( strpos( $error_file, 'includes/Core' ) !== false ) {
-		$error_type = 'Core Component Error';
-	} elseif ( strpos( $error_file, 'includes/Modules' ) !== false ) {
-		$error_type = 'Module Error';
-	} elseif ( strpos( $error_file, 'includes/Builder' ) !== false ) {
-		$error_type = 'Divi Builder Integration Error';
-	} elseif ( strpos( $error_file, 'includes/Settings' ) !== false ) {
-		$error_type = 'Settings Error';
-	} elseif ( strpos( $error_file, 'includes/Utils' ) !== false ) {
-		$error_type = 'Utility Error';
-	} elseif ( strpos( $error_file, 'includes/Utils/Divi.php' ) !== false ) {
-		$error_type = 'Divi Detection Error';
-	}
-} else {
-	$error_file = '';
-}
-
-// Get file path relative to plugin, if possible.
-$relative_file_path = $error_file ?? 'Unknown file';
-$plugin_path        = WP_PLUGIN_DIR . '/squad-modules-for-divi/';
-if ( isset( $error_file ) && strpos( $error_file, $plugin_path ) === 0 ) {
-	$relative_file_path = substr( $error_file, strlen( $plugin_path ) );
-}
-
-// Extract WordPress and PHP versions for quick reference.
-$client_wp_version = $environment['wp_version'] ?? 'Unknown';
-$php_version       = $environment['php_version'] ?? 'Unknown';
-$plugin_version    = $environment['plugin_version'] ?? 'Unknown';
-$divi_version      = $environment['divi_version'] ?? ( $extra_data['status_details']['theme_version'] ?? ( $extra_data['status_details']['plugin_version'] ?? 'Unknown' ) );
-
-// Get current user info if available.
-$user_info = '';
-if ( function_exists( 'wp_get_current_user' ) ) {
-	$reporter = wp_get_current_user();
-	if ( $reporter instanceof WP_User && $reporter->exists() ) {
-		$user_info = sprintf(
-			'User: %s (ID: %d, Email: %s, Role: %s)',
-			$reporter->user_login,
-			$reporter->ID,
-			$reporter->user_email,
-			implode( ', ', $reporter->roles )
-		);
-	}
-}
-
-// Generate a unique error reference ID for tracking
-$error_reference = substr( md5( $site_url . $error_file . $error_line . $timestamp ), 0, 8 );
-
-// Prepare Divi theme information
-$divi_theme_info = array(
-	'version'          => $divi_version,
-	'mode'             => $environment['divi_mode'] ?? 'Unknown',
-	'theme_name'       => $environment['active_theme_name'] ?? 'Unknown',
-	'is_child_theme'   => $environment['is_child_theme'] ?? 'Unknown',
-	'parent_theme'     => $environment['parent_theme_name'] ?? 'N/A',
-	'detection_method' => $environment['divi_detection_method'] ?? 'Unknown',
-);
 ?>
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">

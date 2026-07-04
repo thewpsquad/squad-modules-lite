@@ -1,9 +1,9 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Contact Form 7 Collection
+ * WPForms Collection
  *
- * Handles the retrieval and processing of Contact Form 7 forms.
+ * Handles the retrieval and processing of WPForms.
  *
  * @since   3.1.0
  * @package DiviSquad
@@ -13,32 +13,38 @@
 namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Forms\Collection;
-use WPCF7_ContactForm;
+use WP_Post;
 
 /**
- * Contact Form 7 Collection
+ * WPForms Collection
  *
- * Handles the retrieval and processing of Contact Form 7 forms.
+ * Handles the retrieval and processing of WPForms.
  *
  * @since   3.1.0
  * @package DiviSquad
  */
-class ContactForm7 extends Collection {
+class WP_Forms extends Collection {
 
 	/**
-	 * Get Contact Form 7 forms.
+	 * Get WPForms.
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of Contact Form 7 data.
+	 * @return array An array of WPForms data.
 	 */
 	public function get_forms( string $collection ): array {
-		if ( ! class_exists( 'WPCF7_ContactForm' ) ) {
+		if ( ! \function_exists( 'wpforms' ) ) {
 			return array();
 		}
 
-		// Get all Contact Form 7 forms.
-		$forms = WPCF7_ContactForm::find();
+		// Get all WPForms.
+		$forms = \wpforms()->form->get(
+			'',
+			array(
+				'orderby' => 'id',
+				'order'   => 'DESC',
+			)
+		);
 
 		if ( empty( $forms ) ) {
 			return array();
@@ -48,24 +54,24 @@ class ContactForm7 extends Collection {
 	}
 
 	/**
-	 * Get the ID of a Contact Form 7 form.
+	 * Get the ID of a WPForm.
 	 *
-	 * @param WPCF7_ContactForm $form The form object.
+	 * @param WP_Post $form The form post object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return $form->id();
+		return $form->ID;
 	}
 
 	/**
-	 * Get the title of a Contact Form 7 form.
+	 * Get the title of a WPForm.
 	 *
-	 * @param WPCF7_ContactForm $form The form object.
+	 * @param WP_Post $form The form post object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return $form->title();
+		return $form->post_title;
 	}
 }

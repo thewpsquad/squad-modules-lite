@@ -1,0 +1,10 @@
+<svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#EBEBEB" d="M0 0h600v500H0z"/>
+        <rect fill-opacity=".1" fill="#000" x="100" y="100" width="400" height="200" rx="5"/>
+        <rect fill-opacity=".2" fill="#000" x="100" y="320" width="300" height="30" rx="3"/>
+        <rect fill-opacity=".1" fill="#000" x="100" y="370" width="400" height="15" rx="3"/>
+        <rect fill-opacity=".1" fill="#000" x="100" y="395" width="350" height="15" rx="3"/>
+        <rect fill-opacity=".1" fill="#000" x="100" y="420" width="200" height="15" rx="3"/>
+    </g>
+</svg>

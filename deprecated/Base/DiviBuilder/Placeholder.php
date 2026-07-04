@@ -189,18 +189,6 @@ abstract class Placeholder {
 				'landscape'       => $image->get_image( 'landscape.svg', 'svg' ),
 				'portrait'        => $image->get_image( 'portrait.svg', 'svg' ),
 				'vertical'        => $image->get_image( 'vertical.svg', 'svg' ),
-				'square'          => $image->get_image( 'square.svg', 'svg' ),
-				'team_member'     => $image->get_image( 'team-member.svg', 'svg' ),
-				'product'         => $image->get_image( 'product.svg', 'svg' ),
-				'testimonial'     => $image->get_image( 'testimonial.svg', 'svg' ),
-				'service'         => $image->get_image( 'service.svg', 'svg' ),
-				'portfolio'       => $image->get_image( 'portfolio.svg', 'svg' ),
-				'gallery'         => $image->get_image( 'gallery.svg', 'svg' ),
-				'logo'            => $image->get_image( 'logo.svg', 'svg' ),
-				'hero'            => $image->get_image( 'hero.svg', 'svg' ),
-				'banner'          => $image->get_image( 'banner.svg', 'svg' ),
-				'feature'         => $image->get_image( 'feature.svg', 'svg' ),
-				'blog'            => $image->get_image( 'blog.svg', 'svg' ),
 			),
 
 			// Media placeholders
@@ -209,9 +197,9 @@ abstract class Placeholder {
 
 			// URLs for various types of links
 			'url'             => array(
-				'website'       => 'https://example.com',
-				'documentation' => 'https://docs.example.com',
-				'support'       => 'https://support.example.com',
+				'website'       => 'https://squadmodules.com',
+				'documentation' => 'https://squadmodules.com/docs',
+				'support'       => 'https://squadmodules.com/support',
 			),
 
 			// Categories and tags examples

@@ -1,4 +1,8 @@
 == Upgrade Notice ==
+= 3.4.1 =
+Added new SVG files for various components, fixed Ninja Forms compatibility issues, and optimized plugin performance and stability.
+
+
 = 3.4.0 =
 Enhanced asset management with additional filters, improved admin notice system, fixed various bugs including localization issues, and added more extensibility points for developers.
 

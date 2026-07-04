@@ -1,0 +1,7 @@
+<svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#EBEBEB" d="M0 0h500v600H0z"/>
+        <circle fill-opacity=".15" fill="#000" cx="250" cy="180" r="100"/>
+        <path d="M400 600H100c0-110 67.2-200 150-200s150 90 150 200z" fill-opacity=".1" fill="#000"/>
+    </g>
+</svg>

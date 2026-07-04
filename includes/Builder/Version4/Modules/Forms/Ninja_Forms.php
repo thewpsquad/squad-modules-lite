@@ -17,7 +17,6 @@ namespace DiviSquad\Builder\Version4\Modules\Forms;
 use DiviSquad\Builder\Version4\Abstracts\Module\Form_Styler;
 use DiviSquad\Utils\Divi as DiviUtil;
 use Throwable;
-use function Ninja_Forms as Ninja_Forms_Plugin;
 
 /**
  * NinjaForms Form Styler Module Class
@@ -257,7 +256,7 @@ class Ninja_Forms extends Form_Styler {
 			 */
 			do_action( 'divi_squad_before_module_gravity_forms_render', $attrs, $this );
 
-			if ( ! function_exists( 'Ninja_Forms_Plugin' ) ) {
+			if ( ! function_exists( 'Ninja_Forms' ) ) {
 				$message = esc_html__( 'Ninja Forms is not installed or activated. Please install Ninja Forms to use this module.', 'squad-modules-for-divi' );
 
 				/**
@@ -692,7 +691,7 @@ class Ninja_Forms extends Form_Styler {
 				esc_html__( 'Form Title', 'squad-modules-for-divi' ),
 				array(
 					'css'         => array(
-						'main'      => $this->squad_get_css_selector_string( 'typography.title' ),
+						'main'      => "$this->main_css_element div .nf-form-cont .nf-form-title *",
 						'important' => 'all',
 					),
 					'font_size'   => array( 'default' => '26px' ),
@@ -847,8 +846,8 @@ class Ninja_Forms extends Form_Styler {
 				array(
 					'css'         => array(
 						'main'      => array(
-							'border_radii'  => $this->squad_get_css_selector_string( 'typography.title' ),
-							'border_styles' => $this->squad_get_css_selector_string( 'typography.title' ),
+							'border_radii'  => "$this->main_css_element div .nf-form-cont .nf-form-title",
+							'border_styles' => "$this->main_css_element div .nf-form-cont .nf-form-title",
 						),
 						'important' => 'all',
 					),
@@ -1004,7 +1003,7 @@ class Ninja_Forms extends Form_Styler {
 				esc_html__( 'Title Box Shadow', 'squad-modules-for-divi' ),
 				array(
 					'css'         => array(
-						'main' => $this->squad_get_css_selector_string( 'typography.title' ),
+						'main' => "$this->main_css_element div .nf-form-cont .nf-form-title",
 					),
 					'tab_slug'    => 'advanced',
 					'toggle_slug' => 'form_title',
@@ -1118,13 +1117,13 @@ class Ninja_Forms extends Form_Styler {
 	 * @return void
 	 */
 	protected function squad_add_form_title_transition_fields( array &$fields ): void {
-		$fields['form_title_background_color'] = array( 'background' => $this->squad_get_css_selector_string( 'typography.title' ) );
-		$fields['form_title_margin']           = array( 'margin' => $this->squad_get_css_selector_string( 'typography.title' ) );
-		$fields['form_title_padding']          = array( 'padding' => $this->squad_get_css_selector_string( 'typography.title' ) );
+		$fields['form_title_background_color'] = array( 'background' => "$this->main_css_element div .nf-form-cont .nf-form-title *" );
+		$fields['form_title_margin']           = array( 'margin' => "$this->main_css_element div .nf-form-cont .nf-form-title" );
+		$fields['form_title_padding']          = array( 'padding' => "$this->main_css_element div .nf-form-cont .nf-form-title" );
 
-		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'form_title_text', $this->squad_get_css_selector_string( 'typography.title' ) );
-		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'form_title', $this->squad_get_css_selector_string( 'typography.title' ) );
-		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'form_title', $this->squad_get_css_selector_string( 'typography.title' ) );
+		divi_squad()->d4_module_helper->fix_fonts_transition( $fields, 'form_title_text', "$this->main_css_element div .nf-form-cont .nf-form-title *" );
+		divi_squad()->d4_module_helper->fix_border_transition( $fields, 'form_title', "$this->main_css_element div .nf-form-cont .nf-form-title" );
+		divi_squad()->d4_module_helper->fix_box_shadow_transition( $fields, 'form_title', "$this->main_css_element div .nf-form-cont .nf-form-title" );
 	}
 
 	/**
@@ -1199,7 +1198,7 @@ class Ninja_Forms extends Form_Styler {
 	protected function squad_get_background_stylesheet_option_fields(): array {
 		$parent_fields = parent::squad_get_background_stylesheet_option_fields();
 
-		$parent_fields['form_title_background']         = $this->squad_get_css_selector_string( 'typography.title' );
+		$parent_fields['form_title_background']         = "$this->main_css_element div .nf-form-cont .nf-form-title";
 		$parent_fields['message_validation_background'] = $this->squad_get_css_selector_string( 'messages.validation' );
 
 		return $parent_fields;
@@ -1281,7 +1280,7 @@ class Ninja_Forms extends Form_Styler {
 	protected function squad_get_margin_padding_stylesheet_option_fields(): array {
 		$parent_fields = parent::squad_get_margin_padding_stylesheet_option_fields();
 
-		$parent_fields['form_title'] = $this->squad_get_css_selector_string( 'typography.title' );
+		$parent_fields['form_title'] = "$this->main_css_element div .nf-form-cont .nf-form-title";
 
 		return $parent_fields;
 	}
@@ -1307,7 +1306,7 @@ class Ninja_Forms extends Form_Styler {
 		 */
 		$attrs = (array) apply_filters( 'divi_squad_module_ninja_forms_get_form_html_attrs', $attrs );
 
-		if ( ! function_exists( 'Ninja_Forms_Plugin' ) || '' === $attrs['form_id'] || divi_squad()->forms_element::DEFAULT_FORM_ID === $attrs['form_id'] ) {
+		if ( ! function_exists( 'Ninja_Forms' ) || '' === $attrs['form_id'] || divi_squad()->forms_element::DEFAULT_FORM_ID === $attrs['form_id'] ) {
 			return '';
 		}
 
@@ -1336,7 +1335,7 @@ class Ninja_Forms extends Form_Styler {
 			divi_squad()->memory->sync_data();
 		}
 
-		$i18n = Ninja_Forms_Plugin()->config( 'i18nFrontEnd' );
+		$i18n = Ninja_Forms()->config( 'i18nFrontEnd' );
 
 		/**
 		 * Filters the Ninja Forms i18n strings.
@@ -1349,7 +1348,7 @@ class Ninja_Forms extends Form_Styler {
 		$i18n = (array) apply_filters( 'divi_squad_module_ninja_forms_i18n', $i18n, $attrs );
 
 		ob_start();
-		Ninja_Forms_Plugin()->display( $form_id_raw );
+		Ninja_Forms()->display( $form_id_raw );
 
 		if ( count( $i18n ) > 0 ) {
 			printf(

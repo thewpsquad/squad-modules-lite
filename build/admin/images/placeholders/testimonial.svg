@@ -1,0 +1,9 @@
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#EBEBEB" d="M0 0h500v500H0z"/>
+        <rect fill-opacity=".05" fill="#000" x="100" y="150" width="300" height="200" rx="5"/>
+        <path d="M140 190c0-5.5 4.5-10 10-10h40c5.5 0 10 4.5 10 10v40c0 5.5-4.5 10-10 10h-30l-20 20v-70z" fill-opacity=".2" fill="#000"/>
+        <path d="M210 190c0-5.5 4.5-10 10-10h40c5.5 0 10 4.5 10 10v40c0 5.5-4.5 10-10 10h-30l-20 20v-70z" fill-opacity=".2" fill="#000"/>
+        <circle fill-opacity=".1" fill="#000" cx="250" cy="350" r="30"/>
+    </g>
+</svg>

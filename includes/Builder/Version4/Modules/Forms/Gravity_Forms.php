@@ -541,8 +541,8 @@ class Gravity_Forms extends Form_Styler {
 					'toggle_slug'      => 'forms',
 				)
 			),
-			'form_title__enable'       => $this->squad_get_enable_field( 'title' ),
-			'form_description__enable' => $this->squad_get_enable_field( 'description' ),
+			'form_title__enable'       => $this->squad_get_enable_form_field( 'title' ),
+			'form_description__enable' => $this->squad_get_enable_form_field( 'description' ),
 			'form_with_ajax__enable'   => divi_squad()->d4_module_helper->add_yes_no_field(
 				esc_html__( 'Use AJAX On Submit', 'squad-modules-for-divi' ),
 				array(
@@ -693,105 +693,6 @@ class Gravity_Forms extends Form_Styler {
 		);
 
 		return array_merge_recursive( $background_fields, $margin_padding_fields );
-	}
-
-	/**
-	 * Get enable field for title or description.
-	 *
-	 * Creates a toggle field for enabling/disabling the title or description.
-	 *
-	 * @since  3.2.0
-	 * @access protected
-	 *
-	 * @param string $type Either 'title' or 'description'.
-	 *
-	 * @return array The field definition array.
-	 */
-	protected function squad_get_enable_field( string $type ): array {
-		$label = ucfirst( $type );
-
-		return divi_squad()->d4_module_helper->add_yes_no_field(
-		// translators: Label of toggle field like title and description.
-			sprintf( esc_html__( 'Show Form %s', 'squad-modules-for-divi' ), $label ),
-			array(
-				// translators: Label of toggle field like title and description.
-				'description'      => sprintf( esc_html__( 'Choose whether to display the form %s.', 'squad-modules-for-divi' ), strtolower( $label ) ),
-				'default_on_front' => 'off',
-				'affects'          => $this->squad_get_enable_field_affects( $type ),
-				'computed_affects' => array( '__forms' ),
-				'tab_slug'         => 'general',
-				'toggle_slug'      => 'forms',
-			)
-		);
-	}
-
-	/**
-	 * Get affects for enable field.
-	 *
-	 * Determines which fields are affected by the enable toggle.
-	 *
-	 * @since  3.2.0
-	 * @access protected
-	 *
-	 * @param string $type Either 'title' or 'description'.
-	 *
-	 * @return array An array of affected field names.
-	 */
-	protected function squad_get_enable_field_affects( string $type ): array {
-		$prefix = "form_{$type}_";
-
-		return array(
-			"{$prefix}text",
-			"{$prefix}text_font",
-			"{$prefix}text_text_color",
-			"{$prefix}text_text_align",
-			"{$prefix}text_font_size",
-			"{$prefix}text_letter_spacing",
-			"{$prefix}text_line_height",
-			"{$prefix}background_color",
-			"{$prefix}margin",
-			"{$prefix}padding",
-		);
-	}
-
-	/**
-	 * Get margin and padding fields for a specific element.
-	 *
-	 * Creates margin and padding fields for the given element.
-	 *
-	 * @since  3.2.0
-	 * @access protected
-	 *
-	 * @param string $prefix Element prefix.
-	 * @param string $label  Element label.
-	 *
-	 * @return array An array of margin and padding field definitions.
-	 */
-	protected function squad_get_margin_padding_fields( string $prefix, string $label ): array {
-		$field_attributes = array(
-			'range_settings' => array(
-				'min_limit' => '1',
-				'min'       => '1',
-				'max_limit' => '100',
-				'max'       => '100',
-				'step'      => '1',
-			),
-			'tab_slug'       => 'advanced',
-			'toggle_slug'    => $prefix,
-		);
-
-		return array(
-			"{$prefix}_margin"  => divi_squad()->d4_module_helper->add_margin_padding_field(
-			// translators: Field Label.
-				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
-				array_merge( $field_attributes, array( 'type' => 'custom_margin' ) )
-			),
-			"{$prefix}_padding" => divi_squad()->d4_module_helper->add_margin_padding_field(
-			// translators: Field Label.
-				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
-				array_merge( $field_attributes, array( 'type' => 'custom_padding' ) )
-			),
-		);
 	}
 
 	/**

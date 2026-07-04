@@ -1,0 +1,7 @@
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#EBEBEB" d="M0 0h500v500H0z"/>
+        <path d="M150 175l100-50 100 50v150l-100 50-100-50V175z" fill-opacity=".1" fill="#000"/>
+        <path d="M250 125v150m0 50v-50m-100-150l100 50 100-50" stroke="#000" stroke-opacity=".2" stroke-width="2"/>
+    </g>
+</svg>

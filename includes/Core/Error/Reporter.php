@@ -113,12 +113,233 @@ class Reporter {
 	}
 
 	/**
+	 * Process data for error report template
+	 *
+	 * Applies filters and processes data specifically for use in the error report
+	 * email template, ensuring all necessary variables are prepared correctly.
+	 *
+	 * @since 3.4.1
+	 *
+	 * @param array<string, mixed> $data Raw error data.
+	 *
+	 * @return array<string, mixed> Processed template data.
+	 */
+	public function process_template_data( array $data ): array {
+		try {
+			// Start with base error and environment data
+			$template_data = $data;
+
+			// Ensure environment data is included
+			if ( '' === $template_data['environment'] ) {
+				$template_data['environment'] = $this->environment_collector->get_environment_info();
+			}
+
+			// Add site information if not present
+			if ( ! isset( $template_data['site_url'] ) ) {
+				$template_data['site_url'] = site_url();
+			}
+
+			if ( ! isset( $template_data['site_name'] ) ) {
+				$template_data['site_name'] = get_bloginfo( 'name' );
+			}
+
+			if ( ! isset( $template_data['timestamp'] ) ) {
+				$template_data['timestamp'] = current_time( 'mysql' );
+			}
+
+			if ( ! isset( $template_data['charset'] ) ) {
+				$template_data['charset'] = get_bloginfo( 'charset' );
+			}
+
+			// Process severity class based on error code or message
+			$severity_class = 'medium'; // Default
+			$error_code     = $template_data['error_code'] ?? null;
+			$error_message  = $template_data['error_message'] ?? '';
+
+			// Determine severity class from error code or message content
+			if ( isset( $error_code ) ) {
+				// Check numeric error codes first
+				if ( is_numeric( $error_code ) ) {
+					$severity_class = $error_code >= 500 ? 'high' : 'medium';
+				} elseif ( stripos( $error_message, 'fatal' ) !== false || stripos( $error_message, 'critical' ) !== false ) {
+					$severity_class = 'high';
+				} elseif ( stripos( $error_message, 'warning' ) !== false ) {
+					$severity_class = 'medium';
+				} elseif ( stripos( $error_message, 'notice' ) !== false ) {
+					$severity_class = 'low';
+				}
+			}
+
+			/**
+			 * Filter the severity classification of the error.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param string $severity_class Determined severity class (high/medium/low).
+			 * @param mixed  $error_code     The error code.
+			 * @param string $error_message  The error message.
+			 */
+			$severity_class = apply_filters(
+				'divi_squad_error_severity_class',
+				$severity_class,
+				$error_code,
+				$error_message
+			);
+
+			// Determine error type based on file path
+			$error_type = 'Unknown Error';
+			$error_file = $template_data['error_file'] ?? '';
+
+			if ( '' !== $error_file ) {
+				$error_types = array(
+					'Requirements.php'        => 'Requirements Error',
+					'includes/Core'           => 'Core Component Error',
+					'includes/Modules'        => 'Module Error',
+					'includes/Builder'        => 'Module Error',
+					'includes/Settings'       => 'Settings Error',
+					'includes/Utils'          => 'Utility Error',
+					'includes/Utils/Divi.php' => 'Divi Detection Error',
+				);
+
+				foreach ( $error_types as $path_fragment => $type ) {
+					if ( false !== strpos( $error_file, $path_fragment ) ) {
+						$error_type = $type;
+						break;
+					}
+				}
+			}
+
+			/**
+			 * Filter the error type categorization.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param string $error_type Categorized error type.
+			 * @param string $error_file File where the error occurred.
+			 */
+			$error_type = apply_filters( 'divi_squad_error_type', $error_type, $error_file );
+
+			// Add processed values to the template data
+			$template_data['severity_class'] = $severity_class;
+			$template_data['error_type']     = $error_type;
+
+			// Process file path information
+			if ( ! isset( $template_data['relative_file_path'] ) && '' !== ( $error_file ) ) {
+				$plugin_path = WP_PLUGIN_DIR . '/squad-modules-for-divi/';
+				if ( strpos( $error_file, $plugin_path ) === 0 ) {
+					$template_data['relative_file_path'] = substr( $error_file, strlen( $plugin_path ) );
+				} else {
+					$template_data['relative_file_path'] = $error_file;
+				}
+			}
+
+			// Process Divi environment information if available
+			$environment = $template_data['environment'] ?? array();
+			$extra_data  = $template_data['extra_data'] ?? array();
+
+			// Get Divi version with fallbacks
+			$divi_version = 'Unknown';
+			if ( isset( $environment['divi_version'] ) ) {
+				$divi_version = $environment['divi_version'];
+			} elseif ( isset( $extra_data['status_details']['theme_version'] ) ) {
+				$divi_version = $extra_data['status_details']['theme_version'];
+			} elseif ( isset( $extra_data['status_details']['plugin_version'] ) ) {
+				$divi_version = $extra_data['status_details']['plugin_version'];
+			}
+
+			// Extract quick reference versions
+			$template_data['client_wp_version'] = $environment['wp_version'] ?? 'Unknown';
+			$template_data['php_version']       = $environment['php_version'] ?? 'Unknown';
+			$template_data['plugin_version']    = $environment['plugin_version'] ?? 'Unknown';
+			$template_data['divi_version']      = $divi_version;
+
+			// Prepare formatted timestamp
+			if ( ! isset( $template_data['formatted_timestamp'] ) && isset( $template_data['timestamp'] ) ) {
+				$template_data['formatted_timestamp'] = wp_date(
+					'Y-m-d H:i:s e',
+					(int) strtotime( $template_data['timestamp'] )
+				);
+			}
+
+			// Prepare Divi theme information
+			$divi_theme_info = array(
+				'version'          => $divi_version,
+				'mode'             => $environment['divi_mode'] ?? 'Unknown',
+				'theme_name'       => $environment['active_theme_name'] ?? 'Unknown',
+				'is_child_theme'   => $environment['is_child_theme'] ?? 'Unknown',
+				'parent_theme'     => $environment['parent_theme_name'] ?? 'N/A',
+				'detection_method' => $environment['divi_detection_method'] ?? 'Unknown',
+			);
+
+			/**
+			 * Filter the Divi environment information.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, mixed> $divi_theme_info Divi environment information.
+			 * @param array<string, mixed> $environment     Complete environment data.
+			 */
+			$divi_theme_info = apply_filters( 'divi_squad_error_divi_info', $divi_theme_info, $environment );
+
+			// Add Divi theme info to template data
+			$template_data['divi_theme_info'] = $divi_theme_info;
+
+			// Generate unique error reference ID if not already present
+			if ( ! isset( $template_data['error_reference'] ) ) {
+				$site_url   = $template_data['site_url'] ?? site_url();
+				$error_line = $template_data['error_line'] ?? '0';
+				$timestamp  = $template_data['timestamp'] ?? current_time( 'mysql' );
+
+				$template_data['error_reference'] = substr(
+					md5( $site_url . $error_file . $error_line . $timestamp ),
+					0,
+					8
+				);
+			}
+
+			/**
+			 * Action hook fired immediately before template data filtering.
+			 *
+			 * This hook allows modules and extensions to perform additional operations
+			 * before the error report template data is finalized.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, mixed> $template_data  The template data being processed.
+			 * @param string               $severity_class The error severity class.
+			 * @param string               $error_type     The error type.
+			 */
+			do_action( 'divi_squad_error_report_template_data_pre', $template_data, $severity_class, $error_type );
+
+			/**
+			 * Filter the complete set of data variables available in the error report template.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, mixed> $template_data  All template variables.
+			 * @param string               $severity_class The determined severity class.
+			 * @param string               $error_type     The categorized error type.
+			 */
+			return apply_filters(
+				'divi_squad_error_report_template_data',
+				$template_data,
+				$severity_class,
+				$error_type
+			);
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to process template data', false );
+
+			return $data;
+		}
+	}
+
+	/**
 	 * Send error report with rate limiting and validation
 	 *
 	 * Processes the error report data, applies rate limiting, validates the data,
 	 * and sends the email if all checks pass.
 	 *
-	 * @since 3.4.0
+	 * @since 3.4.1
 	 *
 	 * @return bool Success status.
 	 */
@@ -174,8 +395,11 @@ class Reporter {
 			// Add environment info to data
 			$this->data['environment'] = $this->environment_collector->get_environment_info();
 
-			// Send email
-			$this->result = $this->email_sender->send_email( $this->data, $this->errors );
+			// Process data for the email template with all filters applied
+			$template_data = $this->process_template_data( $this->data );
+
+			// Send email with processed template data
+			$this->result = $this->email_sender->send_email( $template_data, $this->errors );
 
 			// Increment rate limit counter on success.
 			if ( $this->result ) {

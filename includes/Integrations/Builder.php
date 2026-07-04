@@ -517,7 +517,7 @@ class Builder implements Hookable {
 				'label'              => esc_html__( 'Ninja Forms', 'squad-modules-for-divi' ),
 				'description'        => esc_html__( 'Effortlessly customize Ninja Forms design. Adjust colors, fonts, spacing, and add CSS for your desired look.', 'squad-modules-for-divi' ),
 				'release_version'    => '1.4.7',
-				'last_modified'      => array( '1.4.8', '3.0.0', '3.2.0' ),
+				'last_modified'      => array( '1.4.8', '3.0.0', '3.2.0', '3.4.1' ),
 				'is_default_active'  => true,
 				'is_premium_feature' => false,
 				'type'               => 'D4',

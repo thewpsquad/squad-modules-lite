@@ -40,11 +40,11 @@ class Forms {
 	 * @var array<string, string>
 	 */
 	protected array $supported_form_types = array(
-		'cf7'           => Forms\Collections\ContactForm7::class,
-		'wpforms'       => Forms\Collections\WPForms::class,
-		'fluent_forms'  => Forms\Collections\FluentForms::class,
-		'ninja_forms'   => Forms\Collections\NinjaForms::class,
-		'gravity_forms' => Forms\Collections\GravityForms::class,
+		'cf7'           => Forms\Collections\Contact_Form_7::class,
+		'wpforms'       => Forms\Collections\WP_Forms::class,
+		'fluent_forms'  => Forms\Collections\Fluent_Forms::class,
+		'ninja_forms'   => Forms\Collections\Ninja_Forms::class,
+		'gravity_forms' => Forms\Collections\Gravity_Forms::class,
 		'forminator'    => Forms\Collections\Forminator::class,
 		'formidable'    => Forms\Collections\Formidable::class,
 	);

@@ -764,6 +764,44 @@ class Divi {
 	}
 
 	/**
+	 * Check if the current theme is a direct match to one of the allowed Divi themes.
+	 *
+	 * Determines whether the active theme directly matches one of the
+	 * allowed Divi themes (Divi or Extra by default) by name comparison.
+	 *
+	 * @since  3.4.1
+	 * @access public
+	 *
+	 * @return boolean True if the current theme name directly matches an allowed theme, false otherwise.
+	 */
+	public static function is_direct_theme_match(): bool {
+		try {
+			$current_theme = wp_get_theme();
+
+			$is_direct_match = in_array( $current_theme->get( 'Name' ), static::modules_allowed_theme(), true );
+
+			/**
+			 * Filter whether the current theme is a direct match to Divi or Extra.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param bool     $is_direct_match Whether the current theme directly matches Divi/Extra.
+			 * @param WP_Theme $current_theme   The current theme object.
+			 */
+			return apply_filters( 'divi_squad_is_direct_theme_match', $is_direct_match, $current_theme );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error(
+				$e,
+				'Error checking if current theme is a direct Divi theme match',
+				false,
+				array( 'function' => __METHOD__ )
+			);
+
+			return false; // Default to false for safety
+		}
+	}
+
+	/**
 	 * Check if the current theme is a child theme of Divi or Extra.
 	 *
 	 * Determines whether the active theme is a child theme of one of the

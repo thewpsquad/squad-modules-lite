@@ -237,13 +237,13 @@ abstract class Placeholder implements Placeholder_Interface {
 
 			// Media placeholders.
 			'video'           => 'https://www.youtube.com/watch?v=FkQuawiGWUw',
-			'audio'           => 'https://example.com/sample-audio.mp3',
+			'audio'           => 'https://squadmodules.com/sample-audio.mp3',
 
 			// URLs for various types of links.
 			'url'             => array(
-				'website'       => 'https://example.com',
-				'documentation' => 'https://docs.example.com',
-				'support'       => 'https://support.example.com',
+				'website'       => 'https://squadmodules.com',
+				'documentation' => 'https://squadmodules.com/docs',
+				'support'       => 'https://squadmodules.com/support',
 			),
 
 			// Categories and tags examples.

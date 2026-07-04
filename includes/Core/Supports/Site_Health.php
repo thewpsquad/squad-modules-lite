@@ -22,7 +22,6 @@ use DiviSquad\Core\Requirements;
 use DiviSquad\Core\Supports\Utils\Date_Time;
 use DiviSquad\Utils\Divi;
 use Throwable;
-use WP_Error;
 use WP_Theme;
 
 /**
@@ -490,9 +489,7 @@ class Site_Health {
 
 			$technical_fields['divi-functions'] = array(
 				'label' => esc_html__( 'Divi Functions', 'squad-modules-for-divi' ),
-				'value' => count( $available_functions ) > 0
-					? implode( ', ', $available_functions )
-					: esc_html__( 'None detected', 'squad-modules-for-divi' ),
+				'value' => count( $available_functions ) > 0 ? implode( ', ', $available_functions ) : esc_html__( 'None detected', 'squad-modules-for-divi' ),
 			);
 
 			// Directory structure analysis.
@@ -517,19 +514,11 @@ class Site_Health {
 			 */
 			$directory_markers = apply_filters( 'divi_squad_divi_directory_markers', $directory_markers, $theme_dir );
 
-			$found_markers = array();
-			foreach ( $directory_markers as $marker ) {
-				$path = trailingslashit( $theme_dir ) . $marker;
-				if ( file_exists( $path ) ) {
-					$found_markers[] = $marker;
-				}
-			}
+			$found_markers = Divi::get_divi_directory_markers( $theme_dir, $directory_markers );
 
 			$technical_fields['divi-directory-markers'] = array(
 				'label' => esc_html__( 'Divi Directory Markers', 'squad-modules-for-divi' ),
-				'value' => count( $found_markers ) > 0
-					? implode( ', ', $found_markers )
-					: esc_html__( 'None detected', 'squad-modules-for-divi' ),
+				'value' => count( $found_markers ) > 0 ? implode( ', ', $found_markers ) : esc_html__( 'None detected', 'squad-modules-for-divi' ),
 			);
 
 			// Detection method used.
@@ -541,9 +530,7 @@ class Site_Health {
 			// Dynamic CSS enabled.
 			$technical_fields['dynamic-css-enabled'] = array(
 				'label' => esc_html__( 'Dynamic CSS Enabled', 'squad-modules-for-divi' ),
-				'value' => Divi::is_dynamic_css_enable()
-					? esc_html__( 'Yes', 'squad-modules-for-divi' )
-					: esc_html__( 'No', 'squad-modules-for-divi' ),
+				'value' => Divi::is_dynamic_css_enable() ? esc_html__( 'Yes', 'squad-modules-for-divi' ) : esc_html__( 'No', 'squad-modules-for-divi' ),
 			);
 
 			// Add requirements details.
@@ -582,7 +569,7 @@ class Site_Health {
 				array(
 					'function' => __METHOD__,
 					'theme'    => $current_theme->get( 'Name' ),
-					'version'  => $current_theme->get( 'Version' )
+					'version'  => $current_theme->get( 'Version' ),
 				)
 			);
 
@@ -691,17 +678,11 @@ class Site_Health {
 			$detection_strategies = array(
 				'plugin'       => array(
 					'label' => esc_html__( 'Divi Builder Plugin', 'squad-modules-for-divi' ),
-					'check' => function () {
-						return Divi::is_divi_builder_plugin_active();
-					},
+					'check' => Divi::is_divi_builder_plugin_active(),
 				),
 				'direct_theme' => array(
 					'label' => esc_html__( 'Direct Theme Name Match', 'squad-modules-for-divi' ),
-					'check' => function () {
-						$current_theme = wp_get_theme();
-
-						return in_array( $current_theme->get( 'Name' ), array( 'Divi', 'Extra' ), true );
-					},
+					'check' => Divi::is_direct_theme_match(),
 				),
 				'child_theme'  => array(
 					'label' => esc_html__( 'Child Theme of Divi/Extra', 'squad-modules-for-divi' ),
@@ -713,16 +694,7 @@ class Site_Health {
 				),
 				'functions'    => array(
 					'label' => esc_html__( 'Divi Functions', 'squad-modules-for-divi' ),
-					'check' => function () {
-						$key_functions = array( 'et_setup_theme', 'et_divi_fonts_url', 'et_pb_is_pagebuilder_used' );
-						foreach ( $key_functions as $function ) {
-							if ( is_callable( $function ) ) {
-								return true;
-							}
-						}
-
-						return false;
-					},
+					'check' => count( Divi::get_available_divi_functions( array( 'et_setup_theme', 'et_divi_fonts_url', 'et_pb_is_pagebuilder_used' ) ) ) > 0,
 				),
 				'directory'    => array(
 					'label' => esc_html__( 'Directory Structure', 'squad-modules-for-divi' ),
@@ -731,8 +703,7 @@ class Site_Health {
 						if ( $current_theme instanceof WP_Theme ) {
 							$theme_dir = $current_theme->get_stylesheet_directory();
 
-							return file_exists( $theme_dir . '/includes/builder' ) &&
-							       ( file_exists( $theme_dir . '/epanel' ) || file_exists( $theme_dir . '/core' ) );
+							return count( Divi::get_divi_directory_markers( $theme_dir ) ) > 2;
 						}
 
 						return false;
@@ -769,162 +740,6 @@ class Site_Health {
 			);
 
 			return esc_html__( 'Error determining detection method', 'squad-modules-for-divi' );
-		}
-	}
-
-	/**
-	 * Refresh Site Health information
-	 *
-	 * Forces a refresh of all cached information used in the Site Health report.
-	 * Useful when troubleshooting or after making changes to the environment.
-	 *
-	 * @since  3.3.3
-	 * @access public
-	 *
-	 * @return bool True if refresh was successful, false otherwise.
-	 */
-	public function refresh_health_info(): bool {
-		try {
-			// Clear any cached Divi detection results
-			if ( class_exists( 'DiviSquad\Utils\Divi' ) && method_exists( 'DiviSquad\Utils\Divi', 'reset_detection_cache' ) ) {
-				Divi::reset_detection_cache();
-			}
-
-			// Re-check requirements if available
-			if ( divi_squad()->requirements instanceof Requirements ) {
-				divi_squad()->requirements->check_requirements();
-			}
-
-			/**
-			 * Action triggered after refreshing Site Health information.
-			 *
-			 * Allows additional components to refresh their cached data for Site Health.
-			 *
-			 * @since 3.3.3
-			 *
-			 * @param Site_Health $this The Site_Health instance.
-			 */
-			do_action( 'divi_squad_after_refresh_site_health', $this );
-
-			return true;
-		} catch ( Throwable $e ) {
-			// Log the error.
-			divi_squad()->log_error(
-				$e,
-				'Failed to refresh Site Health information',
-				false,
-				array( 'function' => __METHOD__ )
-			);
-
-			return false;
-		}
-	}
-
-	/**
-	 * Export Site Health data
-	 *
-	 * Generates a formatted export of all DiviSquad diagnostic information
-	 * suitable for support inquiries or troubleshooting.
-	 *
-	 * @since  3.3.3
-	 * @access public
-	 *
-	 * @param bool $include_sensitive Whether to include potentially sensitive data.
-	 *
-	 * @return array<string, mixed>|WP_Error Exported data array or WP_Error on failure.
-	 */
-	public function export_diagnostic_data( bool $include_sensitive = false ) {
-		try {
-			$export_data = array(
-				'plugin_info'    => $this->get_info_fields(),
-				'divi_detection' => $this->get_divi_detection_fields(),
-				'system_info'    => array(
-					'php_version'        => PHP_VERSION,
-					'wp_version'         => get_bloginfo( 'version' ),
-					'memory_limit'       => WP_MEMORY_LIMIT,
-					'max_execution_time' => ini_get( 'max_execution_time' ),
-				),
-				'export_date'    => current_time( 'mysql' ),
-				'export_version' => divi_squad()->get_version_dot(),
-			);
-
-			// Optionally filter out sensitive information
-			if ( ! $include_sensitive ) {
-				// Remove potentially sensitive data
-				if ( isset( $export_data['system_info']['server_software'] ) ) {
-					unset( $export_data['system_info']['server_software'] );
-				}
-
-				// Remove any paths that might contain sensitive information
-				$this->remove_sensitive_paths( $export_data );
-			}
-
-			/**
-			 * Filter the exported diagnostic data.
-			 *
-			 * Allows modification of the data being exported for diagnostics.
-			 *
-			 * @since 3.3.3
-			 *
-			 * @param array<string, mixed> $export_data       The diagnostic data being exported.
-			 * @param bool                 $include_sensitive Whether sensitive data is included.
-			 */
-			return apply_filters( 'divi_squad_export_diagnostic_data', $export_data, $include_sensitive );
-		} catch ( Throwable $e ) {
-			// Log the error.
-			divi_squad()->log_error(
-				$e,
-				'Failed to export diagnostic data',
-				false,
-				array( 'function' => __METHOD__ )
-			);
-
-			return new \WP_Error(
-				'export_failed',
-				esc_html__( 'Failed to export diagnostic data.', 'squad-modules-for-divi' ),
-				array( 'status' => 500 )
-			);
-		}
-	}
-
-	/**
-	 * Remove sensitive paths from exported data
-	 *
-	 * Recursively processes an array to remove server paths or other
-	 * potentially sensitive information.
-	 *
-	 * @since  3.3.3
-	 * @access private
-	 *
-	 * @param array<string, mixed> &$data Reference to data being sanitized.
-	 *
-	 * @return void
-	 */
-	private function remove_sensitive_paths( array &$data ): void {
-		try {
-			foreach ( $data as $key => &$value ) {
-				if ( is_array( $value ) ) {
-					$this->remove_sensitive_paths( $value );
-				} elseif ( is_string( $value ) ) {
-					// Replace absolute server paths with relative ones
-					$home_path = wp_normalize_path( ABSPATH );
-					$value     = str_replace( $home_path, '[SITE_ROOT]/', wp_normalize_path( $value ) );
-
-					// Replace potential URLs with placeholders
-					$site_url = wp_parse_url( site_url(), PHP_URL_HOST );
-					if ( $site_url ) {
-						$value = str_replace( $site_url, '[SITE_URL]', $value );
-					}
-				}
-			}
-		} catch ( Throwable $e ) {
-			// Log the error but continue processing
-			divi_squad()->log_error(
-				$e,
-				'Error removing sensitive paths from export data',
-				false,
-				array( 'function' => __METHOD__ )
-			);
 		}
 	}
 }

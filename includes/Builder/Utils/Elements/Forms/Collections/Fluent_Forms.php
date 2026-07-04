@@ -1,9 +1,9 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Ninja Forms Collection
+ * Fluent Forms Collection
  *
- * Handles the retrieval and processing of Ninja Forms.
+ * Handles the retrieval and processing of Fluent Forms.
  *
  * @since   3.1.0
  * @package DiviSquad
@@ -15,57 +15,63 @@ namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;
 use DiviSquad\Builder\Utils\Elements\Forms\Collection;
 
 /**
- * Ninja Forms Collection
+ * Fluent Forms Collection
  *
- * Handles the retrieval and processing of Ninja Forms.
+ * Handles the retrieval and processing of Fluent Forms.
  *
  * @since   3.1.0
  * @package DiviSquad
  */
-class NinjaForms extends Collection {
+class Fluent_Forms extends Collection {
 
 	/**
-	 * Get Ninja Forms.
+	 * Get Fluent Forms.
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of Ninja Forms data.
+	 * @return array An array of Fluent Forms data.
 	 */
 	public function get_forms( string $collection ): array {
-		// Check if Ninja Forms is active
-		if ( ! \function_exists( 'Ninja_Forms' ) ) {
-			return array();
+		global $wpdb;
+
+		$forms = array();
+
+		// Check if Fluent Forms is active
+		if ( ! defined( 'FLUENTFORM' ) ) {
+			return $forms;
 		}
 
-		// Get all Ninja Forms
-		$forms = \Ninja_Forms()->form()->get_forms();
+		// Get all Fluent Forms
+		$result = $wpdb->get_results(
+			"SELECT id, title FROM {$wpdb->prefix}fluentform_forms"
+		);
 
-		if ( empty( $forms ) ) {
-			return array();
+		if ( empty( $result ) ) {
+			return $forms;
 		}
 
-		return $this->process_form_data( $forms, $collection );
+		return $this->process_form_data( $result, $collection );
 	}
 
 	/**
-	 * Get the ID of a Ninja Form.
+	 * Get the ID of a Fluent Form.
 	 *
 	 * @param object $form The form object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return (int) $form->get_id();
+		return (int) $form->id;
 	}
 
 	/**
-	 * Get the title of a Ninja Form.
+	 * Get the title of a Fluent Form.
 	 *
 	 * @param object $form The form object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return $form->get_setting( 'title' );
+		return $form->title;
 	}
 }

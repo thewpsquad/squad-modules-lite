@@ -483,8 +483,8 @@ abstract class Form_Styler extends Module {
 			return '';
 		}
 
-		$parts     = explode( ' ', $selector );
-		$last_part = &$parts[ count( $parts ) - 1 ];
+		$parts      = explode( ' ', $selector );
+		$last_part  = &$parts[ count( $parts ) - 1 ];
 		$last_part .= ':hover';
 
 		/**
@@ -608,6 +608,65 @@ abstract class Form_Styler extends Module {
 		 * @param string $slug              The current module slug, example: disq_{module_category}_{module_name}
 		 */
 		return apply_filters( 'divi_squad_form_styler_background_fields', $background_fields, $this->slug );
+	}
+
+	/**
+	 * Get enable field for title or description.
+	 *
+	 * Creates a toggle field for enabling/disabling the title or description.
+	 *
+	 * @since  3.2.0
+	 * @access protected
+	 *
+	 * @param string $type Either 'title' or 'description'.
+	 *
+	 * @return array The field definition array.
+	 */
+	protected function squad_get_enable_form_field( string $type ): array {
+		$label = ucfirst( $type );
+
+		return divi_squad()->d4_module_helper->add_yes_no_field(
+		// translators: Label of toggle field like title and description.
+			sprintf( esc_html__( 'Show Form %s', 'squad-modules-for-divi' ), $label ),
+			array(
+				// translators: Label of toggle field like title and description.
+				'description'      => sprintf( esc_html__( 'Choose whether to display the form %s.', 'squad-modules-for-divi' ), strtolower( $label ) ),
+				'default_on_front' => 'off',
+				'affects'          => $this->squad_get_enable_form_field_affects( $type ),
+				'computed_affects' => array( '__forms' ),
+				'tab_slug'         => 'general',
+				'toggle_slug'      => 'forms',
+			)
+		);
+	}
+
+	/**
+	 * Get affects for enable field.
+	 *
+	 * Determines which fields are affected by the enable toggle.
+	 *
+	 * @since  3.2.0
+	 * @access protected
+	 *
+	 * @param string $type Either 'title' or 'description'.
+	 *
+	 * @return array An array of affected field names.
+	 */
+	protected function squad_get_enable_form_field_affects( string $type ): array {
+		$prefix = "form_{$type}_";
+
+		return array(
+			"{$prefix}text",
+			"{$prefix}text_font",
+			"{$prefix}text_text_color",
+			"{$prefix}text_text_align",
+			"{$prefix}text_font_size",
+			"{$prefix}text_letter_spacing",
+			"{$prefix}text_line_height",
+			"{$prefix}background_color",
+			"{$prefix}margin",
+			"{$prefix}padding",
+		);
 	}
 
 	/**
@@ -738,7 +797,7 @@ abstract class Form_Styler extends Module {
 			$settings['toggle_slug'] = $prefix;
 
 			// Add margin field.
-			$custom_spacing_fields["{$prefix}_margin"] = $this->squad_add_custom_spacing_field(
+			$custom_spacing_fields[ "{$prefix}_margin" ] = $this->squad_add_custom_spacing_field(
 			// translators: %s: Component name for margin setting.
 				sprintf( esc_html__( '%s Margin', 'squad-modules-for-divi' ), $label ),
 				'custom_margin',
@@ -746,7 +805,7 @@ abstract class Form_Styler extends Module {
 			);
 
 			// Add padding field.
-			$custom_spacing_fields["{$prefix}_padding"] = $this->squad_add_custom_spacing_field(
+			$custom_spacing_fields[ "{$prefix}_padding" ] = $this->squad_add_custom_spacing_field(
 			// translators: %s: Component name for padding setting.
 				sprintf( esc_html__( '%s Padding', 'squad-modules-for-divi' ), $label ),
 				'custom_padding',
@@ -1287,7 +1346,7 @@ abstract class Form_Styler extends Module {
 		$option_fields = $this->squad_get_margin_padding_stylesheet_option_fields();
 		foreach ( $option_fields as $key => $selector ) {
 			foreach ( array( 'margin', 'padding' ) as $type ) {
-				$options["{$key}_$type"] = array(
+				$options[ "{$key}_$type" ] = array(
 					'type'           => $type,
 					'selector'       => $selector,
 					'hover_selector' => $this->squad_get_hover_selector( $selector ),

@@ -1,9 +1,9 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * WPForms Collection
+ * Ninja Forms Collection
  *
- * Handles the retrieval and processing of WPForms.
+ * Handles the retrieval and processing of Ninja Forms.
  *
  * @since   3.1.0
  * @package DiviSquad
@@ -13,40 +13,33 @@
 namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Forms\Collection;
-use WP_Post;
 
 /**
- * WPForms Collection
+ * Ninja Forms Collection
  *
- * Handles the retrieval and processing of WPForms.
+ * Handles the retrieval and processing of Ninja Forms.
  *
  * @since   3.1.0
  * @package DiviSquad
  */
-class WPForms extends Collection {
+class Ninja_Forms extends Collection {
 
 	/**
-	 * Get WPForms.
+	 * Get Ninja Forms.
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
 	 *
-	 * @return array An array of WPForms data.
+	 * @return array An array of Ninja Forms data.
 	 */
 	public function get_forms( string $collection ): array {
-		if ( ! \function_exists( 'wpforms' ) ) {
+		// Check if Ninja Forms is active
+		if ( ! function_exists( 'Ninja_Forms' ) ) {
 			return array();
 		}
 
-		// Get all WPForms.
-		$forms = \wpforms()->form->get(
-			'',
-			array(
-				'orderby' => 'id',
-				'order'   => 'DESC',
-			)
-		);
-
-		if ( empty( $forms ) ) {
+		// Get all Ninja Forms
+		$forms = \Ninja_Forms()->form()->get_forms();
+		if ( ! is_array( $forms ) || count( $forms ) === 0 ) {
 			return array();
 		}
 
@@ -54,24 +47,24 @@ class WPForms extends Collection {
 	}
 
 	/**
-	 * Get the ID of a WPForm.
+	 * Get the ID of a Ninja Form.
 	 *
-	 * @param WP_Post $form The form post object.
+	 * @param object $form The form object.
 	 *
 	 * @return int The form ID.
 	 */
 	protected function get_form_id( $form ): int {
-		return $form->ID;
+		return (int) $form->get_id();
 	}
 
 	/**
-	 * Get the title of a WPForm.
+	 * Get the title of a Ninja Form.
 	 *
-	 * @param WP_Post $form The form post object.
+	 * @param object $form The form object.
 	 *
 	 * @return string The form title.
 	 */
 	protected function get_form_title( $form ): string {
-		return $form->post_title;
+		return $form->get_setting( 'title' );
 	}
 }

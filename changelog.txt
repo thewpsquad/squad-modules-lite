@@ -1,4 +1,19 @@
 == Changelog ==
+= 3.4.1 (01-05-2025) =
+
+**New Features:**
+- Added new SVG files for various components (banner, blog, feature, gallery, hero, logo, portfolio, product, service, square, team-member, and testimonial)
+
+**Improvements:**
+- Enhanced Divi detection system with improved theme and plugin identification
+- Improved core initialization process with better error prevention
+
+**Bug Fixes:**
+- Fixed Ninja Forms compatibility with updated function name references
+- Fixed circular dependency issues during plugin initialization
+- Optimized plugin loading sequence for better performance
+
+
 = 3.4.0 (21-04-2025) =
 
 **Improvements:**
