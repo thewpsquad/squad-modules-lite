@@ -326,12 +326,12 @@ class Definitions extends Module_Utility {
 		 */
 		$background_defaults = apply_filters( 'divi_squad_button_background_defaults', $background_defaults, $config );
 
-		$background[ "{$base_name}_background_color" ] = array_merge_recursive(
+		$background["{$base_name}_background_color"] = array_merge_recursive(
 			$conditions,
 			$background_defaults
 		);
 
-		$background[ "{$base_name}_background_color" ]['background_fields'][ "{$base_name}_background_color" ]['default'] = $default_colors;
+		$background["{$base_name}_background_color"]['background_fields']["{$base_name}_background_color"]['default'] = $default_colors;
 
 		$background = array_merge(
 			$background,

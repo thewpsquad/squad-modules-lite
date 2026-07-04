@@ -7,8 +7,8 @@
  * and managing extension registration from various sources.
  *
  * @since   3.3.0
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad\Integrations
  */
 
 namespace DiviSquad\Integrations;
@@ -16,7 +16,8 @@ namespace DiviSquad\Integrations;
 /**
  * Extensions Integration Class
  *
- * @since 3.3.0
+ * @since   3.3.0
+ * @package DiviSquad
  */
 class Extensions {
 
@@ -67,7 +68,7 @@ class Extensions {
 		$extensions = array(
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Extensions\JSON::class,
+					'root_class' => \DiviSquad\Extensions\Visual_Builder\JSON::class,
 				),
 				'name'               => 'JSON',
 				'label'              => esc_html__( 'JSON File Upload Support', 'squad-modules-for-divi' ),
@@ -80,7 +81,7 @@ class Extensions {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Extensions\SVG::class,
+					'root_class' => \DiviSquad\Extensions\Visual_Builder\SVG::class,
 				),
 				'name'               => 'SVG',
 				'label'              => esc_html__( 'SVG Image Upload Support', 'squad-modules-for-divi' ),
@@ -93,7 +94,7 @@ class Extensions {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Extensions\Font_Upload::class,
+					'root_class' => \DiviSquad\Extensions\Visual_Builder\Font_Upload::class,
 				),
 				'name'               => 'Font_Upload',
 				'label'              => esc_html__( 'Custom Fonts Upload Support', 'squad-modules-for-divi' ),
@@ -106,7 +107,7 @@ class Extensions {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Extensions\Divi_Layout_Shortcode::class,
+					'root_class' => \DiviSquad\Extensions\Visual_Builder\Layout_Shortcode::class,
 				),
 				'name'               => 'Divi_Layout_Shortcode',
 				'label'              => esc_html__( 'Divi Library Shortcode', 'squad-modules-for-divi' ),
@@ -119,7 +120,7 @@ class Extensions {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Extensions\Copy::class,
+					'root_class' => \DiviSquad\Extensions\WordPress\Copy::class,
 				),
 				'name'               => 'Copy',
 				'label'              => esc_html__( 'Copy Post or Page', 'squad-modules-for-divi' ),

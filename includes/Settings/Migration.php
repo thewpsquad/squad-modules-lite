@@ -19,7 +19,7 @@ use ET_Builder_Element;
  * @since   3.0.0 move to Base\Factories\ModuleMigration
  * @package DiviSquad
  */
-abstract class Migration implements MigrationInterface {
+abstract class Migration implements Migration_Interface {
 
 	/**
 	 * Used to migrate field names.
@@ -64,9 +64,9 @@ abstract class Migration implements MigrationInterface {
 	 * @var array{field_name_changes: non-empty-array<string, array<string, array{new_name: string, version: string}>>, name_changes: array<string, string>, value_changes: array<string, string>, value_changes: array<string, array<string, string>>}
 	 */
 	public static array $migrated = array( // @phpstan-ignore-line property.defaultValue
-		'field_name_changes' => array(),
-		'name_changes'       => array(),
-		'value_changes'      => array(),
+	                                       'field_name_changes' => array(),
+	                                       'name_changes'       => array(),
+	                                       'value_changes'      => array(),
 	);
 	/**
 	 * Array of migrations in format( [ 'version' => 'name of migration script' ] ).
@@ -74,7 +74,7 @@ abstract class Migration implements MigrationInterface {
 	 * @var array<string, string>
 	 */
 	public static array $migrations = array(
-		'4.24' => Migration\PostElement::class,
+		'4.24' => Migration\Post_Element::class,
 	);
 	/**
 	 * Migrations by version.
@@ -376,7 +376,7 @@ abstract class Migration implements MigrationInterface {
 						$attrs[ $field_name ] = $new_value;
 
 						// Update count.
-						++$migrated_attrs_count;
+						++ $migrated_attrs_count;
 					}
 				}
 			}

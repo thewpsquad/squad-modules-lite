@@ -1,4 +1,19 @@
 == Changelog ==
+= 3.4.0 (21-04-2025) =
+
+**Improvements:**
+- Enhanced asset management system with additional filters for better extensibility
+- Refactored admin notices system for better UI and React compatibility
+- Added more extensibility points for developers
+- Implemented Hookable interface and improved class loaders
+
+**Bug Fixes:**
+- Fixed "Call to undefined method" error in menu items localization
+- Fixed modules loading issues
+- Fixed extensions loading issues
+- Fixed looping issues in notices system
+
+
 = 3.3.5 (14-04-2025) =
 
 **Bug Fixes:**
@@ -6,10 +21,12 @@
 - Fixed missing periods in comments in Divi
 - Updated theme and plugin version retrieval to use Divi::get_builder_version
 
+
 = 3.3.4 (14-04-2025) =
 
 **Bug Fixes:**
 - Fixed an issue to load forms module not showing up in the visual builder and frontend.
+
 
 = 3.3.3 (14-04-2025) =
 
@@ -17,15 +34,18 @@
 - Enhanced Image Gallery module with improved type definitions, error handling, and styling
 - Refactored PostGrid methods to improve type hinting and error handling
 
+
 = 3.3.2 (05-04-2025) =
 
 **Bug Fixes:**
 - Fixed an issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
 
+
 = 3.3.1 (05-04-2025) =
 
 **Bug Fixes:**
 - Fixed an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 
 = 3.3.0 (04-04-2025) =
 
@@ -47,10 +67,12 @@
 - Improved compatibility with WordPress 6.7
 - Reduced JavaScript bundle size for faster loading
 
+
 = 3.2.5 (28-02-2025) =
 
 **Bug Fixes:**
 - Fixed: Resolve an issue in the Flip Box module where the front-end and back-end body text typography (paragraph) styles is not shown
+
 
 = 3.2.4 (05-02-2025) =
 

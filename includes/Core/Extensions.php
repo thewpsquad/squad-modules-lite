@@ -13,16 +13,18 @@
 
 namespace DiviSquad\Core;
 
-use DiviSquad\Extensions\Extension;
+use DiviSquad\Core\Contracts\Hookable;
+use DiviSquad\Extensions\Abstracts\Base_Extension;
 use DiviSquad\Utils\WP as WPUtil;
 use Throwable;
 
 /**
  * Core Extensions Manager
  *
- * @since 3.3.0
+ * @since   3.3.0
+ * @package DiviSquad
  */
-class Extensions {
+class Extensions implements Hookable {
 
 	/**
 	 * Store all registered extensions.
@@ -71,10 +73,16 @@ class Extensions {
 	 */
 	public function __construct() {
 		$this->memory = divi_squad()->memory;
+
+		$this->register_hooks();
 	}
 
 	/**
-	 * Initialize the extension manager+
+	 * Initialize the extension manager
+	 *
+	 * @since 3.3.0
+	 *
+	 * @return void
 	 */
 	public function init(): void {
 		try {
@@ -82,11 +90,22 @@ class Extensions {
 				return;
 			}
 
-			// Load extension data
-			$this->load_extension_data();
+			/**
+			 * Filter whether to initialize the extensions manager.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool $should_init Whether to initialize the manager.
+			 * @param self $extensions  Current extensions manager instance.
+			 */
+			$should_init = apply_filters( 'divi_squad_extensions_should_init', true, $this );
 
-			// Register hooks
-			$this->register_hooks();
+			if ( ! $should_init ) {
+				return;
+			}
+
+			// Load extension data.
+			$this->load_extension_data();
 
 			$this->initialized = true;
 
@@ -105,27 +124,63 @@ class Extensions {
 
 	/**
 	 * Register WordPress hooks
+	 *
+	 * Implements the Hookable interface by registering all necessary
+	 * WordPress hooks for extension initialization and loading.
+	 *
+	 * @since 3.3.0
+	 * @return void
 	 */
-	private function register_hooks(): void {
-		// Hook to load extensions
-		add_action( 'wp_loaded', array( $this, 'load_extensions' ), 999 );
+	public function register_hooks(): void {
+		try {
+			add_action( 'wp_loaded', array( $this, 'load_extensions' ), 999 );
+
+			/**
+			 * Fires after hooks are registered in the Extensions Manager.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param self $extensions Current extensions manager instance.
+			 */
+			do_action( 'divi_squad_extensions_hooks_registered', $this );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to register extension hooks' );
+		}
 	}
 
 	/**
 	 * Load extension data from storage
+	 *
+	 * @since 3.3.0
+	 *
+	 * @return void
 	 */
 	private function load_extension_data(): void {
 		try {
-			// Load the registered extensions list
+			/**
+			 * Filter whether to load extension data.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool $should_load Whether to load extension data.
+			 * @param self $extensions  Current extensions manager instance.
+			 */
+			$should_load = apply_filters( 'divi_squad_extensions_data_should_load', true, $this );
+
+			if ( ! $should_load ) {
+				return;
+			}
+
+			// Load the registered extensions list.
 			$this->registered_extensions = $this->get_registered_list();
 
-			// Retrieve stored active extensions
+			// Retrieve stored active extensions.
 			$this->active_extensions = (array) $this->memory->get( 'active_extensions', array() );
 
-			// Retrieve stored inactive extensions
+			// Retrieve stored inactive extensions.
 			$this->inactive_extensions = (array) $this->memory->get( 'inactive_extensions', array() );
 
-			// If no active extensions stored yet, use defaults
+			// If no active extensions stored yet, use defaults.
 			if ( count( $this->active_extensions ) === 0 ) {
 				$this->active_extensions = array_column( $this->get_default_registries(), 'name' );
 			}
@@ -139,6 +194,15 @@ class Extensions {
 			 * @param self          $extensions        Current extensions manager instance
 			 */
 			$this->active_extensions = apply_filters( 'divi_squad_active_extensions', $this->active_extensions, $this );
+
+			/**
+			 * Fires after extension data is loaded.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param self $extensions Current extensions manager instance.
+			 */
+			do_action( 'divi_squad_extensions_data_loaded', $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to load extension data' );
 		}
@@ -146,6 +210,8 @@ class Extensions {
 
 	/**
 	 * Get list of all available extensions
+	 *
+	 * @since 3.3.0
 	 *
 	 * @return array<string, array<string, mixed>>
 	 */
@@ -170,15 +236,27 @@ class Extensions {
 	/**
 	 * Get default active extensions
 	 *
+	 * @since 3.3.0
+	 *
 	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_default_registries(): array {
 		try {
-			return $this->filter_extensions(
+			$default_registries = $this->filter_extensions(
 				function ( $extension ) {
 					return $extension['is_default_active'];
 				}
 			);
+
+			/**
+			 * Filter default extension registries.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, array<string, mixed>> $default_registries List of default extension data.
+			 * @param self                                $extensions         Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_default_extension_registries', $default_registries, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to get default extensions registries' );
 
@@ -189,15 +267,27 @@ class Extensions {
 	/**
 	 * Get all active extensions
 	 *
+	 * @since 3.3.0
+	 *
 	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_active_registries(): array {
 		try {
-			return $this->filter_extensions(
+			$active_registries = $this->filter_extensions(
 				function ( $extension ) {
 					return in_array( $extension['name'], $this->active_extensions, true );
 				}
 			);
+
+			/**
+			 * Filter active extension registries.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, array<string, mixed>> $active_registries List of active extension data.
+			 * @param self                                $extensions        Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_active_extension_registries', $active_registries, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to get active extensions registries' );
 
@@ -208,15 +298,27 @@ class Extensions {
 	/**
 	 * Get all inactive extensions
 	 *
+	 * @since 3.3.0
+	 *
 	 * @return array<string, array<string, mixed>>
 	 */
 	public function get_inactive_registries(): array {
 		try {
-			return $this->filter_extensions(
+			$inactive_registries = $this->filter_extensions(
 				function ( $extension ) {
 					return ! $extension['is_default_active'];
 				}
 			);
+
+			/**
+			 * Filter inactive extension registries.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, array<string, mixed>> $inactive_registries List of inactive extension data.
+			 * @param self                                $extensions          Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_inactive_extension_registries', $inactive_registries, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to get inactive extensions registries' );
 
@@ -227,7 +329,9 @@ class Extensions {
 	/**
 	 * Filter extensions based on callback
 	 *
-	 * @param callable $callback Function to filter extensions
+	 * @since 3.3.0
+	 *
+	 * @param callable $callback Function to filter extensions.
 	 *
 	 * @return array<string, array<string, mixed>>
 	 */
@@ -249,13 +353,26 @@ class Extensions {
 	/**
 	 * Check if an extension is active
 	 *
-	 * @param string $extension_name Extension name
+	 * @since 3.3.0
+	 *
+	 * @param string $extension_name Extension name.
 	 *
 	 * @return bool Whether the extension is active
 	 */
 	public function is_extension_active( string $extension_name ): bool {
 		try {
-			return in_array( $extension_name, $this->active_extensions, true );
+			$is_active = in_array( $extension_name, $this->active_extensions, true );
+
+			/**
+			 * Filter whether an extension is active.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool   $is_active      Whether the extension is active.
+			 * @param string $extension_name Extension name.
+			 * @param self   $extensions     Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_extension_is_active', $is_active, $extension_name, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to check if extension is active: %s', $extension_name ) );
 
@@ -266,7 +383,9 @@ class Extensions {
 	/**
 	 * Check if an extension is active by class name
 	 *
-	 * @param string $class_name Extension class name
+	 * @since 3.3.0
+	 *
+	 * @param string $class_name Extension class name.
 	 *
 	 * @return bool Whether the extension is active
 	 */
@@ -282,7 +401,16 @@ class Extensions {
 				}
 			}
 
-			return false;
+			/**
+			 * Filter whether an extension is active by class name.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool   $is_active  Whether the extension is active.
+			 * @param string $class_name Extension class name.
+			 * @param self   $extensions Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_extension_is_active_by_class', false, $class_name, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to check if extension is active by class: %s', $class_name ) );
 
@@ -292,10 +420,24 @@ class Extensions {
 
 	/**
 	 * Load enabled extensions
+	 *
+	 * @since 3.3.0
+	 *
+	 * @return void
 	 */
 	public function load_extensions(): void {
 		try {
-			if ( ! class_exists( Extension::class ) ) {
+			/**
+			 * Filter whether to load extensions.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool $should_load Whether to load extensions.
+			 * @param self $extensions  Current extensions manager instance.
+			 */
+			$should_load = apply_filters( 'divi_squad_extensions_should_load', true, $this );
+
+			if ( ! $should_load || ! class_exists( Base_Extension::class ) ) {
 				return;
 			}
 
@@ -310,12 +452,12 @@ class Extensions {
 			 *
 			 * @since 3.4.0
 			 *
+			 * @param array<string, array<string, mixed>> $active_extensions List of active extension data
 			 * @param array<string>                       $active_plugins    List of active plugin slugs
 			 * @param self                                $extensions        Extensions manager instance
-			 *
-			 * @param array<string, array<string, mixed>> $active_extensions List of active extension data
 			 */
 			do_action( 'divi_squad_before_extensions_load', $active_extensions, $active_plugins, $this );
+
 			foreach ( $active_extensions as $extension ) {
 				if ( ! $this->verify_requirements( $extension, $active_plugins ) ) {
 					continue;
@@ -341,24 +483,61 @@ class Extensions {
 	/**
 	 * Load extension class
 	 *
-	 * @param array<string, mixed> $extension Extension configuration
+	 * @since 3.3.0
+	 *
+	 * @param array<string, mixed> $extension Extension configuration.
+	 *
+	 * @return void
 	 */
 	private function load_extension_class( array $extension ): void {
 		try {
-			// Skip if no root class defined
+			// Skip if no root class defined.
 			if ( ! isset( $extension['classes']['root_class'] ) ) {
 				return;
 			}
 
 			$class_name = $extension['classes']['root_class'];
 
-			// Skip if class doesn't exist
+			/**
+			 * Filter the extension class name before loading.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param string               $class_name Extension class name.
+			 * @param array<string, mixed> $extension  Extension configuration.
+			 * @param self                 $extensions Current extensions manager instance.
+			 */
+			$class_name = apply_filters( 'divi_squad_extension_class_name', $class_name, $extension, $this );
+
+			// Skip if class doesn't exist.
 			if ( ! class_exists( $class_name ) ) {
 				return;
 			}
 
-			// Initialize the extension
-			new $class_name();
+			/**
+			 * Fires before an extension class is loaded.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param string               $class_name Extension class name.
+			 * @param array<string, mixed> $extension  Extension configuration.
+			 * @param self                 $extensions Current extensions manager instance.
+			 */
+			do_action( 'divi_squad_before_extension_class_load', $class_name, $extension, $this );
+
+			// Initialize the extension.
+			$extension_instance = new $class_name();
+
+			/**
+			 * Fires after an extension class is loaded.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param object               $extension_instance Extension instance.
+			 * @param array<string, mixed> $extension          Extension configuration.
+			 * @param self                 $extensions         Current extensions manager instance.
+			 */
+			do_action( 'divi_squad_extension_class_loaded', $extension_instance, $extension, $this );
 		} catch ( Throwable $e ) {
 			$extension_name = $extension['name'] ?? 'unknown';
 			divi_squad()->log_error( $e, sprintf( 'Failed to load extension class: %s', $extension_name ) );
@@ -368,55 +547,68 @@ class Extensions {
 	/**
 	 * Verify plugin requirements for an extension
 	 *
-	 * @param array<string, mixed> $extension      Extension configuration
-	 * @param array<string>        $active_plugins List of active plugin slugs
+	 * @since 3.3.0
+	 *
+	 * @param array<string, mixed> $extension      Extension configuration.
+	 * @param array<string>        $active_plugins List of active plugin slugs.
 	 *
 	 * @return bool Whether requirements are met
 	 */
 	protected function verify_requirements( array $extension, array $active_plugins ): bool {
 		try {
-			// If no requirements, extension is valid
+			$requirements_met = true;
+
+			// If no requirements, extension is valid.
 			if ( ! isset( $extension['required'] ) ) {
-				return true;
+				return $requirements_met;
 			}
 
-			// Check plugin requirements
+			// Check plugin requirements.
 			if ( isset( $extension['required']['plugin'] ) ) {
 				$required_plugins = $extension['required']['plugin'];
 
-				// Single plugin requirement
+				// Single plugin requirement.
 				if ( is_string( $required_plugins ) ) {
-					// Check for multiple options (plugin1|plugin2)
+					// Check for multiple options (plugin1|plugin2).
 					if ( strpos( $required_plugins, '|' ) !== false ) {
 						$plugin_options = explode( '|', $required_plugins );
 
-						// At least one plugin must be active
+						// At least one plugin must be active.
+						$requirements_met = false;
 						foreach ( $plugin_options as $plugin ) {
 							if ( in_array( $plugin, $active_plugins, true ) ) {
-								return true;
+								$requirements_met = true;
+								break;
 							}
 						}
-
-						return false;
+					} else {
+						// Single plugin must be active.
+						$requirements_met = in_array( $required_plugins, $active_plugins, true );
 					}
-
-					// Single plugin must be active
-					return in_array( $required_plugins, $active_plugins, true );
 				}
 
-				// Multiple required plugins (all must be active)
+				// Multiple required plugins (all must be active).
 				if ( is_array( $required_plugins ) ) {
 					foreach ( $required_plugins as $plugin ) {
 						if ( ! in_array( $plugin, $active_plugins, true ) ) {
-							return false;
+							$requirements_met = false;
+							break;
 						}
 					}
-
-					return true;
 				}
 			}
 
-			return false;
+			/**
+			 * Filter whether an extension meets requirements.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool                 $requirements_met Whether requirements are met.
+			 * @param array<string, mixed> $extension        Extension configuration.
+			 * @param array<string>        $active_plugins   List of active plugin slugs.
+			 * @param self                 $extensions       Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_extension_requirements_met', $requirements_met, $extension, $active_plugins, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to verify extension requirements' );
 
@@ -427,7 +619,9 @@ class Extensions {
 	/**
 	 * Enable an extension
 	 *
-	 * @param string $extension_name Extension name
+	 * @since 3.3.0
+	 *
+	 * @param string $extension_name Extension name.
 	 *
 	 * @return bool Whether the extension was enabled
 	 */
@@ -441,20 +635,36 @@ class Extensions {
 				return false;
 			}
 
+			/**
+			 * Filter whether to enable an extension.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool   $should_enable  Whether to enable the extension.
+			 * @param string $extension_name Extension name.
+			 * @param self   $extensions     Current extensions manager instance.
+			 */
+			$should_enable = apply_filters( 'divi_squad_extension_should_enable', true, $extension_name, $this );
+
+			if ( ! $should_enable ) {
+				return false;
+			}
+
 			$this->active_extensions[] = $extension_name;
 			$this->memory->set( self::ACTIVE_EXTENSIONS_KEY, $this->active_extensions );
 
+			$extension_data = $this->registered_extensions[ $extension_name ] ?? array();
+
 			/**
-			 * Add an action hook for when an extension is enabled
+			 * Fires when an extension is enabled
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param array  $extension_data The extension configuration data
-			 * @param self   $instance       The Extensions manager instance
-			 *
-			 * @param string $extension_name The name of the extension being enabled
+			 * @param string               $extension_name Extension name
+			 * @param array<string, mixed> $extension_data Extension configuration
+			 * @param self                 $extensions     Extensions manager instance
 			 */
-			do_action( 'divi_squad_extension_enabled', $extension_name, $this->registered_extensions[ $extension_name ] ?? array(), $this );
+			do_action( 'divi_squad_extension_enabled', $extension_name, $extension_data, $this );
 
 			return true;
 		} catch ( Throwable $e ) {
@@ -467,7 +677,9 @@ class Extensions {
 	/**
 	 * Disable an extension
 	 *
-	 * @param string $extension_name Extension name
+	 * @since 3.3.0
+	 *
+	 * @param string $extension_name Extension name.
 	 *
 	 * @return bool Whether the extension was disabled
 	 */
@@ -477,11 +689,28 @@ class Extensions {
 				return true;
 			}
 
+			/**
+			 * Filter whether to disable an extension.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool   $should_disable Whether to disable the extension.
+			 * @param string $extension_name Extension name.
+			 * @param self   $extensions     Current extensions manager instance.
+			 */
+			$should_disable = apply_filters( 'divi_squad_extension_should_disable', true, $extension_name, $this );
+
+			if ( ! $should_disable ) {
+				return false;
+			}
+
 			$index = array_search( $extension_name, $this->active_extensions, true );
 
 			if ( false === $index ) {
 				return false;
 			}
+
+			$extension_data = $this->registered_extensions[ $extension_name ] ?? array();
 
 			array_splice( $this->active_extensions, (int) $index, 1 );
 
@@ -491,6 +720,17 @@ class Extensions {
 
 			$this->memory->set( self::ACTIVE_EXTENSIONS_KEY, $this->active_extensions );
 			$this->memory->set( self::INACTIVE_EXTENSIONS_KEY, $this->inactive_extensions );
+
+			/**
+			 * Fires when an extension is disabled
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param string               $extension_name Extension name
+			 * @param array<string, mixed> $extension_data Extension configuration
+			 * @param self                 $extensions     Extensions manager instance
+			 */
+			do_action( 'divi_squad_extension_disabled', $extension_name, $extension_data, $this );
 
 			return true;
 		} catch ( Throwable $e ) {
@@ -503,16 +743,31 @@ class Extensions {
 	/**
 	 * Get extension info by name
 	 *
-	 * @param string $extension_name Extension name
+	 * @since 3.3.0
+	 *
+	 * @param string $extension_name Extension name.
 	 *
 	 * @return array<string, mixed>|null Extension data or null if not found
 	 */
 	public function get_extension_info( string $extension_name ): ?array {
-		return $this->registered_extensions[ $extension_name ] ?? null;
+		$extension_info = $this->registered_extensions[ $extension_name ] ?? null;
+
+		/**
+		 * Filter extension info data.
+		 *
+		 * @since 3.4.1
+		 *
+		 * @param array<string, mixed>|null $extension_info Extension data or null.
+		 * @param string                    $extension_name Extension name.
+		 * @param self                      $extensions     Current extensions manager instance.
+		 */
+		return apply_filters( 'divi_squad_extension_info', $extension_info, $extension_name, $this );
 	}
 
 	/**
 	 * Get extension categories
+	 *
+	 * @since 3.3.0
 	 *
 	 * @return array<string, string> Categories with their titles
 	 */
@@ -525,16 +780,39 @@ class Extensions {
 			}
 		}
 
-		return $categories;
+		/**
+		 * Filter extension categories.
+		 *
+		 * @since 3.4.1
+		 *
+		 * @param array<string, string> $categories Categories with their titles.
+		 * @param self                  $extensions Current extensions manager instance.
+		 */
+		return apply_filters( 'divi_squad_extension_categories', $categories, $this );
 	}
 
 	/**
 	 * Reset extensions to default state
 	 *
+	 * @since 3.3.0
 	 * @return bool Success status
 	 */
 	public function reset_to_default(): bool {
 		try {
+			/**
+			 * Filter whether to reset extensions to default.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool $should_reset Whether to reset extensions.
+			 * @param self $extensions   Current extensions manager instance.
+			 */
+			$should_reset = apply_filters( 'divi_squad_extensions_should_reset', true, $this );
+
+			if ( ! $should_reset ) {
+				return false;
+			}
+
 			$default_extensions      = $this->get_default_registries();
 			$this->active_extensions = array_column( $default_extensions, 'name' );
 
@@ -544,6 +822,17 @@ class Extensions {
 			$this->memory->set( self::ACTIVE_EXTENSIONS_KEY, $this->active_extensions );
 			$this->memory->set( self::INACTIVE_EXTENSIONS_KEY, $this->inactive_extensions );
 			$this->memory->set( self::EXTENSION_VERSION_KEY, divi_squad()->get_version() );
+
+			/**
+			 * Fires after extensions are reset to default
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string> $active_extensions   List of active extension names
+			 * @param array<string> $inactive_extensions List of inactive extension names
+			 * @param self          $extensions          Extensions manager instance
+			 */
+			do_action( 'divi_squad_extensions_reset', $this->active_extensions, $this->inactive_extensions, $this );
 
 			return true;
 		} catch ( Throwable $e ) {
@@ -556,7 +845,9 @@ class Extensions {
 	/**
 	 * Check if an extension class exists and is loadable
 	 *
-	 * @param string $extension_name Extension name
+	 * @since 3.3.0
+	 *
+	 * @param string $extension_name Extension name.
 	 *
 	 * @return bool Whether the extension class exists and can be loaded
 	 */
@@ -568,7 +859,18 @@ class Extensions {
 				return false;
 			}
 
-			return class_exists( $extension['classes']['root_class'] );
+			$class_exists = class_exists( $extension['classes']['root_class'] );
+
+			/**
+			 * Filter whether an extension class exists.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param bool   $class_exists   Whether the class exists.
+			 * @param string $extension_name Extension name.
+			 * @param self   $extensions     Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_extension_class_exists', $class_exists, $extension_name, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to check if extension class exists: %s', $extension_name ) );
 
@@ -584,9 +886,8 @@ class Extensions {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string                              $type       Registry type ('active', 'inactive', 'default')
-	 *
-	 * @param array<string, array<string, mixed>> $registries The extension registries
+	 * @param array<string, array<string, mixed>> $registries The extension registries.
+	 * @param string                              $type       Registry type ('active', 'inactive', 'default').
 	 *
 	 * @return array<string, array<string, mixed>> Modified registries
 	 */
@@ -606,10 +907,9 @@ class Extensions {
 			 *
 			 * @since 3.4.0
 			 *
+			 * @param array<string, array<string, mixed>> $registries The extension registries
 			 * @param string                              $type       Registry type ('active', 'inactive', 'default')
 			 * @param self                                $instance   Extensions manager instance
-			 *
-			 * @param array<string, array<string, mixed>> $registries The extension registries
 			 *
 			 * @return array<string, array<string, mixed>> Modified registries
 			 */
@@ -618,6 +918,105 @@ class Extensions {
 			divi_squad()->log_error( $e, sprintf( 'Failed to filter %s extension registries', $type ) );
 
 			return array();
+		}
+	}
+
+	/**
+	 * Retrieve all extension data including active state
+	 *
+	 * @since 3.4.1
+	 *
+	 * @return array<string, array<string, mixed>> All extensions with their active state
+	 */
+	public function get_all_extensions_data(): array {
+		try {
+			$extensions_data = array();
+
+			foreach ( $this->registered_extensions as $name => $extension ) {
+				$extensions_data[ $name ]              = $extension;
+				$extensions_data[ $name ]['is_active'] = $this->is_extension_active( $name );
+			}
+
+			/**
+			 * Filter all extensions data.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string, array<string, mixed>> $extensions_data All extensions data.
+			 * @param self                                $extensions      Current extensions manager instance.
+			 */
+			return apply_filters( 'divi_squad_all_extensions_data', $extensions_data, $this );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to get all extensions data' );
+
+			return array();
+		}
+	}
+
+	/**
+	 * Check if the extensions manager is initialized
+	 *
+	 * @since 3.4.1
+	 *
+	 * @return bool Whether the extensions manager is initialized
+	 */
+	public function is_initialized(): bool {
+		return $this->initialized;
+	}
+
+	/**
+	 * Set active extensions programmatically
+	 *
+	 * @since 3.4.1
+	 *
+	 * @param array<string> $extensions List of extension names to set as active.
+	 *
+	 * @return bool Success status
+	 */
+	public function set_active_extensions( array $extensions ): bool {
+		try {
+			/**
+			 * Filter extensions to be set as active.
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string> $extensions List of extension names.
+			 * @param self          $manager    Current extensions manager instance.
+			 */
+			$extensions = (array) apply_filters( 'divi_squad_set_active_extensions', $extensions, $this );
+
+			// Validate extensions exist.
+			$valid_extensions = array();
+			foreach ( $extensions as $extension_name ) {
+				if ( isset( $this->registered_extensions[ $extension_name ] ) ) {
+					$valid_extensions[] = $extension_name;
+				}
+			}
+
+			$this->active_extensions = $valid_extensions;
+			$this->memory->set( self::ACTIVE_EXTENSIONS_KEY, $this->active_extensions );
+
+			// Update inactive extensions.
+			$all_extension_names       = array_column( $this->registered_extensions, 'name' );
+			$this->inactive_extensions = array_values( array_diff( $all_extension_names, $this->active_extensions ) );
+			$this->memory->set( self::INACTIVE_EXTENSIONS_KEY, $this->inactive_extensions );
+
+			/**
+			 * Fires after active extensions are set
+			 *
+			 * @since 3.4.1
+			 *
+			 * @param array<string> $active_extensions   New active extensions
+			 * @param array<string> $inactive_extensions New inactive extensions
+			 * @param self          $extensions          Extensions manager instance
+			 */
+			do_action( 'divi_squad_active_extensions_set', $this->active_extensions, $this->inactive_extensions, $this );
+
+			return true;
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to set active extensions' );
+
+			return false;
 		}
 	}
 }

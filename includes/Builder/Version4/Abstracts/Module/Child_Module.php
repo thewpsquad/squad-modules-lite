@@ -5,10 +5,9 @@
  *
  * Base implementation for child modules in the DiviSquad Builder.
  *
- * @since      3.3.3
- * @package    DiviSquad
- * @author     Divi Squad
- * @license    GPL-2.0+
+ * @since   3.3.3
+ * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Version4\Abstracts\Module;

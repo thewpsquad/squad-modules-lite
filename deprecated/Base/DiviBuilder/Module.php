@@ -49,7 +49,7 @@ abstract class Module extends ET_Builder_Module {
 	 * Constructor
 	 */
 	public function __construct() {
-		// Set default properties
+		// Set default properties.
 		$this->folder_name    = 'et_pb_divi_squad_modules';
 		$this->module_credits = array(
 			'module_uri' => '',
@@ -57,7 +57,7 @@ abstract class Module extends ET_Builder_Module {
 			'author_uri' => Links::HOME_URL . '?utm_campaign=wporg&utm_source=module_modal&utm_medium=module_author_link',
 		);
 
-		// Call parent constructor
+		// Call parent constructor.
 		parent::__construct();
 	}
 

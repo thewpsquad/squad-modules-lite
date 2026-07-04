@@ -6,8 +6,8 @@
  * This class handles the plugin action links in the plugins page.
  *
  * @since   3.3.3
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad\Core\Admin\Branding\Assets
  */
 
 namespace DiviSquad\Core\Admin\Branding;
@@ -16,7 +16,7 @@ namespace DiviSquad\Core\Admin\Branding;
  * Plugin Action Links Asset
  *
  * @since   3.3.3
- * @package DiviSquad\Core\Admin\Branding\Assets
+ * @package DiviSquad
  */
 class Plugin_Action_Links extends Brand_Asset_Base {
 

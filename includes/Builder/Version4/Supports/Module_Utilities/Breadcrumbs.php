@@ -4,8 +4,8 @@
  * Breadcrumbs Utils Helper
  *
  * @since   1.5.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Version4\Supports\Module_Utilities;
@@ -138,7 +138,7 @@ class Breadcrumbs {
 							continue;
 						}
 						$category_links = str_replace( $category_loop_name . '</a>', '<span property="name">' . $category_loop_name . '</span></a>', $category_links );
-						$replaced_with  = '<span property="name">' . $category_loop_name . '</span></a><meta property="position" content="' . ( $position++ ) . '">';
+						$replaced_with  = '<span property="name">' . $category_loop_name . '</span></a><meta property="position" content="' . ( $position ++ ) . '">';
 						$category_links = str_replace( '<span property="name">' . $category_loop_name . '</span></a>', $replaced_with, $category_links );
 					}
 				}
@@ -150,7 +150,7 @@ class Breadcrumbs {
 					$archive_link = get_post_type_archive_link( $post_type );
 					if ( false !== $archive_link ) {
 						$post_type_link = sprintf( $link, esc_url( $archive_link ), $post_type_object->labels->singular_name );
-						$post_type_link = str_replace( 'positionhere', (string) $position++, $post_type_link );
+						$post_type_link = str_replace( 'positionhere', (string) $position ++, $post_type_link );
 					}
 				}
 			}
@@ -170,7 +170,7 @@ class Breadcrumbs {
 					}
 
 					$temp_link = sprintf( $link, esc_url( $permalink ), get_the_title( $post_parent->ID ) );
-					$temp_link = str_replace( 'positionhere', (string) $position++, $temp_link );
+					$temp_link = str_replace( 'positionhere', (string) $position ++, $temp_link );
 
 					$parent_links[] = $temp_link;
 
@@ -234,7 +234,7 @@ class Breadcrumbs {
 						}
 
 						$temp_link = sprintf( $link, $term_link, $term->name );
-						$temp_link = str_replace( 'positionhere', (string) $position++, $temp_link );
+						$temp_link = str_replace( 'positionhere', (string) $position ++, $temp_link );
 
 						$parent_term_links[] = $temp_link;
 
@@ -274,15 +274,15 @@ class Breadcrumbs {
 					$trail = $before . $year . $after;
 				} elseif ( is_month() ) {
 					$year_link = sprintf( $link, esc_url( get_year_link( $year ) ), $year );
-					$year_link = str_replace( 'positionhere', (string) $position++, $year_link );
+					$year_link = str_replace( 'positionhere', (string) $position ++, $year_link );
 
 					$trail = $year_link . $delimiter . $before . $month_name . $after;
 				} elseif ( is_day() ) {
 					$year_link = sprintf( $link, esc_url( get_year_link( $year ) ), $year );
-					$year_link = str_replace( 'positionhere', (string) $position++, $year_link );
+					$year_link = str_replace( 'positionhere', (string) $position ++, $year_link );
 
 					$month_link = sprintf( $link, esc_url( get_month_link( $year, $monthnum ) ), $month_name );
-					$month_link = str_replace( 'positionhere', (string) $position++, $month_link );
+					$month_link = str_replace( 'positionhere', (string) $position ++, $month_link );
 
 					$trail = $year_link . $delimiter . $month_link . $delimiter . $before . $day . $after;
 				}

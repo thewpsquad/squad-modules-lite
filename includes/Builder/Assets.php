@@ -6,13 +6,14 @@
  * Handles registration and enqueuing of module-specific assets using the unified asset system.
  *
  * @since   3.3.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder;
 
-use DiviSquad\Core\Assets as AssetsManager;
+use DiviSquad\Core\Assets as Assets_Manager;
+use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Utils\Divi as DiviUtil;
 use Throwable;
 
@@ -21,43 +22,32 @@ use Throwable;
  *
  * @since 3.3.0
  */
-class Assets {
-
-	/**
-	 * Module configurations
-	 *
-	 * @var array<string, mixed>
-	 */
-	private array $module_configs = array();
-
+class Assets implements Hookable {
 	/**
 	 * Initialize the modules asset manager
 	 */
 	public function __construct() {
-		$this->init_hooks();
+		$this->register_hooks();
 	}
 
 	/**
 	 * Initialize hooks
 	 */
-	private function init_hooks(): void {
+	public function register_hooks(): void {
 		// Register assets.
 		add_action( 'divi_squad_register_frontend_assets', array( $this, 'register' ) );
 		add_action( 'divi_squad_enqueue_frontend_assets', array( $this, 'enqueue' ) );
 
 		// Register Divi Builder assets.
 		add_action( 'divi_squad_enqueue_frontend_assets', array( $this, 'enqueue_builder' ) );
-
-		// Add module configs filter.
-		add_filter( 'divi_squad_module_configs', array( $this, 'filter_module_configs' ) );
 	}
 
 	/**
 	 * Register module assets
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	public function register( AssetsManager $assets ): void {
+	public function register( Assets_Manager $assets ): void {
 		try {
 			// Register all vendor scripts first.
 			$this->register_magnific_popup( $assets );
@@ -71,10 +61,9 @@ class Assets {
 			/**
 			 * Fires after module assets are registered
 			 *
-			 * @param AssetsManager $assets  Assets manager instance
-			 * @param array         $configs Module configurations
+			 * @param Assets_Manager $assets Assets manager instance
 			 */
-			do_action( 'divi_squad_module_assets_registered', $assets, $this->module_configs );
+			do_action( 'divi_squad_module_assets_registered', $assets );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to register module assets' );
 		}
@@ -83,9 +72,9 @@ class Assets {
 	/**
 	 * Enqueue frontend assets
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	public function enqueue( AssetsManager $assets ): void {
+	public function enqueue( Assets_Manager $assets ): void {
 		try {
 			// Always enqueue common styles.
 			$this->enqueue_common_styles( $assets );
@@ -93,7 +82,7 @@ class Assets {
 			/**
 			 * Fires after module assets are enqueued
 			 *
-			 * @param AssetsManager $assets Assets manager instance
+			 * @param Assets_Manager $assets Assets manager instance
 			 */
 			do_action( 'divi_squad_module_assets_enqueued', $assets );
 		} catch ( Throwable $e ) {
@@ -104,9 +93,9 @@ class Assets {
 	/**
 	 * Enqueue builder assets
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	public function enqueue_builder( AssetsManager $assets ): void {
+	public function enqueue_builder( Assets_Manager $assets ): void {
 		if ( ! DiviUtil::is_fb_enabled() ) {
 			return;
 		}
@@ -132,7 +121,7 @@ class Assets {
 			/**
 			 * Fires after builder assets are enqueued
 			 *
-			 * @param AssetsManager $assets Assets manager instance
+			 * @param Assets_Manager $assets Assets manager instance
 			 */
 			do_action( 'divi_squad_builder_assets_enqueued', $assets );
 		} catch ( Throwable $e ) {
@@ -143,32 +132,32 @@ class Assets {
 	/**
 	 * Register vendor scripts
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	private function register_vendor_scripts( AssetsManager $assets ): void {
+	private function register_vendor_scripts( Assets_Manager $assets ): void {
 		$vendor_scripts = array(
-			'vendor-lottie'         => array(
+			'lottie'         => array(
 				'file' => 'lottie',
 				'path' => 'vendor',
 				'deps' => array( 'jquery' ),
 			),
-			'vendor-typed'          => array(
+			'typed'          => array(
 				'file' => 'typed.umd',
 				'path' => 'vendor',
 				'deps' => array( 'jquery' ),
 			),
-			'vendor-light-gallery'  => array(
+			'light-gallery'  => array(
 				'file'     => 'lightgallery',
 				'dev_file' => 'lightgallery.umd',
 				'path'     => 'vendor',
 				'deps'     => array( 'jquery' ),
 			),
-			'vendor-images-loaded'  => array(
+			'images-loaded'  => array(
 				'file' => 'imagesloaded.pkgd',
 				'path' => 'vendor',
 				'deps' => array( 'jquery' ),
 			),
-			'vendor-scrolling-text' => array(
+			'scrolling-text' => array(
 				'file' => 'jquery.marquee',
 				'path' => 'vendor',
 				'deps' => array( 'jquery' ),
@@ -178,39 +167,40 @@ class Assets {
 		/**
 		 * Filter vendor script configurations
 		 *
-		 * @param array $vendor_scripts Script configurations
+		 * @param array         $vendor_scripts Script configurations
+		 * @param Assets_Manager $assets         Assets manager instance.
 		 */
-		$vendor_scripts = apply_filters( 'divi_squad_vendor_scripts', $vendor_scripts );
+		$vendor_scripts = apply_filters( 'divi_squad_vendor_scripts', $vendor_scripts, $assets );
 
 		foreach ( $vendor_scripts as $handle => $config ) {
-			$assets->register_script( $handle, $config );
+			$assets->register_script( "vendor-$handle", $config );
 		}
 	}
 
 	/**
 	 * Register vendor styles
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	private function register_vendor_styles( AssetsManager $assets ): void {
+	private function register_vendor_styles( Assets_Manager $assets ): void {
 		$vendor_styles = array(
-			'vendor-light-gallery' => array(
+			'light-gallery' => array(
 				'file' => 'lightgallery',
 				'path' => 'vendor',
-				'ext'  => 'css',
 			),
 		);
 
 		/**
 		 * Filter vendor style configurations
 		 *
-		 * @param array $vendor_styles Style configurations
+		 * @param array         $vendor_styles Style configurations
+		 * @param Assets_Manager $assets        Assets manager instance.
 		 */
-		$vendor_styles = apply_filters( 'divi_squad_vendor_styles', $vendor_styles );
+		$vendor_styles = apply_filters( 'divi_squad_vendor_styles', $vendor_styles, $assets );
 
 		foreach ( $vendor_styles as $handle => $config ) {
 			if ( ! wp_style_is( $handle, 'registered' ) ) {
-				$assets->register_style( $handle, $config );
+				$assets->register_style( "vendor-$handle", $config );
 			}
 		}
 	}
@@ -218,9 +208,9 @@ class Assets {
 	/**
 	 * Register Magnific Popup
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	private function register_magnific_popup( AssetsManager $assets ): void {
+	private function register_magnific_popup( Assets_Manager $assets ): void {
 		$storage_path = get_template_directory_uri();
 		if ( defined( 'ET_BUILDER_PLUGIN_URI' ) && DiviUtil::is_divi_builder_plugin_active() ) {
 			$storage_path = ET_BUILDER_PLUGIN_URI;
@@ -246,7 +236,6 @@ class Assets {
 				array(
 					'file'     => 'includes/builder/feature/dynamic-assets/assets/css/magnific_popup',
 					'path'     => $storage_path,
-					'ext'      => 'css',
 					'deps'     => array( 'dashicons' ),
 					'external' => true,
 				)
@@ -257,29 +246,80 @@ class Assets {
 	/**
 	 * Register module-specific scripts
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	private function register_module_scripts( AssetsManager $assets ): void {
-		$this->module_configs = $this->get_module_assets_configs();
+	private function register_module_scripts( Assets_Manager $assets ): void {
+		$configs = array(
+			'divider'         => array(),
+			'ba-image-slider' => array(
+				'deps' => array( 'squad-vendor-images-loaded' ),
+			),
+			'gallery'         => array(
+				'deps' => array(),
+			),
+			'scrolling-text'  => array(
+				'deps' => array( 'squad-vendor-scrolling-text' ),
+			),
+			'lottie'          => array(
+				'deps' => array( 'squad-vendor-lottie' ),
+			),
+			'typing-text'     => array(
+				'deps' => array( 'squad-vendor-typed' ),
+			),
+			'video-popup'     => array(
+				'deps' => array( 'magnific-popup' ),
+			),
+			'post-grid'       => array(
+				'deps' => array( 'wp-api-fetch' ),
+			),
+		);
 
-		foreach ( $this->module_configs as $module => $config ) {
+		/**
+		 * Filter module configurations
+		 *
+		 * @param array         $configs Module configurations
+		 * @param Assets_Manager $assets  Assets manager instance.
+		 */
+		$module_configs = apply_filters( 'divi_squad_module_assets_configs', $configs, $assets );
+
+		foreach ( $module_configs as $module => $config ) {
 			$script_config = array(
 				'file' => "modules/$module-bundle",
 				'path' => 'divi-builder-4',
-				'deps' => wp_parse_args( $config['deps'] ?? array(), array( 'jquery' ) ),
+				'deps' => array( 'jquery' ),
 			);
+
+			/**
+			 * Merge module-specific configurations with default configurations
+			 *
+			 * @var array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $script_config
+			 */
+			$script_config = wp_parse_args( $script_config, $config );
 
 			$assets->register_script( "module-$module", $script_config );
 
 			// Register corresponding style if exists.
-			$style_path = array(
+			$style_deps = $config['style_deps'] ?? array();
+
+			// Remove dependencies that are not needed for styles.
+			unset( $config['deps'], $config['style_deps'] );
+
+			$style_config = array(
 				'file' => "modules/$module",
 				'path' => 'divi-builder-4',
+				'deps' => $style_deps,
 				'ext'  => 'css',
 			);
 
-			if ( $assets->is_asset_path_exist( $style_path ) ) {
-				$assets->register_style( "module-$module", $style_path );
+			/**
+			 * Merge module-specific configurations with default configurations
+			 *
+			 * @var array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $style_config
+			 */
+			$style_config = wp_parse_args( $style_config, $config );
+
+			if ( $assets->is_asset_path_exist( $style_config ) ) {
+				$assets->register_style( "module-$module", $style_config );
 			}
 		}
 	}
@@ -287,9 +327,9 @@ class Assets {
 	/**
 	 * Register module-specific styles
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	public function register_module_styles( AssetsManager $assets ): void {
+	public function register_module_styles( Assets_Manager $assets ): void {
 		// Register module-specific styles.
 	}
 
@@ -486,7 +526,7 @@ class Assets {
 	 * Register Forminator styles
 	 */
 	private function register_forminator_styles(): void {
-		if ( ! class_exists( '\Forminator_API' ) ) {
+		if ( ! class_exists( \Forminator_API::class ) ) {
 			return;
 		}
 
@@ -495,12 +535,12 @@ class Assets {
 			$asset_url = \forminator_plugin_url() . 'assets/forminator-ui/css/';
 
 			// Enqueue Forminator styles.
-			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-icons', $asset_url .'forminator-icons.min.css' );
-			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-utilities', $asset_url .'src/forminator-utilities.min.css' );
-			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-open', $asset_url .'src/grid/forminator-grid.open.min.css');
-			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-enclosed', $asset_url .'src/grid/forminator-grid.enclosed.min.css' );
-			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-basic', $asset_url .'forminator-base.min.css' );
-			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui', $asset_url .'src/forminator-ui.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-icons', $asset_url . 'forminator-icons.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-utilities', $asset_url . 'src/forminator-utilities.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-open', $asset_url . 'src/grid/forminator-grid.open.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-grid-enclosed', $asset_url . 'src/grid/forminator-grid.enclosed.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui-basic', $asset_url . 'forminator-base.min.css' );
+			\Forminator_Assets_Enqueue::fui_enqueue_style( 'forminator-ui', $asset_url . 'src/forminator-ui.min.css' );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to enqueue Forminator styles' );
 		}
@@ -509,59 +549,9 @@ class Assets {
 	/**
 	 * Enqueue common styles
 	 *
-	 * @param AssetsManager $assets Assets manager instance.
+	 * @param Assets_Manager $assets Assets manager instance.
 	 */
-	private function enqueue_common_styles( AssetsManager $assets ): void {
+	private function enqueue_common_styles( Assets_Manager $assets ): void {
 		// $assets->enqueue_style( 'handle' );
-	}
-
-	/**
-	 * Get module configurations
-	 *
-	 * @return array<string, mixed>
-	 */
-	private function get_module_assets_configs(): array {
-		$configs = array(
-			'divider'         => array(),
-			'ba-image-slider' => array(
-				'deps' => array( 'squad-vendor-images-loaded' ),
-			),
-			'gallery'         => array(
-				'deps' => array(),
-			),
-			'scrolling-text'  => array(
-				'deps' => array( 'squad-vendor-scrolling-text' ),
-			),
-			'lottie'          => array(
-				'deps' => array( 'squad-vendor-lottie' ),
-			),
-			'typing-text'     => array(
-				'deps' => array( 'squad-vendor-typed' ),
-			),
-			'video-popup'     => array(
-				'deps' => array( 'magnific-popup' ),
-			),
-			'post-grid'       => array(
-				'deps' => array( 'wp-api-fetch' ),
-			),
-		);
-
-		/**
-		 * Filter module configurations
-		 *
-		 * @param array $configs Module configurations
-		 */
-		return apply_filters( 'divi_squad_module_assets_configs', $configs );
-	}
-
-	/**
-	 * Filter module configurations
-	 *
-	 * @param array $configs Existing configurations.
-	 *
-	 * @return array<string, mixed> Filtered configurations.
-	 */
-	public function filter_module_configs( array $configs ): array {
-		return array_merge( $configs, $this->module_configs );
 	}
 }

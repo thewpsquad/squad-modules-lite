@@ -10,6 +10,7 @@
 
 namespace DiviSquad\Core;
 
+use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use DiviSquad\SquadModules;
@@ -27,7 +28,7 @@ use function load_template;
  * @since   1.0.0
  * @package DiviSquad
  */
-class Distribution {
+class Distribution implements Hookable {
 
 	/**
 	 * Store and retrieve the instance of publisher SDK
@@ -122,7 +123,7 @@ class Distribution {
 			}
 
 			// Initialize hooks and filters.
-			$this->init_hooks();
+			$this->register_hooks();
 
 			return;
 		} catch ( Throwable $e ) {
@@ -138,7 +139,7 @@ class Distribution {
 	 *
 	 * @return void
 	 */
-	protected function init_hooks(): void {
+	public function register_hooks(): void {
 		if ( ! $this->is_initialized ) {
 			return;
 		}
@@ -280,7 +281,7 @@ class Distribution {
 			return false;
 		}
 
-		// Get requirements instance and check if fulfilled.
+		// Get requirement instance and check if fulfilled.
 		return divi_squad()->requirements->is_fulfilled();
 	}
 
@@ -476,7 +477,6 @@ class Distribution {
 				'file' => 'publisher',
 				'path' => 'admin',
 				'deps' => array(),
-				'ext'  => 'css',
 			)
 		);
 	}

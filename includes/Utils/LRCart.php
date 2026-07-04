@@ -3,8 +3,8 @@
  * Language recognition chart.
  *
  * @since   3.1.4
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Utils;

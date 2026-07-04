@@ -8,8 +8,8 @@
  * implementations for WordPress standard custom fields in the context of Divi Builder.
  *
  * @since   3.1.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Definitions;

@@ -3,9 +3,9 @@ Contributors: wpsquad, mralaminahamed
 Donate link: https://squadmodules.com/
 Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 3.3.5
+Stable tag: 3.4.0
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -184,28 +184,54 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
+= 3.4.0 =
+Enhanced asset management with additional filters, improved admin notice system, fixed various bugs including localization issues, and added more extensibility points for developers.
+
+
 = 3.3.5 =
 Added error handling for style enqueuing, fixed missing periods in comments, and updated version retrieval to use Divi::get_builder_version.
+
 
 = 3.3.4 =
 Fixed an issue to load forms module not showing up in the visual builder and frontend.
 
+
 = 3.3.3 =
 Code enhancements, improved type hinting, and better asset management. Enhanced ImageGallery and PostGrid modules.
+
 
 = 3.3.2 =
 Fix and issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
 
+
 = 3.3.1 =
 fix an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
 
+
+
 = 3.3.0 =
 Major performance improvements, bug fixes, and enhanced module loading system. New performance optimization framework and developer API improvements.
+
 
 = 3.2.5 =
 Bug fixing for Flip box module
 
 == Changelog ==
+= 3.4.0 (21-04-2025) =
+
+**Improvements:**
+- Enhanced asset management system with additional filters for better extensibility
+- Refactored admin notices system for better UI and React compatibility
+- Added more extensibility points for developers
+- Implemented Hookable interface and improved class loaders
+
+**Bug Fixes:**
+- Fixed "Call to undefined method" error in menu items localization
+- Fixed modules loading issues
+- Fixed extensions loading issues
+- Fixed looping issues in notices system
+
+
 = 3.3.5 (14-04-2025) =
 
 **Bug Fixes:**
@@ -213,10 +239,12 @@ Bug fixing for Flip box module
 - Fixed missing periods in comments in Divi
 - Updated theme and plugin version retrieval to use Divi::get_builder_version
 
+
 = 3.3.4 (14-04-2025) =
 
 **Bug Fixes:**
 - Fixed an issue to load forms module not showing up in the visual builder and frontend.
+
 
 = 3.3.3 (14-04-2025) =
 
@@ -224,15 +252,18 @@ Bug fixing for Flip box module
 - Enhanced Image Gallery module with improved type definitions, error handling, and styling
 - Refactored PostGrid methods to improve type hinting and error handling
 
+
 = 3.3.2 (05-04-2025) =
 
 **Bug Fixes:**
 - Fixed an issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
 
+
 = 3.3.1 (05-04-2025) =
 
 **Bug Fixes:**
 - Fixed an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 
 = 3.3.0 (04-04-2025) =
 
@@ -254,9 +285,11 @@ Bug fixing for Flip box module
 - Improved compatibility with WordPress 6.7
 - Reduced JavaScript bundle size for faster loading
 
+
 = 3.2.5 (28-02-2025) =
 
 **Bug Fixes:**
 - Fixed: Resolve an issue in the Flip Box module where the front-end and back-end body text typography (paragraph) styles is not shown
+
 
 [Read more](https://squadmodules.com/changelog-lite/)

@@ -4,8 +4,8 @@
  * Builder Utils FieldsTrait
  *
  * @since   1.5.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Version4\Supports\Module_Helpers;

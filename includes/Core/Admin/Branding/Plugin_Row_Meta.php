@@ -6,8 +6,8 @@
  * This class handles the plugin row meta links in the plugins page.
  *
  * @since   3.3.3
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad\Core\Admin\Branding\Assets
  */
 
 namespace DiviSquad\Core\Admin\Branding;
@@ -18,7 +18,7 @@ use DiviSquad\Core\Supports\Links;
  * Plugin Row Meta Asset
  *
  * @since   3.3.3
- * @package DiviSquad\Core\Admin\Branding\Assets
+ * @package DiviSquad
  */
 class Plugin_Row_Meta extends Brand_Asset_Base {
 

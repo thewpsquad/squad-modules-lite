@@ -23,6 +23,8 @@ interface Notice_Interface {
 	/**
 	 * Check if the notice can be rendered.
 	 *
+	 * Determines whether the notice should be displayed to the current user.
+	 *
 	 * @since 3.3.3
 	 *
 	 * @return bool Whether the notice can be rendered.
@@ -31,6 +33,8 @@ interface Notice_Interface {
 
 	/**
 	 * Get the notice template arguments.
+	 *
+	 * Returns the data needed to render the notice in both PHP and React contexts.
 	 *
 	 * @since 3.3.3
 	 *
@@ -41,6 +45,8 @@ interface Notice_Interface {
 	/**
 	 * Get the notice body classes.
 	 *
+	 * Returns CSS classes to be added to the admin body when this notice is active.
+	 *
 	 * @since 3.3.3
 	 *
 	 * @return array<string> The notice body classes.
@@ -50,9 +56,23 @@ interface Notice_Interface {
 	/**
 	 * Get the notice ID.
 	 *
+	 * Returns a unique identifier for this notice type.
+	 *
 	 * @since 3.3.3
 	 *
 	 * @return string The notice ID.
 	 */
 	public function get_notice_id(): string;
+
+	/**
+	 * Get the scopes where this notice should be displayed.
+	 *
+	 * Notices can be targeted to specific admin areas or contexts.
+	 * Possible values include: 'global', 'dashboard', 'settings', etc.
+	 *
+	 * @since 3.3.3
+	 *
+	 * @return array<string> The notice scopes.
+	 */
+	public function get_scopes(): array;
 }

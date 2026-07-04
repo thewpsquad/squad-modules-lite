@@ -14,6 +14,7 @@
 namespace DiviSquad\Core;
 
 use _WP_Dependency;
+use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Core\Traits\Assets\Assets_Core;
 use DiviSquad\Core\Traits\Assets\Body_Classes;
@@ -33,7 +34,7 @@ use WP_Styles;
  *
  * @since 3.3.0
  */
-class Assets {
+class Assets implements Hookable {
 	use Assets_Core;
 	use Body_Classes;
 	use Brand_Assets;
@@ -53,7 +54,7 @@ class Assets {
 	 */
 	public function __construct() {
 		try {
-			$this->init_hooks();
+			$this->register_hooks();
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to initialize assets manager' );
 		}
@@ -62,7 +63,7 @@ class Assets {
 	/**
 	 * Initialize WordPress hooks
 	 */
-	private function init_hooks(): void {
+	public function register_hooks(): void {
 		if ( $this->initialized ) {
 			return;
 		}
@@ -115,6 +116,9 @@ class Assets {
 			}
 
 			$screen = get_current_screen();
+			if ( ! $screen instanceof WP_Screen ) {
+				return;
+			}
 
 			/**
 			 * Filter whether to clean admin notices on squad pages.
@@ -319,7 +323,7 @@ class Assets {
 		foreach ( $registered as $dependency ) {
 			$is_squad_handle = false;
 
-			if ( isset( $dependency->handle ) && ! empty( $dependency->deps ) ) {
+			if ( isset( $dependency->handle ) && count( $dependency->deps ) > 0 ) {
 				// Check if the handle starts with any of the squad prefixes.
 				foreach ( $prefixes as $prefix ) {
 					if ( strpos( $dependency->handle, $prefix ) === 0 ) {
@@ -414,6 +418,9 @@ class Assets {
 	 * @return bool Whether registration was successful
 	 */
 	public function register_style( string $handle, array $config, string $media = 'all' ): bool {
+		// Update extension for styles.
+		$config['ext'] = 'css';
+
 		return $this->register_wp_style( $handle, $config, $media );
 	}
 

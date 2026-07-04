@@ -3,9 +3,12 @@
 /**
  * Custom Fields Utils Helper
  *
+ * Provides utilities for managing and retrieving custom fields,
+ * supporting both WordPress native custom fields and Advanced Custom Fields.
+ *
  * @since   3.1.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements;
@@ -15,6 +18,9 @@ use InvalidArgumentException;
 /**
  * Custom Fields Utils Helper Class
  *
+ * This class acts as a central registry and manager for custom fields
+ * functionality within Divi modules.
+ *
  * @since   3.1.0
  * @package DiviSquad
  */
@@ -22,6 +28,11 @@ class Custom_Fields {
 
 	/**
 	 * Processor type constants.
+	 *
+	 * These constants define the different types of processors used by the Custom Fields system.
+	 *
+	 * @since 3.1.0
+	 * @var string
 	 */
 	public const PROCESSOR_COLLECTIONS = 'collections';
 	public const PROCESSOR_DEFINITIONS = 'definitions';
@@ -29,44 +40,66 @@ class Custom_Fields {
 
 	/**
 	 * Field type constants.
+	 *
+	 * These constants define the supported field type identifiers.
+	 *
+	 * @since 3.1.0
+	 * @var string
 	 */
 	public const FIELD_WORDPRESS = 'custom_fields';
 	public const FIELD_ACF       = 'acf_fields';
 
 	/**
 	 * Manager type constants.
+	 *
+	 * These constants define the available manager types.
+	 *
+	 * @since 3.1.0
+	 * @var string
 	 */
 	public const MANAGER_FIELDS   = 'fields';
 	public const MANAGER_UPGRADES = 'upgrades';
 
 	/**
-	 * Supported post types.
+	 * Supported post types for custom fields.
 	 *
-	 * @var array<string>
+	 * @since 3.1.0
+	 * @var array<string> Array of post type names.
 	 */
 	protected array $post_types = array( 'post' );
 
 	/**
-	 * Runtime data storage.
+	 * Runtime data storage for caching instances and data.
 	 *
-	 * @var array<string, array<string, mixed>>
+	 * Stores processor instances, field options, field definitions,
+	 * and manager objects for performance optimization.
+	 *
+	 * @since 3.1.0
+	 * @var array<string, array<string, mixed>> Structured array of cached data.
 	 */
 	protected array $storage = array(
-		'instances'   => array(),
-		'options'     => array(),
-		'definitions' => array(),
-		'managers'    => array(),
+		'instances'   => array(), // Processor class instances
+		'options'     => array(), // Field options cache
+		'definitions' => array(), // Field definitions cache
+		'managers'    => array(), // Manager instances
 	);
 
 	/**
 	 * Processor class registry for various types of processors.
 	 *
-	 * @var array<string, array<string, class-string>>
+	 * Maps processor types and field types to their implementing classes.
+	 *
+	 * @since 3.1.0
+	 * @var array<string, array<string, class-string>> Multi-dimensional array of processor classes.
 	 */
 	protected array $processor_registry = array();
 
 	/**
 	 * Constructor for Custom_Fields class.
+	 *
+	 * Initializes the processor registry with default values.
+	 *
+	 * @since 3.1.0
 	 */
 	public function __construct() {
 		$this->initialize_processor_registry();
@@ -106,9 +139,25 @@ class Custom_Fields {
 	/**
 	 * Initialize the Custom_Fields class.
 	 *
+	 * Sets up the fields manager and fires initialization hooks.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @return void
 	 */
 	public function init(): void {
+		/**
+		 * Action fired before initializing the Custom_Fields system.
+		 *
+		 * Use this hook to register additional field types or modify
+		 * the system before initialization.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param Custom_Fields $this The Custom_Fields instance.
+		 */
+		do_action( 'divi_squad_before_custom_fields_init', $this );
+
 		// Initialize the fields manager.
 		$fields_manager = $this->get_manager( self::MANAGER_FIELDS );
 
@@ -118,12 +167,15 @@ class Custom_Fields {
 		 * @since 3.1.0
 		 *
 		 * @param Custom_Fields\ManagerInterface $fields_manager The fields manager instance.
+		 * @param Custom_Fields                  $this           The Custom_Fields instance.
 		 */
-		do_action( 'divi_squad_custom_fields_initialized', $fields_manager );
+		do_action( 'divi_squad_custom_fields_initialized', $fields_manager, $this );
 	}
 
 	/**
 	 * Add a new processor to the processor registry.
+	 *
+	 * @since 3.1.0
 	 *
 	 * @param string       $processor_type The processor type (collections, definitions, managers).
 	 * @param string       $field_type     The field type identifier.
@@ -132,6 +184,22 @@ class Custom_Fields {
 	 * @return bool True if the processor was added successfully, false otherwise.
 	 */
 	public function add_processor( string $processor_type, string $field_type, string $class_name ): bool {
+		/**
+		 * Filters whether a processor can be added to the registry.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param bool         $can_add        Whether the processor can be added.
+		 * @param string       $processor_type The processor type.
+		 * @param string       $field_type     The field type identifier.
+		 * @param class-string $class_name     The fully qualified class name.
+		 */
+		$can_add = apply_filters( 'divi_squad_can_add_processor', true, $processor_type, $field_type, $class_name );
+
+		if ( ! $can_add ) {
+			return false;
+		}
+
 		// Validate processor type.
 		if ( ! isset( $this->processor_registry[ $processor_type ] ) ) {
 			return false;
@@ -141,6 +209,17 @@ class Custom_Fields {
 		if ( ! class_exists( $class_name ) ) {
 			return false;
 		}
+
+		/**
+		 * Action fired before adding a new processor.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param string $processor_type The processor type.
+		 * @param string $field_type     The field type.
+		 * @param string $class_name     The class name to be added.
+		 */
+		do_action( 'divi_squad_before_processor_added', $processor_type, $field_type, $class_name );
 
 		// Add the processor.
 		$this->processor_registry[ $processor_type ][ $field_type ] = $class_name;
@@ -162,6 +241,8 @@ class Custom_Fields {
 	/**
 	 * Remove a processor from the processor registry.
 	 *
+	 * @since 3.1.0
+	 *
 	 * @param string $processor_type The processor type (collections, definitions, managers).
 	 * @param string $field_type     The field type identifier.
 	 *
@@ -173,6 +254,34 @@ class Custom_Fields {
 		}
 
 		$removed_class = $this->processor_registry[ $processor_type ][ $field_type ];
+
+		/**
+		 * Filters whether a processor can be removed from the registry.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param bool   $can_remove     Whether the processor can be removed.
+		 * @param string $processor_type The processor type.
+		 * @param string $field_type     The field type identifier.
+		 * @param string $removed_class  The class name to be removed.
+		 */
+		$can_remove = apply_filters( 'divi_squad_can_remove_processor', true, $processor_type, $field_type, $removed_class );
+
+		if ( ! $can_remove ) {
+			return false;
+		}
+
+		/**
+		 * Action fired before removing a processor.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param string $processor_type The processor type.
+		 * @param string $field_type     The field type.
+		 * @param string $removed_class  The class name to be removed.
+		 */
+		do_action( 'divi_squad_before_processor_removed', $processor_type, $field_type, $removed_class );
+
 		unset( $this->processor_registry[ $processor_type ][ $field_type ] );
 
 		/**
@@ -227,10 +336,14 @@ class Custom_Fields {
 	/**
 	 * Get all fields of a specific type.
 	 *
+	 * Retrieves custom fields for a specified post using the appropriate processor.
+	 *
+	 * @since 3.1.0
+	 *
 	 * @param string $field_type The field type (acf, WordPress, etc.).
 	 * @param int    $post_id    The current post id.
 	 *
-	 * @return array<string, mixed>
+	 * @return array<string, mixed> Array of custom fields with their values.
 	 * @throws InvalidArgumentException If the field type is not supported.
 	 */
 	public function get_fields( string $field_type, int $post_id ): array {
@@ -244,25 +357,70 @@ class Custom_Fields {
 		 */
 		$field_type = (string) apply_filters( 'divi_squad_custom_fields_type', $field_type, $post_id );
 
+		/**
+		 * Filters whether to bypass the standard fields retrieval process.
+		 *
+		 * Allows complete overriding of the field retrieval process.
+		 * If this filter returns a non-null value, it will be used instead of
+		 * the standard process.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array|null $fields     The fields to return, or null to use standard process.
+		 * @param string     $field_type The field type being requested.
+		 * @param int        $post_id    The post ID.
+		 */
+		$pre_fields = apply_filters( 'divi_squad_pre_get_fields', null, $field_type, $post_id );
+		if ( null !== $pre_fields ) {
+			return $pre_fields;
+		}
+
 		// Get the processor class.
 		$processor_class = $this->get_processor( self::PROCESSOR_COLLECTIONS, $field_type );
 		if ( null === $processor_class ) {
-			throw new InvalidArgumentException(
-				sprintf(
-				/* translators: %s: The unsupported field type */
-					esc_html__( 'Unsupported field type: %s', 'squad-modules-for-divi' ),
-					esc_html( $field_type )
-				)
+			$error_message = sprintf(
+			/* translators: %s: The unsupported field type */
+				esc_html__( 'Unsupported field type: %s', 'squad-modules-for-divi' ),
+				esc_html( $field_type )
 			);
+
+			/**
+			 * Filters the error message for unsupported field types.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param string $error_message The error message.
+			 * @param string $field_type    The unsupported field type.
+			 * @param int    $post_id       The post ID.
+			 */
+			$error_message = apply_filters(
+				'divi_squad_unsupported_field_type_error',
+				$error_message,
+				$field_type,
+				$post_id
+			);
+
+			/**
+			 * Action fired when an unsupported field type is requested.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param string $field_type    The unsupported field type.
+			 * @param int    $post_id       The post ID.
+			 * @param string $error_message The error message.
+			 */
+			do_action( 'divi_squad_unsupported_field_type', $field_type, $post_id, $error_message );
+
+			throw new InvalidArgumentException( $error_message );
 		}
 
 		$cache_key = md5( $processor_class );
 
 		if ( ! isset( $this->storage['options'][ $cache_key ][ $post_id ] ) ) {
 			/**
-			 * Filter the field type before getting fields.
+			 * Get the fields processor.
 			 *
-			 * @var Custom_Fields\CollectionInterface $fields_processor
+			 * @var CollectionInterface $fields_processor
 			 */
 			$fields_processor = $this->get( $field_type );
 
@@ -271,9 +429,9 @@ class Custom_Fields {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param int                               $post_id          The post ID.
-			 * @param string                            $field_type       The field type.
-			 * @param Custom_Fields\CollectionInterface $fields_processor The processor instance.
+			 * @param int                 $post_id          The post ID.
+			 * @param string              $field_type       The field type.
+			 * @param CollectionInterface $fields_processor The processor instance.
 			 */
 			do_action( 'divi_squad_before_get_fields', $post_id, $field_type, $fields_processor );
 
@@ -284,10 +442,10 @@ class Custom_Fields {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array                             $fields           The retrieved fields.
-			 * @param int                               $post_id          The post ID.
-			 * @param string                            $field_type       The field type.
-			 * @param Custom_Fields\CollectionInterface $fields_processor The processor instance.
+			 * @param array               $fields           The retrieved fields.
+			 * @param int                 $post_id          The post ID.
+			 * @param string              $field_type       The field type.
+			 * @param CollectionInterface $fields_processor The processor instance.
 			 */
 			$fields = apply_filters( 'divi_squad_custom_fields', $fields, $post_id, $field_type, $fields_processor );
 
@@ -772,7 +930,7 @@ class Custom_Fields {
 		}
 
 		$success = $this->add_processor( self::PROCESSOR_COLLECTIONS, $field_type, $collections_class ) &&
-				   $this->add_processor( self::PROCESSOR_DEFINITIONS, $field_type, $definitions_class );
+		           $this->add_processor( self::PROCESSOR_DEFINITIONS, $field_type, $definitions_class );
 
 		if ( $success ) {
 			/**

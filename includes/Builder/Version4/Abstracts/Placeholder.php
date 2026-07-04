@@ -4,8 +4,8 @@
  * The DiviBackend integration helper for Divi Builder
  *
  * @since   1.0.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Version4\Abstracts;
@@ -25,6 +25,38 @@ use function _x;
  * @package DiviSquad
  */
 abstract class Placeholder implements Placeholder_Interface {
+
+	/**
+	 * The constructor.
+	 *
+	 * @since 3.3.0
+	 */
+	public function __construct() {
+		$this->register_hooks();
+	}
+
+	/**
+	 * Register hooks with WordPress.
+	 *
+	 * This method should contain all add_action() and add_filter() calls
+	 * that connect class methods to WordPress hooks.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return void
+	 */
+	abstract public function register_hooks(): void;
+
+	/**
+	 * Filters backend data passed to the Visual Builder.
+	 * This function is used to add static helpers whose content rarely changes.
+	 * eg: google fonts, module default, and so on.
+	 *
+	 * @param array<string, array<string, mixed>> $exists Existing definitions.
+	 *
+	 * @return array<string, array<string, mixed>> Updated definitions.
+	 */
+	abstract public function static_asset_definitions( array $exists = array() ): array;
 
 	/**
 	 * Get the defaults data for modules.
@@ -230,5 +262,31 @@ abstract class Placeholder implements Placeholder_Interface {
 				'text'      => '#666666', // Text gray.
 			),
 		);
+	}
+
+	/**
+	 * Used to update the content of the cached definitions js file.
+	 *
+	 * @param string $content The content to update.
+	 *
+	 * @return string
+	 */
+	public function asset_definitions( string $content ): string {
+		$definitions = $this->static_asset_definitions();
+
+		/**
+		 * Filter the JavaScript definitions before they are encoded.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param array  $definitions The module definitions.
+		 * @param string $content     The original content.
+		 */
+		$definitions = apply_filters( 'divi_squad_asset_definitions_before_encode', $definitions, $content );
+
+		return $content . sprintf(
+				';window.DISQBuilderBackend=%1$s; if(window.jQuery) {jQuery.extend(true, window.ETBuilderBackend, window.DISQBuilderBackend);}',
+				et_fb_remove_site_url_protocol( (string) wp_json_encode( $definitions ) )
+			);
 	}
 }

@@ -4,8 +4,8 @@
  * Abstract Collection Class for Custom Fields
  *
  * @since   3.1.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;

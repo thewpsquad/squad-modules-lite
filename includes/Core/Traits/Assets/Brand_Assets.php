@@ -1,9 +1,23 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
+/**
+ * Brand Assets Trait
+ *
+ * @since   3.3.0
+ * @package DiviSquad
+ */
 
 namespace DiviSquad\Core\Traits\Assets;
 
 use DiviSquad\Utils\Divi as DiviUtil;
+use Throwable;
 
+/**
+ * Brand Assets Management Trait
+ *
+ * @since   3.3.0
+ * @package DiviSquad
+ */
 trait Brand_Assets {
 
 	/**
@@ -74,7 +88,7 @@ trait Brand_Assets {
 					esc_url( $squad_image, array( 'http', 'https', 'data' ) )
 				)
 			);
-		} catch ( \Throwable $e ) {
+		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to output logo CSS' );
 		}
 	}

@@ -169,36 +169,9 @@ class Modules {
 	 * Register WordPress hooks
 	 */
 	private function register_hooks(): void {
-		/**
-		 * Filter the hooks to register.
-		 *
-		 * @since 3.3.3
-		 *
-		 * @param array<string, array<string, mixed>> $hooks   List of hooks to register.
-		 * @param self                                $modules Current modules manager instance.
-		 */
-		$hooks = apply_filters(
-			'divi_squad_modules_hooks_to_register',
-			array(
-				'et_builder_ready'                            => array(
-					'callback' => array( $this, 'load_divi4_modules' ),
-					'priority' => 9,
-				),
-				'divi_module_library_modules_dependency_tree' => array(
-					'callback' => array( $this, 'load_divi5_modules' ),
-					'priority' => 9,
-				),
-			),
-			$this
-		);
-
-		foreach ( $hooks as $hook => $args ) {
-			if ( ! isset( $args['callback'] ) || ! is_callable( $args['callback'] ) ) {
-				continue;
-			}
-
-			add_action( $hook, $args['callback'], $args['priority'] ?? 10 );
-		}
+		// Register module-specific hooks based on the builder version.
+		add_action( 'et_builder_ready', array( $this, 'load_divi4_modules' ), 9 );
+		add_action( 'divi_module_library_modules_dependency_tree', array( $this, 'load_divi5_modules' ), 9 );
 
 		/**
 		 * Fires after hooks are registered.

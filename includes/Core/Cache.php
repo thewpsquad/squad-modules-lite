@@ -63,9 +63,9 @@ class Cache {
 	/**
 	 * Get cache value.
 	 *
-	 * @param string    $key   Cache key.
-	 * @param string    $group Optional. Cache group.
-	 * @param bool      $force Optional. Force refresh.
+	 * @param string     $key   Cache key.
+	 * @param string     $group Optional. Cache group.
+	 * @param bool       $force Optional. Force refresh.
 	 * @param bool|null &$found Optional. Whether key was found.
 	 *
 	 * @return mixed|false The cache contents on success, false on failure.

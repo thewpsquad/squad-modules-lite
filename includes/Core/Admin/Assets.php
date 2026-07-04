@@ -1,43 +1,45 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Admin AssetsCore Manager
+ * Admin Assets Manager
  *
  * Handles registration and enqueuing of admin-specific assets using the new unified asset system.
  *
  * @since   3.3.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Admin;
 
-use DiviSquad\Core\Assets as AssetsManager;
+use DiviSquad\Core\Assets as Assets_Manager;
+use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Utils\Divi as DiviUtil;
 use DiviSquad\Utils\Helper as HelperUtil;
 use DiviSquad\Utils\WP as WPUtil;
 use Throwable;
 
 /**
- * Admin AssetsCore Manager
+ * Admin Assets Manager
  *
  * Handles registration and enqueuing of admin-specific assets using the new unified asset system.
  *
- * @since 3.3.0
+ * @since   3.3.0
+ * @package DiviSquad
  */
-class Assets {
+class Assets implements Hookable {
 
 	/**
 	 * Initialize the assets manager.
 	 */
 	public function __construct() {
-		$this->init_hooks();
+		$this->register_hooks();
 	}
 
 	/**
 	 * Initialize admin assets
 	 */
-	public function init_hooks(): void {
+	public function register_hooks(): void {
 		// Register and enqueue admin assets.
 		add_action( 'divi_squad_register_admin_assets', array( $this, 'register' ) );
 		add_action( 'divi_squad_enqueue_admin_assets', array( $this, 'enqueue' ) );
@@ -49,25 +51,15 @@ class Assets {
 	/**
 	 * Register admin assets
 	 *
-	 * @param AssetsManager $assets AssetsCore manager instance.
+	 * @param Assets_Manager $assets Assets Manager instance.
 	 */
-	public function register( AssetsManager $assets ): void {
+	public function register( Assets_Manager $assets ): void {
 		try {
-			// Register common admin scripts.
-			$assets->register_script(
-				'admin-common',
-				array(
-					'file' => 'common',
-					'path' => 'admin',
-				)
-			);
-
 			$assets->register_style(
-				'admin-common',
+				'admin-menu',
 				array(
-					'file' => 'common',
+					'file' => 'menu',
 					'path' => 'admin',
-					'ext'  => 'css',
 				)
 			);
 
@@ -84,14 +76,13 @@ class Assets {
 				array(
 					'file' => 'app',
 					'path' => 'admin',
-					'ext'  => 'css',
 				)
 			);
 
 			/**
 			 * Fires after admin assets are registered
 			 *
-			 * @param Assets $assets AssetsCore manager instance
+			 * @param Assets_Manager $assets Assets Manager instance
 			 */
 			do_action( 'divi_squad_after_register_admin_assets', $assets );
 		} catch ( Throwable $e ) {
@@ -102,13 +93,12 @@ class Assets {
 	/**
 	 * Enqueue admin assets
 	 *
-	 * @param AssetsManager $assets AssetsCore manager instance.
+	 * @param Assets_Manager $assets Assets Manager instance.
 	 */
-	public function enqueue( AssetsManager $assets ): void {
+	public function enqueue( Assets_Manager $assets ): void {
 		try {
 			// Always enqueue common assets.
-			$assets->enqueue_script( 'admin-common' );
-			$assets->enqueue_style( 'admin-common' );
+			$assets->enqueue_style( 'admin-menu' );
 
 			// Squad page specific assets.
 			if ( HelperUtil::is_squad_page() ) {
@@ -119,7 +109,7 @@ class Assets {
 			/**
 			 * Fires after admin assets are enqueued
 			 *
-			 * @param Assets $assets AssetsCore manager instance
+			 * @param Assets_Manager $assets Assets Manager instance
 			 */
 			do_action( 'divi_squad_after_enqueue_admin_assets', $assets );
 		} catch ( Throwable $e ) {
@@ -138,12 +128,12 @@ class Assets {
 		try {
 			// Add common admin data.
 			if ( is_admin() || ( DiviUtil::is_fb_enabled() && is_user_logged_in() ) ) {
-				$global_data = array_merge( $global_data, $this->get_common_localize_data() );
+				$global_data = array_merge_recursive( $global_data, $this->get_common_localize_data() );
 			}
 
 			// Add squad page specific data.
 			if ( HelperUtil::is_squad_page() ) {
-				$global_data = array_merge( $global_data, $this->get_admin_localize_data() );
+				$global_data = array_merge_recursive( $global_data, $this->get_admin_localize_data() );
 			}
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to add localization data' );
@@ -200,9 +190,9 @@ class Assets {
 			}
 		}
 
-		// Add routes by version to the REST routes array
+		// Add routes by version to the REST routes array.
 		foreach ( $routes_by_version as $version => $version_data ) {
-			$rest_routes[ "rest_api_{$version}" ] = array(
+			$rest_routes["rest_api_{$version}"] = array(
 				'route'     => get_rest_url(),
 				'namespace' => $version_data['namespace'],
 				'routes'    => $version_data['routes'],
@@ -260,6 +250,11 @@ class Assets {
 	 */
 	private function get_admin_menus(): array {
 		try {
+			if ( ! divi_squad()->requirements->is_fulfilled() ) {
+				return array();
+			}
+
+			// Collect registered submenus.
 			$submenus = divi_squad()->admin_menu->get_menu_items_for_localization();
 
 			/**

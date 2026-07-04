@@ -6,9 +6,9 @@
  * Provides functionality for populating custom fields tables in large databases.
  * Focuses on minimal memory usage and maximum query performance.
  *
- * @since      3.1.0
- * @subpackage Builder
- * @package    DiviSquad
+ * @since   3.1.0
+ * @package DiviSquad
+ * @author The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Traits;

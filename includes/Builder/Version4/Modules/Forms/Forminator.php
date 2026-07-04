@@ -25,8 +25,8 @@ use Throwable;
  * Extends the FormStyler base class to provide specific styling and functionality
  * for Forminator forms within the Divi Builder interface.
  *
- * @since      1.2.0
- * @package    DiviSquad
+ * @since   1.2.0
+ * @package DiviSquad
  */
 class Forminator extends Form_Styler {
 

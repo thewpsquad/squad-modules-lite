@@ -1,10 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The plugin link management class for the plugin dashboard at admin area.
  *
  * @since   3.0.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Supports;
@@ -23,7 +24,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const HOME_URL = 'https://squadmodules.com/';
+	public const HOME_URL = 'https://squadmodules.com/';
 
 	/**
 	 * The plugin support URL.
@@ -32,7 +33,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const PRICING_URL = 'https://squadmodules.com/pricing/';
+	public const PRICING_URL = 'https://squadmodules.com/pricing/';
 
 	/**
 	 * The plugin issues URL.
@@ -41,7 +42,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const ISSUES_URL = 'https://github.com/thewpsquad/squad-modules/issues';
+	public const ISSUES_URL = 'https://github.com/thewpsquad/squad-modules/issues';
 
 	/**
 	 * The plugin URL from WP.org.
@@ -50,7 +51,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const WP_ORG_URL = 'http://wordpress.org/plugins/squad-modules-for-divi/';
+	public const WP_ORG_URL = 'http://wordpress.org/plugins/squad-modules-for-divi/';
 
 	/**
 	 * The plugin support URL.
@@ -59,7 +60,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const SUPPORT_URL = 'https://wordpress.org/support/plugin/squad-modules-for-divi/#postform';
+	public const SUPPORT_URL = 'https://wordpress.org/support/plugin/squad-modules-for-divi/#postform';
 
 	/**
 	 * The plugin ratting URL.
@@ -68,7 +69,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const RATTING_URL = 'https://wordpress.org/support/plugin/squad-modules-for-divi/reviews/?rate=5#new-post';
+	public const RATTING_URL = 'https://wordpress.org/support/plugin/squad-modules-for-divi/reviews/?rate=5#new-post';
 
 	/**
 	 * The plugin translate URL.
@@ -77,7 +78,7 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const TRANSLATE_URL = 'https://translate.wordpress.org/projects/wp-plugins/squad-modules-for-divi';
+	public const TRANSLATE_URL = 'https://translate.wordpress.org/projects/wp-plugins/squad-modules-for-divi';
 
 	/**
 	 * The plugin premium support URL.
@@ -86,5 +87,5 @@ class Links {
 	 *
 	 * @var string
 	 */
-	const PREMIUM_SUPPORT_URL = 'https://squadmodules.com/support/';
+	public const PREMIUM_SUPPORT_URL = 'https://squadmodules.com/support/';
 }

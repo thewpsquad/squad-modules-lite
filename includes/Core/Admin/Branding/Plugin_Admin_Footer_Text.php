@@ -6,8 +6,8 @@
  * This class handles the admin footer text on plugin pages.
  *
  * @since   3.3.3
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Admin\Branding;

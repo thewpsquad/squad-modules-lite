@@ -1,10 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * WP helper class for WordPress functions.
  *
  * @since   1.2.2
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Utils;
@@ -139,7 +140,7 @@ class WP {
 		}
 
 		if ( ! function_exists( 'get_plugins' ) ) {
-			require_once divi_squad()->get_wp_path() . 'wp-admin/includes/plugin.php';
+			require_once divi_squad()->get_wp_path( 'wp-admin/includes/plugin.php' );
 		}
 
 		$all_plugins        = get_plugins();

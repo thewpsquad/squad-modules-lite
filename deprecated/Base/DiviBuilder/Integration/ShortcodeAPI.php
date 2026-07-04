@@ -89,11 +89,6 @@ abstract class ShortcodeAPI extends Integration {
 	 * Enqueues the plugin's scripts and styles.
 	 */
 	public function wp_hook_enqueue_scripts(): void {
-		// Do not load assets if current page is plugin admin page.
-//		if ( empty( $this->name ) || ( is_admin() && ! function_exists( 'get_current_screen' ) ) || HelperUtil::is_squad_page() ) {
-//			return;
-//		}
-
 		// Enqueues non-minified, hot reloaded javascript bundles. (Builder).
 		if ( DiviUtil::is_fb_enabled() ) {
 			$script_asset_path = AssetUtil::module_asset_path( 'builder-bundle' );

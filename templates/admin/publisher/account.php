@@ -45,18 +45,16 @@ $divi_squad_plugin_life_type = apply_filters( 'divi_squad_plugin_life_type', $di
 		<div class="app-menu">
 			<div class="app-menu-container">
 				<div class="menu-list">
-					<ul>
-						<?php
-						/**
-						 * Fires to display the menu list in the dashboard.
-						 *
-						 * @since 3.2.3
-						 *
-						 * @param string $divi_squad_plugin_life_type The plugin life type.
-						 */
-						do_action( 'divi_squad_menu_list_html', $divi_squad_plugin_life_type );
-						?>
-					</ul>
+					<?php
+					/**
+					 * Fires to display the menu list in the dashboard.
+					 *
+					 * @since 3.2.3
+					 *
+					 * @param string $divi_squad_plugin_life_type The plugin life type.
+					 */
+					do_action( 'divi_squad_menu_list_html', $divi_squad_plugin_life_type );
+					?>
 				</div>
 			</div>
 		</div>

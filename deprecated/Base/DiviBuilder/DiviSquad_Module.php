@@ -11,10 +11,6 @@
 
 namespace DiviSquad\Base\DiviBuilder;
 
-if ( ! class_exists( '\ET_Builder_Module' ) ) {
-	return;
-}
-
 /**
  * Builder Utils class
  *

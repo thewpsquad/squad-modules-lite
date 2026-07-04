@@ -12,14 +12,6 @@
 
 namespace DiviSquad\Modules;
 
-if ( ! class_exists( '\ET_Builder_Module' ) ) {
-	return;
-}
-
-if ( ! class_exists( '\DiviSquad\Base\DiviBuilder\Utils' ) ) {
-	return;
-}
-
 use DiviSquad\Base\DiviBuilder\Module;
 use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Utils\Divi;

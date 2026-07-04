@@ -1,18 +1,27 @@
 == Upgrade Notice ==
+= 3.4.0 =
+Enhanced asset management with additional filters, improved admin notice system, fixed various bugs including localization issues, and added more extensibility points for developers.
+
+
 = 3.3.5 =
 Added error handling for style enqueuing, fixed missing periods in comments, and updated version retrieval to use Divi::get_builder_version.
+
 
 = 3.3.4 =
 Fixed an issue to load forms module not showing up in the visual builder and frontend.
 
+
 = 3.3.3 =
 Code enhancements, improved type hinting, and better asset management. Enhanced ImageGallery and PostGrid modules.
+
 
 = 3.3.2 =
 Fix and issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
 
+
 = 3.3.1 =
 fix an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 
 = 3.3.0 =
 Major performance improvements, bug fixes, and enhanced module loading system. New performance optimization framework and developer API improvements.

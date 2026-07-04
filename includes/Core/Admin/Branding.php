@@ -8,7 +8,7 @@
  * plugin's appearance and integrating with WordPress admin interfaces.
  *
  * @since   3.3.3
- * @package DiviSquad\Core\Admin
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
@@ -30,7 +30,7 @@ use function is_network_admin;
  * Branding Manager class.
  *
  * @since   3.3.3
- * @package DiviSquad\Core\Admin
+ * @package DiviSquad
  */
 class Branding {
 

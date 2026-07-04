@@ -13,10 +13,6 @@
 
 namespace DiviSquad\Modules\PostGridChild;
 
-if ( ! class_exists( '\ET_Builder_Module' ) ) {
-	return;
-}
-
 /**
  * Post-Grid Child Module Class.
  *

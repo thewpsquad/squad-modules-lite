@@ -1,10 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * String Helper class for utility
  *
  * @since   1.2.3
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;

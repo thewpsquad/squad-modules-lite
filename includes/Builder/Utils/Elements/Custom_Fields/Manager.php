@@ -7,8 +7,8 @@
  * implementation for all manager classes in the DiviSquad plugin.
  *
  * @since   3.1.1
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;

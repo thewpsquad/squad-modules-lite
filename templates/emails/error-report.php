@@ -20,7 +20,7 @@
  * @var string               $site_name       The website name
  * @var string               $timestamp       The timestamp when the error occurred
  * @var string               $charset         The site charset
- * @var array                $request_data    Information about the request (method, URL, IP)
+ * @var array<string, mixed> $request_data    Information about the request (method, URL, IP)
  * @var string               $additional_info Additional context information
  * @var array<string, mixed> $extra_data      Additional debugging data
  * @var string               $debug_log       Recent debug log entries
@@ -66,6 +66,8 @@ if ( isset( $error_file ) ) {
 	} elseif ( strpos( $error_file, 'includes/Utils/Divi.php' ) !== false ) {
 		$error_type = 'Divi Detection Error';
 	}
+} else {
+	$error_file = '';
 }
 
 // Get file path relative to plugin, if possible.
@@ -116,32 +118,94 @@ $divi_theme_info = array(
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo esc_html( sprintf( '[%s] Error Report: %s', $severity_class, substr( $error_message, 0, 50 ) . ( strlen( $error_message ) > 50 ? '...' : '' ) ) ); ?></title>
 	<style type="text/css">
+		/* Base Styles */
 		body {
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 			font-size: 14px;
 			line-height: 1.6;
-			color: #333;
+			color: #1f2937;
 			margin: 0;
 			padding: 0;
 			-webkit-text-size-adjust: 100%;
 			-ms-text-size-adjust: 100%;
-			background-color: #f5f5f5;
+			background-color: #f9fafb;
 		}
 
 		.container {
 			max-width: 900px;
-			margin: 20px auto;
+			margin: 30px auto;
 			padding: 0;
 			background-color: #ffffff;
-			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-			border-radius: 8px;
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+			border-radius: 12px;
 			overflow: hidden;
 		}
 
-		.header {
-			background-color: #2271b1;
+		/* Typography */
+		h1 {
+			font-size: 24px;
+			font-weight: 700;
+			margin: 0;
+			letter-spacing: -0.02em;
 			color: #ffffff;
-			padding: 20px 30px;
+		}
+
+		h2 {
+			color: #1e40af;
+			font-size: 18px;
+			font-weight: 600;
+			margin-top: 0;
+			margin-bottom: 15px;
+			padding-bottom: 8px;
+			border-bottom: 1px solid #e5e7eb;
+			letter-spacing: -0.01em;
+		}
+
+		h3 {
+			color: #374151;
+			font-size: 16px;
+			font-weight: 600;
+			margin: 20px 0 10px;
+			letter-spacing: -0.01em;
+		}
+
+		code, pre {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+			font-size: 13px;
+			background-color: #f1f5f9;
+			border-radius: 6px;
+		}
+
+		code {
+			padding: 2px 5px;
+			color: #be185d;
+		}
+
+		pre {
+			padding: 16px;
+			margin: 15px 0;
+			white-space: pre-wrap;
+			word-wrap: break-word;
+			max-height: 350px;
+			overflow-y: auto;
+			border: 1px solid #e5e7eb;
+		}
+
+		a {
+			color: #3b82f6;
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		/* Layout Components */
+		.header {
+			padding: 24px 30px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 		}
 
 		.content {
@@ -149,237 +213,70 @@ $divi_theme_info = array(
 		}
 
 		.section {
-			margin-bottom: 30px;
-			border-bottom: 1px solid #eee;
-			padding-bottom: 20px;
-		}
-
-		.section:last-child {
-			border-bottom: none;
-		}
-
-		h1 {
-			color: #ffffff;
-			font-size: 24px;
-			font-weight: 600;
-			margin: 0;
-		}
-
-		h2 {
-			color: #2271b1;
-			font-size: 18px;
-			font-weight: 600;
-			margin-top: 0;
-			margin-bottom: 15px;
-			padding-bottom: 5px;
-			border-bottom: 1px solid #e5e5e5;
-		}
-
-		h3 {
-			color: #23282d;
-			font-size: 16px;
-			font-weight: 600;
-			margin: 20px 0 10px;
-		}
-
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			margin-bottom: 20px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-		}
-
-		table, th, td {
-			border: 1px solid #e5e5e5;
-		}
-
-		th, td {
-			padding: 12px 15px;
-			text-align: left;
-			vertical-align: top;
-		}
-
-		th {
-			background-color: #f8f9fa;
-			font-weight: 600;
-			border-bottom-width: 2px;
-		}
-
-		tr:nth-child(even) {
-			background-color: #f9f9f9;
-		}
-
-		tr:hover {
-			background-color: #f3f3f3;
-		}
-
-		code, pre {
-			font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-			font-size: 13px;
-			background-color: #f8f9fa;
-			border: 1px solid #eee;
-			border-radius: 3px;
-		}
-
-		code {
-			padding: 2px 5px;
-			color: #d63384;
-		}
-
-		pre {
-			padding: 15px;
-			margin: 15px 0;
-			white-space: pre-wrap;
-			word-wrap: break-word;
-			max-height: 350px;
-			overflow-y: auto;
-		}
-
-		.severity-high {
-			background-color: #d9534f;
-		}
-
-		.severity-high .error-reference {
-			color: #d9534f;
-		}
-
-		.severity-medium {
-			background-color: #f0ad4e;
-		}
-
-		.severity-medium .error-reference {
-			color: #f0ad4e;
-		}
-
-		.severity-low {
-			background-color: #5bc0de;
-		}
-
-		.severity-low .error-reference {
-			color: #5bc0de;
-		}
-
-		.error-box {
-			background-color: #f8f9fa;
-			padding: 20px;
-			margin: 20px 0;
-			border-left: 4px solid;
-			border-radius: 4px;
-		}
-
-		.error-box.high {
-			border-color: #d9534f;
-			background-color: #fdf7f7;
-		}
-
-		.error-box.medium {
-			border-color: #f0ad4e;
-			background-color: #fef9f3;
-		}
-
-		.error-box.low {
-			border-color: #5bc0de;
-			background-color: #f5fbfe;
-		}
-
-		.footer {
-			margin-top: 30px;
-			padding: 20px 30px;
-			background-color: #f8f9fa;
-			color: #6c757d;
-			font-size: 13px;
-			text-align: center;
-			border-top: 1px solid #eee;
-		}
-
-		.metadata {
-			background-color: #f8f9fa;
-			padding: 15px;
-			border-radius: 4px;
-			margin-bottom: 20px;
-			border: 1px solid #eee;
-		}
-
-		.metadata-item {
-			display: inline-block;
-			margin-right: 20px;
-			margin-bottom: 10px;
-		}
-
-		.metadata-label {
-			font-weight: 600;
-			color: #495057;
-		}
-
-		.metadata-version {
-			padding: 3px 8px;
-			border-radius: 12px;
-			background-color: #e9ecef;
-			font-size: 12px;
-			margin-left: 5px;
-		}
-
-		.stack-container {
-			margin: 20px 0;
-			border: 1px solid #e5e5e5;
-			border-radius: 5px;
+			margin-bottom: 32px;
+			border-radius: 8px;
+			background-color: #ffffff;
 			overflow: hidden;
 		}
 
-		.stack-header {
-			background-color: #f1f1f1;
-			padding: 10px 15px;
-			font-weight: 600;
-			border-bottom: 1px solid #e5e5e5;
+		.footer {
+			margin-top: 40px;
+			padding: 24px 30px;
+			background-color: #f8fafc;
+			color: #64748b;
+			font-size: 13px;
+			text-align: center;
+			border-top: 1px solid #e5e7eb;
 		}
 
-		.stack-content {
-			padding: 15px;
-			background-color: #f8f9fa;
-			max-height: 350px;
-			overflow-y: auto;
-			white-space: pre-wrap;
-			word-wrap: break-word;
-			font-family: monospace;
-			font-size: 12px;
+		/* Header Severity Colors */
+		.severity-high {
+			background-color: #ef4444;
+			color: #ffffff;
 		}
 
-		.env-item {
-			margin-bottom: 10px;
-			padding-bottom: 10px;
-			border-bottom: 1px dashed #eee;
+		.severity-medium {
+			background-color: #f59e0b;
+			color: #ffffff;
 		}
 
-		.env-item:last-child {
-			border-bottom: none;
-			margin-bottom: 0;
-			padding-bottom: 0;
+		.severity-low {
+			background-color: #3b82f6;
+			color: #ffffff;
 		}
 
-		.env-label {
-			font-weight: 600;
-			color: #495057;
-			display: inline-block;
-			min-width: 180px;
+		/* Error Box Styles */
+		.error-box {
+			border-radius: 8px;
+			padding: 24px;
+			margin-bottom: 24px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+			border: 1px solid;
 		}
 
-		.error-reference {
-			display: inline-block;
-			padding: 3px 10px;
-			background-color: #e9ecef;
-			border-radius: 12px;
-			font-family: monospace;
-			margin-left: 10px;
-			font-size: 12px;
+		.error-box.high {
+			border-color: #fecaca;
+			background-color: #fee2e2;
 		}
 
+		.error-box.medium {
+			border-color: #fed7aa;
+			background-color: #ffedd5;
+		}
+
+		.error-box.low {
+			border-color: #bfdbfe;
+			background-color: #dbeafe;
+		}
+
+		/* Location Box */
 		.error-location {
-			margin-top: 10px;
-			font-family: monospace;
-			padding: 10px;
-			background-color: #f8f9fa;
-			border-radius: 4px;
-			border: 1px solid #eee;
+			margin-top: 16px;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+			padding: 12px;
+			background-color: rgba(255, 255, 255, 0.7);
+			border-radius: 6px;
+			border: 1px solid rgba(0, 0, 0, 0.05);
 		}
 
 		.file-path {
@@ -388,75 +285,240 @@ $divi_theme_info = array(
 			text-overflow: ellipsis;
 			max-width: 100%;
 			display: inline-block;
+			font-weight: 500;
 		}
 
 		.error-timestamp {
-			color: #6c757d;
+			color: #64748b;
 			font-size: 13px;
-			margin-top: 5px;
+			margin-top: 12px;
 		}
 
+		/* Quick Stats Cards */
 		.quick-stats {
 			display: flex;
 			flex-wrap: wrap;
-			margin: 0 -10px 20px;
+			margin: 0 -10px 28px;
+			gap: 8px;
 		}
 
 		.stat-box {
-			flex: 1 1 200px;
-			margin: 10px;
-			padding: 15px;
-			border-radius: 5px;
-			background-color: #f8f9fa;
-			border: 1px solid #eee;
+			flex: 1 1 160px;
+			margin: 8px;
+			padding: 16px;
+			border-radius: 8px;
+			background-color: #f8fafc;
+			border: 1px solid #e5e7eb;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			transition: transform 0.15s ease, box-shadow 0.15s ease;
+		}
+
+		.stat-box:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 		}
 
 		.stat-title {
 			font-size: 13px;
-			font-weight: 600;
-			margin-bottom: 5px;
-			color: #495057;
+			font-weight: 500;
+			margin-bottom: 6px;
+			color: #6b7280;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
 		}
 
 		.stat-value {
-			font-size: 16px;
-			font-weight: bold;
-			color: #2271b1;
+			font-size: 18px;
+			font-weight: 600;
+			color: #1e40af;
 		}
 
-		.tools-section {
-			background-color: #f0f6fc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-top: 20px;
+		/* Tables */
+		table {
+			width: 100%;
+			border-collapse: separate;
+			border-spacing: 0;
+			margin-bottom: 24px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			border-radius: 8px;
+			overflow: hidden;
 		}
 
-		.debug-tips {
-			margin-top: 10px;
+		th, td {
+			padding: 14px 16px;
+			text-align: left;
+			vertical-align: top;
+			border-bottom: 1px solid #e5e7eb;
 		}
 
-		.debug-tips ul {
-			margin-left: 20px;
-			padding-left: 0;
+		th {
+			background-color: #f8fafc;
+			font-weight: 600;
+			color: #4b5563;
+			font-size: 13px;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
 		}
 
-		.debug-tips li {
-			margin-bottom: 5px;
+		tr:last-child td {
+			border-bottom: none;
 		}
 
+		tr:nth-child(even) {
+			background-color: #f9fafb;
+		}
+
+		tr:hover {
+			background-color: #f1f5f9;
+		}
+
+		/* Error Reference */
+		.error-reference {
+			display: inline-block;
+			padding: 4px 10px;
+			background-color: rgba(0, 0, 0, 0.2);
+			border-radius: 6px;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+			font-size: 13px;
+			margin-left: 12px;
+			font-weight: 600;
+			color: #ffffff;
+		}
+
+		/* Divi Section */
+		.divi-section {
+			background-color: #f0f9ff;
+			padding: 24px;
+			border-radius: 10px;
+			margin-top: 24px;
+			border-left: 4px solid #0ea5e9;
+		}
+
+		.divi-info-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+			gap: 16px;
+			margin-top: 16px;
+		}
+
+		.divi-info-item {
+			background-color: white;
+			border-radius: 8px;
+			padding: 16px;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+			border: 1px solid #e5e7eb;
+			transition: transform 0.15s ease, box-shadow 0.15s ease;
+		}
+
+		.divi-info-item:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+		}
+
+		.divi-info-label {
+			font-size: 13px;
+			color: #6b7280;
+			margin-bottom: 4px;
+			font-weight: 500;
+			text-transform: uppercase;
+			letter-spacing: 0.03em;
+		}
+
+		.divi-info-value {
+			font-size: 15px;
+			font-weight: 500;
+			color: #1f2937;
+		}
+
+		.divi-detection-method {
+			margin-top: 16px;
+			padding: 12px;
+			background-color: #e0f2fe;
+			border-radius: 6px;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+			font-size: 13px;
+			color: #0c4a6e;
+		}
+
+		/* Badges */
+		.badge {
+			display: inline-block;
+			padding: 4px 8px;
+			border-radius: 6px;
+			font-size: 11px;
+			font-weight: 600;
+			text-transform: uppercase;
+			margin-left: 6px;
+			letter-spacing: 0.05em;
+		}
+
+		.badge-theme {
+			background-color: #dbeafe;
+			color: #1e40af;
+		}
+
+		.badge-plugin {
+			background-color: #dcfce7;
+			color: #166534;
+		}
+
+		.badge-custom {
+			background-color: #ffedd5;
+			color: #9a3412;
+		}
+
+		.badge-child {
+			background-color: #f3e8ff;
+			color: #7e22ce;
+		}
+
+		/* Environment Details */
+		.env-details {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 10px;
+		}
+
+		.env-item {
+			padding: 12px;
+			border-radius: 6px;
+			background-color: #f8fafc;
+			border: 1px solid #e5e7eb;
+		}
+
+		.env-label {
+			font-weight: 600;
+			color: #4b5563;
+			display: block;
+			margin-bottom: 4px;
+			font-size: 13px;
+		}
+
+		.env-value {
+			color: #1f2937;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+			font-size: 13px;
+			word-break: break-word;
+		}
+
+		/* Accordions (Email Compatible) */
 		.no-js-accordion {
-			margin-bottom: 15px;
+			margin-bottom: 16px;
+			border-radius: 8px;
+			overflow: hidden;
+			border: 1px solid #e5e7eb;
 		}
 
 		.no-js-accordion summary {
-			padding: 10px 15px;
-			background-color: #f8f9fa;
-			border: 1px solid #e5e5e5;
-			border-radius: 5px;
+			padding: 14px 20px;
+			background-color: #f8fafc;
 			font-weight: 600;
 			cursor: pointer;
 			position: relative;
 			outline: none;
+			color: #1e40af;
+			border-bottom: 1px solid #e5e7eb;
+			user-select: none;
 		}
 
 		.no-js-accordion summary::-webkit-details-marker {
@@ -464,100 +526,80 @@ $divi_theme_info = array(
 		}
 
 		.no-js-accordion summary::after {
-			content: "+";
+			content: '+';
 			position: absolute;
-			right: 15px;
+			right: 20px;
 			top: 50%;
 			transform: translateY(-50%);
+			font-size: 20px;
+			color: #6b7280;
 		}
 
 		.no-js-accordion[open] summary::after {
-			content: "-";
+			content: '-';
 		}
 
 		.no-js-accordion-content {
-			padding: 15px;
-			border: 1px solid #e5e5e5;
-			border-top: none;
-			border-radius: 0 0 5px 5px;
+			padding: 16px 20px;
 		}
 
 		.no-js-accordion[open] summary {
 			border-radius: 5px 5px 0 0;
-			border-bottom: none;
+			border-bottom: 1px solid #e5e7eb;
 		}
 
-		.divi-section {
-			background-color: #eef6fb;
-			padding: 15px;
-			border-radius: 5px;
+		/* Debug Tips Section */
+		.tools-section {
+			background-color: #f0f9ff;
+			padding: 24px;
+			border-radius: 10px;
 			margin-top: 20px;
-			border-left: 4px solid #2271b1;
+			border-left: 4px solid #0ea5e9;
 		}
 
-		.divi-info-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-			gap: 15px;
-			margin-top: 15px;
+		.debug-tips ul {
+			margin-left: 20px;
+			padding-left: 0;
+			list-style: none;
 		}
 
-		.divi-info-item {
-			background-color: white;
-			border-radius: 4px;
-			padding: 12px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+		.debug-tips li {
+			margin-bottom: 10px;
+			position: relative;
+			padding-left: 24px;
+			list-style: none;
 		}
 
-		.divi-info-label {
-			font-size: 12px;
-			color: #555;
-			margin-bottom: 3px;
-			font-weight: 600;
+		.debug-tips li::before {
+			content: '→';
+			position: absolute;
+			left: 0;
+			color: #3b82f6;
+			font-weight: bold;
 		}
 
-		.divi-info-value {
-			font-size: 14px;
-			font-weight: 500;
-		}
+		/* Responsive Adjustments */
+		@media (max-width: 768px) {
+			.container {
+				margin: 10px;
+				border-radius: 8px;
+			}
 
-		.divi-detection-method {
-			margin-top: 15px;
-			padding: 10px;
-			background-color: #f0f6fc;
-			border-radius: 4px;
-			font-family: monospace;
-			font-size: 13px;
-		}
+			.header, .content, .footer {
+				padding: 20px;
+			}
 
-		.badge {
-			display: inline-block;
-			padding: 3px 8px;
-			border-radius: 12px;
-			font-size: 11px;
-			font-weight: 600;
-			text-transform: uppercase;
-			margin-left: 5px;
-		}
+			.divi-info-grid, .env-details {
+				grid-template-columns: 1fr;
+			}
 
-		.badge-theme {
-			background-color: #e1f5fe;
-			color: #0288d1;
-		}
+			.quick-stats {
+				flex-direction: column;
+			}
 
-		.badge-plugin {
-			background-color: #e8f5e9;
-			color: #388e3c;
-		}
-
-		.badge-custom {
-			background-color: #fff3e0;
-			color: #f57c00;
-		}
-
-		.badge-child {
-			background-color: #f3e5f5;
-			color: #8e24aa;
+			.stat-box {
+				flex: 1 1 auto;
+			}
 		}
 	</style>
 </head>
@@ -565,7 +607,7 @@ $divi_theme_info = array(
 <div class="container">
 	<div class="header severity-<?php echo esc_attr( $severity_class ); ?>">
 		<h1>
-			<?php esc_html_e( 'Error Report', 'squad-modules-for-divi' ); ?>
+			Error Report
 			<span class="error-reference">#<?php echo esc_html( $error_reference ); ?></span>
 		</h1>
 	</div>
@@ -574,23 +616,23 @@ $divi_theme_info = array(
 		<!-- Quick Stats Section -->
 		<div class="quick-stats">
 			<div class="stat-box">
-				<div class="stat-title"><?php esc_html_e( 'Error Type', 'squad-modules-for-divi' ); ?></div>
+				<div class="stat-title">Error Type</div>
 				<div class="stat-value"><?php echo esc_html( $error_type ); ?></div>
 			</div>
 			<div class="stat-box">
-				<div class="stat-title"><?php esc_html_e( 'WP Version', 'squad-modules-for-divi' ); ?></div>
+				<div class="stat-title">WP Version</div>
 				<div class="stat-value"><?php echo esc_html( $client_wp_version ); ?></div>
 			</div>
 			<div class="stat-box">
-				<div class="stat-title"><?php esc_html_e( 'PHP Version', 'squad-modules-for-divi' ); ?></div>
+				<div class="stat-title">PHP Version</div>
 				<div class="stat-value"><?php echo esc_html( $php_version ); ?></div>
 			</div>
 			<div class="stat-box">
-				<div class="stat-title"><?php esc_html_e( 'Plugin Version', 'squad-modules-for-divi' ); ?></div>
+				<div class="stat-title">Plugin Version</div>
 				<div class="stat-value"><?php echo esc_html( $plugin_version ); ?></div>
 			</div>
 			<div class="stat-box">
-				<div class="stat-title"><?php esc_html_e( 'Divi Version', 'squad-modules-for-divi' ); ?></div>
+				<div class="stat-title">Divi Version</div>
 				<div class="stat-value"><?php echo esc_html( $divi_version ); ?></div>
 			</div>
 		</div>
@@ -598,32 +640,32 @@ $divi_theme_info = array(
 		<!-- Main Error Details Section -->
 		<div class="section">
 			<div class="error-box <?php echo esc_attr( $severity_class ); ?>">
-				<h2><?php esc_html_e( 'Error Details', 'squad-modules-for-divi' ); ?></h2>
-				<p><strong><?php esc_html_e( 'Message:', 'squad-modules-for-divi' ); ?></strong> <?php echo esc_html( $error_message ); ?></p>
-				<p><strong><?php esc_html_e( 'Code:', 'squad-modules-for-divi' ); ?></strong> <?php echo esc_html( $error_code ); ?></p>
+				<h2>Error Details</h2>
+				<p><strong>Message:</strong> <?php echo esc_html( $error_message ); ?></p>
+				<p><strong>Code:</strong> <?php echo esc_html( $error_code ); ?></p>
 
 				<div class="error-location">
-					<div><strong><?php esc_html_e( 'File:', 'squad-modules-for-divi' ); ?></strong> <span class="file-path"><?php echo esc_html( $relative_file_path ); ?></span></div>
-					<div><strong><?php esc_html_e( 'Line:', 'squad-modules-for-divi' ); ?></strong> <?php echo esc_html( (string) $error_line ); ?></div>
+					<div><strong>File:</strong> <span class="file-path"><?php echo esc_html( $relative_file_path ); ?></span></div>
+					<div><strong>Line:</strong> <?php echo esc_html( (string) $error_line ); ?></div>
 				</div>
 
 				<div class="error-timestamp">
-					<strong><?php esc_html_e( 'Time:', 'squad-modules-for-divi' ); ?></strong> <?php echo esc_html( (string) $formatted_timestamp ); ?>
+					<strong>Time:</strong> <?php echo esc_html( (string) $formatted_timestamp ); ?>
 				</div>
 
 				<?php if ( '' !== $user_info ) : ?>
-					<p><strong><?php esc_html_e( 'User Context:', 'squad-modules-for-divi' ); ?></strong> <?php echo esc_html( $user_info ); ?></p>
+					<p><strong>User Context:</strong> <?php echo esc_html( $user_info ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>
 
 		<!-- Divi Environment Section -->
 		<div class="section divi-section">
-			<h2><?php esc_html_e( 'Divi Environment', 'squad-modules-for-divi' ); ?></h2>
+			<h2>Platform Environment</h2>
 
 			<div class="divi-info-grid">
 				<div class="divi-info-item">
-					<div class="divi-info-label"><?php esc_html_e( 'Theme Name', 'squad-modules-for-divi' ); ?></div>
+					<div class="divi-info-label">Theme Name</div>
 					<div class="divi-info-value">
 						<?php echo esc_html( $divi_theme_info['theme_name'] ); ?>
 						<?php
@@ -644,40 +686,40 @@ $divi_theme_info = array(
 				</div>
 
 				<div class="divi-info-item">
-					<div class="divi-info-label"><?php esc_html_e( 'Divi Version', 'squad-modules-for-divi' ); ?></div>
+					<div class="divi-info-label">Divi Version</div>
 					<div class="divi-info-value"><?php echo esc_html( $divi_version ); ?></div>
 				</div>
 
 				<div class="divi-info-item">
-					<div class="divi-info-label"><?php esc_html_e( 'Implementation Mode', 'squad-modules-for-divi' ); ?></div>
+					<div class="divi-info-label">Implementation Mode</div>
 					<div class="divi-info-value">
 						<?php echo esc_html( ucfirst( $divi_theme_info['mode'] ) ); ?>
 						<span class="badge <?php echo esc_attr( 'theme' === $divi_theme_info['mode'] ? 'badge-theme' : 'badge-plugin' ); ?>">
-							<?php echo esc_html( 'theme' === $divi_theme_info['mode'] ? 'Theme' : 'Plugin' ); ?>
+							<?php echo 'theme' === $divi_theme_info['mode'] ? 'Theme' : 'Plugin'; ?>
 						</span>
 					</div>
 				</div>
 
 				<?php if ( 'Yes' === $divi_theme_info['is_child_theme'] || true === $divi_theme_info['is_child_theme'] ) : ?>
 					<div class="divi-info-item">
-						<div class="divi-info-label"><?php esc_html_e( 'Parent Theme', 'squad-modules-for-divi' ); ?></div>
+						<div class="divi-info-label">Parent Theme</div>
 						<div class="divi-info-value"><?php echo esc_html( $divi_theme_info['parent_theme'] ); ?></div>
 					</div>
 				<?php endif; ?>
 
 				<?php if ( isset( $environment['divi_modified'] ) && $environment['divi_modified'] ) : ?>
 					<div class="divi-info-item">
-						<div class="divi-info-label"><?php esc_html_e( 'Modification Status', 'squad-modules-for-divi' ); ?></div>
+						<div class="divi-info-label">Modification Status</div>
 						<div class="divi-info-value">
-							<?php esc_html_e( 'Modified/Customized', 'squad-modules-for-divi' ); ?>
-							<span class="badge badge-custom"><?php esc_html_e( 'Custom', 'squad-modules-for-divi' ); ?></span>
+							Modified/Customized
+							<span class="badge badge-custom">Custom</span>
 						</div>
 					</div>
 				<?php endif; ?>
 
-				<?php if ( ! empty( $environment['divi_constants'] ) ) : ?>
+				<?php if ( isset( $environment['divi_constants'] ) ) : ?>
 					<div class="divi-info-item">
-						<div class="divi-info-label"><?php esc_html_e( 'Detected Constants', 'squad-modules-for-divi' ); ?></div>
+						<div class="divi-info-label">Detected Constants</div>
 						<div class="divi-info-value"><?php echo esc_html( implode( ', ', (array) $environment['divi_constants'] ) ); ?></div>
 					</div>
 				<?php endif; ?>
@@ -685,25 +727,25 @@ $divi_theme_info = array(
 
 			<?php if ( isset( $divi_theme_info['detection_method'] ) && 'Unknown' !== $divi_theme_info['detection_method'] ) : ?>
 				<div class="divi-detection-method">
-					<strong><?php esc_html_e( 'Detection Method:', 'squad-modules-for-divi' ); ?></strong> <?php echo esc_html( $divi_theme_info['detection_method'] ); ?>
+					<strong>Detection Method:</strong> <?php echo esc_html( $divi_theme_info['detection_method'] ); ?>
 				</div>
 			<?php endif; ?>
 		</div>
 
 		<!-- Site Information Section -->
 		<div class="section">
-			<h2><?php esc_html_e( 'Site Information', 'squad-modules-for-divi' ); ?></h2>
+			<h2>Site Information</h2>
 			<table>
 				<tr>
-					<th width="30%"><?php esc_html_e( 'Property', 'squad-modules-for-divi' ); ?></th>
-					<th><?php esc_html_e( 'Value', 'squad-modules-for-divi' ); ?></th>
+					<th width="30%">Property</th>
+					<th><?php echo esc_html( 'Value' ); ?></th>
 				</tr>
 				<tr>
-					<td><?php esc_html_e( 'Site URL', 'squad-modules-for-divi' ); ?></td>
+					<td>Site URL</td>
 					<td><a href="<?php echo esc_url( $site_url ); ?>"><?php echo esc_html( $site_url ); ?></a></td>
 				</tr>
 				<tr>
-					<td><?php esc_html_e( 'Site Name', 'squad-modules-for-divi' ); ?></td>
+					<td>Site Name</td>
 					<td><?php echo esc_html( $site_name ); ?></td>
 				</tr>
 				<?php
@@ -720,7 +762,7 @@ $divi_theme_info = array(
 				?>
 				<?php if ( '' !== $additional_info ) : ?>
 					<tr>
-						<td><?php esc_html_e( 'Additional Context', 'squad-modules-for-divi' ); ?></td>
+						<td>Additional Context</td>
 						<td><?php echo esc_html( $additional_info ); ?></td>
 					</tr>
 				<?php endif; ?>
@@ -730,7 +772,7 @@ $divi_theme_info = array(
 		<!-- Environment Section -->
 		<?php if ( isset( $environment ) && is_array( $environment ) ) : ?>
 			<div class="section">
-				<h2><?php esc_html_e( 'Environment', 'squad-modules-for-divi' ); ?></h2>
+				<h2>Environment</h2>
 				<div class="env-details">
 					<?php
 					// Sort environment variables alphabetically for easier scanning
@@ -752,11 +794,11 @@ $divi_theme_info = array(
 		<?php endif; ?>
 
 		<!-- Stack Trace Section -->
-		<?php if ( isset( $stack_trace ) && ! empty( $stack_trace ) ) : ?>
+		<?php if ( '' !== $stack_trace ) : ?>
 			<div class="section">
-				<h2><?php esc_html_e( 'Stack Trace', 'squad-modules-for-divi' ); ?></h2>
+				<h2>Stack Trace</h2>
 				<details class="no-js-accordion">
-					<summary><?php esc_html_e( 'Stack Trace Details', 'squad-modules-for-divi' ); ?></summary>
+					<summary>Stack Trace Details</summary>
 					<div class="no-js-accordion-content">
 						<pre><?php echo esc_html( $stack_trace ); ?></pre>
 					</div>
@@ -765,9 +807,9 @@ $divi_theme_info = array(
 		<?php endif; ?>
 
 		<!-- Extra Data Section -->
-		<?php if ( isset( $extra_data ) && is_array( $extra_data ) && ! empty( $extra_data ) ) : ?>
+		<?php if ( is_array( $extra_data ) && count( $extra_data ) > 0 ) : ?>
 			<div class="section">
-				<h2><?php esc_html_e( 'Extra Data', 'squad-modules-for-divi' ); ?></h2>
+				<h2>Extra Data</h2>
 
 				<?php foreach ( $extra_data as $key => $value ) : ?>
 					<details class="no-js-accordion">
@@ -785,11 +827,11 @@ $divi_theme_info = array(
 		<?php endif; ?>
 
 		<!-- Debug Log Section -->
-		<?php if ( ! empty( $debug_log ) ) : ?>
+		<?php if ( '' !== $debug_log ) : ?>
 			<div class="section">
-				<h2><?php esc_html_e( 'Debug Log', 'squad-modules-for-divi' ); ?></h2>
+				<h2>Debug Log</h2>
 				<details class="no-js-accordion">
-					<summary><?php esc_html_e( 'Recent Debug Log Entries', 'squad-modules-for-divi' ); ?></summary>
+					<summary>Recent Debug Log Entries</summary>
 					<div class="no-js-accordion-content">
 						<pre><?php echo esc_html( $debug_log ); ?></pre>
 					</div>
@@ -799,27 +841,27 @@ $divi_theme_info = array(
 
 		<!-- Debugging Tips Section -->
 		<div class="section tools-section">
-			<h2><?php esc_html_e( 'Support Tools & Debugging Tips', 'squad-modules-for-divi' ); ?></h2>
+			<h2>Support Tools & Debugging Tips</h2>
 
 			<div class="debug-tips">
-				<h3><?php esc_html_e( 'Potential Solutions', 'squad-modules-for-divi' ); ?></h3>
+				<h3>Potential Solutions</h3>
 				<ul>
-					<li><?php esc_html_e( 'Make sure all plugins are updated to their latest versions', 'squad-modules-for-divi' ); ?></li>
-					<li><?php esc_html_e( 'Check for conflicts by temporarily disabling other plugins', 'squad-modules-for-divi' ); ?></li>
-					<li><?php esc_html_e( 'Verify Divi theme/builder is updated to the required version', 'squad-modules-for-divi' ); ?></li>
-					<li><?php esc_html_e( 'Test with a default WordPress theme to rule out theme conflicts', 'squad-modules-for-divi' ); ?></li>
-					<li><?php esc_html_e( 'Use System Status to verify all server requirements are met', 'squad-modules-for-divi' ); ?></li>
+					<li>Make sure all plugins are updated to their latest versions</li>
+					<li>Check for conflicts by temporarily disabling other plugins</li>
+					<li>Verify Divi theme/builder is updated to the required version</li>
+					<li>Test with a default WordPress theme to rule out theme conflicts</li>
+					<li>Use System Status to verify all server requirements are met</li>
 					<?php if ( strpos( $error_type, 'Divi' ) !== false ) : ?>
-						<li><?php esc_html_e( 'If using a customized Divi theme, check that required Divi functions are available', 'squad-modules-for-divi' ); ?></li>
-						<li><?php esc_html_e( 'Verify your theme contains all necessary Divi core files in the expected locations', 'squad-modules-for-divi' ); ?></li>
+						<li>If using a customized Divi theme, check that required Divi functions are available</li>
+						<li>Verify your theme contains all necessary Divi core files in the expected locations</li>
 					<?php endif; ?>
 				</ul>
 
-				<h3><?php esc_html_e( 'Next Steps', 'squad-modules-for-divi' ); ?></h3>
+				<h3>Next Steps</h3>
 				<ul>
-					<li><?php esc_html_e( 'Reference error ID when contacting support', 'squad-modules-for-divi' ); ?></li>
-					<li><?php esc_html_e( 'Check documentation for known issues with this component', 'squad-modules-for-divi' ); ?></li>
-					<li><?php esc_html_e( 'Visit the support forum to see if others have experienced this issue', 'squad-modules-for-divi' ); ?></li>
+					<li>Reference error ID when contacting support</li>
+					<li>Check documentation for known issues with this component</li>
+					<li>Visit the support forum to see if others have experienced this issue</li>
 				</ul>
 			</div>
 		</div>
@@ -829,7 +871,7 @@ $divi_theme_info = array(
 				<?php
 				printf(
 				/* translators: %1$s: plugin name, %2$s: plugin version, %3$s: error reference ID */
-					esc_html__( 'This error report was automatically generated by %1$s version %2$s • Reference ID: %3$s', 'squad-modules-for-divi' ),
+					esc_html__( 'This error report was automatically generated by %1$s version %2$s • Reference ID: %3$s' ),
 					'<strong>Squad Modules</strong>',
 					isset( $environment['plugin_version'] ) ? esc_html( $environment['plugin_version'] ) : '',
 					'<code>' . esc_html( $error_reference ) . '</code>'

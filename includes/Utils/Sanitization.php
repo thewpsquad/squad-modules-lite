@@ -3,8 +3,8 @@
  * Sanitization helper class for sanitizing values.
  *
  * @since   1.0.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Utils;

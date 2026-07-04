@@ -7,8 +7,8 @@
  * for managing Divi Squad modules with additional capabilities.
  *
  * @since   3.3.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
@@ -172,7 +172,7 @@ class Modules extends Modules_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_module_categories', $request );
+			do_action( 'divi_squad_rest_before_get_module_categories', $request );
 
 			$categories = divi_squad()->modules->get_module_categories();
 
@@ -203,7 +203,7 @@ class Modules extends Modules_V1 {
 			 * @param array            $categories The raw categories.
 			 * @param WP_REST_Request  $request    The request object.
 			 */
-			do_action( 'divi_squad_after_get_module_categories', $response, $categories, $request );
+			do_action( 'divi_squad_rest_after_get_module_categories', $response, $categories, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -240,7 +240,7 @@ class Modules extends Modules_V1 {
 			 * @param string          $category The category ID.
 			 * @param WP_REST_Request $request  The request object.
 			 */
-			do_action( 'divi_squad_before_get_modules_by_category', $category, $request );
+			do_action( 'divi_squad_rest_before_get_modules_by_category', $category, $request );
 
 			$all_modules      = divi_squad()->modules->get_all_modules();
 			$category_modules = array();
@@ -275,7 +275,7 @@ class Modules extends Modules_V1 {
 			 * @param array            $all_modules All available modules.
 			 * @param WP_REST_Request  $request     The request object.
 			 */
-			do_action( 'divi_squad_after_get_modules_by_category', $response, $category, $all_modules, $request );
+			do_action( 'divi_squad_rest_after_get_modules_by_category', $response, $category, $all_modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -310,7 +310,7 @@ class Modules extends Modules_V1 {
 			 * @param string          $module_id The module ID.
 			 * @param WP_REST_Request $request   The request object.
 			 */
-			do_action( 'divi_squad_before_get_module', $module_id, $request );
+			do_action( 'divi_squad_rest_before_get_module', $module_id, $request );
 
 			$module_info = divi_squad()->modules->get_module_info( $module_id );
 
@@ -352,7 +352,7 @@ class Modules extends Modules_V1 {
 			 * @param string           $module_id   The module ID.
 			 * @param WP_REST_Request  $request     The request object.
 			 */
-			do_action( 'divi_squad_after_get_module', $response, $module_info, $module_id, $request );
+			do_action( 'divi_squad_rest_after_get_module', $response, $module_info, $module_id, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -398,7 +398,7 @@ class Modules extends Modules_V1 {
 			 * @param bool            $active    Whether to activate (true) or deactivate (false).
 			 * @param WP_REST_Request $request   The request object.
 			 */
-			do_action( 'divi_squad_before_toggle_module', $module_id, $active, $request );
+			do_action( 'divi_squad_rest_before_toggle_module', $module_id, $active, $request );
 
 			$module_info = divi_squad()->modules->get_module_info( $module_id );
 
@@ -442,7 +442,7 @@ class Modules extends Modules_V1 {
 			 * @param bool            $active           Whether activating (true) or deactivating (false).
 			 * @param WP_REST_Request $request          The request object.
 			 */
-			$active_modules = apply_filters( 'divi_squad_toggle_module_active_list', $active_modules, $inactive_modules, $module_id, $active, $request );
+			$active_modules = apply_filters( 'divi_squad_rest_toggle_module_active_list', $active_modules, $inactive_modules, $module_id, $active, $request );
 
 			/**
 			 * Filter the inactive modules list before updating memory.
@@ -455,7 +455,7 @@ class Modules extends Modules_V1 {
 			 * @param bool            $active           Whether activating (true) or deactivating (false).
 			 * @param WP_REST_Request $request          The request object.
 			 */
-			$inactive_modules = apply_filters( 'divi_squad_toggle_module_inactive_list', $inactive_modules, $active_modules, $module_id, $active, $request );
+			$inactive_modules = apply_filters( 'divi_squad_rest_toggle_module_inactive_list', $inactive_modules, $active_modules, $module_id, $active, $request );
 
 			// Update storage
 			$this->update_module_memory( $active_modules, $inactive_modules );
@@ -481,7 +481,7 @@ class Modules extends Modules_V1 {
 			 * @param array           $inactive_modules The inactive modules list.
 			 * @param WP_REST_Request $request          The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_toggle_module_response', $response_data, $module_id, $active, $active_modules, $inactive_modules, $request );
+			$response_data = apply_filters( 'divi_squad_rest_toggle_module_response', $response_data, $module_id, $active, $active_modules, $inactive_modules, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -497,7 +497,7 @@ class Modules extends Modules_V1 {
 			 * @param array            $inactive_modules The inactive modules list.
 			 * @param WP_REST_Request  $request          The request object.
 			 */
-			do_action( 'divi_squad_after_toggle_module', $response, $module_id, $active, $active_modules, $inactive_modules, $request );
+			do_action( 'divi_squad_rest_after_toggle_module', $response, $module_id, $active, $active_modules, $inactive_modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -529,7 +529,7 @@ class Modules extends Modules_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_reset_modules', $request );
+			do_action( 'divi_squad_rest_before_reset_modules', $request );
 
 			$success = divi_squad()->modules->reset_to_default();
 
@@ -557,7 +557,7 @@ class Modules extends Modules_V1 {
 			 * @param array           $response_data The response data.
 			 * @param WP_REST_Request $request       The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_reset_modules_response', $response_data, $request );
+			$response_data = apply_filters( 'divi_squad_rest_reset_modules_response', $response_data, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -569,7 +569,7 @@ class Modules extends Modules_V1 {
 			 * @param WP_REST_Response $response The response object.
 			 * @param WP_REST_Request  $request  The request object.
 			 */
-			do_action( 'divi_squad_after_reset_modules', $response, $request );
+			do_action( 'divi_squad_rest_after_reset_modules', $response, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -614,7 +614,7 @@ class Modules extends Modules_V1 {
 			 * @param array           $module_ids The module IDs to enable.
 			 * @param WP_REST_Request $request    The request object.
 			 */
-			do_action( 'divi_squad_before_enable_modules_batch', $module_ids, $request );
+			do_action( 'divi_squad_rest_before_enable_modules_batch', $module_ids, $request );
 
 			// Validate module IDs
 			$all_module_names = array_column( divi_squad()->modules->get_registered_list(), 'name' );
@@ -664,7 +664,7 @@ class Modules extends Modules_V1 {
 			 * @param array           $inactive_modules The updated inactive modules list.
 			 * @param WP_REST_Request $request          The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_enable_modules_batch_response', $response_data, $module_ids, $active_modules, $inactive_modules, $request );
+			$response_data = apply_filters( 'divi_squad_rest_enable_modules_batch_response', $response_data, $module_ids, $active_modules, $inactive_modules, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -679,7 +679,7 @@ class Modules extends Modules_V1 {
 			 * @param array            $inactive_modules The updated inactive modules list.
 			 * @param WP_REST_Request  $request          The request object.
 			 */
-			do_action( 'divi_squad_after_enable_modules_batch', $response, $module_ids, $active_modules, $inactive_modules, $request );
+			do_action( 'divi_squad_rest_after_enable_modules_batch', $response, $module_ids, $active_modules, $inactive_modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -722,7 +722,7 @@ class Modules extends Modules_V1 {
 			 * @param array           $module_ids The module IDs to disable.
 			 * @param WP_REST_Request $request    The request object.
 			 */
-			do_action( 'divi_squad_before_disable_modules_batch', $module_ids, $request );
+			do_action( 'divi_squad_rest_before_disable_modules_batch', $module_ids, $request );
 
 			// Validate module IDs
 			$all_module_names = array_column( divi_squad()->modules->get_registered_list(), 'name' );
@@ -770,7 +770,7 @@ class Modules extends Modules_V1 {
 			 * @param array           $inactive_modules The updated inactive modules list.
 			 * @param WP_REST_Request $request          The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_disable_modules_batch_response', $response_data, $module_ids, $active_modules, $inactive_modules, $request );
+			$response_data = apply_filters( 'divi_squad_rest_disable_modules_batch_response', $response_data, $module_ids, $active_modules, $inactive_modules, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -785,7 +785,7 @@ class Modules extends Modules_V1 {
 			 * @param array            $inactive_modules The updated inactive modules list.
 			 * @param WP_REST_Request  $request          The request object.
 			 */
-			do_action( 'divi_squad_after_disable_modules_batch', $response, $module_ids, $active_modules, $inactive_modules, $request );
+			do_action( 'divi_squad_rest_after_disable_modules_batch', $response, $module_ids, $active_modules, $inactive_modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -817,7 +817,7 @@ class Modules extends Modules_V1 {
 			 *
 			 * @param WP_REST_Request|null $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_modules_v2', $request );
+			do_action( 'divi_squad_rest_before_get_modules_v2', $request );
 
 			$modules = divi_squad()->modules->get_all_modules();
 
@@ -840,7 +840,7 @@ class Modules extends Modules_V1 {
 				 * @param WP_REST_Request|null $request           The request object.
 				 * @param self                 $instance          The current instance.
 				 */
-				$formatted_modules = apply_filters( 'divi_squad_detailed_modules', $formatted_modules, $modules, $request, $this );
+				$formatted_modules = apply_filters( 'divi_squad_rest_detailed_modules', $formatted_modules, $modules, $request, $this );
 
 				$response = rest_ensure_response( array( 'modules' => $formatted_modules ) );
 			} else {
@@ -855,7 +855,7 @@ class Modules extends Modules_V1 {
 				 * @param WP_REST_Request|null $request  The request object.
 				 * @param self                 $instance The current instance.
 				 */
-				$modules = apply_filters( 'divi_squad_modules_list', $modules, $request, $this );
+				$modules = apply_filters( 'divi_squad_rest_modules_list', $modules, $request, $this );
 
 				$response = rest_ensure_response( array( 'modules' => $modules ) );
 			}
@@ -873,7 +873,7 @@ class Modules extends Modules_V1 {
 			 * @param array                $modules  The modules data.
 			 * @param WP_REST_Request|null $request  The request object.
 			 */
-			do_action( 'divi_squad_after_get_modules_v2', $response, $modules, $request );
+			do_action( 'divi_squad_rest_after_get_modules_v2', $response, $modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -907,7 +907,7 @@ class Modules extends Modules_V1 {
 			 *
 			 * @param WP_REST_Request|null $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_active_modules_v2', $request );
+			do_action( 'divi_squad_rest_before_get_active_modules_v2', $request );
 
 			$active_modules = $this->get_module_names( static::ACTIVE_MODULES_KEY );
 
@@ -933,7 +933,7 @@ class Modules extends Modules_V1 {
 				 * @param WP_REST_Request|null $request           The request object.
 				 * @param self                 $instance          The current instance.
 				 */
-				$formatted_modules = apply_filters( 'divi_squad_detailed_active_modules', $formatted_modules, $active_modules, $request, $this );
+				$formatted_modules = apply_filters( 'divi_squad_rest_detailed_active_modules', $formatted_modules, $active_modules, $request, $this );
 
 				$response = rest_ensure_response( $formatted_modules );
 			} else {
@@ -946,7 +946,7 @@ class Modules extends Modules_V1 {
 				 * @param WP_REST_Request|null $request        The request object.
 				 * @param self                 $instance       The current instance.
 				 */
-				$active_modules = apply_filters( 'divi_squad_active_module_names', $active_modules, $request, $this );
+				$active_modules = apply_filters( 'divi_squad_rest_active_module_names', $active_modules, $request, $this );
 
 				$response = rest_ensure_response( $active_modules );
 			}
@@ -960,7 +960,7 @@ class Modules extends Modules_V1 {
 			 * @param array                $active_modules The active module names.
 			 * @param WP_REST_Request|null $request        The request object.
 			 */
-			do_action( 'divi_squad_after_get_active_modules_v2', $response, $active_modules, $request );
+			do_action( 'divi_squad_rest_after_get_active_modules_v2', $response, $active_modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -994,7 +994,7 @@ class Modules extends Modules_V1 {
 			 *
 			 * @param WP_REST_Request|null $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_inactive_modules_v2', $request );
+			do_action( 'divi_squad_rest_before_get_inactive_modules_v2', $request );
 
 			$inactive_modules = $this->get_module_names( static::INACTIVE_MODULES_KEY );
 
@@ -1020,7 +1020,7 @@ class Modules extends Modules_V1 {
 				 * @param WP_REST_Request|null $request           The request object.
 				 * @param self                 $instance          The current instance.
 				 */
-				$formatted_modules = apply_filters( 'divi_squad_detailed_inactive_modules', $formatted_modules, $inactive_modules, $request, $this );
+				$formatted_modules = apply_filters( 'divi_squad_rest_detailed_inactive_modules', $formatted_modules, $inactive_modules, $request, $this );
 
 				$response = rest_ensure_response( $formatted_modules );
 			} else {
@@ -1033,7 +1033,7 @@ class Modules extends Modules_V1 {
 				 * @param WP_REST_Request|null $request          The request object.
 				 * @param self                 $instance         The current instance.
 				 */
-				$inactive_modules = apply_filters( 'divi_squad_inactive_module_names', $inactive_modules, $request, $this );
+				$inactive_modules = apply_filters( 'divi_squad_rest_inactive_module_names', $inactive_modules, $request, $this );
 
 				$response = rest_ensure_response( $inactive_modules );
 			}
@@ -1047,7 +1047,7 @@ class Modules extends Modules_V1 {
 			 * @param array                $inactive_modules The inactive module names.
 			 * @param WP_REST_Request|null $request          The request object.
 			 */
-			do_action( 'divi_squad_after_get_inactive_modules_v2', $response, $inactive_modules, $request );
+			do_action( 'divi_squad_rest_after_get_inactive_modules_v2', $response, $inactive_modules, $request );
 
 			return $response;
 		} catch ( Throwable $e ) {
@@ -1104,7 +1104,7 @@ class Modules extends Modules_V1 {
 		 * @param array $module         The raw module data.
 		 * @param self  $instance       The current instance.
 		 */
-		return apply_filters( 'divi_squad_prepare_module_for_response', $formatted_data, $module, $this );
+		return apply_filters( 'divi_squad_rest_prepare_module_for_response', $formatted_data, $module, $this );
 	}
 
 	/**
@@ -1134,7 +1134,7 @@ class Modules extends Modules_V1 {
 		 * @param string $title          The category title.
 		 * @param self   $instance       The current instance.
 		 */
-		return apply_filters( 'divi_squad_prepare_category_for_response', $formatted_data, $id, $title, $this );
+		return apply_filters( 'divi_squad_rest_prepare_category_for_response', $formatted_data, $id, $title, $this );
 	}
 
 	/**
@@ -1208,7 +1208,7 @@ class Modules extends Modules_V1 {
 		 * @param array $module       The module data.
 		 * @param self  $instance     The current instance.
 		 */
-		return apply_filters( 'divi_squad_module_dependencies', $dependencies, $module, $this );
+		return apply_filters( 'divi_squad_rest_module_dependencies', $dependencies, $module, $this );
 	}
 
 	/**
@@ -1222,7 +1222,7 @@ class Modules extends Modules_V1 {
 	 */
 	protected function get_plugin_name_by_slug( string $plugin_slug ): string {
 		if ( ! function_exists( 'get_plugins' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php'; // @phpstan-ignore-line
+			require_once divi_squad()->get_wp_path( 'wp-admin/includes/plugin.php' );
 		}
 
 		$plugins = get_plugins();
@@ -1251,7 +1251,7 @@ class Modules extends Modules_V1 {
 		 * @param string $plugin_slug   The plugin slug being looked up.
 		 * @param self   $instance      The current instance.
 		 */
-		$known_plugins = apply_filters( 'divi_squad_known_plugin_names', $known_plugins, $plugin_slug, $this );
+		$known_plugins = apply_filters( 'divi_squad_rest_known_plugin_names', $known_plugins, $plugin_slug, $this );
 
 		if ( isset( $known_plugins[ $plugin_slug ] ) ) {
 			return $known_plugins[ $plugin_slug ];
@@ -1270,6 +1270,6 @@ class Modules extends Modules_V1 {
 		 * @param string $plugin_slug The plugin slug.
 		 * @param self   $instance    The current instance.
 		 */
-		return apply_filters( 'divi_squad_formatted_plugin_name', ucwords( $name ), $plugin_slug, $this );
+		return apply_filters( 'divi_squad_rest_formatted_plugin_name', ucwords( $name ), $plugin_slug, $this );
 	}
 }

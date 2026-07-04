@@ -8,8 +8,8 @@
  * registering, filtering, and displaying menus throughout the WordPress admin.
  *
  * @since   3.3.3
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad\Core
  */
 
 namespace DiviSquad\Core\Admin;
@@ -836,7 +836,7 @@ class Menu {
 		$submenus = apply_filters( 'divi_squad_menu_items_before_display', $submenus, $screen_id, $this );
 
 		foreach ( $submenus as $submenu ) {
-			$item_counter++;
+			++$item_counter;
 
 			// Extract menu information.
 			$menu_name       = $submenu['name'];

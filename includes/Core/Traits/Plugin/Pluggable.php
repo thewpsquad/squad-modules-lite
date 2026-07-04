@@ -11,6 +11,7 @@ namespace DiviSquad\Core\Traits\Plugin;
 
 use DiviSquad\Core\Supports\Media\Image;
 use RuntimeException;
+use Throwable;
 
 /**
  * Pluggable Trait
@@ -31,7 +32,7 @@ trait Pluggable {
 	 */
 	public function get_plugin_data( string $plugin_file ): array {
 		if ( ! function_exists( 'get_plugin_data' ) ) {
-			$plugin_path = $this->get_wp_path() . 'wp-admin/includes/plugin.php';
+			$plugin_path = divi_squad()->get_wp_path( 'wp-admin/includes/plugin.php' );
 
 			if ( $this->get_wp_fs()->exists( $plugin_path ) ) {
 				require_once $plugin_path;
@@ -168,10 +169,41 @@ trait Pluggable {
 	 * @since  1.0.0
 	 * @access public
 	 *
+	 * @param string $path Relative path.
+	 *
 	 * @return string
 	 */
-	public function get_wp_path(): string {
-		return trailingslashit( ABSPATH );
+	public function get_wp_path( string $path = '' ): string {
+		return trailingslashit( ABSPATH ) . $path;
+	}
+
+	/**
+	 * Get the plugin template path.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @param string $path The path to append.
+	 *
+	 * @return string
+	 */
+	public function get_template_path( string $path = '' ): string {
+		try {
+			/**
+			 * Filter the plugin template path.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string $template_path The template path.
+			 * @param string $path          The path to append.
+			 * @param self   $plugin        The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_template_path', $this->get_path( '/templates/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get template path' );
+
+			return $this->get_path( '/templates/' . $path );
+		}
 	}
 
 	/**
@@ -186,5 +218,106 @@ trait Pluggable {
 	 */
 	public function is_template_exists( string $template ): bool {
 		return $this->get_wp_fs()->exists( $this->get_template_path( $template ) );
+	}
+
+	/**
+	 * Get the plugin icon path.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @param string $path The path to append.
+	 *
+	 * @return string
+	 */
+	public function get_icon_path( string $path = '' ): string {
+		try {
+			/**
+			 * Filter the plugin icon path.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string $icon_path The icon path.
+			 * @param string $path      The path to append.
+			 * @param self   $plugin    The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_icon_path', $this->get_path( '/build/admin/icons/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get icon path' );
+
+			return $this->get_path( '/build/admin/icons/' . $path );
+		}
+	}
+
+	/**
+	 * Get the plugin asset URL.
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @param string $path The path to append.
+	 *
+	 * @return string
+	 */
+	public function get_asset_url( string $path = '' ): string {
+		try {
+			/**
+			 * Filter the plugin asset URL.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string $url    The plugin asset URL.
+			 * @param string $path   The path to append.
+			 * @param self   $plugin The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_asset_url', $this->get_url( 'build/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get asset URL' );
+
+			return $this->get_url( 'build/' . $path );
+		}
+	}
+
+	/**
+	 * Get the plugin asset path.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $path The path to append.
+	 *
+	 * @return string
+	 */
+	public function get_asset_path( string $path = '' ): string {
+		try {
+			/**
+			 * Filter the plugin asset path.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param string $url    The plugin asset URL.
+			 * @param string $path   The path to append.
+			 * @param self   $plugin The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_asset_path', $this->get_path( 'build/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get asset path' );
+
+			return $this->get_path( 'build/' . $path );
+		}
+	}
+
+	/**
+	 * Verify existence of the plugin asset
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $path The asset path
+	 *
+	 * @return bool
+	 */
+	public function is_asset_exists( string $path = '' ): bool {
+		return $this->get_wp_fs()->exists( $this->get_asset_path( $path ) );
 	}
 }

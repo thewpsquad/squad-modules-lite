@@ -7,8 +7,8 @@
  * for managing Divi Squad extensions with additional capabilities.
  *
  * @since   3.3.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
@@ -170,7 +170,7 @@ class Extensions extends Extensions_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_extension_categories', $request );
+			do_action( 'divi_squad_rest_before_get_extension_categories', $request );
 
 			$categories = divi_squad()->extensions->get_extension_categories();
 
@@ -201,7 +201,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $categories The raw categories.
 			 * @param WP_REST_Request  $request    The request object.
 			 */
-			do_action( 'divi_squad_after_get_extension_categories', $response, $categories, $request );
+			do_action( 'divi_squad_rest_after_get_extension_categories', $response, $categories, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -238,7 +238,7 @@ class Extensions extends Extensions_V1 {
 			 * @param string          $category The category ID.
 			 * @param WP_REST_Request $request  The request object.
 			 */
-			do_action( 'divi_squad_before_get_extensions_by_category', $category, $request );
+			do_action( 'divi_squad_rest_before_get_extensions_by_category', $category, $request );
 
 			$all_extensions      = divi_squad()->extensions->get_registered_list();
 			$category_extensions = array();
@@ -273,7 +273,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $all_extensions All available extensions.
 			 * @param WP_REST_Request  $request        The request object.
 			 */
-			do_action( 'divi_squad_after_get_extensions_by_category', $response, $category, $all_extensions, $request );
+			do_action( 'divi_squad_rest_after_get_extensions_by_category', $response, $category, $all_extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -308,7 +308,7 @@ class Extensions extends Extensions_V1 {
 			 * @param string          $extension_id The extension ID.
 			 * @param WP_REST_Request $request      The request object.
 			 */
-			do_action( 'divi_squad_before_get_extension', $extension_id, $request );
+			do_action( 'divi_squad_rest_before_get_extension', $extension_id, $request );
 
 			$extension_info = divi_squad()->extensions->get_extension_info( $extension_id );
 
@@ -350,7 +350,7 @@ class Extensions extends Extensions_V1 {
 			 * @param string           $extension_id   The extension ID.
 			 * @param WP_REST_Request  $request        The request object.
 			 */
-			do_action( 'divi_squad_after_get_extension', $response, $extension_info, $extension_id, $request );
+			do_action( 'divi_squad_rest_after_get_extension', $response, $extension_info, $extension_id, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -396,7 +396,7 @@ class Extensions extends Extensions_V1 {
 			 * @param bool            $active       Whether to activate (true) or deactivate (false).
 			 * @param WP_REST_Request $request      The request object.
 			 */
-			do_action( 'divi_squad_before_toggle_extension', $extension_id, $active, $request );
+			do_action( 'divi_squad_rest_before_toggle_extension', $extension_id, $active, $request );
 
 			$extension_info = divi_squad()->extensions->get_extension_info( $extension_id );
 
@@ -440,7 +440,7 @@ class Extensions extends Extensions_V1 {
 			 * @param bool            $active              Whether activating (true) or deactivating (false).
 			 * @param WP_REST_Request $request             The request object.
 			 */
-			$active_extensions = apply_filters( 'divi_squad_toggle_extension_active_list', $active_extensions, $inactive_extensions, $extension_id, $active, $request );
+			$active_extensions = apply_filters( 'divi_squad_rest_toggle_extension_active_list', $active_extensions, $inactive_extensions, $extension_id, $active, $request );
 
 			/**
 			 * Filter the inactive extensions list before updating memory.
@@ -453,7 +453,7 @@ class Extensions extends Extensions_V1 {
 			 * @param bool            $active              Whether activating (true) or deactivating (false).
 			 * @param WP_REST_Request $request             The request object.
 			 */
-			$inactive_extensions = apply_filters( 'divi_squad_toggle_extension_inactive_list', $inactive_extensions, $active_extensions, $extension_id, $active, $request );
+			$inactive_extensions = apply_filters( 'divi_squad_rest_toggle_extension_inactive_list', $inactive_extensions, $active_extensions, $extension_id, $active, $request );
 
 			// Update storage
 			$this->update_extension_memory( $active_extensions, $inactive_extensions );
@@ -479,7 +479,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array           $inactive_extensions The inactive extensions list.
 			 * @param WP_REST_Request $request             The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_toggle_extension_response', $response_data, $extension_id, $active, $active_extensions, $inactive_extensions, $request );
+			$response_data = apply_filters( 'divi_squad_rest_toggle_extension_response', $response_data, $extension_id, $active, $active_extensions, $inactive_extensions, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -495,7 +495,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $inactive_extensions The inactive extensions list.
 			 * @param WP_REST_Request  $request             The request object.
 			 */
-			do_action( 'divi_squad_after_toggle_extension', $response, $extension_id, $active, $active_extensions, $inactive_extensions, $request );
+			do_action( 'divi_squad_rest_after_toggle_extension', $response, $extension_id, $active, $active_extensions, $inactive_extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -527,7 +527,7 @@ class Extensions extends Extensions_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_reset_extensions', $request );
+			do_action( 'divi_squad_rest_before_reset_extensions', $request );
 
 			$success = divi_squad()->extensions->reset_to_default();
 
@@ -555,7 +555,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array           $response_data The response data.
 			 * @param WP_REST_Request $request       The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_reset_extensions_response', $response_data, $request );
+			$response_data = apply_filters( 'divi_squad_rest_reset_extensions_response', $response_data, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -567,7 +567,7 @@ class Extensions extends Extensions_V1 {
 			 * @param WP_REST_Response $response The response object.
 			 * @param WP_REST_Request  $request  The request object.
 			 */
-			do_action( 'divi_squad_after_reset_extensions', $response, $request );
+			do_action( 'divi_squad_rest_after_reset_extensions', $response, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -612,7 +612,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array           $extension_ids The extension IDs to enable.
 			 * @param WP_REST_Request $request       The request object.
 			 */
-			do_action( 'divi_squad_before_enable_extensions_batch', $extension_ids, $request );
+			do_action( 'divi_squad_rest_before_enable_extensions_batch', $extension_ids, $request );
 
 			// Validate extension IDs
 			$all_extension_names = array_column( divi_squad()->extensions->get_registered_list(), 'name' );
@@ -664,7 +664,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array           $inactive_extensions The updated inactive extensions list.
 			 * @param WP_REST_Request $request             The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_enable_extensions_batch_response', $response_data, $extension_ids, $active_extensions, $inactive_extensions, $request );
+			$response_data = apply_filters( 'divi_squad_rest_enable_extensions_batch_response', $response_data, $extension_ids, $active_extensions, $inactive_extensions, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -679,7 +679,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $inactive_extensions The updated inactive extensions list.
 			 * @param WP_REST_Request  $request             The request object.
 			 */
-			do_action( 'divi_squad_after_enable_extensions_batch', $response, $extension_ids, $active_extensions, $inactive_extensions, $request );
+			do_action( 'divi_squad_rest_after_enable_extensions_batch', $response, $extension_ids, $active_extensions, $inactive_extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -722,7 +722,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array           $extension_ids The extension IDs to disable.
 			 * @param WP_REST_Request $request       The request object.
 			 */
-			do_action( 'divi_squad_before_disable_extensions_batch', $extension_ids, $request );
+			do_action( 'divi_squad_rest_before_disable_extensions_batch', $extension_ids, $request );
 
 			// Validate extension IDs
 			$all_extension_names = array_column( divi_squad()->extensions->get_registered_list(), 'name' );
@@ -770,7 +770,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array           $inactive_extensions The updated inactive extensions list.
 			 * @param WP_REST_Request $request             The request object.
 			 */
-			$response_data = apply_filters( 'divi_squad_disable_extensions_batch_response', $response_data, $extension_ids, $active_extensions, $inactive_extensions, $request );
+			$response_data = apply_filters( 'divi_squad_rest_disable_extensions_batch_response', $response_data, $extension_ids, $active_extensions, $inactive_extensions, $request );
 
 			$response = rest_ensure_response( $response_data );
 
@@ -785,7 +785,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $inactive_extensions The updated inactive extensions list.
 			 * @param WP_REST_Request  $request             The request object.
 			 */
-			do_action( 'divi_squad_after_disable_extensions_batch', $response, $extension_ids, $active_extensions, $inactive_extensions, $request );
+			do_action( 'divi_squad_rest_after_disable_extensions_batch', $response, $extension_ids, $active_extensions, $inactive_extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -817,7 +817,7 @@ class Extensions extends Extensions_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_extensions_v2', $request );
+			do_action( 'divi_squad_rest_before_get_extensions_v2', $request );
 
 			$extensions = divi_squad()->extensions->get_registered_list();
 
@@ -849,7 +849,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $extensions The raw extensions data.
 			 * @param WP_REST_Request  $request    The request object.
 			 */
-			do_action( 'divi_squad_after_get_extensions_v2', $response, $extensions, $request );
+			do_action( 'divi_squad_rest_after_get_extensions_v2', $response, $extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -883,7 +883,7 @@ class Extensions extends Extensions_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_active_extensions_v2', $request );
+			do_action( 'divi_squad_rest_before_get_active_extensions_v2', $request );
 
 			$active_extensions = $this->get_extension_names( static::ACTIVE_EXTENSIONS_KEY );
 
@@ -909,7 +909,7 @@ class Extensions extends Extensions_V1 {
 				 * @param WP_REST_Request $request              The request object.
 				 * @param self            $instance             The current instance.
 				 */
-				$formatted_extensions = apply_filters( 'divi_squad_detailed_active_extensions', $formatted_extensions, $active_extensions, $request, $this );
+				$formatted_extensions = apply_filters( 'divi_squad_rest_detailed_active_extensions', $formatted_extensions, $active_extensions, $request, $this );
 
 				$response = rest_ensure_response( $formatted_extensions );
 			} else {
@@ -922,7 +922,7 @@ class Extensions extends Extensions_V1 {
 				 * @param WP_REST_Request $request           The request object.
 				 * @param self            $instance          The current instance.
 				 */
-				$active_extensions = apply_filters( 'divi_squad_active_extension_names', $active_extensions, $request, $this );
+				$active_extensions = apply_filters( 'divi_squad_rest_active_extension_names', $active_extensions, $request, $this );
 
 				$response = rest_ensure_response( $active_extensions );
 			}
@@ -936,7 +936,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $active_extensions The active extension names.
 			 * @param WP_REST_Request  $request           The request object.
 			 */
-			do_action( 'divi_squad_after_get_active_extensions_v2', $response, $active_extensions, $request );
+			do_action( 'divi_squad_rest_after_get_active_extensions_v2', $response, $active_extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -970,7 +970,7 @@ class Extensions extends Extensions_V1 {
 			 *
 			 * @param WP_REST_Request $request The request object.
 			 */
-			do_action( 'divi_squad_before_get_inactive_extensions_v2', $request );
+			do_action( 'divi_squad_rest_before_get_inactive_extensions_v2', $request );
 
 			$inactive_extensions = $this->get_extension_names( static::INACTIVE_EXTENSIONS_KEY );
 
@@ -996,7 +996,7 @@ class Extensions extends Extensions_V1 {
 				 * @param WP_REST_Request $request              The request object.
 				 * @param self            $instance             The current instance.
 				 */
-				$formatted_extensions = apply_filters( 'divi_squad_detailed_inactive_extensions', $formatted_extensions, $inactive_extensions, $request, $this );
+				$formatted_extensions = apply_filters( 'divi_squad_rest_detailed_inactive_extensions', $formatted_extensions, $inactive_extensions, $request, $this );
 
 				$response = rest_ensure_response( $formatted_extensions );
 			} else {
@@ -1009,7 +1009,7 @@ class Extensions extends Extensions_V1 {
 				 * @param WP_REST_Request $request             The request object.
 				 * @param self            $instance            The current instance.
 				 */
-				$inactive_extensions = apply_filters( 'divi_squad_inactive_extension_names', $inactive_extensions, $request, $this );
+				$inactive_extensions = apply_filters( 'divi_squad_rest_inactive_extension_names', $inactive_extensions, $request, $this );
 
 				$response = rest_ensure_response( $inactive_extensions );
 			}
@@ -1023,7 +1023,7 @@ class Extensions extends Extensions_V1 {
 			 * @param array            $inactive_extensions The inactive extension names.
 			 * @param WP_REST_Request  $request             The request object.
 			 */
-			do_action( 'divi_squad_after_get_inactive_extensions_v2', $response, $inactive_extensions, $request );
+			do_action( 'divi_squad_rest_after_get_inactive_extensions_v2', $response, $inactive_extensions, $request );
 
 			return $response;
 		} catch ( Exception $e ) {
@@ -1075,7 +1075,7 @@ class Extensions extends Extensions_V1 {
 		 * @param array $extension      The raw extension data.
 		 * @param self  $instance       The current instance.
 		 */
-		return apply_filters( 'divi_squad_prepare_extension_for_response', $formatted_data, $extension, $this );
+		return apply_filters( 'divi_squad_rest_prepare_extension_for_response', $formatted_data, $extension, $this );
 	}
 
 	/**
@@ -1105,7 +1105,7 @@ class Extensions extends Extensions_V1 {
 		 * @param string $title          The category title.
 		 * @param self   $instance       The current instance.
 		 */
-		return apply_filters( 'divi_squad_prepare_extension_category_for_response', $formatted_data, $id, $title, $this );
+		return apply_filters( 'divi_squad_rest_prepare_extension_category_for_response', $formatted_data, $id, $title, $this );
 	}
 
 	/**
@@ -1123,7 +1123,7 @@ class Extensions extends Extensions_V1 {
 
 		foreach ( $all_extensions as $extension ) {
 			if ( isset( $extension['category'] ) && $extension['category'] === $category_id ) {
-				++$count;
+				++ $count;
 			}
 		}
 

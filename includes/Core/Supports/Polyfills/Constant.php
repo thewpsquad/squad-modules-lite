@@ -1,11 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Polyfill for PHP constants.
  *
  * @since   3.1.1
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;
@@ -22,12 +22,12 @@ class Constant {
 	 *
 	 * @var integer
 	 */
-	const PHP_INT_MAX = 9223372036854775807;
+	public const PHP_INT_MAX = 9223372036854775807;
 
 	/**
 	 * PHP_INT_MIN constants.
 	 *
 	 * @var integer
 	 */
-	const PHP_INT_MIN = - 9223372036854775808; // @phpstan-ignore-line
+	public const PHP_INT_MIN = - 9223372036854775808; // @phpstan-ignore-line
 }

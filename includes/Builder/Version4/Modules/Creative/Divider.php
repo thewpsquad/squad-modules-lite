@@ -6,8 +6,8 @@
  * This class provides dividers adding functionalities in the visual builder.
  *
  * @since   1.0.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Version4\Modules\Creative;

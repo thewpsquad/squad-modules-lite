@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Singleton trait for creating a single instance of a class.
  *
@@ -8,6 +8,7 @@
 
 namespace DiviSquad\Core\Traits;
 
+use RuntimeException;
 use Throwable;
 
 /**
@@ -22,11 +23,20 @@ use Throwable;
 trait Singleton {
 
 	/**
-	 * The instance of the current class.
+	 * The instance storage for all singleton classes.
 	 *
-	 * @var self|null
+	 * Using a static array allows proper instance tracking across child classes.
+	 *
+	 * @var array<string, static>
 	 */
-	private static $instance = null;
+	private static $instances = array();
+
+	/**
+	 * Initialization status tracking.
+	 *
+	 * @var bool
+	 */
+	private bool $is_initialized = false;
 
 	/**
 	 * Get the instance of the current class.
@@ -34,23 +44,47 @@ trait Singleton {
 	 * @return static The singleton instance.
 	 */
 	public static function get_instance() {
-		if ( null === static::$instance ) {
-			static::$instance = static::create_instance();
+		$class = static::class;
+
+		if ( ! isset( self::$instances[ $class ] ) ) {
+			self::$instances[ $class ] = static::create_instance();
 		}
 
-		return static::$instance;
+		return self::$instances[ $class ];
+	}
+
+	/**
+	 * Check if an instance exists without creating one.
+	 *
+	 * @return bool True if instance exists, false otherwise.
+	 */
+	public static function has_instance(): bool {
+		return isset( self::$instances[ static::class ] );
+	}
+
+	/**
+	 * Reset the instance (primarily for testing purposes).
+	 *
+	 * @return void
+	 */
+	public static function reset_instance(): void {
+		$class = static::class;
+		if ( isset( self::$instances[ $class ] ) ) {
+			unset( self::$instances[ $class ] );
+		}
 	}
 
 	/**
 	 * Create an instance of the current class.
 	 *
 	 * @return static
-	 * @throws \RuntimeException When all attempts to create an instance fail.
+	 * @throws RuntimeException When all attempts to create an instance fail.
 	 */
-	private static function create_instance() {
+	public static function create_instance() {
 		try {
 			$instance = new static();
 			$instance->initialize();
+			$instance->is_initialized = true;
 
 			return $instance;
 		} catch ( Throwable $e ) {
@@ -58,17 +92,28 @@ trait Singleton {
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			error_log(
 				sprintf(
-					'SQUAD ERROR in %s: %s (in %s:%d)',
+					'SQUAD ERROR in %s: %s (in %s:%d) [%s]',
 					static::class,
 					$e->getMessage(),
 					$e->getFile(),
-					$e->getLine()
+					$e->getLine(),
+					$e->getTraceAsString()
 				)
 			);
 
 			// Fallback: Create a basic instance without initialization.
 			try {
-				return new static();
+				$instance = new static();
+
+				// Log that we're using an uninitialized instance
+				error_log(
+					sprintf(
+						'SQUAD WARNING: Using uninitialized instance of %s due to initialization failure',
+						static::class
+					)
+				);
+
+				return $instance;
 			} catch ( Throwable $e ) {
 				error_log(
 					sprintf(
@@ -79,7 +124,11 @@ trait Singleton {
 				);
 
 				// We still need to return something of the correct type.
-				throw new \RuntimeException( 'Failed to create singleton instance' );
+				throw new RuntimeException(
+					sprintf( 'Failed to create singleton instance of %s', static::class ),
+					0,
+					$e // phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
+				);
 			}
 			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
@@ -94,14 +143,25 @@ trait Singleton {
 	 * @return void
 	 */
 	protected function initialize(): void {
-		// Initialize properties.
-		if ( method_exists( $this, 'init_properties' ) ) {
-			$this->init_properties();
+		// Prevent double initialization
+		if ( $this->is_initialized ) {
+			return;
 		}
 
-		// Initialize hooks.
-		if ( method_exists( $this, 'init_hooks' ) ) {
+		// Backward compatibility support.
+		if ( method_exists( $this, 'init_hooks' ) ) { // @phpstan-ignore-line function.impossibleType
 			$this->init_hooks();
+		}
+
+		if ( function_exists( 'do_action' ) ) {
+			/**
+			 * Action that fires after a singleton has been initialized.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param object $instance The singleton instance.
+			 */
+			do_action( 'divi_squad_singleton_initialized', $this );
 		}
 	}
 
@@ -109,19 +169,23 @@ trait Singleton {
 	 * Prevent unserializing of the instance.
 	 *
 	 * @return void
-	 * @throws \RuntimeException Always throws an exception.
+	 * @throws RuntimeException Always throws an exception.
 	 */
 	public function __wakeup(): void {
-		throw new \RuntimeException( 'Cannot unserialize singleton' );
+		throw new RuntimeException(
+			sprintf( 'Cannot unserialize singleton: %s', static::class )
+		);
 	}
 
 	/**
 	 * Prevent cloning of the instance.
 	 *
 	 * @return void
-	 * @throws \RuntimeException Always throws an exception.
+	 * @throws RuntimeException Always throws an exception.
 	 */
 	private function __clone() {
-		throw new \RuntimeException( 'Cloning is not allowed for singleton' );
+		throw new RuntimeException(
+			sprintf( 'Cloning is not allowed for singleton: %s', static::class )
+		);
 	}
 }

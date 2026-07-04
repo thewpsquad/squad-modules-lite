@@ -6,8 +6,8 @@
  * Handles the retrieval and processing of Contact Form 7 forms.
  *
  * @since   3.1.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Forms\Collections;

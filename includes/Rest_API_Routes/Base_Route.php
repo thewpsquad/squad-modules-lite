@@ -7,8 +7,8 @@
  * for all REST API route handlers in the Divi Squad plugin.
  *
  * @since   3.3.0
- * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Rest_API_Routes;

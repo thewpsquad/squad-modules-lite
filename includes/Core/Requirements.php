@@ -5,17 +5,22 @@
  *
  * Handles system requirements validation for Squad Modules,
  * ensuring compatibility with Divi theme or Divi Builder plugin.
+ * Centralizes requirements checking logic and provides detailed error reporting.
  *
  * @since   3.2.0
+ * @since   3.4.0 Improved error handling and constant detection
  * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core;
 
+use DiviSquad\Core\Assets as Assets_Manager;
+use DiviSquad\Core\Contracts\Hookable;
 use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Utils\Divi;
 use DiviSquad\Utils\Helper;
+use DiviSquad\Utils\Helper as HelperUtil;
 use RuntimeException;
 use Throwable;
 
@@ -28,7 +33,7 @@ use Throwable;
  * @since   3.2.0
  * @package DiviSquad
  */
-class Requirements {
+class Requirements implements Hookable {
 	/**
 	 * Required Divi version.
 	 *
@@ -64,7 +69,208 @@ class Requirements {
 	 * @since 3.3.0
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'is_fulfilled' ) );
+		$this->register_hooks();
+	}
+
+	/**
+	 * Register hooks and filters for the requirements template.
+	 *
+	 * @since  3.4.0
+	 * @access protected
+	 *
+	 * @return void
+	 */
+	public function register_hooks(): void {
+		// Use the new check_requirements method on init instead of is_fulfilled directly.
+		add_action( 'init', array( $this, 'check_requirements' ) );
+
+		// Add hooks for theme/plugin activation events.
+		add_action( 'activated_plugin', array( $this, 'check_requirements_on_plugin_activation' ) );
+		add_action( 'after_switch_theme', array( $this, 'check_requirements_on_theme_activation' ) );
+
+		add_action( 'divi_squad_after_register_admin_assets', array( $this, 'register_assets' ) );
+		add_action( 'divi_squad_after_enqueue_admin_assets', array( $this, 'enqueue_assets' ) );
+
+		// Register action hooks for the requirements template.
+		add_action( 'divi_squad_after_minimum_requirements', array( $this, 'add_extended_requirements_info' ) );
+		add_action( 'divi_squad_debug_info_items', array( $this, 'add_debug_info_items' ) );
+		add_action( 'divi_squad_after_standard_sections', array( $this, 'add_custom_sections' ), 10, 3 );
+
+		// Register filters for requirements template.
+		add_filter( 'divi_squad_required_divi_version', array( $this, 'filter_divi_required_version' ) );
+		add_filter( 'divi_squad_plugin_life_type', array( $this, 'filter_plugin_life_type' ) );
+		add_filter( 'divi_squad_render_status_badge', array( $this, 'filter_render_status_badge' ), 10, 2 );
+		add_filter( 'divi_squad_minimum_requirements', array( $this, 'filter_minimum_requirements' ), 10, 2 );
+		add_filter( 'divi_squad_requirement_rows_config', array( $this, 'filter_requirement_rows_config' ), 10, 3 );
+	}
+
+	/**
+	 * Check all Divi requirements and take appropriate actions.
+	 *
+	 * This method checks if requirements are met and logs failures if needed.
+	 * It centralizes requirement checking to avoid duplication.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function check_requirements(): void {
+		// Check if requirements are fulfilled.
+		$is_fulfilled = $this->is_fulfilled();
+
+		// If requirements are not fulfilled, log the failure.
+		if ( ! $is_fulfilled ) {
+			$this->log_requirement_failure();
+		} else {
+			// If requirements are now fulfilled, but we had a previous failure,
+			// clean up the failure flags.
+			$requirements_failed = (bool) get_option( 'divi_squad_requirements_failed', false );
+			if ( $requirements_failed ) {
+				delete_option( 'divi_squad_requirements_failed' );
+				delete_option( 'divi_squad_requirements_context' );
+				delete_option( 'divi_squad_requirements_data' );
+
+				// Log the successful resolution.
+				divi_squad()->log_info(
+					'Requirements now fulfilled',
+					'Requirements_Resolved',
+					array( 'previous_failure' => true )
+				);
+			}
+		}
+	}
+
+	/**
+	 * Check requirements when a plugin is activated.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $plugin Path to the plugin file relative to the plugins directory.
+	 *
+	 * @return void
+	 */
+	public function check_requirements_on_plugin_activation( string $plugin ): void {
+		// Check if we have a previously failed requirement.
+		$requirements_failed = (bool) get_option( 'divi_squad_requirements_failed', false );
+
+		if ( ! $requirements_failed ) {
+			return;
+		}
+
+		// Check if the activated plugin is Divi Builder.
+		if ( false !== strpos( $plugin, 'divi-builder' ) ) {
+			// Reset status cache to force a fresh check.
+			$this->status = array();
+
+			// Check if requirements are now met.
+			if ( $this->is_fulfilled() ) {
+				// Requirements are now met, clean up.
+				delete_option( 'divi_squad_requirements_failed' );
+				delete_option( 'divi_squad_requirements_context' );
+				delete_option( 'divi_squad_requirements_data' );
+
+				// Log the successful resolution.
+				divi_squad()->log_info(
+					'Requirements now fulfilled after plugin activation: ' . $plugin,
+					'Requirements_Resolved',
+					array( 'activated_plugin' => $plugin )
+				);
+			}
+		}
+	}
+
+	/**
+	 * Check requirements when a theme is activated.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $theme_name Name of the theme.
+	 *
+	 * @return void
+	 */
+	public function check_requirements_on_theme_activation( string $theme_name ): void {
+		// Check if we have a previously failed requirement.
+		$requirements_failed = (bool) get_option( 'divi_squad_requirements_failed', false );
+
+		if ( ! $requirements_failed ) {
+			return;
+		}
+
+		// Check if the activated theme is Divi or Extra.
+		if ( false !== stripos( $theme_name, 'divi' ) || false !== stripos( $theme_name, 'extra' ) ) {
+			// Reset status cache to force a fresh check.
+			$this->status = array();
+
+			// Check if requirements are now met.
+			if ( $this->is_fulfilled() ) {
+				// Requirements are now met, clean up.
+				delete_option( 'divi_squad_requirements_failed' );
+				delete_option( 'divi_squad_requirements_context' );
+				delete_option( 'divi_squad_requirements_data' );
+
+				// Log the successful resolution.
+				divi_squad()->log_info(
+					'Requirements now fulfilled after theme activation: ' . $theme_name,
+					'Requirements_Resolved',
+					array( 'activated_theme' => $theme_name )
+				);
+			}
+		}
+	}
+
+	/**
+	 * Register requirements assets
+	 *
+	 * @param Assets_Manager $assets Assets Manager instance.
+	 *
+	 * @return void
+	 */
+	public function register_assets( Assets_Manager $assets ): void {
+		try {
+			$assets->register_style(
+				'plugin-requirements',
+				array(
+					'file' => 'requirements',
+					'path' => 'admin',
+				)
+			);
+
+			/**
+			 * Fires after requirements assets are registered
+			 *
+			 * @param Assets_Manager $assets Assets Manager instance
+			 */
+			do_action( 'divi_squad_after_register_requirements_assets', $assets );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to register admin notices assets' );
+		}
+	}
+
+	/**
+	 * Enqueue requirements assets
+	 *
+	 * @param Assets_Manager $assets Assets Manager instance.
+	 *
+	 * @return void
+	 */
+	public function enqueue_assets( Assets_Manager $assets ): void {
+		try {
+			if ( HelperUtil::is_squad_page() ) {
+				$assets->enqueue_style( 'plugin-requirements' );
+			}
+
+			/**
+			 * Fires after requirements assets are enqueued
+			 *
+			 * @param Assets_Manager $assets Assets Manager instance
+			 */
+			do_action( 'divi_squad_after_enqueue_requirements_assets', $assets );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to enqueue requirements assets' );
+		}
 	}
 
 	/**
@@ -83,7 +289,7 @@ class Requirements {
 		try {
 			$this->required_version = divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
 
-			// Return cached result if available.
+			// Return a cached result if available.
 			if ( isset( $this->status['is_fulfilled'] ) ) {
 				return (bool) $this->status['is_fulfilled'];
 			}
@@ -205,6 +411,411 @@ class Requirements {
 	}
 
 	/**
+	 * Filter for the required Divi version.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $version The Divi version requirement.
+	 *
+	 * @return string The filtered version requirement.
+	 */
+	public function filter_divi_required_version( string $version ): string {
+		return $this->required_version ?? $version;
+	}
+
+	/**
+	 * Filter for the plugin life type.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $life_type The plugin life type.
+	 *
+	 * @return string
+	 */
+	public function filter_plugin_life_type( string $life_type ): string {
+		return divi_squad()->is_dev() ? 'nightly' : $life_type;
+	}
+
+	/**
+	 * Filter for the plugin slug.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param string $status_badge_text Existing status badge.
+	 * @param bool   $is_met            Whether the requirement is met.
+	 *
+	 * @return string
+	 */
+	public function filter_render_status_badge( string $status_badge_text, bool $is_met ): string {
+		if ( '' === $status_badge_text ) {
+			$status_badge_text = $is_met ? esc_html__( 'OK', 'squad-modules-for-divi' ) : esc_html__( 'FAILED', 'squad-modules-for-divi' );
+		}
+
+		$badge_class = $is_met ? 'success' : 'error';
+		$icon_class  = $is_met ? 'dashicons-yes-alt' : 'dashicons-warning';
+
+		return sprintf(
+			'<span class="status-badge %1$s"><span class="dashicons %2$s"></span>%3$s</span>',
+			esc_attr( $badge_class ),
+			esc_attr( $icon_class ),
+			esc_html( $status_badge_text )
+		);
+	}
+
+	/**
+	 * Filter the requirement rows configuration.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param array<array<string, mixed>> $rows             The default requirement rows configuration.
+	 * @param array<string, mixed>        $status           The current status values.
+	 * @param string                      $required_version The required Divi version.
+	 *
+	 * @return array<array<string, mixed>> Filtered requirement rows configuration.
+	 */
+	public function filter_requirement_rows_config( array $rows, array $status, string $required_version ): array {
+		// Divi Theme Installed row.
+		$rows[] = array(
+			'id'        => 'theme_installed',
+			'label'     => __( 'Divi Theme Installed', 'squad-modules-for-divi' ),
+			'value'     => $status['is_theme_installed'] ?? false,
+			'show'      => true,
+			'condition' => true,
+		);
+		// Divi Builder Plugin Installed row.
+		$rows[] = array(
+			'id'        => 'plugin_installed',
+			'label'     => __( 'Divi Builder Plugin Installed', 'squad-modules-for-divi' ),
+			'value'     => $status['is_plugin_installed'] ?? false,
+			'show'      => true,
+			'condition' => true,
+		);
+		// Divi Theme Activated row.
+		$rows[] = array(
+			'id'        => 'theme_active',
+			'label'     => __( 'Divi Theme Activated', 'squad-modules-for-divi' ),
+			'value'     => $status['is_theme_active'] ?? false,
+			'show'      => true,
+			'condition' => $status['is_theme_installed'] ?? false,
+		);
+		// Divi Builder Plugin Activated row.
+		$rows[] = array(
+			'id'        => 'plugin_active',
+			'label'     => __( 'Divi Builder Plugin Activated', 'squad-modules-for-divi' ),
+			'value'     => $status['is_plugin_active'] ?? false,
+			'show'      => true,
+			'condition' => $status['is_plugin_installed'] ?? false,
+		);
+		// Divi Theme Version row.
+		$rows[] = array(
+			'id'           => 'theme_version',
+			'label'        => __( 'Divi Theme Version', 'squad-modules-for-divi' ),
+			'value'        => version_compare( $status['theme_version'] ?? '0.0.0', $required_version, '>=' ),
+			'show'         => true,
+			'condition'    => $status['is_theme_active'] ?? false,
+			'subtitle'     => sprintf(
+			/* translators: %s is the required version */
+				__( 'Required: %s or higher', 'squad-modules-for-divi' ),
+				$required_version
+			),
+			'version_info' => $status['theme_version'] ?? esc_html__( 'Unknown', 'squad-modules-for-divi' ),
+		);
+		// Divi Builder Plugin Version row.
+		$rows[] = array(
+			'id'           => 'plugin_version',
+			'label'        => __( 'Divi Builder Plugin Version', 'squad-modules-for-divi' ),
+			'value'        => version_compare( $status['plugin_version'] ?? '0.0.0', $required_version, '>=' ),
+			'show'         => true,
+			'condition'    => $status['is_plugin_active'] ?? false,
+			'subtitle'     => sprintf(
+			/* translators: %s is the required version */
+				__( 'Required: %s or higher', 'squad-modules-for-divi' ),
+				$required_version
+			),
+			'version_info' => $status['plugin_version'] ?? 'Unknown',
+		);
+
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			// Add an informational row about debug mode.
+			$rows[] = array(
+				'id'           => 'wp_debug',
+				'label'        => __( 'WordPress Debug Mode', 'squad-modules-for-divi' ),
+				'value'        => true,
+				'show'         => true,
+				'condition'    => true,
+				'subtitle'     => __( 'Development environment detected', 'squad-modules-for-divi' ),
+				'custom_badge' => sprintf(
+					'<span class="status-badge info"><span class="dashicons dashicons-info"></span> %s</span>',
+					esc_html__( 'Enabled', 'squad-modules-for-divi' )
+				),
+			);
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Filter the minimum requirements list.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param array<array<string, string>> $requirements     Array of requirement items.
+	 * @param string                       $required_version The required Divi version.
+	 *
+	 * @return array<array<string, string>> Filtered array of requirement items.
+	 */
+	public function filter_minimum_requirements( array $requirements, string $required_version ): array {
+		$requirements[] = array(
+			'name'  => __( 'Divi Theme/Builder:', 'squad-modules-for-divi' ),
+			// Translators: %s is the required version.
+			'value' => sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), $required_version ),
+		);
+		$requirements[] = array(
+			'name'  => __( 'WordPress:', 'squad-modules-for-divi' ),
+			// Translators: %s is the required version.
+			'value' => sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), apply_filters( 'divi_squad_required_wp_version', '6.0' ) ),
+		);
+		$requirements[] = array(
+			'name'  => __( 'PHP:', 'squad-modules-for-divi' ),
+			// Translators: %s is the required version.
+			'value' => sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), apply_filters( 'divi_squad_required_php_version', '7.4' ) ),
+		);
+
+		// Add server requirements if appropriate.
+		$php_memory_limit = ini_get( 'memory_limit' );
+		$required_memory  = '128M';
+
+		// Only add memory requirement if it's a concern.
+		if ( $this->convert_memory_to_bytes( $php_memory_limit ) < $this->convert_memory_to_bytes( $required_memory ) ) {
+			$requirements[] = array(
+				'name'  => __( 'PHP Memory Limit:', 'squad-modules-for-divi' ),
+				'value' => sprintf(
+				// Translators: %s is the recommended memory limit.
+					__( 'Recommended: %1$s or higher (Current: %2$s)', 'squad-modules-for-divi' ),
+					$required_memory,
+					$php_memory_limit
+				),
+			);
+		}
+
+		// Check for max execution time if it's too low.
+		$max_execution_time = ini_get( 'max_execution_time' );
+		if ( '0' !== $max_execution_time && (int) $max_execution_time < 30 ) {
+			$requirements[] = array(
+				'name'  => __( 'PHP Max Execution Time:', 'squad-modules-for-divi' ),
+				'value' => sprintf(
+				// Translators: %s is the recommended max execution time.
+					__( 'Recommended: 30 seconds or higher (Current: %s seconds)', 'squad-modules-for-divi' ),
+					$max_execution_time
+				),
+			);
+		}
+
+		return $requirements;
+	}
+
+	/**
+	 * Add extended requirements information after the minimum requirements list.
+	 *
+	 * Displays additional recommended hosting environment information when the
+	 * 'divi_squad_show_hosting_recommendations' filter returns true.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function add_extended_requirements_info(): void {
+		try {
+			// For example, we could add a note about recommended hosting environments.
+			$show_hosting_info = apply_filters( 'divi_squad_show_hosting_recommendations', false );
+
+			if ( $show_hosting_info ) {
+				echo '<div class="extended-requirements-info">';
+				printf( '<h3>%s</h3>', esc_html__( 'Recommended Hosting Environment', 'squad-modules-for-divi' ) );
+				printf( '<p>%s</p>', esc_html__( 'For optimal performance with Squad Modules and Divi, we recommend:', 'squad-modules-for-divi' ) );
+				echo '<ul>';
+				printf( '<li>%s</li>', esc_html__( 'PHP 8.0 or higher', 'squad-modules-for-divi' ) );
+				printf( '<li>%s</li>', esc_html__( 'MySQL 5.7 or MariaDB 10.3 or higher', 'squad-modules-for-divi' ) );
+				printf( '<li>%s</li>', esc_html__( 'PHP Memory limit of 256M or higher', 'squad-modules-for-divi' ) );
+				printf( '<li>%s</li>', esc_html__( 'PHP max_execution_time of 60 seconds or higher', 'squad-modules-for-divi' ) );
+				echo '</ul>';
+				echo '</div>';
+			}
+
+			/**
+			 * Fires after extended requirements information is displayed.
+			 *
+			 * @since 3.4.0
+			 */
+			do_action( 'divi_squad_after_extended_requirements_info' );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Extended_Requirements_Display_Error' );
+		}
+	}
+
+	/**
+	 * Add custom sections to the requirement page.
+	 *
+	 * Adds a troubleshooting section to help users resolve requirement issues
+	 * when requirements are not met and the 'divi_squad_show_troubleshooting_section'
+	 * filter returns true.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @param array<string, mixed> $status           The current status values.
+	 * @param string               $required_version The required Divi version.
+	 * @param bool                 $is_fulfilled     Whether all requirements are met.
+	 *
+	 * @return void
+	 */
+	public function add_custom_sections( array $status, string $required_version, bool $is_fulfilled ): void {
+		try {
+			// For example, add a troubleshooting section if requirements aren't met.
+			if ( ! $is_fulfilled && apply_filters( 'divi_squad_show_troubleshooting_section', true ) ) {
+				echo '<div class="requirements-section">';
+				printf( '<h3>%s</h3>', esc_html__( 'Troubleshooting', 'squad-modules-for-divi' ) );
+				printf( '<p>%s</p>', esc_html__( 'Having trouble meeting the requirements? Here are some common solutions:', 'squad-modules-for-divi' ) );
+
+				echo '<div class="troubleshooting-tips">';
+				printf( '<h3>%s</h3>', esc_html__( 'Common Issues', 'squad-modules-for-divi' ) );
+				echo '<ul>';
+				printf(
+					'<li class="tip-item"><strong>%s</strong> %s</li>',
+					esc_html__( 'Divi not detecting:', 'squad-modules-for-divi' ),
+					esc_html__( 'Make sure you\'re using an official Elegant Themes version of Divi.', 'squad-modules-for-divi' )
+				);
+				printf(
+					'<li class="tip-item"><strong>%s</strong> %s</li>',
+					esc_html__( 'Version conflicts:', 'squad-modules-for-divi' ),
+					esc_html__( 'Clear your browser cache and WordPress cache after updating Divi.', 'squad-modules-for-divi' )
+				);
+				printf(
+					'<li class="tip-item"><strong>%s</strong> %s</li>',
+					esc_html__( 'Activation issues:', 'squad-modules-for-divi' ),
+					esc_html__( 'Temporarily deactivate other plugins to check for conflicts.', 'squad-modules-for-divi' )
+				);
+				echo '</ul>';
+				echo '</div>';
+
+				echo '</div>';
+			}
+
+			/**
+			 * Fires after custom sections are added to the requirements page.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param array<string, mixed> $status           The current status values.
+			 * @param string               $required_version The required Divi version.
+			 * @param bool                 $is_fulfilled     Whether all requirements are met.
+			 */
+			do_action( 'divi_squad_after_custom_sections', $status, $required_version, $is_fulfilled );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error(
+				$e,
+				'Custom_Sections_Display_Error',
+				true,
+				array(
+					'is_fulfilled'     => $is_fulfilled,
+					'required_version' => $required_version,
+				)
+			);
+		}
+	}
+
+	/**
+	 * Add additional debug information items to the requirements page.
+	 *
+	 * Displays server information, MySQL version, PHP settings, and theme details
+	 * to help with troubleshooting and support.
+	 *
+	 * @since  3.4.0
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function add_debug_info_items(): void {
+		try {
+			// Server software info.
+			printf(
+				'<li><strong>%s</strong> %s</li>',
+				esc_html__( 'Server Software:', 'squad-modules-for-divi' ),
+				esc_html( sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown' ) ) )
+			);
+
+			// MySQL version.
+			global $wpdb;
+			$mysql_version = $wpdb->db_version();
+
+			printf(
+				'<li><strong>%s</strong> %s</li>',
+				esc_html__( 'MySQL Version:', 'squad-modules-for-divi' ),
+				esc_html( $mysql_version )
+			);
+
+			// Max execution time.
+			printf(
+				'<li><strong>%s</strong> %s</li>',
+				esc_html__( 'PHP Max Execution Time:', 'squad-modules-for-divi' ),
+				esc_html( ini_get( 'max_execution_time' ) . 's' )
+			);
+
+			// Active theme.
+			$theme = wp_get_theme();
+			printf(
+				'<li><strong>%s</strong> %s</li>',
+				esc_html__( 'Active Theme:', 'squad-modules-for-divi' ),
+				esc_html( $theme->get( 'Name' ) . ' ' . $theme->get( 'Version' ) )
+			);
+
+			/**
+			 * Fires after debug information items are added to the requirements page.
+			 *
+			 * Allows for adding additional debug information items.
+			 *
+			 * @since 3.4.0
+			 */
+			do_action( 'divi_squad_after_debug_info_items' );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Debug_Info_Display_Error' );
+		}
+	}
+
+	/**
+	 * Convert a PHP memory value to bytes.
+	 *
+	 * @since  3.4.0
+	 * @access protected
+	 *
+	 * @param string $memory_value Memory value (e.g., '128M').
+	 *
+	 * @return int Memory value in bytes.
+	 */
+	protected function convert_memory_to_bytes( string $memory_value ): int {
+		$memory_value = trim( $memory_value );
+		$last         = strtolower( $memory_value[ strlen( $memory_value ) - 1 ] );
+		$value        = (int) $memory_value;
+
+		switch ( $last ) {
+			case 'm':
+			case 'g':
+				$value *= 1024;
+				break;
+			case 'k':
+				$value *= 1024;
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Get the last error message from requirements check.
 	 *
 	 * @since  3.3.0
@@ -243,7 +854,7 @@ class Requirements {
 		$image = divi_squad()->load_image( '/build/admin/images/logos' );
 
 		// Get the menu icon.
-		$menu_icon = $image->get_image( 'divi-squad-d-white.svg', 'svg' );
+		$menu_icon = $image->get_image( 'divi-squad-d-menu.svg', 'svg' );
 		if ( is_wp_error( $menu_icon ) ) {
 			$menu_icon = 'dashicons-warning';
 		}
@@ -370,8 +981,7 @@ class Requirements {
 		}
 
 		// Theme is active but outdated.
-		if ( ( $this->status['is_theme_active'] ?? false ) && isset( $this->status['theme_version'] ) &&
-			 version_compare( $this->status['theme_version'], $this->required_version, '<' ) ) {
+		if ( ( $this->status['is_theme_active'] ?? false ) && version_compare( $this->status['theme_version'] ?? '0.0.0', $this->required_version, '<' ) ) {
 
 			return $this->render_notice_banner(
 				'warning',
@@ -391,8 +1001,7 @@ class Requirements {
 		}
 
 		// Plugin is active but outdated.
-		if ( ( $this->status['is_plugin_active'] ?? false ) && isset( $this->status['plugin_version'] ) &&
-			 version_compare( $this->status['plugin_version'], $this->required_version, '<' ) ) {
+		if ( ( $this->status['is_plugin_active'] ?? false ) && version_compare( $this->status['plugin_version'] ?? '0.0.0', $this->required_version, '<' ) ) {
 
 			return $this->render_notice_banner(
 				'warning',
@@ -476,7 +1085,7 @@ class Requirements {
 			esc_html( $message )
 		);
 
-		// Add action button if provided.
+		// Add an action button if provided.
 		if ( count( $action ) > 0 ) {
 			$output .= sprintf(
 				'<div class="divi-squad-notice-action">
@@ -505,7 +1114,7 @@ class Requirements {
 	 * Records failed requirements with comprehensive context data for debugging
 	 * and reports major compatibility issues to the error reporting system.
 	 *
-	 * @since  4.0.0
+	 * @since  3.4.0
 	 * @access public
 	 *
 	 * @param bool $report_error Whether to send an error report for this failure. Default true.
@@ -514,6 +1123,12 @@ class Requirements {
 	 */
 	public function log_requirement_failure( bool $report_error = true ): void {
 		try {
+			// Skip advanced logging if wp ajax or cron requests are running.
+			if ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+				return;
+			}
+
+			// Get the current status.
 			$status = $this->get_status();
 
 			// Build comprehensive extra data for debugging.
@@ -579,7 +1194,7 @@ class Requirements {
 			 * Filters whether to log the requirement failure.
 			 *
 			 * @since 3.2.0
-			 * @since 4.0.0 Added $context parameter
+			 * @since 3.4.0 Added $context parameter
 			 *
 			 * @param bool         $should_log   Whether to log the failure.
 			 * @param string       $requirement  The failed requirement.
@@ -604,6 +1219,11 @@ class Requirements {
 				return;
 			}
 
+			// Store requirement failure status in options.
+			update_option( 'divi_squad_requirements_failed', true, false );
+			update_option( 'divi_squad_requirements_context', $context, false );
+			update_option( 'divi_squad_requirements_data', $extra_data, false );
+
 			// Prepare a detailed message for logging.
 			$log_message = sprintf(
 				'Requirements check failed: %s. Current: %s. Expected: %s.',
@@ -612,35 +1232,22 @@ class Requirements {
 				$expected
 			);
 
-			// Log the failure with proper context.
-			divi_squad()->log_warning( $log_message, $context, $extra_data );
-
-			// Create exception for reporting if needed.
 			if ( $report_error ) {
-				$exception = new RuntimeException(
-					sprintf(
-						'Squad Modules requirements check failed: %s (current: %s, expected: %s)',
-						$requirement,
-						$current,
-						$expected
-					),
-					500
-				);
-
 				// Log using the error method for critical requirements failures.
 				divi_squad()->log_error(
-					$exception,
-					$context,
-					true,
-					$extra_data
+					new RuntimeException( $log_message, 500 ),
+					$context
 				);
+			} else {
+				// Log the failure with proper context.
+				divi_squad()->log_warning( $log_message, $context );
 			}
 
 			/**
 			 * Action triggered after logging a requirement failure.
 			 *
 			 * @since 3.2.0
-			 * @since 4.0.0 Added $context parameter and $report_error parameter
+			 * @since 3.4.0 Added $context parameter and $report_error parameter
 			 *
 			 * @param string       $requirement  The failed requirement.
 			 * @param string       $current      The current value.
