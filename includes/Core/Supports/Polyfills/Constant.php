@@ -3,9 +3,9 @@
 /**
  * Polyfill for PHP constants.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.1
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;
@@ -13,8 +13,8 @@ namespace DiviSquad\Core\Supports\Polyfills;
 /**
  * Constant class.
  *
- * @package DiviSquad
  * @since   3.1.1
+ * @package DiviSquad
  */
 class Constant {
 	/**
@@ -29,5 +29,5 @@ class Constant {
 	 *
 	 * @var integer
 	 */
-	const PHP_INT_MIN = -9223372036854775808; // @phpstan-ignore-line
+	const PHP_INT_MIN = - 9223372036854775808; // @phpstan-ignore-line
 }

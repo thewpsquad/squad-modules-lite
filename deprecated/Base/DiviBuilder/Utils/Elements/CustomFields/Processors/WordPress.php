@@ -3,10 +3,10 @@
 /**
  * Custom Fields (WordPress) element.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors;
@@ -21,9 +21,9 @@ use function metadata_exists;
 /**
  * Custom Fields (WordPress) element Class
  *
- * @package DiviSquad
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class WordPress extends Processor {
 
@@ -137,6 +137,7 @@ class WordPress extends Processor {
 	 * Get all custom fields for a specific post.
 	 *
 	 * @param int $post_id The ID of the post.
+	 *
 	 * @return array An array of custom fields, where keys are field names and values are field values.
 	 * @throws \Exception If the post type is not supported.
 	 */
@@ -171,8 +172,9 @@ class WordPress extends Processor {
 	/**
 	 * Check if a post has a specific custom field.
 	 *
-	 * @param int    $post_id The ID of the post to check.
+	 * @param int    $post_id   The ID of the post to check.
 	 * @param string $field_key The key of the custom field to check for.
+	 *
 	 * @return bool True if the custom field exists, false otherwise.
 	 */
 	public function has_field( $post_id, $field_key ) {
@@ -182,9 +184,10 @@ class WordPress extends Processor {
 	/**
 	 * Get a specific custom field by post ID and field key.
 	 *
-	 * @param int    $post_id The ID of the post to retrieve the custom field for.
-	 * @param string $field_key The key of the custom field to retrieve.
+	 * @param int    $post_id       The ID of the post to retrieve the custom field for.
+	 * @param string $field_key     The key of the custom field to retrieve.
 	 * @param mixed  $default_value The default value to return if the field is not found.
+	 *
 	 * @return mixed The value of the custom field, or the default value if not found.
 	 */
 	public function get_field_value( $post_id, $field_key, $default_value = null ) {
@@ -193,6 +196,7 @@ class WordPress extends Processor {
 		}
 
 		$value = get_metadata( 'post', $post_id, $field_key, true );
+
 		return '' !== $value ? $value : $default_value;
 	}
 
@@ -209,6 +213,7 @@ class WordPress extends Processor {
 	 * Check if a field should be included based on various criteria.
 	 *
 	 * @param string $field_key The field key to check.
+	 *
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( $field_key ) {
@@ -319,6 +324,7 @@ class WordPress extends Processor {
 
 		if ( false !== $cached_values ) {
 			$this->field_values[ $post_id ] = $cached_values;
+
 			return $this->field_values[ $post_id ];
 		}
 
@@ -368,6 +374,7 @@ class WordPress extends Processor {
 				}
 			}
 		}
+
 		return $values;
 	}
 }

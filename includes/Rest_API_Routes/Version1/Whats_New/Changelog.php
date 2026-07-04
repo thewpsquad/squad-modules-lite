@@ -6,9 +6,9 @@
  * This file contains the Changelog class which handles REST API endpoints
  * for retrieving changelog information in Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Whats_New;
@@ -23,8 +23,8 @@ use WP_REST_Server;
  *
  * Manages REST API endpoints for retrieving changelog information.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 class Changelog extends Base_Route {
 
@@ -62,6 +62,7 @@ class Changelog extends Base_Route {
 				array( 'status' => 403 )
 			);
 		}
+
 		return true;
 	}
 

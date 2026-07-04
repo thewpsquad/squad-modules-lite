@@ -3,10 +3,10 @@
 /**
  * The Plugin Asset class.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.0.0
+ * @since      3.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories\PluginAsset;
@@ -14,8 +14,8 @@ namespace DiviSquad\Base\Factories\PluginAsset;
 /**
  * The Plugin Asset class.
  *
- * @package DiviSquad
- * @since   3.0.0
+ * @since      3.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
-abstract class Asset implements AssetInterface {}
+abstract class Asset implements AssetInterface { }

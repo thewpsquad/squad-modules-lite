@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.3.3 =
+Code enhancements, improved type hinting, and better asset management. Enhanced ImageGallery and PostGrid modules.
+
 = 3.3.2 =
 Fix and issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
 

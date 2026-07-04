@@ -5,9 +5,9 @@
  *
  * Defines the contract for custom field collection implementations.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
@@ -18,8 +18,8 @@ namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
  * This interface establishes the contract for all classes that collect and manage
  * custom fields from various sources (WordPress, ACF, etc).
  *
- * @package DiviSquad
  * @since   3.1.0
+ * @package DiviSquad
  */
 interface CollectionInterface {
 

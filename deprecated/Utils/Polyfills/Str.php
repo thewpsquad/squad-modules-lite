@@ -2,10 +2,10 @@
 /**
  * String Helper class for utility
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   1.2.3
+ * @since      1.2.3
  * @deprecated 3.2.0 Use DiviSquad\Core\Supports\Polyfills\Str instead
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Utils\Polyfills;
@@ -14,7 +14,7 @@ namespace DiviSquad\Utils\Polyfills;
  * String Helper class.
  *
  * @since      1.2.3
- * @package    DiviSquad
  * @deprecated 3.2.0 Use DiviSquad\Core\Supports\Polyfills\Str instead
+ * @package    DiviSquad
  */
-class Str extends \DiviSquad\Core\Supports\Polyfills\Str {}
+class Str extends \DiviSquad\Core\Supports\Polyfills\Str { }

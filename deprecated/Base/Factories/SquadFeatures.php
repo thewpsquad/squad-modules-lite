@@ -3,23 +3,22 @@
 /**
  * Feature Management class
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories;
 
 use DiviSquad\Core\Supports\Polyfills\Str;
-use function sort;
 
 /**
  * Feature Management class
  *
- * @package DiviSquad
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class SquadFeatures {
 
@@ -187,8 +186,8 @@ abstract class SquadFeatures {
 		// Verify default active registries.
 		foreach ( $defaults as $default ) {
 			if ( $default['release_version'] === $version &&
-				! in_array( $default['name'], $names, true ) &&
-				! in_array( $default['name'], $inactivate, true ) ) {
+			     ! in_array( $default['name'], $names, true ) &&
+			     ! in_array( $default['name'], $inactivate, true ) ) {
 				$verified[] = $default;
 			}
 		}

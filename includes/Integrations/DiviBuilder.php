@@ -1,10 +1,11 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The main class for Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Integrations;
@@ -15,8 +16,8 @@ use DiviSquad\Utils\Divi as DiviUtil;
 /**
  * Divi Squad Class.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 final class DiviBuilder {
 
@@ -51,8 +52,8 @@ final class DiviBuilder {
 		add_action( 'divi_squad_builder_assets_enqueued', array( $this, 'enqueue_builder_scripts' ) );
 		add_action( 'divi_squad_register_admin_assets', array( $this, 'enqueue_admin_scripts' ) );
 
-		add_filter( 'divi_squad_registered_modules', array( $this, 'registered_modules' ) );
-		add_filter( 'divi_squad_premium_modules', array( $this, 'premium_modules' ) );
+		add_filter( 'divi_squad_modules_registered_list', array( $this, 'registered_modules' ) );
+		add_filter( 'divi_squad_modules_premium_list', array( $this, 'premium_modules' ) );
 	}
 
 	/**
@@ -78,7 +79,7 @@ final class DiviBuilder {
 		// Enqueues styles for divi builder including theme and plugin.
 		$style_handle_name = DiviUtil::is_fb_enabled() ? $script_handle_name : $this->name;
 		$style_asset_name  = 'builder-style';
-		if ( defined( 'ET_BUILDER_PLUGIN_ACTIVE' ) && ! DiviUtil::is_fb_enabled() ) {
+		if ( DiviUtil::is_divi_builder_plugin_active() ) {
 			$style_asset_name = 'builder-style-dbp';
 		}
 
@@ -116,8 +117,7 @@ final class DiviBuilder {
 		}
 
 		if ( DiviUtil::should_load_style() ) {
-			$style_handle_name = DiviUtil::is_fb_enabled() ? "$this->name-builder" : $this->name;
-			$assets->enqueue_style( $style_handle_name );
+			$assets->enqueue_style( DiviUtil::is_fb_enabled() ? "$this->name-builder" : $this->name );
 		}
 	}
 
@@ -131,7 +131,7 @@ final class DiviBuilder {
 	 * @return void
 	 */
 	public function enqueue_builder_scripts( Assets $assets ): void {
-		$assets->enqueue_script( "$this->name-builder", );
+		$assets->enqueue_script( "$this->name-builder" );
 	}
 
 	/**
@@ -166,7 +166,7 @@ final class DiviBuilder {
 		$modules = array(
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\Divider::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Divider::class,
 				),
 				'name'               => 'Divider',
 				'label'              => esc_html__( 'Advanced Divider', 'squad-modules-for-divi' ),
@@ -181,7 +181,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\DualButton::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\DualButton::class,
 				),
 				'name'               => 'DualButton',
 				'label'              => esc_html__( 'Dual Button', 'squad-modules-for-divi' ),
@@ -196,7 +196,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Media\Lottie::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\Lottie::class,
 				),
 				'name'               => 'Lottie',
 				'label'              => esc_html__( 'Lottie Image', 'squad-modules-for-divi' ),
@@ -211,8 +211,8 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class'  => \DiviSquad\Modules\PostGrid::class,
-					'child_class' => \DiviSquad\Modules\PostGridChild::class,
+					'root_class'  => \DiviSquad\Builder\Version4\Modules\PostGrid::class,
+					'child_class' => \DiviSquad\Builder\Version4\Modules\PostGridChild::class,
 				),
 				'name'               => 'PostGrid',
 				'label'              => esc_html__( 'Post Grid', 'squad-modules-for-divi' ),
@@ -230,7 +230,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\TypingText::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\TypingText::class,
 				),
 				'name'               => 'TypingText',
 				'label'              => esc_html__( 'Typing Text', 'squad-modules-for-divi' ),
@@ -245,7 +245,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Media\ImageMask::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\ImageMask::class,
 				),
 				'name'               => 'ImageMask',
 				'label'              => esc_html__( 'Image Mask', 'squad-modules-for-divi' ),
@@ -260,7 +260,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Content\FlipBox::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Content\FlipBox::class,
 				),
 				'name'               => 'FlipBox',
 				'label'              => esc_html__( 'Flip Box', 'squad-modules-for-divi' ),
@@ -275,8 +275,8 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class'  => \DiviSquad\Modules\Content\BusinessHours::class,
-					'child_class' => \DiviSquad\Modules\Content\BusinessHoursChild::class,
+					'root_class'  => \DiviSquad\Builder\Version4\Modules\Content\BusinessHours::class,
+					'child_class' => \DiviSquad\Builder\Version4\Modules\Content\BusinessHoursChild::class,
 				),
 				'name'               => 'BusinessHours',
 				'label'              => esc_html__( 'Business Hours', 'squad-modules-for-divi' ),
@@ -293,7 +293,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Media\BeforeAfterImageSlider::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\BeforeAfterImageSlider::class,
 				),
 				'name'               => 'BeforeAfterImageSlider',
 				'label'              => esc_html__( 'Before After Image Slider', 'squad-modules-for-divi' ),
@@ -308,7 +308,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Media\ImageGallery::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\ImageGallery::class,
 				),
 				'name'               => 'ImageGallery',
 				'label'              => esc_html__( 'Image Gallery', 'squad-modules-for-divi' ),
@@ -323,7 +323,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Forms\ContactForm7::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\ContactForm7::class,
 				),
 				'name'               => 'FormStylerContactForm7',
 				'label'              => esc_html__( 'Contact Form 7', 'squad-modules-for-divi' ),
@@ -340,7 +340,7 @@ final class DiviBuilder {
 				'category_title'     => esc_html__( 'Form Styler Modules', 'squad-modules-for-divi' ),
 			),
 			array(
-				'classes'            => array( 'root_class' => \DiviSquad\Modules\Forms\WPForms::class ),
+				'classes'            => array( 'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\WPForms::class ),
 				'name'               => 'FormStylerWPForms',
 				'label'              => esc_html__( 'WP Forms', 'squad-modules-for-divi' ),
 				'description'        => esc_html__( 'Effortlessly customize WP Forms design. Adjust colors, fonts, spacing, and add CSS for your desired look.', 'squad-modules-for-divi' ),
@@ -355,7 +355,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Forms\GravityForms::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\GravityForms::class,
 				),
 				'name'               => 'FormStylerGravityForms',
 				'label'              => esc_html__( 'Gravity Forms', 'squad-modules-for-divi' ),
@@ -373,7 +373,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\PostReadingTime::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\PostReadingTime::class,
 				),
 				'name'               => 'PostReadingTime',
 				'label'              => esc_html__( 'Post Reading Time', 'squad-modules-for-divi' ),
@@ -388,7 +388,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\GlitchText::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\GlitchText::class,
 				),
 				'name'               => 'GlitchText',
 				'label'              => esc_html__( 'Glitch Text', 'squad-modules-for-divi' ),
@@ -403,7 +403,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\GradientText::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\GradientText::class,
 				),
 				'name'               => 'GradientText',
 				'label'              => esc_html__( 'Gradient Text', 'squad-modules-for-divi' ),
@@ -417,7 +417,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\ScrollingText::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\ScrollingText::class,
 				),
 				'name'               => 'ScrollingText',
 				'label'              => esc_html__( 'Scrolling Text', 'squad-modules-for-divi' ),
@@ -432,7 +432,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\StarRating::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\StarRating::class,
 				),
 				'name'               => 'StarRating',
 				'label'              => esc_html__( 'Star Rating', 'squad-modules-for-divi' ),
@@ -447,7 +447,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\Breadcrumbs::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\Breadcrumbs::class,
 				),
 				'name'               => 'Breadcrumbs',
 				'label'              => esc_html__( 'Breadcrumbs', 'squad-modules-for-divi' ),
@@ -462,7 +462,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Creative\DropCapText::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Creative\DropCapText::class,
 				),
 				'name'               => 'DropCapText',
 				'label'              => esc_html__( 'Drop Cap Text', 'squad-modules-for-divi' ),
@@ -477,7 +477,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Media\VideoPopup::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Media\VideoPopup::class,
 				),
 				'name'               => 'VideoPopup',
 				'label'              => esc_html__( 'Video Popup', 'squad-modules-for-divi' ),
@@ -492,7 +492,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Maps\GoogleMap::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Maps\GoogleMap::class,
 				),
 				'name'               => 'GoogleMap',
 				'label'              => esc_html__( 'Google Embed Map', 'squad-modules-for-divi' ),
@@ -507,7 +507,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Forms\NinjaForms::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\NinjaForms::class,
 				),
 				'name'               => 'FormStylerNinjaForms',
 				'label'              => esc_html__( 'Ninja Forms', 'squad-modules-for-divi' ),
@@ -525,7 +525,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Forms\FluentForms::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\FluentForms::class,
 				),
 				'name'               => 'FormStylerFluentForms',
 				'label'              => esc_html__( 'Fluent Forms', 'squad-modules-for-divi' ),
@@ -543,7 +543,7 @@ final class DiviBuilder {
 			),
 			array(
 				'classes'            => array(
-					'root_class' => \DiviSquad\Modules\Forms\Forminator::class,
+					'root_class' => \DiviSquad\Builder\Version4\Modules\Forms\Forminator::class,
 				),
 				'name'               => 'FormStylerForminator',
 				'label'              => esc_html__( 'Forminator', 'squad-modules-for-divi' ),

@@ -7,10 +7,10 @@
  * implementations for custom fields, potentially including support for complex
  * field types or advanced filtering options.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions;
@@ -24,9 +24,9 @@ use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definition;
  * Implements advanced custom field definitions with support for complex field types
  * and sophisticated filtering options.
  *
- * @package DiviSquad
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class Advanced extends Definition {
 

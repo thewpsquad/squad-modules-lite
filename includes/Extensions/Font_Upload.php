@@ -1,22 +1,22 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The Font Upload extension class for Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Extensions\Extension;
 use function add_filter;
 
 /**
  * The Font Upload class.
  *
- * @package DiviSquad
  * @since   1.2.0
+ * @package DiviSquad
  */
 class Font_Upload extends Extension {
 

@@ -2,10 +2,10 @@
 /**
  * The Core class.
  *
- * @since   1.0.0
- * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base;
@@ -18,9 +18,9 @@ use function wp_json_encode;
 /**
  * The Base class for Core
  *
- * @since   1.0.0
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class Core {
 
@@ -191,8 +191,7 @@ abstract class Core {
 	 *
 	 * @return void
 	 */
-	public function wp_hook_enqueue_admin_scripts() {
-	}
+	public function wp_hook_enqueue_admin_scripts() {}
 
 	/**
 	 * Set the localize data.

@@ -1,10 +1,11 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The DiviBackend integration helper for Divi Builder
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Integrations;
@@ -18,8 +19,8 @@ use function wp_json_encode;
 /**
  * Define integration helper functionalities for this plugin.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 final class DiviBuilderPlaceholders extends Placeholder {
 
@@ -161,7 +162,7 @@ final class DiviBuilderPlaceholders extends Placeholder {
 			'gallery_image_count' => '4',
 			'columns_count'       => '4',
 			'images_inner_gap'    => '10px',
-			'show_in_lightbox'    => 'off',
+			'show_in_lightbox'    => 'on',
 			'hover_icon'          => $defaults['icon']['zoom'],
 			'zoom_icon_color'     => '#ffffff',
 			'hover_overlay_color' => 'rgba(0, 0, 0, 0.5)',
@@ -1001,25 +1002,25 @@ final class DiviBuilderPlaceholders extends Placeholder {
 		);
 
 		$config = array(
-			'gradient_text'                               => wp_json_encode( $gradient_text_default_text ),
-			'gradient_text_tag'                           => 'p',
-			'text_gradient_use_color_gradient'            => 'on',
-			'text_gradient_color_gradient_stops'          => '#1f7016 0%|#29c4a9 100%',
-			'text_gradient_color_gradient_type'           => 'linear',
-			'text_gradient_color_gradient_direction'      => '180deg',
+			'gradient_text'                                 => wp_json_encode( $gradient_text_default_text ),
+			'gradient_text_tag'                             => 'p',
+			'text_gradient_use_color_gradient'              => 'on',
+			'text_gradient_color_gradient_stops'            => '#1f7016 0%|#29c4a9 100%',
+			'text_gradient_color_gradient_type'             => 'linear',
+			'text_gradient_color_gradient_direction'        => '180deg',
 			'text_gradient_color_gradient_direction_radial' => 'center',
-			'text_gradient_color_gradient_unit'           => '%',
-			'text_gradient_color_gradient_overlays_image' => 'off',
-			'text_gradient_color_gradient_repeat'         => 'off',
-			'text_gradient_color_gradient_start_position' => '0%',
-			'text_gradient_color_gradient_end_position'   => '100%',
-			'gradient_text_font_size'                     => '40px',
-			'gradient_text_font_weight'                   => '400',
-			'gradient_text_line_height'                   => '1.2em',
-			'gradient_text_text_color'                    => '#666666',
-			'wrapper_background_color'                    => '#ffffff',
-			'wrapper_margin'                              => '0px|0px|0px|0px',
-			'wrapper_padding'                             => '10px|15px|10px|15px',
+			'text_gradient_color_gradient_unit'             => '%',
+			'text_gradient_color_gradient_overlays_image'   => 'off',
+			'text_gradient_color_gradient_repeat'           => 'off',
+			'text_gradient_color_gradient_start_position'   => '0%',
+			'text_gradient_color_gradient_end_position'     => '100%',
+			'gradient_text_font_size'                       => '40px',
+			'gradient_text_font_weight'                     => '400',
+			'gradient_text_line_height'                     => '1.2em',
+			'gradient_text_text_color'                      => '#666666',
+			'wrapper_background_color'                      => '#ffffff',
+			'wrapper_margin'                                => '0px|0px|0px|0px',
+			'wrapper_padding'                               => '10px|15px|10px|15px',
 		);
 
 		/**
@@ -1355,8 +1356,8 @@ final class DiviBuilderPlaceholders extends Placeholder {
 		 * @since 3.3.0
 		 *
 		 * @param array $merged_definitions The merged module definitions.
-		 * @param array $exists The existing definitions.
-		 * @param array $defaults The default values.
+		 * @param array $exists             The existing definitions.
+		 * @param array $defaults           The default values.
 		 */
 		return apply_filters( 'divi_squad_static_asset_definitions', $merged_definitions, $exists, $defaults );
 	}

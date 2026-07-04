@@ -23,8 +23,8 @@ use Throwable;
  * This class handles version tracking and applies necessary database
  * structure changes when upgrading from older versions.
  *
- * @package DiviSquad
  * @since   3.1.1
+ * @package DiviSquad
  */
 class Upgrades {
 
@@ -134,6 +134,7 @@ class Upgrades {
 	 *
 	 * @param string   $version   The version this procedure upgrades to.
 	 * @param callable $procedure The upgrade procedure callback.
+	 *
 	 * @return void
 	 */
 	public function register_upgrade_procedure( string $version, callable $procedure ): void {
@@ -159,6 +160,7 @@ class Upgrades {
 			// If lock is not stale, another upgrade is in progress
 			if ( ! $lock_expired ) {
 				divi_squad()->log_debug( 'Cannot acquire upgrade lock: another upgrade is in progress' );
+
 				return false;
 			}
 
@@ -234,6 +236,7 @@ class Upgrades {
 		// Try to acquire lock for the upgrade process
 		if ( ! $this->acquire_lock() ) {
 			divi_squad()->log_debug( 'Skipping upgrade: another upgrade process is already running' );
+
 			return false;
 		}
 
@@ -347,7 +350,8 @@ class Upgrades {
 					 * Action fired after a successful upgrade to a specific version.
 					 *
 					 * @since 3.1.1
-					 * @param string $version The version that was upgraded to.
+					 *
+					 * @param string $version            The version that was upgraded to.
 					 * @param string $summary_table_name The name of the summary table.
 					 */
 					do_action( 'divi_squad_custom_fields_upgrade_completed', $version, $this->summary_table_name );
@@ -432,10 +436,12 @@ class Upgrades {
 	 * @since 3.1.1
 	 *
 	 * @param string $table_name The summary table name.
+	 *
 	 * @return self
 	 */
 	public function set_summary_table_name( string $table_name ): self {
 		$this->summary_table_name = $table_name;
+
 		return $this;
 	}
 
@@ -463,6 +469,7 @@ class Upgrades {
 	 */
 	public function set_current_version( string $version ): self {
 		$this->current_version = $version;
+
 		return $this;
 	}
 
@@ -472,10 +479,12 @@ class Upgrades {
 	 * @since 3.1.1
 	 *
 	 * @param int $timeout The timeout in seconds.
+	 *
 	 * @return self
 	 */
 	public function set_lock_timeout( int $timeout ): self {
 		$this->lock_timeout = max( 60, $timeout ); // Minimum 60 seconds
+
 		return $this;
 	}
 
@@ -513,6 +522,7 @@ class Upgrades {
 	 */
 	public function is_upgrade_needed(): bool {
 		$installed_version = $this->get_installed_version();
+
 		return version_compare( $installed_version, $this->current_version, '<' );
 	}
 
@@ -574,6 +584,7 @@ class Upgrades {
 		if ( $lock_exists ) {
 			divi_squad()->memory->delete( $this->lock_option_name );
 			divi_squad()->log_debug( 'Upgrade lock forcibly released' );
+
 			return true;
 		}
 

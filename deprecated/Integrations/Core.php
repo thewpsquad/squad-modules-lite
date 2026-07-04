@@ -3,10 +3,10 @@
 /**
  * The Core class for Divi Squad.
  *
- * @since   1.0.0
- * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Integrations;
@@ -16,17 +16,17 @@ use function add_action;
 /**
  * Divi Squad Core Class.
  *
- * @since   1.0.0
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class Core extends \DiviSquad\Base\Core {
 
 	/**
 	 * Load the divi custom modules for the divi builder.
 	 *
-	 * @return void
 	 * @deprecated 3.3.0
+	 * @return void
 	 */
 	protected function load_modules_for_builder() {
 		// Register all hooks for divi integration.
@@ -44,24 +44,24 @@ abstract class Core extends \DiviSquad\Base\Core {
 	/**
 	 *  Load the settings migration.
 	 *
-	 * @return void
 	 * @deprecated 3.3.0
+	 * @return void
 	 */
 	public function hook_migrate_builder_settings() {}
 
 	/**
 	 *  Load the extensions.
 	 *
-	 * @return void
 	 * @deprecated 3.3.0
+	 * @return void
 	 */
 	public function hook_initialize_builder_extension() {}
 
 	/**
 	 * Used to update the content of the cached definitions js file.
 	 *
-	 * @return void
 	 * @deprecated 3.3.0
+	 * @return void
 	 */
 	public function hook_initialize_builder_asset_definitions() {}
 }

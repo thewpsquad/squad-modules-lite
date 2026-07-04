@@ -1,11 +1,12 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Asset Registration Trait
  *
  * Handles registration and enqueueing of scripts and styles.
  *
  * @since   3.3.0
- * @package DiviSquad\Core\Traits
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits\Assets;
@@ -39,7 +40,7 @@ trait Registration {
 	 *
 	 * @param string                                                                                                                          $handle Script identifier.
 	 * @param array{file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string>} $config Asset configuration.
-	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null}                                                                        $args Additional arguments.
+	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null}                                                                        $args   Additional arguments.
 	 */
 	protected function register_wp_script( string $handle, array $config, array $args = array() ): bool {
 		try {
@@ -59,8 +60,8 @@ trait Registration {
 			 * @since 3.3.0
 			 *
 			 * @param array<string> $dependencies The dependencies for the script.
-			 * @param string       $full_handle   The full handle name of the script.
-			 * @param array        $config        The asset configuration.
+			 * @param string        $full_handle  The full handle name of the script.
+			 * @param array         $config       The asset configuration.
 			 */
 			$dependencies = apply_filters( 'divi_squad_script_dependencies', $asset_data['dependencies'], $full_handle, $config );
 
@@ -93,7 +94,7 @@ trait Registration {
 			 *
 			 * @param string $script_text_domain The text domain for script localization.
 			 * @param string $full_handle        The full handle name of the script.
-			 * @param array  $config            The asset configuration.
+			 * @param array  $config             The asset configuration.
 			 */
 			$script_text_domain = apply_filters( 'divi_squad_script_text_domain', divi_squad()->get_name(), $full_handle, $config );
 
@@ -110,13 +111,14 @@ trait Registration {
 			 * @since 3.3.0
 			 *
 			 * @param string $full_handle Full handle name.
-			 * @param array  $asset_data Asset data.
+			 * @param array  $asset_data  Asset data.
 			 */
 			do_action( 'divi_squad_script_registered', $full_handle, $asset_data );
 
 			return true;
 		} catch ( RuntimeException $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to register script: %s', $handle ) );
+
 			return false;
 		}
 	}
@@ -126,7 +128,7 @@ trait Registration {
 	 *
 	 * @param string                                                                                                                          $handle Style identifier.
 	 * @param array{file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string>} $config Asset configuration.
-	 * @param string                                                                                                                          $media Media type.
+	 * @param string                                                                                                                          $media  Media type.
 	 */
 	protected function register_wp_style( string $handle, array $config, string $media = 'all' ): bool {
 		try {
@@ -142,8 +144,8 @@ trait Registration {
 			 * @since 3.3.0
 			 *
 			 * @param array<string> $dependencies The dependencies for the style.
-			 * @param string       $full_handle   The full handle name of the style.
-			 * @param array        $config        The asset configuration.
+			 * @param string        $full_handle  The full handle name of the style.
+			 * @param array         $config       The asset configuration.
 			 */
 			$dependencies = apply_filters( 'divi_squad_style_dependencies', $asset_data['dependencies'], $full_handle, $config );
 
@@ -189,14 +191,15 @@ trait Registration {
 			 * @since 3.3.0
 			 *
 			 * @param string $full_handle Full handle name.
-			 * @param array  $asset_data Asset data.
-			 * @param string $media      Media type.
+			 * @param array  $asset_data  Asset data.
+			 * @param string $media       Media type.
 			 */
 			do_action( 'divi_squad_style_registered', $full_handle, $asset_data, $filtered_media );
 
 			return true;
 		} catch ( RuntimeException $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to register style: %s', $handle ) );
+
 			return false;
 		}
 	}

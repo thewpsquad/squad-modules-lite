@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Error Report Email Handler
  *
@@ -6,8 +7,8 @@
  * WordPress integration, rate limiting, validation, and comprehensive error handling.
  *
  * @since      3.1.7
- * @package    DiviSquad\Emails
  * @deprecated 3.3.0
+ * @package    DiviSquad\Emails
  */
 
 namespace DiviSquad\Managers\Emails;
@@ -28,8 +29,8 @@ use DiviSquad\Emails\ErrorReport as BaseErrorReport;
  * - Error handling and logging
  *
  * @since      3.1.7
- * @package    DiviSquad\Emails
- * @author     The WP Squad <support@squadmodules.com>
  * @deprecated 3.3.0
+ * @author     The WP Squad <support@squadmodules.com>
+ * @package    DiviSquad\Emails
  */
-class ErrorReport extends BaseErrorReport {}
+class ErrorReport extends BaseErrorReport { }

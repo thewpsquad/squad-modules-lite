@@ -2,9 +2,9 @@
 /**
  * WP helper class for WordPress functions.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.2
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Utils;
@@ -15,14 +15,12 @@ use function get_site_option;
 use function is_multisite;
 use function wp_localize_script;
 use function wp_set_script_translations;
-use const WP_HOME; // @phpstan-ignore-line constant.notFound
-use const WP_SITEURL; // @phpstan-ignore-line constant.notFound
 
 /**
  * WP Helper class.
  *
- * @package DiviSquad
  * @since   1.2.2
+ * @package DiviSquad
  */
 class WP {
 
@@ -33,11 +31,11 @@ class WP {
 	 */
 	public static function is_playground(): bool {
 		// Check if WP_HOME or WP_SITEURL contains "playground.wordpress.net".
-		if ( defined( 'WP_HOME' ) && strpos( WP_HOME, 'playground.wordpress.net' ) !== false ) {
+		if ( defined( 'WP_HOME' ) && strpos( \WP_HOME, 'playground.wordpress.net' ) !== false ) {
 			return true;
 		}
 
-		if ( defined( 'WP_SITEURL' ) && strpos( WP_SITEURL, 'playground.wordpress.net' ) !== false ) {
+		if ( defined( 'WP_SITEURL' ) && strpos( \WP_SITEURL, 'playground.wordpress.net' ) !== false ) {
 			return true;
 		}
 

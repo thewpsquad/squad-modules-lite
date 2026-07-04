@@ -2,9 +2,9 @@
 /**
  * String Helper class for utility
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.3
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;
@@ -12,8 +12,8 @@ namespace DiviSquad\Core\Supports\Polyfills;
 /**
  * String Helper class.
  *
- * @package DiviSquad
  * @since   1.2.3
+ * @package DiviSquad
  */
 class Str {
 
@@ -94,9 +94,9 @@ class Str {
 	 *
 	 * @param string $string_content The string.
 	 * @param int    $format         Specify the return value of this function, options are: 0, 1, 2.
-	 * @param string $characters      The substring to search for in the `$haystack`.
+	 * @param string $characters     The substring to search for in the `$haystack`.
 	 *
-	 * @return array|int True if `$needle` is in `$haystack`, otherwise false.
+	 * @return array<int, string>|int|false True if `$needle` is in `$haystack`, otherwise false.
 	 */
 	public static function word_count( string $string_content, int $format = 0, string $characters = '' ) {
 		/*

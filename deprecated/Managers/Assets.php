@@ -3,10 +3,10 @@
 /**
  * Assets Manager
  *
- * @package     DiviSquad
- * @author      The WP Squad <support@squadmodules.com>
  * @since       1.0.0
  * @deprecated  3.0.0 marked as deprecated.
+ * @package     DiviSquad
+ * @author      The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Managers;
@@ -14,35 +14,36 @@ namespace DiviSquad\Managers;
 /**
  * Assets Class
  *
- * @package     DiviSquad
  * @since       1.0.0
- * @deprecated 3.0.0 marked as deprecated.
+ * @deprecated  3.0.0 marked as deprecated.
+ * @package     DiviSquad
  */
 class Assets {
 
 	/**
 	 * Enqueue scripts for frontend.
 	 *
-	 * @return void
 	 * @deprecated 3.0.0 marked as deprecated.
+	 * @return void
 	 */
 	public function enqueue_scripts() {}
 
 	/**
 	 * Enqueue scripts for builder.
 	 *
-	 * @return void
 	 * @deprecated 3.0.0 marked as deprecated.
+	 * @return void
 	 */
 	public function enqueue_scripts_vb() {}
 
 	/**
 	 * Load requires asset extra in the visual builder by default.
 	 *
+	 * @deprecated 3.0.0 marked as deprecated.
+	 *
 	 * @param string $output Exist output.
 	 *
 	 * @return string
-	 * @deprecated 3.0.0 marked as deprecated.
 	 */
 	public function wp_localize_script_data( $output ) {
 		return $output;

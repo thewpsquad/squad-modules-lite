@@ -3,10 +3,10 @@
 /**
  * Extension Manager
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Managers\Features;
@@ -18,9 +18,9 @@ use Throwable;
 /**
  * Extension Manager class
  *
- * @package DiviSquad
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class Extensions extends ManagerBase {
 

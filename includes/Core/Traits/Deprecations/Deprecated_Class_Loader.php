@@ -5,8 +5,8 @@
  * Provides improved handling of deprecated classes with better performance,
  * lazy loading, and more robust error handling.
  *
- * @package DiviSquad\Core\Traits
- * @since 3.2.0
+ * @since   3.2.0
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits\Deprecations;
@@ -21,7 +21,7 @@ use Throwable;
  * Provides improved handling of deprecated classes with better performance,
  * lazy loading, and more robust error handling.
  *
- * @since 3.2.0
+ * @since   3.2.0
  * @package DiviSquad
  */
 trait Deprecated_Class_Loader {
@@ -84,7 +84,7 @@ trait Deprecated_Class_Loader {
 		 *
 		 * @since 3.2.0
 		 *
-		 * @param array         $base_classes Array of deprecated class configurations. Key is the full class name, value is the configuration array.
+		 * @param array        $base_classes Array of deprecated class configurations. Key is the full class name, value is the configuration array.
 		 * @param SquadModules $this         Current plugin instance.
 		 */
 		$filtered_classes = apply_filters( 'divi_squad_deprecated_classes', $base_classes, $this );
@@ -117,6 +117,7 @@ trait Deprecated_Class_Loader {
 				new RuntimeException( "Deprecated class file not found: $file_path" ),
 				'Class validation failed'
 			);
+
 			return false;
 		}
 
@@ -126,6 +127,7 @@ trait Deprecated_Class_Loader {
 					new RuntimeException( "Invalid action configuration for class: $class_name" ),
 					'Hook validation failed'
 				);
+
 				return false;
 			}
 		}
@@ -160,6 +162,7 @@ trait Deprecated_Class_Loader {
 					}
 				}
 			);
+
 			return;
 		}
 
@@ -248,6 +251,7 @@ trait Deprecated_Class_Loader {
 			return true;
 		} catch ( Throwable $e ) {
 			$this->log_error( $e, "Failed to load deprecated class: $class_name" );
+
 			return false;
 		}
 	}
@@ -282,8 +286,10 @@ trait Deprecated_Class_Loader {
 	 * Evaluate a loading condition
 	 *
 	 * @since 3.2.0
-	 * @param callable|array $condition Condition to evaluate.
+	 *
+	 * @param callable|array $condition  Condition to evaluate.
 	 * @param string         $class_name Context class name.
+	 *
 	 * @return bool Whether condition passes
 	 */
 	private function evaluate_condition( $condition, string $class_name ): bool {
@@ -293,6 +299,7 @@ trait Deprecated_Class_Loader {
 
 		if ( isset( $condition['callback'] ) && is_callable( $condition['callback'] ) ) {
 			$args = $condition['args'] ?? array( $class_name );
+
 			return (bool) call_user_func_array( $condition['callback'], $args );
 		}
 

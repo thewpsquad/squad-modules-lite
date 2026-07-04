@@ -1,19 +1,19 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Memory management class for WordPress options
  *
  * Provides a caching layer and advanced features for WordPress options management.
  *
  * @since   2.0.0
- *
  * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core;
 
-use Exception;
 use InvalidArgumentException;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -70,6 +70,7 @@ class Memory {
 	 * Initialize the Memory class.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @param string $prefix Optional. Plugin prefix for option naming. Default 'divi-squad'.
 	 */
 	public function __construct( string $prefix = 'divi-squad' ) {
@@ -93,20 +94,27 @@ class Memory {
 	 * @return void
 	 */
 	private function load_data_from_storage(): void {
-		if ( $this->get_all() !== array() ) {
-			return;
+		try {
+			if ( $this->all() !== array() ) {
+				return;
+			}
+
+			$cached_data = wp_cache_get( $this->option_name, $this->cache_group );
+			if ( false !== $cached_data ) {
+				$this->data = (array) $cached_data;
+
+				return;
+			}
+
+			$this->data = get_option( $this->option_name, array() );
+			wp_cache_set( $this->option_name, $this->data, $this->cache_group );
+
+			$this->maybe_migrate_legacy_options();
+		} catch ( Throwable $e ) {
+			// Log the error but initialize with empty data to prevent critical failure
+			divi_squad()->log_error( $e, 'Failed to load data from storage' );
+			$this->data = array();
 		}
-
-		$cached_data = wp_cache_get( $this->option_name, $this->cache_group );
-		if ( false !== $cached_data ) {
-			$this->data = (array) $cached_data;
-			return;
-		}
-
-		$this->data = get_option( $this->option_name, array() );
-		wp_cache_set( $this->option_name, $this->data, $this->cache_group );
-
-		$this->maybe_migrate_legacy_options();
 	}
 
 	/**
@@ -194,7 +202,7 @@ class Memory {
 	 *
 	 * @return array
 	 */
-	public function get_all(): array {
+	public function all(): array {
 		return $this->data;
 	}
 
@@ -214,83 +222,110 @@ class Memory {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $field Field key to check.
+	 * @param string $field Field key.
 	 *
 	 * @return bool
 	 */
 	public function has( string $field ): bool {
-		return array_key_exists( $field, $this->data );
+		return isset( $this->data[ $field ] );
 	}
 
 	/**
-	 * Get a field value.
+	 * Get a field value or default.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param string $field   Field key.
-	 * @param mixed  $default Optional. Default value if field doesn't exist.
+	 * @param mixed  $default Default value.
 	 *
 	 * @return mixed
 	 */
-	public function get( string $field, $default = null ) { // phpcs:ignore Universal.NamingConventions
+	public function get( string $field, $default = null ) {
 		return $this->has( $field ) ? $this->data[ $field ] : $default;
 	}
 
 	/**
 	 * Set a field value.
 	 *
+	 * Only updates the field if the new value is different.
+	 * Marks the data as modified if updated.
+	 *
 	 * @since 2.0.0
 	 *
 	 * @param string $field Field key.
 	 * @param mixed  $value Field value.
 	 *
-	 * @return void
+	 * @return bool True if field was updated.
 	 */
-	public function set( string $field, $value ): void {
-		if ( ! isset( $this->data[ $field ] ) || $this->data[ $field ] !== $value ) {
-			$this->data[ $field ] = $value;
-			$this->is_modified    = true;
+	public function set( string $field, $value ): bool { // phpcs:ignore Universal.NamingConventions
+		// Check if field exists and if value is unchanged.
+		$exists = $this->has( $field );
+		if ( $exists && $this->data[ $field ] === $value ) {
+			return false;
 		}
+
+		// Update the field.
+		$this->data[ $field ] = $value;
+		$this->is_modified    = true;
+
+		return true;
 	}
 
 	/**
-	 * Update an existing field.
+	 * Update a field if it exists.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param string $field Field key.
-	 * @param mixed  $value New value.
+	 * @param mixed  $value Field value.
 	 *
-	 * @return bool True if updated, false if field doesn't exist.
+	 * @return bool
 	 */
-	public function update( string $field, $value ): bool {
-		if ( $this->has( $field ) ) {
-			$this->set( $field, $value );
-
-			return true;
+	public function update( string $field, $value ): bool { // phpcs:ignore Universal.NamingConventions
+		if ( ! $this->has( $field ) ) {
+			return false;
 		}
 
-		return false;
+		return $this->set( $field, $value );
 	}
 
 	/**
-	 * Delete a field.
+	 * Delete a field if it exists.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param string $field Field key.
 	 *
-	 * @return bool True if deleted, false if field doesn't exist.
+	 * @return bool
 	 */
 	public function delete( string $field ): bool {
-		if ( $this->has( $field ) ) {
-			unset( $this->data[ $field ] );
-			$this->is_modified = true;
-
-			return true;
+		if ( ! $this->has( $field ) ) {
+			return false;
 		}
 
-		return false;
+		unset( $this->data[ $field ] );
+		$this->is_modified = true;
+
+		return true;
+	}
+
+	/**
+	 * Set multiple fields at once.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $fields Key-value pairs of fields to set.
+	 *
+	 * @return bool
+	 */
+	public function set_many( array $fields ): bool {
+		$updated = false;
+
+		foreach ( $fields as $field => $value ) {
+			$updated = $this->set( $field, $value ) || $updated;
+		}
+
+		return $updated;
 	}
 
 	/**
@@ -302,7 +337,7 @@ class Memory {
 	 * @param mixed  $value Value to add.
 	 *
 	 * @return void
-	 * @throws Exception If field is not an array.
+	 * @throws RuntimeException If field is not an array.
 	 */
 	public function add_to_array( string $field, $value ): void {
 		if ( ! isset( $this->data[ $field ] ) ) {
@@ -310,9 +345,9 @@ class Memory {
 		}
 
 		if ( ! is_array( $this->data[ $field ] ) ) {
-			throw new Exception(
+			throw new RuntimeException(
 				sprintf(
-					/* translators: %s: field name */
+				/* translators: %s: field name */
 					esc_html__( 'Field %s must be an array.', 'divi-squad' ),
 					esc_html( $field )
 				)
@@ -332,13 +367,13 @@ class Memory {
 	 * @param mixed  $value Value to remove.
 	 *
 	 * @return bool True if value was removed.
-	 * @throws Exception If field is not an array.
+	 * @throws RuntimeException If field is not an array.
 	 */
 	public function remove_from_array( string $field, $value ): bool {
 		if ( ! isset( $this->data[ $field ] ) || ! is_array( $this->data[ $field ] ) ) {
-			throw new Exception(
+			throw new RuntimeException(
 				sprintf(
-					/* translators: %s: field name */
+				/* translators: %s: field name */
 					esc_html__( 'Field %s must be an array.', 'divi-squad' ),
 					esc_html( $field )
 				)
@@ -349,6 +384,7 @@ class Memory {
 		if ( false !== $key ) {
 			unset( $this->data[ $field ][ $key ] );
 			$this->is_modified = true;
+
 			return true;
 		}
 
@@ -359,9 +395,11 @@ class Memory {
 	 * Queue a batch operation.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @param string $operation Operation type ('set', 'update', 'delete').
-	 * @param string $field Field key.
-	 * @param mixed  $value Optional. Value for set/update operations.
+	 * @param string $field     Field key.
+	 * @param mixed  $value     Optional. Value for set/update operations.
+	 *
 	 * @return void
 	 */
 	public function queue_batch_operation( string $operation, string $field, $value = null ): void {
@@ -402,19 +440,24 @@ class Memory {
 	 * @return void
 	 */
 	public function sync_data(): void {
-		if ( ! $this->is_modified ) {
-			return;
+		try {
+			if ( ! $this->is_modified ) {
+				return;
+			}
+
+			// Clear cache and update option.
+			wp_cache_delete( $this->option_name, $this->cache_group );
+
+			// Update option and cache.
+			update_option( $this->option_name, $this->data );
+			wp_cache_set( $this->option_name, $this->data, $this->cache_group );
+
+			// Reset modification status.
+			$this->is_modified = false;
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to sync memory data to database' );
+			// Keep the is_modified flag true so we can try again later
 		}
-
-		// Clear cache and update option.
-		wp_cache_delete( $this->option_name, $this->cache_group );
-
-		// Update option and cache.
-		update_option( $this->option_name, $this->data );
-		wp_cache_set( $this->option_name, $this->data, $this->cache_group );
-
-		// Reset modification status.
-		$this->is_modified = false;
 	}
 
 	/**

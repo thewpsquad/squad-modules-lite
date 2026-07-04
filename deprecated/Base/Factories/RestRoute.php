@@ -6,10 +6,10 @@
  * This class manages the registration and handling of REST API routes
  * for the Divi Squad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories;
@@ -21,9 +21,9 @@ use DiviSquad\Core\Traits\Singleton;
 /**
  * Class RestRoute
  *
- * @package DiviSquad
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 final class RestRoute extends Factory {
 
@@ -49,6 +49,7 @@ final class RestRoute extends Factory {
 	 * Add a new route to the list of routes.
 	 *
 	 * @param string $class_name The class name of the route to add. Must implement RouteInterface.
+	 *
 	 * @return void
 	 */
 	public function add( $class_name ) {
@@ -118,6 +119,7 @@ final class RestRoute extends Factory {
 				$args[ $key ]['permission_callback'] = 'is_user_logged_in';
 			}
 		}
+
 		return $args;
 	}
 
@@ -153,6 +155,7 @@ final class RestRoute extends Factory {
 	private function format_route_name( string $route ): string {
 		$route_parts = explode( '/', str_replace( array( '_', '-' ), '/', $route ) );
 		$route_parts = array_map( 'ucfirst', $route_parts );
+
 		return implode( '', $route_parts );
 	}
 }

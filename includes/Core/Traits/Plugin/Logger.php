@@ -20,9 +20,9 @@ use Throwable;
  * - Customizable log identifier
  * - WordPress hooks for extending logging functionality
  *
- * @since      3.2.0
- * @package    DiviSquad\Core\Traits\Plugin
- * @author     The WP Squad <support@squadmodules.com>
+ * @since   3.2.0
+ * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 trait Logger {
 
@@ -64,10 +64,11 @@ trait Logger {
 	/**
 	 * Set the log identifier for this instance.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param string $identifier The identifier to use in log messages.
+	 *
 	 * @return void
 	 */
 	public function set_log_identifier( string $identifier ): void {
@@ -77,10 +78,11 @@ trait Logger {
 	/**
 	 * Enable or disable logging.
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access public
 	 *
 	 * @param bool $suppress Whether to suppress all logs.
+	 *
 	 * @return void
 	 */
 	public function set_suppress_logs( bool $suppress ): void {
@@ -94,13 +96,14 @@ trait Logger {
 	 * WordPress error log. Also applies filters to allow customization of
 	 * log handling.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access protected
 	 *
 	 * @param string $level   Log level (ERROR, DEBUG, etc.).
 	 * @param mixed  $message Message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data to log.
+	 *
 	 * @return void
 	 */
 	protected function write_log( string $level, $message, string $context = 'General', array $data = array() ): void {
@@ -122,12 +125,12 @@ trait Logger {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param bool   $do_log     Whether to log this message.
-		 * @param string $level      Log level.
-		 * @param mixed  $message    The message being logged.
-		 * @param string $context    The context identifier.
-		 * @param array  $data       Additional data for the log.
-		 * @param string $formatted  The formatted log message.
+		 * @param bool   $do_log    Whether to log this message.
+		 * @param string $level     Log level.
+		 * @param mixed  $message   The message being logged.
+		 * @param string $context   The context identifier.
+		 * @param array  $data      Additional data for the log.
+		 * @param string $formatted The formatted log message.
 		 */
 		$do_log = apply_filters(
 			'divi_squad_do_log',
@@ -148,11 +151,11 @@ trait Logger {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param string $level      Log level.
-		 * @param mixed  $message    The message being logged.
-		 * @param string $context    The context identifier.
-		 * @param array  $data       Additional data for the log.
-		 * @param string $formatted  The formatted log message.
+		 * @param string $level     Log level.
+		 * @param mixed  $message   The message being logged.
+		 * @param string $context   The context identifier.
+		 * @param array  $data      Additional data for the log.
+		 * @param string $formatted The formatted log message.
 		 */
 		do_action(
 			'divi_squad_before_log',
@@ -171,11 +174,11 @@ trait Logger {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param string $level      Log level.
-		 * @param mixed  $message    The message being logged.
-		 * @param string $context    The context identifier.
-		 * @param array  $data       Additional data for the log.
-		 * @param string $formatted  The formatted log message.
+		 * @param string $level     Log level.
+		 * @param mixed  $message   The message being logged.
+		 * @param string $context   The context identifier.
+		 * @param array  $data      Additional data for the log.
+		 * @param string $formatted The formatted log message.
 		 */
 		do_action(
 			'divi_squad_after_log',
@@ -193,13 +196,14 @@ trait Logger {
 	 * Creates a standardized format for log messages including the
 	 * log identifier, level, context, and message.
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access protected
 	 *
 	 * @param string $level   Log level (ERROR, DEBUG, etc.).
 	 * @param mixed  $message The message to format.
 	 * @param string $context The context identifier.
 	 * @param array  $data    Additional data to include.
+	 *
 	 * @return string The formatted log message.
 	 */
 	protected function format_log_message( string $level, $message, string $context, array $data ): string {
@@ -241,10 +245,11 @@ trait Logger {
 	 *
 	 * Creates a standardized string representation of an error or exception.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access protected
 	 *
 	 * @param Throwable $error Error object to format.
+	 *
 	 * @return string Formatted error message.
 	 */
 	protected function format_error_message( Throwable $error ): string {
@@ -271,10 +276,11 @@ trait Logger {
 	 *
 	 * Logs the stack trace of an error when WordPress debug mode is enabled.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access protected
 	 *
 	 * @param Throwable $error Error object with stack trace.
+	 *
 	 * @return void
 	 */
 	protected function log_debug_trace( Throwable $error ): void {
@@ -301,12 +307,13 @@ trait Logger {
 	 * Records a message about deprecated functionality including the version
 	 * when it was deprecated and any replacement functionality.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param string $feature     The deprecated feature.
 	 * @param string $version     Version since deprecation.
 	 * @param string $replacement Replacement feature if any.
+	 *
 	 * @return void
 	 */
 	public function log_deprecated( string $feature, string $version, string $replacement = '' ): void {
@@ -355,7 +362,7 @@ trait Logger {
 	 * Records an error message including details from the error object
 	 * and optional additional data. Can also send an error report email.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param Throwable $error      The error that occurred.
@@ -423,12 +430,13 @@ trait Logger {
 	 *
 	 * Records a debug message only when WordPress debug mode is enabled.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param mixed  $message Debug message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional debug data.
+	 *
 	 * @return void
 	 */
 	public function log_debug( $message, string $context = 'General', array $data = array() ): void {
@@ -458,12 +466,13 @@ trait Logger {
 	 *
 	 * Records an informational message for general status updates.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param mixed  $message Informational message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log_info( $message, string $context = 'General', array $data = array() ): void {
@@ -490,12 +499,13 @@ trait Logger {
 	 * Records a warning message for potential issues that don't prevent
 	 * normal operation.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param mixed  $message Warning message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log_warning( $message, string $context = 'General', array $data = array() ): void {
@@ -521,12 +531,13 @@ trait Logger {
 	 *
 	 * Records a notice for normal but significant events.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param mixed  $message Notice message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log_notice( $message, string $context = 'General', array $data = array() ): void {
@@ -553,12 +564,13 @@ trait Logger {
 	 * Records a critical message for severe issues that require
 	 * immediate attention.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @param mixed  $message Critical message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log_critical( $message, string $context = 'General', array $data = array() ): void {
@@ -585,12 +597,13 @@ trait Logger {
 	 * Records an emergency message for the most severe issues that
 	 * require immediate action.
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access public
 	 *
 	 * @param mixed  $message Emergency message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log_emergency( $message, string $context = 'General', array $data = array() ): void {
@@ -617,12 +630,13 @@ trait Logger {
 	 * Records an alert message for issues that require immediate action
 	 * but are not as severe as emergencies.
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access public
 	 *
 	 * @param mixed  $message Alert message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log_alert( $message, string $context = 'General', array $data = array() ): void {
@@ -648,13 +662,14 @@ trait Logger {
 	 *
 	 * Generic logging method that allows specifying the log level.
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access public
 	 *
 	 * @param string $level   Log level (ERROR, DEBUG, etc.).
 	 * @param mixed  $message Message to log.
 	 * @param string $context Context identifier.
 	 * @param array  $data    Additional data.
+	 *
 	 * @return void
 	 */
 	public function log( string $level, $message, string $context = 'General', array $data = array() ): void {
@@ -689,12 +704,13 @@ trait Logger {
 	 *
 	 * Sends an error report email with details about the error.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access protected
 	 *
 	 * @param Throwable $error      The error that occurred.
 	 * @param string    $context    Error context description.
 	 * @param array     $extra_data Additional data to include.
+	 *
 	 * @return void
 	 */
 	protected function send_error_report( Throwable $error, string $context, array $extra_data = array() ): void {

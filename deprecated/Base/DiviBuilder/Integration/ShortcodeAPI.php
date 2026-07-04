@@ -1,11 +1,12 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Integration API
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Integration;
@@ -13,19 +14,17 @@ namespace DiviSquad\Base\DiviBuilder\Integration;
 use DiviSquad\Base\DiviBuilder\Integration;
 use DiviSquad\Utils\Asset as AssetUtil;
 use DiviSquad\Utils\Divi as DiviUtil;
-use DiviSquad\Utils\Helper as HelperUtil;
 use DiviSquad\Utils\WP as WPUtil;
 use function add_action;
 use function et_builder_enabled_for_post;
 use function get_the_ID;
-use function is_admin;
 
 /**
  * Integration API Class.
  *
- * @package DiviSquad
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class ShortcodeAPI extends Integration {
 

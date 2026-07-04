@@ -2,9 +2,9 @@
 /**
  * The plugin link management class for the plugin dashboard at admin area.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Supports;
@@ -12,8 +12,8 @@ namespace DiviSquad\Core\Supports;
 /**
  * Link Class
  *
- * @package DiviSquad
  * @since   3.0.0
+ * @package DiviSquad
  */
 class Links {
 	/**

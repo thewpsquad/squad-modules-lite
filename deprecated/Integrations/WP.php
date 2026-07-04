@@ -6,16 +6,16 @@
  * This file contains the WP class which provides integration helper functionalities
  * for the DiviSquad plugin, including version compatibility checks and admin notices.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.2.0 marked as deprecated.
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Integrations;
 
-use DiviSquad\Utils\Divi;
 use DiviSquad\Core\Traits\Singleton;
+use DiviSquad\Utils\Divi;
 
 /**
  * Define integration helper functionalities for this plugin.
@@ -23,9 +23,9 @@ use DiviSquad\Core\Traits\Singleton;
  * This class provides methods for version compatibility checks,
  * setting plugin options, and displaying admin notices.
  *
- * @since   1.0.0
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.2.0 marked as deprecated.
+ * @package    DiviSquad
  */
 class WP {
 
@@ -117,8 +117,10 @@ class WP {
 	private function check_php_compatibility(): bool {
 		if ( isset( $this->options['RequiresPHP'] ) && ! self::version_compare( $this->options['RequiresPHP'], PHP_VERSION ) ) {
 			add_action( 'admin_notices', array( $this, 'required_php_version_missing_notice' ) );
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -130,8 +132,10 @@ class WP {
 	private function check_wordpress_compatibility(): bool {
 		if ( isset( $this->options['RequiresWP'] ) && ! self::version_compare( $this->options['RequiresWP'], get_bloginfo( 'version' ) ) ) {
 			add_action( 'admin_notices', array( $this, 'required_wordpress_version_missing_notice' ) );
+
 			return false;
 		}
+
 		return true;
 	}
 
@@ -143,16 +147,19 @@ class WP {
 	private function check_divi_compatibility(): bool {
 		if ( ! class_exists( 'ET_Core_API_ElegantThemes' ) ) {
 			add_action( 'admin_notices', array( $this, 'divi_builder_missing_notice' ) );
+
 			return false;
 		}
 
 		if ( defined( 'ET_BUILDER_PLUGIN_VERSION' ) && ! self::version_compare( $this->options['RequiresDIVI'], \ET_BUILDER_PLUGIN_VERSION ) ) {
 			add_action( 'admin_notices', array( $this, 'required_divi_builder_version_missing_notice' ) );
+
 			return false;
 		}
 
 		if ( defined( 'ET_CORE_VERSION' ) && ! self::version_compare( $this->options['RequiresDIVI'], \ET_CORE_VERSION ) ) {
 			add_action( 'admin_notices', array( $this, 'required_divi_version_missing_notice' ) );
+
 			return false;
 		}
 

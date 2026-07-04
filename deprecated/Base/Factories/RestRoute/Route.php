@@ -7,10 +7,10 @@
  * implementation for all specific Route classes in the Divi Squad
  * plugin's REST API.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories\RestRoute;
@@ -18,9 +18,9 @@ namespace DiviSquad\Base\Factories\RestRoute;
 /**
  * Abstract class representing the Route.
  *
- * @package DiviSquad
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class Route implements RouteInterface {
 

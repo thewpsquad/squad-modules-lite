@@ -1,4 +1,5 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Extensions Integration Class
  *

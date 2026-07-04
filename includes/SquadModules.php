@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Squad Modules Core Class
  *
@@ -6,7 +7,6 @@
  * error handling, and core functionality for the Squad Modules plugin.
  *
  * @since       1.0.0
- *
  * @author      The WP Squad <support@squadmodules.com>
  * @copyright   2023-2025 The WP Squad (https://thewpsquad.com/)
  * @license     GPL-3.0-only
@@ -16,7 +16,6 @@
 
 namespace DiviSquad;
 
-use DiviSquad\Settings\Migration;
 use Freemius;
 use RuntimeException;
 use Throwable;
@@ -35,24 +34,29 @@ use Throwable;
  * @since   1.0.0
  * @package DiviSquad
  *
- * @property Core\Requirements                    $requirements   Requirements checker.
- * @property Core\Memory                          $memory         Memory manager.
- * @property Core\Cache                           $cache          Cache manager.
- * @property Core\Assets                          $assets         Assets Manager
- * @property Core\Distribution                    $distribution   Distribution manager.
- * @property Core\Supports\Site_Health            $site_health    Site health manager.
- * @property Core\Modules                         $modules        Module manager.
- * @property Core\Extensions                      $extensions     Extension manger.
- * @property Core\RestRoutes                      $rest_routes    REST API manager.
- * @property Builder\Utils\Elements\Custom_Fields $custom_fields  Custom fields manager.
+ * @property Core\Requirements                       $requirements           Requirements checker.
+ * @property Core\Memory                             $memory                 Memory manager.
+ * @property Core\Cache                              $cache                  Cache manager.
+ * @property Core\Assets                             $assets                 Assets Manager
+ * @property Core\Distribution                       $distribution           Distribution manager.
+ * @property Core\Supports\Site_Health               $site_health            Site health manager.
+ * @property Core\Admin\Menu                         $admin_menu             Admin menu manager.
+ * @property Core\Admin\Notice                       $admin_notice           Admin notice manager
+ * @property Core\Admin\Branding                     $branding               Branding manager.
+ * @property Core\Modules                            $modules                Module manager.
+ * @property Core\Extensions                         $extensions             Extension manger.
+ * @property Core\RestRoutes                         $rest_routes            REST API manager.
+ * @property Builder\Utils\Elements\Custom_Fields    $custom_fields_element  Custom fields manager.
+ * @property Builder\Utils\Elements\Forms            $form_element           Forms manager.
+ * @property Builder\Version4\Supports\Module_Helper $d4_module_helper       Module helper for Divi 4.
  */
 final class SquadModules {
 
 	use Core\Traits\Chainable_Container;
 	use Core\Traits\Deprecations\Deprecated_Class_Loader;
 	use Core\Traits\Plugin\Detect_Plugin_Life;
-	use Core\Traits\Plugin\Pluggable;
 	use Core\Traits\Plugin\Logger;
+	use Core\Traits\Plugin\Pluggable;
 	use Core\Traits\Singleton;
 	use Core\Traits\WP\Use_WP_Filesystem;
 
@@ -118,15 +122,6 @@ final class SquadModules {
 	 */
 	private function __construct() {
 		try {
-			/**
-			 * Fires before the plugin constructor is initialized.
-			 *
-			 * This action allows executing code before the plugin constructor is initialized.
-			 *
-			 * @since 1.0.0
-			 */
-			do_action( 'divi_squad_before_construct' );
-
 			$this->set_log_identifier( 'Squad Modules' );
 			$this->load_initials();
 			$this->register_hooks();
@@ -156,9 +151,6 @@ final class SquadModules {
 		// Register plugin hooks.
 		// Note: init_publisher hook is no longer needed since publisher is initialized in prerequisites.
 		add_action( 'init', array( $this, 'run' ) );
-
-		// Only configure the publisher after requirements validation.
-		add_action( 'divi_squad_after_requirements_validation', array( $this, 'configure_distributor' ) );
 
 		/**
 		 * Fires after plugin hooks are registered.
@@ -326,8 +318,8 @@ final class SquadModules {
 	 * @return void
 	 */
 	public function init_prerequisites(): void {
-		$this->container['requirements'] = new Core\Requirements( $this );
-		$this->container['distribution'] = new Core\Distribution( $this );
+		$this->container['distribution'] = new Core\Distribution();
+		$this->container['requirements'] = new Core\Requirements();
 		$this->container['memory']       = new Core\Memory();
 		$this->container['cache']        = new Core\Cache();
 		$this->container['assets']       = new Core\Assets();
@@ -354,18 +346,36 @@ final class SquadModules {
 	 */
 	protected function get_deprecated_classes_list(): array {
 		return array(
-			\DiviSquad\Admin\Assets::class                 => array(),
-			\DiviSquad\Admin\Plugin\AdminFooterText::class => array(),
-			\DiviSquad\Admin\Plugin\ActionLinks::class     => array(),
-			\DiviSquad\Admin\Plugin\RowMeta::class         => array(),
-			\DiviSquad\Base\Core::class                    => array(),
-			\DiviSquad\Base\Memory::class                  => array(),
-			\DiviSquad\Base\DiviBuilder\IntegrationAPIBase::class => array(),
-			\DiviSquad\Base\DiviBuilder\IntegrationAPI::class => array(),
-			\DiviSquad\Base\DiviBuilder\Integration::class => array(),
-			\DiviSquad\Base\DiviBuilder\Integration\ShortcodeAPI::class => array(),
-			\DiviSquad\Base\DiviBuilder\Utils\UtilsInterface::class => array(),
-			\DiviSquad\Base\DiviBuilder\Utils\Database\DatabaseUtils::class => array(
+			\DiviSquad\Admin\Assets::class                                                             => array(),
+			\DiviSquad\Admin\Plugin\AdminFooterText::class                                             => array(),
+			\DiviSquad\Admin\Plugin\ActionLinks::class                                                 => array(),
+			\DiviSquad\Admin\Plugin\RowMeta::class                                                     => array(),
+			\DiviSquad\Base\Core::class                                                                => array(),
+			\DiviSquad\Base\Memory::class                                                              => array(),
+			\DiviSquad\Base\DiviBuilder\IntegrationAPIBase::class                                      => array(),
+			\DiviSquad\Base\DiviBuilder\IntegrationAPI::class                                          => array(),
+			\DiviSquad\Base\DiviBuilder\Integration::class                                             => array(),
+			\DiviSquad\Base\DiviBuilder\Integration\ShortcodeAPI::class                                => array(),
+			\DiviSquad\Base\DiviBuilder\Module::class                                                  => array(
+				'action' => array(
+					'name'     => 'divi_extensions_init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\DiviSquad_Module::class                                        => array(
+				'action' => array(
+					'name'     => 'divi_extensions_init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Module\FormStyler::class                                       => array(
+				'action' => array(
+					'name'     => 'divi_extensions_init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Placeholder::class                                             => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\Database\DatabaseUtils::class                            => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
@@ -377,153 +387,170 @@ final class SquadModules {
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\DefinitionInterface::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\DefinitionInterface::class         => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definition::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definition::class                  => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions\Advanced::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions\Advanced::class        => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions\WordPress::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions\WordPress::class       => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\ManagerInterface::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\ManagerInterface::class            => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Manager::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Manager::class                     => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers\Fields::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers\Fields::class             => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers\Upgraders::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers\Upgraders::class          => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\ProcessorInterface::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\ProcessorInterface::class          => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processor::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processor::class                   => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors\Advanced::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors\Advanced::class         => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors\WordPress::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors\WordPress::class        => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields::class                             => array(
 				'action' => array(
 					'name'     => 'init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Base\Factories\AdminMenu\MenuCore::class => array(),
-			\DiviSquad\Base\Factories\BrandAsset\BrandAssetInterface::class => array(),
-			\DiviSquad\Base\Factories\BrandAsset\BrandAsset::class => array(),
-			\DiviSquad\Base\Factories\PluginAsset\AssetInterface::class => array(),
-			\DiviSquad\Base\Factories\PluginAsset\Asset::class => array(),
-			\DiviSquad\Base\Factories\PluginAsset\PluginAssetInterface::class => array(),
-			\DiviSquad\Base\Factories\PluginAsset\PluginAsset::class => array(),
-			\DiviSquad\Base\Factories\PluginAsset::class   => array(),
-			\DiviSquad\Base\Factories\RestRoute\RouteInterface::class => array(),
-			\DiviSquad\Base\Factories\RestRoute\Route::class => array(),
-			\DiviSquad\Base\Factories\RestRoute::class     => array(),
-			\DiviSquad\Base\Factories\SquadFeatures::class => array(),
-			\DiviSquad\Integrations\Admin::class           => array(),
-			\DiviSquad\Integrations\Core::class            => array(),
-			\DiviSquad\Integrations\WP::class              => array(),
-			\DiviSquad\Managers\Assets::class              => array(),
-			\DiviSquad\Managers\Emails\ErrorReport::class  => array(),
-			\DiviSquad\Managers\Extensions::class          => array(),
-			\DiviSquad\Managers\Features\Extensions::class => array(),
-			\DiviSquad\Managers\Features\Modules::class    => array(),
-			\DiviSquad\Managers\Modules::class             => array(),
-			\DiviSquad\Base\DiviBuilder\DiviSquad_Module::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\Breadcrumbs::class                              => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\Divider::class                                  => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Elements\MaskShape::class                                => array(
+				'action' => array(
+					'name'     => 'init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Base\DiviBuilder\Utils\Fields\CompatibilityTrait::class                         => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\Fields\DefinitionTrait::class                            => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\Fields\ProcessorTrait::class                             => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\UtilsInterface::class                                    => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\CommonTrait::class                                       => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\DeprecationsTrait::class                                 => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\FieldsTrait::class                                       => array(),
+			\DiviSquad\Base\DiviBuilder\Utils\Base::class                                              => array(
 				'action' => array(
 					'name'     => 'divi_extensions_init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Modules\PostGridChild\PostGridChild::class => array(
+			\DiviSquad\Base\DiviBuilder\Utils::class                                                   => array(
 				'action' => array(
 					'name'     => 'divi_extensions_init',
 					'priority' => 9,
 				),
 			),
-			\DiviSquad\Utils\Media\Filesystem::class       => array(),
-			\DiviSquad\Utils\Polyfills\Str::class          => array(),
-			\DiviSquad\Utils\Asset::class                  => array(),
-			\DiviSquad\Utils\Singleton::class              => array(),
+			\DiviSquad\Base\Factories\FactoryBase\FactoryInterface::class                              => array(),
+			\DiviSquad\Base\Factories\FactoryBase\Factory::class                                       => array(),
+			\DiviSquad\Base\Factories\AdminMenu\MenuInterface::class                                   => array(),
+			\DiviSquad\Base\Factories\AdminMenu\Menu::class                                            => array(),
+			\DiviSquad\Base\Factories\AdminMenu\MenuCore::class                                        => array(),
+			\DiviSquad\Base\Factories\AdminMenu::class                                                 => array(),
+			\DiviSquad\Base\Factories\AdminNotice\NoticeInterface::class                               => array(),
+			\DiviSquad\Base\Factories\AdminNotice\Notice::class                                        => array(),
+			\DiviSquad\Base\Factories\AdminNotice::class                                               => array(),
+			\DiviSquad\Base\Factories\BrandAsset\AssetInterface::class                                 => array(),
+			\DiviSquad\Base\Factories\BrandAsset\Asset::class                                          => array(),
+			\DiviSquad\Base\Factories\BrandAsset\BrandAssetInterface::class                            => array(),
+			\DiviSquad\Base\Factories\BrandAsset\BrandAsset::class                                     => array(),
+			\DiviSquad\Base\Factories\BrandAsset::class                                                => array(),
+			\DiviSquad\Base\Factories\PluginAsset\AssetInterface::class                                => array(),
+			\DiviSquad\Base\Factories\PluginAsset\Asset::class                                         => array(),
+			\DiviSquad\Base\Factories\PluginAsset\PluginAssetInterface::class                          => array(),
+			\DiviSquad\Base\Factories\PluginAsset\PluginAsset::class                                   => array(),
+			\DiviSquad\Base\Factories\PluginAsset::class                                               => array(),
+			\DiviSquad\Base\Factories\RestRoute\RouteInterface::class                                  => array(),
+			\DiviSquad\Base\Factories\RestRoute\Route::class                                           => array(),
+			\DiviSquad\Base\Factories\RestRoute::class                                                 => array(),
+			\DiviSquad\Base\Factories\SquadFeatures::class                                             => array(),
+			\DiviSquad\Integrations\Admin::class                                                       => array(),
+			\DiviSquad\Integrations\Core::class                                                        => array(),
+			\DiviSquad\Integrations\WP::class                                                          => array(),
+			\DiviSquad\Managers\Assets::class                                                          => array(),
+			\DiviSquad\Managers\Emails\ErrorReport::class                                              => array(),
+			\DiviSquad\Managers\Extensions::class                                                      => array(),
+			\DiviSquad\Managers\Features\Extensions::class                                             => array(),
+			\DiviSquad\Managers\Features\Modules::class                                                => array(),
+			\DiviSquad\Managers\Modules::class                                                         => array(),
+			\DiviSquad\Modules\PostGridChild::class                                                    => array(
+				'action' => array(
+					'name'     => 'divi_extensions_init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Modules\PostGridChild\PostGridChild::class                                      => array(
+				'action' => array(
+					'name'     => 'divi_extensions_init',
+					'priority' => 9,
+				),
+			),
+			\DiviSquad\Utils\Media\Filesystem::class                                                   => array(),
+			\DiviSquad\Utils\Polyfills\Str::class                                                      => array(),
+			\DiviSquad\Utils\Asset::class                                                              => array(),
+			\DiviSquad\Utils\Singleton::class                                                          => array(),
 		);
-	}
-
-	/**
-	 * Configure the publisher instance.
-	 *
-	 * This is called after requirements are validated to complete the publisher setup.
-	 *
-	 * @since  3.2.0
-	 * @access public
-	 *
-	 * @return void
-	 */
-	public function configure_distributor(): void {
-		try {
-			$publisher = $this->get_distributor();
-
-			// Set the plugin ID and key.
-			$publisher->set_basename( false, DIVI_SQUAD_PLUGIN_FILE ); // @phpstan-ignore-line argument.type
-
-			/**
-			 * Fires after the publisher is initialized.
-			 *
-			 * @since 3.2.0
-			 *
-			 * @param SquadModules $plugin    Current plugin instance.
-			 * @param Freemius     $publisher The Freemius instance.
-			 */
-			do_action( 'divi_squad_after_publisher_init', $this, $publisher );
-		} catch ( Throwable $e ) {
-			$this->log_error( $e, 'Distribution initialization failed' );
-		}
 	}
 
 	/**
@@ -531,38 +558,44 @@ final class SquadModules {
 	 *
 	 * @return Freemius
 	 * @throws RuntimeException If the publisher is not initialized properly.
+	 * @throws Throwable If an error occurs while getting the distributor instance.
 	 */
 	public function get_distributor(): Freemius {
-		// Return cached instance if available.
-		if ( $this->distributor instanceof Freemius ) {
+		try {
+			// Return cached instance if available.
+			if ( $this->distributor instanceof Freemius ) {
+				return $this->distributor;
+			}
+
+			// Get the publisher from the container.
+			if ( ! isset( $this->container['distribution'] ) || ! ( $this->container['distribution'] instanceof Core\Distribution ) ) {
+				throw new RuntimeException( 'Distribution is not initialized properly.' );
+			}
+
+			$distribution = $this->container['distribution'];
+
+			// Initialize global Freemius instance if needed.
+			if ( ! isset( $this->distributor ) ) {
+				$divi_squad_fs = $distribution->get_fs();
+
+				/**
+				 * Fires after the Freemius instance is set up.
+				 *
+				 * @since 3.2.0
+				 *
+				 * @param Freemius $divi_squad_fs The Freemius instance.
+				 */
+				do_action( 'divi_squad_after_fs_init', $divi_squad_fs );
+
+				// Cache the instance.
+				$this->distributor = $divi_squad_fs;
+			}
+
 			return $this->distributor;
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get distributor instance' );
+			throw $e; // Re-throw to maintain the original behavior since this is a critical operation.
 		}
-
-		// Get the publisher from the container.
-		if ( ! isset( $this->container['distribution'] ) || ! ( $this->container['distribution'] instanceof Core\Distribution ) ) {
-			throw new RuntimeException( 'Distribution is not initialized properly.' );
-		}
-
-		$distribution = $this->container['distribution'];
-
-		// Initialize global Freemius instance if needed.
-		if ( ! isset( $this->distributor ) ) {
-			$divi_squad_fs = $distribution->get_fs();
-
-			/**
-			 * Fires after the Freemius instance is set up.
-			 *
-			 * @since 3.2.0
-			 *
-			 * @param Freemius $divi_squad_fs The Freemius instance.
-			 */
-			do_action( 'divi_squad_after_fs_init', $divi_squad_fs );
-
-			// Cache the instance.
-			$this->distributor = $divi_squad_fs;
-		}
-
-		return $this->distributor;
 	}
 
 	/**
@@ -607,6 +640,7 @@ final class SquadModules {
 			if ( ! $requirements_is_met && is_admin() ) {
 				$this->requirements->log_requirement_failure();
 				$this->requirements->register_pre_loaded_admin_page();
+
 				return;
 			}
 
@@ -617,7 +651,7 @@ final class SquadModules {
 			 * and before the plugin begins loading its core components.
 			 *
 			 * @since 3.2.0
-			 * @see Core\Requirements::is_fulfilled() For the requirements validation logic
+			 * @see   Core\Requirements::is_fulfilled() For the requirements validation logic
 			 *
 			 * @param bool         $is_met Whether the plugin's requirements are met. Default is true.
 			 * @param SquadModules $plugin Current plugin instance. Use this to access plugin properties and methods.
@@ -656,20 +690,24 @@ final class SquadModules {
 	 * @return void
 	 */
 	protected function load_plugin_assets(): void {
-		if ( is_admin() ) {
-			new Core\Assets\Admin();
+		try {
+			if ( is_admin() ) {
+				new Core\Admin\Assets();
+			}
+
+			new Builder\Assets();
+
+			/**
+			 * Fires after the plugin prerequisite components are loaded.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param SquadModules $instance The SquadModules instance.
+			 */
+			do_action( 'divi_squad_load_plugin_assets', $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load plugin assets' );
 		}
-
-		new Core\Assets\Modules();
-
-		/**
-		 * Fires after the plugin prerequisite components are loaded.
-		 *
-		 * @since 3.2.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_plugin_assets', $this );
 	}
 
 	/**
@@ -678,24 +716,38 @@ final class SquadModules {
 	 * @return void
 	 */
 	protected function load_containers(): void {
-		$this->container['modules']       = new Core\Modules();
-		$this->container['extensions']    = new Core\Extensions();
-		$this->container['rest_routes']   = new Core\RestRoutes();
-		$this->container['custom_fields'] = new Builder\Utils\Elements\Custom_Fields();
+		try {
+			$this->container['modules']     = new Core\Modules();
+			$this->container['extensions']  = new Core\Extensions();
+			$this->container['rest_routes'] = new Core\RestRoutes();
 
-		if ( is_admin() ) {
-			$this->container['site_health'] = new Core\Supports\Site_Health();
+			// Load classes for the builder.
+			$this->container['custom_fields_element'] = new Builder\Utils\Elements\Custom_Fields();
+			$this->container['forms_element']         = new Builder\Utils\Elements\Forms();
+			$this->container['d4_module_helper']      = new Builder\Version4\Supports\Module_Helper();
+
+			// Load the custom fields in the separate key.
+			$this->container['custom_fields'] = $this->container['custom_fields_element'];
+
+			if ( is_admin() ) {
+				$this->container['site_health']  = new Core\Supports\Site_Health();
+				$this->container['admin_menu']   = new Core\Admin\Menu();
+				$this->container['admin_notice'] = new Core\Admin\Notice();
+				$this->container['branding']     = new Core\Admin\Branding();
+			}
+
+			/**
+			 * Fires after the plugin containers are initialized.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param array        $container The plugin container.
+			 * @param SquadModules $plugin    The SquadModules instance.
+			 */
+			$this->container = apply_filters( 'divi_squad_init_containers', $this->container, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load containers' );
 		}
-
-		/**
-		 * Fires after the plugin containers are initialized.
-		 *
-		 * @since 3.2.0
-		 *
-		 * @param array        $container The plugin container.
-		 * @param SquadModules $plugin    The SquadModules instance.
-		 */
-		$this->container = apply_filters( 'divi_squad_init_containers', $this->container, $this );
 	}
 
 	/**
@@ -730,20 +782,24 @@ final class SquadModules {
 	 * @return void
 	 */
 	protected function load_extensions(): void {
-		// Load Extensions.
-		new Integrations\Extensions();
+		try {
+			// Load Extensions.
+			new Integrations\Extensions();
 
-		// Load the extensions.
-		$this->extensions->init();
+			// Load the extensions.
+			$this->extensions->init();
 
-		/**
-		 * Fires after the extensions are loaded.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_extensions', $this );
+			/**
+			 * Fires after the extensions are loaded.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param SquadModules $instance The SquadModules instance.
+			 */
+			do_action( 'divi_squad_load_extensions', $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load extensions' );
+		}
 	}
 
 	/**
@@ -752,24 +808,28 @@ final class SquadModules {
 	 * @return void
 	 */
 	protected function load_modules_for_builder(): void {
-		// Load the settings migration.
-		Migration::init();
+		try {
+			// Load the settings migration.
+			Settings\Migration::init();
 
-		// Load Placeholder, Modules, etc.
-		new Integrations\DiviBuilderPlaceholders();
-		new Integrations\DiviBuilder();
+			// Load Placeholder, Modules, etc.
+			new Integrations\DiviBuilderPlaceholders();
+			new Integrations\DiviBuilder();
 
-		// Load the modules.
-		$this->modules->init();
+			// Load the modules.
+			$this->modules->init();
 
-		/**
-		 * Fires after the modules are loaded for the builder.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_modules_for_builder', $this );
+			/**
+			 * Fires after the modules are loaded for the builder.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param SquadModules $instance The SquadModules instance.
+			 */
+			do_action( 'divi_squad_load_modules_for_builder', $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load modules for builder' );
+		}
 	}
 
 	/**
@@ -778,17 +838,21 @@ final class SquadModules {
 	 * @return void
 	 */
 	protected function load_rest_apis(): void {
-		// Load the REST APIs.
-		$this->rest_routes->init();
+		try {
+			// Load the REST APIs.
+			$this->rest_routes->init();
 
-		/**
-		 * Fires after the REST APIs are loaded.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_rest_apis', $this );
+			/**
+			 * Fires after the REST APIs are loaded.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param SquadModules $instance The SquadModules instance.
+			 */
+			do_action( 'divi_squad_load_rest_apis', $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load REST APIs' );
+		}
 	}
 
 	/**
@@ -801,18 +865,22 @@ final class SquadModules {
 			return;
 		}
 
-		Managers\Branding::load();
-		Managers\Menus::load();
-		Managers\Notices::load();
+		try {
+			$this->admin_menu->init();
+			$this->admin_notice->init();
+			$this->branding->init();
 
-		/**
-		 * Fires after the admin components are loaded.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_admin_components', $this );
+			/**
+			 * Fires after the admin components are loaded.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param SquadModules $instance The SquadModules instance.
+			 */
+			do_action( 'divi_squad_load_admin_components', $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load admin components' );
+		}
 	}
 
 	/**
@@ -824,19 +892,22 @@ final class SquadModules {
 	 * @access public
 	 *
 	 * @return void
-	 * @throws Throwable If an error occurs while loading addon.
 	 */
 	protected function load_addons(): void {
-		$this->custom_fields->init();
+		try {
+			$this->custom_fields_element->init();
 
-		/**
-		 * Fires after addon are loaded.
-		 *
-		 * @since 3.1.0
-		 *
-		 * @param SquadModules $instance The SquadModules instance.
-		 */
-		do_action( 'divi_squad_load_addons', $this );
+			/**
+			 * Fires after addon are loaded.
+			 *
+			 * @since 3.1.0
+			 *
+			 * @param SquadModules $instance The SquadModules instance.
+			 */
+			do_action( 'divi_squad_load_addons', $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load addons' );
+		}
 	}
 
 	/**
@@ -894,26 +965,32 @@ final class SquadModules {
 	 * @return string
 	 */
 	public function get_path( string $path = '' ): string {
-		// Normalize and clean the base plugin directory path.
-		$base_path = wp_normalize_path( dirname( DIVI_SQUAD_PLUGIN_FILE ) );
+		try {
+			// Normalize and clean the base plugin directory path.
+			$base_path = wp_normalize_path( dirname( DIVI_SQUAD_PLUGIN_FILE ) );
 
-		// Clean and normalize the requested path.
-		$path = wp_normalize_path( $path );
-		$path = ltrim( $path, '/' );
+			// Clean and normalize the requested path.
+			$path = wp_normalize_path( $path );
+			$path = ltrim( $path, '/' );
 
-		// Combine paths using proper directory separator.
-		$full_path = '' !== $path ? path_join( $base_path, $path ) : $base_path;
+			// Combine paths using proper directory separator.
+			$full_path = '' !== $path ? path_join( $base_path, $path ) : $base_path;
 
-		/**
-		 * Filter the plugin path.
-		 *
-		 * @since 3.2.3
-		 *
-		 * @param string       $full_path Absolute path within plugin directory
-		 * @param string       $path      Relative path that was requested
-		 * @param SquadModules $plugin    The plugin instance
-		 */
-		return apply_filters( 'divi_squad_plugin_path', $full_path, $path, $this );
+			/**
+			 * Filter the plugin path.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string       $full_path Absolute path within plugin directory
+			 * @param string       $path      Relative path that was requested
+			 * @param SquadModules $plugin    The plugin instance
+			 */
+			return apply_filters( 'divi_squad_plugin_path', $full_path, $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get plugin path' );
+
+			return dirname( DIVI_SQUAD_PLUGIN_FILE ) . '/' . ltrim( $path, '/' );
+		}
 	}
 
 	/**
@@ -927,16 +1004,22 @@ final class SquadModules {
 	 * @return string
 	 */
 	public function get_template_path( string $path = '' ): string {
-		/**
-		 * Filter the plugin template path.
-		 *
-		 * @since 3.2.3
-		 *
-		 * @param string       $template_path The template path.
-		 * @param string       $path          The path to append.
-		 * @param SquadModules $plugin        The plugin instance.
-		 */
-		return apply_filters( 'divi_squad_template_path', $this->get_path( '/templates/' . $path ), $path, $this );
+		try {
+			/**
+			 * Filter the plugin template path.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string       $template_path The template path.
+			 * @param string       $path          The path to append.
+			 * @param SquadModules $plugin        The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_template_path', $this->get_path( '/templates/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get template path' );
+
+			return $this->get_path( '/templates/' . $path );
+		}
 	}
 
 	/**
@@ -950,16 +1033,22 @@ final class SquadModules {
 	 * @return string
 	 */
 	public function get_icon_path( string $path = '' ): string {
-		/**
-		 * Filter the plugin icon path.
-		 *
-		 * @since 3.2.3
-		 *
-		 * @param string       $icon_path The icon path.
-		 * @param string       $path      The path to append.
-		 * @param SquadModules $plugin    The plugin instance.
-		 */
-		return apply_filters( 'divi_squad_icon_path', $this->get_path( '/build/admin/icons/' . $path ), $path, $this );
+		try {
+			/**
+			 * Filter the plugin icon path.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string       $icon_path The icon path.
+			 * @param string       $path      The path to append.
+			 * @param SquadModules $plugin    The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_icon_path', $this->get_path( '/build/admin/icons/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get icon path' );
+
+			return $this->get_path( '/build/admin/icons/' . $path );
+		}
 	}
 
 	/**
@@ -973,20 +1062,27 @@ final class SquadModules {
 	 * @return string
 	 */
 	public function get_url( string $path = '' ): string {
-		$base_url = plugin_dir_url( DIVI_SQUAD_PLUGIN_FILE );
-		$path     = ltrim( $path, '/' );
-		$url      = '' !== $path ? trailingslashit( $base_url ) . $path : $base_url;
+		try {
+			$base_url = plugin_dir_url( DIVI_SQUAD_PLUGIN_FILE );
+			$path     = ltrim( $path, '/' );
+			$url      = '' !== $path ? trailingslashit( $base_url ) . $path : $base_url;
 
-		/**
-		 * Filter the plugin URL.
-		 *
-		 * @since 3.2.3
-		 *
-		 * @param string       $url    The plugin URL.
-		 * @param string       $path   The path to append.
-		 * @param SquadModules $plugin The plugin instance.
-		 */
-		return apply_filters( 'divi_squad_plugin_url', $url, $path, $this );
+			/**
+			 * Filter the plugin URL.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string       $url    The plugin URL.
+			 * @param string       $path   The path to append.
+			 * @param SquadModules $plugin The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_plugin_url', $url, $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get plugin URL' );
+			$base_url = plugin_dir_url( DIVI_SQUAD_PLUGIN_FILE );
+
+			return '' !== $path ? trailingslashit( $base_url ) . ltrim( $path, '/' ) : $base_url;
+		}
 	}
 
 	/**
@@ -1000,15 +1096,21 @@ final class SquadModules {
 	 * @return string
 	 */
 	public function get_asset_url( string $path = '' ): string {
-		/**
-		 * Filter the plugin asset URL.
-		 *
-		 * @since 3.2.3
-		 *
-		 * @param string       $url    The plugin asset URL.
-		 * @param string       $path   The path to append.
-		 * @param SquadModules $plugin The plugin instance.
-		 */
-		return apply_filters( 'divi_squad_asset_url', $this->get_url( 'build/' . $path ), $path, $this );
+		try {
+			/**
+			 * Filter the plugin asset URL.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param string       $url    The plugin asset URL.
+			 * @param string       $path   The path to append.
+			 * @param SquadModules $plugin The plugin instance.
+			 */
+			return apply_filters( 'divi_squad_asset_url', $this->get_url( 'build/' . $path ), $path, $this );
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to get asset URL' );
+
+			return $this->get_url( 'build/' . $path );
+		}
 	}
 }

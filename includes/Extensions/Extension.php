@@ -1,10 +1,11 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The base class for Extension.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Extensions;
@@ -14,8 +15,8 @@ use DiviSquad\Core\Memory;
 /**
  * Extension class.
  *
- * @package DiviSquad
  * @since   1.2.0
+ * @package DiviSquad
  */
 abstract class Extension {
 

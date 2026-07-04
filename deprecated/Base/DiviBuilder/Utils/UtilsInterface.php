@@ -3,9 +3,9 @@
 /**
  * Builder Utils Interface
  *
- * @package     DiviSquad
  * @since       1.5.0
  * @deprecated  3.1.0 marked as deprecated
+ * @package     DiviSquad
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils;
@@ -13,8 +13,8 @@ namespace DiviSquad\Base\DiviBuilder\Utils;
 /**
  * Builder Utils Interface
  *
- * @package     DiviSquad
  * @since       1.5.0
  * @deprecated  3.1.0 marked as deprecated
+ * @package     DiviSquad
  */
-interface UtilsInterface {}
+interface UtilsInterface { }

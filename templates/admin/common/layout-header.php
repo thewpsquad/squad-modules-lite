@@ -17,10 +17,8 @@ if ( wp_doing_ajax() ) {
 	die( 'Access forbidden from AJAX request.' );
 }
 
-// Load the image class.
-use DiviSquad\Core\Supports\Media\Image;
-
-$divi_squad_image = new Image( divi_squad()->get_path( '/build/admin/images/logos' ) );
+// Load image loader.
+$divi_squad_image = divi_squad()->load_image( '/build/admin/images/logos' );
 
 // Check if image is validated.
 if ( ! $divi_squad_image->is_path_validated() ) {

@@ -6,14 +6,13 @@
  * This file contains the Modules class which handles REST API endpoints
  * for managing Divi Squad modules.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1;
 
-use DiviSquad\Emails\ErrorReport;
 use DiviSquad\Rest_API_Routes\Base_Route;
 use Exception;
 use WP_Error;
@@ -28,8 +27,8 @@ use WP_REST_Server;
  * retrieving available, active, and inactive modules, as well as
  * updating the list of active modules.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 class Modules extends Base_Route {
 

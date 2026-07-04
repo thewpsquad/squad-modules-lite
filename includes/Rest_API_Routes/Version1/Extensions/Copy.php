@@ -6,9 +6,9 @@
  * This file contains the Copy class which handles REST API endpoints
  * for the Copy extension of Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Extensions;
@@ -28,8 +28,8 @@ use WP_REST_Server;
  * Manages REST API endpoints for the Copy extension, including
  * functionality to duplicate posts.
  *
- * @package DiviSquad
  * @since   3.0.0
+ * @package DiviSquad
  */
 class Copy extends Base_Route {
 

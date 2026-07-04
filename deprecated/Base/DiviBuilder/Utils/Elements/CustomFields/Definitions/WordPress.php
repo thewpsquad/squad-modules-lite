@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * WordPress Custom Field Definitions
  *
@@ -6,10 +7,10 @@
  * and implements CustomFieldDefinitionsInterface. It provides specific
  * implementations for WordPress custom fields in the context of Divi Builder.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definitions;
@@ -22,9 +23,9 @@ use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Definition;
  *
  * Implements WordPress-specific custom field definitions for use with Divi Builder.
  *
- * @package DiviSquad
- * @since 3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class WordPress extends Definition {
 

@@ -16,10 +16,9 @@ namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Managers;
 
 use DiviSquad\Builder\Utils\Database\Database_Utils;
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Manager;
-use DiviSquad\Builder\Utils\Elements\Custom_Fields\Managers\Upgrades;
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Traits\Table_Population_Trait;
-use DiviSquad\Utils\Divi;
 use DiviSquad\Core\Supports\Polyfills\Constant;
+use DiviSquad\Utils\Divi;
 
 /**
  * Fields Class
@@ -89,6 +88,7 @@ class Fields extends Manager {
 	 */
 	public function init(): void {
 		global $wpdb;
+
 		$this->table_name = "{$wpdb->prefix}divi_squad_custom_fields";
 
 		// Initialize with optimal batch size.
@@ -143,6 +143,7 @@ class Fields extends Manager {
 		 * Filter the arguments for getting custom field data.
 		 *
 		 * @since 3.1.1
+		 *
 		 * @param array<string, mixed> $args The arguments for getting data.
 		 */
 		$args = (array) apply_filters( 'divi_squad_custom_fields_get_data_args', $args );
@@ -255,12 +256,13 @@ class Fields extends Manager {
 	 * @param int    $meta_id   Metadata ID.
 	 * @param int    $object_id Object ID.
 	 * @param string $meta_key  Meta key.
+	 *
 	 * @return void
 	 */
 	public function update_summary( int $meta_id, int $object_id, string $meta_key ): void {
 		global $wpdb;
 
-		// Skip processing for hidden meta keys or if table doesn't exist
+		// Skip processing for hidden meta keys or if table doesn't exist.
 		if ( ! $this->is_table_verified() || 0 === strpos( $meta_key, '_' ) ) {
 			return;
 		}
@@ -270,7 +272,7 @@ class Fields extends Manager {
 			return;
 		}
 
-		// Check if the meta key has an underscore version (hidden meta)
+		// Check if the meta key has an underscore version (hidden meta).
 		$cache_key              = 'divi_squad_has_underscore_version_' . md5( $meta_key );
 		$has_underscore_version = wp_cache_get( $cache_key, $this->cache_group );
 
@@ -286,7 +288,7 @@ class Fields extends Manager {
 		}
 
 		if ( $has_underscore_version ) {
-			// If there's a hidden version, remove from tracking
+			// If there's a hidden version, remove from tracking.
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->delete(
 				$this->table_name,
@@ -296,7 +298,7 @@ class Fields extends Manager {
 				)
 			);
 		} else {
-			// Otherwise, track it
+			// Otherwise, track it.
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 			$wpdb->replace(
 				$this->table_name,
@@ -308,7 +310,7 @@ class Fields extends Manager {
 			);
 		}
 
-		// Clear cache for this post type
+		// Clear cache for this post type.
 		$this->clear_post_type_cache( $post_type );
 	}
 
@@ -320,12 +322,13 @@ class Fields extends Manager {
 	 * @param array  $meta_ids  Meta IDs being deleted.
 	 * @param int    $object_id Object ID.
 	 * @param string $meta_key  Meta key.
+	 *
 	 * @return void
 	 */
 	public function delete_from_summary( array $meta_ids, int $object_id, string $meta_key ): void {
 		global $wpdb;
 
-		// Skip processing for hidden meta keys or if table doesn't exist
+		// Skip processing for hidden meta keys or if table doesn't exist.
 		if ( ! $this->is_table_verified() || 0 === strpos( $meta_key, '_' ) ) {
 			return;
 		}
@@ -342,7 +345,7 @@ class Fields extends Manager {
 			array( '%s', '%s' )
 		);
 
-		// Clear cache for this post type
+		// Clear cache for this post type.
 		$this->clear_post_type_cache( $post_type );
 	}
 
@@ -367,6 +370,7 @@ class Fields extends Manager {
 		 * Filter the limit for retrieving custom field keys.
 		 *
 		 * @since 3.1.1
+		 *
 		 * @param int    $limit     The maximum number of keys to return.
 		 * @param string $post_type The post type to get keys for.
 		 */
@@ -399,6 +403,7 @@ class Fields extends Manager {
 	 * @since 3.1.1
 	 *
 	 * @param string $post_type The post type to clear cache for.
+	 *
 	 * @return void
 	 */
 	protected function clear_post_type_cache( string $post_type ): void {
@@ -409,8 +414,8 @@ class Fields extends Manager {
 		 *
 		 * @since 3.1.1
 		 *
-		 * @param string $post_type     The post type.
-		 * @param string $cache_group   The cache group.
+		 * @param string $post_type   The post type.
+		 * @param string $cache_group The cache group.
 		 */
 		do_action( 'divi_squad_custom_fields_post_type_cache_cleared', $post_type, $this->cache_group );
 	}
@@ -429,7 +434,7 @@ class Fields extends Manager {
 			return false;
 		}
 
-		// Force a table population as our refresh mechanism
+		// Force a table population as our refresh mechanism.
 		$this->populate_summary_table();
 
 		return true;

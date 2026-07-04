@@ -6,10 +6,10 @@
  * This file contains the AbstractManager class which provides a base
  * implementation for all manager classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.1
+ * @since      3.1.1
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
@@ -19,9 +19,9 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
  *
  * Provides a base implementation for manager classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @since   3.1.1
+ * @since      3.1.1
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class Manager implements ManagerInterface {
 
@@ -44,7 +44,7 @@ abstract class Manager implements ManagerInterface {
 	 *
 	 * @since 3.1.1
 	 *
-	 * @param string $cache_group The cache group for this manager.
+	 * @param string $cache_group      The cache group for this manager.
 	 * @param string $cache_key_prefix The cache key prefix for this manager.
 	 */
 	public function __construct( $cache_group, $cache_key_prefix ) {
@@ -61,6 +61,7 @@ abstract class Manager implements ManagerInterface {
 	 * @param string   $key        The cache key.
 	 * @param callable $callback   The function to generate the data if not cached.
 	 * @param int      $expiration Optional. The expiration time of the cached data in seconds. Default 3600.
+	 *
 	 * @return mixed The cached or generated data.
 	 */
 	protected function get_cached_data( $key, $callback, $args = array(), $expiration = 3600 ) {

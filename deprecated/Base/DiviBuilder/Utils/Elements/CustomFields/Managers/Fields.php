@@ -7,10 +7,10 @@
  * of custom fields in WordPress, including tracking, updating, and retrieving
  * custom field information across different post types.
  *
- * @since   3.1.0
- * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers;
@@ -18,17 +18,17 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers;
 use DiviSquad\Base\DiviBuilder\Utils\Database\DatabaseUtils;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Manager;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Traits\TablePopulationTrait;
-use DiviSquad\Utils\Divi;
 use DiviSquad\Core\Supports\Polyfills\Constant;
+use DiviSquad\Utils\Divi;
 
 /**
  * Fields Class
  *
  * Manages custom fields across different post types in WordPress.
  *
- * @since   3.1.1
- * @package DiviSquad
+ * @since      3.1.1
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class Fields extends Manager {
 	use TablePopulationTrait;

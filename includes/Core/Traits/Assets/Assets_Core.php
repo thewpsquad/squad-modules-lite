@@ -26,7 +26,7 @@ trait Assets_Core {
 	/**
 	 * Process asset configuration and return normalized data
 	 *
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config Asset configuration.
+	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config       Asset configuration.
 	 * @param array<string>                                                                                                                     $default_deps Default dependencies.
 	 *
 	 * @return array{ path: string, version: string, dependencies: array<string> } Processed asset data
@@ -67,7 +67,7 @@ trait Assets_Core {
 	/**
 	 * Resolve the asset file path based on environment and configuration
 	 *
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config Asset configuration.
+	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config   Asset configuration.
 	 * @param bool                                                                                                                              $is_local Whether to resolve local path.
 	 *
 	 * @return string Resolved asset path
@@ -83,7 +83,7 @@ trait Assets_Core {
 		$file = $this->resolve_environment_file( $config );
 
 		if ( ! $external ) {
-			$pattern      = 'build/' . $pattern;
+			$pattern     = 'build/' . $pattern;
 			$path_prefix .= 'js' === $extension ? '/scripts' : '/styles';
 		}
 
@@ -92,9 +92,9 @@ trait Assets_Core {
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param string $pattern    The asset path pattern.
-		 * @param string $file       The file name.
-		 * @param string $extension  The file extension.
+		 * @param string $pattern   The asset path pattern.
+		 * @param string $file      The file name.
+		 * @param string $extension The file extension.
 		 */
 		$path_pattern = apply_filters( 'divi_squad_asset_path_pattern', $pattern, $file, $extension );
 
@@ -215,21 +215,21 @@ trait Assets_Core {
 	/**
 	 * Check if minified version should be used
 	 *
-	 * @param string $path Asset path.
+	 * @param string $path      Asset path.
 	 * @param string $extension File extension.
 	 *
 	 * @return bool True if should use minified version
 	 */
 	protected function should_use_minified( string $path, string $extension ): bool {
 		return ! divi_squad()->is_dev()
-				&& in_array( $extension, array( 'js', 'css' ), true )
-				&& ! Str::ends_with( $path, ".min.{$extension}" );
+			   && in_array( $extension, array( 'js', 'css' ), true )
+			   && ! Str::ends_with( $path, ".min.{$extension}" );
 	}
 
 	/**
 	 * Get minified version path
 	 *
-	 * @param string $path Asset path
+	 * @param string $path      Asset path
 	 * @param string $extension File extension
 	 *
 	 * @return string Minified file path
@@ -249,6 +249,7 @@ trait Assets_Core {
 		if ( Str::ends_with( $path, '.min.js' ) ) {
 			return str_replace( '.min.js', '.min.asset.php', $path );
 		}
+
 		return str_replace( array( '.js', '.css' ), '.asset.php', $path );
 	}
 
@@ -266,6 +267,7 @@ trait Assets_Core {
 				unset( $deps[ $index ] );
 			}
 		}
+
 		return array_values( $deps );
 	}
 

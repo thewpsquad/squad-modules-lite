@@ -1,13 +1,14 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Manager Interface
  *
  * This file contains the ManagerInterface which defines the contract
  * for all manager classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.1
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
@@ -18,8 +19,8 @@ namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
  * Defines the contract for manager classes in the DiviSquad plugin.
  * Managers handle database operations, data retrieval, and caching.
  *
- * @package DiviSquad
  * @since   3.1.1
+ * @package DiviSquad
  */
 interface ManagerInterface {
 
@@ -42,6 +43,7 @@ interface ManagerInterface {
 	 * @since 3.1.1
 	 *
 	 * @param array<string, mixed> $args Optional. Arguments to modify the query.
+	 *
 	 * @return array<mixed> The retrieved data.
 	 */
 	public function get_data( array $args = array() ): array;
@@ -83,6 +85,7 @@ interface ManagerInterface {
 	 * @since 3.1.1
 	 *
 	 * @param bool $force Whether to force a refresh regardless of staleness.
+	 *
 	 * @return bool Whether the refresh was successful.
 	 */
 	public function refresh_data( bool $force = false ): bool;

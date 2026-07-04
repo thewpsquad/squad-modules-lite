@@ -7,7 +7,7 @@
  * Focuses on minimal memory usage and maximum query performance.
  *
  * @since      3.1.0
- * @subpackage Divi_Builder
+ * @subpackage Builder
  * @package    DiviSquad
  */
 
@@ -22,8 +22,8 @@ use Throwable;
  * custom fields tables in WordPress, with a focus on performance
  * and memory optimization.
  *
- * @package DiviSquad
  * @since   3.1.0
+ * @package DiviSquad
  */
 trait Table_Population_Trait {
 
@@ -116,11 +116,12 @@ trait Table_Population_Trait {
 
 		// Check if table exists.
 		if ( ! $this->is_table_exists ) {
-			$table_exists = $wpdb->get_var( $wpdb->prepare( 'SELECT * FROM information_schema.tables WHERE table_schema = %s AND table_name = %s limit 1;', DB_NAME, $this->table_name, ) );
+			$table_exists = $wpdb->get_var( $wpdb->prepare( 'SELECT * FROM information_schema.tables WHERE table_schema = %s AND table_name = %s limit 1;', DB_NAME, $this->table_name ) );
 
 			// Update property.
 			$this->is_table_exists = (bool) $table_exists;
 		}
+
 		return $this->is_table_exists;
 	}
 

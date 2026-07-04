@@ -15,7 +15,7 @@
  * Plugin Name:         Squad Modules Lite
  * Plugin URI:          https://squadmodules.com/
  * Description:         The Essential Divi plugin, offering 25+ stunning free modules like Advanced Divider, Flip box, and more.
- * Version:             3.3.2
+ * Version:             3.3.3
  * Requires at least:   6.0
  * Requires PHP:        7.4
  * Author:              The WP Squad

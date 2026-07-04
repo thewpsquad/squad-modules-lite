@@ -1,4 +1,5 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The publisher connection class
  *
@@ -9,23 +10,16 @@
 
 namespace DiviSquad\Core;
 
-use _WP_Dependency;
-use DiviSquad\SquadModules;
-use DiviSquad\Utils\Helper as HelperUtil;
 use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Core\Supports\Polyfills\Str;
-use Exception;
+use DiviSquad\SquadModules;
 use Freemius;
 use Throwable;
-use WP_Screen;
-use WP_Scripts;
-use WP_Styles;
 use function add_action;
 use function apply_filters;
 use function esc_html__;
 use function fs_dynamic_init;
 use function load_template;
-use function remove_all_actions;
 
 /**
  * Distribution SDK integration class.
@@ -43,13 +37,6 @@ class Distribution {
 	private Freemius $fs;
 
 	/**
-	 * The plugin instance.
-	 *
-	 * @var SquadModules The plugin instance.
-	 */
-	private SquadModules $plugin;
-
-	/**
 	 * Whether the Distribution is initialized.
 	 *
 	 * @var bool
@@ -58,14 +45,10 @@ class Distribution {
 
 	/**
 	 * Integration Constructor
-	 *
-	 * @param SquadModules $plugin The plugin instance.
 	 */
-	public function __construct( SquadModules $plugin ) {
-		$this->plugin = $plugin;
-
+	public function __construct() {
 		// Initialize the Freemius SDK if possible.
-		$this->initialize();
+		add_action( 'int', array( $this, 'initialize' ), 1 );
 	}
 
 	/**
@@ -73,11 +56,11 @@ class Distribution {
 	 *
 	 * @return void Whether initialization was successful
 	 */
-	private function initialize(): void {
+	public function initialize(): void {
 		try {
 			// Include publisher SDK.
 			$sdk_path = $this->get_sdk_start_file_path();
-			if ( ! $this->is_installed() ) {
+			if ( ! file_exists( $sdk_path ) ) {
 				return;
 			}
 
@@ -89,6 +72,7 @@ class Distribution {
 			 * @since 1.0.0
 			 *
 			 * @param array $fs_init_args The Freemius SDK initialization arguments.
+			 *
 			 * @return array The filtered Freemius SDK initialization arguments.
 			 */
 			$fs_init_args = apply_filters(
@@ -120,11 +104,8 @@ class Distribution {
 					),
 					'parallel_activation' => array(
 						'enabled'                  => true,
-						'premium_version_basename' => $this->plugin->get_pro_basename(),
+						'premium_version_basename' => divi_squad()->get_pro_basename(),
 					),
-					// Set the SDK to work in a sandbox mode (for development & testing).
-					// IMPORTANT: MAKE SURE TO REMOVE SECRET KEY BEFORE DEPLOYMENT.
-					'secret_key'          => 'sk_v{nV^p3x7+Zw04NW4*YC2>1O@T*>h',
 				)
 			);
 
@@ -146,7 +127,7 @@ class Distribution {
 			return;
 		} catch ( Throwable $e ) {
 			// Log error but don't throw - we'll handle initialization failure gracefully.
-			$this->plugin->log_error( $e, 'Distribution initialization failed', false );
+			divi_squad()->log_error( $e, 'Distribution initialization failed', false );
 
 			return;
 		}
@@ -195,8 +176,8 @@ class Distribution {
 		$this->fs->add_filter( 'support_forum_url', array( $this, 'fs_hook_support_forum_url' ) );
 
 		// Override the default templates.
-		$this->fs->add_filter( '/forms/affiliation.php', array( $this, 'fs_hook_get_account_template_content' ) );
-		$this->fs->add_filter( 'templates/account.php', array( $this, 'fs_hook_get_account_template_content' ) );
+		$this->fs->add_filter( '/forms/affiliation.php', array( $this, 'fs_hook_get_account_template' ) );
+		$this->fs->add_filter( 'templates/account.php', array( $this, 'fs_hook_get_account_template' ) );
 		$this->fs->add_filter( 'templates/connect.php', array( $this, 'fs_hook_get_default_template' ) );
 		$this->fs->add_filter( 'templates/checkout.php', array( $this, 'fs_hook_get_default_template' ) );
 		$this->fs->add_filter( 'templates/pricing.php', array( $this, 'fs_hook_get_default_template' ) );
@@ -207,10 +188,6 @@ class Distribution {
 
 		// Add filter to hide menu items when requirements aren't met.
 		add_filter( 'divi_squad_publisher_is_submenu_visible', array( $this, 'maybe_disable_menu_items' ) );
-
-		// Clean the third party dependencies from the squad template pages.
-		add_action( 'admin_enqueue_scripts', array( $this, 'wp_hook_clean_third_party_deps' ), Constant::PHP_INT_MAX );
-		add_action( 'admin_head', array( $this, 'wp_hook_clean_admin_content_section' ), Constant::PHP_INT_MAX );
 
 		// Update the admin menu title.
 		add_action( 'admin_menu', array( $this, 'wp_hook_update_admin_menu_title' ), Constant::PHP_INT_MAX );
@@ -227,16 +204,11 @@ class Distribution {
 	 * @return Freemius The instance of Freemius SDK or null if not initialized.
 	 */
 	public function get_fs(): Freemius {
-		return $this->fs;
-	}
+		if ( ! $this->is_initialized() ) {
+			$this->initialize();
+		}
 
-	/**
-	 * Get the status of Freemius sdk is installed or not.
-	 *
-	 * @return bool
-	 */
-	public function is_installed(): bool {
-		return $this->plugin->get_wp_fs()->exists( $this->get_sdk_start_file_path() );
+		return $this->fs;
 	}
 
 	/**
@@ -254,7 +226,7 @@ class Distribution {
 	 * @return string
 	 */
 	private function get_sdk_start_file_path(): string {
-		return $this->plugin->get_path( '/freemius/start.php' );
+		return divi_squad()->get_path( '/freemius/start.php' );
 	}
 
 	/**
@@ -266,27 +238,33 @@ class Distribution {
 	 * @return bool If true, the menu item should be visible.
 	 */
 	public function fs_hook_is_submenu_visible( bool $is_visible, string $menu_id ): bool {
-		if ( ! $this->is_initialized ) {
-			return $is_visible;
-		}
+		try {
+			if ( ! $this->is_initialized ) {
+				return $is_visible;
+			}
 
-		// Set default visibility for specific menu items.
-		if ( 'support' === $menu_id ) {
-			$is_visible = $this->fs->is_free_plan();
-		}
+			// Set default visibility for specific menu items.
+			if ( 'support' === $menu_id ) {
+				$is_visible = $this->fs->is_free_plan();
+			}
 
-		/**
-		 * Filter whether the submenu item should be visible or not.
-		 * This allows external code to override visibility for any menu item.
-		 *
-		 * @since 3.2.3
-		 *
-		 * @param bool   $is_visible The visibility value for this menu item.
-		 * @param string $menu_id    The ID of the submenu item.
-		 *
-		 * @return bool If true, the menu item should be visible.
-		 */
-		return apply_filters( 'divi_squad_publisher_is_submenu_visible', $is_visible, $menu_id );
+			/**
+			 * Filter whether the submenu item should be visible or not.
+			 * This allows external code to override visibility for any menu item.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param bool   $is_visible The visibility value for this menu item.
+			 * @param string $menu_id    The ID of the submenu item.
+			 *
+			 * @return bool If true, the menu item should be visible.
+			 */
+			return apply_filters( 'divi_squad_publisher_is_submenu_visible', $is_visible, $menu_id );
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, sprintf( 'Failed to determine submenu visibility for menu ID: %s', $menu_id ) );
+
+			return false; // Default to not showing when error occurs.
+		}
 	}
 
 	/**
@@ -295,7 +273,6 @@ class Distribution {
 	 * @param bool $is_visible The current visibility status of the menu item.
 	 *
 	 * @return bool Updated visibility status.
-	 * @throws Exception If the menu item visibility cannot be determined.
 	 */
 	public function maybe_disable_menu_items( bool $is_visible ): bool {
 		// If we're already hiding the item, don't override that decision.
@@ -304,7 +281,7 @@ class Distribution {
 		}
 
 		// Get requirements instance and check if fulfilled.
-		return $this->plugin->requirements->is_fulfilled();
+		return divi_squad()->requirements->is_fulfilled();
 	}
 
 	/**
@@ -313,7 +290,7 @@ class Distribution {
 	 * @return string The src url of plugin icon.
 	 */
 	public function fs_hook_plugin_icon(): string {
-		$default_icon = $this->plugin->get_path( '/build/admin/images/logos/divi-squad-default.png' );
+		$default_icon = divi_squad()->get_path( '/build/admin/images/logos/divi-squad-default.png' );
 
 		/**
 		 * Filter the plugin icon url for opt-in screen.
@@ -328,56 +305,69 @@ class Distribution {
 	}
 
 	/**
-	 * Get the account template path.
+	 * Get the account template for Freemius screens.
 	 *
 	 * @param string $content The template content.
 	 *
 	 * @return string|false
 	 */
-	public function fs_hook_get_account_template_content( string $content ) {
-		ob_start();
+	public function fs_hook_get_account_template( string $content ) {
+		try {
+			ob_start();
 
-		$template = $this->plugin->get_template_path( 'admin/publisher/account.php' );
+			$template = divi_squad()->get_template_path( 'admin/publisher/account.php' );
 
-		/**
-		 * Filter the account template path.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param string $template The template path.
-		 */
-		$template = apply_filters( 'divi_squad_publisher_account_template', $template );
+			/**
+			 * Filter the account template path.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param string $template The template path.
+			 */
+			$template = apply_filters( 'divi_squad_publisher_account_template', $template );
 
-		// Load the template.
-		load_template( $template, true, $content ); // @phpstan-ignore-line
+			// Load the template.
+			load_template( $template, true, $content );
 
-		return ob_get_clean();
+			return ob_get_clean();
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to load account template content' );
+
+			return $content; // Return original content as fallback.
+		}
 	}
 
 	/**
-	 * Get the account template path.
+	 * Get the default template for Freemius screens.
 	 *
 	 * @param string $content The template content.
 	 *
 	 * @return string|false
 	 */
 	public function fs_hook_get_default_template( string $content ) {
-		ob_start();
+		try {
+			ob_start();
 
-		$template = $this->plugin->get_template_path( 'admin/publisher/default.php' );
+			$template = divi_squad()->get_template_path( 'admin/publisher/default.php' );
 
-		/**
-		 * Filter the default template path.
-		 *
-		 * @since 3.3.0
-		 *
-		 * @param string $template The template path.
-		 */
-		$template = apply_filters( 'divi_squad_publisher_default_template', $template );
+			/**
+			 * Filter the default template path.
+			 *
+			 * @since 3.3.0
+			 *
+			 * @param string $template The template path.
+			 */
+			$template = apply_filters( 'divi_squad_publisher_default_template', $template );
 
-		load_template( $template, true, $content ); // @phpstan-ignore-line
+			// Load the template.
+			load_template( $template, true, $content );
 
-		return ob_get_clean();
+			return ob_get_clean();
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to load default template content' );
+
+			return $content; // Return original content as fallback.
+		}
 	}
 
 	/**
@@ -395,7 +385,7 @@ class Distribution {
 		$manager_id  = $value['manager_id'] ?? '';
 
 		// Plugin id.
-		$plugin_id = $this->plugin->get_name();
+		$plugin_id = divi_squad()->get_name();
 
 		return ! ( ( 'update-nag' === $notice_type && $plugin_id === $manager_id ) || ( 'success' === $notice_type && 'plan_upgraded' === $notice_id ) );
 	}
@@ -415,13 +405,13 @@ class Distribution {
 		 *
 		 * @since 3.2.3
 		 *
-		 * @param string       $title The plugin title.
-		 * @param Freemius     $fs The instance of Freemius SDK.
+		 * @param string       $title  The plugin title.
+		 * @param Freemius     $fs     The instance of Freemius SDK.
 		 * @param SquadModules $plugin The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
-		return apply_filters( 'divi_squad_publisher_plugin_title', $title, $this->fs, $this->plugin );
+		return apply_filters( 'divi_squad_publisher_plugin_title', $title, $this->fs, divi_squad() );
 	}
 
 	/**
@@ -440,12 +430,12 @@ class Distribution {
 		 * @since 3.2.3
 		 *
 		 * @param string       $version The plugin version.
-		 * @param Freemius     $fs The instance of Freemius SDK.
-		 * @param SquadModules $plugin The plugin instance.
+		 * @param Freemius     $fs      The instance of Freemius SDK.
+		 * @param SquadModules $plugin  The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
-		return apply_filters( 'divi_squad_publisher_plugin_version', $version, $this->fs, $this->plugin );
+		return apply_filters( 'divi_squad_publisher_plugin_version', $version, $this->fs, divi_squad() );
 	}
 
 	/**
@@ -463,13 +453,13 @@ class Distribution {
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param string       $url The support forum url.
-		 * @param Freemius     $fs The instance of Freemius SDK.
+		 * @param string       $url    The support forum url.
+		 * @param Freemius     $fs     The instance of Freemius SDK.
 		 * @param SquadModules $plugin The plugin instance.
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
-		return apply_filters( 'divi_squad_publisher_support_forum_url', $url, $this->fs, $this->plugin );
+		return apply_filters( 'divi_squad_publisher_support_forum_url', $url, $this->fs, divi_squad() );
 	}
 
 	/**
@@ -485,7 +475,7 @@ class Distribution {
 			array(
 				'file' => 'publisher',
 				'path' => 'admin',
-				'deps' => array( 'fs_common' ),
+				'deps' => array(),
 				'ext'  => 'css',
 			)
 		);
@@ -504,26 +494,6 @@ class Distribution {
 	}
 
 	/**
-	 * Remove all notices from the squad template pages.
-	 *
-	 * @return void
-	 */
-	public function wp_hook_clean_admin_content_section(): void {
-		// Check if the current screen is available.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-
-		$screen = get_current_screen();
-		if ( $screen instanceof WP_Screen && HelperUtil::is_squad_page( $screen->id ) ) {
-			remove_all_actions( 'admin_notices' );
-			remove_all_actions( 'network_admin_notices' );
-			remove_all_actions( 'all_admin_notices' );
-			remove_all_actions( 'user_admin_notices' );
-		}
-	}
-
-	/**
 	 * Update the admin menu title.
 	 *
 	 * @since 3.3.0
@@ -531,167 +501,79 @@ class Distribution {
 	 * @return void
 	 */
 	public function wp_hook_update_admin_menu_title(): void {
-		global $submenu;
+		try {
+			global $submenu;
 
-		foreach ( $submenu as $parent => $sub ) {
-			// Check if the parent is the desired one.
-			if ( 'divi_squad_dashboard' !== $parent ) {
-				continue;
+			if ( ! is_array( $submenu ) || ! isset( $submenu['divi_squad_dashboard'] ) ) {
+				return;
 			}
 
-			foreach ( $sub as $index => $data ) {
-				if ( isset( $data[2], $data[3] ) && Str::starts_with( $data[2], 'divi_squad_dashboard-' ) ) {
-					if ( 'divi_squad_dashboard-affiliation' === $data[2] ) {
-						$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-							'%s ‹ %s',
-							esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
-							esc_html__( 'Affiliation', 'squad-modules-for-divi' )
-						);
-					}
-
-					if ( 'divi_squad_dashboard-account' === $data[2] ) {
-						$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-							'%s ‹ %s',
-							esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
-							esc_html__( 'Account', 'squad-modules-for-divi' )
-						);
-					}
-
-					if ( 'divi_squad_dashboard-wp-support-forum' === $data[2] ) {
-						$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-							'%s ‹ %s',
-							esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
-							esc_html__( 'Support Forum', 'squad-modules-for-divi' )
-						);
-					}
-
-					if ( 'divi_squad_dashboard-pricing' === $data[2] ) {
-						$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-							'%s ‹ %s',
-							esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
-							esc_html__( 'Pricing', 'squad-modules-for-divi' )
-						);
-					}
-
-					/**
-					 * Filter the admin menu title.
-					 *
-					 * @since 3.3.0
-					 *
-					 * @param string $title   The admin menu title.
-					 * @param array  $data    The submenu data.
-					 * @param int    $index   The index of the submenu.
-					 * @param string $parent  The parent menu slug.
-					 * @param array  $submenu The submenu array.
-					 */
-					do_action( 'divi_squad_dashboard_update_admin_menu_title', $submenu[ $parent ][ $index ], $data, $index, $parent, $submenu );
+			foreach ( $submenu as $parent => $sub ) {
+				// Check if the parent is the desired one.
+				if ( 'divi_squad_dashboard' !== $parent ) {
+					continue;
 				}
-			}
 
-			/**
-			 * Filter the admin menu title.
-			 *
-			 * @since 3.3.0
-			 *
-			 * @param array $data The submenu data.
-			 */
-			do_action( 'divi_squad_dashboard_update_admin_menu_title_after', $submenu[ $parent ] );
-		}
-	}
+				foreach ( $sub as $index => $data ) {
+					if ( isset( $data[2], $data[3] ) && Str::starts_with( $data[2], 'divi_squad_dashboard-' ) ) {
+						if ( 'divi_squad_dashboard-affiliation' === $data[2] ) {
+							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+								'%s ‹ %s',
+								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
+								esc_html__( 'Affiliation', 'squad-modules-for-divi' )
+							);
+						}
 
-	/**
-	 * Remove all third party dependencies from the squad template pages.
-	 *
-	 * @return void
-	 */
-	public function wp_hook_clean_third_party_deps(): void {
-		global $wp_scripts, $wp_styles;
+						if ( 'divi_squad_dashboard-account' === $data[2] ) {
+							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+								'%s ‹ %s',
+								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
+								esc_html__( 'Account', 'squad-modules-for-divi' )
+							);
+						}
 
-		// Dequeue the scripts and styles of the current page those are not required.
-		if ( HelperUtil::is_squad_page() ) {
-			$this->remove_unnecessary_dependencies( $wp_scripts );
-			$this->remove_unnecessary_dependencies( $wp_styles );
-		}
-	}
+						if ( 'divi_squad_dashboard-wp-support-forum' === $data[2] ) {
+							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+								'%s ‹ %s',
+								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
+								esc_html__( 'Support Forum', 'squad-modules-for-divi' )
+							);
+						}
 
-	/**
-	 * Remove unnecessary styles from the current page.
-	 *
-	 * @param WP_Scripts|WP_Styles $root The Core class of dependencies.
-	 *
-	 * @return void
-	 */
-	public function remove_unnecessary_dependencies( $root ): void {
-		// get site url.
-		$site_url = home_url( '/' );
+						if ( 'divi_squad_dashboard-pricing' === $data[2] ) {
+							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+								'%s ‹ %s',
+								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
+								esc_html__( 'Pricing', 'squad-modules-for-divi' )
+							);
+						}
 
-		// Get the dependencies of the squad asset handles.
-		$scripts_deps = $this->get_squad_dependencies( $root->registered );
-
-		// Allowed plugin paths.
-		$allowed_plugin_defaults = array( 'squad-modules', 'query-monitor', 'wp-console' );
-
-		/**
-		 * Allowed plugin paths.
-		 *
-		 * @param array $allowed_plugin_paths The allowed plugin paths.
-		 *
-		 * @return array
-		 */
-		$allowed_plugin_paths = apply_filters( 'divi_squad_dependencies_cleaning_allowed_plugin_paths', $allowed_plugin_defaults );
-
-		/**
-		 * Remove all the dependencies of the current page those are not required.
-		 *
-		 * @see https://developer.wordpress.org/reference/classes/wp_styles/
-		 * @see https://developer.wordpress.org/reference/classes/wp_scripts/
-		 */
-		foreach ( $root->registered as $dependency ) {
-			if ( ! $dependency instanceof _WP_Dependency || false === $dependency->src ) {
-				continue;
-			}
-
-			// Check if the dependency should be dequeued and removed.
-			$should_remove = ! in_array( $dependency->handle, $scripts_deps, true ) && Str::starts_with( $dependency->src, $site_url );
-
-			// Check allowed plugin paths.
-			foreach ( $allowed_plugin_paths as $plugin_path ) {
-				if ( Str::contains( $dependency->src, "wp-content/plugins/$plugin_path" ) ) {
-					$should_remove = false;
-					break;
-				}
-			}
-
-			// Dequeue and remove the dependency if it should be removed.
-			if ( $should_remove ) {
-				$root->dequeue( $dependency->handle );
-				$root->remove( $dependency->handle );
-			}
-		}
-	}
-
-	/**
-	 * Get the dependencies of the squad scripts.
-	 *
-	 * @param _WP_Dependency[] $registered The registered scripts.
-	 *
-	 * @return array<string>
-	 */
-	public function get_squad_dependencies( array $registered ): array {
-		// Store the dependencies of the squad dependencies.
-		$dependencies = array();
-
-		// Get the dependencies of the squad asset handles.
-		foreach ( $registered as $dependency ) {
-			if ( Str::starts_with( $dependency->handle, 'squad-' ) && count( $dependency->deps ) > 0 ) {
-				foreach ( $dependency->deps as $dep ) {
-					if ( ! in_array( $dep, $dependencies, true ) ) {
-						$dependencies[] = $dep;
+						/**
+						 * Filter the admin menu title.
+						 *
+						 * @since 3.3.0
+						 *
+						 * @param string $title   The admin menu title.
+						 * @param array  $data    The submenu data.
+						 * @param int    $index   The index of the submenu.
+						 * @param string $parent  The parent menu slug.
+						 * @param array  $submenu The submenu array.
+						 */
+						do_action( 'divi_squad_dashboard_update_admin_menu_title', $submenu[ $parent ][ $index ], $data, $index, $parent, $submenu );
 					}
 				}
-			}
-		}
 
-		return $dependencies;
+				/**
+				 * Filter the admin menu title.
+				 *
+				 * @since 3.3.0
+				 *
+				 * @param array $data The submenu data.
+				 */
+				do_action( 'divi_squad_dashboard_update_admin_menu_title_after', $submenu[ $parent ] );
+			}
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Failed to update admin menu titles' );
+		}
 	}
 }

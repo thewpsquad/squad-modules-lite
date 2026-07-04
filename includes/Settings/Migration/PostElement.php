@@ -2,9 +2,9 @@
 /**
  * Migration process to migrate image into Featured Image of Post Element modules.
  *
- * @package DiviSquad\Settings
- * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad\Settings
  */
 
 namespace DiviSquad\Settings\Migration;

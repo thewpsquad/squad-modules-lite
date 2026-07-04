@@ -6,10 +6,10 @@
  * This file contains the AbstractDefinition class which provides a base
  * implementation for all definition classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
@@ -19,8 +19,8 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
  *
  * Provides a base implementation for definition classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
-abstract class Definition implements DefinitionInterface {}
+abstract class Definition implements DefinitionInterface { }

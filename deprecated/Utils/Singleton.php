@@ -3,9 +3,9 @@
 /**
  * Singleton trait for creating a single instance of a class.
  *
- * @package DiviSquad
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.2.0 Use DiviSquad\Core\Traits\Singleton instead
+ * @package    DiviSquad
  */
 
 namespace DiviSquad\Utils;
@@ -14,8 +14,8 @@ namespace DiviSquad\Utils;
  * Singleton trait.
  *
  * @since      1.0.0
- * @package    DiviSquad
  * @deprecated 3.2.0 Use DiviSquad\Core\Traits\Singleton instead
+ * @package    DiviSquad
  */
 trait Singleton {
 

@@ -6,14 +6,14 @@
  * This file contains the PostGrid class which handles REST API endpoints
  * for the Post Grid module of Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Modules;
 
-use DiviSquad\Modules;
+use DiviSquad\Builder\Version4\Modules\PostGrid as Post_Grid_Module;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use DiviSquad\Rest_API_Routes\Base_Route;
 use DiviSquad\Utils\Sanitization;
@@ -28,8 +28,8 @@ use WP_REST_Server;
  * Manages REST API endpoints for the Post Grid module, including
  * functionality to load more posts.
  *
- * @package DiviSquad
  * @since   3.0.0
+ * @package DiviSquad
  */
 class PostGrid extends Base_Route {
 
@@ -49,10 +49,12 @@ class PostGrid extends Base_Route {
 			),
 		);
 	}
+
 	/**
 	 * Load more posts for the Post Grid module.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function load_more_posts( WP_REST_Request $request ) {
@@ -69,10 +71,10 @@ class PostGrid extends Base_Route {
 		$query_params = $this->sanitize_and_prepare_query_params( $params['query_args'] );
 		$content      = wp_kses_post( $params['content'] );
 
-		$post_grid_module = new Modules\PostGrid();
+		$post_grid_module = new Post_Grid_Module();
 		$post_grid_module->squad_init_custom_hooks();
 
-		$posts = Modules\PostGrid::squad_get_posts_html( $query_params, $content );
+		$posts = Post_Grid_Module::squad_get_posts_html( $query_params, $content );
 
 		if ( '' === $posts ) {
 			return new WP_Error(

@@ -2,9 +2,9 @@
 /**
  * Language recognition chart.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.4
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Utils;
@@ -12,8 +12,8 @@ namespace DiviSquad\Utils;
 /**
  * Language recognition chart.
  *
+ * @since   3.1.4
  * @package DiviSquad
- * @since 3.1.4
  */
 class LRCart {
 

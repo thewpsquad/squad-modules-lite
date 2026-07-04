@@ -6,9 +6,9 @@
  * This file contains the Advanced class which implements custom field collection
  * functionality for Advanced Custom Fields (ACF) plugin integration.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Collections;
@@ -25,8 +25,8 @@ use function wp_get_attachment_image;
  * Implements custom field collection for ACF fields with specialized handling
  * for different field types (text, image, url, etc).
  *
- * @package DiviSquad
  * @since   3.1.0
+ * @package DiviSquad
  */
 class Advanced extends Collection {
 
@@ -165,6 +165,7 @@ class Advanced extends Collection {
 		$cached_values = wp_cache_get( $cache_key, 'divi_squad_custom_fields' );
 		if ( false !== $cached_values ) {
 			$this->field_values[ $post_id ] = $cached_values;
+
 			return $this->field_values[ $post_id ];
 		}
 
@@ -173,8 +174,8 @@ class Advanced extends Collection {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param int $limit    Maximum number of fields to retrieve. Default 30.
-		 * @param int $post_id  The post ID.
+		 * @param int $limit   Maximum number of fields to retrieve. Default 30.
+		 * @param int $post_id The post ID.
 		 */
 		$limit = apply_filters( 'divi_squad_acf_fields_limit', 30, $post_id );
 
@@ -281,9 +282,9 @@ class Advanced extends Collection {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array $values          The retrieved values.
-		 * @param int   $post_id         The post ID.
-		 * @param array $acf_field_keys  The field keys that were queried.
+		 * @param array $values         The retrieved values.
+		 * @param int   $post_id        The post ID.
+		 * @param array $acf_field_keys The field keys that were queried.
 		 */
 		return apply_filters( 'divi_squad_acf_post_meta_values', $values, $post_id, $acf_field_keys );
 	}
@@ -293,9 +294,10 @@ class Advanced extends Collection {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param mixed $value        The field value.
-	 * @param string $field_type  The field type.
+	 * @param mixed  $value        The field value.
+	 * @param string $field_type   The field type.
 	 * @param array  $field_object The complete field object (optional).
+	 *
 	 * @return mixed The processed value.
 	 */
 	private function process_field_value( $value, string $field_type, array $field_object = array() ) {
@@ -335,6 +337,7 @@ class Advanced extends Collection {
 							$images[] = wp_get_attachment_image( $item['ID'], 'full' );
 						}
 					}
+
 					return implode( ' ', $images );
 				}
 				break;
@@ -509,7 +512,7 @@ class Advanced extends Collection {
 			if ( isset( $metadata->field_type ) && 'image' === $metadata->field_type ) {
 				// Add image URLs for image fields
 				if ( is_numeric( $metadata->meta_value ) ) {
-					$image_url = wp_get_attachment_url( $metadata->meta_value );
+					$image_url                                                       = wp_get_attachment_url( $metadata->meta_value );
 					$this->custom_fields[ $post_id ][ $metadata->meta_key . '_url' ] = $image_url;
 				}
 			}
@@ -551,6 +554,7 @@ class Advanced extends Collection {
 		// Check if field exists using ACF function if available
 		if ( function_exists( '\get_field' ) ) {
 			$value = \get_field( $field_key, $post_id );
+
 			return null !== $value && '' !== $value;
 		}
 
@@ -602,6 +606,7 @@ class Advanced extends Collection {
 
 		// Fallback to regular post meta
 		$value = get_post_meta( $post_id, $field_key, true );
+
 		return '' !== $value ? $value : $default_value;
 	}
 
@@ -622,6 +627,7 @@ class Advanced extends Collection {
 	 * @since 3.1.0
 	 *
 	 * @param string $field_key The field key to check.
+	 *
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( string $field_key ): bool {

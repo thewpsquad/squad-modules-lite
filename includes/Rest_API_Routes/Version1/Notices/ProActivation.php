@@ -6,9 +6,9 @@
  * This file contains the ProActivation class which handles REST API endpoints
  * for managing the Plugin Activation Notice in Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Notices;
@@ -24,8 +24,8 @@ use WP_REST_Server;
  * Manages REST API endpoints for the Plugin Activation Notice,
  * including functionality to close the notice.
  *
- * @package DiviSquad
  * @since   2.0.0
+ * @package DiviSquad
  */
 class ProActivation extends Base_Route {
 

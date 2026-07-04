@@ -6,15 +6,14 @@
  * This file contains the WordPress class which implements custom field
  * collection functionality for standard WordPress post meta.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection;
-use DiviSquad\Core\Supports\Polyfills\Str;
 use Throwable;
 use function apply_filters;
 use function get_metadata;
@@ -27,8 +26,8 @@ use function metadata_exists;
  * Implements custom field collection for standard WordPress post meta fields
  * with filtering capabilities to exclude system and plugin fields.
  *
- * @package DiviSquad
  * @since   3.1.0
+ * @package DiviSquad
  */
 class WordPress extends Collection {
 
@@ -124,6 +123,7 @@ class WordPress extends Collection {
 		 * Filter the blacklisted keys.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param array<string> $blacklisted_keys The blacklisted keys.
 		 */
 		$this->blacklisted_keys = apply_filters(
@@ -135,6 +135,7 @@ class WordPress extends Collection {
 		 * Filter the excluded suffixes.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param array<string> $excluded_suffixes The excluded suffixes.
 		 */
 		$this->excluded_suffixes = apply_filters(
@@ -146,6 +147,7 @@ class WordPress extends Collection {
 		 * Filter the excluded prefixes.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param array<string, array<string>> $excluded_prefixes The excluded prefixes.
 		 */
 		$this->excluded_prefixes = apply_filters(
@@ -211,6 +213,7 @@ class WordPress extends Collection {
 			 * Filter the formatted fields.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param array<string, array<string, string>> $formatted_fields The formatted fields.
 			 */
 			$this->formatted_fields = apply_filters(
@@ -272,8 +275,9 @@ class WordPress extends Collection {
 			 * Filter the retrieved custom fields.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param array<string, mixed> $custom_fields The custom fields.
-			 * @param int                 $post_id       The post ID.
+			 * @param int                  $post_id       The post ID.
 			 */
 			$this->custom_fields[ $post_id ] = apply_filters(
 				'divi_squad_wp_post_custom_fields',
@@ -312,6 +316,7 @@ class WordPress extends Collection {
 		 * Filter whether a post has a specific custom field.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param bool   $exists    Whether the custom field exists.
 		 * @param int    $post_id   The post ID.
 		 * @param string $field_key The custom field key.
@@ -347,6 +352,7 @@ class WordPress extends Collection {
 			 * Filter the retrieved custom field value.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param mixed  $result        The custom field value or default.
 			 * @param int    $post_id       The post ID.
 			 * @param string $field_key     The custom field key.
@@ -363,6 +369,7 @@ class WordPress extends Collection {
 		} catch ( Throwable $e ) {
 			// Log error and return default value
 			divi_squad()->log_error( $e, "Error retrieving WordPress custom field '$field_key' for post $post_id" );
+
 			return $default_value;
 		}
 	}
@@ -373,6 +380,7 @@ class WordPress extends Collection {
 	 * @since 3.1.0
 	 *
 	 * @param string $field_key The field key to check.
+	 *
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( string $field_key ): bool {
@@ -390,6 +398,7 @@ class WordPress extends Collection {
 		 * Final filter specific to WordPress fields.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param bool   $include   Whether to include the field.
 		 * @param string $field_key The field key.
 		 */
@@ -413,6 +422,7 @@ class WordPress extends Collection {
 		 * Filters the number of custom fields to retrieve per post type.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param int $limit Number of custom fields to retrieve. Default 30.
 		 */
 		$limit = apply_filters( 'divi_squad_wp_custom_fields_limit', 30 );
@@ -425,7 +435,7 @@ class WordPress extends Collection {
 			$post_types = $this->get_supported_post_types();
 
 			// Get fields manager
-			$fields_manager = divi_squad()->custom_fields->get_manager( 'fields' );
+			$fields_manager = divi_squad()->custom_fields_element->get_manager( 'fields' );
 
 			// Get fields for each post type
 			foreach ( $post_types as $post_type ) {
@@ -441,6 +451,7 @@ class WordPress extends Collection {
 			 * Filter the available fields.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param array<string, array<string>> $fields     The available fields.
 			 * @param array<string>                $post_types The post types.
 			 * @param int                          $limit      The limit.
@@ -455,6 +466,7 @@ class WordPress extends Collection {
 		} catch ( Throwable $e ) {
 			// Log error but return empty array
 			divi_squad()->log_error( $e, 'Error retrieving available WordPress custom fields' );
+
 			return array();
 		}
 
@@ -483,6 +495,7 @@ class WordPress extends Collection {
 		$cached_values = wp_cache_get( $cache_key, 'divi_squad_custom_fields' );
 		if ( false !== $cached_values ) {
 			$this->field_values[ $post_id ] = $cached_values;
+
 			return $this->field_values[ $post_id ];
 		}
 
@@ -490,8 +503,9 @@ class WordPress extends Collection {
 		 * Filters the number of custom field values to retrieve.
 		 *
 		 * @since 3.1.0
-		 * @param int $limit    Maximum number of values to retrieve. Default 30.
-		 * @param int $post_id  The post ID.
+		 *
+		 * @param int $limit   Maximum number of values to retrieve. Default 30.
+		 * @param int $post_id The post ID.
 		 */
 		$limit = apply_filters( 'divi_squad_wp_field_values_limit', 30, $post_id );
 
@@ -532,6 +546,7 @@ class WordPress extends Collection {
 			 * Filter the available field values.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param array<object> $field_values The field values.
 			 * @param int           $post_id      The post ID.
 			 */
@@ -544,6 +559,7 @@ class WordPress extends Collection {
 		} catch ( Throwable $e ) {
 			// Log error but return empty array
 			divi_squad()->log_error( $e, "Error retrieving available field values for post $post_id" );
+
 			return array();
 		}
 
@@ -600,10 +616,11 @@ class WordPress extends Collection {
 		 * Filter the post meta values.
 		 *
 		 * @since 3.1.0
-		 * @param array<object>  $values    The post meta values.
-		 * @param int            $post_id   The post ID.
-		 * @param array<string>  $meta_keys The meta keys.
-		 * @param int            $limit     The limit.
+		 *
+		 * @param array<object> $values    The post meta values.
+		 * @param int           $post_id   The post ID.
+		 * @param array<string> $meta_keys The meta keys.
+		 * @param int           $limit     The limit.
 		 */
 		return apply_filters(
 			'divi_squad_wp_post_meta_values',
@@ -621,6 +638,7 @@ class WordPress extends Collection {
 	 *
 	 * @param mixed  $value     The field value to format.
 	 * @param string $field_key The field key.
+	 *
 	 * @return mixed The formatted value.
 	 */
 	protected function format_field_value( $value, string $field_key ) {
@@ -653,6 +671,7 @@ class WordPress extends Collection {
 		 * Filter the formatted field value.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param mixed  $value     The field value.
 		 * @param string $field_key The field key.
 		 */
@@ -665,6 +684,7 @@ class WordPress extends Collection {
 	 * @since 3.1.0
 	 *
 	 * @param int $post_id The post ID to clear cache for.
+	 *
 	 * @return void
 	 */
 	public function clear_post_cache( int $post_id ): void {
@@ -685,6 +705,7 @@ class WordPress extends Collection {
 		 * Action fired when the cache for a post is cleared.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param int $post_id The post ID.
 		 */
 		do_action( 'divi_squad_wp_post_cache_cleared', $post_id );

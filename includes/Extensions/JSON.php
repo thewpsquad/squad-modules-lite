@@ -1,23 +1,23 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The JSON extension class for Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Extensions\Extension;
 use function add_filter;
 use function wp_strip_all_tags;
 
 /**
  * The JSON class.
  *
- * @package DiviSquad
  * @since   1.2.0
+ * @package DiviSquad
  */
 class JSON extends Extension {
 
@@ -49,9 +49,9 @@ class JSON extends Extension {
 	/**
 	 * Filters the "real" file type of the given file.
 	 *
-	 * @param array<string, bool|string>  $wp_checked Values for the extension, mime type, and corrected filename.
-	 * @param string $file       Full path to the file.
-	 * @param string $filename   The name of the file.
+	 * @param array<string, bool|string> $wp_checked Values for the extension, mime type, and corrected filename.
+	 * @param string                     $file       Full path to the file.
+	 * @param string                     $filename   The name of the file.
 	 *
 	 * @return array<string, bool|string> Values for the extension, mime type, and corrected filename.
 	 */

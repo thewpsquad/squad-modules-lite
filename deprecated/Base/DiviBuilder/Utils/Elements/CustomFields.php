@@ -3,10 +3,10 @@
 /**
  * Custom Fields Utils Helper
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements;
@@ -16,9 +16,9 @@ use InvalidArgumentException;
 /**
  * Custom Fields Utils Helper Class
  *
- * @package DiviSquad
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class CustomFields {
 
@@ -183,7 +183,7 @@ class CustomFields {
 		if ( ! isset( static::$processors[ $storage ][ $field_type ] ) ) {
 			throw new InvalidArgumentException(
 				sprintf(
-					/* translators: %s: The unsupported field type */
+				/* translators: %s: The unsupported field type */
 					esc_html__( 'Unsupported field type: %s', 'squad-modules-for-divi' ),
 					esc_html( $field_type )
 				)
@@ -195,7 +195,7 @@ class CustomFields {
 			if ( ! in_array( $storage, array( 'collections', 'definitions' ), true ) ) {
 				throw new InvalidArgumentException(
 					sprintf(
-						/* translators: %s: The unsupported storage type */
+					/* translators: %s: The unsupported storage type */
 						esc_html__( 'Unsupported storage type: %s', 'squad-modules-for-divi' ),
 						esc_html( $storage )
 					)

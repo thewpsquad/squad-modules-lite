@@ -3,10 +3,10 @@
 /**
  * Abstract class representing the Plugin Asset.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.0.0
+ * @since      3.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories;
@@ -19,9 +19,9 @@ use DiviSquad\Core\Traits\Singleton;
 /**
  * Abstract class representing the Plugin Asset.
  *
- * @package DiviSquad
- * @since   3.0.0
+ * @since      3.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 final class PluginAsset extends FactoryBase\Factory {
 
@@ -98,7 +98,7 @@ final class PluginAsset extends FactoryBase\Factory {
 	 */
 	public function add_localize_backend_extra_data( array $data ): array {
 		foreach ( self::$registries as $asset ) {
-			$data = $asset->get_localize_data( 'raw', $data );
+			$data = (array) $asset->get_localize_data( 'raw', $data );
 		}
 
 		return $data;

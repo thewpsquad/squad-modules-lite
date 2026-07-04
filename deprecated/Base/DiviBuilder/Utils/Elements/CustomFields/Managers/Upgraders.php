@@ -6,10 +6,10 @@
  * This file contains the CustomFieldsUpgrader class which manages
  * database upgrades for the custom fields summary table.
  *
- * @since   3.1.0
- * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers;
@@ -21,9 +21,9 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers;
  * This class handles version tracking and applies necessary database
  * structure changes when upgrading from older versions.
  *
- * @since   3.1.1
- * @package DiviSquad
+ * @since      3.1.1
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class Upgraders {
 

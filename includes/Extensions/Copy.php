@@ -1,10 +1,11 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The Post Duplicator extension class for Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.4.8
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Extensions;
@@ -33,8 +34,8 @@ use function wp_set_object_terms;
 /**
  * The Post Duplicator class.
  *
- * @package DiviSquad
  * @since   1.4.8
+ * @package DiviSquad
  */
 class Copy extends Extension {
 

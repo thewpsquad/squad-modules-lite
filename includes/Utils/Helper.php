@@ -1,23 +1,28 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Generic helper class for utility.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Utils;
 
+use WP_Error;
 use WP_Screen;
+use function apply_filters;
+use function esc_attr;
 use function get_current_screen;
 use function get_shortcode_regex;
+use function wp_json_encode;
 
 /**
  * Helper class.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 class Helper {
 
@@ -76,7 +81,7 @@ class Helper {
 	public static function collect_all_shortcodes( string $content ): array {
 		$result = array();
 		$reg    = get_shortcode_regex();
-		if ( false !== preg_match_all( '/' . $reg . '/', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( false !== preg_match_all( '/' . $reg . '/', $content, $matches, \PREG_SET_ORDER ) ) {
 			$result = array_map(
 				static fn( $v ) => array_values( array_filter( $v, static fn( $item ) => '' !== $item ) ),
 				$matches
@@ -141,7 +146,7 @@ class Helper {
 
 			// Handle different value types.
 			if ( is_object( $value ) ) {
-				if ( $value instanceof \WP_Error ) {
+				if ( $value instanceof WP_Error ) {
 					// Skip WP_Error objects.
 					continue;
 				}
@@ -180,9 +185,9 @@ class Helper {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string              $result     The imploded string.
-		 * @param array<string>       $processed_array The processed array before imploding.
-		 * @param array<string, mixed> $array_data The original array data.
+		 * @param string               $result          The imploded string.
+		 * @param array<string>        $processed_array The processed array before imploding.
+		 * @param array<string, mixed> $array_data      The original array data.
 		 */
 		return apply_filters( 'divi_squad_implode_assoc_array', $result, $processed_array, $array_data );
 	}
@@ -201,7 +206,7 @@ class Helper {
 			$key_value_pairs = explode( ' ', $array_values );
 			foreach ( $key_value_pairs as $key_value_pair ) {
 				[ $key, $value ] = explode( '=', $key_value_pair );
-				$result[ $key ]      = $value;
+				$result[ $key ] = $value;
 			}
 		}
 
@@ -224,7 +229,7 @@ class Helper {
 	 * @return int
 	 */
 	public static function get_second( int $days ): int {
-		$result = $days * 24 * 60 * 60;
+		$result = $days * DAY_IN_SECONDS;
 
 		/**
 		 * Filters the result of converting days to seconds.
@@ -245,7 +250,7 @@ class Helper {
 	 * @return int
 	 */
 	public static function get_days( int $seconds ): int {
-		$result = $seconds / 86400;
+		$result = $seconds / DAY_IN_SECONDS;
 
 		/**
 		 * Filters the result of converting seconds to days.
@@ -312,9 +317,9 @@ class Helper {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param bool             $is_allowed      Whether the current screen is allowed.
-		 * @param WP_Screen|null   $screen          The current screen.
-		 * @param array            $allowed_screens The array of allowed screen IDs.
+		 * @param bool           $is_allowed      Whether the current screen is allowed.
+		 * @param WP_Screen|null $screen          The current screen.
+		 * @param array          $allowed_screens The array of allowed screen IDs.
 		 */
 		return apply_filters(
 			'divi_squad_is_screen_allowed',

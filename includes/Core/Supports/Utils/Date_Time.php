@@ -1,10 +1,11 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Helper functions to work with dates, time and timezones.
  *
+ * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
- * @author The WP Squad <support@squadmodules.com>
- * @since 3.1.0
  */
 
 namespace DiviSquad\Core\Supports\Utils;
@@ -12,8 +13,8 @@ namespace DiviSquad\Core\Supports\Utils;
 /**
  * Helper functions to work with dates, time and timezones.
  *
+ * @since   3.1.0
  * @package DiviSquad
- * @since 3.1.0
  */
 class Date_Time {
 

@@ -6,9 +6,9 @@
  * This file contains the Manager abstract class which provides a base
  * implementation for all manager classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.1
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
@@ -19,8 +19,8 @@ namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
  * Provides a base implementation for manager classes in the DiviSquad plugin.
  * Managers handle database operations, data retrieval, and caching.
  *
- * @package DiviSquad
  * @since   3.1.1
+ * @package DiviSquad
  */
 abstract class Manager implements ManagerInterface {
 
@@ -95,6 +95,7 @@ abstract class Manager implements ManagerInterface {
 	 * @param array    $args       Arguments to pass to the callback.
 	 * @param int|null $expiration Optional. The expiration time of the cached data in seconds.
 	 *                             Default is the manager's cache_expiration.
+	 *
 	 * @return mixed The cached or generated data.
 	 */
 	protected function get_cached_data( string $key, callable $callback, array $args = array(), ?int $expiration = null ) {
@@ -113,10 +114,10 @@ abstract class Manager implements ManagerInterface {
 			 *
 			 * @since 3.1.1
 			 *
-			 * @param string $cache_key  The cache key.
-			 * @param mixed  $data       The generated data.
+			 * @param string $cache_key   The cache key.
+			 * @param mixed  $data        The generated data.
 			 * @param string $cache_group The cache group.
-			 * @param int    $expiration The cache expiration time in seconds.
+			 * @param int    $expiration  The cache expiration time in seconds.
 			 */
 			do_action(
 				'divi_squad_manager_data_cached',
@@ -190,6 +191,7 @@ abstract class Manager implements ManagerInterface {
 	 * @since 3.1.1
 	 *
 	 * @param bool $force Whether to force a refresh regardless of staleness.
+	 *
 	 * @return bool Whether the refresh was successful.
 	 */
 	public function refresh_data( bool $force = false ): bool {
@@ -269,6 +271,7 @@ abstract class Manager implements ManagerInterface {
 	 * @since 3.1.1
 	 *
 	 * @param string $key The cache key to track.
+	 *
 	 * @return void
 	 */
 	protected function track_cache_key( string $key ): void {

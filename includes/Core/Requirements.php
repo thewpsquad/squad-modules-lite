@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Requirements class.
  *
@@ -6,20 +7,17 @@
  * ensuring compatibility with Divi theme or Divi Builder plugin.
  *
  * @since   3.2.0
- * @package DiviSquad\Core
+ * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Core;
 
-use DiviSquad\SquadModules;
+use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Utils\Divi;
 use DiviSquad\Utils\Helper;
-use DiviSquad\Core\Supports\Media\Image;
-use DiviSquad\Core\Supports\Polyfills\Constant;
-use Exception;
+use RuntimeException;
 use Throwable;
-use WP_Screen;
 
 /**
  * Class Requirements
@@ -28,21 +26,14 @@ use WP_Screen;
  * notifications when requirements are not met.
  *
  * @since   3.2.0
- * @package DiviSquad\Core
+ * @package DiviSquad
  */
 class Requirements {
-
-	/**
-	 * The plugin instance.
-	 *
-	 * @var SquadModules The plugin instance.
-	 */
-	private SquadModules $plugin;
-
 	/**
 	 * Required Divi version.
 	 *
 	 * @since 3.2.0
+	 *
 	 * @var string
 	 */
 	private string $required_version;
@@ -51,6 +42,7 @@ class Requirements {
 	 * Cached requirements status.
 	 *
 	 * @since 3.3.0
+	 *
 	 * @var array<string, boolean|string>
 	 */
 	private array $status = array();
@@ -59,6 +51,7 @@ class Requirements {
 	 * Error message from the last check.
 	 *
 	 * @since 3.3.0
+	 *
 	 * @var string
 	 */
 	private string $last_error = '';
@@ -69,14 +62,9 @@ class Requirements {
 	 * Initialize hooks and filters.
 	 *
 	 * @since 3.3.0
-	 *
-	 * @param SquadModules $plugin The plugin instance.
 	 */
-	public function __construct( SquadModules $plugin ) {
-		$this->plugin = $plugin;
-
-		// Set the required version.
-		$this->required_version = $this->plugin->get_option( 'RequiresDIVI', '4.14.0' );
+	public function __construct() {
+		add_action( 'init', array( $this, 'is_fulfilled' ) );
 	}
 
 	/**
@@ -93,6 +81,8 @@ class Requirements {
 	 */
 	public function is_fulfilled(): bool {
 		try {
+			$this->required_version = divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
+
 			// Return cached result if available.
 			if ( isset( $this->status['is_fulfilled'] ) ) {
 				return (bool) $this->status['is_fulfilled'];
@@ -100,17 +90,17 @@ class Requirements {
 
 			// Check installation status.
 			if ( ! $this->is_divi_installed() ) {
-				throw new \RuntimeException( esc_html__( 'Divi theme or Divi Builder plugin is not installed', 'squad-modules-for-divi' ) );
+				throw new RuntimeException( esc_html__( 'Divi theme or Divi Builder plugin is not installed', 'squad-modules-for-divi' ) );
 			}
 
 			// Check activation status.
 			if ( ! $this->is_divi_active() ) {
-				throw new \RuntimeException( esc_html__( 'Divi theme or Divi Builder plugin is not activated', 'squad-modules-for-divi' ) );
+				throw new RuntimeException( esc_html__( 'Divi theme or Divi Builder plugin is not activated', 'squad-modules-for-divi' ) );
 			}
 
 			// Check version compatibility.
 			if ( ! $this->meets_version_requirements() ) {
-				throw new \RuntimeException( esc_html__( 'Divi version is less than required', 'squad-modules-for-divi' ) );
+				throw new RuntimeException( esc_html__( 'Divi version is less than required', 'squad-modules-for-divi' ) );
 			}
 
 			/**
@@ -131,6 +121,7 @@ class Requirements {
 			$this->last_error = $e->getMessage();
 
 			$this->status['is_fulfilled'] = false;
+
 			return false;
 		}
 	}
@@ -138,7 +129,7 @@ class Requirements {
 	/**
 	 * Check if Divi theme or Divi Builder plugin is installed.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access protected
 	 *
 	 * @return bool True if either Divi theme or Divi Builder plugin is installed.
@@ -167,7 +158,7 @@ class Requirements {
 	/**
 	 * Check if Divi theme or Divi Builder plugin is active.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access protected
 	 *
 	 * @return bool True if either Divi theme or Divi Builder plugin is active.
@@ -188,7 +179,7 @@ class Requirements {
 	/**
 	 * Check if the active Divi version meets the minimum requirements.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access protected
 	 *
 	 * @return bool True if version requirements are met.
@@ -199,14 +190,18 @@ class Requirements {
 
 			// Check Divi theme version (if active).
 			if ( ( $this->status['is_theme_active'] ?? false ) && defined( 'ET_CORE_VERSION' ) ) { // @phpstan-ignore-line
-				$meets_version                 = version_compare( (string) ET_CORE_VERSION, $this->required_version, '>=' );
 				$this->status['theme_version'] = ET_CORE_VERSION;
+
+				// Check if the version is valid.
+				$meets_version = version_compare( (string) ET_CORE_VERSION, $this->required_version, '>=' );
 			}
 
 			// Check Divi Builder plugin version (if active).
 			if ( ! $meets_version && ( $this->status['is_plugin_active'] ?? false ) && defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) { // @phpstan-ignore-line
-				$meets_version                  = version_compare( (string) ET_BUILDER_PLUGIN_VERSION, $this->required_version, '>=' );
 				$this->status['plugin_version'] = ET_BUILDER_PLUGIN_VERSION;
+
+				// Check if the version is valid.
+				$meets_version = version_compare( (string) ET_BUILDER_PLUGIN_VERSION, $this->required_version, '>=' );
 			}
 
 			$this->status['meets_version'] = $meets_version;
@@ -218,7 +213,7 @@ class Requirements {
 	/**
 	 * Get the last error message from requirements check.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access public
 	 *
 	 * @return string The last error message.
@@ -230,7 +225,7 @@ class Requirements {
 	/**
 	 * Register the admin page.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @return void
@@ -244,14 +239,14 @@ class Requirements {
 	/**
 	 * Register the admin page.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @return void
 	 */
 	public function register_admin_page(): void {
 		// Load the image class.
-		$image = new Image( $this->plugin->get_path( '/build/admin/images/logos' ) );
+		$image = divi_squad()->load_image( '/build/admin/images/logos' );
 
 		// Get the menu icon.
 		$menu_icon = $image->get_image( 'divi-squad-d-white.svg', 'svg' );
@@ -259,7 +254,7 @@ class Requirements {
 			$menu_icon = 'dashicons-warning';
 		}
 
-		$page_slug  = $this->plugin->get_admin_menu_slug();
+		$page_slug  = divi_squad()->get_admin_menu_slug();
 		$capability = 'manage_options';
 
 		// Register the admin page.
@@ -270,7 +265,7 @@ class Requirements {
 			$page_slug,
 			'', // @phpstan-ignore-line
 			$menu_icon,
-			$this->plugin->get_admin_menu_position()
+			divi_squad()->get_admin_menu_position()
 		);
 
 		// Register the admin page.
@@ -287,19 +282,14 @@ class Requirements {
 	/**
 	 * Remove all notices from the squad template pages.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @return void
 	 */
 	public function clean_admin_content_section(): void {
 		// Check if the current screen is available.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-
-		$screen = get_current_screen();
-		if ( $screen instanceof WP_Screen && Helper::is_squad_page( $screen->id ) ) {
+		if ( Helper::is_squad_page() ) {
 			remove_all_actions( 'admin_notices' );
 			remove_all_actions( 'network_admin_notices' );
 			remove_all_actions( 'all_admin_notices' );
@@ -310,15 +300,12 @@ class Requirements {
 	/**
 	 * Render the admin page.
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access public
 	 *
 	 * @return void
-	 * @throws Exception If any requirement is not met.
 	 */
 	public function render_admin_page(): void {
-		$template_path = $this->plugin->get_template_path( 'admin/requirements.php' );
-
 		// Force requirements check.
 		$this->status = array();
 		$this->is_fulfilled();
@@ -330,15 +317,15 @@ class Requirements {
 			'required_version' => $this->required_version,
 		);
 
-		if ( $this->plugin->get_wp_fs()->exists( $template_path ) ) {
-			load_template( $template_path, false, $args );
+		if ( divi_squad()->is_template_exists( 'admin/requirements.php' ) ) {
+			load_template( divi_squad()->get_template_path( 'admin/requirements.php' ), false, $args );
 		}
 	}
 
 	/**
 	 * Add badges to the requirements page.
 	 *
-	 * @since 3.2.3
+	 * @since  3.2.3
 	 * @access public
 	 *
 	 * @param string $plugin_life_type The plugin life type.
@@ -360,7 +347,7 @@ class Requirements {
 			printf(
 				'<li class="stable-lite-badge"><span class="badge-name">%s</span><span class="badge-version">%s</span></li>',
 				esc_html__( 'Lite', 'squad-modules-for-divi' ),
-				esc_html( $this->plugin->get_version_dot() )
+				esc_html( divi_squad()->get_version_dot() )
 			);
 		}
 	}
@@ -368,7 +355,7 @@ class Requirements {
 	/**
 	 * Get notice content based on Divi status
 	 *
-	 * @since 3.2.0
+	 * @since  3.2.0
 	 * @access protected
 	 *
 	 * @return string
@@ -390,7 +377,7 @@ class Requirements {
 
 		// Theme is active but outdated.
 		if ( ( $this->status['is_theme_active'] ?? false ) && isset( $this->status['theme_version'] ) &&
-			version_compare( $this->status['theme_version'], $this->required_version, '<' ) ) {
+			 version_compare( $this->status['theme_version'], $this->required_version, '<' ) ) {
 
 			return $this->render_notice_banner(
 				'warning',
@@ -411,7 +398,7 @@ class Requirements {
 
 		// Plugin is active but outdated.
 		if ( ( $this->status['is_plugin_active'] ?? false ) && isset( $this->status['plugin_version'] ) &&
-			version_compare( $this->status['plugin_version'], $this->required_version, '<' ) ) {
+			 version_compare( $this->status['plugin_version'], $this->required_version, '<' ) ) {
 
 			return $this->render_notice_banner(
 				'warning',
@@ -464,7 +451,7 @@ class Requirements {
 			__( 'Divi Requirements Met', 'squad-modules-for-divi' ),
 			__( 'Your Divi installation meets all the requirements for Squad Modules. You can start using the modules now!', 'squad-modules-for-divi' ),
 			array(
-				'url'  => admin_url( 'admin.php?page=' . $this->plugin->get_admin_menu_slug() ),
+				'url'  => admin_url( 'admin.php?page=' . divi_squad()->get_admin_menu_slug() ),
 				'text' => __( 'Go to Dashboard', 'squad-modules-for-divi' ),
 				'icon' => 'admin-home',
 			)
@@ -474,13 +461,13 @@ class Requirements {
 	/**
 	 * Renders a standardized notice banner.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access protected
 	 *
 	 * @param string                                         $type    Notice type: 'error', 'warning', 'success'.
 	 * @param string                                         $title   Notice title.
 	 * @param string                                         $message Notice message.
-	 * @param array{url: string, text: string, icon: string} $action Optional. Action button details.
+	 * @param array{url: string, text: string, icon: string} $action  Optional. Action button details.
 	 *
 	 * @return string The HTML for the notice banner.
 	 */
@@ -524,17 +511,18 @@ class Requirements {
 	 * Records failed requirements with comprehensive context data for debugging
 	 * and reports major compatibility issues to the error reporting system.
 	 *
-	 * @since 4.0.0
+	 * @since  4.0.0
 	 * @access public
 	 *
 	 * @param bool $report_error Whether to send an error report for this failure. Default true.
+	 *
 	 * @return void
 	 */
 	public function log_requirement_failure( bool $report_error = true ): void {
 		try {
 			$status = $this->get_status();
 
-			// Build comprehensive extra data for debugging
+			// Build comprehensive extra data for debugging.
 			$extra_data = array(
 				'status_details'    => $status,
 				'error_message'     => $this->get_last_error(),
@@ -546,7 +534,7 @@ class Requirements {
 				'is_multisite'      => is_multisite() ? 'Yes' : 'No',
 			);
 
-			// Include theme information if available
+			// Include theme information if available.
 			if ( function_exists( 'wp_get_theme' ) ) {
 				$theme                      = wp_get_theme();
 				$extra_data['active_theme'] = array(
@@ -556,14 +544,14 @@ class Requirements {
 				);
 			}
 
-			// Determine the specific failure type with detailed descriptions
+			// Determine the specific failure type with detailed descriptions.
 			if ( ! (bool) ( $status['is_installed'] ?? false ) ) {
 				$requirement = 'Divi Installation';
 				$current     = 'Not installed';
 				$expected    = 'Divi theme or Divi Builder plugin must be installed';
 				$context     = 'Missing Divi';
 			} elseif ( ! (bool) ( $status['is_active'] ?? false ) ) {
-				// Provide specific context for which component is inactive
+				// Provide specific context for which component is inactive.
 				if ( (bool) ( $status['is_theme_installed'] ?? false ) ) {
 					$requirement = 'Divi Theme Activation';
 					$current     = 'Divi theme is installed but not activated';
@@ -631,11 +619,11 @@ class Requirements {
 			);
 
 			// Log the failure with proper context
-			$this->plugin->log_warning( $log_message, $context, $extra_data );
+			divi_squad()->log_warning( $log_message, $context, $extra_data );
 
 			// Create exception for reporting if needed
 			if ( $report_error ) {
-				$exception = new \RuntimeException(
+				$exception = new RuntimeException(
 					sprintf(
 						'Squad Modules requirements check failed: %s (current: %s, expected: %s)',
 						$requirement,
@@ -645,8 +633,8 @@ class Requirements {
 					500
 				);
 
-				// Log using the error method for critical requirements failures
-				$this->plugin->log_error(
+				// Log using the error method for critical requirements failures.
+				divi_squad()->log_error(
 					$exception,
 					$context,
 					true,
@@ -679,11 +667,11 @@ class Requirements {
 				$this
 			);
 		} catch ( Throwable $e ) {
-			// Ensure any errors in the logging process are caught and recorded
-			$this->plugin->log_error(
+			// Ensure any errors in the logging process are caught and recorded.
+			divi_squad()->log_error(
 				$e,
 				'Requirements_Logging_Error',
-				false, // Don't report this meta-error to avoid loops
+				false, // Don't report this meta-error to avoid loops.
 				array(
 					'original_error' => $this->get_last_error(),
 					'status'         => $this->status,
@@ -695,11 +683,10 @@ class Requirements {
 	/**
 	 * Get system requirements status details.
 	 *
-	 * @since 3.3.0
+	 * @since  3.3.0
 	 * @access public
 	 *
 	 * @return array<string, mixed> An array of requirements status details.
-	 * @throws Exception If any requirement is not met.
 	 */
 	public function get_status(): array {
 		// Force a check if not already done.

@@ -5,7 +5,7 @@
  * Handles querying and management of registered assets.
  *
  * @since   3.3.0
- * @package DiviSquad\Core\Traits
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits\Assets;
@@ -57,6 +57,7 @@ trait Management {
 	 * Get a registered script's data
 	 *
 	 * @param string $handle Script identifier.
+	 *
 	 * @return array{handle: string, data: array{path: string, version: string, dependencies: array<string>}}|null
 	 */
 	protected function get_script_data( string $handle ): ?array {
@@ -67,6 +68,7 @@ trait Management {
 	 * Get a registered style's data
 	 *
 	 * @param string $handle Style identifier.
+	 *
 	 * @return array{handle: string, data: array{path: string, version: string, dependencies: array<string>}, media: string}|null
 	 */
 	protected function get_style_data( string $handle ): ?array {
@@ -120,6 +122,7 @@ trait Management {
 	 * Get asset dependencies
 	 *
 	 * @param string $handle Asset identifier.
+	 *
 	 * @return array<string>
 	 */
 	protected function get_asset_dependencies( string $handle ): array {

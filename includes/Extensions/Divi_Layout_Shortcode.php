@@ -1,15 +1,15 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The Divi Library Shortcode extension class for Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Extensions\Extension;
 use function add_action;
 use function add_filter;
 use function add_shortcode;
@@ -23,8 +23,8 @@ use function shortcode_exists;
 /**
  * The Divi Library Shortcode class.
  *
- * @package DiviSquad
  * @since   1.2.0
+ * @package DiviSquad
  */
 class Divi_Layout_Shortcode extends Extension {
 

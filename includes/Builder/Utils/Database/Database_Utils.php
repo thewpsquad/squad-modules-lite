@@ -49,8 +49,8 @@ class Database_Utils {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @param string                                                                                                                                                                                       $table_name Table name to generate SQL for.
-	 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema Table schema definition.
+	 * @param string                                                                                                                                                                                                                          $table_name Table name to generate SQL for.
+	 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema     Table schema definition.
 	 *
 	 * @return string Generated SQL statement.
 	 */
@@ -72,7 +72,7 @@ class Database_Utils {
 
 			// Add regular indices
 			if ( ( isset( $definition['index'] ) && $definition['index'] ) ||
-				( isset( $definition['unique'] ) && $definition['unique'] ) ) {
+				 ( isset( $definition['unique'] ) && $definition['unique'] ) ) {
 				$indices[] = self::generate_index_definition( $column_name, $definition );
 			}
 		}
@@ -107,6 +107,7 @@ class Database_Utils {
 		 * Filter the generated SQL statement before it's returned.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param array  $columns    Array of column definition strings.
 		 * @param string $table_name The name of the table.
 		 * @param array  $schema     The original schema definition.
@@ -117,6 +118,7 @@ class Database_Utils {
 		 * Filter the generated SQL statement before it's returned.
 		 *
 		 * @since 3.1.0
+		 *
 		 * @param array  $indices    Array of index definition strings.
 		 * @param string $table_name The name of the table.
 		 * @param array  $schema     The original schema definition.
@@ -137,8 +139,8 @@ class Database_Utils {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @param string                                                                                                                                           $column_name Column name.
-	 * @param array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, precision?: int, scale?: int} $definition Column definition array.
+	 * @param string                                                                                                                                                                              $column_name Column name.
+	 * @param array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, precision?: int, scale?: int} $definition  Column definition array.
 	 *
 	 * @return string Column definition SQL.
 	 */
@@ -149,7 +151,7 @@ class Database_Utils {
 		$type = strtolower( $definition['type'] );
 
 		if ( isset( $definition['precision'], $definition['scale'] ) &&
-			in_array( $type, array( 'decimal', 'float', 'double' ), true ) ) {
+			 in_array( $type, array( 'decimal', 'float', 'double' ), true ) ) {
 			$type .= "({$definition['precision']},{$definition['scale']})";
 		} elseif ( isset( $definition['length'] ) && $definition['length'] > 0 ) {
 			$type .= "({$definition['length']})";
@@ -206,7 +208,7 @@ class Database_Utils {
 	 * @since  3.1.0
 	 *
 	 * @param string               $column_name Column name.
-	 * @param array{unique?: bool} $definition Column definition array.
+	 * @param array{unique?: bool} $definition  Column definition array.
 	 *
 	 * @return string Index definition SQL.
 	 */
@@ -219,6 +221,7 @@ class Database_Utils {
 		}
 
 		$type = isset( $definition['unique'] ) && $definition['unique'] ? 'UNIQUE' : '';
+
 		return trim( sprintf( '%s KEY `%s` (`%s`)', $type, $index_name, $column_name ) );
 	}
 
@@ -227,8 +230,8 @@ class Database_Utils {
 	 *
 	 * @since  3.1.0
 	 *
-	 * @param string                                                                                                                                                                                       $table_name Table name to verify/create.
-	 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema Table schema.
+	 * @param string                                                                                                                                                                                                                          $table_name Table name to verify/create.
+	 * @param array<string, array{type: string, length?: int, unsigned?: bool, nullable?: bool, default?: string|null, auto_increment?: bool, primary?: bool, on_update?: string, index?: bool, unique?: bool, precision?: int, scale?: int}> $schema     Table schema.
 	 *
 	 * @return bool True if table exists or was created successfully.
 	 */
@@ -243,6 +246,7 @@ class Database_Utils {
 			 * Filter the SQL used to create or update a table.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param string $sql        The SQL statement.
 			 * @param string $table_name The name of the table.
 			 * @param array  $schema     The table schema.
@@ -255,6 +259,7 @@ class Database_Utils {
 			 * Action fired after a table is created or verified.
 			 *
 			 * @since 3.1.0
+			 *
 			 * @param string $table_name The name of the table.
 			 * @param array  $schema     The table schema.
 			 * @param array  $result     The result from dbDelta.
@@ -274,6 +279,7 @@ class Database_Utils {
 			return ! empty( $table_exists );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error creating table {$table_name}" );
+
 			return false;
 		}
 	}
@@ -284,6 +290,7 @@ class Database_Utils {
 	 * @since 3.1.0
 	 *
 	 * @param string $table_name Table name to check.
+	 *
 	 * @return bool True if the table exists.
 	 */
 	public static function table_exists( string $table_name ): bool {
@@ -306,6 +313,7 @@ class Database_Utils {
 	 * @since 3.1.0
 	 *
 	 * @param string $table_name Table name to inspect.
+	 *
 	 * @return array<string, array<string, mixed>> Array of column definitions.
 	 */
 	public static function get_table_columns( string $table_name ): array {
@@ -343,6 +351,7 @@ class Database_Utils {
 	 * @since 3.1.0
 	 *
 	 * @param string $table_name Table name to truncate.
+	 *
 	 * @return bool True if the operation was successful.
 	 */
 	public static function truncate_table( string $table_name ): bool {
@@ -352,6 +361,7 @@ class Database_Utils {
 			return (bool) $wpdb->query( "TRUNCATE TABLE `$table_name`" );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error truncating table {$table_name}" );
+
 			return false;
 		}
 	}
@@ -362,12 +372,14 @@ class Database_Utils {
 	 * @since 3.1.0
 	 *
 	 * @param string $table_name Table name to count rows for.
+	 *
 	 * @return int Number of rows in the table.
 	 */
 	public static function get_row_count( string $table_name ): int {
 		global $wpdb;
 
 		$count = $wpdb->get_var( "SELECT COUNT(*) FROM `$table_name`" );
+
 		return (int) $count;
 	}
 
@@ -377,6 +389,7 @@ class Database_Utils {
 	 * @since 3.1.0
 	 *
 	 * @param string $table_name Table name to drop.
+	 *
 	 * @return bool True if the operation was successful.
 	 */
 	public static function drop_table( string $table_name ): bool {
@@ -386,6 +399,7 @@ class Database_Utils {
 			return (bool) $wpdb->query( "DROP TABLE IF EXISTS `$table_name`" );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, "Error dropping table {$table_name}" );
+
 			return false;
 		}
 	}

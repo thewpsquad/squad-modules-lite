@@ -3,10 +3,10 @@
 /**
  * Abstract class representing the Branding.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.0.0
+ * @since      3.0.0
  * @deprecated 3.1.7
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories\BrandAsset;
@@ -14,8 +14,8 @@ namespace DiviSquad\Base\Factories\BrandAsset;
 /**
  * Abstract class representing the Branding.
  *
- * @package DiviSquad
- * @since   3.0.0
+ * @since      3.0.0
  * @deprecated 3.1.7
+ * @package    DiviSquad
  */
-abstract class BrandAsset extends \DiviSquad\Base\Factories\BrandAsset\Asset {}
+abstract class BrandAsset extends Asset { }

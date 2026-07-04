@@ -1,11 +1,12 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Asset Localization Trait
  *
  * Handles script localization and data management.
  *
  * @since   3.3.0
- * @package DiviSquad\Core\Traits
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits\Assets;
@@ -30,7 +31,7 @@ trait Localization {
 	 * Add localization data
 	 *
 	 * @param string               $object_name JavaScript object name.
-	 * @param array<string, mixed> $data Data to localize.
+	 * @param array<string, mixed> $data        Data to localize.
 	 */
 	public function add_localize_data( string $object_name, array $data ): void {
 		$this->localized_data[ $object_name ] = $data;
@@ -40,6 +41,7 @@ trait Localization {
 	 * Get localization data by object name
 	 *
 	 * @param string $object_name JavaScript object name.
+	 *
 	 * @return array<string, mixed>
 	 */
 	public function get_localize_data( string $object_name ): array {
@@ -65,8 +67,8 @@ trait Localization {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param array<string, mixed> $data       The localized data.
-			 * @param string              $object_name The object name.
+			 * @param array<string, mixed> $data        The localized data.
+			 * @param string               $object_name The object name.
 			 */
 			$filtered_data = apply_filters( "divi_squad_localize_data_{$object_name}", $data, $object_name );
 
@@ -107,9 +109,11 @@ trait Localization {
 		$global_data = array(
 			'nonce'   => wp_create_nonce( 'divi_squad_nonce' ),
 			'config'  => array(
-				'isDev'    => divi_squad()->is_dev(),
-				'siteType' => is_multisite() ? 'multi' : 'single',
 				'isAdmin'  => is_admin(),
+				'siteType' => is_multisite() ? 'multi' : 'single',
+				'siteId'   => get_current_blog_id(),
+				'siteName' => get_bloginfo( 'name' ),
+				'isDev'    => divi_squad()->is_dev(),
 			),
 			'version' => array(
 				'core'        => divi_squad()->get_version_dot(),

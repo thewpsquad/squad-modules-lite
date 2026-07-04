@@ -3,10 +3,10 @@
 /**
  * Integration API Base
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder;
@@ -14,9 +14,9 @@ namespace DiviSquad\Base\DiviBuilder;
 /**
  * Integration API Base Class.
  *
- * @package DiviSquad
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 abstract class Integration {
 

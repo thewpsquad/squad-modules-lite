@@ -2,9 +2,9 @@
 /**
  * Sanitization helper class for sanitizing values.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Utils;
@@ -14,8 +14,8 @@ use function sanitize_text_field;
 /**
  * Sanitization class.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 class Sanitization {
 	/**
@@ -34,9 +34,8 @@ class Sanitization {
 	 *
 	 * @param mixed $value Value.
 	 *
-	 * @link https://github.com/WordPress/WordPress-Coding-Standards/wiki/Sanitizing-array-input-data
-	 *
 	 * @return array<array<int|string>|string>|string
+	 * @link https://github.com/WordPress/WordPress-Coding-Standards/wiki/Sanitizing-array-input-data
 	 */
 	public static function sanitize_array( $value ) {
 		if ( is_array( $value ) ) {

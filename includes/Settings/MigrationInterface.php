@@ -3,9 +3,9 @@
 /**
  * Interface for Squad Modules Migration.
  *
- * @package DiviSquad\Settings
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad\Settings
  */
 
 namespace DiviSquad\Settings;
@@ -13,8 +13,8 @@ namespace DiviSquad\Settings;
 /**
  * Migration Interface
  *
- * @package DiviSquad\Base\Factories\ModuleMigration
  * @since   3.0.0
+ * @package DiviSquad\Base\Factories\ModuleMigration
  */
 interface MigrationInterface {
 

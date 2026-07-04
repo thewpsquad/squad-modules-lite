@@ -3,10 +3,10 @@
 /**
  * Extension Manager
  *
- * @package     DiviSquad
- * @author      WP Squad <wp@thewpsquad.com>
  * @since       1.0.0
  * @deprecated  3.0.0 marked as deprecated.
+ * @package     DiviSquad
+ * @author      WP Squad <wp@thewpsquad.com>
  */
 
 namespace DiviSquad\Managers;
@@ -14,8 +14,8 @@ namespace DiviSquad\Managers;
 /**
  * Extension Manager class
  *
- * @package     DiviSquad
  * @since       1.0.0
  * @deprecated  3.0.0 marked as deprecated.
+ * @package     DiviSquad
  */
-class Extensions extends Features\Extensions {}
+class Extensions extends Features\Extensions { }

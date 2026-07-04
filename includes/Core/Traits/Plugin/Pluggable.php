@@ -1,13 +1,15 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Pluggable Trait
  *
- * @package DiviSquad\Core\Traits\Plugin
  * @since   1.0.0
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits\Plugin;
 
+use DiviSquad\Core\Supports\Media\Image;
 use RuntimeException;
 
 /**
@@ -39,6 +41,17 @@ trait Pluggable {
 		}
 
 		return get_plugin_data( $plugin_file, false, false );
+	}
+
+	/**
+	 * Get the instance of Image.
+	 *
+	 * @param string $path The path to append to the plugin directory.
+	 *
+	 * @return Image
+	 */
+	public function load_image( string $path ): Image {
+		return new Image( $this->get_path( $path ) );
 	}
 
 	/**
@@ -108,6 +121,18 @@ trait Pluggable {
 	}
 
 	/**
+	 * Get the plugin version number (hyphenated).
+	 *
+	 * @since  3.3.3
+	 * @access public
+	 *
+	 * @return string
+	 */
+	public function get_version_hyphen(): string {
+		return str_replace( '.', '-', $this->get_version_dot() );
+	}
+
+	/**
 	 * Get the plugin name.
 	 *
 	 * @return string
@@ -147,5 +172,19 @@ trait Pluggable {
 	 */
 	public function get_wp_path(): string {
 		return trailingslashit( ABSPATH );
+	}
+
+	/**
+	 * Verify existence of the template path
+	 *
+	 * @since  3.3.3
+	 * @access public
+	 *
+	 * @param string $template The template name.
+	 *
+	 * @return bool
+	 */
+	public function is_template_exists( string $template ): bool {
+		return $this->get_wp_fs()->exists( $this->get_template_path( $template ) );
 	}
 }

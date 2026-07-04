@@ -6,14 +6,13 @@
  * This file contains the Extensions class which handles REST API endpoints
  * for managing Divi Squad extensions.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1;
 
-use DiviSquad\Emails\ErrorReport;
 use DiviSquad\Rest_API_Routes\Base_Route;
 use Exception;
 use WP_Error;
@@ -28,8 +27,8 @@ use WP_REST_Server;
  * retrieving available, active, and inactive extensions, as well as
  * updating the list of active extensions.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 class Extensions extends Base_Route {
 
@@ -109,6 +108,7 @@ class Extensions extends Base_Route {
 				array( 'status' => 403 )
 			);
 		}
+
 		return true;
 	}
 
@@ -124,6 +124,7 @@ class Extensions extends Base_Route {
 	public function get_extensions( WP_REST_Request $request ): WP_REST_Response {
 		$extensions = divi_squad()->extensions->get_registered_list();
 		$extensions = array_map( array( $this, 'format_extension' ), $extensions );
+
 		return rest_ensure_response( array_values( $extensions ) );
 	}
 

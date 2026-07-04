@@ -1,4 +1,10 @@
 == Changelog ==
+= 3.3.3 (14-04-2025) =
+
+**Improvements:**
+- Enhanced Image Gallery module with improved type definitions, error handling, and styling
+- Refactored PostGrid methods to improve type hinting and error handling
+
 = 3.3.2 (05-04-2025) =
 
 **Bug Fixes:**

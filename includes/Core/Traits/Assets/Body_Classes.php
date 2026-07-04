@@ -5,7 +5,7 @@
  * Handles adding and managing CSS classes on the body tag.
  *
  * @since   3.3.0
- * @package DiviSquad\Core\Traits
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits\Assets;
@@ -39,6 +39,7 @@ trait Body_Classes {
 		}
 
 		$this->body_classes[] = $class;
+
 		return true;
 	}
 
@@ -57,6 +58,7 @@ trait Body_Classes {
 		}
 
 		array_splice( $this->body_classes, $index, 1 );
+
 		return true;
 	}
 

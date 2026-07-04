@@ -51,9 +51,9 @@ trait Brand_Assets {
 			/**
 			 * Filter logo selectors for CSS
 			 *
-			 * @param array<string> $logo_selectors CSS selectors for logo
-			 * @param bool         $is_admin        Whether in admin area
-			 * @param bool         $is_visual_builder Whether in visual builder
+			 * @param array<string> $logo_selectors    CSS selectors for logo
+			 * @param bool          $is_admin          Whether in admin area
+			 * @param bool          $is_visual_builder Whether in visual builder
 			 */
 			$logo_selectors = apply_filters( 'divi_squad_logo_selectors', $logo_selectors, $is_admin, $is_visual_builder );
 

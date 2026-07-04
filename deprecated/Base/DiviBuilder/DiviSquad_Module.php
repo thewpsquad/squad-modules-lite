@@ -1,11 +1,12 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Builder Base Class which help to the all module class
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.1.0 mark as deprecated
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder;
@@ -17,9 +18,10 @@ if ( ! class_exists( '\ET_Builder_Module' ) ) {
 /**
  * Builder Utils class
  *
- * @package DiviSquad
- * @since   1.0.0
+ * @since      1.0.0
  * @deprecated 3.1.0 mark as deprecated
+ * @package    DiviSquad
  */
 #[\AllowDynamicProperties]
-abstract class DiviSquad_Module extends \DiviSquad\Base\DiviBuilder\Module {}
+abstract class DiviSquad_Module extends Module {
+}

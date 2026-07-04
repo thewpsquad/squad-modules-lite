@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Advanced Custom Field Definitions
  *
@@ -7,14 +8,13 @@
  * implementations for custom fields, supporting complex field types
  * and advanced filtering options.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Definitions;
 
-use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Definition;
 
 /**
@@ -23,8 +23,8 @@ use DiviSquad\Builder\Utils\Elements\Custom_Fields\Definition;
  * Implements advanced custom field definitions with support for complex field types
  * and sophisticated filtering options.
  *
- * @package DiviSquad
  * @since   3.1.0
+ * @package DiviSquad
  */
 class Advanced extends Definition {
 
@@ -38,7 +38,7 @@ class Advanced extends Definition {
 	 * @return void
 	 */
 	protected function init(): void {
-		// Register common fields
+		// Register common fields.
 		$this->register_common_field(
 			'element',
 			array(
@@ -50,7 +50,7 @@ class Advanced extends Definition {
 			)
 		);
 
-		// Register empty fields
+		// Register empty fields.
 		$this->register_empty_field(
 			'element_advanced_custom_field_none_notice',
 			array(
@@ -62,7 +62,7 @@ class Advanced extends Definition {
 			)
 		);
 
-		// Register not eligible fields
+		// Register not eligible fields.
 		$this->register_not_eligible_field(
 			'element_advanced_custom_field_not_eligible_notice',
 			array(
@@ -74,7 +74,7 @@ class Advanced extends Definition {
 			)
 		);
 
-		// Initialize associated fields (will be populated in get_associated_fields)
+		// Initialize associated fields (will be populated in get_associated_fields).
 	}
 
 	/**
@@ -91,12 +91,12 @@ class Advanced extends Definition {
 	 * @return array<string, array<string, mixed>> An array of default custom field definitions for the specified post type.
 	 */
 	public function get_default_fields( string $post_type, array $options ): array {
-		// If we already have these fields registered, return them from parent
+		// If we already have these fields registered, return them from parent.
 		if ( isset( $this->post_type_fields[ $post_type ] ) ) {
 			return parent::get_default_fields( $post_type, $options );
 		}
 
-		// Otherwise, register them now
+		// Otherwise, register them now.
 		$this->register_common_field(
 			'element',
 			array(
@@ -109,7 +109,7 @@ class Advanced extends Definition {
 		$this->register_post_type_field(
 			$post_type,
 			"element_advanced_custom_field_$post_type",
-			Utils::add_select_box_field(
+			divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Custom Field', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a custom field to display for current post.', 'squad-modules-for-divi' ),
@@ -122,7 +122,7 @@ class Advanced extends Definition {
 			)
 		);
 
-		// Return the newly registered fields
+		// Return the newly registered fields.
 		return parent::get_default_fields( $post_type, $options );
 	}
 
@@ -140,15 +140,15 @@ class Advanced extends Definition {
 	 * @return array<string, array<string, mixed>> An array of associated custom field definitions.
 	 */
 	public function get_associated_fields( array $fields_types = array() ): array {
-		// If we already have associated fields registered, return them
-		if ( ! empty( $this->associated_fields ) ) {
+		// If we already have associated fields registered, return them.
+		if ( count( $this->associated_fields ) > 0 ) {
 			return parent::get_associated_fields( $fields_types );
 		}
 
-		// Otherwise, register them now
+		// Otherwise, register them now.
 		$this->register_associated_field(
 			'element_advanced_custom_field_type',
-			Utils::add_select_box_field(
+			divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Custom Field Type', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a custom field to display for current post.', 'squad-modules-for-divi' ),
@@ -201,7 +201,7 @@ class Advanced extends Definition {
 
 		$this->register_associated_field(
 			'element_advanced_custom_field_url_target',
-			Utils::add_select_box_field(
+			divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Custom URL Target', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a custom url field target to open new tab or self.', 'squad-modules-for-divi' ),
@@ -219,7 +219,7 @@ class Advanced extends Definition {
 
 		$this->register_associated_field(
 			'element_advanced_custom_field_image_width',
-			Utils::add_range_field(
+			divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Custom Image Width', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Here you can choose custom image width will appear in with your post element.', 'squad-modules-for-divi' ),
@@ -264,7 +264,7 @@ class Advanced extends Definition {
 			)
 		);
 
-		// Return the newly registered fields
+		// Return the newly registered fields.
 		return parent::get_associated_fields( $fields_types );
 	}
 

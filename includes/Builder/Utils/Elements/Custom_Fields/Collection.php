@@ -3,9 +3,9 @@
 /**
  * Abstract Collection Class for Custom Fields
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
@@ -18,8 +18,8 @@ use DiviSquad\Core\Supports\Polyfills\Str;
  * Provides a base implementation for custom field collection classes
  * with common utilities for field processing and filtering.
  *
- * @package DiviSquad
  * @since   3.1.0
+ * @package DiviSquad
  */
 abstract class Collection implements CollectionInterface {
 
@@ -92,6 +92,7 @@ abstract class Collection implements CollectionInterface {
 	 * Format a field name by replacing underscores and hyphens with spaces.
 	 *
 	 * @param string $field_key The field key to format.
+	 *
 	 * @return string The formatted field name.
 	 */
 	protected function format_field_name( string $field_key ): string {
@@ -179,6 +180,7 @@ abstract class Collection implements CollectionInterface {
 	 * Check if a field should be included based on various criteria.
 	 *
 	 * @param string $field_key The field key to check.
+	 *
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( string $field_key ): bool {

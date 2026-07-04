@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Error Report Email Handler
  *
@@ -6,15 +7,17 @@
  * WordPress integration, rate limiting, validation, and comprehensive error handling.
  *
  * @since      3.1.7
- * @package    DiviSquad\Emails
+ * @package    DiviSquad
  */
 
 namespace DiviSquad\Emails;
 
+use DiviSquad\Utils\Divi;
 use DiviSquad\Utils\WP;
 use RuntimeException;
 use Throwable;
 use WP_Error;
+use WP_Theme;
 
 /**
  * Error Report Email Handler
@@ -28,8 +31,10 @@ use WP_Error;
  * - HTML email templates with fallback
  * - WordPress filter and action hooks for extensibility
  * - Error handling and logging
+ * - Enhanced Divi theme detection reporting
  *
  * @since      3.1.7
+ * @since      3.3.3 Added enhanced Divi theme detection reporting
  * @package    DiviSquad\Emails
  * @author     The WP Squad <support@squadmodules.com>
  */
@@ -134,8 +139,8 @@ class ErrorReport {
 	 *
 	 * @since 3.1.7
 	 *
-	 * @throws RuntimeException If rate limit is exceeded or validation fails.
 	 * @return bool Success status.
+	 * @throws RuntimeException If rate limit is exceeded or validation fails.
 	 */
 	public function send(): bool {
 		try {
@@ -187,15 +192,16 @@ class ErrorReport {
 			 *
 			 * @since 4.0.0
 			 *
-			 * @param array             $email_params {
-			 *     Email parameters.
+			 * @param array                $email_params {
+			 *                                           Email parameters.
 			 *
-			 *     @type string       $to      Email recipient.
-			 *     @type string       $subject Email subject.
-			 *     @type string       $message Email message.
-			 *     @type array<string> $headers Email headers.
-			 * }
-			 * @param array<string, mixed> $data Error report data.
+			 * @type string                $to           Email recipient.
+			 * @type string                $subject      Email subject.
+			 * @type string                $message      Email message.
+			 * @type array<string>         $headers      Email headers.
+			 *                                           }
+			 *
+			 * @param array<string, mixed> $data         Error report data.
 			 */
 			$email_params = apply_filters(
 				'divi_squad_error_report_email_params',
@@ -458,6 +464,7 @@ class ErrorReport {
 	 */
 	protected function get_rate_limit_key(): string {
 		$site_id = get_current_blog_id();
+
 		return static::RATE_LIMIT_KEY . wp_hash( (string) $site_id );
 	}
 
@@ -669,10 +676,11 @@ class ErrorReport {
 	 * @since 3.1.7
 	 *
 	 * @param array<string, mixed> $data Template data.
+	 *
 	 * @return string Fallback HTML message.
 	 */
 	protected function generate_fallback_message( array $data = array() ): string {
-		$data         = ! empty( $data ) ? $data : $this->data;
+		$data         = count( $data ) > 0 ? $data : $this->data;
 		$encoded_data = wp_json_encode( $data, JSON_PRETTY_PRINT );
 		if ( false === $encoded_data ) {
 			$encoded_data = esc_html__( 'Unable to encode data', 'squad-modules-for-divi' );
@@ -705,24 +713,45 @@ class ErrorReport {
 	 * Collects information about the WordPress environment for debugging.
 	 *
 	 * @since 3.1.7
+	 * @since 3.3.3 Added enhanced Divi theme detection information
 	 *
 	 * @return array<string, mixed> Environment information.
 	 */
 	protected function get_environment_info(): array {
+		// Basic environment information
 		$environment = array(
 			'php_version'      => PHP_VERSION,
 			'wp_version'       => get_bloginfo( 'version' ),
 			'plugin_version'   => divi_squad()->get_version_dot(),
-			'active_theme'     => sprintf(
-				'%s (%s)',
-				wp_get_theme()->get( 'Name' ),
-				wp_get_theme()->get( 'Version' )
-			),
-			'active_plugins'   => static::get_active_plugins_list(),
-			'installed_themes' => static::get_installed_themes_list(),
+			'divi_version'     => Divi::get_builder_version(),
+			'divi_mode'        => Divi::get_builder_mode(),
 			'memory_limit'     => ini_get( 'memory_limit' ),
 			'is_multisite'     => is_multisite() ? 'Yes' : 'No',
+			'active_plugins'   => static::get_active_plugins_list(),
+			'installed_themes' => static::get_installed_themes_list(),
 		);
+
+		// Get current theme information
+		$current_theme = wp_get_theme();
+		if ( $current_theme instanceof WP_Theme ) {
+			$environment['active_theme_name']    = $current_theme->get( 'Name' );
+			$environment['active_theme_version'] = $current_theme->get( 'Version' );
+			$environment['active_theme_author']  = $current_theme->get( 'Author' );
+
+			// Check if it's a child theme
+			$parent_theme = $current_theme->parent();
+			if ( $parent_theme instanceof WP_Theme ) {
+				$environment['is_child_theme']       = 'Yes';
+				$environment['parent_theme_name']    = $parent_theme->get( 'Name' );
+				$environment['parent_theme_version'] = $parent_theme->get( 'Version' );
+				$environment['parent_theme_author']  = $parent_theme->get( 'Author' );
+			} else {
+				$environment['is_child_theme'] = 'No';
+			}
+		}
+
+		// Collect detailed Divi detection information
+		$environment = $this->add_divi_detection_info( $environment );
 
 		/**
 		 * Filter the environment information included in error reports.
@@ -732,6 +761,152 @@ class ErrorReport {
 		 * @param array<string, mixed> $environment Environment information.
 		 */
 		return apply_filters( 'divi_squad_error_report_environment_info', $environment );
+	}
+
+	/**
+	 * Add Divi detection information to environment data
+	 *
+	 * Collects detailed information about Divi detection methods,
+	 * customizations, and theme status to help with debugging.
+	 *
+	 * @since  3.3.3
+	 * @access protected
+	 *
+	 * @param array<string, mixed> $environment Base environment information.
+	 *
+	 * @return array<string, mixed> Enhanced environment with Divi detection info.
+	 */
+	protected function add_divi_detection_info( array $environment ): array {
+		// Set detection method placeholder
+		$detection_method = 'Unknown';
+
+		// Check for Divi constants (very reliable signal)
+		$divi_constants     = array();
+		$constants_to_check = array(
+			'ET_CORE_VERSION',
+			'ET_BUILDER_VERSION',
+			'ET_BUILDER_THEME',
+			'ET_BUILDER_PLUGIN_VERSION',
+			'ET_BUILDER_PLUGIN_DIR',
+			'ET_BUILDER_PLUGIN_URI',
+			'ET_BUILDER_DIR',
+			'ET_BUILDER_URI',
+			'ET_BUILDER_LAYOUT_POST_TYPE',
+		);
+
+		foreach ( $constants_to_check as $constant ) {
+			if ( defined( $constant ) ) {
+				$divi_constants[] = $constant;
+			}
+		}
+
+		if ( count( $divi_constants ) > 0 ) {
+			$detection_method              = 'Constants: ' . implode( ', ', $divi_constants );
+			$environment['divi_constants'] = $divi_constants;
+		}
+
+		// Check for theme modifications
+		$current_theme       = wp_get_theme();
+		$is_modified         = false;
+		$standard_divi_theme = in_array( $current_theme->get( 'Name' ), array( 'Divi', 'Extra' ), true );
+		$is_child_theme      = (bool) $current_theme->parent();
+
+		// If it's not a standard Divi/Extra theme and not a direct child theme, it's likely modified
+		if ( ! $standard_divi_theme && ! $is_child_theme && Divi::is_any_divi_theme_active() ) {
+			$is_modified      = true;
+			$detection_method = 'Custom theme with Divi framework';
+		}
+
+		// Child theme detection
+		if ( $is_child_theme ) {
+			$parent = $current_theme->parent();
+			if ( $parent && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+				$detection_method = 'Child theme of ' . $parent->get( 'Name' );
+			}
+		}
+
+		// Plugin detection
+		if ( Divi::is_divi_builder_plugin_active() ) {
+			$detection_method = 'Divi Builder Plugin';
+
+			// Add plugin specific info
+			if ( defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) {
+				$environment['plugin_specific_version'] = ET_BUILDER_PLUGIN_VERSION;
+			}
+		}
+
+		// Check for Divi functions
+		$divi_functions     = array();
+		$functions_to_check = array(
+			'et_setup_theme',
+			'et_divi_fonts_url',
+			'et_pb_is_pagebuilder_used',
+			'et_core_is_fb_enabled',
+			'et_builder_get_fonts',
+			'et_builder_bfb_enabled',
+			'et_fb_is_theme_builder_used_on_page',
+		);
+
+		foreach ( $functions_to_check as $function ) {
+			if ( function_exists( $function ) ) {
+				$divi_functions[] = $function;
+			}
+		}
+
+		if ( ! empty( $divi_functions ) ) {
+			$environment['divi_functions'] = $divi_functions;
+			if ( empty( $detection_method ) || 'Unknown' === $detection_method ) {
+				$detection_method = 'Functions: ' . implode( ', ', array_slice( $divi_functions, 0, 3 ) );
+			}
+		}
+
+		// Check for directory structure (least reliable but useful as fallback)
+		if ( 'Unknown' === $detection_method && $current_theme instanceof WP_Theme ) {
+			$theme_dir         = $current_theme->get_stylesheet_directory();
+			$directory_markers = array(
+				'includes/builder',
+				'epanel',
+				'core',
+				'includes/builder/feature',
+				'includes/builder/frontend-builder',
+			);
+
+			$found_markers = array();
+			foreach ( $directory_markers as $marker ) {
+				$path = trailingslashit( $theme_dir ) . $marker;
+				if ( file_exists( $path ) ) {
+					$found_markers[] = $marker;
+				}
+			}
+
+			if ( count( $found_markers ) >= 2 ) {
+				$detection_method                      = 'Directory structure: ' . implode( ', ', $found_markers );
+				$environment['divi_directory_markers'] = $found_markers;
+			}
+		}
+
+		// Add detection method and modification status to environment
+		$environment['divi_detection_method'] = $detection_method;
+		$environment['divi_modified']         = $is_modified;
+
+		// Include framework source info
+		if ( $is_child_theme && isset( $environment['parent_theme_name'] ) ) {
+			$environment['divi_framework_source'] = 'Parent Theme: ' . $environment['parent_theme_name'];
+		} elseif ( Divi::is_divi_builder_plugin_active() ) {
+			$environment['divi_framework_source'] = 'Divi Builder Plugin';
+		} else {
+			$environment['divi_framework_source'] = 'Direct Theme';
+		}
+
+		// Include divi theme status details
+		try {
+			$environment['status_details'] = divi_squad()->requirements->get_status();
+		} catch ( \Throwable $e ) {
+			// If we encounter any errors, just continue without this data
+			$environment['requirements_error'] = $e->getMessage();
+		}
+
+		return $environment;
 	}
 
 	/**
@@ -798,6 +973,7 @@ class ErrorReport {
 	 * Static helper method to quickly send an error report from an exception.
 	 *
 	 * @since 3.1.7
+	 * @since 3.3.3 Added Divi detection context to extra data
 	 *
 	 * @param mixed                $exception       Error/Exception object.
 	 * @param array<string, mixed> $additional_data Additional context.
@@ -823,6 +999,17 @@ class ErrorReport {
 			),
 		);
 
+		// Add Divi version info if applicable
+		$divi_version = Divi::get_builder_version();
+
+		if ( ! empty( $divi_version ) ) {
+			$error_data['divi_context'] = array(
+				'version'          => $divi_version,
+				'is_theme_active'  => class_exists( '\DiviSquad\Utils\Divi' ) && Divi::is_any_divi_theme_active(),
+				'is_plugin_active' => class_exists( '\DiviSquad\Utils\Divi' ) ? Divi::is_divi_builder_plugin_active() : false,
+			);
+		}
+
 		if ( count( $additional_data ) > 0 ) {
 			$error_data = array_merge( $error_data, $additional_data );
 		}
@@ -832,8 +1019,8 @@ class ErrorReport {
 		 *
 		 * @since 4.0.0
 		 *
-		 * @param array<string, mixed> $error_data     Error data to be sent.
-		 * @param Throwable            $exception      The exception that triggered the report.
+		 * @param array<string, mixed> $error_data      Error data to be sent.
+		 * @param Throwable            $exception       The exception that triggered the report.
 		 * @param array<string, mixed> $additional_data Additional context data provided.
 		 */
 		$error_data = apply_filters( 'divi_squad_quick_error_report_data', $error_data, $exception, $additional_data );
@@ -847,6 +1034,7 @@ class ErrorReport {
 	 * Retrieves a formatted list of active themes for debugging.
 	 *
 	 * @since 3.1.7
+	 * @since 3.3.3 Added indication of Divi-based themes
 	 * @return string Comma-separated list of active themes.
 	 */
 	protected static function get_installed_themes_list(): string {
@@ -863,11 +1051,37 @@ class ErrorReport {
 
 		$installed_themes = array();
 		foreach ( $wp_themes as $theme ) {
-			$installed_themes[] = sprintf(
-				'%s (%s)',
-				$theme->get( 'Name' ),
-				$theme->get( 'Version' )
+			// Check if the theme is Divi-based
+			$is_divi_based = false;
+			$name          = $theme->get( 'Name' );
+
+			if ( in_array( $name, array( 'Divi', 'Extra' ), true ) ) {
+				$is_divi_based = true;
+			}
+
+			// Check for Divi as parent
+			$parent = $theme->parent();
+			if ( $parent && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+				$is_divi_based = true;
+			}
+
+			// Check for other Divi markers
+			if ( ! $is_divi_based ) {
+				$theme_dir = $theme->get_stylesheet_directory();
+				if ( file_exists( $theme_dir . '/includes/builder' ) &&
+					 ( file_exists( $theme_dir . '/epanel' ) || file_exists( $theme_dir . '/core' ) ) ) {
+					$is_divi_based = true;
+				}
+			}
+
+			$theme_info = sprintf(
+				'%s (%s)%s',
+				$name,
+				$theme->get( 'Version' ),
+				$is_divi_based ? ' [Divi-based]' : ''
 			);
+
+			$installed_themes[] = $theme_info;
 		}
 
 		return implode( ', ', $installed_themes );
@@ -954,7 +1168,7 @@ class ErrorReport {
 			 */
 			$line_count = apply_filters( 'divi_squad_error_report_debug_log_lines', 100 );
 
-			$debug_log = implode( "\n", array_slice( $debug_log_lines, -$line_count ) );
+			$debug_log = implode( "\n", array_slice( $debug_log_lines, - $line_count ) );
 		}
 
 		return $debug_log;

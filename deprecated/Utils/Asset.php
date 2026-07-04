@@ -3,9 +3,9 @@
  * Asset loading helper class for enqueuing scripts and styles.
  *
  * @since      1.0.0
- * @author     The WP Squad <support@squadmodules.com>
- * @package    DiviSquad
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Utils;
@@ -20,8 +20,8 @@ use function wp_script_is;
  * Utils class.
  *
  * @since      1.0.0
- * @package    DiviSquad
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class Asset {
 
@@ -238,8 +238,8 @@ class Asset {
 		 * @since 3.1.4
 		 *
 		 * @param array{path: string, version: string, dependencies: array<string>} $asset_data The asset data.
-		 * @param array<string, string>                    $path       The asset path.
-		 * @param string                                   $full_path  The full asset path.
+		 * @param array<string, string>                                             $path       The asset path.
+		 * @param string                                                            $full_path  The full asset path.
 		 */
 		return apply_filters( 'divi_squad_asset_data', $asset_data, $path, $full_path );
 	}
@@ -339,16 +339,18 @@ class Asset {
 	/**
 	 * Enqueue styles (deprecated).
 	 *
-	 * @since 1.0.0
+	 * @since      1.0.0
 	 *
-	 * @param string                $keyword   Name of the stylesheet. Should be unique.
+	 * @deprecated 3.1.0
+	 *
 	 * @param array<string, string> $path      Relative path of the stylesheet with options for the WordPress root directory.
 	 * @param array<int, string>    $deps      Optional. An array of registered stylesheet handles this stylesheet depends on. Default empty array.
 	 * @param string                $media     Optional. The media for which this stylesheet has been defined. Default 'all'.
 	 * @param bool                  $no_prefix Optional. Set the plugin prefix with asset handle name is or not.
 	 *
+	 * @param string                $keyword   Name of the stylesheet. Should be unique.
+	 *
 	 * @return void
-	 * @deprecated 3.1.0
 	 */
 	public static function style_enqueue( string $keyword, array $path, array $deps = array(), string $media = 'all', bool $no_prefix = false ) {
 		self::enqueue_style( $keyword, $path, $deps, $media, $no_prefix );
@@ -357,15 +359,17 @@ class Asset {
 	/**
 	 * Enqueue javascript (deprecated).
 	 *
-	 * @since 1.0.0
+	 * @since      1.0.0
 	 *
-	 * @param string                $keyword   Name of the javascript. Should be unique.
+	 * @deprecated 3.1.0
+	 *
 	 * @param array<string, string> $path      Relative path of the javascript with options for the WordPress root directory.
 	 * @param array<int, string>    $deps      Optional. An array of registered javascript handles this stylesheet depends on. Default empty array.
 	 * @param bool                  $no_prefix Optional. Set the plugin prefix with asset handle name is or not.
 	 *
+	 * @param string                $keyword   Name of the javascript. Should be unique.
+	 *
 	 * @return void
-	 * @deprecated 3.1.0
 	 */
 	public static function asset_enqueue( string $keyword, array $path, array $deps = array(), bool $no_prefix = false ) {
 		self::enqueue_script( $keyword, $path, $deps, $no_prefix );

@@ -1,4 +1,5 @@
 <?php
+
 namespace DiviSquad\Core\Supports\Media;
 
 use DiviSquad\Core\Traits\WP\Use_WP_Filesystem;
@@ -8,8 +9,8 @@ use WP_Error;
 /**
  * The Image Class with performance optimizations.
  *
- * @package DiviSquad
  * @since   3.0.0
+ * @package DiviSquad
  */
 class Image {
 	use Use_WP_Filesystem;
@@ -17,14 +18,14 @@ class Image {
 	/**
 	 * Cache of loaded images.
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
 	protected array $images = array();
 
 	/**
 	 * KSES defaults for HTML filtering.
 	 *
-	 * @var array
+	 * @var array<string, array<string, bool>>
 	 */
 	protected array $kses_defaults = array();
 
@@ -38,7 +39,7 @@ class Image {
 	/**
 	 * Supported image types.
 	 *
-	 * @var array
+	 * @var array<string>
 	 */
 	protected array $valid_types = array( 'png', 'jpg', 'jpeg', 'gif', 'svg' );
 
@@ -137,7 +138,7 @@ class Image {
 		$mime_type = ( 'svg' === $type ) ? 'svg+xml' : $type;
 
 		// Generate base64 data.
-		$base64_data = 'data:image/' . $mime_type . ';base64,' . base64_encode( $image_data );
+		$base64_data = 'data:image/' . $mime_type . ';base64,' . base64_encode( $image_data ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 
 		/**
 		 * Filter the base64 encoded image data.
@@ -236,7 +237,6 @@ class Image {
 	 * Validate the image directory path.
 	 *
 	 * @return bool
-	 * @throws RuntimeException If the path is not a directory or not readable.
 	 */
 	protected function validate_path(): bool {
 		try {
@@ -337,7 +337,7 @@ class Image {
 	/**
 	 * Get allowed HTML for image with enhanced caching.
 	 *
-	 * @return array
+	 * @return array<string, array<string, bool>> Allowed HTML tags and attributes.
 	 */
 	public function get_image_allowed_html(): array {
 		// Return cached defaults if available
@@ -418,8 +418,8 @@ class Image {
 		foreach ( $svg_args as $tag => $attributes ) {
 			$filtered_svg_args[ sanitize_key( $tag ) ] = array_filter(
 				$attributes,
-				function ( $value, $key ) {
-					return true === $value && ! preg_match( '/^on/i', $key );
+				static function ( $value, $key ) {
+					return true === $value && 0 !== stripos( $key, 'on' );
 				},
 				ARRAY_FILTER_USE_BOTH
 			);

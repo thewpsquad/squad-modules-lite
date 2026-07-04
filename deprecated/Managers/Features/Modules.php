@@ -3,10 +3,10 @@
 /**
  * Module Manager
  *
- * @since   1.0.0
- * @author  The WP Squad <support@squadmodules.com>
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Managers\Features;
@@ -16,15 +16,14 @@ use DiviSquad\Core\Memory;
 use DiviSquad\Utils\WP;
 use Throwable;
 use function apply_filters;
-use function esc_html__;
 use function wp_array_slice_assoc;
 
 /**
  * Module Manager class
  *
- * @since   1.0.0
- * @package DiviSquad
+ * @since      1.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 class Modules extends ManagerBase {
 
@@ -119,7 +118,7 @@ class Modules extends ManagerBase {
 	/**
 	 * Load enabled modules for Divi Builder from defined directory.
 	 *
-	 * @param string      $path            The defined directory.
+	 * @param string                                                    $path            The defined directory.
 	 * @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependency_tree `DependencyTree` class is used as a utility to manage loading classes in a meaningful manner.
 	 *
 	 * @return void
@@ -129,8 +128,8 @@ class Modules extends ManagerBase {
 	/**
 	 * Load the module class.
 	 *
-	 * @param string      $path            The module class path.
-	 * @param Memory      $memory          The instance of Memory class.
+	 * @param string                                                    $path            The module class path.
+	 * @param Memory                                                    $memory          The instance of Memory class.
 	 * @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependency_tree `DependencyTree` class is used as a utility to manage loading classes in a meaningful manner.
 	 *
 	 * @return void
@@ -245,9 +244,9 @@ class Modules extends ManagerBase {
 	/**
 	 * Verify the requirements of the module.
 	 *
-	 * @param array       $activated_module The module.
-	 * @param string      $module_key       The module name key.
-	 *  @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependency_tree  `DependencyTree` class is used as a utility to manage loading classes in a meaningful manner.
+	 * @param array                                                     $activated_module The module.
+	 * @param string                                                    $module_key       The module name key.
+	 * @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependency_tree  `DependencyTree` class is used as a utility to manage loading classes in a meaningful manner.
 	 *
 	 * @return void
 	 */
@@ -264,10 +263,10 @@ class Modules extends ManagerBase {
 	 *
 	 * @since 2.1.2
 	 *
-	 * @param array   $module          The module.
+	 * @param array                                                     $module          The module.
 	 * @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependency_tree `DependencyTree` class is used as a utility to manage loading classes in a meaningful manner.
 	 *
-	 * @param string  $module_key      The module specification key.
+	 * @param string                                                    $module_key      The module specification key.
 	 *
 	 * @return void
 	 */
@@ -280,9 +279,9 @@ class Modules extends ManagerBase {
 		 * Load the module class for divi builder 5.
 		 * Ref: https://stackoverflow.com/a/20169918
 		 */
-		if ( isset( $module['classes'][ "{$module_class}_block_class" ] ) && class_exists( $module['classes'][ "{$module_class}_block_class" ] ) ) {
+		if ( isset( $module['classes']["{$module_class}_block_class"] ) && class_exists( $module['classes']["{$module_class}_block_class"] ) ) {
 			// Verify the block module class.
-			if ( ! class_exists( $module['classes'][ "{$module_class}_block_class" ] ) ) {
+			if ( ! class_exists( $module['classes']["{$module_class}_block_class"] ) ) {
 				divi_squad()->log_debug( "Block module class does not exist for {$module_class}." );
 
 				return;
@@ -303,7 +302,7 @@ class Modules extends ManagerBase {
 			}
 
 			if ( $dependency_tree instanceof \ET\Builder\Framework\DependencyManagement\DependencyTree && method_exists( $dependency_tree, 'add_dependency' ) ) {
-				$block_module_class = $module['classes'][ "{$module_class}_block_class" ];
+				$block_module_class = $module['classes']["{$module_class}_block_class"];
 				$class_interfaces   = class_implements( $block_module_class );
 				$core_interface     = \ET\Builder\Framework\DependencyManagement\Interfaces\DependencyInterface::class;
 				if ( $class_interfaces && in_array( $core_interface, $class_interfaces, true ) ) {
@@ -316,16 +315,16 @@ class Modules extends ManagerBase {
 		 * Load the module class for divi builder 4.
 		 * Ref: https://stackoverflow.com/a/20169918
 		 */
-		if ( isset( $module['classes'][ "{$module_class}_class" ] ) && class_exists( $module['classes'][ "{$module_class}_class" ] ) ) {
+		if ( isset( $module['classes']["{$module_class}_class"] ) && class_exists( $module['classes']["{$module_class}_class"] ) ) {
 			// Verify the module class.
-			if ( ! class_exists( $module['classes'][ "{$module_class}_class" ] ) ) {
+			if ( ! class_exists( $module['classes']["{$module_class}_class"] ) ) {
 				divi_squad()->log_debug( "Module class does not exist for {$module_class}." );
 
 				return;
 			}
 
 			// Create an instance of the module class.
-			$squad_module = new $module['classes'][ "{$module_class}_class" ]();
+			$squad_module = new $module['classes']["{$module_class}_class"]();
 
 			// Initialize custom hooks.
 			if ( method_exists( $squad_module, 'squad_init_custom_hooks' ) ) {
@@ -337,8 +336,8 @@ class Modules extends ManagerBase {
 	/**
 	 * Load the module class from path.
 	 *
-	 * @param string      $path            The module class path.
-	 * @param string      $module          The module name.
+	 * @param string                                                    $path            The module class path.
+	 * @param string                                                    $module          The module name.
 	 * @param \ET\Builder\Framework\DependencyManagement\DependencyTree $dependency_tree `DependencyTree` class is used as a utility to manage loading classes in a meaningful manner.
 	 *
 	 * @return void

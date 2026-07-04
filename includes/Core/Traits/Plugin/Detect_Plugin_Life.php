@@ -23,6 +23,14 @@ trait Detect_Plugin_Life {
 	private static ?bool $cached_prod_status = null;
 
 	/**
+	 * Cached pro installation status
+	 *
+	 * @since 3.3.3
+	 * @var bool|null
+	 */
+	private static ?bool $cached_pro_installed = null;
+
+	/**
 	 * Cached premium installation status
 	 *
 	 * @since 3.2.0
@@ -42,7 +50,7 @@ trait Detect_Plugin_Life {
 	 * Check if the current environment is production.
 	 * Handles both dev structure (/squad-modules-for-divi) and release structure (/includes).
 	 *
-	 * @since 3.2.0
+	 * @since      3.2.0
 	 * @deprecated 3.2.0 Use $this->is_prod() instead
 	 *
 	 * @return bool Returns true if running in production environment
@@ -103,6 +111,41 @@ trait Detect_Plugin_Life {
 	}
 
 	/**
+	 * Check if the premium version is installed.
+	 *
+	 * @since 3.3.3
+	 *
+	 * @return bool Returns true if premium version is installed, null if status unknown
+	 */
+	public function is_pro_installed(): bool {
+		if ( null === self::$cached_pro_installed ) {
+			if ( ! function_exists( '\get_plugins' ) ) {
+				require_once divi_squad()->get_wp_path() . 'wp-admin/includes/plugin.php';
+			}
+
+			// Collect basename of all installed and the pro plugin.
+			$installed_plugins = array_keys( \get_plugins() );
+			$pro_basename      = $this->get_pro_basename();
+
+			$is_installed = in_array( $pro_basename, $installed_plugins, true );
+
+			/**
+			 * Filters whether the premium version is considered installed.
+			 *
+			 * Allows external modification of the premium version installation status.
+			 *
+			 * @since 3.3.3
+			 *
+			 * @param bool   $is_installed Current premium version installation status
+			 * @param string $basename     The premium plugin basename
+			 */
+			self::$cached_pro_installed = apply_filters( 'divi_squad_is_pro_installed', $is_installed, $pro_basename );
+		}
+
+		return (bool) self::$cached_pro_installed;
+	}
+
+	/**
 	 * Check if running in development environment.
 	 * Development environment is identified by presence of development-specific files and directories.
 	 *
@@ -134,7 +177,7 @@ trait Detect_Plugin_Life {
 	 *
 	 * @return string Returns 'development', 'freemium', or 'premium'
 	 */
-	private function get_plugin_life_type(): string {
+	public function get_plugin_life_type(): string {
 		if ( null === self::$cached_life_type ) {
 			if ( $this->is_pro_activated() ) {
 				$type = 'premium';

@@ -2,8 +2,8 @@
 /**
  * Singleton trait for creating a single instance of a class.
  *
- * @package DiviSquad
  * @since   1.0.0
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Traits;
@@ -108,8 +108,8 @@ trait Singleton {
 	/**
 	 * Prevent unserializing of the instance.
 	 *
-	 * @throws \RuntimeException Always throws an exception.
 	 * @return void
+	 * @throws \RuntimeException Always throws an exception.
 	 */
 	public function __wakeup(): void {
 		throw new \RuntimeException( 'Cannot unserialize singleton' );
@@ -118,8 +118,8 @@ trait Singleton {
 	/**
 	 * Prevent cloning of the instance.
 	 *
-	 * @throws \RuntimeException Always throws an exception.
 	 * @return void
+	 * @throws \RuntimeException Always throws an exception.
 	 */
 	private function __clone() {
 		throw new \RuntimeException( 'Cloning is not allowed for singleton' );

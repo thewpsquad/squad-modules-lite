@@ -8,16 +8,13 @@
  * @author  The WP Squad <support@squadmodules.com>
  * @package DiviSquad
  *
- * @var array<string, mixed> $args Arguments passed to the template.
- *      - string $content The HTML for the banner notice.
- *      - array  $status The detailed requirements status data.
- *      - string $required_version The required Divi version.
+ * @var array{content: string, status: array<string, mixed>, required_version: string} $args The arguments to the template.
  *
  * @wordpress
- * @uses wp_doing_ajax()
- * @uses esc_html__()
- * @uses load_template()
- * @uses esc_html_e()
+ * @uses    wp_doing_ajax()
+ * @uses    esc_html__()
+ * @uses    load_template()
+ * @uses    esc_html_e()
  */
 
 use DiviSquad\Core\Supports\Links;
@@ -30,11 +27,12 @@ if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
 	die( 'Access forbidden from AJAX request.' );
 }
 
-// Extract variables from args
-$content = $args['content'] ?? '';
-$status = $args['status'] ?? array();
-$required_version = $args['required_version'] ?? divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
-$is_fulfilled = $status['is_fulfilled'] ?? false;
+// Extract variables from args.
+$divi_squad_content = $args['content'] ?? '';
+$divi_squad_status  = $args['status'] ?? array();
+
+$divi_squad_required_version = $args['required_version'] ?? divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
+$divi_squad_is_fulfilled     = (bool) ( $divi_squad_status['is_fulfilled'] ?? false );
 
 // Verify current plugin life type.
 $divi_squad_plugin_life_type = divi_squad()->is_dev() ? 'nightly' : 'stable';
@@ -52,14 +50,21 @@ $divi_squad_plugin_life_type = apply_filters( 'divi_squad_plugin_life_type', $di
  * Helper function to render a status badge.
  *
  * @param bool $is_met Whether the requirement is met.
+ *
  * @return string HTML for the status badge.
  */
-function divi_squad_render_status_badge( $is_met ) {
+function divi_squad_render_status_badge( bool $is_met ): string {
 	if ( $is_met ) {
-		return '<span class="status-badge success"><span class="dashicons dashicons-yes-alt"></span> ' . esc_html__( 'Met', 'squad-modules-for-divi' ) . '</span>';
-	} else {
-		return '<span class="status-badge error"><span class="dashicons dashicons-warning"></span> ' . esc_html__( 'Not Met', 'squad-modules-for-divi' ) . '</span>';
+		return sprintf(
+			'<span class="status-badge success"><span class="dashicons dashicons-yes-alt"></span> %s</span>',
+			esc_html__( 'Met', 'squad-modules-for-divi' )
+		);
 	}
+
+	return sprintf(
+		'<span class="status-badge error"><span class="dashicons dashicons-warning"></span> %s</span>',
+		esc_html__( 'Not Met', 'squad-modules-for-divi' )
+	);
 }
 
 ?>
@@ -81,7 +86,7 @@ function divi_squad_render_status_badge( $is_met ) {
 					<h2><?php esc_html_e( 'System Requirements', 'squad-modules-for-divi' ); ?></h2>
 
 					<div class="notice-container">
-						<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is already escaped in the Requirements class ?>
+						<?php echo $divi_squad_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Content is already escaped in the Requirements class ?>
 					</div>
 
 					<div class="requirements-info">
@@ -94,7 +99,7 @@ function divi_squad_render_status_badge( $is_met ) {
 										<strong><?php esc_html_e( 'Overall Status', 'squad-modules-for-divi' ); ?></strong>
 									</div>
 									<div class="requirement-value">
-										<?php echo divi_squad_render_status_badge( $is_fulfilled ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Function escapes its output ?>
+										<?php echo divi_squad_render_status_badge( $divi_squad_is_fulfilled ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Function escapes its output ?>
 									</div>
 								</div>
 								<div class="requirement-row">
@@ -102,7 +107,7 @@ function divi_squad_render_status_badge( $is_met ) {
 										<strong><?php esc_html_e( 'Divi Theme Installed', 'squad-modules-for-divi' ); ?></strong>
 									</div>
 									<div class="requirement-value">
-										<?php echo divi_squad_render_status_badge( $status['is_theme_installed'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+										<?php echo divi_squad_render_status_badge( $divi_squad_status['is_theme_installed'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</div>
 								</div>
 								<div class="requirement-row">
@@ -110,76 +115,74 @@ function divi_squad_render_status_badge( $is_met ) {
 										<strong><?php esc_html_e( 'Divi Builder Plugin Installed', 'squad-modules-for-divi' ); ?></strong>
 									</div>
 									<div class="requirement-value">
-										<?php echo divi_squad_render_status_badge( $status['is_plugin_installed'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+										<?php echo divi_squad_render_status_badge( $divi_squad_status['is_plugin_installed'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</div>
 								</div>
-								<?php if ( ( $status['is_theme_installed'] ?? false ) === true ) : ?>
+								<?php if ( ( $divi_squad_status['is_theme_installed'] ?? false ) === true ) : ?>
 									<div class="requirement-row">
 										<div class="requirement-name">
 											<strong><?php esc_html_e( 'Divi Theme Activated', 'squad-modules-for-divi' ); ?></strong>
 										</div>
 										<div class="requirement-value">
-											<?php echo divi_squad_render_status_badge( $status['is_theme_active'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+											<?php echo divi_squad_render_status_badge( $divi_squad_status['is_theme_active'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ( ( $status['is_plugin_installed'] ?? false ) === true ) : ?>
+								<?php if ( ( $divi_squad_status['is_plugin_installed'] ?? false ) === true ) : ?>
 									<div class="requirement-row">
 										<div class="requirement-name">
 											<strong><?php esc_html_e( 'Divi Builder Plugin Activated', 'squad-modules-for-divi' ); ?></strong>
 										</div>
 										<div class="requirement-value">
-											<?php echo divi_squad_render_status_badge( $status['is_plugin_active'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+											<?php echo divi_squad_render_status_badge( $divi_squad_status['is_plugin_active'] ?? false ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ( ( $status['is_theme_active'] ?? false ) === true ) : ?>
+								<?php if ( ( $divi_squad_status['is_theme_active'] ?? false ) === true ) : ?>
 									<div class="requirement-row">
 										<div class="requirement-name">
 											<strong><?php esc_html_e( 'Divi Theme Version', 'squad-modules-for-divi' ); ?></strong>
 											<div class="requirement-sub">
-											<?php
+												<?php
 												echo esc_html(
 													sprintf(
-															  /* translators: %s is the required version */
+													/* translators: %s is the required version */
 														__( 'Required: %s or higher', 'squad-modules-for-divi' ),
-														$required_version
+														$divi_squad_required_version
 													)
 												);
-											?>
-												</div>
+												?>
+											</div>
 										</div>
 										<div class="requirement-value">
-											<div class="version-info"><?php echo esc_html( $status['theme_version'] ?? 'Unknown' ); ?></div>
+											<div class="version-info"><?php echo esc_html( $divi_squad_status['theme_version'] ?? 'Unknown' ); ?></div>
 											<?php
-											$divi_squad_meets_theme_version = isset( $status['theme_version'] ) &&
-																   version_compare( $status['theme_version'], $required_version, '>=' );
+											$divi_squad_meets_theme_version = isset( $divi_squad_status['theme_version'] ) && version_compare( $divi_squad_status['theme_version'], $divi_squad_required_version, '>=' );
 											echo divi_squad_render_status_badge( $divi_squad_meets_theme_version ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 											?>
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ( ( $status['is_plugin_active'] ?? false ) === true ) : ?>
+								<?php if ( ( $divi_squad_status['is_plugin_active'] ?? false ) === true ) : ?>
 									<div class="requirement-row">
 										<div class="requirement-name">
 											<strong><?php esc_html_e( 'Divi Builder Plugin Version', 'squad-modules-for-divi' ); ?></strong>
 											<div class="requirement-sub">
-											<?php
+												<?php
 												echo esc_html(
 													sprintf(
-															  /* translators: %s is the required version */
+													/* translators: %s is the required version */
 														__( 'Required: %s or higher', 'squad-modules-for-divi' ),
-														$required_version
+														$divi_squad_required_version
 													)
 												);
-											?>
-												</div>
+												?>
+											</div>
 										</div>
 										<div class="requirement-value">
-											<div class="version-info"><?php echo esc_html( $status['plugin_version'] ?? 'Unknown' ); ?></div>
+											<div class="version-info"><?php echo esc_html( $divi_squad_status['plugin_version'] ?? 'Unknown' ); ?></div>
 											<?php
-											$divi_squad_meets_plugin_version = isset( $status['plugin_version'] ) &&
-																	version_compare( $status['plugin_version'], $required_version, '>=' );
+											$divi_squad_meets_plugin_version = isset( $divi_squad_status['plugin_version'] ) && version_compare( $divi_squad_status['plugin_version'], $divi_squad_required_version, '>=' );
 											echo divi_squad_render_status_badge( $divi_squad_meets_plugin_version ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 											?>
 										</div>
@@ -195,7 +198,7 @@ function divi_squad_render_status_badge( $is_met ) {
 									<strong><?php esc_html_e( 'Divi Theme/Builder:', 'squad-modules-for-divi' ); ?></strong>
 									<?php
 									// translators: %s is the required version.
-									echo esc_html( sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), $required_version ) );
+									echo esc_html( sprintf( __( 'Version %s or higher', 'squad-modules-for-divi' ), $divi_squad_required_version ) );
 									?>
 								</li>
 								<li>
@@ -215,7 +218,7 @@ function divi_squad_render_status_badge( $is_met ) {
 							</ul>
 						</div>
 
-						<div class="requirements-section<?php echo ( false === $is_fulfilled ) ? ' highlighted' : ''; ?>">
+						<div class="requirements-section<?php echo ( false === $divi_squad_is_fulfilled ) ? ' highlighted' : ''; ?>">
 							<h3><?php esc_html_e( 'Need Help?', 'squad-modules-for-divi' ); ?></h3>
 							<p>
 								<?php esc_html_e( 'If you need assistance with installation or have questions, please visit our support center:', 'squad-modules-for-divi' ); ?>
@@ -225,7 +228,7 @@ function divi_squad_render_status_badge( $is_met ) {
 									<?php esc_html_e( 'Visit Support Center', 'squad-modules-for-divi' ); ?>
 								</a>
 							</p>
-							<?php if ( false === $is_fulfilled ) : ?>
+							<?php if ( false === $divi_squad_is_fulfilled ) : ?>
 								<p class="requirements-suggestion">
 									<?php esc_html_e( 'To get Squad Modules working properly, please address the issues highlighted above.', 'squad-modules-for-divi' ); ?>
 								</p>

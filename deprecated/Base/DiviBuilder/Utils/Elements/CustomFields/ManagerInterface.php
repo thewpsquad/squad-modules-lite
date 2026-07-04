@@ -1,14 +1,15 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * Manager Interface
  *
  * This file contains the ManagerInterface which defines the contract
  * for all manager classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.1
+ * @since      3.1.1
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
@@ -18,9 +19,9 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
  *
  * Defines the contract for manager classes in the DiviSquad plugin.
  *
- * @package DiviSquad
- * @since   3.1.1
+ * @since      3.1.1
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 interface ManagerInterface {
 
@@ -43,6 +44,7 @@ interface ManagerInterface {
 	 * @since 3.1.1
 	 *
 	 * @param array $args Optional. Arguments to modify the query.
+	 *
 	 * @return array The retrieved data.
 	 */
 	public function get_data( $args = array() );

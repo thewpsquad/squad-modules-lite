@@ -6,10 +6,10 @@
  * This file contains the RouteInterface which defines the contract
  * for all Route classes in the Divi Squad plugin's REST API.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\Factories\RestRoute;
@@ -17,9 +17,9 @@ namespace DiviSquad\Base\Factories\RestRoute;
 /**
  * Interface for the Route class.
  *
- * @package DiviSquad
- * @since   2.0.0
+ * @since      2.0.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 interface RouteInterface {
 

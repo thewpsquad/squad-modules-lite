@@ -1,25 +1,25 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * The SVG class for Divi Squad.
  *
  * This class handles svg image upload and used in the WordPress setup.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Extensions;
 
-use DiviSquad\Extensions\Extension;
 use function add_filter;
 use function wp_check_filetype;
 
 /**
  * The SVG class.
  *
- * @package DiviSquad
  * @since   1.2.0
+ * @package DiviSquad
  */
 class SVG extends Extension {
 

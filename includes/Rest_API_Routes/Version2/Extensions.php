@@ -6,9 +6,9 @@
  * This file contains the v2 Extensions class which handles enhanced REST API endpoints
  * for managing Divi Squad extensions with additional capabilities.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.3.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
@@ -27,8 +27,8 @@ use WP_REST_Server;
  * retrieving extension details by category, bulk operations, and
  * individual extension management.
  *
- * @package DiviSquad
  * @since   3.3.0
+ * @package DiviSquad
  */
 class Extensions extends Extensions_V1 {
 	/**
@@ -158,6 +158,7 @@ class Extensions extends Extensions_V1 {
 	 * @since 3.3.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response Response containing all extension categories.
 	 */
 	public function get_extension_categories( WP_REST_Request $request ): WP_REST_Response {
@@ -222,6 +223,7 @@ class Extensions extends Extensions_V1 {
 	 * @since 3.3.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response|WP_Error Response on success, WP_Error on failure.
 	 */
 	public function get_extensions_by_category( WP_REST_Request $request ) {
@@ -291,6 +293,7 @@ class Extensions extends Extensions_V1 {
 	 * @since 3.3.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response|WP_Error Response on success, WP_Error on failure.
 	 */
 	public function get_extension( WP_REST_Request $request ) {
@@ -586,6 +589,7 @@ class Extensions extends Extensions_V1 {
 	 * @since 3.3.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response|WP_Error Response on success, WP_Error on failure.
 	 */
 	public function enable_extensions_batch( WP_REST_Request $request ) {
@@ -695,6 +699,7 @@ class Extensions extends Extensions_V1 {
 	 * @since 3.3.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
+	 *
 	 * @return WP_REST_Response|WP_Error Response on success, WP_Error on failure.
 	 */
 	public function disable_extensions_batch( WP_REST_Request $request ) {
@@ -840,8 +845,8 @@ class Extensions extends Extensions_V1 {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param WP_REST_Response      $response   The response object.
-			 * @param array                 $extensions The raw extensions data.
+			 * @param WP_REST_Response $response   The response object.
+			 * @param array            $extensions The raw extensions data.
 			 * @param WP_REST_Request  $request    The request object.
 			 */
 			do_action( 'divi_squad_after_get_extensions_v2', $response, $extensions, $request );
@@ -1109,6 +1114,7 @@ class Extensions extends Extensions_V1 {
 	 * @since 3.3.0
 	 *
 	 * @param string $category_id Category ID.
+	 *
 	 * @return int Number of extensions in the category.
 	 */
 	protected function count_extensions_in_category( string $category_id ): int {

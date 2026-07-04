@@ -2,10 +2,10 @@
 /**
  * Main migration class.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  * @since   3.0.0 move to Base\Factories\ModuleMigration
+ * @package DiviSquad
+ * @author  The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Settings;
@@ -15,9 +15,9 @@ use ET_Builder_Element;
 /**
  * Class Migration
  *
- * @package DiviSquad
  * @since   2.0.0
  * @since   3.0.0 move to Base\Factories\ModuleMigration
+ * @package DiviSquad
  */
 abstract class Migration implements MigrationInterface {
 
@@ -142,9 +142,8 @@ abstract class Migration implements MigrationInterface {
 	 * Used by WPUnit tests.
 	 *
 	 * @since 4.16.0
-	 * @link  https://make.wordpress.org/core/handbook/testing/automated-testing/writing-phpunit-tests/#shared-setup-between-related-tests
-	 *
 	 * @return void
+	 * @link  https://make.wordpress.org/core/handbook/testing/automated-testing/writing-phpunit-tests/#shared-setup-between-related-tests
 	 */
 	public static function tear_down() {
 		remove_filter( 'et_pb_module_processed_fields', array( self::class, 'maybe_override_processed_fields' ) );
@@ -230,7 +229,7 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Handle field name migrations.
 	 *
-	 * @param array<string, array<string, string>> $fields  Shortcode fields.
+	 * @param array<string, array<string, string>> $fields      Shortcode fields.
 	 * @param string                               $module_slug Internal system name for the module type.
 	 *
 	 * @return array<string, array<string, string>>
@@ -422,12 +421,12 @@ abstract class Migration implements MigrationInterface {
 		 * @since 3.2.0
 		 *
 		 * @param array $hooks Default hooks array containing:
-		 *     - 'the_content'
-		 *     - 'admin_enqueue_scripts'
-		 *     - 'et_pb_get_backbone_templates'
-		 *     - 'wp_ajax_et_pb_execute_content_shortcodes'
-		 *     - 'wp_ajax_et_fb_get_saved_layouts'
-		 *     - 'wp_ajax_et_fb_retrieve_builder_data'
+		 *                     - 'the_content'
+		 *                     - 'admin_enqueue_scripts'
+		 *                     - 'et_pb_get_backbone_templates'
+		 *                     - 'wp_ajax_et_pb_execute_content_shortcodes'
+		 *                     - 'wp_ajax_et_fb_get_saved_layouts'
+		 *                     - 'wp_ajax_et_fb_retrieve_builder_data'
 		 *
 		 * @return array Modified array of hook names where migrations should run.
 		 */
@@ -436,11 +435,13 @@ abstract class Migration implements MigrationInterface {
 		foreach ( $hooks as $hook ) {
 			if ( $hook === $current_hook && did_action( $hook ) > 1 ) {
 				self::$last_hook_check_decision = false;
+
 				return false;
 			}
 		}
 
 		self::$last_hook_check_decision = true;
+
 		return true;
 	}
 

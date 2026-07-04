@@ -6,10 +6,10 @@
  * This interface provides methods for retrieving various types of custom fields
  * and their associated properties.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
+ * @author     The WP Squad <support@squadmodules.com>
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
@@ -20,9 +20,9 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
  * This interface provides methods for retrieving various types of custom fields
  * and their associated properties.
  *
- * @package DiviSquad
- * @since   3.1.0
+ * @since      3.1.0
  * @deprecated 3.3.0
+ * @package    DiviSquad
  */
 interface DefinitionInterface {
 

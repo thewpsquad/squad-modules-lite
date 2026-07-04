@@ -6,9 +6,9 @@
  * This file contains the v2 Modules class which handles enhanced REST API endpoints
  * for managing Divi Squad modules with additional capabilities.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.3.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version2;
@@ -28,8 +28,8 @@ use WP_REST_Server;
  * retrieving module details by category, bulk operations, and
  * individual module management.
  *
- * @package DiviSquad
  * @since   3.3.0
+ * @package DiviSquad
  */
 class Modules extends Modules_V1 {
 
@@ -199,9 +199,9 @@ class Modules extends Modules_V1 {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param WP_REST_Response $response  The response object.
+			 * @param WP_REST_Response $response   The response object.
 			 * @param array            $categories The raw categories.
-			 * @param WP_REST_Request  $request   The request object.
+			 * @param WP_REST_Request  $request    The request object.
 			 */
 			do_action( 'divi_squad_after_get_module_categories', $response, $categories, $request );
 
@@ -869,9 +869,9 @@ class Modules extends Modules_V1 {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param WP_REST_Response      $response The response object.
-			 * @param array                 $modules  The modules data.
-			 * @param WP_REST_Request|null  $request  The request object.
+			 * @param WP_REST_Response     $response The response object.
+			 * @param array                $modules  The modules data.
+			 * @param WP_REST_Request|null $request  The request object.
 			 */
 			do_action( 'divi_squad_after_get_modules_v2', $response, $modules, $request );
 
@@ -956,9 +956,9 @@ class Modules extends Modules_V1 {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param WP_REST_Response      $response       The response object.
-			 * @param array                 $active_modules The active module names.
-			 * @param WP_REST_Request|null  $request        The request object.
+			 * @param WP_REST_Response     $response       The response object.
+			 * @param array                $active_modules The active module names.
+			 * @param WP_REST_Request|null $request        The request object.
 			 */
 			do_action( 'divi_squad_after_get_active_modules_v2', $response, $active_modules, $request );
 
@@ -1043,9 +1043,9 @@ class Modules extends Modules_V1 {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param WP_REST_Response      $response         The response object.
-			 * @param array                 $inactive_modules The inactive module names.
-			 * @param WP_REST_Request|null  $request          The request object.
+			 * @param WP_REST_Response     $response         The response object.
+			 * @param array                $inactive_modules The inactive module names.
+			 * @param WP_REST_Request|null $request          The request object.
 			 */
 			do_action( 'divi_squad_after_get_inactive_modules_v2', $response, $inactive_modules, $request );
 
@@ -1204,9 +1204,9 @@ class Modules extends Modules_V1 {
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param array $dependencies  The dependencies.
-		 * @param array $module        The module data.
-		 * @param self  $instance      The current instance.
+		 * @param array $dependencies The dependencies.
+		 * @param array $module       The module data.
+		 * @param self  $instance     The current instance.
 		 */
 		return apply_filters( 'divi_squad_module_dependencies', $dependencies, $module, $this );
 	}
@@ -1266,9 +1266,9 @@ class Modules extends Modules_V1 {
 		 *
 		 * @since 3.3.0
 		 *
-		 * @param string $name          The formatted plugin name.
-		 * @param string $plugin_slug   The plugin slug.
-		 * @param self   $instance      The current instance.
+		 * @param string $name        The formatted plugin name.
+		 * @param string $plugin_slug The plugin slug.
+		 * @param self   $instance    The current instance.
 		 */
 		return apply_filters( 'divi_squad_formatted_plugin_name', ucwords( $name ), $plugin_slug, $this );
 	}

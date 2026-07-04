@@ -2,9 +2,9 @@
 /**
  * Array Helper class for utility
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.3
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core\Supports\Polyfills;
@@ -12,8 +12,8 @@ namespace DiviSquad\Core\Supports\Polyfills;
 /**
  * Array Helper class.
  *
- * @package DiviSquad
  * @since   1.2.3
+ * @package DiviSquad
  */
 class Arr {
 

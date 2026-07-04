@@ -6,9 +6,9 @@
  * This file contains the RestRoutes class which handles the registration and
  * initialization of all REST API routes for the Divi Squad plugin.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.3.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Core;
@@ -18,9 +18,9 @@ use DiviSquad\Rest_API_Routes\Version1\Extensions as Extensions_Version1;
 use DiviSquad\Rest_API_Routes\Version1\Extensions\Copy;
 use DiviSquad\Rest_API_Routes\Version1\Modules as Modules_Version1;
 use DiviSquad\Rest_API_Routes\Version1\Modules\PostGrid;
+use DiviSquad\Rest_API_Routes\Version1\Notices\Discount;
 use DiviSquad\Rest_API_Routes\Version1\Notices\ProActivation;
 use DiviSquad\Rest_API_Routes\Version1\Notices\Review;
-use DiviSquad\Rest_API_Routes\Version1\Notices\Discount;
 use DiviSquad\Rest_API_Routes\Version1\Whats_New\Changelog;
 use DiviSquad\Rest_API_Routes\Version2\Extensions as Extensions_Version2;
 use DiviSquad\Rest_API_Routes\Version2\Modules as Modules_Version2;
@@ -29,8 +29,8 @@ use Throwable;
 /**
  * REST Routes Manager class.
  *
- * @package DiviSquad
  * @since   3.3.0
+ * @package DiviSquad
  */
 class RestRoutes {
 
@@ -112,6 +112,7 @@ class RestRoutes {
 			// Verify that the class exists.
 			if ( ! class_exists( $class_name ) ) {
 				divi_squad()->log_debug( sprintf( 'Route class %s does not exist.', $class_name ) );
+
 				return false;
 			}
 
@@ -121,6 +122,7 @@ class RestRoutes {
 			// Verify that the class extends Base_Route.
 			if ( ! $route instanceof Base_Route ) {
 				divi_squad()->log_debug( sprintf( 'Route class %s must extend Base_Route.', $class_name ) );
+
 				return false;
 			}
 
@@ -133,7 +135,7 @@ class RestRoutes {
 			 * @since 3.3.0
 			 *
 			 * @param string     $class_name The class name of the registered route.
-			 * @param Base_Route  $route      The route instance.
+			 * @param Base_Route $route      The route instance.
 			 * @param RestRoutes $manager    The REST Routes Manager instance.
 			 */
 			do_action( 'divi_squad_route_registered', $class_name, $route, $this );
@@ -141,6 +143,7 @@ class RestRoutes {
 			return true;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to register route class %s', $class_name ) );
+
 			return false;
 		}
 	}
@@ -164,7 +167,7 @@ class RestRoutes {
 			 *
 			 * @since 3.3.0
 			 *
-			 * @param Base_Route  $route   The route instance.
+			 * @param Base_Route $route   The route instance.
 			 * @param RestRoutes $manager The REST Routes Manager instance.
 			 */
 			do_action( 'divi_squad_route_instance_registered', $route, $this );
@@ -172,6 +175,7 @@ class RestRoutes {
 			return true;
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to register route instance of class %s', get_class( $route ) ) );
+
 			return false;
 		}
 	}
@@ -191,7 +195,7 @@ class RestRoutes {
 			 * @since 3.3.0
 			 *
 			 * @param array<Base_Route> $routes  The registered routes.
-			 * @param RestRoutes       $manager The REST Routes Manager instance.
+			 * @param RestRoutes        $manager The REST Routes Manager instance.
 			 */
 			$this->routes = apply_filters( 'divi_squad_rest_routes', $this->routes, $this );
 
@@ -201,7 +205,7 @@ class RestRoutes {
 			 * @since 3.3.0
 			 *
 			 * @param array<Base_Route> $routes  The registered routes.
-			 * @param RestRoutes       $manager The REST Routes Manager instance.
+			 * @param RestRoutes        $manager The REST Routes Manager instance.
 			 */
 			do_action( 'divi_squad_before_register_rest_routes', $this->routes, $this );
 
@@ -216,7 +220,7 @@ class RestRoutes {
 			 * @since 3.3.0
 			 *
 			 * @param array<Base_Route> $routes  The registered routes.
-			 * @param RestRoutes       $manager The REST Routes Manager instance.
+			 * @param RestRoutes        $manager The REST Routes Manager instance.
 			 */
 			do_action( 'divi_squad_after_register_rest_routes', $this->routes, $this );
 		} catch ( Throwable $e ) {
@@ -282,6 +286,7 @@ class RestRoutes {
 		$route_parts = explode( '/', str_replace( array( '_', '-' ), '/', $route ) );
 		$route_parts = array_filter( $route_parts, static fn( $part ): bool => ! empty( $part ) );
 		$route_parts = array_map( 'ucfirst', $route_parts );
+
 		return implode( '', $route_parts );
 	}
 }

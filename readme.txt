@@ -5,7 +5,7 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 3.3.2
+Stable tag: 3.3.3
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -184,6 +184,12 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
+= 3.3.4 =
+Fixed an issue to load forms module not showing up in the visual builder and frontend.
+
+= 3.3.3 =
+Code enhancements, improved type hinting, and better asset management. Enhanced ImageGallery and PostGrid modules.
+
 = 3.3.2 =
 Fix and issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
 
@@ -197,6 +203,17 @@ Major performance improvements, bug fixes, and enhanced module loading system. N
 Bug fixing for Flip box module
 
 == Changelog ==
+= 3.3.4 (14-04-2025) =
+
+**Bug Fixes:**
+- Fixed an issue to load forms module not showing up in the visual builder and frontend.
+
+= 3.3.3 (14-04-2025) =
+
+**Improvements:**
+- Enhanced Image Gallery module with improved type definitions, error handling, and styling
+- Refactored PostGrid methods to improve type hinting and error handling
+
 = 3.3.2 (05-04-2025) =
 
 **Bug Fixes:**

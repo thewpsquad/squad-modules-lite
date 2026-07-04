@@ -6,9 +6,9 @@
  * This file contains the Discount class which handles REST API endpoints
  * for managing the Welcome 60% Discount Notice in Divi Squad.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Notices;
@@ -24,8 +24,8 @@ use WP_REST_Server;
  * Manages REST API endpoints for the Welcome 60% Discount Notice,
  * including functionality to mark the notice as done.
  *
- * @package DiviSquad
  * @since   3.0.0
+ * @package DiviSquad
  */
 class Discount extends Base_Route {
 

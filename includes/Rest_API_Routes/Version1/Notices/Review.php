@@ -5,9 +5,9 @@
  * This file contains the Review class which handles REST API endpoints
  * for managing the Plugin Review Notice in Divi Squad.
  *
- * @package DiviSquad\Managers\RestRoutes\Version1\Notices
- * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad\Managers\RestRoutes\Version1\Notices
  */
 
 namespace DiviSquad\Rest_API_Routes\Version1\Notices;
@@ -23,8 +23,8 @@ use WP_REST_Server;
  * Manages REST API endpoints for the Plugin Review Notice,
  * including functionality to handle various user interactions.
  *
- * @package DiviSquad\Managers\RestRoutes\Version1\Notices
  * @since   1.0.0
+ * @package DiviSquad\Managers\RestRoutes\Version1\Notices
  */
 class Review extends Base_Route {
 

@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName
+
 /**
  * WordPress Custom Field Definitions
  *
@@ -6,14 +7,13 @@
  * and implements DefinitionInterface. It provides specific
  * implementations for WordPress standard custom fields in the context of Divi Builder.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Definitions;
 
-use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Definition;
 
 /**
@@ -21,8 +21,8 @@ use DiviSquad\Builder\Utils\Elements\Custom_Fields\Definition;
  *
  * Implements WordPress-specific custom field definitions for use with Divi Builder.
  *
+ * @since   3.1.0
  * @package DiviSquad
- * @since 3.1.0
  */
 class WordPress extends Definition {
 
@@ -36,7 +36,7 @@ class WordPress extends Definition {
 	 * @return void
 	 */
 	protected function init(): void {
-		// Register common fields
+		// Register common fields.
 		$this->register_common_field(
 			'element',
 			array(
@@ -48,7 +48,7 @@ class WordPress extends Definition {
 			)
 		);
 
-		// Register empty fields
+		// Register empty fields.
 		$this->register_empty_field(
 			'element_custom_field_none_notice',
 			array(
@@ -60,7 +60,7 @@ class WordPress extends Definition {
 			)
 		);
 
-		// Initialize associated fields (will be populated in get_associated_fields)
+		// Initialize associated fields (will be populated in get_associated_fields).
 	}
 
 	/**
@@ -77,12 +77,12 @@ class WordPress extends Definition {
 	 * @return array<string, array<string, mixed>> An array of default custom field definitions for the specified post type.
 	 */
 	public function get_default_fields( string $post_type, array $options ): array {
-		// If we already have these fields registered, return them from parent
+		// If we already have these fields registered, return them from parent.
 		if ( isset( $this->post_type_fields[ $post_type ] ) ) {
 			return parent::get_default_fields( $post_type, $options );
 		}
 
-		// Otherwise, register them now
+		// Otherwise, register them now.
 		$this->register_common_field(
 			'element',
 			array(
@@ -95,7 +95,7 @@ class WordPress extends Definition {
 		$this->register_post_type_field(
 			$post_type,
 			"element_custom_field_$post_type",
-			Utils::add_select_box_field(
+			divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Custom Field', 'squad-modules-for-divi' ),
 				array(
 					'description'     => esc_html__( 'Choose a custom field to display for the current post.', 'squad-modules-for-divi' ),
@@ -107,7 +107,7 @@ class WordPress extends Definition {
 			)
 		);
 
-		// Return the newly registered fields
+		// Return the newly registered fields.
 		return parent::get_default_fields( $post_type, $options );
 	}
 
@@ -124,8 +124,8 @@ class WordPress extends Definition {
 	 * @return array<string, array<string, mixed>> An array of associated custom field definitions.
 	 */
 	public function get_associated_fields( array $fields_types = array() ): array {
-		// If we already have associated fields registered, return them
-		if ( ! empty( $this->associated_fields ) ) {
+		// If we already have associated fields registered, return them.
+		if ( count( $this->associated_fields ) > 0 ) {
 			return parent::get_associated_fields( $fields_types );
 		}
 
@@ -158,7 +158,7 @@ class WordPress extends Definition {
 			)
 		);
 
-		// Return the newly registered fields
+		// Return the newly registered fields.
 		return parent::get_associated_fields( $fields_types );
 	}
 

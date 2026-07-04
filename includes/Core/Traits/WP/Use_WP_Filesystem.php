@@ -2,9 +2,9 @@
 /**
  * The Filesystem class.
  *
- * @package DiviSquad
- * @author  The WP Squad <support@squadmodules.com>
  * @since   3.2.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 
@@ -15,8 +15,8 @@ use WP_Filesystem_Base;
 /**
  * The Filesystem trait
  *
- * @package DiviSquad
  * @since   3.2.0
+ * @package DiviSquad
  */
 trait Use_WP_Filesystem {
 
