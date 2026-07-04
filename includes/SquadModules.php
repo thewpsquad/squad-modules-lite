@@ -75,6 +75,7 @@ final class SquadModules extends Integrations\Core {
 		add_action( 'plugins_loaded', array( $this, 'run' ) );
 		add_action( 'divi_squad_loaded', array( $this, 'load_deprecated_classes' ), Constant::PHP_INT_MIN ); // @phpstan-ignore-line
 		add_action( 'init', array( $this, 'load_additional_components' ) );
+		add_action( 'init', array( $this, 'load_text_domain' ) );
 	}
 
 	/**
@@ -300,7 +301,6 @@ final class SquadModules extends Integrations\Core {
 	 */
 	private function load_components() {
 		try {
-			$this->load_text_domain();
 			$this->load_assets();
 			$this->load_global_assets();
 			$this->load_extensions();

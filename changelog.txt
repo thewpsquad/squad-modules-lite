@@ -1,8 +1,16 @@
 == Changelog ==
+= 3.1.9 (26-10-2024) =
+
+**Bug Fixes:**
+- Fixed an issue before after image slider is not working in the frontend
+
+**Improvements:**
+- Compatibility with wordpress 6.7
+
 = 3.1.8 (26-10-2024) =
 
 **New Features:**
-- feat: linking option added to feature image in Divi Post Grid Module
+– feat: linking option added to feature image in Divi Post Grid Module
 
 = 3.1.7 (23-08-2024) =
 

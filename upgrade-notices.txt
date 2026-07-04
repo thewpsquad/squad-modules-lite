@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.1.9 =
+Bug fixing and compatibility update with WordPress 6.7
+
 = 3.1.8 =
 feat: linking option added to feature image in Divi Post Grid Module
 

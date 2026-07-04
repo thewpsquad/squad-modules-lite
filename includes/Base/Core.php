@@ -374,7 +374,7 @@ abstract class Core extends Filesystem {
 			}
 		}
 
-		return get_plugin_data( $plugin_file );
+		return get_plugin_data( $plugin_file, false, false );
 	}
 
 	/**

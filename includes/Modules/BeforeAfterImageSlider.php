@@ -633,7 +633,7 @@ class BeforeAfterImageSlider extends Module {
 		$this->generate_css_filters( $this->slug, '', "$this->main_css_element div .compare-images.icv .icv__img.icv__img-a" );
 		$this->generate_css_filters( $this->slug, 'child_', "$this->main_css_element div .compare-images.icv .icv__wrapper" );
 
-		wp_enqueue_script( 'squad-module-bais' );
+		wp_enqueue_script( 'squad-module-ba-image-slider' );
 
 		return sprintf(
 			'%1$s<div class="compare-images" data-setting="%4$s">%2$s%3$s</div>',

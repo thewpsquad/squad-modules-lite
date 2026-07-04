@@ -1,8 +1,0 @@
-<svg id="mySvgElement" width="540" height="540" viewBox="0 0 540 540" xmlns="http://www.w3.org/2000/svg">
-    <g>
-        <path d="M0,0h540v540H0V0z" fill="#EBEBEB"/>
-        <path d="M445.6,540h-99l-202-202L0,482.6v-99l116.4-116.4c15.6-15.6,40.9-15.6,56.6,0L445.6,540L445.6,540z" fill-opacity=".1" fill="#000" fill-rule="nonzero"/>
-        <circle cx="331" cy="148" r="70" fill-opacity=".05" fill="#000"/>
-        <polygon points="540,215.2 215.2,540 328.3,540 540,328.3" fill-opacity=".2" fill="#000" fill-rule="nonzero"/>
-    </g>
-</svg>
