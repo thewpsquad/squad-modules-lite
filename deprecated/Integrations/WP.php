@@ -9,7 +9,7 @@
  * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
- * @deprecated 3.2.0 marked as deprecated.
+ * @deprecated 3.2.1 marked as deprecated.
  */
 
 namespace DiviSquad\Integrations;
@@ -25,7 +25,7 @@ use DiviSquad\Core\Traits\Singleton;
  *
  * @since   1.0.0
  * @package DiviSquad
- * @deprecated 3.2.0 marked as deprecated.
+ * @deprecated 3.2.1 marked as deprecated.
  */
 class WP {
 

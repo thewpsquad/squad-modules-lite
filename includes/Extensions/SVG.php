@@ -50,12 +50,12 @@ class SVG extends Extension {
 	/**
 	 * Filters the "real" file type of the given file.
 	 *
-	 * @param array    $wp_check Values for the extension, mime type, and corrected filename.
-	 * @param string   $file     Full path to the file.
-	 * @param string   $filename The name of the file.
-	 * @param string[] $mimes    Array of mime types keyed by their file extension regex.
+	 * @param array         $wp_check Values for the extension, mime type, and corrected filename.
+	 * @param string        $file     Full path to the file.
+	 * @param string        $filename The name of the file.
+	 * @param string[]|null $mimes    Array of mime types keyed by their file extension regex.
 	 */
-	public function enable__upload( array $wp_check, string $file, string $filename, array $mimes ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
+	public function enable__upload( array $wp_check, string $file, string $filename, $mimes = null ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
 		if ( ! $wp_check['type'] ) {
 			$check_filetype  = wp_check_filetype( $filename, $mimes );
 			$ext             = $check_filetype['ext'];

@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.2.1 (20-01-2025) =
+
+**Bug Fixes:**
+- Fixed a fatal error in the SVG extension
+
 = 3.2.0 (14-01-2025) =
 
 **New Features:**

@@ -5,7 +5,7 @@
  * @package DiviSquad
  * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.3
- * @deprecated 3.2.0 Use DiviSquad\Core\Supports\Polyfills\Str instead
+ * @deprecated 3.2.1 Use DiviSquad\Core\Supports\Polyfills\Str instead
  */
 
 namespace DiviSquad\Utils\Polyfills;
@@ -15,6 +15,6 @@ namespace DiviSquad\Utils\Polyfills;
  *
  * @since      1.2.3
  * @package    DiviSquad
- * @deprecated 3.2.0 Use DiviSquad\Core\Supports\Polyfills\Str instead
+ * @deprecated 3.2.1 Use DiviSquad\Core\Supports\Polyfills\Str instead
  */
 class Str extends \DiviSquad\Core\Supports\Polyfills\Str {}

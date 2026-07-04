@@ -6,7 +6,7 @@
  * @package    DiviSquad
  * @author     The WP Squad <support@squadmodules.com>
  * @since      1.0.0
- * @deprecated 3.2.0 Use `DiviSquad\Core\Memory` instead.
+ * @deprecated 3.2.1 Use `DiviSquad\Core\Memory` instead.
  */
 
 namespace DiviSquad\Base;
@@ -20,6 +20,6 @@ namespace DiviSquad\Base;
  *
  * @package DiviSquad\Base
  * @since 2.0.0
- * @deprecated 3.2.0 Use `DiviSquad\Core\Memory` instead.
+ * @deprecated 3.2.1 Use `DiviSquad\Core\Memory` instead.
  */
 class Memory extends \DiviSquad\Core\Memory {}
