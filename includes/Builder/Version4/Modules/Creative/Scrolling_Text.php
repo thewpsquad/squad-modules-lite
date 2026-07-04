@@ -247,7 +247,7 @@ class Scrolling_Text extends Module {
 			return '';
 		}
 
-		$text_tag = $this->prop( 'text_element_tag', 'h2' );
+		$text_tag = divi_squad()->d4_module_helper->sanitize_html_tag( $this->prop( 'text_element_tag', 'h2' ), 'h2' );
 
 		// Set text outline style.
 		if ( 'on' === $this->prop( 'outline_text__enable', 'off' ) ) {

@@ -1,0 +1,27 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Step Flow"
+        }
+      }
+    }
+  },
+  "stepFlow": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "orientation": "vertical",
+          "revealOnScroll": "on",
+          "revealDelay": "100",
+          "connectorLineStyle": "solid",
+          "connectorColor": "#5E2EFF",
+          "connectorWidth": "2px",
+          "showArrow": "off"
+        }
+      }
+    }
+  }
+}

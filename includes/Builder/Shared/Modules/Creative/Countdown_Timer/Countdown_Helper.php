@@ -151,7 +151,7 @@ final class Countdown_Helper {
 		$has_visible = false;
 		foreach ( self::UNITS as $unit ) {
 			$unit_conf = $units[ $unit ] ?? array();
-			if ( empty( $unit_conf['enabled'] ) ) {
+			if ( false === ( $unit_conf['enabled'] ?? false ) ) {
 				continue;
 			}
 

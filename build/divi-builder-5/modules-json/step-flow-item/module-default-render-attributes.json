@@ -1,0 +1,30 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Step Flow Item"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "title": "Step Title",
+          "label": "",
+          "description": "Describe this step.",
+          "markerType": "number",
+          "markerNumberOverride": "",
+          "markerIcon": "",
+          "markerImage": "",
+          "markerImageAlt": "",
+          "linkUrl": "",
+          "linkTarget": "_self"
+        }
+      }
+    }
+  }
+}

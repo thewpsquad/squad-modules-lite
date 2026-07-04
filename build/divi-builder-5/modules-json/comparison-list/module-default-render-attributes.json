@@ -1,0 +1,36 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Comparison List"
+        }
+      }
+    }
+  },
+  "comparisonList": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "includedIcon": "&#x4e;||divi||400",
+          "includedIconColor": "#2ecc71",
+          "excludedIcon": "&#x4d;||divi||400",
+          "excludedIconColor": "#e74c3c",
+          "neutralIcon": "&#x4b;||divi||400",
+          "neutralIconColor": "#9aa0a6",
+          "iconSize": "20px",
+          "iconPosition": "left",
+          "columns": "1",
+          "rowGap": "12px",
+          "rowDivider": "on",
+          "rowDividerColor": "#e5e7eb",
+          "rowDividerWidth": "1px",
+          "rowDividerStyle": "solid",
+          "rowBackground": "",
+          "rowBackgroundAlt": ""
+        }
+      }
+    }
+  }
+}

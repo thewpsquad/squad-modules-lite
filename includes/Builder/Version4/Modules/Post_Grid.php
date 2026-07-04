@@ -2583,7 +2583,7 @@ class Post_Grid extends Module {
 			return '';
 		}
 
-		$title_tag = isset( $attrs['element_title_tag'] ) ? sanitize_text_field( (string) $attrs['element_title_tag'] ) : 'span';
+		$title_tag = divi_squad()->d4_module_helper->sanitize_html_tag( isset( $attrs['element_title_tag'] ) ? (string) $attrs['element_title_tag'] : 'span', 'span' );
 		$content   = sprintf( '<span class="element-text">%s</span>', ucfirst( $post_title ) );
 
 		$title_icon = '';
@@ -2933,7 +2933,7 @@ class Post_Grid extends Module {
 			return '';
 		}
 
-		$categories_separator = isset( $attrs['element_categories_sepa'] ) ? (string) $attrs['element_categories_sepa'] : '';
+		$categories_separator = isset( $attrs['element_categories_sepa'] ) ? esc_html( (string) $attrs['element_categories_sepa'] ) : '';
 		$link_enabled         = isset( $attrs['link_to_categories__enable'] ) && 'on' === $attrs['link_to_categories__enable'];
 
 		$category_links = array();
@@ -2977,7 +2977,7 @@ class Post_Grid extends Module {
 			return '';
 		}
 
-		$tags_separator = isset( $attrs['element_tags_sepa'] ) ? (string) $attrs['element_tags_sepa'] : '';
+		$tags_separator = isset( $attrs['element_tags_sepa'] ) ? esc_html( (string) $attrs['element_tags_sepa'] ) : '';
 		$link_enabled   = isset( $attrs['link_to_tags__enable'] ) && 'on' === $attrs['link_to_tags__enable'];
 
 		$tag_links = array();

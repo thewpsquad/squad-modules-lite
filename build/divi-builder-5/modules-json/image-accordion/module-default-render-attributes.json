@@ -1,0 +1,26 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Image Accordion"
+        }
+      }
+    }
+  },
+  "accordion": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "orientation": "horizontal",
+          "expandTrigger": "click",
+          "defaultActive": "1",
+          "collapsedSize": "60px",
+          "overlayBackground": "rgba(0,0,0,0.6)",
+          "overlayOpacity": "60"
+        }
+      }
+    }
+  }
+}

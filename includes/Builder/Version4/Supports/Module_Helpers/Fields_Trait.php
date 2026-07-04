@@ -58,6 +58,28 @@ trait Fields_Trait {
 	}
 
 	/**
+	 * Validate a user-supplied HTML tag name against the allowed tag list.
+	 *
+	 * Tag-name select fields are only enforced in the Visual Builder UI; a
+	 * crafted layout import / REST payload can carry an arbitrary string. Using
+	 * such a value as a literal tag name is an XSS vector that `esc_attr()` /
+	 * `wp_kses_post()` do NOT neutralize (neither strips a space or `=`). Always
+	 * pass tag props through this before interpolating them into markup.
+	 *
+	 * @since 4.4.1
+	 *
+	 * @param string $tag     The requested tag name.
+	 * @param string $default Fallback when the tag is not allowed.
+	 *
+	 * @return string A safe tag name guaranteed to be in the allowed list.
+	 */
+	public function sanitize_html_tag( string $tag, string $default = 'div' ): string {
+		$allowed = array_keys( $this->get_html_tag_elements() );
+
+		return in_array( $tag, $allowed, true ) ? $tag : $default;
+	}
+
+	/**
 	 * Default fields for Heading toggles.
 	 *
 	 * @param string $field_label The heading toggle label name.

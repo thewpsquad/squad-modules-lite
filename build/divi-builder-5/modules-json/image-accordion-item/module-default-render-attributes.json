@@ -1,0 +1,22 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Panel"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "image": "",
+          "label": "Panel"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Text Effects"
+        }
+      }
+    }
+  },
+  "content": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "textContent": "Your Effect Text",
+          "textTag": "h2",
+          "styleType": "image_mask",
+          "maskImage": "",
+          "strokeWidth": "2px",
+          "strokeColor": "#2ea3f2",
+          "fillColor": "",
+          "gradientType": "linear",
+          "gradientDirection": "90deg",
+          "gradientStart": "#1f7016",
+          "gradientEnd": "#29c4a9",
+          "animationSpeed": "4",
+          "pauseOnHover": "off"
+        }
+      }
+    }
+  }
+}

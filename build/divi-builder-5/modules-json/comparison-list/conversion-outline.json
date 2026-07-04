@@ -1,0 +1,40 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "list": "css.*.list",
+    "row": "css.*.row"
+  },
+  "module": {
+    "included_icon": "comparisonList.innerContent.*.includedIcon",
+    "included_icon_color": "comparisonList.innerContent.*.includedIconColor",
+    "excluded_icon": "comparisonList.innerContent.*.excludedIcon",
+    "excluded_icon_color": "comparisonList.innerContent.*.excludedIconColor",
+    "neutral_icon": "comparisonList.innerContent.*.neutralIcon",
+    "neutral_icon_color": "comparisonList.innerContent.*.neutralIconColor",
+    "icon_size": "comparisonList.innerContent.*.iconSize",
+    "icon_position": "comparisonList.innerContent.*.iconPosition",
+    "columns": "comparisonList.innerContent.*.columns",
+    "row_gap": "comparisonList.innerContent.*.rowGap",
+    "row_divider": "comparisonList.innerContent.*.rowDivider",
+    "row_divider_color": "comparisonList.innerContent.*.rowDividerColor",
+    "row_divider_width": "comparisonList.innerContent.*.rowDividerWidth",
+    "row_divider_style": "comparisonList.innerContent.*.rowDividerStyle",
+    "row_background": "comparisonList.innerContent.*.rowBackground",
+    "row_background_alt": "comparisonList.innerContent.*.rowBackgroundAlt"
+  }
+}

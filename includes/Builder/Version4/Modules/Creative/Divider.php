@@ -1734,6 +1734,8 @@ class Divider extends Module {
 
 		return (string) $multi_view->render_element(
 			array(
+				// Divi's multi-view sanitizes 'tag' via et_core_sanitize_element_tag().
+				'tag'     => $this->prop( 'divider_icon_text_tag', 'span' ),
 				'content' => '{{divider_icon_text}}',
 				'attrs'   => array(
 					'class'          => 'divider-icon-text',

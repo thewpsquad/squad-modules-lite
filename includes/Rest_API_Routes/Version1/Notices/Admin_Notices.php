@@ -79,35 +79,35 @@ class Admin_Notices extends Base_Route {
 			),
 			'/notice/review/done'          => array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'mark_review_done' ),
 					'permission_callback' => array( $this, 'check_admin_permissions' ),
 				),
 			),
 			'/notice/review/next-week'     => array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'set_review_reminder' ),
 					'permission_callback' => array( $this, 'check_admin_permissions' ),
 				),
 			),
 			'/notice/review/close'         => array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'increment_close_count' ),
 					'permission_callback' => array( $this, 'check_admin_permissions' ),
 				),
 			),
 			'/notice/pro-activation/close' => array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'close_activation_notice' ),
 					'permission_callback' => array( $this, 'check_admin_permissions' ),
 				),
 			),
 			'/notice/discount/close'       => array(
 				array(
-					'methods'             => WP_REST_Server::READABLE,
+					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'mark_discount_notice_done' ),
 					'permission_callback' => array( $this, 'check_admin_permissions' ),
 				),

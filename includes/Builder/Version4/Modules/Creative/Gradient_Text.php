@@ -200,7 +200,7 @@ class Gradient_Text extends Module {
 			return '';
 		}
 
-		$gradient_text_tag  = $this->prop( 'gradient_text_tag', 'p' );
+		$gradient_text_tag  = divi_squad()->d4_module_helper->sanitize_html_tag( $this->prop( 'gradient_text_tag', 'p' ), 'p' );
 		$gradient_texts     = divi_squad()->d4_module_helper->decode_json_data( $this->prop( 'gradient_text', array() ) );
 		$gradient_text_html = '';
 

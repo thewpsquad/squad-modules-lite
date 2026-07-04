@@ -1,14 +1,14 @@
 # Copyright (C) 2026 The WP Squad <support@squadmodules.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: Squad Modules Lite-4.3.1\n"
+"Project-Id-Version: Squad Modules Lite-4.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/squad-modules-for-divi\n"
 "Last-Translator: The WP Squad <support@squadmodules.com>\n"
 "Language-Team: The WP Squad <support@squadmodules.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-30T03:57:38+00:00\n"
+"POT-Creation-Date: 2026-07-03T19:58:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: squad-modules-for-divi\n"
@@ -156,6 +156,7 @@ msgstr ""
 #: deprecated/Base/DiviBuilder/Module/FormStyler.php:144
 #: includes/Builder/Version4/Abstracts/Module/Form_Styler.php:147
 #: includes/Builder/Version4/Modules/Content/Social_Share.php:104
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:199
 #: includes/Builder/Version4/Modules/Creative/Chat_Button_Channel.php:120
 #: includes/Builder/Version4/Modules/Forms/Contact_Form_7.php:598
 #: includes/Builder/Version4/Modules/Forms/Fluent_Forms.php:552
@@ -171,6 +172,9 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:109
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:147
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:162
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:67
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:88
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:121
 msgid "Label"
 msgstr ""
 
@@ -1034,6 +1038,7 @@ msgstr ""
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:180
 #: includes/Builder/Version4/Modules/Content/Skill_Bar_Item.php:195
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:239
 #: includes/Builder/Version4/Supports/Module_Helpers/Fields_Trait.php:229
 msgid "Fill Color"
 msgstr ""
@@ -1046,11 +1051,13 @@ msgid "Pick a color to use."
 msgstr ""
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:191
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:229
 #: includes/Builder/Version4/Supports/Module_Helpers/Fields_Trait.php:240
 msgid "Stroke Color"
 msgstr ""
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:201
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:212
 #: includes/Builder/Version4/Modules/Creative/Text_Highlighter.php:289
 #: includes/Builder/Version4/Supports/Module_Helpers/Fields_Trait.php:250
 msgid "Stroke Width"
@@ -1122,6 +1129,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Hover_Box.php:74
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:64
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:120
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:134
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:126
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:138
 #: includes/Builder/Version4/Modules/Creative/Advanced_Button.php:65
@@ -1257,6 +1265,7 @@ msgstr ""
 
 #: deprecated/Base/DiviBuilder/Utils/FieldsTrait.php:596
 #: deprecated/Modules/PostGridChild.php:775
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:225
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1707
 #: includes/Builder/Version4/Modules/Content/Hover_Box.php:400
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:301
@@ -1608,6 +1617,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Business_Hours.php:65
 #: includes/Builder/Version4/Modules/Content/Business_Hours.php:88
 #: includes/Builder/Version4/Modules/Content/Business_Hours.php:214
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:113
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:232
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:260
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1500
@@ -1618,6 +1628,9 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Skill_Bar.php:48
 #: includes/Builder/Version4/Modules/Content/Skill_Bar.php:70
 #: includes/Builder/Version4/Modules/Content/Skill_Bar.php:96
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:79
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:96
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:182
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:97
 #: includes/Builder/Version4/Modules/Creative/Number_Counter.php:65
 #: includes/Builder/Version4/Modules/Creative/Number_Counter.php:233
@@ -1646,6 +1659,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:76
 #: includes/Builder/Version4/Modules/Content/Hover_Box.php:65
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:56
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:71
 #: includes/Builder/Version4/Modules/Content/Team_Member_Item.php:69
 #: includes/Builder/Version4/Modules/Content/Testimonial_Item.php:55
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:57
@@ -2459,7 +2473,7 @@ msgid "The Squad Modules Lite have transformed our website. The interface is int
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Auth/Login_Form.php:54
-#: includes/Integrations/Builder.php:1272
+#: includes/Integrations/Builder.php:1348
 msgid "Login Form"
 msgstr ""
 
@@ -2478,10 +2492,12 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:53
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:101
 #: includes/Builder/Version4/Modules/Content/Author_Box.php:241
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:120
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:63
 #: includes/Builder/Version4/Modules/Content/Pricing_Table.php:48
 #: includes/Builder/Version4/Modules/Content/Skill_Bar.php:49
 #: includes/Builder/Version4/Modules/Content/Social_Share.php:85
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:80
 #: includes/Builder/Version4/Modules/Content/Team_Member.php:48
 #: includes/Builder/Version4/Modules/Content/Team_Member_Item.php:75
 #: includes/Builder/Version4/Modules/Content/Testimonial.php:48
@@ -2713,7 +2729,7 @@ msgid "Login failed. Please try again."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Auth/Lost_Password_Form.php:39
-#: includes/Integrations/Builder.php:1304
+#: includes/Integrations/Builder.php:1380
 msgid "Lost Password Form"
 msgstr ""
 
@@ -2761,7 +2777,7 @@ msgid "Back to login"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Auth/Register_Form.php:52
-#: includes/Integrations/Builder.php:1288
+#: includes/Integrations/Builder.php:1364
 msgid "Register Form"
 msgstr ""
 
@@ -2818,7 +2834,7 @@ msgid "Already have an account? Log in"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Auth/Reset_Password_Form.php:39
-#: includes/Integrations/Builder.php:1320
+#: includes/Integrations/Builder.php:1396
 msgid "Reset Password Form"
 msgstr ""
 
@@ -2865,7 +2881,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:39
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:40
-#: includes/Integrations/Builder.php:718
+#: includes/Integrations/Builder.php:778
 msgid "Advanced Tabs"
 msgstr ""
 
@@ -2881,7 +2897,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs_Item.php:37
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs_Item.php:52
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs_Item.php:99
-#: includes/Integrations/Builder.php:721
+#: includes/Integrations/Builder.php:781
 msgid "Tab"
 msgstr ""
 
@@ -2891,18 +2907,22 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:105
 #: includes/Builder/Version4/Modules/Content/Author_Box.php:245
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:125
 #: includes/Builder/Version4/Modules/Content/Timeline.php:133
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:594
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:297
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:117
 #: includes/Builder/Version4/Modules/Media/Image_Mask.php:274
 msgid "Horizontal"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:106
 #: includes/Builder/Version4/Modules/Content/Author_Box.php:246
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:124
 #: includes/Builder/Version4/Modules/Content/Timeline.php:132
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:595
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:298
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:118
 #: includes/Builder/Version4/Modules/Media/Image_Mask.php:278
 msgid "Vertical"
 msgstr ""
@@ -2916,6 +2936,7 @@ msgid "Horizontal alignment of the tab buttons."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:119
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:245
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1221
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:263
 #: includes/Builder/Version4/Modules/Content/Timeline.php:146
@@ -2929,6 +2950,7 @@ msgid "Left"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Advanced_Tabs.php:121
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:246
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1220
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:264
 #: includes/Builder/Version4/Modules/Content/Timeline.php:147
@@ -3496,15 +3518,97 @@ msgstr ""
 msgid "Here you can choose whether or not show the separator for day text."
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Content/Data_Table.php:46
-#: includes/Integrations/Builder.php:602
-msgid "Data Table"
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:105
+#: includes/Integrations/Builder.php:662
+msgid "Comparison List"
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Content/Data_Table.php:47
-msgid "Data Tables"
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:106
+msgid "Comparison Lists"
 msgstr ""
 
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:119
+#: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:62
+msgid "Icons"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:121
+msgid "Rows"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:145
+#: includes/Builder/Version4/Modules/Creative/Table_Of_Contents.php:74
+#: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:161
+#: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:149
+msgid "List"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:149
+#: includes/Builder/Version4/Modules/Content/Data_Table_Row.php:57
+msgid "Row"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:165
+msgid "Included Icon"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:166
+msgid "Icon shown on rows marked as included."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:176
+msgid "Included Icon Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:178
+msgid "Color of the included-row icon."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:185
+msgid "Excluded Icon"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:186
+msgid "Icon shown on rows marked as excluded."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:196
+msgid "Excluded Icon Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:198
+msgid "Color of the excluded-row icon."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:205
+msgid "Neutral Icon"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:206
+msgid "Icon shown on rows marked as neutral."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:216
+msgid "Neutral Icon Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:218
+msgid "Color of the neutral-row icon."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:227
+msgid "Size applied to all three status icons."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:241
+msgid "Icon Position"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:243
+msgid "Place the status icon before or after the feature label."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:255
 #: includes/Builder/Version4/Modules/Content/Data_Table.php:60
 #: includes/Builder/Version4/Modules/Content/Pricing_Table.php:80
 #: includes/Builder/Version4/Modules/Content/Social_Share.php:247
@@ -3512,6 +3616,132 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Testimonial.php:80
 #: includes/Builder/Version4/Modules/Media/Logo_Grid.php:113
 msgid "Columns"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:257
+msgid "Number of feature-row columns."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:274
+#: includes/Builder/Version4/Modules/Content/Pricing_Table.php:103
+#: includes/Builder/Version4/Modules/Content/Team_Member.php:103
+#: includes/Builder/Version4/Modules/Content/Testimonial.php:103
+#: includes/Builder/Version4/Modules/Creative/Inline_Content.php:127
+msgid "Row Gap"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:276
+msgid "Vertical space between feature rows."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:291
+msgid "Show Row Divider"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:293
+msgid "Draw a divider line between feature rows."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:301
+msgid "Row Divider Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:303
+msgid "Color of the row divider line."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:311
+msgid "Row Divider Width"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:313
+msgid "Thickness of the row divider line."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:328
+msgid "Row Divider Style"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:330
+msgid "Line style of the row divider."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:332
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:163
+msgid "Solid"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:333
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:164
+msgid "Dashed"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:334
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:165
+msgid "Dotted"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:343
+msgid "Row Background Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:345
+msgid "Background color applied to every row."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:352
+msgid "Alternate Row Background Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List.php:354
+msgid "Zebra-stripe background applied to every even row."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:53
+#: includes/Integrations/Builder.php:665
+msgid "Comparison List Item"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:54
+msgid "Comparison List Items"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:68
+msgid "Feature"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:99
+#: includes/Core/Requirements/Admin_Page.php:221
+msgid "Status"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:101
+msgid "Whether this feature is included, excluded, or neutral. The parent module supplies the icon and color for each state."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:103
+msgid "Included"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:104
+msgid "Excluded"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:105
+msgid "Neutral"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Comparison_List_Item.php:114
+msgid "The feature label shown for this row."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Data_Table.php:46
+#: includes/Integrations/Builder.php:642
+msgid "Data Table"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Data_Table.php:47
+msgid "Data Tables"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Data_Table.php:61
@@ -3624,16 +3854,12 @@ msgid "Text color of the body cells."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Data_Table_Row.php:42
-#: includes/Integrations/Builder.php:605
+#: includes/Integrations/Builder.php:645
 msgid "Data Table Row"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Data_Table_Row.php:43
 msgid "Data Table Rows"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Data_Table_Row.php:57
-msgid "Row"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Data_Table_Row.php:88
@@ -4093,6 +4319,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Content/Hover_Box.php:181
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:121
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:144
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:135
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:127
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:149
 #: includes/Builder/Version4/Modules/Creative/Floating_Image.php:53
@@ -4309,6 +4536,7 @@ msgid "Height of the hover box."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Hover_Box.php:371
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:164
 msgid "Overlay Background"
 msgstr ""
 
@@ -4317,6 +4545,7 @@ msgid "Background color of the hover overlay."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Hover_Box.php:380
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:173
 msgid "Overlay Opacity"
 msgstr ""
 
@@ -4337,7 +4566,7 @@ msgid "Horizontal alignment of overlay content."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:42
-#: includes/Integrations/Builder.php:700
+#: includes/Integrations/Builder.php:760
 msgid "Icon Box"
 msgstr ""
 
@@ -4356,6 +4585,7 @@ msgid "Badge"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Icon_Box.php:58
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:73
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:59
 #: includes/Builder/Version4/Modules/Creative/Advanced_Button.php:66
 #: includes/Builder/Version4/Modules/Creative/Floating_Image.php:56
@@ -4507,7 +4737,7 @@ msgid "Size of the font icon."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Pricing_Table.php:34
-#: includes/Integrations/Builder.php:682
+#: includes/Integrations/Builder.php:742
 msgid "Pricing Table"
 msgstr ""
 
@@ -4530,13 +4760,6 @@ msgstr ""
 msgid "Horizontal gap between plans."
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Content/Pricing_Table.php:103
-#: includes/Builder/Version4/Modules/Content/Team_Member.php:103
-#: includes/Builder/Version4/Modules/Content/Testimonial.php:103
-#: includes/Builder/Version4/Modules/Creative/Inline_Content.php:127
-msgid "Row Gap"
-msgstr ""
-
 #: includes/Builder/Version4/Modules/Content/Pricing_Table.php:105
 #: includes/Builder/Version4/Modules/Content/Team_Member.php:105
 #: includes/Builder/Version4/Modules/Content/Testimonial.php:105
@@ -4544,7 +4767,7 @@ msgid "Vertical gap between rows."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Pricing_Table_Item.php:39
-#: includes/Integrations/Builder.php:685
+#: includes/Integrations/Builder.php:745
 msgid "Pricing Plan"
 msgstr ""
 
@@ -4604,6 +4827,9 @@ msgid "/mo"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Pricing_Table_Item.php:136
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:80
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:105
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:190
 #: includes/Builder/Version4/Modules/Forms/Forminator.php:550
 #: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:141
 #: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:152
@@ -4669,7 +4895,7 @@ msgid "Used for the button, ribbon and featured highlight."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Skill_Bar.php:34
-#: includes/Integrations/Builder.php:622
+#: includes/Integrations/Builder.php:682
 msgid "Skill Bar"
 msgstr ""
 
@@ -4698,7 +4924,7 @@ msgid "Gap below the title."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Skill_Bar_Item.php:34
-#: includes/Integrations/Builder.php:625
+#: includes/Integrations/Builder.php:685
 msgid "Skill Bar Item"
 msgstr ""
 
@@ -4822,7 +5048,7 @@ msgid "Optional CSS gradient for the fill (overrides Fill Color)."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Social_Share.php:64
-#: includes/Integrations/Builder.php:738
+#: includes/Integrations/Builder.php:798
 msgid "Social Share"
 msgstr ""
 
@@ -4836,6 +5062,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Social_Share.php:87
 #: includes/Builder/Version4/Modules/Creative/Countdown_Timer.php:68
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:72
 msgid "Label Text"
 msgstr ""
 
@@ -4937,7 +5164,9 @@ msgid "Open the share dialog in a centered popup window."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Social_Share.php:234
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:120
 #: includes/Builder/Version4/Modules/Content/Timeline.php:128
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:113
 #: includes/Builder/Version4/Modules/Media/Image_Gallery.php:285
 msgid "Orientation"
 msgstr ""
@@ -5083,10 +5312,230 @@ msgstr ""
 msgid "Share on %s"
 msgstr ""
 
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:66
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:105
+#: includes/Integrations/Builder.php:582
+msgid "Step Flow"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:67
+msgid "Step Flows"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:81
+#: includes/Builder/Version4/Modules/Content/Timeline.php:61
+msgid "Scroll Reveal"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:86
+msgid "Connector"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:122
+msgid "Lay the steps out vertically or horizontally."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:133
+#: includes/Builder/Version4/Modules/Content/Timeline.php:156
+msgid "Reveal On Scroll"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:135
+msgid "Animate steps into view as they scroll onto the screen."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:142
+msgid "Reveal Delay (ms)"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:144
+msgid "Per-step stagger delay when revealing on scroll."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:159
+msgid "Connector Line Style"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:161
+msgid "Line style of the connector between steps."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:173
+msgid "Connector Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:175
+msgid "Color of the connector line between steps."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:181
+msgid "Connector Width"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:183
+msgid "Thickness of the connector line."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:195
+msgid "Show Arrow"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow.php:197
+msgid "Render an arrowhead at the end of each connector segment."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:56
+msgid "Step Flow Item"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:57
+msgid "Step Flow Items"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:72
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:78
+#: includes/Builder/Version4/Modules/Content/Timeline.php:67
+#: includes/Builder/Version4/Modules/Content/Timeline.php:108
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:58
+#: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:63
+#: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:92
+#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:58
+msgid "Marker"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:129
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:122
+#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:124
+msgid "Marker Type"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:131
+msgid "What to display in the step marker."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:133
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:128
+#: includes/Builder/Version4/Modules/Creative/Number_Counter.php:64
+#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:130
+#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:150
+msgid "Number"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:144
+msgid "Marker Number Override"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:145
+msgid "Leave empty to auto-number this step by its position."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:153
+msgid "Marker Icon"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:154
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:139
+#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:140
+msgid "Pick an icon for the marker."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:164
+msgid "Marker Image"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:166
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:151
+msgid "Upload or select an image for the marker."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:173
+msgid "Marker Image Alt Text"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:174
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:159
+msgid "Alternative text for the marker image."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:183
+msgid "Heading shown for this step."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:191
+msgid "Body text for this step."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:200
+msgid "Optional short tag shown above the title, e.g. \"Week 1\"."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:207
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:176
+#: includes/Builder/Version4/Modules/Creative/Floating_Image.php:234
+#: includes/Builder/Version4/Modules/Creative/Image_Reveal.php:123
+msgid "Link URL"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:208
+msgid "Optional URL for a per-step call to action. Leave empty for no link."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:215
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:184
+msgid "Link Target"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:217
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:186
+#: includes/Builder/Version4/Modules/Media/Logo_Carousel_Item.php:119
+#: includes/Builder/Version4/Modules/Media/Logo_Grid_Item.php:124
+msgid "Open the link in the same tab or a new tab."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:219
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:188
+#: includes/Builder/Version4/Modules/Media/Image_Carousel_Item.php:219
+#: includes/Builder/Version4/Modules/Media/Logo_Carousel_Item.php:121
+#: includes/Builder/Version4/Modules/Media/Logo_Grid_Item.php:126
+msgid "Same Window"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:220
+#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:189
+#: includes/Builder/Version4/Modules/Media/Image_Carousel_Item.php:220
+#: includes/Builder/Version4/Modules/Media/Logo_Carousel_Item.php:122
+#: includes/Builder/Version4/Modules/Media/Logo_Grid_Item.php:127
+msgid "New Window"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:228
+msgid "Marker Size"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:230
+msgid "Diameter of the step marker."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:242
+msgid "Marker Icon/Number Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:244
+msgid "Color of the marker glyph."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:250
+msgid "Marker Background Color"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Content/Step_Flow_Item.php:252
+msgid "Background color of the marker."
+msgstr ""
+
 #: includes/Builder/Version4/Modules/Content/Team_Member.php:34
 #: includes/Builder/Version4/Modules/Content/Team_Member_Item.php:54
-#: includes/Integrations/Builder.php:642
-#: includes/Integrations/Builder.php:645
+#: includes/Integrations/Builder.php:702
+#: includes/Integrations/Builder.php:705
 msgid "Team Member"
 msgstr ""
 
@@ -5187,8 +5636,8 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Testimonial.php:34
 #: includes/Builder/Version4/Modules/Content/Testimonial_Item.php:40
-#: includes/Integrations/Builder.php:662
-#: includes/Integrations/Builder.php:665
+#: includes/Integrations/Builder.php:722
+#: includes/Integrations/Builder.php:725
 msgid "Testimonial"
 msgstr ""
 
@@ -5300,7 +5749,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline.php:46
 #: includes/Builder/Version4/Modules/Content/Timeline.php:100
-#: includes/Integrations/Builder.php:542
+#: includes/Integrations/Builder.php:562
 msgid "Timeline"
 msgstr ""
 
@@ -5308,23 +5757,10 @@ msgstr ""
 msgid "Timelines"
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Content/Timeline.php:61
-msgid "Scroll Reveal"
-msgstr ""
-
 #: includes/Builder/Version4/Modules/Content/Timeline.php:66
 #: includes/Builder/Version4/Modules/Content/Timeline.php:104
 #: includes/Builder/Version4/Modules/Creative/Charts.php:98
 msgid "Line"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline.php:67
-#: includes/Builder/Version4/Modules/Content/Timeline.php:108
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:58
-#: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:63
-#: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:92
-#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:58
-msgid "Marker"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline.php:68
@@ -5348,10 +5784,6 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline.php:145
 msgid "Alternating"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline.php:156
-msgid "Reveal On Scroll"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline.php:158
@@ -5380,7 +5812,7 @@ msgid "Color of the item markers (dots, numbers, icons)."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:42
-#: includes/Integrations/Builder.php:545
+#: includes/Integrations/Builder.php:565
 msgid "Timeline Item"
 msgstr ""
 
@@ -5404,38 +5836,13 @@ msgstr ""
 msgid "Body text for the event card."
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:122
-#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:124
-msgid "Marker Type"
-msgstr ""
-
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:124
 msgid "What to display in the timeline marker."
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:128
-#: includes/Builder/Version4/Modules/Creative/Number_Counter.php:64
-#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:130
-#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:150
-msgid "Number"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:129
 #: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:128
 msgid "Dot"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:139
-#: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:140
-msgid "Pick an icon for the marker."
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:151
-msgid "Upload or select an image for the marker."
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:159
-msgid "Alternative text for the marker image."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:167
@@ -5447,38 +5854,8 @@ msgstr ""
 msgid "Number or short text shown inside the marker."
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:176
-#: includes/Builder/Version4/Modules/Creative/Floating_Image.php:234
-#: includes/Builder/Version4/Modules/Creative/Image_Reveal.php:123
-msgid "Link URL"
-msgstr ""
-
 #: includes/Builder/Version4/Modules/Content/Timeline_Item.php:177
 msgid "URL the card links to. Leave empty for no link."
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:184
-msgid "Link Target"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:186
-#: includes/Builder/Version4/Modules/Media/Logo_Carousel_Item.php:119
-#: includes/Builder/Version4/Modules/Media/Logo_Grid_Item.php:124
-msgid "Open the link in the same tab or a new tab."
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:188
-#: includes/Builder/Version4/Modules/Media/Image_Carousel_Item.php:219
-#: includes/Builder/Version4/Modules/Media/Logo_Carousel_Item.php:121
-#: includes/Builder/Version4/Modules/Media/Logo_Grid_Item.php:126
-msgid "Same Window"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Content/Timeline_Item.php:189
-#: includes/Builder/Version4/Modules/Media/Image_Carousel_Item.php:220
-#: includes/Builder/Version4/Modules/Media/Logo_Carousel_Item.php:122
-#: includes/Builder/Version4/Modules/Media/Logo_Grid_Item.php:127
-msgid "New Window"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Advanced_Button.php:46
@@ -5592,7 +5969,7 @@ msgid "Horizontal alignment of the button within its container."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Advanced_Video.php:40
-#: includes/Integrations/Builder.php:1051
+#: includes/Integrations/Builder.php:1127
 msgid "Advanced Video"
 msgstr ""
 
@@ -5842,7 +6219,7 @@ msgid "Sticky Drop Shadow"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Animated_Heading.php:39
-#: includes/Integrations/Builder.php:1240
+#: includes/Integrations/Builder.php:1316
 msgid "Animated Heading"
 msgstr ""
 
@@ -5853,6 +6230,9 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Creative/Animated_Heading.php:55
 #: includes/Builder/Version4/Modules/Creative/Inline_Content_Item.php:62
 #: includes/Builder/Version4/Modules/Creative/Inline_Content_Item.php:81
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:87
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:135
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:151
 #: includes/Builder/Version4/Modules/Creative/Text_Highlighter.php:60
 #: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:170
 #: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:158
@@ -6082,16 +6462,12 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:43
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:44
-#: includes/Integrations/Builder.php:898
+#: includes/Integrations/Builder.php:974
 msgid "Breadcrumbs"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:61
 msgid "Text Content"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:62
-msgid "Icons"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Breadcrumbs.php:68
@@ -6169,7 +6545,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Charts.php:43
 #: includes/Builder/Version4/Modules/Creative/Charts.php:44
-#: includes/Integrations/Builder.php:966
+#: includes/Integrations/Builder.php:1042
 msgid "Charts"
 msgstr ""
 
@@ -6275,7 +6651,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Chat_Button.php:50
 #: includes/Builder/Version4/Modules/Creative/Chat_Button.php:103
-#: includes/Integrations/Builder.php:582
+#: includes/Integrations/Builder.php:622
 msgid "Chat Button"
 msgstr ""
 
@@ -6289,6 +6665,10 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Chat_Button.php:65
 #: includes/Builder/Version4/Modules/Creative/Chat_Button.php:111
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:70
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:97
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:124
+#: includes/Integrations/Builder.php:545
 msgid "Panel"
 msgstr ""
 
@@ -6379,7 +6759,7 @@ msgid "Background color of the floating button."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Chat_Button_Channel.php:41
-#: includes/Integrations/Builder.php:585
+#: includes/Integrations/Builder.php:625
 msgid "Chat Button Channel"
 msgstr ""
 
@@ -6444,7 +6824,7 @@ msgid "Accent color for this channel row."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Countdown_Timer.php:44
-#: includes/Integrations/Builder.php:949
+#: includes/Integrations/Builder.php:1025
 msgid "Countdown Timer"
 msgstr ""
 
@@ -6995,6 +7375,7 @@ msgid "Delay the lottie animation (in ms)."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Divider.php:954
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:272
 #: includes/Builder/Version4/Modules/Media/Lottie.php:287
 msgid "Animation Speed"
 msgstr ""
@@ -7097,7 +7478,7 @@ msgid "Here you can choose lottie height."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Drop_Cap_Text.php:43
-#: includes/Integrations/Builder.php:1017
+#: includes/Integrations/Builder.php:1093
 msgid "Drop Cap Text"
 msgstr ""
 
@@ -7290,14 +7671,14 @@ msgid "Right Button Link Target"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Floating_Image.php:38
-#: includes/Integrations/Builder.php:1225
+#: includes/Integrations/Builder.php:1301
 msgid "Floating Image"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Floating_Image.php:39
 #: includes/Builder/Version4/Modules/Creative/Floating_Images.php:33
 #: includes/Builder/Version4/Modules/Creative/Floating_Images.php:34
-#: includes/Integrations/Builder.php:1222
+#: includes/Integrations/Builder.php:1298
 msgid "Floating Images"
 msgstr ""
 
@@ -7397,7 +7778,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Creative/Glitch_Text.php:62
 #: includes/Builder/Version4/Modules/Creative/Glitch_Text.php:100
 #: includes/Builder/Version4/Modules/Creative/Glitch_Text.php:117
-#: includes/Integrations/Builder.php:831
+#: includes/Integrations/Builder.php:891
 msgid "Glitch Text"
 msgstr ""
 
@@ -7407,6 +7788,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Glitch_Text.php:56
 #: includes/Builder/Version4/Modules/Creative/Gradient_Text.php:59
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:79
 msgid "Main Content"
 msgstr ""
 
@@ -7487,7 +7869,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Creative/Gradient_Text.php:65
 #: includes/Builder/Version4/Modules/Creative/Gradient_Text.php:113
 #: includes/Builder/Version4/Modules/Creative/Gradient_Text.php:129
-#: includes/Integrations/Builder.php:848
+#: includes/Integrations/Builder.php:908
 msgid "Gradient Text"
 msgstr ""
 
@@ -7513,11 +7895,12 @@ msgid "Choose a tag to display with your gradient text."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Gradient_Text.php:152
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:254
 msgid "Gradient Colors"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Image_Reveal.php:41
-#: includes/Integrations/Builder.php:1256
+#: includes/Integrations/Builder.php:1332
 msgid "Image Reveal"
 msgstr ""
 
@@ -7662,7 +8045,7 @@ msgid "Scale factor applied on hover."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Inline_Content.php:35
-#: includes/Integrations/Builder.php:1202
+#: includes/Integrations/Builder.php:1278
 msgid "Inline Content"
 msgstr ""
 
@@ -7707,7 +8090,7 @@ msgid "Vertical gap when items wrap to a new row."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Inline_Content_Item.php:41
-#: includes/Integrations/Builder.php:1205
+#: includes/Integrations/Builder.php:1281
 msgid "Inline Content Item"
 msgstr ""
 
@@ -7716,7 +8099,7 @@ msgid "Inline Content Items"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Number_Counter.php:48
-#: includes/Integrations/Builder.php:932
+#: includes/Integrations/Builder.php:1008
 msgid "Number Counter"
 msgstr ""
 
@@ -7899,7 +8282,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Reading_Progress.php:44
 #: includes/Builder/Version4/Modules/Creative/Reading_Progress.php:45
-#: includes/Integrations/Builder.php:983
+#: includes/Integrations/Builder.php:1059
 msgid "Reading Progress"
 msgstr ""
 
@@ -8013,7 +8396,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Creative/Scrolling_Text.php:63
 #: includes/Builder/Version4/Modules/Creative/Scrolling_Text.php:107
 #: includes/Builder/Version4/Modules/Creative/Scrolling_Text.php:123
-#: includes/Integrations/Builder.php:864
+#: includes/Integrations/Builder.php:940
 msgid "Scrolling Text"
 msgstr ""
 
@@ -8034,6 +8417,7 @@ msgid "The text will appear in with your scrolling text."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Scrolling_Text.php:132
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:160
 msgid "Text Tag"
 msgstr ""
 
@@ -8084,7 +8468,7 @@ msgid "Choose the speed for your scrolling text in milliseconds."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Star_Rating.php:41
-#: includes/Integrations/Builder.php:881
+#: includes/Integrations/Builder.php:957
 msgid "Star Rating"
 msgstr ""
 
@@ -8252,7 +8636,7 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Creative/Table_Of_Contents.php:156
 #: includes/Builder/Version4/Modules/Creative/Table_Of_Contents.php:400
 #: includes/Builder/Version5/Modules/Creative/Table_Of_Contents.php:211
-#: includes/Integrations/Builder.php:915
+#: includes/Integrations/Builder.php:991
 #: build/divi-builder-4/scripts/builder-bundle.js:1
 msgid "Table of Contents"
 msgstr ""
@@ -8263,12 +8647,6 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Table_Of_Contents.php:65
 msgid "Headings"
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Creative/Table_Of_Contents.php:74
-#: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:161
-#: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:149
-msgid "List"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Creative/Table_Of_Contents.php:132
@@ -8423,8 +8801,79 @@ msgstr ""
 msgid "Vertical gap between links."
 msgstr ""
 
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:61
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:62
+#: includes/Integrations/Builder.php:924
+msgid "Text Effects"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:84
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:175
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:52
+#: includes/Integrations/Builder.php:375
+msgid "Image Mask"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:85
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:176
+msgid "Stroke"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:86
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:177
+msgid "Animated Gradient"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:152
+msgid "The headline text that will display the selected effect."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:162
+msgid "Choose a tag to display with your text."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:171
+msgid "Effect Style"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:173
+msgid "Choose which text effect to apply."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:200
+msgid "Mask Image"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:202
+msgid "Upload an image to fill the text glyphs."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:214
+msgid "Set the outline thickness for the text stroke."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:231
+msgid "Pick a color for the text stroke outline."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:241
+msgid "Optional fill color inside the stroke outline. Leave empty for a hollow/transparent fill."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:274
+msgid "Duration of one full gradient cycle, in seconds."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:290
+msgid "Pause On Hover"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Creative/Text_Effects.php:292
+msgid "Pause the gradient animation while the visitor hovers over the text."
+msgstr ""
+
 #: includes/Builder/Version4/Modules/Creative/Text_Highlighter.php:44
-#: includes/Integrations/Builder.php:1000
+#: includes/Integrations/Builder.php:1076
 msgid "Text Highlighter"
 msgstr ""
 
@@ -8837,7 +9286,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Contact_Form_7.php:59
 #: includes/Builder/Version4/Modules/Forms/Contact_Form_7.php:60
-#: includes/Integrations/Builder.php:756
+#: includes/Integrations/Builder.php:816
 msgid "Contact Form 7"
 msgstr ""
 
@@ -8959,7 +9408,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Fluent_Forms.php:59
 #: includes/Builder/Version4/Modules/Forms/Fluent_Forms.php:60
-#: includes/Integrations/Builder.php:1104
+#: includes/Integrations/Builder.php:1180
 msgid "Fluent Forms"
 msgstr ""
 
@@ -8977,7 +9426,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Formidable.php:59
 #: includes/Builder/Version4/Modules/Forms/Formidable.php:60
-#: includes/Integrations/Builder.php:1143
+#: includes/Integrations/Builder.php:1219
 msgid "Formidable Forms"
 msgstr ""
 
@@ -8995,7 +9444,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Forminator.php:59
 #: includes/Builder/Version4/Modules/Forms/Forminator.php:60
-#: includes/Integrations/Builder.php:1124
+#: includes/Integrations/Builder.php:1200
 msgid "Forminator"
 msgstr ""
 
@@ -9021,7 +9470,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:58
 #: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:59
-#: includes/Integrations/Builder.php:794
+#: includes/Integrations/Builder.php:854
 msgid "Gravity Forms"
 msgstr ""
 
@@ -9156,7 +9605,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Met_Form.php:59
 #: includes/Builder/Version4/Modules/Forms/Met_Form.php:60
-#: includes/Integrations/Builder.php:1162
+#: includes/Integrations/Builder.php:1238
 msgid "MetForm"
 msgstr ""
 
@@ -9174,7 +9623,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:54
 #: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:55
-#: includes/Integrations/Builder.php:1084
+#: includes/Integrations/Builder.php:1160
 msgid "Ninja Forms"
 msgstr ""
 
@@ -9228,7 +9677,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/Sure_Forms.php:59
 #: includes/Builder/Version4/Modules/Forms/Sure_Forms.php:60
-#: includes/Integrations/Builder.php:1181
+#: includes/Integrations/Builder.php:1257
 msgid "SureForms"
 msgstr ""
 
@@ -9246,7 +9695,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Forms/WP_Forms.php:59
 #: includes/Builder/Version4/Modules/Forms/WP_Forms.php:60
-#: includes/Integrations/Builder.php:776
+#: includes/Integrations/Builder.php:836
 msgid "WP Forms"
 msgstr ""
 
@@ -9263,7 +9712,7 @@ msgid "Choose the WPForm to display."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Maps/Google_Map.php:49
-#: includes/Integrations/Builder.php:1067
+#: includes/Integrations/Builder.php:1143
 msgid "Google Embed Map"
 msgstr ""
 
@@ -9390,6 +9839,7 @@ msgid "Drag"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:312
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:132
 #: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:131
 msgid "Hover"
 msgstr ""
@@ -9472,6 +9922,90 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:634
 msgid "Add before and after images for comprehension. You are see a preview."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:51
+#: includes/Integrations/Builder.php:542
+msgid "Image Accordion"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:52
+msgid "Image Accordions"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:65
+msgid "Accordion Settings"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:93
+msgid "Accordion"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:115
+msgid "Lay the panels out side-by-side (horizontal) or stacked (vertical)."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:127
+msgid "Expand Trigger"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:129
+msgid "What activates a panel: a click (works on touch) or a hover (desktop enhancement layered on top of click)."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:131
+#: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:132
+msgid "Click"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:141
+msgid "Default Active Panel"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:143
+msgid "Which panel is expanded by default (1 = first). Clamped to the number of panels."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:152
+msgid "Collapsed Size"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:154
+msgid "Thin-strip width (horizontal) / height (vertical) of inactive panels."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:166
+msgid "Scrim shown behind the nested content when a panel is active."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:175
+msgid "Opacity of the active-panel scrim."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion.php:203
+#: includes/Builder/Version5/Modules/Media/Image_Accordion.php:148
+msgid "Add at least one Image Accordion Item."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:51
+msgid "Image Accordion Item"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:52
+msgid "Image Accordion Items"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:66
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:113
+msgid "Panel Image"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:115
+msgid "Background image for this accordion panel. Required."
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Accordion_Item.php:122
+msgid "Persistent label shown on the collapsed strip and the expanded panel."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Image_Carousel.php:44
@@ -9855,7 +10389,7 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:43
 #: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:44
-#: includes/Integrations/Builder.php:562
+#: includes/Integrations/Builder.php:602
 msgid "Image Hotspots"
 msgstr ""
 
@@ -9880,10 +10414,6 @@ msgstr ""
 msgid "Show tooltips on hover or on click."
 msgstr ""
 
-#: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:132
-msgid "Click"
-msgstr ""
-
 #: includes/Builder/Version4/Modules/Media/Image_Hotspots.php:140
 msgid "Pin Color"
 msgstr ""
@@ -9893,7 +10423,7 @@ msgid "Color of the hotspot markers."
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:42
-#: includes/Integrations/Builder.php:565
+#: includes/Integrations/Builder.php:605
 msgid "Image Hotspot Pin"
 msgstr ""
 
@@ -9943,11 +10473,6 @@ msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Image_Hotspot_Pin.php:178
 msgid "Where the tooltip appears relative to the pin."
-msgstr ""
-
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:52
-#: includes/Integrations/Builder.php:375
-msgid "Image Mask"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Image_Mask.php:53
@@ -10481,7 +11006,7 @@ msgid "The title of your list item will appear in bold below your list item imag
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Media/Video_Popup.php:46
-#: includes/Integrations/Builder.php:1034
+#: includes/Integrations/Builder.php:1110
 msgid "Video Popup"
 msgstr ""
 
@@ -11158,7 +11683,7 @@ msgid "View all posts tagged %s"
 msgstr ""
 
 #: includes/Builder/Version4/Modules/Post_Reading_Time.php:50
-#: includes/Integrations/Builder.php:814
+#: includes/Integrations/Builder.php:874
 msgid "Post Reading Time"
 msgstr ""
 
@@ -11298,6 +11823,10 @@ msgstr ""
 msgid "Closed"
 msgstr ""
 
+#: includes/Builder/Version5/Modules/Content/Comparison_List.php:211
+msgid "Add at least one Comparison List Item."
+msgstr ""
+
 #: includes/Builder/Version5/Modules/Content/Data_Table.php:148
 msgid "Add at least one Data Table Row."
 msgstr ""
@@ -11312,6 +11841,10 @@ msgstr ""
 
 #: includes/Builder/Version5/Modules/Content/Social_Share.php:147
 msgid "Add at least one Social Share Item."
+msgstr ""
+
+#: includes/Builder/Version5/Modules/Content/Step_Flow.php:151
+msgid "Add at least one Step Flow Item."
 msgstr ""
 
 #: includes/Builder/Version5/Modules/Content/Team_Member.php:130
@@ -11567,14 +12100,14 @@ msgid "Field %s must be an array."
 msgstr ""
 
 #: includes/Core/Modules.php:1249
-#: includes/Integrations/Builder.php:1354
-#: includes/Integrations/Builder.php:1364
-#: includes/Integrations/Builder.php:1374
-#: includes/Integrations/Builder.php:1384
-#: includes/Integrations/Builder.php:1394
-#: includes/Integrations/Builder.php:1404
-#: includes/Integrations/Builder.php:1414
-#: includes/Integrations/Builder.php:1424
+#: includes/Integrations/Builder.php:1430
+#: includes/Integrations/Builder.php:1440
+#: includes/Integrations/Builder.php:1450
+#: includes/Integrations/Builder.php:1460
+#: includes/Integrations/Builder.php:1470
+#: includes/Integrations/Builder.php:1480
+#: includes/Integrations/Builder.php:1490
+#: includes/Integrations/Builder.php:1500
 msgid "Premium Modules"
 msgstr ""
 
@@ -11593,10 +12126,6 @@ msgstr ""
 
 #: includes/Core/Requirements/Admin_Page.php:220
 msgid "Requirement"
-msgstr ""
-
-#: includes/Core/Requirements/Admin_Page.php:221
-msgid "Status"
 msgstr ""
 
 #: includes/Core/Requirements/Admin_Page.php:222
@@ -12345,23 +12874,24 @@ msgstr ""
 #: includes/Integrations/Builder.php:263
 #: includes/Integrations/Builder.php:279
 #: includes/Integrations/Builder.php:366
-#: includes/Integrations/Builder.php:591
-#: includes/Integrations/Builder.php:839
-#: includes/Integrations/Builder.php:855
-#: includes/Integrations/Builder.php:872
-#: includes/Integrations/Builder.php:889
-#: includes/Integrations/Builder.php:906
-#: includes/Integrations/Builder.php:923
-#: includes/Integrations/Builder.php:940
-#: includes/Integrations/Builder.php:957
-#: includes/Integrations/Builder.php:974
-#: includes/Integrations/Builder.php:991
-#: includes/Integrations/Builder.php:1008
-#: includes/Integrations/Builder.php:1025
-#: includes/Integrations/Builder.php:1211
-#: includes/Integrations/Builder.php:1231
-#: includes/Integrations/Builder.php:1247
-#: includes/Integrations/Builder.php:1263
+#: includes/Integrations/Builder.php:631
+#: includes/Integrations/Builder.php:899
+#: includes/Integrations/Builder.php:915
+#: includes/Integrations/Builder.php:931
+#: includes/Integrations/Builder.php:948
+#: includes/Integrations/Builder.php:965
+#: includes/Integrations/Builder.php:982
+#: includes/Integrations/Builder.php:999
+#: includes/Integrations/Builder.php:1016
+#: includes/Integrations/Builder.php:1033
+#: includes/Integrations/Builder.php:1050
+#: includes/Integrations/Builder.php:1067
+#: includes/Integrations/Builder.php:1084
+#: includes/Integrations/Builder.php:1101
+#: includes/Integrations/Builder.php:1287
+#: includes/Integrations/Builder.php:1307
+#: includes/Integrations/Builder.php:1323
+#: includes/Integrations/Builder.php:1339
 msgid "Creative Modules"
 msgstr ""
 
@@ -12384,9 +12914,10 @@ msgstr ""
 #: includes/Integrations/Builder.php:491
 #: includes/Integrations/Builder.php:511
 #: includes/Integrations/Builder.php:531
-#: includes/Integrations/Builder.php:571
-#: includes/Integrations/Builder.php:1042
-#: includes/Integrations/Builder.php:1058
+#: includes/Integrations/Builder.php:551
+#: includes/Integrations/Builder.php:611
+#: includes/Integrations/Builder.php:1118
+#: includes/Integrations/Builder.php:1134
 msgid "Image & Media Modules"
 msgstr ""
 
@@ -12397,7 +12928,7 @@ msgstr ""
 #: includes/Integrations/Builder.php:318
 #: includes/Integrations/Builder.php:333
 #: includes/Integrations/Builder.php:349
-#: includes/Integrations/Builder.php:822
+#: includes/Integrations/Builder.php:882
 msgid "Dynamic Content Modules"
 msgstr ""
 
@@ -12428,16 +12959,18 @@ msgstr ""
 #: includes/Integrations/Builder.php:400
 #: includes/Integrations/Builder.php:416
 #: includes/Integrations/Builder.php:437
-#: includes/Integrations/Builder.php:551
-#: includes/Integrations/Builder.php:611
-#: includes/Integrations/Builder.php:631
+#: includes/Integrations/Builder.php:571
+#: includes/Integrations/Builder.php:591
 #: includes/Integrations/Builder.php:651
 #: includes/Integrations/Builder.php:671
 #: includes/Integrations/Builder.php:691
-#: includes/Integrations/Builder.php:707
-#: includes/Integrations/Builder.php:727
-#: includes/Integrations/Builder.php:747
-#: includes/Integrations/Builder.php:1075
+#: includes/Integrations/Builder.php:711
+#: includes/Integrations/Builder.php:731
+#: includes/Integrations/Builder.php:751
+#: includes/Integrations/Builder.php:767
+#: includes/Integrations/Builder.php:787
+#: includes/Integrations/Builder.php:807
+#: includes/Integrations/Builder.php:1151
 msgid "Content Modules"
 msgstr ""
 
@@ -12490,265 +13023,285 @@ msgid "Logo Item"
 msgstr ""
 
 #: includes/Integrations/Builder.php:543
-msgid "Vertical or horizontal timeline with scroll-reveal and markers."
+msgid "Horizontal or vertical image panels that expand on click or hover to reveal nested content over a scrim."
 msgstr ""
 
 #: includes/Integrations/Builder.php:563
-msgid "Image with positioned tooltip pins revealed on hover or click."
+msgid "Vertical or horizontal timeline with scroll-reveal and markers."
 msgstr ""
 
 #: includes/Integrations/Builder.php:583
-msgid "Floating multi-channel chat launcher with WhatsApp, Telegram, Messenger, phone, email, and custom deep links."
+msgid "Numbered process steps connected by a styled line, with optional scroll-reveal."
+msgstr ""
+
+#: includes/Integrations/Builder.php:585
+msgid "Step"
 msgstr ""
 
 #: includes/Integrations/Builder.php:603
-msgid "Responsive comparison table with highlight, sticky header, and optional sorting."
+msgid "Image with positioned tooltip pins revealed on hover or click."
 msgstr ""
 
 #: includes/Integrations/Builder.php:623
-msgid "Animated skill bars that fill on scroll with labels."
+msgid "Floating multi-channel chat launcher with WhatsApp, Telegram, Messenger, phone, email, and custom deep links."
 msgstr ""
 
 #: includes/Integrations/Builder.php:643
-msgid "Showcase team members in a responsive grid with photo, role, bio and social links."
+msgid "Responsive comparison table with highlight, sticky header, and optional sorting."
 msgstr ""
 
 #: includes/Integrations/Builder.php:663
-msgid "Showcase customer testimonials in a responsive grid with avatar, rating and Review schema."
+msgid "Feature checklist with included, excluded, and neutral status icons per row."
 msgstr ""
 
 #: includes/Integrations/Builder.php:683
+msgid "Animated skill bars that fill on scroll with labels."
+msgstr ""
+
+#: includes/Integrations/Builder.php:703
+msgid "Showcase team members in a responsive grid with photo, role, bio and social links."
+msgstr ""
+
+#: includes/Integrations/Builder.php:723
+msgid "Showcase customer testimonials in a responsive grid with avatar, rating and Review schema."
+msgstr ""
+
+#: includes/Integrations/Builder.php:743
 msgid "Build responsive pricing tables with featured plans, ribbons, feature lists and call-to-action buttons."
 msgstr ""
 
-#: includes/Integrations/Builder.php:701
+#: includes/Integrations/Builder.php:761
 msgid "A lightweight blurb with an icon, image or Lottie animation, title, content, badge and a clickable box link."
 msgstr ""
 
-#: includes/Integrations/Builder.php:719
+#: includes/Integrations/Builder.php:779
 msgid "Organize content into accessible tabs with horizontal, vertical or mobile-accordion layouts, icon tabs and URL deep-linking."
 msgstr ""
 
-#: includes/Integrations/Builder.php:739
+#: includes/Integrations/Builder.php:799
 msgid "Social share buttons for major networks, styled in Divi."
 msgstr ""
 
-#: includes/Integrations/Builder.php:741
+#: includes/Integrations/Builder.php:801
 msgid "Share Button"
 msgstr ""
 
-#: includes/Integrations/Builder.php:757
+#: includes/Integrations/Builder.php:817
 msgid "Style Contact Form 7 — colors, fonts, and spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:767
-#: includes/Integrations/Builder.php:785
-#: includes/Integrations/Builder.php:805
-#: includes/Integrations/Builder.php:1095
-#: includes/Integrations/Builder.php:1115
-#: includes/Integrations/Builder.php:1134
-#: includes/Integrations/Builder.php:1153
-#: includes/Integrations/Builder.php:1172
+#: includes/Integrations/Builder.php:827
+#: includes/Integrations/Builder.php:845
+#: includes/Integrations/Builder.php:865
+#: includes/Integrations/Builder.php:1171
 #: includes/Integrations/Builder.php:1191
+#: includes/Integrations/Builder.php:1210
+#: includes/Integrations/Builder.php:1229
+#: includes/Integrations/Builder.php:1248
+#: includes/Integrations/Builder.php:1267
 msgid "Form Styler Modules"
 msgstr ""
 
-#: includes/Integrations/Builder.php:777
+#: includes/Integrations/Builder.php:837
 msgid "Style WPForms with Divi — colors, fonts, and spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:795
+#: includes/Integrations/Builder.php:855
 msgid "Style Gravity Forms with Divi — colors, fonts, spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:815
+#: includes/Integrations/Builder.php:875
 msgid "Show estimated reading time on any post or page type."
 msgstr ""
 
-#: includes/Integrations/Builder.php:832
+#: includes/Integrations/Builder.php:892
 msgid "Animated RGB glitch effect for bold, striking headlines."
 msgstr ""
 
-#: includes/Integrations/Builder.php:849
+#: includes/Integrations/Builder.php:909
 msgid "Gradient color fill for bold headlines and caption text."
 msgstr ""
 
-#: includes/Integrations/Builder.php:865
+#: includes/Integrations/Builder.php:925
+msgid "Image-fill, stroke, and animated gradient effects for headline text."
+msgstr ""
+
+#: includes/Integrations/Builder.php:941
 msgid "Attention-grabbing marquee-style text animation."
 msgstr ""
 
-#: includes/Integrations/Builder.php:882
+#: includes/Integrations/Builder.php:958
 msgid "Customizable star ratings for reviews and testimonials."
 msgstr ""
 
-#: includes/Integrations/Builder.php:899
+#: includes/Integrations/Builder.php:975
 msgid "Clear navigation path so visitors never feel lost."
 msgstr ""
 
-#: includes/Integrations/Builder.php:916
+#: includes/Integrations/Builder.php:992
 msgid "Auto-generated TOC with smooth scroll and active links."
 msgstr ""
 
-#: includes/Integrations/Builder.php:933
+#: includes/Integrations/Builder.php:1009
 msgid "Animated count-up stat with prefix, suffix, and icon."
 msgstr ""
 
-#: includes/Integrations/Builder.php:950
+#: includes/Integrations/Builder.php:1026
 msgid "Fixed-date or evergreen countdown with custom labels and expiry actions."
 msgstr ""
 
-#: includes/Integrations/Builder.php:967
+#: includes/Integrations/Builder.php:1043
 msgid "Animated Bar, Line, Pie, and Doughnut charts powered by Chart.js."
 msgstr ""
 
-#: includes/Integrations/Builder.php:984
+#: includes/Integrations/Builder.php:1060
 msgid "A fixed scroll-progress bar or corner ring tracking the page or a content area."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1001
+#: includes/Integrations/Builder.php:1077
 msgid "Heading with a hand-drawn SVG annotation on scroll."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1018
+#: includes/Integrations/Builder.php:1094
 msgid "Large decorative drop-caps that emphasize paragraph text."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1035
+#: includes/Integrations/Builder.php:1111
 msgid "YouTube or Vimeo video in a click-triggered lightbox."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1052
+#: includes/Integrations/Builder.php:1128
 msgid "YouTube, Vimeo, or self-hosted video with sticky dock."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1068
+#: includes/Integrations/Builder.php:1144
 msgid "Embed a fully styled Google Map into any Divi layout."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1085
+#: includes/Integrations/Builder.php:1161
 msgid "Style Ninja Forms with Divi — colors, fonts, spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1105
+#: includes/Integrations/Builder.php:1181
 msgid "Style Fluent Forms with Divi — colors, fonts, spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1125
+#: includes/Integrations/Builder.php:1201
 msgid "Style Forminator forms — colors, fonts, and spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1144
+#: includes/Integrations/Builder.php:1220
 msgid "Style Formidable Forms — colors, fonts, and spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1163
+#: includes/Integrations/Builder.php:1239
 msgid "Style MetForm forms — colors, fonts, and spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1182
+#: includes/Integrations/Builder.php:1258
 msgid "Style SureForms with Divi — colors, fonts, and spacing."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1203
+#: includes/Integrations/Builder.php:1279
 msgid "Inline mixed row — text, icons, images, and buttons."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1223
+#: includes/Integrations/Builder.php:1299
 msgid "Layered images with floating CSS keyframe animations."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1241
+#: includes/Integrations/Builder.php:1317
 msgid "Animated heading cycling words — fade, slide, or flip."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1257
+#: includes/Integrations/Builder.php:1333
 msgid "Image reveal via clip-path or color-overlay on scroll."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1273
+#: includes/Integrations/Builder.php:1349
 msgid "Custom login form to replace the default wp-login.php."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1279
-#: includes/Integrations/Builder.php:1295
-#: includes/Integrations/Builder.php:1311
-#: includes/Integrations/Builder.php:1327
+#: includes/Integrations/Builder.php:1355
+#: includes/Integrations/Builder.php:1371
+#: includes/Integrations/Builder.php:1387
+#: includes/Integrations/Builder.php:1403
 msgid "Auth Modules"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1289
+#: includes/Integrations/Builder.php:1365
 msgid "Custom registration form — replaces the default screen."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1305
+#: includes/Integrations/Builder.php:1381
 msgid "Custom lost-password form with brand colors and copy."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1321
+#: includes/Integrations/Builder.php:1397
 msgid "Custom password-reset form with branding and redirect."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1349
+#: includes/Integrations/Builder.php:1425
 msgid "Advanced List"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1350
+#: includes/Integrations/Builder.php:1426
 msgid "Richly styled lists with icons and custom markers."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1359
+#: includes/Integrations/Builder.php:1435
 msgid "Advanced Blurb"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1360
+#: includes/Integrations/Builder.php:1436
 msgid "Icon, heading, and text blurb with advanced styling."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1369
+#: includes/Integrations/Builder.php:1445
 msgid "User List"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1370
+#: includes/Integrations/Builder.php:1446
 msgid "WordPress user profiles displayed in a styled list."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1379
+#: includes/Integrations/Builder.php:1455
 msgid "Advanced Heading"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1380
+#: includes/Integrations/Builder.php:1456
 msgid "Advanced heading with layered, multi-part typography."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1389
+#: includes/Integrations/Builder.php:1465
 msgid "Advanced Slider"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1390
+#: includes/Integrations/Builder.php:1466
 msgid "Content slides with transitions, arrows, and dot nav."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1399
+#: includes/Integrations/Builder.php:1475
 msgid "Taxonomy List"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1400
+#: includes/Integrations/Builder.php:1476
 msgid "Taxonomy terms displayed in a configurable list."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1409
+#: includes/Integrations/Builder.php:1485
 msgid "CPT Grid"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1410
+#: includes/Integrations/Builder.php:1486
 msgid "Custom Post Types displayed in a filterable grid layout."
 msgstr ""
 
-#: includes/Integrations/Builder.php:1419
+#: includes/Integrations/Builder.php:1495
 msgid "Advanced Accordion"
 msgstr ""
 
-#: includes/Integrations/Builder.php:1420
+#: includes/Integrations/Builder.php:1496
 msgid "Interactive accordion for toggling grouped content."
 msgstr ""
 
@@ -14117,6 +14670,10 @@ msgid "There was a problem with your submission. Please review the fields below.
 msgstr ""
 
 #: build/divi-builder-4/scripts/builder-bundle.js:1
+msgid "Add Image Accordion Items"
+msgstr ""
+
+#: build/divi-builder-4/scripts/builder-bundle.js:1
 msgid "Add Image Carousel Items"
 msgstr ""
 
@@ -14190,6 +14747,10 @@ msgstr ""
 
 #: build/divi-builder-4/scripts/builder-bundle.js:1
 msgid "Add Social Share Items"
+msgstr ""
+
+#: build/divi-builder-4/scripts/builder-bundle.js:1
+msgid "Add Step Flow Items"
 msgstr ""
 
 #: build/divi-builder-4/scripts/builder-bundle.js:1

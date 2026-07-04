@@ -1033,9 +1033,9 @@ class Dual_Button extends Module {
 				'<a class="%5$s" href="%3$s" target="%4$s">%1$s%2$s</a>',
 				wp_kses_post( $element_text ),
 				wp_kses_post( $icon_elements ),
-				esc_url_raw( $element_url ),
+				esc_url( $element_url ),
 				esc_attr( $url_target ),
-				wp_kses_post( implode( ' ', $button_classes ) )
+				wp_kses_post( implode( ' ', array_map( 'sanitize_html_class', $button_classes ) ) )
 			);
 		}
 

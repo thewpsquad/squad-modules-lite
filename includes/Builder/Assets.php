@@ -433,6 +433,9 @@ class Assets implements Hookable {
 			'timeline'          => array(
 				'path' => 'divi-builder-5',
 			),
+			'step-flow'         => array(
+				'path' => 'divi-builder-5',
+			),
 			'image-hotspots'    => array(
 				'path' => 'divi-builder-5',
 			),
@@ -449,6 +452,9 @@ class Assets implements Hookable {
 				'path' => 'divi-builder-5',
 			),
 			'image-reveal'      => array(
+				'path' => 'divi-builder-5',
+			),
+			'image-accordion'   => array(
 				'path' => 'divi-builder-5',
 			),
 			'advanced-video'    => array(

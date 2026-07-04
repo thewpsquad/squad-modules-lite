@@ -1,5 +1,6 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 declare( strict_types=1 );
+
 /**
  * Status checker class.
  *

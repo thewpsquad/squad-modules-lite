@@ -417,7 +417,7 @@ class Post_Reading_Time extends Module {
 		// Update suffix text as per count.
 		$updated_suffix_text = 2 < $reading_time_text ? $time_suffix_text : $time_suffix_singular;
 
-		$time_level   = $this->prop( 'time_text_tag', 'div' );
+		$time_level   = divi_squad()->d4_module_helper->sanitize_html_tag( $this->prop( 'time_text_tag', 'div' ), 'div' );
 		$time_divider = $this->squad_render_time_divider( $attrs );
 
 		$this->squad_generate_additional_styles( $attrs );
@@ -592,7 +592,7 @@ class Post_Reading_Time extends Module {
 
 			return sprintf(
 				' <span class="%1$s"></span>',
-				wp_kses_post( implode( ' ', $time_divider_classes ) )
+				wp_kses_post( implode( ' ', array_map( 'sanitize_html_class', $time_divider_classes ) ) )
 			);
 		}
 

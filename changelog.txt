@@ -1,4 +1,17 @@
 == Changelog ==
+= 4.4.0 (03-07-2026) =
+
+**New Modules — (Wave 3: breadth fill, native in both builders):**
+- **Image Accordion** — horizontal and vertical expanding image panels, hover or click triggers, responsive collapse, and free-form nested-module content per panel; repeatable child items.
+- **Step Flow** — numbered process steps with icon / image / number markers, vertical or horizontal orientation, connector styling, and scroll-triggered reveal; repeatable child steps.
+- **Text Effects** — trendy typography effects: image-mask (image-fill) text, text stroke / outline, and animated gradient fill; reuses the existing gradient/glitch text-effect infrastructure.
+- **Comparison List** — feature checklist with three per-row states (included / excluded / neutral), each state's icon set via a Divi icon-picker plus colour; responsive columns, row divider and zebra rows, and nested content per row; repeatable child rows. Completes the "comparison" trio with the shipped Pricing Table and Data Table.
+
+**Improvements:**
+- The free module library grows to 65 modules — 64 run in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only), completing Wave 3 of the free-module roadmap.
+- Every new module loads its assets per-page (no global bloat) and is pure CSS with no added frontend JavaScript.
+- Extended WPML String Translation config to cover every module's translatable attributes, backfilling 18 modules (Wave 3 plus the Wave 2 set) that were missing entries.
+
 = 4.3.1 (30-06-2026) =
 
 **Improvements:**
@@ -11,7 +24,7 @@
 - Fixed a packaging issue where required plugin files could be missing from the downloaded zip in some environments.
 - Hardened all PHP files against edge-case loading issues on non-standard WordPress setups.
 
-= 4.3.0 =
+= 4.3.0 (24-06-2026) =
 
 **New Modules — (modules other Divi packs charge for):**
 - **Countdown Timer** — evergreen and fixed-date modes, on-expiry actions (hide/redirect/show message), timezone-aware, no external JS.

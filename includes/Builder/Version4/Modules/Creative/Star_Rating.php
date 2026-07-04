@@ -502,7 +502,7 @@ class Star_Rating extends Module {
 		if ( '' !== $title ) {
 			$title = sprintf(
 				'<%1$s class="star-rating-title et_pb_module_header"><span%3$s>%2$s</span></%1$s>',
-				esc_attr( $this->prop( 'text_element_tag', 'h2' ) ),
+				esc_attr( divi_squad()->d4_module_helper->sanitize_html_tag( $this->prop( 'text_element_tag', 'h2' ), 'h2' ) ),
 				esc_html( $title ),
 				'on' === $stars_schema_markup ? esc_attr( ' itemprop="name"' ) : ''
 			);

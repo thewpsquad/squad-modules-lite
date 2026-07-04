@@ -119,6 +119,16 @@ class Login_Experience extends Base_Route {
 				if ( array_key_exists( $state, $params ) ) {
 					$id = absint( $params[ $state ] );
 					if ( $id > 0 ) {
+						// Only published pages may serve the login-experience flows;
+						// reject IDs pointing at other post types or unpublished content.
+						if ( 'page' !== get_post_type( $id ) || 'publish' !== get_post_status( $id ) ) {
+							return new WP_Error(
+								'divi_squad_invalid_page',
+								/* translators: %s: the login-experience state key (e.g. login, register). */
+								sprintf( esc_html__( 'The selected post for "%s" must be a published page.', 'squad-modules-for-divi' ), $state ),
+								array( 'status' => 400 )
+							);
+						}
 						$current[ $state ] = $id;
 					} else {
 						unset( $current[ $state ] );

@@ -273,7 +273,7 @@ final class Chat_Button_Helper {
 				return esc_url( 'tel:' . ( $has_plus ? '+' : '' ) . $digits, self::LINK_PROTOCOLS );
 
 			case 'email':
-				if ( ! is_email( $identifier ) ) {
+				if ( false === is_email( $identifier ) ) {
 					return '';
 				}
 				$url = 'mailto:' . $identifier;

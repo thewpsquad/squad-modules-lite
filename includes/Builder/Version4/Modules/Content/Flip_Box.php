@@ -3121,7 +3121,7 @@ class Flip_Box extends Module {
 
 			$title_text_element = sprintf(
 				'<div class="slide-element slide-%3$s-element slide-title-wrapper"><%1$s class="slide-title-text">%2$s</%1$s></div>',
-				wp_kses_post( (string) $this->prop( "{$slide_type}_title_tag", 'h2' ) ),
+				divi_squad()->d4_module_helper->sanitize_html_tag( (string) $this->prop( "{$slide_type}_title_tag", 'h2' ), 'h2' ),
 				wp_kses_post( $title_text ),
 				$slide_type
 			);
@@ -3148,7 +3148,7 @@ class Flip_Box extends Module {
 
 			$sub_title_text_element = sprintf(
 				'<div class="slide-element slide-%3$s-element slide-title-wrapper"><%1$s class="slide-sub-title-text">%2$s</%1$s></div>',
-				wp_kses_post( (string) $this->prop( "{$slide_type}_sub_title_tag", 'h2' ) ),
+				divi_squad()->d4_module_helper->sanitize_html_tag( (string) $this->prop( "{$slide_type}_sub_title_tag", 'h2' ), 'h2' ),
 				wp_kses_post( $sub_title_text ),
 				$slide_type
 			);
@@ -3414,7 +3414,7 @@ class Flip_Box extends Module {
 				'<div class="slide-element slide-%4$s-element slide-%4$s-button-wrapper"><div class="%3$s">%1$s%2$s</div></div>',
 				wp_kses_post( $button_text ),
 				wp_kses_post( $icon_elements ),
-				wp_kses_post( implode( ' ', $button_classes ) ),
+				wp_kses_post( implode( ' ', array_map( 'sanitize_html_class', $button_classes ) ) ),
 				$slide_type
 			);
 		}

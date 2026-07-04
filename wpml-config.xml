@@ -1,6 +1,6 @@
 <wpml-config>
     <built-with-page-builder>/\[(et_pb_section|et_pb_row|et_pb_column)/</built-with-page-builder>
-    <shortcode-list>disq_advanced_button,disq_advanced_video,disq_animated_heading,disq_author_box,disq_bai_slider,disq_breadcrumbs,disq_business_day,disq_business_hours,disq_divider,disq_drop_cap_text,disq_dual_button,disq_embed_google_map,disq_flip_box,disq_floating_image,disq_floating_images,disq_form_styler_cf7,disq_form_styler_fluent_forms,disq_form_styler_formidable,disq_form_styler_forminator,disq_form_styler_gravity_forms,disq_form_styler_metform,disq_form_styler_ninja_forms,disq_form_styler_sureforms,disq_form_styler_wp_forms,disq_glitch_text,disq_gradient_text,disq_hover_box,disq_image_carousel,disq_image_carousel_item,disq_image_gallery,disq_image_mask,disq_image_reveal,disq_inline_content,disq_inline_content_item,disq_logo_carousel,disq_logo_carousel_item,disq_logo_grid,disq_logo_grid_item,disq_lottie,disq_number_counter,disq_post_grid,disq_post_grid_child,disq_post_reading_time,disq_scrolling_text,disq_skill_bar,disq_skill_bar_item,disq_team_member,disq_team_member_item,disq_testimonial,disq_testimonial_item,disq_pricing_table,disq_pricing_table_item,disq_icon_box,disq_advanced_tabs,disq_advanced_tabs_item,disq_social_share,disq_social_share_child,disq_star_rating,disq_table_of_contents,disq_text_highlighter,disq_typing_text,disq_video_popup,disq_login_form,disq_register_form,disq_lost_password_form,disq_reset_password_form</shortcode-list>
+    <shortcode-list>disq_advanced_button,disq_advanced_video,disq_animated_heading,disq_author_box,disq_bai_slider,disq_breadcrumbs,disq_business_day,disq_business_hours,disq_divider,disq_drop_cap_text,disq_dual_button,disq_embed_google_map,disq_flip_box,disq_floating_image,disq_floating_images,disq_form_styler_cf7,disq_form_styler_fluent_forms,disq_form_styler_formidable,disq_form_styler_forminator,disq_form_styler_gravity_forms,disq_form_styler_metform,disq_form_styler_ninja_forms,disq_form_styler_sureforms,disq_form_styler_wp_forms,disq_glitch_text,disq_gradient_text,disq_hover_box,disq_image_carousel,disq_image_carousel_item,disq_image_gallery,disq_image_mask,disq_image_reveal,disq_inline_content,disq_inline_content_item,disq_logo_carousel,disq_logo_carousel_item,disq_logo_grid,disq_logo_grid_item,disq_lottie,disq_number_counter,disq_post_grid,disq_post_grid_child,disq_post_reading_time,disq_scrolling_text,disq_skill_bar,disq_skill_bar_item,disq_team_member,disq_team_member_item,disq_testimonial,disq_testimonial_item,disq_pricing_table,disq_pricing_table_item,disq_icon_box,disq_advanced_tabs,disq_advanced_tabs_item,disq_social_share,disq_social_share_child,disq_star_rating,disq_table_of_contents,disq_text_highlighter,disq_typing_text,disq_video_popup,disq_login_form,disq_register_form,disq_lost_password_form,disq_reset_password_form,disq_charts,disq_chat_button,disq_chat_button_channel,disq_comparison_list,disq_comparison_list_item,disq_countdown_timer,disq_data_table,disq_data_table_row,disq_image_accordion,disq_image_accordion_item,disq_image_hotspot_pin,disq_image_hotspots,disq_reading_progress,disq_step_flow,disq_step_flow_item,disq_text_effects,disq_timeline,disq_timeline_item</shortcode-list>
     <shortcodes>
         <shortcode>
             <tag>disq_advanced_button</tag>
@@ -745,6 +745,167 @@
                 <attribute>new_password_label</attribute>
                 <attribute>confirm_password_label</attribute>
                 <attribute>button_text</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_charts</tag>
+            <attributes>
+                <attribute>title</attribute>
+                <attribute>labels</attribute>
+                <attribute>datasets</attribute>
+                <attribute type="media-url">background_image</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_chat_button</tag>
+            <attributes>
+                <attribute>toggle_label</attribute>
+                <attribute>header_title</attribute>
+                <attribute>greeting</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_chat_button_channel</tag>
+            <attributes>
+                <attribute>prefilled_message</attribute>
+                <attribute>label</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_comparison_list</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_comparison_list_item</tag>
+            <attributes>
+                <attribute>title</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_countdown_timer</tag>
+            <attributes>
+                <attribute>expiry_message</attribute>
+                <attribute>label_days</attribute>
+                <attribute>label_hours</attribute>
+                <attribute>label_minutes</attribute>
+                <attribute>label_seconds</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">redirect_url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_data_table</tag>
+            <attributes>
+                <attribute>columns</attribute>
+                <attribute>ribbon_text</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_data_table_row</tag>
+            <attributes>
+                <attribute>cells</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_image_accordion</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_image_accordion_item</tag>
+            <attributes>
+                <attribute>label</attribute>
+                <attribute type="media-url">image</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_image_hotspot_pin</tag>
+            <attributes>
+                <attribute>number</attribute>
+                <attribute>tooltip_title</attribute>
+                <attribute encoding="allow_html_tags">tooltip_content</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_image_hotspots</tag>
+            <attributes>
+                <attribute>image_alt</attribute>
+                <attribute type="media-url">image</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_reading_progress</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_step_flow</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_step_flow_item</tag>
+            <attributes>
+                <attribute>marker_number_override</attribute>
+                <attribute>title</attribute>
+                <attribute>label</attribute>
+                <attribute>marker_image_alt</attribute>
+                <attribute encoding="allow_html_tags">description</attribute>
+                <attribute type="media-url">marker_image</attribute>
+                <attribute type="link">link_url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_text_effects</tag>
+            <attributes>
+                <attribute>text_content</attribute>
+                <attribute type="media-url">mask_image</attribute>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_timeline</tag>
+            <attributes>
+                <attribute type="media-url">background_image</attribute>
+                <attribute type="link">link_option_url</attribute>
+                <attribute type="link">url</attribute>
+            </attributes>
+        </shortcode>
+        <shortcode>
+            <tag>disq_timeline_item</tag>
+            <attributes>
+                <attribute>title</attribute>
+                <attribute>date_label</attribute>
+                <attribute>marker_number</attribute>
+                <attribute>image_alt</attribute>
+                <attribute encoding="allow_html_tags">content</attribute>
+                <attribute type="media-url">image</attribute>
+                <attribute type="link">item_link</attribute>
             </attributes>
         </shortcode>
     </shortcodes>

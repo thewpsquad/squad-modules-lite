@@ -1,0 +1,29 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "advanced": {
+    "admin_label": "module.meta.adminLabel",
+    "background": "module.decoration.background",
+    "borders": {
+      "default": "module.decoration.border"
+    },
+    "box_shadow": {
+      "default": "module.decoration.boxShadow"
+    },
+    "disabled_on": "module.decoration.disabledOn",
+    "filters": {
+      "default": "module.decoration.filters"
+    },
+    "margin_padding": "module.decoration.spacing"
+  },
+  "css": {
+    "main_element": "css.*.mainElement"
+  },
+  "module": {
+    "orientation": "accordion.innerContent.*.orientation",
+    "expand_trigger": "accordion.innerContent.*.expandTrigger",
+    "default_active": "accordion.innerContent.*.defaultActive",
+    "collapsed_size": "accordion.innerContent.*.collapsedSize",
+    "overlay_background": "accordion.innerContent.*.overlayBackground",
+    "overlay_opacity": "accordion.innerContent.*.overlayOpacity"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/comparison-list-item",
+  "d4Shortcode": "disq_comparison_list_item",
+  "title": "Comparison List Item",
+  "titles": "Comparison List Items",
+  "moduleIcon": "squad-modules/comparison-list",
+  "moduleClassName": "disq_comparison_list_item",
+  "category": "child-module",
+  "folder": "squad-modules",
+  "parentModuleName": "squad-modules/comparison-list",
+  "allowAllElements": true,
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "decoration": {
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "disabledOn": {},
+          "filters": {},
+          "spacing": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Comparison List Item"
+            }
+          }
+        }
+      }
+    },
+    "slideItem": {
+      "type": "object",
+      "selector": "{{selector}} .squad-comparison-list__item",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "status": {
+              "groupSlug": "contentItem",
+              "attrName": "slideItem.innerContent",
+              "subName": "status",
+              "label": "Status",
+              "description": "Whether this feature is included, excluded, or neutral. The parent module supplies the icon and color for each state.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "included": {
+                      "label": "Included"
+                    },
+                    "excluded": {
+                      "label": "Excluded"
+                    },
+                    "neutral": {
+                      "label": "Neutral"
+                    }
+                  }
+                }
+              }
+            },
+            "title": {
+              "groupSlug": "contentItem",
+              "attrName": "slideItem.innerContent",
+              "subName": "title",
+              "label": "Title",
+              "description": "The feature label shown for this row.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "status": "included",
+              "title": ""
+            }
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentItem": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "item",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Feature"
+          }
+        }
+      }
+    }
+  }
+}

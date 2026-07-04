@@ -291,7 +291,7 @@ class Glitch_Text extends Module {
 	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
 		if ( '' !== $this->prop( 'glitch_text', '' ) ) {
 			$glitch_text_effect = $this->prop( 'glitch_text_effect', 'one' );
-			$glitch_text_tag    = $this->prop( 'glitch_text_tag', 'p' );
+			$glitch_text_tag    = divi_squad()->d4_module_helper->sanitize_html_tag( $this->prop( 'glitch_text_tag', 'p' ), 'p' );
 			$glitch_text        = esc_html( $this->prop( 'glitch_text', '' ) );
 
 			// Effect 3: Wrap text with span tag.

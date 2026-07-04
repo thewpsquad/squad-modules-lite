@@ -1,0 +1,22 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": {
+          "value": "Comparison List Item"
+        }
+      }
+    }
+  },
+  "slideItem": {
+    "innerContent": {
+      "desktop": {
+        "value": {
+          "status": "included",
+          "title": ""
+        }
+      }
+    }
+  }
+}
