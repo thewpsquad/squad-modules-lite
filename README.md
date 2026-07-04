@@ -1,4 +1,4 @@
-# Squad Modules for Divi — Source Mirror
+# Squad Modules Lite — Source Mirror
 
 [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/squad-modules-for-divi?label=wp.org)](https://wordpress.org/plugins/squad-modules-for-divi/)
 [![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/squad-modules-for-divi?label=downloads)](https://wordpress.org/plugins/squad-modules-for-divi/advanced/)
@@ -6,7 +6,7 @@
 [![Tested up to](https://img.shields.io/wordpress/plugin/tested/squad-modules-for-divi?label=tested)](https://wordpress.org/plugins/squad-modules-for-divi/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-The public source mirror and issue tracker for **[Squad Modules for Divi](https://wordpress.org/plugins/squad-modules-for-divi/)** — the largest free module pack for the **Divi** theme and Divi Builder. **65 free modules** across 6 categories plus **8 free extensions**, all running natively in **both** the Divi 5 Visual Builder (Block API) and the classic Divi 4 builder from a single codebase.
+The public source mirror and issue tracker for **[Squad Modules Lite](https://wordpress.org/plugins/squad-modules-for-divi/)** — the largest free module pack for the **Divi** theme and Divi Builder. **65 free modules** across 6 categories plus **8 free extensions**, all running natively in **both** the Divi 5 Visual Builder (Block API) and the classic Divi 4 builder from a single codebase.
 
 > **📦 To install the plugin, get it from [WordPress.org](https://wordpress.org/plugins/squad-modules-for-divi/)** or from the **Plugins → Add New** screen in your WordPress admin. This repository is a read-only mirror for browsing source and reporting issues — see [About this repository](#about-this-repository) below.
 
@@ -68,4 +68,4 @@ You can also get help through the [WordPress.org support forum](https://wordpres
 
 ## License
 
-Squad Modules for Divi is free software, licensed under the [GNU General Public License v3.0](LICENSE). *Divi* is a trademark of Elegant Themes, Inc. This plugin is a third-party product and is not affiliated with or endorsed by Elegant Themes.
+Squad Modules Lite is free software, licensed under the [GNU General Public License v3.0](LICENSE). *Divi* is a trademark of Elegant Themes, Inc. This plugin is a third-party product and is not affiliated with or endorsed by Elegant Themes.
