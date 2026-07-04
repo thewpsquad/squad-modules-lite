@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_embed_google_map",
   "title": "Google Embed Map",
   "titles": "Google Embed Maps",
-  "moduleIcon": "divi/module-map-pin",
+  "moduleIcon": "squad-modules/google-map",
   "moduleClassName": "disq_embed_google_map",
   "category": "module",
   "folder": "squad-modules",

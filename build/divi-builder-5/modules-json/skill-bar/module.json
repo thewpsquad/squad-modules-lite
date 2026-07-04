@@ -1,0 +1,204 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/skill-bar",
+  "d4Shortcode": "disq_skill_bar",
+  "title": "Skill Bar",
+  "titles": "Skill Bars",
+  "moduleIcon": "squad-modules/skill-bar",
+  "moduleClassName": "disq_skill_bar",
+  "category": "module",
+  "folder": "squad-modules",
+  "childModuleName": "squad-modules/skill-bar-item",
+  "childModuleTitle": "Skill Bar Item",
+  "childrenName": [
+    "squad-modules/skill-bar-item"
+  ],
+  "allowAllElements": true,
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "fonts": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Skill Bar"
+            }
+          }
+        }
+      }
+    },
+    "bars": {
+      "type": "object",
+      "selector": "{{selector}} .squad-skill-bar",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "title": {
+              "groupSlug": "contentTitle",
+              "attrName": "bars.innerContent",
+              "subName": "title",
+              "label": "Title",
+              "description": "Optional heading shown above the bars.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "titleLevel": {
+              "groupSlug": "contentTitle",
+              "attrName": "bars.innerContent",
+              "subName": "titleLevel",
+              "label": "Title Heading Level",
+              "description": "HTML heading tag for the title.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "h1": {
+                      "label": "H1"
+                    },
+                    "h2": {
+                      "label": "H2"
+                    },
+                    "h3": {
+                      "label": "H3"
+                    },
+                    "h4": {
+                      "label": "H4"
+                    },
+                    "h5": {
+                      "label": "H5"
+                    },
+                    "h6": {
+                      "label": "H6"
+                    }
+                  }
+                }
+              }
+            },
+            "barSpacing": {
+              "groupSlug": "contentLayout",
+              "attrName": "bars.innerContent",
+              "subName": "barSpacing",
+              "label": "Spacing Between Bars",
+              "description": "Vertical gap between bars (e.g. 20px).",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "titleSpacing": {
+              "groupSlug": "contentLayout",
+              "attrName": "bars.innerContent",
+              "subName": "titleSpacing",
+              "label": "Title Spacing Bottom",
+              "description": "Gap below the title (e.g. 10px).",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "title": "",
+              "titleLevel": "h3",
+              "barSpacing": "20px",
+              "titleSpacing": "10px"
+            }
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentTitle": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "title",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Title"
+          }
+        }
+      },
+      "contentLayout": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "layout",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Layout"
+          }
+        }
+      }
+    }
+  }
+}

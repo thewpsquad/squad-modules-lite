@@ -100,7 +100,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected string $admin_menu_slug = 'divi_squad_dashboard';
+	protected string $admin_menu_slug = 'divi_squad';
 
 	/**
 	 * Freemius publisher instance.

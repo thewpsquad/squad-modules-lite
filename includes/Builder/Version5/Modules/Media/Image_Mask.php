@@ -26,8 +26,8 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version4\Supports\Module_Utilities\Masking\Decorations;
-use DiviSquad\Builder\Version4\Supports\Module_Utilities\Masking\Shapes;
+use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Decorations;
+use DiviSquad\Builder\Shared\Supports\Module_Utilities\Masking\Shapes;
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
 use ET\Builder\Packages\Module\Module as DiviModule;

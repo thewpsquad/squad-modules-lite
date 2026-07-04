@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_drop_cap_text",
   "title": "Drop Cap Text",
   "titles": "Drop Cap Texts",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/drop-cap-text",
   "moduleClassName": "disq_drop_cap_text",
   "category": "module",
   "folder": "squad-modules",

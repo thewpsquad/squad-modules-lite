@@ -39,7 +39,7 @@ trait Registration {
 	 * Register a script with WordPress
 	 *
 	 * @param string                                                                                                                          $handle Script identifier.
-	 * @param array{file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string>} $config Asset configuration.
+	 * @param array<string, mixed> $config Asset configuration.
 	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null}                                                                        $args   Additional arguments.
 	 */
 	protected function register_wp_script( string $handle, array $config, array $args = array() ): bool {
@@ -60,8 +60,8 @@ trait Registration {
 				return false;
 			}
 
-			$external    = $config['external'] ?? false;
-			$no_prefix   = $config['no_prefix'] ?? false;
+			$external    = (bool) ( $config['external'] ?? false );
+			$no_prefix   = (bool) ( $config['no_prefix'] ?? false );
 			$deps        = $config['deps'] ?? array();
 			$asset_data  = $this->process_asset_config( $config, $deps );
 			$full_handle = ( $no_prefix || $external ) ? $handle : $this->get_prefixed_handle( $handle );
@@ -223,7 +223,7 @@ trait Registration {
 	 * Register a stylesheet with WordPress
 	 *
 	 * @param string                                                                                                                          $handle Style identifier.
-	 * @param array{file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string>} $config Asset configuration.
+	 * @param array<string, mixed> $config Asset configuration.
 	 * @param string                                                                                                                          $media  Media type.
 	 */
 	protected function register_wp_style( string $handle, array $config, string $media = 'all' ): bool {
@@ -244,8 +244,8 @@ trait Registration {
 				return false;
 			}
 
-			$external    = $config['external'] ?? false;
-			$no_prefix   = $config['no_prefix'] ?? false;
+			$external    = (bool) ( $config['external'] ?? false );
+			$no_prefix   = (bool) ( $config['no_prefix'] ?? false );
 			$deps        = $config['deps'] ?? array();
 			$asset_data  = $this->process_asset_config( $config, $deps );
 			$full_handle = ( $no_prefix || $external ) ? $handle : $this->get_prefixed_handle( $handle );

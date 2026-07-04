@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_lottie",
   "title": "Lottie Image",
   "titles": "Lottie Images",
-  "moduleIcon": "divi/module-lottie",
+  "moduleIcon": "squad-modules/lottie",
   "moduleClassName": "disq_lottie",
   "category": "module",
   "folder": "squad-modules",

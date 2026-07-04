@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_glitch_text",
   "title": "Glitch Text",
   "titles": "Glitch Texts",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/glitch-text",
   "moduleClassName": "disq_glitch_text",
   "category": "module",
   "folder": "squad-modules",

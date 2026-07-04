@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_image_mask",
   "title": "Image Mask",
   "titles": "Image Masks",
-  "moduleIcon": "divi/module-image",
+  "moduleIcon": "squad-modules/image-mask",
   "moduleClassName": "disq_image_mask",
   "category": "module",
   "folder": "squad-modules",

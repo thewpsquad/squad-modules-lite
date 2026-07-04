@@ -1,0 +1,17 @@
+<svg width="720" height="220" viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><!-- Squad Modules v4 brand asset — author: Al Amin Ahamed (@mralaminahamed) --><defs></defs>
+      <rect width="720" height="220" rx="0" fill="#E1ECFD"/>
+      <defs>
+      <linearGradient id="mg_stem_lk" x1="40" y1="20" x2="40" y2="108" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#3D04FA"/><stop offset="1" stop-color="#381C99"/>
+      </linearGradient>
+      <linearGradient id="mg_bowl_lk" x1="40" y1="18" x2="104" y2="110" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#7B4DFF"/><stop offset="1" stop-color="#4B25CC"/>
+      </linearGradient></defs><g transform="translate(40,54) scale(0.875)">
+      <path d="M40 24 C80 24 104 44 104 64 C104 84 80 104 40 104"
+            fill="none" stroke="url(#mg_bowl_lk)" stroke-width="26"
+            stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="27" y="24" width="26" height="80" rx="13" fill="url(#mg_stem_lk)"/>
+      <circle cx="40" cy="24" r="13" fill="#5E2EFF"/></g>
+      <text x="178.0" y="116.6" font-family="Plus Jakarta Sans, Inter, -apple-system, system-ui, sans-serif" font-weight="800" font-size="48" fill="#1E1733" letter-spacing="-0.02em">Squad</text><text x="330.4" y="116.6" font-family="Plus Jakarta Sans, Inter, -apple-system, system-ui, sans-serif" font-weight="500" font-size="48" fill="#4A4368" letter-spacing="-0.01em">Modules</text>
+      <text x="180" y="150" font-family="Plus Jakarta Sans, Inter, -apple-system, system-ui, sans-serif" font-weight="700" font-size="15"
+            letter-spacing="0.10em" fill="#5E2EFF">ADVANCED DIVI MODULES &amp; EXTENSIONS</text></svg>

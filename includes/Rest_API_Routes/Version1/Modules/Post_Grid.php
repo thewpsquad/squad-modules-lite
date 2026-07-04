@@ -359,7 +359,7 @@ class Post_Grid extends Base_Route {
 	 */
 	public function load_more_posts_divi5( WP_REST_Request $request ) {
 		try {
-			$module_class = '\DiviSquad\Builder\Version5\Modules\DynamicContent\Post_Grid';
+			$module_class = '\DiviSquad\Builder\Version5\Modules\Dynamic_Content\Post_Grid';
 			if ( ! class_exists( $module_class ) ) {
 				return new WP_Error(
 					'rest_unavailable',

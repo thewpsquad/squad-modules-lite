@@ -22,7 +22,7 @@ namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
  * @since   3.1.1
  * @package DiviSquad
  */
-abstract class Manager implements ManagerInterface {
+abstract class Manager implements Manager_Interface {
 
 	/**
 	 * Cache group for this manager.

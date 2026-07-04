@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_gradient_text",
   "title": "Gradient Text",
   "titles": "Gradient Texts",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/gradient-text",
   "moduleClassName": "disq_gradient_text",
   "category": "module",
   "folder": "squad-modules",

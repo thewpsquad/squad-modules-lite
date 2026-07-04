@@ -20,6 +20,7 @@ use DiviSquad\Rest_API_Routes\Version1\Modules as Modules_Version1;
 use DiviSquad\Rest_API_Routes\Version1\Modules\Post_Grid;
 use DiviSquad\Rest_API_Routes\Version1\Notices\Admin_Notices;
 use DiviSquad\Rest_API_Routes\Version1\Whats_New\Changelog;
+use DiviSquad\Rest_API_Routes\Version2\Dashboard as Dashboard_Version2;
 use DiviSquad\Rest_API_Routes\Version2\Extensions as Extensions_Version2;
 use DiviSquad\Rest_API_Routes\Version2\Modules as Modules_Version2;
 use Throwable;
@@ -80,6 +81,7 @@ class Rest_Routes {
 		$this->register_route_class( Modules_Version2::class );
 		$this->register_route_class( Extensions_Version1::class );
 		$this->register_route_class( Extensions_Version2::class );
+		$this->register_route_class( Dashboard_Version2::class );
 
 		// What's new routes.
 		$this->register_route_class( Changelog::class );

@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_divider",
   "title": "Advanced Divider",
   "titles": "Advanced Dividers",
-  "moduleIcon": "divi/module-divider",
+  "moduleIcon": "squad-modules/divider",
   "moduleClassName": "disq_divider",
   "category": "module",
   "folder": "squad-modules",

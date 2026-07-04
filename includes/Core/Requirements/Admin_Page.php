@@ -242,7 +242,7 @@ class Admin_Page implements Hookable {
             <p>
                 <a href="<?php echo esc_url( admin_url() ); ?>" class="button button-secondary"><?php esc_html_e( 'Back to Dashboard', 'squad-modules-for-divi' ); ?></a>
 				<?php if ( $is_fulfilled ) : ?>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=divi_squad_dashboard' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Go to Squad Modules Dashboard', 'squad-modules-for-divi' ); ?></a>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=divi_squad' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Go to Squad Modules Dashboard', 'squad-modules-for-divi' ); ?></a>
 				<?php endif; ?>
             </p>
         </div>

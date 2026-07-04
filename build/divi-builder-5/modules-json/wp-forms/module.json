@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_form_styler_wp_forms",
   "title": "WP Forms",
   "titles": "WP Forms",
-  "moduleIcon": "divi/module-contact-form-7",
+  "moduleIcon": "squad-modules/form-styler",
   "moduleClassName": "disq_form_styler_wp_forms",
   "category": "module",
   "folder": "squad-modules",

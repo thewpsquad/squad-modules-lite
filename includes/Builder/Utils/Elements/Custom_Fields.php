@@ -13,7 +13,7 @@
 
 namespace DiviSquad\Builder\Utils\Elements;
 
-use DiviSquad\Builder\Utils\Elements\Custom_Fields\CollectionInterface;
+use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection_Interface;
 use InvalidArgumentException;
 
 /**
@@ -167,7 +167,7 @@ class Custom_Fields {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param Custom_Fields\ManagerInterface $fields_manager The fields manager instance.
+		 * @param Custom_Fields\Manager_Interface $fields_manager The fields manager instance.
 		 * @param Custom_Fields                  $this           The Custom_Fields instance.
 		 */
 		do_action( 'divi_squad_custom_fields_initialized', $fields_manager, $this );
@@ -421,7 +421,7 @@ class Custom_Fields {
 			/**
 			 * Get the fields processor.
 			 *
-			 * @var CollectionInterface $fields_processor
+			 * @var Collection_Interface $fields_processor
 			 */
 			$fields_processor = $this->get( $field_type );
 
@@ -432,7 +432,7 @@ class Custom_Fields {
 			 *
 			 * @param int                 $post_id          The post ID.
 			 * @param string              $field_type       The field type.
-			 * @param CollectionInterface $fields_processor The processor instance.
+			 * @param Collection_Interface $fields_processor The processor instance.
 			 */
 			do_action( 'divi_squad_before_get_fields', $post_id, $field_type, $fields_processor );
 
@@ -446,7 +446,7 @@ class Custom_Fields {
 			 * @param array               $fields           The retrieved fields.
 			 * @param int                 $post_id          The post ID.
 			 * @param string              $field_type       The field type.
-			 * @param CollectionInterface $fields_processor The processor instance.
+			 * @param Collection_Interface $fields_processor The processor instance.
 			 */
 			$fields = apply_filters( 'divi_squad_custom_fields', $fields, $post_id, $field_type, $fields_processor );
 
@@ -511,14 +511,14 @@ class Custom_Fields {
 			/**
 			 * Fields processor instance.
 			 *
-			 * @var Custom_Fields\CollectionInterface $fields
+			 * @var Custom_Fields\Collection_Interface $fields
 			 */
 			$fields = $this->get( $field_type, self::PROCESSOR_COLLECTIONS );
 
 			/**
 			 * Definitions processor instance.
 			 *
-			 * @var Custom_Fields\DefinitionInterface $definitions
+			 * @var Custom_Fields\Definition_Interface $definitions
 			 */
 			$definitions = $this->get( $field_type, self::PROCESSOR_DEFINITIONS );
 
@@ -528,8 +528,8 @@ class Custom_Fields {
 			 * @since 3.1.0
 			 *
 			 * @param string                            $field_type  The field type.
-			 * @param Custom_Fields\CollectionInterface $fields      The fields processor.
-			 * @param Custom_Fields\DefinitionInterface $definitions The definitions processor.
+			 * @param Custom_Fields\Collection_Interface $fields      The fields processor.
+			 * @param Custom_Fields\Definition_Interface $definitions The definitions processor.
 			 */
 			do_action( 'divi_squad_before_get_definitions', $field_type, $fields, $definitions );
 
@@ -683,10 +683,10 @@ class Custom_Fields {
 	 * @param string $manager_type The manager type (fields, upgrades, etc.).
 	 * @param array  $args         Optional. Arguments to pass to the manager constructor.
 	 *
-	 * @return Custom_Fields\ManagerInterface The manager instance.
+	 * @return Custom_Fields\Manager_Interface The manager instance.
 	 * @throws InvalidArgumentException If the manager type is not supported.
 	 */
-	public function get_manager( string $manager_type, array $args = array() ): Custom_Fields\ManagerInterface {
+	public function get_manager( string $manager_type, array $args = array() ): Custom_Fields\Manager_Interface {
 		/**
 		 * Filter the manager type before processing.
 		 *
@@ -762,7 +762,7 @@ class Custom_Fields {
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param Custom_Fields\ManagerInterface $manager      The manager instance.
+			 * @param Custom_Fields\Manager_Interface $manager      The manager instance.
 			 * @param string                         $manager_type The manager type.
 			 * @param array                          $args         The constructor arguments.
 			 */
@@ -774,7 +774,7 @@ class Custom_Fields {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param Custom_Fields\ManagerInterface $manager      The manager instance.
+		 * @param Custom_Fields\Manager_Interface $manager      The manager instance.
 		 * @param string                         $manager_type The manager type.
 		 * @param array                          $args         The constructor arguments.
 		 */
@@ -808,7 +808,7 @@ class Custom_Fields {
 	 * @param string $field_type The field type (acf, WordPress, etc.).
 	 * @param string $storage    The storage type (collections, definitions, managers).
 	 *
-	 * @return Custom_Fields\CollectionInterface|Custom_Fields\DefinitionInterface|Custom_Fields\ManagerInterface
+	 * @return Custom_Fields\Collection_Interface|Custom_Fields\Definition_Interface|Custom_Fields\Manager_Interface
 	 * @throws InvalidArgumentException If the field type is not supported.
 	 */
 	public function get( string $field_type, string $storage = self::PROCESSOR_COLLECTIONS ): object {
@@ -1041,8 +1041,8 @@ class Custom_Fields {
 			foreach ( $this->processor_registry[ self::PROCESSOR_MANAGERS ] as $type => $class ) {
 				$cache_key = md5( $class );
 				if ( isset( $this->storage['instances'][ $cache_key ] ) ) {
-					// If the manager implements ManagerInterface, call its clear_cache method.
-					if ( $this->storage['instances'][ $cache_key ] instanceof Custom_Fields\ManagerInterface ) {
+					// If the manager implements Manager_Interface, call its clear_cache method.
+					if ( $this->storage['instances'][ $cache_key ] instanceof Custom_Fields\Manager_Interface ) {
 						$this->storage['instances'][ $cache_key ]->clear_cache();
 					}
 
@@ -1057,8 +1057,8 @@ class Custom_Fields {
 				// Find and remove all manager instances with this class.
 				foreach ( $this->storage['managers'] as $key => $manager ) {
 					if ( $manager instanceof $processor_class ) {
-						// Call clear_cache on the manager if it implements ManagerInterface.
-						if ( $manager instanceof Custom_Fields\ManagerInterface ) {
+						// Call clear_cache on the manager if it implements Manager_Interface.
+						if ( $manager instanceof Custom_Fields\Manager_Interface ) {
 							$manager->clear_cache();
 						}
 
@@ -1070,7 +1070,7 @@ class Custom_Fields {
 				// Also clear the class instance.
 				$cache_key = md5( $processor_class );
 				if ( isset( $this->storage['instances'][ $cache_key ] ) ) {
-					if ( $this->storage['instances'][ $cache_key ] instanceof Custom_Fields\ManagerInterface ) {
+					if ( $this->storage['instances'][ $cache_key ] instanceof Custom_Fields\Manager_Interface ) {
 						$this->storage['instances'][ $cache_key ]->clear_cache();
 					}
 

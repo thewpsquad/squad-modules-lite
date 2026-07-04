@@ -246,7 +246,7 @@ class Modules extends Modules_V1 {
 			$category_modules = array();
 
 			foreach ( $all_modules as $module ) {
-				if ( isset( $module['category'] ) && $module['category'] === $category ) {
+				if ( isset( $module['category'] ) && $this->normalize_category_id( (string) $module['category'] ) === $category ) {
 					$category_modules[] = $this->prepare_module_for_response( $module );
 				}
 			}
@@ -632,13 +632,16 @@ class Modules extends Modules_V1 {
 				);
 			}
 
-			// Add new modules to active list.
-			$active_modules = array();
+			// Merge the requested modules into the CURRENT active list (add, not
+			// replace) — mirrors disable_modules_batch, which removes from current.
+			// Starting from an empty array here wiped every other active module.
+			$active_modules = $this->get_module_names( static::ACTIVE_MODULES_KEY );
 			foreach ( $module_ids as $module_id ) {
-				if ( in_array( $module_id, $all_module_names, true ) ) {
+				if ( in_array( $module_id, $all_module_names, true ) && ! in_array( $module_id, $active_modules, true ) ) {
 					$active_modules[] = $module_id;
 				}
 			}
+			$active_modules = array_values( $active_modules );
 
 			// Get inactive modules.
 			$inactive_modules = array_values( array_diff( $all_module_names, $active_modules ) );
@@ -1078,6 +1081,7 @@ class Modules extends Modules_V1 {
 		// Format module data with enhanced information.
 		$formatted_data = array(
 			'name'               => $module['name'] ?? '',
+			'icon'               => $module['icon'] ?? '',
 			'label'              => $module['label'] ?? '',
 			'description'        => $module['description'] ?? '',
 			'release_version'    => $module['release_version'] ?? '',
@@ -1119,7 +1123,7 @@ class Modules extends Modules_V1 {
 	 */
 	protected function prepare_category_for_response( string $id, string $title ): array {
 		$formatted_data = array(
-			'id'    => $id,
+			'id'    => $this->normalize_category_id( $id ),
 			'title' => $title,
 			'count' => $this->count_modules_in_category( $id ),
 		);

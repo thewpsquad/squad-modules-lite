@@ -361,6 +361,14 @@ class Assets implements Hookable {
 			'gallery'         => array(
 				'deps' => array(),
 			),
+			'image-carousel'  => array(
+				'deps'       => array( 'squad-vendor-swiper', 'squad-vendor-light-gallery' ),
+				'style_deps' => array( 'squad-vendor-swiper', 'squad-vendor-light-gallery' ),
+			),
+			'logo-carousel'   => array(
+				'deps'       => array( 'squad-vendor-swiper' ),
+				'style_deps' => array( 'squad-vendor-swiper' ),
+			),
 			'scrolling-text'  => array(
 				'deps' => array( 'squad-vendor-scrolling-text' ),
 			),
@@ -380,6 +388,31 @@ class Assets implements Hookable {
 				'path'       => 'divi-builder-5',
 				'deps'       => array( 'squad-vendor-swiper' ),
 				'style_deps' => array( 'squad-vendor-swiper' ),
+			),
+			'skill-bar'       => array(
+				'path' => 'divi-builder-5',
+			),
+			'social-share'      => array(
+				'path' => 'divi-builder-5',
+			),
+			'table-of-contents' => array(
+				'path' => 'divi-builder-5',
+			),
+			'number-counter'    => array(
+				'path' => 'divi-builder-5',
+			),
+			'text-highlighter'  => array(
+				'path' => 'divi-builder-5',
+			),
+			'animated-heading'  => array(
+				'path' => 'divi-builder-5',
+			),
+			'image-reveal'      => array(
+				'path' => 'divi-builder-5',
+			),
+			'advanced-video'    => array(
+				'path' => 'divi-builder-5',
+				'deps' => array( 'magnific-popup' ),
 			),
 		);
 

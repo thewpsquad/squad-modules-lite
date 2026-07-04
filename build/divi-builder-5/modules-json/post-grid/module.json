@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_post_grid",
   "title": "Post Grid",
   "titles": "Post Grids",
-  "moduleIcon": "divi/module-blog",
+  "moduleIcon": "squad-modules/post-grid",
   "moduleClassName": "disq_post_grid",
   "category": "module",
   "folder": "squad-modules",

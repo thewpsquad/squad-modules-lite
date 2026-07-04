@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_business_hours",
   "title": "Business Hours",
   "titles": "Business Hours",
-  "moduleIcon": "divi/module-countdown-timer",
+  "moduleIcon": "squad-modules/business-hours",
   "moduleClassName": "disq_business_hours",
   "category": "module",
   "folder": "squad-modules",

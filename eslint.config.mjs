@@ -23,8 +23,8 @@ export default [
 			'temp/**',
 			'tools/**',
 			'node_modules/**',
-			'src/divi-builder-4/helpers/frontend/dot-lottie-helpers.ts',
-			'src/divi-builder-5/**',
+			'src/divi-builder/divi-4/helpers/frontend/dot-lottie-helpers.ts',
+			'src/divi-builder/divi-5/**',
 		],
 	},
 

@@ -42,8 +42,8 @@ trait Brand_Assets {
 			 * @param bool $is_admin Whether in admin area
 			 */
 			if ( $is_admin && apply_filters( 'divi_squad_admin_menu_icon', false ) ) {
-				$logo_selectors[] = '#toplevel_page_divi_squad_dashboard div.wp-menu-image:before';
-				$logo_selectors[] = '#toplevel_page_divi_squad_dashboard div.wp-menu-image img';
+				$logo_selectors[] = '#toplevel_page_divi_squad div.wp-menu-image:before';
+				$logo_selectors[] = '#toplevel_page_divi_squad div.wp-menu-image img';
 			}
 
 			/**

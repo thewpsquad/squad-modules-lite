@@ -16,7 +16,7 @@ namespace DiviSquad\Builder\Utils\Elements\Forms;
  * @since   3.1.0
  * @package DiviSquad
  */
-abstract class Collection implements CollectionInterface {
+abstract class Collection implements Collection_Interface {
 
 	/**
 	 * Get the ID of a form.

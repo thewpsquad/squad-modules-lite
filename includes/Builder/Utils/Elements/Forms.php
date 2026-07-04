@@ -12,7 +12,7 @@
 
 namespace DiviSquad\Builder\Utils\Elements;
 
-use DiviSquad\Builder\Utils\Elements\Forms\CollectionInterface;
+use DiviSquad\Builder\Utils\Elements\Forms\Collection_Interface;
 use InvalidArgumentException;
 
 /**
@@ -63,7 +63,7 @@ class Forms {
 	 * Form processor instances.
 	 *
 	 * @since 1.5.0
-	 * @var array<string, CollectionInterface>
+	 * @var array<string, Collection_Interface>
 	 */
 	protected array $processors = array();
 

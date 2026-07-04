@@ -276,12 +276,48 @@ class Modules {
 			 * @param array<string, array<string, mixed>> $modules         List of module data.
 			 * @param self                                $modules_manager Modules manager instance.
 			 */
-			return apply_filters( 'divi_squad_modules_registered_list', array(), $this );
+			$modules = apply_filters( 'divi_squad_modules_registered_list', array(), $this );
+
+			return $this->gate_premium_features( $modules );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to get registered modules list' );
 
 			return array();
 		}
+	}
+
+	/**
+	 * Strip premium features from a registry on a free build.
+	 *
+	 * On a free WP.org build (`can_use_premium_code()` is false) every entry
+	 * flagged `is_premium_feature` is removed so the feature is never registered
+	 * server-side. On a pro build the registry is returned untouched. This is the
+	 * enforcement point; the React `PRO` lock merely reflects it.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param array<string, array<string, mixed>> $registry Raw registry.
+	 *
+	 * @return array<string, array<string, mixed>> Gated registry.
+	 */
+	protected function gate_premium_features( array $registry ): array {
+		try {
+			$can_use_premium = divi_squad_fs()->can_use_premium_code();
+		} catch ( Throwable $e ) {
+			// If the SDK is unavailable, fail closed (treat as free build).
+			$can_use_premium = false;
+		}
+
+		if ( $can_use_premium ) {
+			return $registry;
+		}
+
+		return array_filter(
+			$registry,
+			static function ( $feature ) {
+				return false === ( $feature['is_premium_feature'] ?? false );
+			}
+		);
 	}
 
 	/**

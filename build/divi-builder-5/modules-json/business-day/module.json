@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_business_day",
   "title": "Business Day",
   "titles": "Business Days",
-  "moduleIcon": "divi/module-countdown-timer",
+  "moduleIcon": "squad-modules/business-day",
   "moduleClassName": "disq_business_day",
   "category": "child-module",
   "childrenName": [],

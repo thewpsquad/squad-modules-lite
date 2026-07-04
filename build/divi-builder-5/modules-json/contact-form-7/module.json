@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_form_styler_cf7",
   "title": "Contact Form 7",
   "titles": "Contact Form 7",
-  "moduleIcon": "divi/module-contact-form-7",
+  "moduleIcon": "squad-modules/form-styler",
   "moduleClassName": "disq_form_styler_cf7",
   "category": "module",
   "folder": "squad-modules",

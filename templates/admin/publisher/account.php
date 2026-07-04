@@ -20,51 +20,14 @@ if ( wp_doing_ajax() ) {
 // Extract the rendered Freemius content.
 $divi_squad_content = is_array( $args ) ? (string) ( $args['content'] ?? '' ) : (string) $args;
 
-// Verify current plugin life type.
-$divi_squad_plugin_life_type = divi_squad()->is_dev() ? 'nightly' : 'stable';
-
-/**
- * Filter the plugin life type.
- *
- * @since 3.2.3
- *
- * @param string $divi_squad_plugin_life_type The plugin life type.
- */
-$divi_squad_plugin_life_type = apply_filters( 'divi_squad_plugin_life_type', $divi_squad_plugin_life_type );
-
 ?>
 
-<main id="squad-modules-app" class="squad-modules-app squad-components">
-	<div class="app-wrapper">
-		<div class="app-header">
-			<?php
-			load_template(
-				divi_squad()->get_template_path( 'admin/common/layout-header.php' ),
-				true,
-				array( 'divi_squad_plugin_life_type' => $divi_squad_plugin_life_type )
-			);
-			?>
-		</div>
-		<div class="app-menu">
-			<div class="app-menu-container">
-				<div class="menu-list">
-					<?php
-					/**
-					 * Fires to display the menu list in the dashboard.
-					 *
-					 * @since 3.2.3
-					 *
-					 * @param string $divi_squad_plugin_life_type The plugin life type.
-					 */
-					do_action( 'divi_squad_menu_list_html', $divi_squad_plugin_life_type );
-					?>
-				</div>
-			</div>
-		</div>
-		<div class="wrapper-container">
-			<div class="subscription-wrapper" style="display: none;">
-				<?php echo $divi_squad_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			</div>
+<main id="squad-modules-app" class="squad-modules-app squad-components squad-publisher">
+	<?php load_template( divi_squad()->get_template_path( 'admin/publisher/parts/app-bar.php' ), false ); ?>
+
+	<div class="squad-pub-body">
+		<div class="squad-pub-card subscription-wrapper">
+			<?php echo $divi_squad_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
 	</div>
 </main>

@@ -110,6 +110,9 @@ class Menu {
 			add_action( 'admin_menu', array( $this, 'register_menus' ), 0 );
 			add_filter( 'admin_body_class', array( $this, 'add_body_classes' ), 0 );
 
+			// Redirect the legacy `divi_squad_dashboard` slug to the current slug.
+			add_action( 'admin_init', array( $this, 'redirect_legacy_menu_slug' ) );
+
 			// Add these hook registrations.
 			add_action( 'divi_squad_menu_badges', array( $this, 'add_badges' ) );
 			add_action( 'divi_squad_menu_list_html', array( $this, 'add_menu_list_html' ) );
@@ -139,6 +142,51 @@ class Menu {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Admin Menu Manager initialization' );
 		}
+	}
+
+	/**
+	 * Redirect requests for the legacy `divi_squad_dashboard` menu slug.
+	 *
+	 * The admin menu slug was renamed from `divi_squad_dashboard` to `divi_squad`.
+	 * Any bookmarked or externally linked URL using the old slug — including the
+	 * Freemius sub-pages (`divi_squad_dashboard-account`, `-pricing`, …) — is
+	 * permanently redirected to the equivalent current-slug URL so old links keep
+	 * working.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return void
+	 */
+	public function redirect_legacy_menu_slug(): void {
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only slug redirect, no state change.
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+		$legacy_slug = 'divi_squad_dashboard';
+
+		// Bail unless this is the legacy main page or a legacy sub-page.
+		if ( $legacy_slug !== $page && 0 !== strpos( $page, $legacy_slug . '-' ) ) {
+			return;
+		}
+
+		$current_slug = divi_squad()->get_admin_menu_slug();
+		$new_page     = $current_slug . substr( $page, strlen( $legacy_slug ) );
+
+		// Guard against a redirect loop if the slug was filtered back to the legacy value.
+		if ( $new_page === $page ) {
+			return;
+		}
+
+		// Preserve every other query argument, swapping only the page slug.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only slug redirect, no state change.
+		$query_args         = array_map( 'sanitize_text_field', wp_unslash( $_GET ) );
+		$query_args['page'] = $new_page;
+
+		wp_safe_redirect( add_query_arg( $query_args, admin_url( 'admin.php' ) ), 301 );
+		exit;
 	}
 
 	/**
@@ -875,7 +923,7 @@ class Menu {
 			$menu_url = apply_filters( 'divi_squad_menu_item_url', $menu_url, $submenu, $screen_id, $item_counter, $this );
 
 			// Check if it's a hash URL (contains #).
-			$is_hash_url = Str::contains( $menu_url, 'divi_squad_dashboard#' ) || Str::contains( $menu_url, '#/' );
+			$is_hash_url = Str::contains( $menu_url, 'divi_squad#' ) || Str::contains( $menu_url, '#/' );
 
 			/**
 			 * Filter whether an item is considered a hash URL (SPA navigation).

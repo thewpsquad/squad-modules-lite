@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_form_styler_gravity_forms",
   "title": "Gravity Forms",
   "titles": "Gravity Forms",
-  "moduleIcon": "divi/module-contact-form-7",
+  "moduleIcon": "squad-modules/form-styler",
   "moduleClassName": "disq_form_styler_gravity_forms",
   "category": "module",
   "folder": "squad-modules",

@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_breadcrumbs",
   "title": "Breadcrumbs",
   "titles": "Breadcrumbs",
-  "moduleIcon": "divi/module-breadcrumb",
+  "moduleIcon": "squad-modules/breadcrumbs",
   "moduleClassName": "disq_breadcrumbs",
   "category": "module",
   "folder": "squad-modules",

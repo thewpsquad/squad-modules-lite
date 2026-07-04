@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_dual_button",
   "title": "Dual Button",
   "titles": "Dual Buttons",
-  "moduleIcon": "divi/module-button",
+  "moduleIcon": "squad-modules/dual-button",
   "moduleClassName": "disq_dual_button",
   "category": "module",
   "folder": "squad-modules",

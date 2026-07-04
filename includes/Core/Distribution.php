@@ -92,8 +92,8 @@ class Distribution implements Hookable {
 					'is_org_compliant'    => true,
 					'has_affiliation'     => 'selected',
 					'menu'                => array(
-						'slug'       => 'divi_squad_dashboard',
-						'first-path' => 'admin.php?page=divi_squad_dashboard',
+						'slug'       => 'divi_squad',
+						'first-path' => 'admin.php?page=divi_squad',
 						'contact'    => false,
 					),
 					'permission'          => array(
@@ -504,19 +504,19 @@ class Distribution implements Hookable {
 		try {
 			global $submenu;
 
-			if ( ! is_array( $submenu ) || ! isset( $submenu['divi_squad_dashboard'] ) ) {
+			if ( ! is_array( $submenu ) || ! isset( $submenu['divi_squad'] ) ) {
 				return;
 			}
 
 			foreach ( $submenu as $parent => $sub ) {
 				// Check if the parent is the desired one.
-				if ( 'divi_squad_dashboard' !== $parent ) {
+				if ( 'divi_squad' !== $parent ) {
 					continue;
 				}
 
 				foreach ( $sub as $index => $data ) {
-					if ( isset( $data[2], $data[3] ) && Str::starts_with( $data[2], 'divi_squad_dashboard-' ) ) {
-						if ( 'divi_squad_dashboard-affiliation' === $data[2] ) {
+					if ( isset( $data[2], $data[3] ) && Str::starts_with( $data[2], 'divi_squad-' ) ) {
+						if ( 'divi_squad-affiliation' === $data[2] ) {
 							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 								'%s ‹ %s',
 								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
@@ -524,7 +524,7 @@ class Distribution implements Hookable {
 							);
 						}
 
-						if ( 'divi_squad_dashboard-account' === $data[2] ) {
+						if ( 'divi_squad-account' === $data[2] ) {
 							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 								'%s ‹ %s',
 								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
@@ -532,7 +532,7 @@ class Distribution implements Hookable {
 							);
 						}
 
-						if ( 'divi_squad_dashboard-wp-support-forum' === $data[2] ) {
+						if ( 'divi_squad-wp-support-forum' === $data[2] ) {
 							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 								'%s ‹ %s',
 								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
@@ -540,7 +540,7 @@ class Distribution implements Hookable {
 							);
 						}
 
-						if ( 'divi_squad_dashboard-pricing' === $data[2] ) {
+						if ( 'divi_squad-pricing' === $data[2] ) {
 							$submenu[ $parent ][ $index ][3] = sprintf( // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 								'%s ‹ %s',
 								esc_html__( 'Divi Squad', 'squad-modules-for-divi' ),
@@ -559,7 +559,7 @@ class Distribution implements Hookable {
 						 * @param string $parent  The parent menu slug.
 						 * @param array  $submenu The submenu array.
 						 */
-						do_action( 'divi_squad_dashboard_update_admin_menu_title', $submenu[ $parent ][ $index ], $data, $index, $parent, $submenu );
+						do_action( 'divi_squad_update_admin_menu_title', $submenu[ $parent ][ $index ], $data, $index, $parent, $submenu );
 					}
 				}
 
@@ -570,7 +570,7 @@ class Distribution implements Hookable {
 				 *
 				 * @param array $data The submenu data.
 				 */
-				do_action( 'divi_squad_dashboard_update_admin_menu_title_after', $submenu[ $parent ] );
+				do_action( 'divi_squad_update_admin_menu_title_after', $submenu[ $parent ] );
 			}
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to update admin menu titles' );

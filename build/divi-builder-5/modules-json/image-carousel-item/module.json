@@ -1,0 +1,483 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/image-carousel-item",
+  "d4Shortcode": "disq_image_carousel_item",
+  "title": "Image Carousel Item",
+  "titles": "Image Carousel Items",
+  "moduleIcon": "squad-modules/image-carousel",
+  "moduleClassName": "disq_image_carousel_item",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "decoration": {
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "disabledOn": {},
+          "filters": {},
+          "spacing": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Image Carousel Item"
+            }
+          }
+        }
+      }
+    },
+    "slideItem": {
+      "type": "object",
+      "selector": "{{selector}} .squad-image-carousel__item",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "image": {
+              "groupSlug": "contentImage",
+              "attrName": "slideItem.innerContent",
+              "subName": "image",
+              "label": "Image",
+              "description": "Upload or select the slide image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "imageAlt": {
+              "groupSlug": "contentImage",
+              "attrName": "slideItem.innerContent",
+              "subName": "imageAlt",
+              "label": "Image Alt Text",
+              "description": "Alternative text for the slide image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "showCaption": {
+              "groupSlug": "contentCaption",
+              "attrName": "slideItem.innerContent",
+              "subName": "showCaption",
+              "label": "Show Caption",
+              "description": "Display a caption on the slide.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "captionText": {
+              "groupSlug": "contentCaption",
+              "attrName": "slideItem.innerContent",
+              "subName": "captionText",
+              "label": "Caption",
+              "description": "Caption text displayed on the slide.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "showButton": {
+              "groupSlug": "contentButton",
+              "attrName": "slideItem.innerContent",
+              "subName": "showButton",
+              "label": "Show Button",
+              "description": "Display a CTA button on the slide.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "buttonText": {
+              "groupSlug": "contentButton",
+              "attrName": "slideItem.innerContent",
+              "subName": "buttonText",
+              "label": "Button Text",
+              "description": "The button label.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "buttonUrl": {
+              "groupSlug": "contentButton",
+              "attrName": "slideItem.innerContent",
+              "subName": "buttonUrl",
+              "label": "Button URL",
+              "description": "The destination URL for the button.",
+              "features": {
+                "dynamicContent": {
+                  "type": "url"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "buttonTarget": {
+              "groupSlug": "contentButton",
+              "attrName": "slideItem.innerContent",
+              "subName": "buttonTarget",
+              "label": "Button Target",
+              "description": "Open link in same or new tab.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "_self": {
+                      "label": "Same Window"
+                    },
+                    "_blank": {
+                      "label": "New Window"
+                    }
+                  }
+                }
+              }
+            },
+            "showOverlay": {
+              "groupSlug": "contentOverlay",
+              "attrName": "slideItem.innerContent",
+              "subName": "showOverlay",
+              "label": "Show Overlay",
+              "description": "Show a color overlay on the slide image.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "showCaption": "off",
+              "showButton": "off",
+              "buttonText": "Learn More",
+              "buttonUrl": "#",
+              "buttonTarget": "_self",
+              "showOverlay": "off"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "selector": "{{selector}} .squad-image-carousel__image",
+      "settings": {
+        "decoration": {
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designImage",
+              "attrName": "image.decoration.border",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "boxShadow": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designImage",
+              "attrName": "image.decoration.boxShadow",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/box-shadow",
+                "type": "group"
+              }
+            }
+          },
+          "sizing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designImage",
+              "attrName": "image.decoration.sizing",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/sizing",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "overlay": {
+      "type": "object",
+      "selector": "{{selector}} .squad-image-carousel__overlay",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designOverlay",
+              "attrName": "overlay.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          }
+        }
+      }
+    },
+    "caption": {
+      "type": "object",
+      "selector": "{{selector}} .squad-image-carousel__caption",
+      "settings": {
+        "decoration": {
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designCaption",
+              "attrName": "caption.decoration.spacing",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        },
+        "font": {
+          "caption": {
+            "selector": "{{selector}} .squad-image-carousel__caption",
+            "propertySelectors": {}
+          }
+        }
+      }
+    },
+    "button": {
+      "type": "object",
+      "selector": "{{selector}} .squad-image-carousel__button",
+      "settings": {
+        "decoration": {
+          "background": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designButton",
+              "attrName": "button.decoration.background",
+              "priority": 10,
+              "render": true,
+              "component": {
+                "name": "divi/background",
+                "type": "group"
+              }
+            }
+          },
+          "border": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designButton",
+              "attrName": "button.decoration.border",
+              "priority": 20,
+              "render": true,
+              "component": {
+                "name": "divi/border",
+                "type": "group"
+              }
+            }
+          },
+          "spacing": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designButton",
+              "attrName": "button.decoration.spacing",
+              "priority": 30,
+              "render": true,
+              "component": {
+                "name": "divi/spacing",
+                "type": "group"
+              }
+            }
+          }
+        },
+        "font": {
+          "button": {
+            "selector": "{{selector}} .squad-image-carousel__button",
+            "propertySelectors": {}
+          }
+        }
+      }
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentImage": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "image",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Image"
+          }
+        }
+      },
+      "contentCaption": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "caption",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Caption"
+          }
+        }
+      },
+      "contentButton": {
+        "panel": "content",
+        "priority": 30,
+        "groupName": "button",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Button"
+          }
+        }
+      },
+      "contentOverlay": {
+        "panel": "content",
+        "priority": 40,
+        "groupName": "overlay",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Overlay"
+          }
+        }
+      },
+      "designImage": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "designImage",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Image"
+          }
+        }
+      },
+      "designOverlay": {
+        "panel": "design",
+        "priority": 20,
+        "groupName": "designOverlay",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Overlay"
+          }
+        }
+      },
+      "designCaption": {
+        "panel": "design",
+        "priority": 30,
+        "groupName": "designCaption",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Caption"
+          }
+        }
+      },
+      "designButton": {
+        "panel": "design",
+        "priority": 40,
+        "groupName": "designButton",
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Button"
+          }
+        }
+      }
+    }
+  }
+}

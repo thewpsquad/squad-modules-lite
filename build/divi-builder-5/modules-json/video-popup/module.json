@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_video_popup",
   "title": "Video Popup",
   "titles": "Video Popups",
-  "moduleIcon": "divi/module-video",
+  "moduleIcon": "squad-modules/video-popup",
   "moduleClassName": "disq_video_popup",
   "category": "module",
   "folder": "squad-modules",

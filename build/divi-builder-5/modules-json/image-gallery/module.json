@@ -5,7 +5,7 @@
   "moduleClassName": "disq_image_gallery",
   "title": "Image Gallery",
   "titles": "Image Galleries",
-  "moduleIcon": "divi/module-gallery",
+  "moduleIcon": "squad-modules/image-gallery",
   "category": "module",
   "folder": "squad-modules",
   "attributes": {

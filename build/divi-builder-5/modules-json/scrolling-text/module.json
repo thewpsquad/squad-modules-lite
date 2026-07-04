@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_scrolling_text",
   "title": "Scrolling Text",
   "titles": "Scrolling Texts",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/scrolling-text",
   "moduleClassName": "disq_scrolling_text",
   "category": "module",
   "folder": "squad-modules",

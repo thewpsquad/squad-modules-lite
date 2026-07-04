@@ -308,4 +308,23 @@ abstract class Base_Route {
 
 		return $this->error_response( 'server_error', $message, $status );
 	}
+
+	/**
+	 * Normalize a category identifier into a URL-safe slug.
+	 *
+	 * Category IDs originate from the module/extension registry and may contain
+	 * characters the category route regex (`[\w-]+`) cannot match — e.g. the
+	 * literal `&` in `image-&-media-modules`. Routing those raw IDs 404s the
+	 * category, so every layer that exposes or matches a category ID must run it
+	 * through this normalizer first to stay consistent.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param string $category_id Raw category identifier.
+	 *
+	 * @return string URL-safe slug.
+	 */
+	protected function normalize_category_id( string $category_id ): string {
+		return sanitize_title( $category_id );
+	}
 }

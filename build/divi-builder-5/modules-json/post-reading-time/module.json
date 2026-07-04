@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_post_reading_time",
   "title": "Post Reading Time",
   "titles": "Post Reading Times",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/post-reading-time",
   "moduleClassName": "disq_post_reading_time",
   "category": "module",
   "folder": "squad-modules",

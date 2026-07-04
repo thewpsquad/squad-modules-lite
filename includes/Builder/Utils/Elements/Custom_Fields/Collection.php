@@ -21,7 +21,7 @@ use DiviSquad\Core\Supports\Polyfills\Str;
  * @since   3.1.0
  * @package DiviSquad
  */
-abstract class Collection implements CollectionInterface {
+abstract class Collection implements Collection_Interface {
 
 	/**
 	 * Supported post types.

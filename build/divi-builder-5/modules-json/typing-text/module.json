@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_typing_text",
   "title": "Typing Text",
   "titles": "Typing Texts",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/typing-text",
   "moduleClassName": "disq_typing_text",
   "category": "module",
   "folder": "squad-modules",

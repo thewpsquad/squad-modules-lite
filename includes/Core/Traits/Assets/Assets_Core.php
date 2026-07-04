@@ -27,7 +27,7 @@ trait Assets_Core {
 	/**
 	 * Process asset configuration and return normalized data
 	 *
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config       Asset configuration.
+	 * @param array<string, mixed> $config       Asset configuration.
 	 * @param array<string>                                                                                                                     $default_deps Default dependencies.
 	 *
 	 * @return array{ path: string, version: string, dependencies: array<string> } Processed asset data
@@ -165,7 +165,7 @@ trait Assets_Core {
 	/**
 	 * Resolve the asset file path based on environment and configuration
 	 *
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config      Asset configuration.
+	 * @param array<string, mixed> $config      Asset configuration.
 	 * @param bool                                                                                                                              $is_local    Whether to resolve local path.
 	 * @param bool                                                                                                                              $return_path Whether to return the resolved path.
 	 *
@@ -344,7 +344,7 @@ trait Assets_Core {
 	/**
 	 * Determine which file to use based on environment mode
 	 *
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config Asset configuration.
+	 * @param array<string, mixed> $config Asset configuration.
 	 *
 	 * @return string File name to use
 	 */
@@ -706,7 +706,7 @@ trait Assets_Core {
 	/**
 	 * Check if an asset file exists based on configuration
 	 *
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config Asset configuration.
+	 * @param array<string, mixed> $config Asset configuration.
 	 *
 	 * @return bool True if asset file exists
 	 */

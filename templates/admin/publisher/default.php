@@ -23,6 +23,12 @@ $divi_squad_content = is_array( $args ) ? (string) ( $args['content'] ?? '' ) : 
 
 ?>
 
-<main id="squad-generic-pages" class="squad-components">
-	<?php echo $divi_squad_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+<main id="squad-modules-app" class="squad-modules-app squad-components squad-publisher">
+	<?php load_template( divi_squad()->get_template_path( 'admin/publisher/parts/app-bar.php' ), false ); ?>
+
+	<div class="squad-pub-body">
+		<div class="squad-pub-card subscription-wrapper">
+			<?php echo $divi_squad_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		</div>
+	</div>
 </main>

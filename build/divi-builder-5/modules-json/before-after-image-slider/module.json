@@ -5,7 +5,7 @@
   "title": "Before After Image Slider",
   "titles": "Before After Image Sliders",
   "moduleClassName": "disq_bai_slider",
-  "moduleIcon": "divi/module-before-after-image",
+  "moduleIcon": "squad-modules/before-after-image-slider",
   "category": "module",
   "folder": "squad-modules",
   "attributes": {

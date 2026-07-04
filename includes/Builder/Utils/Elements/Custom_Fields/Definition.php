@@ -22,7 +22,7 @@ namespace DiviSquad\Builder\Utils\Elements\Custom_Fields;
  * @since   3.1.0
  * @package DiviSquad
  */
-abstract class Definition implements DefinitionInterface {
+abstract class Definition implements Definition_Interface {
 
 	/**
 	 * Collection of common field definitions.

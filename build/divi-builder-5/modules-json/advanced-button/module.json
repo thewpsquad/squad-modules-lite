@@ -1,0 +1,548 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/advanced-button",
+  "d4Shortcode": "disq_advanced_button",
+  "title": "Advanced Button",
+  "titles": "Advanced Buttons",
+  "moduleIcon": "squad-modules/advanced-button",
+  "moduleClassName": "disq_advanced_button",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "fonts": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Advanced Button"
+            }
+          }
+        }
+      }
+    },
+    "buttonSettings": {
+      "type": "object",
+      "selector": "{{selector}} .squad-advanced-button",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "buttonText": {
+              "groupSlug": "contentButton",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "buttonText",
+              "label": "Button Text",
+              "description": "The primary label displayed on the button.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "subText": {
+              "groupSlug": "contentButton",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "subText",
+              "label": "Sub Text",
+              "description": "Optional second line of text below the button label.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "hoverEffect": {
+              "groupSlug": "contentButton",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "hoverEffect",
+              "label": "Hover Effect",
+              "description": "CSS-only visual effect applied when the button is hovered.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "none": {
+                      "label": "None"
+                    },
+                    "bg-slide": {
+                      "label": "Background Slide"
+                    },
+                    "lift": {
+                      "label": "Lift"
+                    },
+                    "scale": {
+                      "label": "Scale"
+                    },
+                    "border": {
+                      "label": "Border"
+                    }
+                  }
+                }
+              }
+            },
+            "buttonUrl": {
+              "groupSlug": "contentLink",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "buttonUrl",
+              "label": "Button URL",
+              "description": "The destination URL when the button is clicked. Leave empty for a non-link button.",
+              "features": {
+                "dynamicContent": {
+                  "type": "url"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "urlNewWindow": {
+              "groupSlug": "contentLink",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "urlNewWindow",
+              "label": "Open in New Tab",
+              "description": "Open the link in a new browser tab.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "addNofollow": {
+              "groupSlug": "contentLink",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "addNofollow",
+              "label": "Add Nofollow",
+              "description": "Append rel=\"nofollow\" to the link.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "useIcon": {
+              "groupSlug": "contentIcon",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "useIcon",
+              "label": "Use Icon",
+              "description": "Show an icon alongside the button text.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "icon": {
+              "groupSlug": "contentIcon",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "icon",
+              "label": "Choose an Icon",
+              "description": "Pick the icon to display alongside the button.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/icon-picker"
+              }
+            },
+            "iconPlacement": {
+              "groupSlug": "contentIcon",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "iconPlacement",
+              "label": "Icon Placement",
+              "description": "Where the icon is placed relative to the button text.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "left": {
+                      "label": "Left"
+                    },
+                    "right": {
+                      "label": "Right"
+                    },
+                    "top": {
+                      "label": "Top"
+                    },
+                    "bottom": {
+                      "label": "Bottom"
+                    }
+                  }
+                }
+              }
+            },
+            "iconOnHover": {
+              "groupSlug": "contentIcon",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "iconOnHover",
+              "label": "Reveal Icon on Hover",
+              "description": "Hide the icon until the button is hovered.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "contentAlignment": {
+              "groupSlug": "designLayout",
+              "attrName": "buttonSettings.innerContent",
+              "subName": "contentAlignment",
+              "label": "Content Alignment",
+              "description": "Horizontal alignment of the button within its container.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "left": {
+                      "label": "Left"
+                    },
+                    "center": {
+                      "label": "Center"
+                    },
+                    "right": {
+                      "label": "Right"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "buttonText": "Click Here",
+              "subText": "",
+              "buttonUrl": "",
+              "urlNewWindow": "off",
+              "addNofollow": "off",
+              "useIcon": "off",
+              "icon": "",
+              "iconPlacement": "left",
+              "iconOnHover": "off",
+              "hoverEffect": "none",
+              "contentAlignment": "left"
+            }
+          }
+        }
+      }
+    },
+    "iconDesign": {
+      "type": "object",
+      "selector": "{{selector}} .squad-advanced-button__icon",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "iconColor": {
+              "groupSlug": "designIcon",
+              "attrName": "iconDesign.innerContent",
+              "subName": "iconColor",
+              "label": "Icon Color",
+              "description": "Color of the button icon.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "iconSize": {
+              "groupSlug": "designIcon",
+              "attrName": "iconDesign.innerContent",
+              "subName": "iconSize",
+              "label": "Icon Size",
+              "description": "Size of the button icon.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 8,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [
+                    "px",
+                    "em",
+                    "rem"
+                  ],
+                  "defaultUnit": "px"
+                }
+              }
+            },
+            "iconSpacing": {
+              "groupSlug": "designIcon",
+              "attrName": "iconDesign.innerContent",
+              "subName": "iconSpacing",
+              "label": "Icon Spacing",
+              "description": "Gap between the icon and button text.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 80,
+                  "step": 1,
+                  "allowedUnits": [
+                    "px",
+                    "em",
+                    "rem"
+                  ],
+                  "defaultUnit": "px"
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "iconColor": "",
+              "iconSize": "16px",
+              "iconSpacing": "8px"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {
+    "buttonLink": {
+      "label": "Button Link",
+      "subName": "buttonLink",
+      "selectorSuffix": " .squad-advanced-button .squad-advanced-button__link"
+    },
+    "buttonIcon": {
+      "label": "Button Icon",
+      "subName": "buttonIcon",
+      "selectorSuffix": " .squad-advanced-button .squad-advanced-button__icon"
+    },
+    "buttonText": {
+      "label": "Button Text",
+      "subName": "buttonText",
+      "selectorSuffix": " .squad-advanced-button .squad-advanced-button__text"
+    },
+    "buttonSub": {
+      "label": "Sub Text",
+      "subName": "buttonSub",
+      "selectorSuffix": " .squad-advanced-button .squad-advanced-button__sub"
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentButton": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "buttonSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Button"
+          }
+        }
+      },
+      "contentLink": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "buttonSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Link"
+          }
+        }
+      },
+      "contentIcon": {
+        "panel": "content",
+        "priority": 30,
+        "groupName": "buttonSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Icon"
+          }
+        }
+      },
+      "designIcon": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "iconDesign",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Icon"
+          }
+        }
+      },
+      "designLayout": {
+        "panel": "design",
+        "priority": 20,
+        "groupName": "buttonSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Layout"
+          }
+        }
+      }
+    }
+  }
+}

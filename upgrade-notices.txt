@@ -1,4 +1,13 @@
 == Upgrade Notice ==
+= 4.1.0 =
+Feature release: a rebuilt React admin dashboard (live stats, module/extension management, dark mode) and 15 new modules including Social Share, Table of Contents, Number Counter, Advanced Button, Hover Box, Animated Heading, Image Carousel, and Logo Grid. The admin page slug changed from "divi_squad_dashboard" to "divi_squad"; old bookmarks are redirected automatically. Divi 4 and Divi 5 builder support continue unchanged.
+
+= 4.0.0 =
+Major release: every Squad module now runs natively in the Divi 5 Visual Builder (Block API), plus a new Post Carousel module and Divi 5 form stylers for Formidable, MetForm, and SureForms. Includes Post Grid/Post Element Divi 5 parity, design-group cleanups, and admin dashboard fixes. Divi 4 builder support continues unchanged.
+
+= 3.4.4 =
+Enhanced build system stability with ESLint configuration improvements and fixed PHP sprintf format specifier errors. Improved code quality and build process reliability.
+
 = 3.4.3 =
 Improved Image Mask module with secondary shapes, optimized deprecated file loading, and enhanced security policy. Fixed admin notices display issues and improved code quality with comprehensive unit tests.
 

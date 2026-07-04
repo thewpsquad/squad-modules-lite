@@ -244,7 +244,7 @@ class Extensions extends Extensions_V1 {
 			$category_extensions = array();
 
 			foreach ( $all_extensions as $extension ) {
-				if ( isset( $extension['category'] ) && $extension['category'] === $category ) {
+				if ( isset( $extension['category'] ) && $this->normalize_category_id( (string) $extension['category'] ) === $category ) {
 					$category_extensions[] = $this->prepare_extension_for_response( $extension );
 				}
 			}
@@ -1054,6 +1054,7 @@ class Extensions extends Extensions_V1 {
 		// Format extension data with enhanced information.
 		$formatted_data = array(
 			'name'               => $extension['name'] ?? '',
+			'icon'               => $extension['icon'] ?? '',
 			'label'              => $extension['label'] ?? '',
 			'description'        => $extension['description'] ?? '',
 			'release_version'    => $extension['release_version'] ?? '',
@@ -1062,6 +1063,8 @@ class Extensions extends Extensions_V1 {
 			'is_premium_feature' => $extension['is_premium_feature'] ?? false,
 			'category'           => $extension['category'] ?? '',
 			'category_title'     => $extension['category_title'] ?? '',
+			'group'              => $this->resolve_extension_group( $extension ),
+			'is_new'             => (bool) ( $extension['is_new'] ?? false ),
 			'is_active'          => $is_active,
 			'version'            => $this->version,
 		);
@@ -1079,6 +1082,46 @@ class Extensions extends Extensions_V1 {
 	}
 
 	/**
+	 * Resolve the display group for an extension.
+	 *
+	 * The redesign groups extensions into: Enhancement, Login Experience,
+	 * Media Upload, Pro Extensions. Premium-only extensions always group under
+	 * "Pro Extensions"; otherwise the extension's `category_title` (or a humanized
+	 * `category`) is used, defaulting to "Enhancement".
+	 *
+	 * @since 3.5.0
+	 *
+	 * @param array<string, mixed> $extension Raw extension data.
+	 *
+	 * @return string The resolved group label.
+	 */
+	protected function resolve_extension_group( array $extension ): string {
+		// An explicit registry group wins.
+		if ( isset( $extension['group'] ) && '' !== (string) $extension['group'] ) {
+			$group = (string) $extension['group'];
+		} elseif ( true === ( $extension['is_premium_feature'] ?? false ) ) {
+			$group = __( 'Pro Extensions', 'squad-modules-for-divi' );
+		} elseif ( isset( $extension['category_title'] ) && '' !== (string) $extension['category_title'] ) {
+			$group = (string) $extension['category_title'];
+		} elseif ( isset( $extension['category'] ) && '' !== (string) $extension['category'] ) {
+			$group = ucwords( str_replace( array( '-', '_' ), ' ', (string) $extension['category'] ) );
+		} else {
+			$group = __( 'Enhancement', 'squad-modules-for-divi' );
+		}
+
+		/**
+		 * Filter the resolved extension group.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param string               $group     The resolved group label.
+		 * @param array<string, mixed> $extension The raw extension data.
+		 * @param self                 $instance  The current instance.
+		 */
+		return apply_filters( 'divi_squad_rest_extension_group', $group, $extension, $this );
+	}
+
+	/**
 	 * Prepare a category for the REST response.
 	 *
 	 * @since 3.3.0
@@ -1090,7 +1133,7 @@ class Extensions extends Extensions_V1 {
 	 */
 	protected function prepare_category_for_response( string $id, string $title ): array {
 		$formatted_data = array(
-			'id'    => $id,
+			'id'    => $this->normalize_category_id( $id ),
 			'title' => $title,
 			'count' => $this->count_extensions_in_category( $id ),
 		);

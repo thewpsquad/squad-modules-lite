@@ -154,7 +154,7 @@ class Plugin_Admin_Footer_Text extends Brand_Asset_Base {
 		$content .= sprintf(
 			'<a class="divi-squad-link-footer divi-squad-version-link" href="%2$s%4$s" title="%3$s" target="_blank" style="margin-left: 5px; text-decoration: none">%1$s</a>',
 			wp_kses_post( $version_link_text ),
-			esc_url( admin_url( 'admin.php?page=divi_squad_dashboard#/whats-new/' ) ),
+			esc_url( admin_url( 'admin.php?page=divi_squad#/whats-new/' ) ),
 			esc_attr__( 'View what changed in this version', 'squad-modules-for-divi' ),
 			esc_attr( divi_squad()->get_version_dot() )
 		);

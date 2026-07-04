@@ -68,7 +68,7 @@ class Plugin_Action_Links extends Brand_Asset_Base {
 	 * @return array<string> The plugin action links.
 	 */
 	public function get_action_links(): array {
-		$manage_modules_url = admin_url( 'admin.php?page=divi_squad_dashboard#/modules' );
+		$manage_modules_url = admin_url( 'admin.php?page=divi_squad#/modules' );
 
 		return array(
 			sprintf(

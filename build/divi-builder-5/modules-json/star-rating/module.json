@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_star_rating",
   "title": "Star Rating",
   "titles": "Star Ratings",
-  "moduleIcon": "divi/module-text",
+  "moduleIcon": "squad-modules/star-rating",
   "moduleClassName": "disq_star_rating",
   "category": "module",
   "folder": "squad-modules",

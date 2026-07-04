@@ -4,7 +4,7 @@
  * WordPress Custom Field Definitions
  *
  * This file contains the WordPress class which extends Definition
- * and implements DefinitionInterface. It provides specific
+ * and implements Definition_Interface. It provides specific
  * implementations for WordPress standard custom fields in the context of Divi Builder.
  *
  * @since   3.1.0

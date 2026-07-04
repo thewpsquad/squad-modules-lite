@@ -303,6 +303,52 @@ trait Definition_Trait {
 	}
 
 	/**
+	 * Adds a media upload (image) field configuration for Divi modules.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param string $label      The field label.
+	 * @param array  $properties Additional properties for the field.
+	 *
+	 * @return array The upload field configuration array.
+	 */
+	public function add_media_upload_field( string $label, array $properties = array() ): array {
+		$defaults = array(
+			'label'              => $label,
+			'type'               => 'upload',
+			'option_category'    => 'basic_option',
+			'upload_button_text' => et_builder_i18n( 'Upload an image' ),
+			'choose_text'        => esc_attr__( 'Choose an Image', 'squad-modules-for-divi' ),
+			'update_text'        => esc_attr__( 'Set As Image', 'squad-modules-for-divi' ),
+			'dynamic_content'    => 'image',
+			'default'            => '',
+		);
+
+		/**
+		 * Filter the media upload field default configuration options.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param array  $defaults   The default configuration options.
+		 * @param string $label      The field label.
+		 * @param array  $properties Additional properties.
+		 */
+		$defaults = apply_filters( 'divi_squad_media_upload_field_defaults', $defaults, $label, $properties );
+
+		$properties = wp_parse_args( $properties, $defaults );
+
+		/**
+		 * Filter the media upload field configuration after applying the defaults.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param array  $properties The processed configuration options.
+		 * @param string $label      The field label.
+		 */
+		return apply_filters( 'divi_squad_media_upload_field', $properties, $label );
+	}
+
+	/**
 	 * Adds a select box field configuration for Divi modules.
 	 *
 	 * @since 1.0.0

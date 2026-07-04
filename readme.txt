@@ -5,24 +5,24 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.0.0
+Stable tag: 4.1.0
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-The Essential Divi plugin — 25+ free modules that run natively in both the new Divi 5 Visual Builder and the classic Divi 4 builder.
+The Essential Divi plugin — 50+ free modules that run natively in both the new Divi 5 Visual Builder and the classic Divi 4 builder.
 
 == Description ==
 
 **Elevate Your Divi Experience with Squad Modules Lite**
 
-Squad Modules Lite is the ultimate free Divi modules and extensions plugin that takes your Divi page building experience to new heights. Designed specifically for the Divi theme and Divi page builder, it introduces a powerful suite of over 25 free Divi modules and 5 free Divi extensions, empowering you to create visually stunning, highly functional websites with ease.
+Squad Modules Lite is the ultimate free Divi modules and extensions plugin that takes your Divi page building experience to new heights. Designed specifically for the Divi theme and Divi page builder, it introduces a powerful suite of over 50 free Divi modules and 5 free Divi extensions, empowering you to create visually stunning, highly functional websites with ease.
 
 **Now with full Divi 5 support:** every Squad module runs as a native module in the new Divi 5 Visual Builder (Block API), while continuing to work in the classic Divi 4 builder — so your existing layouts keep working and new ones get the speed of Divi 5.
 
 **Key Features:**
 
 - **Native Divi 5 & Divi 4 Support:** Every module is a first-class citizen in the new Divi 5 Visual Builder and the classic Divi 4 builder — no separate plugin, no migration headaches.
-- **25+ Free Divi Modules:** A diverse collection of free modules for layouts, content, interactive elements, dynamic content, engagement, social proof, and form styling.
+- **50+ Free Divi Modules:** A diverse collection of free modules for layouts, content, interactive elements, dynamic content, engagement, social proof, and form styling.
 - **5 Free Divi Extensions:** Copy posts/pages, Divi Library shortcodes, custom font upload, JSON import/export, and SVG upload.
 - **Lightweight and High-Performance:** Meticulously crafted for lightning-fast loading and a seamless Divi editing experience.
 - **Complete Customization:** Extensive design controls on every module, neatly organized into named groups in the Visual Builder.
@@ -106,8 +106,8 @@ Don't settle for limitations – embrace the power of Squad Modules Lite and unl
 
 Before diving into the exciting world of Squad Modules Lite, let's ensure your website meets the minimum requirements for a smooth installation:
 
-* **WordPress:** Version 5.0 or greater
-* **PHP:** Version 7.0 or greater
+* **WordPress:** Version 6.0 or greater
+* **PHP:** Version 7.4 or greater
 * **MySQL:** Version 5.0 or greater
 * **Divi Theme, Extra Theme, or Divi Builder Plugin:** Version 4.13 or greater — including Divi 5 with the new Visual Builder
 
@@ -191,6 +191,9 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 12. Typing Text Module - Animated typing headlines with configurable words, speed, color, and cursor to grab attention.
 
 == Upgrade Notice ==
+= 4.1.0 =
+Feature release: a rebuilt React admin dashboard (live stats, module/extension management, dark mode) and 15 new modules including Social Share, Table of Contents, Number Counter, Advanced Button, Hover Box, Animated Heading, Image Carousel, and Logo Grid. The admin page slug changed from "divi_squad_dashboard" to "divi_squad"; old bookmarks are redirected automatically. Divi 4 and Divi 5 builder support continue unchanged.
+
 = 4.0.0 =
 Major release: every Squad module now runs natively in the Divi 5 Visual Builder (Block API), plus a new Post Carousel module and Divi 5 form stylers for Formidable, MetForm, and SureForms. Includes Post Grid/Post Element Divi 5 parity, design-group cleanups, and admin dashboard fixes. Divi 4 builder support continues unchanged.
 
@@ -231,6 +234,46 @@ Major performance improvements, bug fixes, and enhanced module loading system. N
 Bug fixing for Flip box module
 
 == Changelog ==
+= 4.1.0 (09-06-2026) =
+
+**New Modules:**
+- **Social Share** — share buttons for popular networks, fully server-rendered and CSS-only.
+- **Table of Contents** — auto-generated, anchor-linked contents from page headings.
+- **Number Counter** — animated count-up numbers with prefix/suffix and styling controls.
+- **Advanced Button** — richer button with dual icons, hover styles, and states.
+- **Text Highlighter** — animated highlight/underline effects for emphasis text.
+- **Inline Content** — mix text, icons, images, buttons, and dividers in a single flowing line.
+- **Hover Box** — reveal content on hover with CSS-only transitions.
+- **Animated Heading** — headlines with rotating/animated phrases.
+- **Floating Images** — decorative images with parallax-style floating motion.
+- **Image Reveal** — images that reveal on scroll or hover.
+- **Advanced Video** — styled video player with custom poster and overlay controls.
+- **Image Carousel** — touch-friendly image carousel with autoplay, loop, and effects.
+- **Logo Grid** — responsive grid/marquee of brand logos.
+- **Skill Bar** — animated progress/skill bars with labels and percentages.
+- **Author Box** — author bio block with avatar, social links, and layouts.
+
+**Admin Dashboard Redesign:**
+- Rebuilt the admin area as a modern React single-page app (Tailwind + shadcn) with a light/dark theme.
+- Live dashboard stats and a modules-by-category library breakdown.
+- Modules and Extensions management with search, category filters, bulk actions, and an unsaved-changes save bar.
+- What's New changelog timeline, real Freemius affiliate program terms and application status, and an Account screen with license activation and an anonymous-usage-sharing toggle.
+- Brand-aligned Freemius account, pricing, and affiliation pages.
+
+**Changes:**
+- Renamed the admin page slug from `divi_squad_dashboard` to `divi_squad`. Existing links and bookmarks to the old slug (including Freemius sub-pages) are permanently redirected to the new slug automatically.
+
+**Improvements:**
+- Reorganized the Divi 4 and Divi 5 builder source into a shared structure, consolidating cross-version Supports/Module helpers and the build shell.
+- Standardized PHP interface and class naming, and added per-module brand icons for the Divi 4 builder.
+- Generated an inline module-icon registry at build time for the admin app.
+- Expanded automated test coverage for the core and builder layers.
+
+**Bug Fixes:**
+- Fixed two fatal errors in the Inline Content module caused by method overrides incompatible with `ET_Builder_Element` (`render_button`, `render_image`).
+- Fixed the Modules/Extensions batch enable/disable save path and URL-unsafe category routes in the REST API.
+- Corrected the admin REST namespace, dashboard live-data mapping, and several admin styling regressions against wp-admin core CSS.
+
 = 4.0.0 (30-05-2026) =
 
 **Major: Native Divi 5 (Block API) support**

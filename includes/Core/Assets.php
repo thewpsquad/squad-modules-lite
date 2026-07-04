@@ -398,9 +398,9 @@ class Assets implements Hookable {
 	/**
 	 * Register a script with WordPress
 	 *
-	 * @param string                                                                                                                            $handle Script identifier.
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config Asset configuration.
-	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null}                                                                          $args   Additional arguments.
+	 * @param string                                                   $handle Script identifier.
+	 * @param array<string, mixed>                                     $config Asset configuration.
+	 * @param array{in_footer?: bool, strategy?: 'defer'|'async'|null} $args   Additional arguments.
 	 *
 	 * @return bool Whether registration was successful
 	 */
@@ -411,9 +411,9 @@ class Assets implements Hookable {
 	/**
 	 * Register a stylesheet with WordPress
 	 *
-	 * @param string                                                                                                                            $handle Script identifier.
-	 * @param array{ file: string, path?: string, prod_file?: string, dev_file?: string, pattern?: string, ext?: string, deps?: array<string> } $config Asset configuration.
-	 * @param string                                                                                                                            $media  Media type.
+	 * @param string               $handle Script identifier.
+	 * @param array<string, mixed> $config Asset configuration.
+	 * @param string               $media  Media type.
 	 *
 	 * @return bool Whether registration was successful
 	 */

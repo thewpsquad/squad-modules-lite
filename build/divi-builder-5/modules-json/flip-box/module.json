@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_flip_box",
   "title": "Flip Box",
   "titles": "Flip Boxes",
-  "moduleIcon": "divi/module-toggle",
+  "moduleIcon": "squad-modules/flip-box",
   "moduleClassName": "disq_flip_box",
   "category": "module",
   "folder": "squad-modules",

@@ -24,7 +24,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
-use DiviSquad\Builder\Version4\Supports\Module_Utilities\Breadcrumbs as Breadcrumbs_Utility;
+use DiviSquad\Builder\Shared\Supports\Module_Utilities\Breadcrumbs as Breadcrumbs_Utility;
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use DiviSquad\Utils\Divi;
 use ET\Builder\FrontEnd\Module\Style;

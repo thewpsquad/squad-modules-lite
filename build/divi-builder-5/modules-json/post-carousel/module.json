@@ -4,7 +4,7 @@
   "d4Shortcode": "disq_post_carousel",
   "title": "Post Carousel",
   "titles": "Post Carousels",
-  "moduleIcon": "divi/module-blog",
+  "moduleIcon": "squad-modules/post-carousel",
   "moduleClassName": "disq_post_carousel",
   "category": "module",
   "folder": "squad-modules",

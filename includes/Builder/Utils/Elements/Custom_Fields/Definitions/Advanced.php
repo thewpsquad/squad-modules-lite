@@ -4,7 +4,7 @@
  * Advanced Custom Field Definitions
  *
  * This file contains the Advanced class which extends Definition and
- * implements DefinitionInterface. It provides more sophisticated
+ * implements Definition_Interface. It provides more sophisticated
  * implementations for custom fields, supporting complex field types
  * and advanced filtering options.
  *

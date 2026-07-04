@@ -1,0 +1,694 @@
+{
+  "_comment": "!!! THIS IS AN AUTOMATICALLY GENERATED FILE - DO NOT EDIT !!!",
+  "name": "squad-modules/hover-box",
+  "d4Shortcode": "disq_hover_box",
+  "title": "Hover Box",
+  "titles": "Hover Boxes",
+  "moduleIcon": "squad-modules/hover-box",
+  "moduleClassName": "disq_hover_box",
+  "category": "module",
+  "folder": "squad-modules",
+  "attributes": {
+    "module": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "meta": {
+          "adminLabel": {}
+        },
+        "advanced": {
+          "htmlAttributes": {}
+        },
+        "decoration": {
+          "animation": {},
+          "background": {},
+          "border": {},
+          "boxShadow": {},
+          "conditions": {},
+          "disabledOn": {},
+          "filters": {},
+          "fonts": {},
+          "overflow": {},
+          "position": {},
+          "scroll": {},
+          "sizing": {},
+          "spacing": {},
+          "sticky": {},
+          "transform": {},
+          "transition": {},
+          "zIndex": {}
+        }
+      },
+      "default": {
+        "meta": {
+          "adminLabel": {
+            "desktop": {
+              "value": "Hover Box"
+            }
+          }
+        }
+      }
+    },
+    "hoverSettings": {
+      "type": "object",
+      "selector": "{{selector}} .squad-hoverbox",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "image": {
+              "groupSlug": "contentImage",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "image",
+              "label": "Image",
+              "description": "Upload the hover box background image. Leave empty to show background color.",
+              "features": {
+                "dynamicContent": {
+                  "type": "image"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/upload"
+              }
+            },
+            "imageAlt": {
+              "groupSlug": "contentImage",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "imageAlt",
+              "label": "Image Alt Text",
+              "description": "Alt text for the image.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "imageHoverFx": {
+              "groupSlug": "contentImage",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "imageHoverFx",
+              "label": "Image Hover Effect",
+              "description": "CSS-only effect applied to the image on hover.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "none": {
+                      "label": "None"
+                    },
+                    "zoom-in": {
+                      "label": "Zoom In"
+                    },
+                    "zoom-out": {
+                      "label": "Zoom Out"
+                    },
+                    "grayscale": {
+                      "label": "Grayscale"
+                    },
+                    "blur": {
+                      "label": "Blur"
+                    },
+                    "rotate": {
+                      "label": "Rotate"
+                    }
+                  }
+                }
+              }
+            },
+            "persistentTitle": {
+              "groupSlug": "contentPersistent",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "persistentTitle",
+              "label": "Persistent Title",
+              "description": "Always-visible text over the image. Empty to hide.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "useIcon": {
+              "groupSlug": "contentIcon",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "useIcon",
+              "label": "Show Icon",
+              "description": "Show an icon in the overlay.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "icon": {
+              "groupSlug": "contentIcon",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "icon",
+              "label": "Choose an Icon",
+              "description": "Pick the overlay icon.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/icon-picker"
+              }
+            },
+            "title": {
+              "groupSlug": "contentBody",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "title",
+              "label": "Overlay Title",
+              "description": "Title shown in the overlay.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "content": {
+              "groupSlug": "contentBody",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "content",
+              "label": "Overlay Text",
+              "description": "Body text in the overlay. Allows safe inline HTML.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/textarea"
+              }
+            },
+            "buttonText": {
+              "groupSlug": "contentButton",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "buttonText",
+              "label": "Button Text",
+              "description": "Label for the overlay button. Empty to hide.",
+              "features": {
+                "dynamicContent": {
+                  "type": "text"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "buttonUrl": {
+              "groupSlug": "contentButton",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "buttonUrl",
+              "label": "Button URL",
+              "description": "Destination URL. Empty for a non-link button.",
+              "features": {
+                "dynamicContent": {
+                  "type": "url"
+                },
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/text"
+              }
+            },
+            "buttonNewWindow": {
+              "groupSlug": "contentButton",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "buttonNewWindow",
+              "label": "Open in New Tab",
+              "description": "Open the button link in a new tab.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "off": {
+                      "label": "No"
+                    },
+                    "on": {
+                      "label": "Yes"
+                    }
+                  }
+                }
+              }
+            },
+            "overlayAnimation": {
+              "groupSlug": "contentOverlay",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "overlayAnimation",
+              "label": "Content Animation",
+              "description": "How the overlay content enters on hover.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "fade": {
+                      "label": "Fade"
+                    },
+                    "slide-up": {
+                      "label": "Slide Up"
+                    },
+                    "slide-down": {
+                      "label": "Slide Down"
+                    },
+                    "slide-left": {
+                      "label": "Slide Left"
+                    },
+                    "slide-right": {
+                      "label": "Slide Right"
+                    },
+                    "zoom": {
+                      "label": "Zoom"
+                    }
+                  }
+                }
+              }
+            },
+            "contentValign": {
+              "groupSlug": "contentOverlay",
+              "attrName": "hoverSettings.innerContent",
+              "subName": "contentValign",
+              "label": "Content Vertical Alignment",
+              "description": "Vertical position of overlay content.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "top": {
+                      "label": "Top"
+                    },
+                    "center": {
+                      "label": "Center"
+                    },
+                    "bottom": {
+                      "label": "Bottom"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "image": "",
+              "imageAlt": "",
+              "imageHoverFx": "zoom-in",
+              "persistentTitle": "",
+              "useIcon": "off",
+              "icon": "",
+              "title": "Hover Title",
+              "content": "",
+              "buttonText": "",
+              "buttonUrl": "",
+              "buttonNewWindow": "off",
+              "overlayAnimation": "fade",
+              "contentValign": "center"
+            }
+          }
+        }
+      }
+    },
+    "hoverDesign": {
+      "type": "object",
+      "selector": "{{selector}} .squad-hoverbox",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "boxHeight": {
+              "groupSlug": "designBox",
+              "attrName": "hoverDesign.innerContent",
+              "subName": "boxHeight",
+              "label": "Box Height",
+              "description": "Height of the hover box.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 100,
+                  "max": 800,
+                  "step": 1,
+                  "allowedUnits": [
+                    "px",
+                    "em",
+                    "rem",
+                    "vh"
+                  ],
+                  "defaultUnit": "px"
+                }
+              }
+            },
+            "overlayBg": {
+              "groupSlug": "designOverlay",
+              "attrName": "hoverDesign.innerContent",
+              "subName": "overlayBg",
+              "label": "Overlay Background",
+              "description": "Background color of the hover overlay.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "overlayOpacity": {
+              "groupSlug": "designOverlay",
+              "attrName": "hoverDesign.innerContent",
+              "subName": "overlayOpacity",
+              "label": "Overlay Opacity",
+              "description": "Opacity of the overlay at hover state (0–100).",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 0,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": ""
+                }
+              }
+            },
+            "iconColor": {
+              "groupSlug": "designIcon",
+              "attrName": "hoverDesign.innerContent",
+              "subName": "iconColor",
+              "label": "Icon Color",
+              "description": "Color of the overlay icon.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/color-picker"
+              }
+            },
+            "iconSize": {
+              "groupSlug": "designIcon",
+              "attrName": "hoverDesign.innerContent",
+              "subName": "iconSize",
+              "label": "Icon Size",
+              "description": "Size of the overlay icon.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 8,
+                  "max": 100,
+                  "step": 1,
+                  "allowedUnits": [
+                    "px",
+                    "em",
+                    "rem"
+                  ],
+                  "defaultUnit": "px"
+                }
+              }
+            },
+            "contentAlign": {
+              "groupSlug": "designBox",
+              "attrName": "hoverDesign.innerContent",
+              "subName": "contentAlign",
+              "label": "Content Alignment",
+              "description": "Horizontal alignment of overlay content.",
+              "features": {
+                "sticky": false
+              },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "left": {
+                      "label": "Left"
+                    },
+                    "center": {
+                      "label": "Center"
+                    },
+                    "right": {
+                      "label": "Right"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "default": {
+        "innerContent": {
+          "desktop": {
+            "value": {
+              "boxHeight": "300px",
+              "overlayBg": "rgba(0,0,0,0.6)",
+              "overlayOpacity": "100",
+              "iconColor": "",
+              "iconSize": "32px",
+              "contentAlign": "center"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customCssFields": {
+    "hoverboxImage": {
+      "label": "Image",
+      "subName": "hoverboxImage",
+      "selectorSuffix": " .squad-hoverbox .squad-hoverbox__image"
+    },
+    "hoverboxOverlay": {
+      "label": "Overlay",
+      "subName": "hoverboxOverlay",
+      "selectorSuffix": " .squad-hoverbox .squad-hoverbox__overlay"
+    },
+    "hoverboxButton": {
+      "label": "Button",
+      "subName": "hoverboxButton",
+      "selectorSuffix": " .squad-hoverbox .squad-hoverbox__button"
+    }
+  },
+  "settings": {
+    "groups": {
+      "contentImage": {
+        "panel": "content",
+        "priority": 10,
+        "groupName": "hoverSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Image"
+          }
+        }
+      },
+      "contentPersistent": {
+        "panel": "content",
+        "priority": 20,
+        "groupName": "hoverSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Persistent Layer"
+          }
+        }
+      },
+      "contentIcon": {
+        "panel": "content",
+        "priority": 30,
+        "groupName": "hoverSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Icon"
+          }
+        }
+      },
+      "contentBody": {
+        "panel": "content",
+        "priority": 40,
+        "groupName": "hoverSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Content"
+          }
+        }
+      },
+      "contentButton": {
+        "panel": "content",
+        "priority": 50,
+        "groupName": "hoverSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Button"
+          }
+        }
+      },
+      "contentOverlay": {
+        "panel": "content",
+        "priority": 60,
+        "groupName": "hoverSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Overlay & Effect"
+          }
+        }
+      },
+      "designBox": {
+        "panel": "design",
+        "priority": 10,
+        "groupName": "hoverDesign",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Box Layout"
+          }
+        }
+      },
+      "designOverlay": {
+        "panel": "design",
+        "priority": 20,
+        "groupName": "hoverDesign",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Overlay"
+          }
+        }
+      },
+      "designIcon": {
+        "panel": "design",
+        "priority": 30,
+        "groupName": "hoverDesign",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": {
+            "groupLabel": "Icon"
+          }
+        }
+      }
+    }
+  }
+}

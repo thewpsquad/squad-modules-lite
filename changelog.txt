@@ -1,4 +1,66 @@
 == Changelog ==
+= 4.1.0 (09-06-2026) =
+
+**New Modules:**
+- **Social Share** — share buttons for popular networks, fully server-rendered and CSS-only.
+- **Table of Contents** — auto-generated, anchor-linked contents from page headings.
+- **Number Counter** — animated count-up numbers with prefix/suffix and styling controls.
+- **Advanced Button** — richer button with dual icons, hover styles, and states.
+- **Text Highlighter** — animated highlight/underline effects for emphasis text.
+- **Inline Content** — mix text, icons, images, buttons, and dividers in a single flowing line.
+- **Hover Box** — reveal content on hover with CSS-only transitions.
+- **Animated Heading** — headlines with rotating/animated phrases.
+- **Floating Images** — decorative images with parallax-style floating motion.
+- **Image Reveal** — images that reveal on scroll or hover.
+- **Advanced Video** — styled video player with custom poster and overlay controls.
+- **Image Carousel** — touch-friendly image carousel with autoplay, loop, and effects.
+- **Logo Grid** — responsive grid/marquee of brand logos.
+- **Skill Bar** — animated progress/skill bars with labels and percentages.
+- **Author Box** — author bio block with avatar, social links, and layouts.
+
+**Admin Dashboard Redesign:**
+- Rebuilt the admin area as a modern React single-page app (Tailwind + shadcn) with a light/dark theme.
+- Live dashboard stats and a modules-by-category library breakdown.
+- Modules and Extensions management with search, category filters, bulk actions, and an unsaved-changes save bar.
+- What's New changelog timeline, real Freemius affiliate program terms and application status, and an Account screen with license activation and an anonymous-usage-sharing toggle.
+- Brand-aligned Freemius account, pricing, and affiliation pages.
+
+**Changes:**
+- Renamed the admin page slug from `divi_squad_dashboard` to `divi_squad`. Existing links and bookmarks to the old slug (including Freemius sub-pages) are permanently redirected to the new slug automatically.
+
+**Improvements:**
+- Reorganized the Divi 4 and Divi 5 builder source into a shared structure, consolidating cross-version Supports/Module helpers and the build shell.
+- Standardized PHP interface and class naming, and added per-module brand icons for the Divi 4 builder.
+- Generated an inline module-icon registry at build time for the admin app.
+- Expanded automated test coverage for the core and builder layers.
+
+**Bug Fixes:**
+- Fixed two fatal errors in the Inline Content module caused by method overrides incompatible with `ET_Builder_Element` (`render_button`, `render_image`).
+- Fixed the Modules/Extensions batch enable/disable save path and URL-unsafe category routes in the REST API.
+- Corrected the admin REST namespace, dashboard live-data mapping, and several admin styling regressions against wp-admin core CSS.
+
+= 4.0.0 (30-05-2026) =
+
+**Major: Native Divi 5 (Block API) support**
+- All Squad modules now run as native Divi 5 block modules in the new Visual Builder, alongside continued support for the classic Divi 4 builder.
+- Ported the Content, Creative, and Media modules to Divi 5 (Dual Button, Flip Box, Drop Cap Text, Glitch Text, Gradient Text, Scrolling Text, Typing Text, Star Rating, Breadcrumbs, Divider, Google Map, Business Hours, Image Mask, Image Gallery, Before & After Image Slider, Lottie, Video Popup, and more).
+- Ported all Form Styler modules to Divi 5 — Contact Form 7, WPForms, Gravity Forms, Ninja Forms, Fluent Forms, and Forminator — and added new stylers for Formidable Forms, MetForm, and SureForms.
+- Ported Post Grid and Post Element to Divi 5 with full parity: query options (recent/category/tag, exclude, current-loop/related posts), 16 element types, per-element icons and separators, numbered pagination, and AJAX load more.
+
+**New Features:**
+- New **Post Carousel** module — showcase posts in a touch-friendly Swiper carousel with responsive slides-per-view, gap, transition speed, autoplay (with pause-on-hover), loop, navigation arrows, pagination dots, and slide/fade/coverflow effects.
+- New **Post Reading Time** dynamic-content module for Divi 5.
+
+**Improvements:**
+- Sub-element style controls now nest cleanly under named design groups (e.g. Slide Item, Form, Field, Submit Button) across all Divi 5 modules.
+- Added a base style layer and brand-aligned icons to the Divi 5 modules.
+- Expanded automated test coverage for the core and builder.
+
+**Bug Fixes:**
+- Fixed Divi 5 module frontend rendering (module registration timing and upload/gallery field handling).
+- Fixed admin dashboard issues: version badges always showing "Nightly", incorrect Pro lifecycle detection, notice auto-slide timer, feature-list state handling, and removed dead navigation code.
+- Numerous Divi 5 form-styler, asset-loading, and CSS-grouping fixes.
+
 = 3.4.4 (24-08-2025) =
 
 **New Features:**

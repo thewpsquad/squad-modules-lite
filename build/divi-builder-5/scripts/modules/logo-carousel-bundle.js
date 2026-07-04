@@ -1,0 +1,1 @@
+(()=>{function t(){const t=window.Swiper;void 0!==t&&document.querySelectorAll(".squad-logo-carousel").forEach(e=>{if("true"===e.dataset.squadSwiperInit)return;let a={};try{a=JSON.parse(e.getAttribute("data-swiper-options")??"{}")}catch(t){a={}}new t(e,a),e.dataset.squadSwiperInit="true"})}"loading"!==document.readyState?t():document.addEventListener("DOMContentLoaded",t)})();

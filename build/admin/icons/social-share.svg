@@ -1,0 +1,12 @@
+<svg width="170" height="170" viewBox="0 0 170 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill="#5E2EFF" d="M0 21.25A21.25 21.25 0 0 1 21.25 0h127.5A21.25 21.25 0 0 1 170 21.25v127.5A21.25 21.25 0 0 1 148.75 170H21.25A21.25 21.25 0 0 1 0 148.75V21.25Zm159.375 0a10.623 10.623 0 0 0-10.625-10.625H21.25A10.625 10.625 0 0 0 10.625 21.25v127.5a10.625 10.625 0 0 0 10.625 10.625h127.5a10.624 10.624 0 0 0 10.625-10.625V21.25Z"/>
+<g transform="translate(49 49) scale(3)">
+<g fill="none" stroke="#5E2EFF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="18" cy="5" r="2.6"/>
+<circle cx="6" cy="12" r="2.6"/>
+<circle cx="18" cy="19" r="2.6"/>
+<line x1="8.3" y1="10.8" x2="15.7" y2="6.2"/>
+<line x1="8.3" y1="13.2" x2="15.7" y2="17.8"/>
+</g>
+</g>
+</svg>
