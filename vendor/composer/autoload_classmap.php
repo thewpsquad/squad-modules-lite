@@ -85,6 +85,7 @@ return array(
     'DiviSquad\\Core\\Traits\\Deprecations\\Deprecated_Class_Loader' => $baseDir . '/includes/Core/Traits/Deprecations/Deprecated_Class_Loader.php',
     'DiviSquad\\Core\\Traits\\Plugin\\Detect_Plugin_Life' => $baseDir . '/includes/Core/Traits/Plugin/Detect_Plugin_Life.php',
     'DiviSquad\\Core\\Traits\\Plugin\\Logger' => $baseDir . '/includes/Core/Traits/Plugin/Logger.php',
+    'DiviSquad\\Core\\Traits\\Plugin\\Pluggable' => $baseDir . '/includes/Core/Traits/Plugin/Pluggable.php',
     'DiviSquad\\Core\\Traits\\Singleton' => $baseDir . '/includes/Core/Traits/Singleton.php',
     'DiviSquad\\Core\\Traits\\WP\\Use_WP_Filesystem' => $baseDir . '/includes/Core/Traits/WP/Use_WP_Filesystem.php',
     'DiviSquad\\Emails\\ErrorReport' => $baseDir . '/includes/Emails/ErrorReport.php',

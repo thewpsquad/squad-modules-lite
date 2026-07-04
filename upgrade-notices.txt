@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.3.2 =
+Fix and issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
+
 = 3.3.1 =
 fix an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
 

@@ -34,7 +34,7 @@ class Modules extends ManagerBase {
 	 * @return array[]
 	 */
 	public function get_all_modules_with_locked(): array {
-		return array();
+		return $this->get_registered_list();
 	}
 
 	/**

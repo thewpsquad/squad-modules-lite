@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.3.2 (05-04-2025) =
+
+**Bug Fixes:**
+- Fixed an issue in the modules management dashboard that pro modules were not showing up in the modules management dashboard.
+
 = 3.3.1 (05-04-2025) =
 
 **Bug Fixes:**

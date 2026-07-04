@@ -100,6 +100,7 @@ class ComposerStaticInit6a204ab720d1cd9427e05cba92e66101
         'DiviSquad\\Core\\Traits\\Deprecations\\Deprecated_Class_Loader' => __DIR__ . '/../..' . '/includes/Core/Traits/Deprecations/Deprecated_Class_Loader.php',
         'DiviSquad\\Core\\Traits\\Plugin\\Detect_Plugin_Life' => __DIR__ . '/../..' . '/includes/Core/Traits/Plugin/Detect_Plugin_Life.php',
         'DiviSquad\\Core\\Traits\\Plugin\\Logger' => __DIR__ . '/../..' . '/includes/Core/Traits/Plugin/Logger.php',
+        'DiviSquad\\Core\\Traits\\Plugin\\Pluggable' => __DIR__ . '/../..' . '/includes/Core/Traits/Plugin/Pluggable.php',
         'DiviSquad\\Core\\Traits\\Singleton' => __DIR__ . '/../..' . '/includes/Core/Traits/Singleton.php',
         'DiviSquad\\Core\\Traits\\WP\\Use_WP_Filesystem' => __DIR__ . '/../..' . '/includes/Core/Traits/WP/Use_WP_Filesystem.php',
         'DiviSquad\\Emails\\ErrorReport' => __DIR__ . '/../..' . '/includes/Emails/ErrorReport.php',
