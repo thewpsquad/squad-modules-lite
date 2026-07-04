@@ -1,4 +1,19 @@
 == Changelog ==
+= 3.4.3 (22-07-2025) =
+
+**New Features:**
+- Added secondary mask shape option to Image Mask module for more creative designs
+- Improved deprecated classes management with JSON-based caching system
+
+**Improvements:**
+- Simplified admin notice system with improved argument merging
+
+**Bug Fixes:**
+- Fixed admin notices not displaying properly in certain scenarios
+- Resolved Image Mask module not rendering secondary shapes correctly
+- Improved compatibility with latest WordPress standards
+- Resolved deprecated classes loading conflicts
+
 = 3.4.2 (20-06-2025) =
 
 **New Features:**

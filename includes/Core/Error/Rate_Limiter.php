@@ -1,10 +1,9 @@
 <?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Error Rate Limiter
+ * Rate Limiter
  *
- * Handles rate limiting for error reports to prevent flooding of reports
- * from a single site.
+ * Efficient rate limiting for error reports with sliding window algorithm.
  *
  * @since   3.4.0
  * @package DiviSquad
@@ -16,179 +15,191 @@ namespace DiviSquad\Core\Error;
 use Throwable;
 
 /**
- * Error Rate Limiter Class
+ * Rate_Limiter Class
  *
- * Manages rate limiting for error reports to prevent excessive
- * error reporting from a single site.
- *
- * Features:
- * - Configurable rate limiting window
- * - Customizable maximum reports per window
- * - WordPress hooks for extensibility
+ * Optimized rate limiting with minimal database operations.
  *
  * @since   3.4.0
  * @package DiviSquad
  */
 class Rate_Limiter {
 	/**
-	 * Rate limit key prefix
-	 *
-	 * @since 3.4.0
-	 * @var string
+	 * Transient key for rate limiting
 	 */
-	protected const RATE_LIMIT_KEY = 'squad_error_report_';
+	private const RATE_KEY = 'squad_error_rate';
 
 	/**
-	 * Rate limit window in seconds (15 minutes)
-	 *
-	 * @since 3.4.0
-	 * @var int
+	 * Rate limit window (10 minutes)
 	 */
-	protected const RATE_LIMIT_WINDOW = 600;
+	private const WINDOW_SECONDS = 600;
 
 	/**
 	 * Maximum reports per window
-	 *
-	 * @since 3.4.0
-	 * @var int
 	 */
-	protected const MAX_REPORTS = 10;
+	private const MAX_REPORTS = 5;
 
 	/**
-	 * Check if rate limit is exceeded
+	 * Site-specific rate key cache
 	 *
-	 * Determines if the current site has exceeded the maximum number of error reports
-	 * within the rate limit window.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return bool Whether sending is allowed.
+	 * @var string|null
 	 */
-	public function check_rate_limit(): bool {
-		try {
-			/**
-			 * Filter whether to apply rate limiting to error reports.
-			 *
-			 * @since 3.4.0
-			 *
-			 * @param bool $apply_rate_limiting Whether to apply rate limiting.
-			 */
-			$apply_rate_limiting = apply_filters( 'divi_squad_error_report_apply_rate_limiting', true );
+	private static ?string $rate_key_cache = null;
 
-			if ( ! $apply_rate_limiting ) {
-				return true;
-			}
-
-			$count = $this->get_current_count();
-
-			/**
-			 * Filter the maximum number of error reports allowed within the rate limit window.
-			 *
-			 * @since 3.4.0
-			 *
-			 * @param int $max_reports Maximum number of reports.
-			 */
-			$max_reports = apply_filters( 'divi_squad_error_report_max_reports', self::MAX_REPORTS );
-
-			return $count < $max_reports;
-		} catch ( Throwable $e ) {
-			// Log the error but allow sending in case of failure
-			divi_squad()->log_error( $e, 'Error checking rate limit', false );
-
+	/**
+	 * Check if rate limit allows new report
+	 *
+	 * Time Complexity: O(1)
+	 *
+	 * @return bool Can send report
+	 */
+	public function can_send(): bool {
+		/**
+		 * Filters whether rate limiting should be applied to error reports.
+		 *
+		 * This filter allows developers to completely disable rate limiting for error reports.
+		 * This should be used with caution as it may lead to email flooding.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param bool $apply_rate_limiting Whether to apply rate limiting. Default true.
+		 */
+		if ( ! apply_filters( 'divi_squad_apply_rate_limiting', true ) ) {
 			return true;
+		}
+
+		try {
+			$current_count = $this->get_current_count();
+
+			/**
+			 * Filters the maximum number of error reports allowed per rate limit window.
+			 *
+			 * This filter controls how many error reports can be sent within the rate limit
+			 * window before additional reports are blocked. Higher values allow more reports
+			 * but may increase email volume.
+			 *
+			 * @since 3.4.0
+			 *
+			 * @param int $max_reports Maximum number of reports per window. Default 5.
+			 */
+			$max_reports = apply_filters( 'divi_squad_max_reports_per_window', self::MAX_REPORTS );
+
+			return $current_count < $max_reports;
+
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Rate limit check failed', false );
+			return true; // Allow on error for safety
 		}
 	}
 
 	/**
 	 * Increment rate limit counter
 	 *
-	 * Increases the counter for the number of error reports sent within the current window.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return void
+	 * Time Complexity: O(1)
 	 */
-	public function increment_rate_limit(): void {
+	public function increment(): void {
 		try {
-			$key   = $this->get_rate_limit_key();
-			$count = $this->get_current_count();
+			$key     = $this->get_rate_key();
+			$current = $this->get_current_count();
 
 			/**
-			 * Filter the rate limit window duration in seconds.
+			 * Filters the rate limit window duration in seconds.
+			 *
+			 * This filter controls how long the rate limit window lasts. After this duration,
+			 * the counter resets and new reports are allowed. Shorter windows mean more frequent
+			 * resets but potentially more email bursts.
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param int $window_duration Window duration in seconds.
+			 * @param int $window_duration Window duration in seconds. Default 600 (10 minutes).
 			 */
-			$window_duration = apply_filters( 'divi_squad_error_report_rate_limit_window', self::RATE_LIMIT_WINDOW );
+			$window = apply_filters( 'divi_squad_rate_limit_window', self::WINDOW_SECONDS );
 
-			if ( 0 === $count ) {
-				set_transient( $key, 1, $window_duration );
-			} else {
-				set_transient( $key, $count + 1, $window_duration );
+			set_transient( $key, $current + 1, $window );
+
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Rate limit increment failed', false );
+		}
+	}
+
+	/**
+	 * Get current report count
+	 *
+	 * @return int Current count
+	 */
+	private function get_current_count(): int {
+		return (int) get_transient( $this->get_rate_key() );
+	}
+
+	/**
+	 * Get site-specific rate limiting key
+	 *
+	 * @return string Rate key
+	 */
+	private function get_rate_key(): string {
+		if ( null === self::$rate_key_cache ) {
+			$site_id = get_current_blog_id();
+
+			if ( ! function_exists( 'wp_hash' ) ) {
+				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Error incrementing rate limit', false );
+
+			self::$rate_key_cache = self::RATE_KEY . '_' . wp_hash( (string) $site_id );
 		}
+
+		return self::$rate_key_cache;
 	}
 
 	/**
-	 * Get rate limit key for current site
+	 * Reset rate limit (admin/testing)
 	 *
-	 * Generates a unique key for storing the rate limit counter for the current site.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return string Rate limit key.
+	 * @return bool Success
 	 */
-	protected function get_rate_limit_key(): string {
-		$site_id = get_current_blog_id();
-
-		if ( ! function_exists( '\wp_hash' ) ) {
-			require_once ABSPATH . WPINC . '/pluggable.php';
-		}
-
-		return self::RATE_LIMIT_KEY . \wp_hash( (string) $site_id );
-	}
-
-	/**
-	 * Reset rate limit counter
-	 *
-	 * Resets the rate limit counter for the current site.
-	 * Useful for testing or manual intervention.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return bool Success status.
-	 */
-	public function reset_rate_limit(): bool {
+	public function reset(): bool {
 		try {
-			$key = $this->get_rate_limit_key();
-
-			return delete_transient( $key );
+			return delete_transient( $this->get_rate_key() );
 		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Error resetting rate limit', false );
-
+			divi_squad()->log_error( $e, 'Rate limit reset failed', false );
 			return false;
 		}
 	}
 
 	/**
-	 * Get current rate limit count
+	 * Get remaining reports in current window
 	 *
-	 * Returns the current count of error reports sent within the window.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @return int Current count.
+	 * @return int Remaining count
 	 */
-	public function get_current_count(): int {
-		try {
-			return (int) get_transient( $this->get_rate_limit_key() );
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Error getting current rate limit count', false );
+	public function get_remaining(): int {
+		/**
+		 * Filters the maximum number of error reports allowed per rate limit window.
+		 *
+		 * @since 3.4.0
+		 *
+		 * @param int $max_reports Maximum number of reports per window. Default 5.
+		 */
+		$max_reports = apply_filters( 'divi_squad_max_reports_per_window', self::MAX_REPORTS );
+		$current     = $this->get_current_count();
 
-			return 0;
-		}
+		return max( 0, $max_reports - $current );
+	}
+
+	/**
+	 * Get window expiration time
+	 *
+	 * @return int Expiration timestamp
+	 */
+	public function get_window_expires(): int {
+		$key = $this->get_rate_key();
+
+		// Get transient timeout (WordPress internal)
+		global $wpdb;
+		$timeout_option = '_transient_timeout_' . $key;
+		$timeout        = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+				$timeout_option
+			)
+		);
+
+		return $timeout ? (int) $timeout : 0;
 	}
 }

@@ -21,7 +21,7 @@ msgstr ""
 #: deprecated/Integrations/WP.php:199
 #: deprecated/Integrations/WP.php:217
 #: deprecated/Integrations/WP.php:234
-#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:101
+#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:94
 msgid "Squad Modules Lite"
 msgstr "Kader Module Lite"
 
@@ -964,7 +964,7 @@ msgstr "Hier können Sie auswählen, Symbol Größe."
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1736
 #: includes/Builder/Version4/Modules/Creative/Divider.php:750
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:451
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:257
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:266
 #: includes/Builder/Version4/Modules/Post_Grid_Child.php:789
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:391
 msgid "Image Width"
@@ -975,7 +975,7 @@ msgstr "Bild-Breite"
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1738
 #: includes/Builder/Version4/Modules/Creative/Divider.php:752
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:453
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:259
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:268
 #: includes/Builder/Version4/Modules/Post_Grid_Child.php:791
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:393
 msgid "Here you can choose image width."
@@ -986,7 +986,7 @@ msgstr "Hier können Sie wählen, die Breite des Bildes."
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1755
 #: includes/Builder/Version4/Modules/Creative/Divider.php:768
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:469
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:276
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:285
 #: includes/Builder/Version4/Modules/Media/Video_Popup.php:313
 #: includes/Builder/Version4/Modules/Post_Grid_Child.php:804
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:406
@@ -998,7 +998,7 @@ msgstr "Bild Höhe"
 #: includes/Builder/Version4/Modules/Content/Flip_Box.php:1757
 #: includes/Builder/Version4/Modules/Creative/Divider.php:770
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:471
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:278
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:287
 #: includes/Builder/Version4/Modules/Post_Grid_Child.php:806
 #: includes/Builder/Version4/Supports/Module_Utilities/Fields/Definitions.php:408
 msgid "Here you can choose image height."
@@ -1823,22 +1823,22 @@ msgstr "Mühelos anpassen Forminator form design. Passen Sie Farben, Schriftarte
 msgid "Extensions"
 msgstr "Erweiterungen"
 
-#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:90
+#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:83
 msgid "Unleash Your Divi Creativity with Squad Modules Pro!"
 msgstr "Entfesseln Sie Ihre Divi Kreativität mit Squad-Module Pro!"
 
-#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:97
-#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:140
+#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:90
+#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:133
 msgid "Approaching closer to unlocking the benefits of the Pro plugin."
 msgstr "Nähert sich zum entriegeln der Vorteile der Pro-plugin."
 
 #. translators: %1$s: Product title;
-#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:100
+#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:93
 #, php-format
 msgid " The paid plugin of %1$s is already installed. Please activate it to start benefiting the Pro features."
 msgstr " Die kostenpflichtige plugin von %1$s ist bereits installiert. Bitte aktivieren Sie es für den start in den Genuss des Pro-Funktionen."
 
-#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:107
+#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:100
 msgid "Active Pro Plugin"
 msgstr "Active Pro Plugin"
 
@@ -1990,13 +1990,13 @@ msgstr "Folie Bild, um die vertikale oder horizontale."
 
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:589
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:292
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:238
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:247
 msgid "Horizontal"
 msgstr "Horizontal"
 
 #: includes/Builder/Version4/Modules/Creative/Dual_Button.php:590
 #: includes/Builder/Version4/Modules/Media/Before_After_Image_Slider.php:293
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:242
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:251
 msgid "Vertical"
 msgstr "Vertikale"
 
@@ -4157,51 +4157,51 @@ msgstr "Maske Form"
 msgid "Here you can choose mask shape for the image."
 msgstr "Hier können Sie die Option \" Maske Form für das Bild."
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:172
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:181
 msgid "Rotate Mask Shape"
 msgstr "Drehen Masken-Form"
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:174
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:183
 msgid "Here you can choose mask shape rotation."
 msgstr "Hier können Sie wählen, Masken-Form-Drehung."
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:192
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:201
 msgid "Mask Shape Width"
 msgstr "Masken-Form-Breite"
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:194
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:203
 msgid "Here you can choose mask shape width."
 msgstr "Hier können Sie wählen, Masken-Form-Breite."
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:212
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:221
 msgid "Mask Shape Height"
 msgstr "Masken-Form-Höhe"
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:214
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:223
 msgid "Here you can choose mask shape height."
 msgstr "Hier können Sie wählen, Masken-Form-Höhe."
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:232
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:241
 msgid "Flip Mask Shape"
 msgstr "Flip-Maske Form"
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:233
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:242
 msgid "Flip the mask horizontally or vertically to change the shape and its direction."
 msgstr "Flip die Maske horizontal oder vertikal zu ändern die Form und Richtung."
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:293
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:302
 msgid "Image Horizontal Position"
 msgstr "Bild-Horizontal Position"
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:295
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:304
 msgid "Here you can choose image horizontal position."
 msgstr "Hier können Sie wählen, Bild horizontal position."
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:309
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:318
 msgid "Image Vertical Position"
 msgstr "Bild Vertikale Position"
 
-#: includes/Builder/Version4/Modules/Media/Image_Mask.php:311
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:320
 msgid "Here you can choose image vertical position."
 msgstr "Hier können Sie wählen Bild vertikal-position."
 
@@ -5890,7 +5890,7 @@ msgid "Need Help?"
 msgstr "Brauchen Sie Hilfe?"
 
 #: includes/Core/Admin/Assets.php:365
-#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:102
+#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:95
 #: build/admin/scripts/app.js:175
 msgid "Upgrade Now"
 msgstr "Jetzt Aktualisieren"
@@ -6147,26 +6147,6 @@ msgstr ""
 msgid "Core installed date"
 msgstr ""
 
-#: includes/Core/Error/Reporter.php:378
-msgid "Error report rate limit exceeded. Please try again later."
-msgstr ""
-
-#. translators: %s: Error messages
-#: includes/Core/Error/Reporter.php:389
-#, php-format
-msgid "Error report validation failed: %s"
-msgstr ""
-
-#. translators: %s: Field name
-#: includes/Core/Error/Reporter.php:476
-#, php-format
-msgid "%s is required for error reporting."
-msgstr ""
-
-#: includes/Core/Error/Email_Sender.php:371
-msgid "Error Report"
-msgstr ""
-
 #: includes/Rest_API_Routes/Base_Route.php:209
 #: includes/Rest_API_Routes/Version1/Extensions.php:139
 #: includes/Rest_API_Routes/Version1/Modules.php:139
@@ -6383,7 +6363,6 @@ msgstr ""
 #: includes/Builder/Version4/Modules/Forms/Gravity_Forms.php:181
 #: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:154
 #: includes/Builder/Version4/Modules/Forms/Ninja_Forms.php:169
-#: includes/Core/Error/Email_Sender.php:374
 msgid "Error"
 msgstr ""
 
@@ -6948,18 +6927,6 @@ msgstr ""
 
 #: includes/Core/Requirements.php:1058
 msgid "Go to Dashboard"
-msgstr ""
-
-#: includes/Core/Error/Email_Sender.php:366
-msgid "Unable to encode data"
-msgstr ""
-
-#: includes/Core/Error/Email_Sender.php:372
-msgid "Site"
-msgstr ""
-
-#: includes/Core/Error/Email_Sender.php:375
-msgid "Unknown error"
 msgstr ""
 
 #: includes/Integrations/Builder_Placeholders.php:83
@@ -8068,17 +8035,17 @@ msgstr ""
 msgid "Loading notices..."
 msgstr ""
 
-#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:141
+#: includes/Core/Admin/Notices/Pro_Activation_Notice.php:134
 msgid "The paid plugin is already installed. Please activate it."
 msgstr ""
 
 #. Translators: %1$s is the welcome message, %2$s is the coupon code.
-#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:93
+#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:86
 #, php-format
 msgid "Get a special discount and start building stunning websites today. Use code \"%1$s\" at checkout."
 msgstr ""
 
-#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:133
+#: includes/Core/Admin/Notices/Purchase_Discount_Notice.php:126
 msgid "Get a special discount on Squad Modules Pro!"
 msgstr ""
 
@@ -8274,4 +8241,12 @@ msgstr ""
 #: deprecated/Base/DiviBuilder/Placeholder.php:83
 msgctxt "Modules dummy content"
 msgid "The Squad Modules for Divi have transformed our website. The interface is intuitive and the results are professional. Highly recommended for anyone looking to enhance their Divi experience!"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:172
+msgid "Secondary Mask Shape"
+msgstr ""
+
+#: includes/Builder/Version4/Modules/Media/Image_Mask.php:174
+msgid "Enable this option to add a secondary mask shape to the image."
 msgstr ""

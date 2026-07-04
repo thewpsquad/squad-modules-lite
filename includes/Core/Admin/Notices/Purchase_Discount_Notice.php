@@ -32,13 +32,6 @@ class Purchase_Discount_Notice extends Notice_Base {
 	protected string $notice_id = 'discount';
 
 	/**
-	 * Notice scopes.
-	 *
-	 * @var array<string>
-	 */
-	protected array $scopes = array( 'global' );
-
-	/**
 	 * Check if the notice can be rendered.
 	 *
 	 * @since 3.3.3
@@ -113,7 +106,7 @@ class Purchase_Discount_Notice extends Notice_Base {
 			);
 
 			// Merge with default args
-			$args = array_merge( $args, $discount_args );
+			$args = array_merge_recursive( $args, $discount_args );
 
 			/**
 			 * Filter the discount notice template arguments.

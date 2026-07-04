@@ -27,6 +27,21 @@ trait Use_WP_Filesystem {
 	 * @return WP_Filesystem_Base
 	 */
 	public function get_wp_fs(): WP_Filesystem_Base {
+		return self::get_wp_filesystem();
+	}
+
+	/**
+	 * Get the WordPress filesystem instance (static version).
+	 *
+	 * This static method provides access to the WordPress filesystem API without
+	 * requiring an instance of the class. It ensures the filesystem is properly
+	 * initialized before returning it.
+	 *
+	 * @since 3.4.0
+	 *
+	 * @return WP_Filesystem_Base The WordPress filesystem instance.
+	 */
+	public static function get_wp_filesystem(): WP_Filesystem_Base {
 		global $wp_filesystem;
 
 		// If the filesystem has not been instantiated yet, do it here.

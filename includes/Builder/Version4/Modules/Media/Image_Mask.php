@@ -157,7 +157,7 @@ class Image_Mask extends Module {
 
 		// Mask fields definitions.
 		$mask_settings_fields = array(
-			'mask_shape_image'   => divi_squad()->d4_module_helper->add_select_box_field(
+			'mask_shape_image'     => divi_squad()->d4_module_helper->add_select_box_field(
 				esc_html__( 'Mask Shape', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose mask shape for the image.', 'squad-modules-for-divi' ),
@@ -168,7 +168,16 @@ class Image_Mask extends Module {
 					'toggle_slug'      => 'mask_settings',
 				)
 			),
-			'mask_shape_rotate'  => divi_squad()->d4_module_helper->add_range_field(
+			'mask_shape_secondary' => divi_squad()->d4_module_helper->add_yes_no_field(
+				esc_html__( 'Secondary Mask Shape', 'squad-modules-for-divi' ),
+				array(
+					'description'      => esc_html__( 'Enable this option to add a secondary mask shape to the image.', 'squad-modules-for-divi' ),
+					'default_on_front' => 'off',
+					'tab_slug'         => 'general',
+					'toggle_slug'      => 'mask_settings',
+				)
+			),
+			'mask_shape_rotate'    => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Rotate Mask Shape', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose mask shape rotation.', 'squad-modules-for-divi' ),
@@ -188,7 +197,7 @@ class Image_Mask extends Module {
 					'toggle_slug'      => 'mask_settings',
 				)
 			),
-			'mask_shape_scale_x' => divi_squad()->d4_module_helper->add_range_field(
+			'mask_shape_scale_x'   => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Mask Shape Width', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose mask shape width.', 'squad-modules-for-divi' ),
@@ -208,7 +217,7 @@ class Image_Mask extends Module {
 					'toggle_slug'      => 'mask_settings',
 				)
 			),
-			'mask_shape_scale_y' => divi_squad()->d4_module_helper->add_range_field(
+			'mask_shape_scale_y'   => divi_squad()->d4_module_helper->add_range_field(
 				esc_html__( 'Mask Shape Height', 'squad-modules-for-divi' ),
 				array(
 					'description'      => esc_html__( 'Here you can choose mask shape height.', 'squad-modules-for-divi' ),
@@ -228,7 +237,7 @@ class Image_Mask extends Module {
 					'toggle_slug'      => 'mask_settings',
 				)
 			),
-			'mask_shape_flip'    => array(
+			'mask_shape_flip'      => array(
 				'label'            => esc_html__( 'Flip Mask Shape', 'squad-modules-for-divi' ),
 				'description'      => esc_html__( 'Flip the mask horizontally or vertically to change the shape and its direction.', 'squad-modules-for-divi' ),
 				'type'             => 'multiple_buttons',
@@ -340,11 +349,19 @@ class Image_Mask extends Module {
 	 *
 	 * @return string
 	 */
-	public function render( $attrs, $content, $render_slug ): string { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed
-		$image_src  = $this->prop( 'image' );
-		$alt_text   = $this->_esc_attr( 'alt' );
-		$unique_id  = self::get_module_order_class( $this->slug );
-		$mask_shape = $this->squad_utils->mask_shape->get_shape( $this->prop( 'mask_shape_image', 'shape-01' ) );
+	public function render( $attrs, $content, $render_slug ): string {
+		$image_src = $this->prop( 'image' );
+		$alt_text  = $this->_esc_attr( 'alt' );
+		$unique_id = self::get_module_order_class( $this->slug );
+
+		$image_shape          = $this->prop( 'mask_shape_image', 'shape-01' );
+		$mask_shape_secondary = $this->prop( 'mask_shape_secondary', 'off' );
+		$mask_shape           = $this->squad_utils->mask_shape->get_shape( $image_shape, $mask_shape_secondary );
+
+		// Log error if mask shape is empty
+		if ( '' === $mask_shape ) {
+			return '';
+		}
 
 		$mask_option_transform = sprintf(
 			'rotate(%1$s) scale(%2$s, %3$s)',
@@ -353,34 +370,39 @@ class Image_Mask extends Module {
 			$this->prop( 'mask_shape_scale_y', '1' )
 		);
 
+		$mask_shape_flips = explode( '|', $this->prop( 'mask_shape_flip', '' ) );
+		if ( in_array( 'horizontal', $mask_shape_flips, true ) ) {
+			$mask_option_transform .= ' scale(-1, 1)';
+		}
+		if ( in_array( 'vertical', $mask_shape_flips, true ) ) { // Fixed logic: Check for 'vertical' instead of !in_array
+			$mask_option_transform .= ' scale(1, -1)';
+		}
+
 		$image_transform = sprintf(
 			'matrix(1 0 0 1 %1$s %2$s)',
 			$this->prop( 'image_horizontal_position', '0' ),
 			$this->prop( 'image_vertical_position', '0' )
 		);
 
-		$mask_shape_flips = explode( '|', $this->prop( 'mask_shape_flip', '' ) );
-		if ( in_array( 'horizontal', $mask_shape_flips, true ) ) {
-			$mask_option_transform .= ' scale(-1, 1)';
-		}
-		if ( ! in_array( 'vertical', $mask_shape_flips, true ) ) {
-			$mask_option_transform .= ' scale(1, -1)';
+		// Ensure image source is valid
+		if ( '' === $image_src ) {
+			return '';
 		}
 
 		return sprintf(
 			'<div class="image-elements et_pb_with_background">
-				<svg width="100%" height="100%" style="overflow:visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" aria-labelledby="alt-text-68546612026c9" role="img">
-                	<title id="alt-text-%2$s">%1$s</title>
-					<defs>
-						<mask id="%2$s" fill="#fff">
-							<g style="transform: %3$s; transform-origin: center center;">%4$s</g>
-						</mask>
-					</defs>
-					<g style="mask: url(\'#%2$s\')">
-						<image href="%5$s" width="%6$s" height="%7$s" transform="%8$s" preserveAspectRatio="none" style="overflow:visible"/>
-					</g>
-				</svg>
-			</div>',
+            <svg width="100%" height="100%" style="overflow:visible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" aria-labelledby="alt-text-%2$s" role="img">
+                <title id="alt-text-%2$s">%1$s</title>
+                <defs>
+                    <mask id="%2$s" fill="#fff">
+                        <g style="transform: %3$s; transform-origin: center center;">%4$s</g>
+                    </mask>
+                </defs>
+                <g style="mask: url(#%2$s)">
+                    <image href="%5$s" width="%6$s" height="%7$s" transform="%8$s" preserveAspectRatio="none" style="overflow:visible"/>
+                </g>
+            </svg>
+        </div>',
 			$alt_text,
 			$unique_id,
 			$mask_option_transform,

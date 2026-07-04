@@ -39,7 +39,7 @@ use Throwable;
  * @property Core\Memory                             $memory                     Memory manager.
  * @property Core\Cache                              $cache                      Cache manager.
  * @property Core\Assets                             $assets                     Assets Manager
- * @property Core\Error\Reporter                     $error_reporter             Error Reporter manager.
+ * @property Core\Error\Error_Reporter               $error_reporter             Error Reporter manager.
  * @property Core\Supports\Site_Health               $site_health                Site health manager.
  * @property Core\Admin\Menu                         $admin_menu                 Admin menu manager.
  * @property Core\Admin\Notice                       $admin_notice               Admin notice manager
@@ -118,6 +118,14 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 * @var bool
 	 */
 	private static bool $is_initializing = false;
+
+	/**
+	 * Cached deprecated classes list.
+	 *
+	 * @since 3.4.3
+	 * @var array<string, array<string, array<string, mixed>>>|null
+	 */
+	private ?array $deprecated_classes_cache = null;
 
 	/**
 	 * Initialize the plugin.
@@ -428,7 +436,7 @@ final class SquadModules implements Core\Contracts\Hookable {
 			$this->container['assets']       = new Core\Assets();
 
 			// Error reporting system - initialize with safe mode to prevent circular dependencies
-			$this->container['error_reporter'] = new Core\Error\Reporter( array() );
+			$this->container['error_reporter'] = new Core\Error\Error_Reporter( array() );
 
 			/**
 			 * Fires after the plugin prerequisites are initialized.
@@ -454,101 +462,32 @@ final class SquadModules implements Core\Contracts\Hookable {
 	 * @return array<string, array<string, array<string, mixed>>>
 	 */
 	protected function get_deprecated_classes_list(): array {
-		$builder_load_config = array(
-			'action' => array(
-				'name'     => 'divi_extensions_init',
-				'priority' => 9,
-			),
-		);
+		// Return cached data if available
+		if ( null !== $this->deprecated_classes_cache ) {
+			return $this->deprecated_classes_cache;
+		}
 
-		$core_load_config = array(
-			'action' => array(
-				'name'     => 'init',
-				'priority' => 9,
-			),
-		);
+		try {
+			$json_file = $this->get_path( 'deprecated-classes.json' );
 
-		return array(
-			'Admin/Assets.php'                                                             => array(),
-			'Admin/Plugin/AdminFooterText.php'                                             => array(),
-			'Admin/Plugin/ActionLinks.php'                                                 => array(),
-			'Admin/Plugin/RowMeta.php'                                                     => array(),
-			'Base/Core.php'                                                                => array(),
-			'Base/Memory.php'                                                              => array(),
-			'Base/DiviBuilder/Integration.php'                                             => $builder_load_config,
-			'Base/DiviBuilder/IntegrationAPIBase.php'                                      => $builder_load_config,
-			'Base/DiviBuilder/Integration/ShortcodeAPI.php'                                => $builder_load_config,
-			'Base/DiviBuilder/IntegrationAPI.php'                                          => $builder_load_config,
-			'Base/DiviBuilder/Module.php'                                                  => $builder_load_config,
-			'Base/DiviBuilder/DiviSquad_Module.php'                                        => $builder_load_config,
-			'Base/DiviBuilder/Module/FormStyler.php'                                       => $builder_load_config,
-			'Base/DiviBuilder/Placeholder.php'                                             => array(),
-			'Base/DiviBuilder/Utils/Database/DatabaseUtils.php'                            => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields.php'                             => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Traits/TablePopulationTrait.php' => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/DefinitionInterface.php'         => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Definition.php'                  => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php'        => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/WordPress.php'       => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/ManagerInterface.php'            => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Manager.php'                     => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Fields.php'             => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Upgraders.php'          => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/ProcessorInterface.php'          => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Processor.php'                   => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Processors/Advanced.php'         => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/CustomFields/Processors/WordPress.php'        => $core_load_config,
-			'Base/DiviBuilder/Utils/Elements/Breadcrumbs.php'                              => array(),
-			'Base/DiviBuilder/Utils/Elements/Divider.php'                                  => array(),
-			'Base/DiviBuilder/Utils/Elements/MaskShape.php'                                => array(),
-			'Base/DiviBuilder/Utils/Fields/CompatibilityTrait.php'                         => array(),
-			'Base/DiviBuilder/Utils/Fields/DefinitionTrait.php'                            => array(),
-			'Base/DiviBuilder/Utils/Fields/ProcessorTrait.php'                             => array(),
-			'Base/DiviBuilder/Utils/UtilsInterface.php'                                    => array(),
-			'Base/DiviBuilder/Utils/CommonTrait.php'                                       => array(),
-			'Base/DiviBuilder/Utils/DeprecationsTrait.php'                                 => array(),
-			'Base/DiviBuilder/Utils/FieldsTrait.php'                                       => array(),
-			'Base/DiviBuilder/Utils/Base.php'                                              => array(),
-			'Base/DiviBuilder/Utils.php'                                                   => array(),
-			'Base/Factories/FactoryBase/FactoryInterface.php'                              => array(),
-			'Base/Factories/FactoryBase/Factory.php'                                       => array(),
-			'Base/Factories/AdminMenu/MenuInterface.php'                                   => array(),
-			'Base/Factories/AdminMenu/Menu.php'                                            => array(),
-			'Base/Factories/AdminMenu/MenuCore.php'                                        => array(),
-			'Base/Factories/AdminMenu.php'                                                 => array(),
-			'Base/Factories/AdminNotice/NoticeInterface.php'                               => array(),
-			'Base/Factories/AdminNotice/Notice.php'                                        => array(),
-			'Base/Factories/AdminNotice.php'                                               => array(),
-			'Base/Factories/BrandAsset/AssetInterface.php'                                 => array(),
-			'Base/Factories/BrandAsset/Asset.php'                                          => array(),
-			'Base/Factories/BrandAsset/BrandAssetInterface.php'                            => array(),
-			'Base/Factories/BrandAsset/BrandAsset.php'                                     => array(),
-			'Base/Factories/BrandAsset.php'                                                => array(),
-			'Base/Factories/PluginAsset/AssetInterface.php'                                => array(),
-			'Base/Factories/PluginAsset/Asset.php'                                         => array(),
-			'Base/Factories/PluginAsset/PluginAssetInterface.php'                          => array(),
-			'Base/Factories/PluginAsset/PluginAsset.php'                                   => array(),
-			'Base/Factories/PluginAsset.php'                                               => array(),
-			'Base/Factories/RestRoute/RouteInterface.php'                                  => array(),
-			'Base/Factories/RestRoute/Route.php'                                           => array(),
-			'Base/Factories/RestRoute.php'                                                 => array(),
-			'Base/Factories/SquadFeatures.php'                                             => array(),
-			'Integrations/Admin.php'                                                       => array(),
-			'Integrations/Core.php'                                                        => array(),
-			'Integrations/WP.php'                                                          => array(),
-			'Managers/Assets.php'                                                          => array(),
-			'Managers/Emails/ErrorReport.php'                                              => array(),
-			'Modules/PostGridChild.php'                                                    => $builder_load_config,
-			'Modules/PostGridChild/PostGridChild.php'                                      => $builder_load_config,
-			'Managers/Features/Extensions.php'                                             => array(),
-			'Managers/Features/Modules.php'                                                => array(),
-			'Managers/Extensions.php'                                                      => array(),
-			'Managers/Modules.php'                                                         => array(),
-			'Utils/Media/Filesystem.php'                                                   => array(),
-			'Utils/Polyfills/Str.php'                                                      => array(),
-			'Utils/Asset.php'                                                              => array(),
-			'Utils/Singleton.php'                                                          => array(),
-		);
+			if ( $this->get_wp_fs()->exists( $json_file ) ) {
+				$json_content = $this->get_wp_fs()->get_contents( $json_file );
+				if ( false !== $json_content ) {
+					$deprecated_classes = json_decode( $json_content, true, 512, JSON_THROW_ON_ERROR );
+					if ( is_array( $deprecated_classes ) ) {
+						// Cache the loaded data
+						$this->deprecated_classes_cache = $deprecated_classes;
+						return $deprecated_classes;
+					}
+				}
+			}
+		} catch ( Throwable $e ) {
+			$this->log_error( $e, 'Failed to load deprecated classes from JSON file' );
+		}
+
+		// Cache empty array to avoid repeated file system calls
+		$this->deprecated_classes_cache = array();
+		return array();
 	}
 
 	/**

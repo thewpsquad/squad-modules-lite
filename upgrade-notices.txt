@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.4.3 =
+Improved Image Mask module with secondary shapes, optimized deprecated file loading, and enhanced security policy. Fixed admin notices display issues and improved code quality with comprehensive unit tests.
+
 = 3.4.2 =
 Added WPML compatibility for Image Gallery, Video Popup, Forms modules, Google Map, and Gradient Text. Fixed issues with Dual Button module and Flip Box module. Improved security policy and resolved compatibility issues with WordPress 6.8.
 

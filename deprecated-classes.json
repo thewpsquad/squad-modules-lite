@@ -1,0 +1,201 @@
+{
+  "Admin/Assets.php": {},
+  "Admin/Plugin/AdminFooterText.php": {},
+  "Admin/Plugin/ActionLinks.php": {},
+  "Admin/Plugin/RowMeta.php": {},
+  "Base/Core.php": {},
+  "Base/Memory.php": {},
+  "Base/DiviBuilder/Integration.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/IntegrationAPIBase.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Integration/ShortcodeAPI.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/IntegrationAPI.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Module.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/DiviSquad_Module.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Module/FormStyler.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Placeholder.php": {},
+  "Base/DiviBuilder/Utils/Database/DatabaseUtils.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Traits/TablePopulationTrait.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/DefinitionInterface.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Definition.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/WordPress.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/ManagerInterface.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Manager.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Fields.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Managers/Upgraders.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/ProcessorInterface.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Processor.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Processors/Advanced.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/CustomFields/Processors/WordPress.php": {
+    "action": {
+      "name": "init",
+      "priority": 9
+    }
+  },
+  "Base/DiviBuilder/Utils/Elements/Breadcrumbs.php": {},
+  "Base/DiviBuilder/Utils/Elements/Divider.php": {},
+  "Base/DiviBuilder/Utils/Elements/MaskShape.php": {},
+  "Base/DiviBuilder/Utils/Fields/CompatibilityTrait.php": {},
+  "Base/DiviBuilder/Utils/Fields/DefinitionTrait.php": {},
+  "Base/DiviBuilder/Utils/Fields/ProcessorTrait.php": {},
+  "Base/DiviBuilder/Utils/UtilsInterface.php": {},
+  "Base/DiviBuilder/Utils/CommonTrait.php": {},
+  "Base/DiviBuilder/Utils/DeprecationsTrait.php": {},
+  "Base/DiviBuilder/Utils/FieldsTrait.php": {},
+  "Base/DiviBuilder/Utils/Base.php": {},
+  "Base/DiviBuilder/Utils.php": {},
+  "Base/Factories/FactoryBase/FactoryInterface.php": {},
+  "Base/Factories/FactoryBase/Factory.php": {},
+  "Base/Factories/AdminMenu/MenuInterface.php": {},
+  "Base/Factories/AdminMenu/Menu.php": {},
+  "Base/Factories/AdminMenu/MenuCore.php": {},
+  "Base/Factories/AdminMenu.php": {},
+  "Base/Factories/AdminNotice/NoticeInterface.php": {},
+  "Base/Factories/AdminNotice/Notice.php": {},
+  "Base/Factories/AdminNotice.php": {},
+  "Base/Factories/BrandAsset/AssetInterface.php": {},
+  "Base/Factories/BrandAsset/Asset.php": {},
+  "Base/Factories/BrandAsset/BrandAssetInterface.php": {},
+  "Base/Factories/BrandAsset/BrandAsset.php": {},
+  "Base/Factories/BrandAsset.php": {},
+  "Base/Factories/PluginAsset/AssetInterface.php": {},
+  "Base/Factories/PluginAsset/Asset.php": {},
+  "Base/Factories/PluginAsset/PluginAssetInterface.php": {},
+  "Base/Factories/PluginAsset/PluginAsset.php": {},
+  "Base/Factories/PluginAsset.php": {},
+  "Base/Factories/RestRoute/RouteInterface.php": {},
+  "Base/Factories/RestRoute/Route.php": {},
+  "Base/Factories/RestRoute.php": {},
+  "Base/Factories/SquadFeatures.php": {},
+  "Integrations/Admin.php": {},
+  "Integrations/Core.php": {},
+  "Integrations/WP.php": {},
+  "Managers/Assets.php": {},
+  "Managers/Emails/ErrorReport.php": {},
+  "Modules/PostGridChild.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Modules/PostGridChild/PostGridChild.php": {
+    "action": {
+      "name": "divi_extensions_init",
+      "priority": 9
+    }
+  },
+  "Managers/Features/Extensions.php": {},
+  "Managers/Features/Modules.php": {},
+  "Managers/Extensions.php": {},
+  "Managers/Modules.php": {},
+  "Utils/Media/Filesystem.php": {},
+  "Utils/Polyfills/Str.php": {},
+  "Utils/Asset.php": {},
+  "Utils/Singleton.php": {}
+}

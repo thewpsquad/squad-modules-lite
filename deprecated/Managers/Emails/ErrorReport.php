@@ -16,8 +16,8 @@
 namespace DiviSquad\Managers\Emails;
 
 use BadMethodCallException;
-use DiviSquad\Core\Error\Log_Reader;
-use DiviSquad\Core\Error\Reporter;
+use DiviSquad\Core\Error\Log_File;
+use DiviSquad\Core\Error\Error_Reporter;
 use RuntimeException;
 use Throwable;
 use WP_Error;
@@ -123,7 +123,7 @@ class ErrorReport {
 	public function __construct( array $data = array() ) {
 		try {
 			// Create the new error reporter
-			$this->reporter = new Reporter( $data );
+			$this->reporter = new Error_Reporter( $data );
 
 			// Keep the old properties for backward compatibility
 			$this->data   = $data;
@@ -218,7 +218,7 @@ class ErrorReport {
 	 */
 	public static function quick_send( $exception, array $additional_data = array() ): bool {
 		try {
-			return Reporter::quick_send( $exception, $additional_data );
+			return Error_Reporter::quick_send( $exception, $additional_data );
 		} catch ( Throwable $e ) {
 			return false;
 		}
@@ -237,7 +237,7 @@ class ErrorReport {
 	 */
 	public static function get_debug_log(): string {
 		try {
-			return Log_Reader::get_debug_log();
+			return Log_File::get_debug_log();
 		} catch ( Throwable $e ) {
 			return 'Error reading debug log: ' . $e->getMessage();
 		}
@@ -258,7 +258,7 @@ class ErrorReport {
 	 */
 	public static function read_last_lines( string $file_path, int $line_count = 200 ): string {
 		try {
-			return Log_Reader::read_last_lines( $file_path, $line_count );
+			return Log_File::read_tail_lines( $file_path, $line_count );
 		} catch ( Throwable $e ) {
 			return 'Error reading file: ' . $e->getMessage();
 		}

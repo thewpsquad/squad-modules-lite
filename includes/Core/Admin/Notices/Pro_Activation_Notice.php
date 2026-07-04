@@ -33,13 +33,6 @@ class Pro_Activation_Notice extends Notice_Base {
 	protected string $notice_id = 'pro-activation';
 
 	/**
-	 * Notice scopes.
-	 *
-	 * @var array<string>
-	 */
-	protected array $scopes = array( 'global' );
-
-	/**
 	 * Check if the notice can be rendered.
 	 *
 	 * @since 3.3.3
@@ -120,7 +113,7 @@ class Pro_Activation_Notice extends Notice_Base {
 			);
 
 			// Merge with default args
-			$args = array_merge( $args, $activation_args );
+			$args = array_merge_recursive( $args, $activation_args );
 
 			/**
 			 * Filter the pro activation notice template arguments.

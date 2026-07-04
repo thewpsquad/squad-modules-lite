@@ -85,11 +85,11 @@ class Review_Notice extends Notice_Base {
 	 * @return void
 	 */
 	private function initialize_review_data(): void {
-		$review_flag = divi_squad()->memory->get( 'review_flag' );
-		$next_time   = divi_squad()->memory->get( 'next_review_time' );
+		$activation  = (int) divi_squad()->memory->get( 'activation_time', 0 );
+		$review_flag = divi_squad()->memory->get( 'review_flag', '' );
+		$next_time   = divi_squad()->memory->get( 'next_review_time', '' );
 
 		if ( '' === $review_flag && '' === $next_time ) {
-			$activation = (int) divi_squad()->memory->get( 'activation_time' );
 			$first_time = Helper::get_second( $this->first_time_show );
 			$next_time  = 0 !== $activation ? $activation : time();
 
@@ -120,7 +120,7 @@ class Review_Notice extends Notice_Base {
 	public function can_render_it(): bool {
 		try {
 			// Check if the review flag is set.
-			if ( true === divi_squad()->memory->get( 'review_flag' ) ) {
+			if ( true === (bool) divi_squad()->memory->get( 'review_flag' ) ) {
 				return false;
 			}
 
@@ -212,7 +212,7 @@ class Review_Notice extends Notice_Base {
 			);
 
 			// Merge with default args
-			$args = array_merge( $args, $review_args );
+			$args = array_merge_recursive( $args, $review_args );
 
 			/**
 			 * Filter the review notice template arguments.
