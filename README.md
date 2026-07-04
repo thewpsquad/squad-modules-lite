@@ -1,62 +1,71 @@
-# Divi Squad - GitHub Mirror
+# Squad Modules for Divi — Source Mirror
 
-[![License](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/squad-modules-for-divi?label=wp.org)](https://wordpress.org/plugins/squad-modules-for-divi/)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/squad-modules-for-divi?label=downloads)](https://wordpress.org/plugins/squad-modules-for-divi/advanced/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/stars/squad-modules-for-divi?label=rating)](https://wordpress.org/plugins/squad-modules-for-divi/#reviews)
+[![Tested up to](https://img.shields.io/wordpress/plugin/tested/squad-modules-for-divi?label=tested)](https://wordpress.org/plugins/squad-modules-for-divi/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-Welcome to the GitHub mirror of the Divi Squad plugin! This repository is synchronized with our SVN repository and serves as a platform for community contributions and collaborative development.
+The public source mirror and issue tracker for **[Squad Modules for Divi](https://wordpress.org/plugins/squad-modules-for-divi/)** — the largest free module pack for the **Divi** theme and Divi Builder. **65 free modules** across 6 categories plus **8 free extensions**, all running natively in **both** the Divi 5 Visual Builder (Block API) and the classic Divi 4 builder from a single codebase.
 
-## About Divi Squad
+> **📦 To install the plugin, get it from [WordPress.org](https://wordpress.org/plugins/squad-modules-for-divi/)** or from the **Plugins → Add New** screen in your WordPress admin. This repository is a read-only mirror for browsing source and reporting issues — see [About this repository](#about-this-repository) below.
 
-Divi Squad is a powerful plugin that enhances the Divi theme and Divi Builder with additional custom modules and extensions. It's designed to unlock new possibilities and streamline your workflow when building websites with Divi.
+## Features
 
-## Repository Purpose
+- **65 free modules, all native in Divi 5** — every module is a first-class Block API citizen with full Visual Builder support, live preview, and design controls. 64 of the 65 also run in the classic Divi 4 builder (Post Carousel is Divi 5-only).
+- **8 free extensions** — site-wide helpers that aren't builder modules: post duplication, Divi Library shortcodes, login-page branding, and font / SVG / JSON uploads.
+- **Zero migration** — pages built in Divi 4 keep working; new Divi 5 pages use the native modules. No conversion step, no broken layouts.
+- **Accessibility-minded** — interactive modules ship keyboard navigation, ARIA roles, and focus management.
+- **Maintained and secure** — frequent security patches, fast compatibility updates for new Divi releases, and WPML- / translation-ready out of the box.
 
-This GitHub repository serves several purposes:
+### Module categories
 
-1. **Mirror of SVN**: It provides a GitHub mirror of our SVN repository, making the code more accessible to the wider development community.
-2. **Community Contributions**: We welcome pull requests from anyone who wants to contribute to improving Divi Squad.
-3. **Issue Tracking**: You can use the GitHub Issues feature to report bugs, suggest features, or discuss improvements.
+| Category | Modules |
+|----------|:-------:|
+| Creative | 22 |
+| Content | 15 |
+| Image & Media | 11 |
+| Form Styler | 9 |
+| Dynamic Content | 4 |
+| Auth | 4 |
+| **Total** | **65** |
 
-## How to Contribute
+[View all modules →](https://squadmodules.com/modules) · [Upgrade to Pro →](https://squadmodules.com/pricing) · [Documentation →](https://squadmodules.com/docs)
 
-We're excited to welcome contributions from the community! Here's how you can get involved:
+## Requirements
 
-1. **Fork the Repository**: Click the 'Fork' button at the top right of this page.
-2. **Clone Your Fork**: `git clone https://github.com/your-username/squad-modules.git`
-3. **Create a Branch**: `git checkout -b feature/your-feature-name`
-4. **Make Your Changes**: Implement your feature or bug fix.
-5. **Commit Your Changes**: `git commit -am 'Add some feature'`
-6. **Push to the Branch**: `git push origin feature/your-feature-name`
-7. **Create a Pull Request**: Go to the original Divi Squad repository and click 'New Pull Request'
+- WordPress **6.0** or higher
+- PHP **7.4** or higher
+- The **Divi** theme or **Divi Builder** plugin (or Extra theme) by Elegant Themes
 
-Please ensure your code adheres to our coding standards and include tests if applicable.
+## About this repository
 
-## Reporting Issues
+This is an **automated, read-only mirror** of the plugin as published on the WordPress.org SVN repository. On every release, a GitHub Action exports the newly tagged version from SVN and commits it here:
 
-If you encounter any bugs or have feature suggestions, please open an issue on this GitHub repository. Provide as much detail as possible, including:
+- **`main`** always tracks the **latest released version**.
+- Each release is one commit — `Import version X.Y.Z from SVN` — with a matching Git **tag** (`4.4.0`, `4.3.1`, …, no `v` prefix). Browse the [tags](https://github.com/thewpsquad/squad-modules-lite/tags) or [releases](https://github.com/thewpsquad/squad-modules-lite/releases) to see the full history.
 
-- A clear description of the issue or feature request
-- Steps to reproduce (for bugs)
-- Expected vs actual behavior
-- Your environment (WordPress version, Divi version, browser, etc.)
+Because the tree is regenerated from SVN on each sync, **code changes pushed directly to this repository do not persist** — the plugin's development happens upstream. Please don't send pull requests that modify plugin source here; open an issue instead (see below).
 
-## Development Setup
+## Reporting issues
 
-(Include instructions on how to set up the development environment, run tests, etc.)
+Found a bug or have a feature request? **[Open an issue](https://github.com/thewpsquad/squad-modules-lite/issues/new/choose).** Helpful details:
+
+- A clear description of the problem or request
+- Steps to reproduce (for bugs), plus expected vs. actual behavior
+- Your environment: WordPress version, Divi version, PHP version, and browser
+
+You can also get help through the [WordPress.org support forum](https://wordpress.org/support/plugin/squad-modules-for-divi/).
+
+## Links
+
+- 🌐 **Website:** [squadmodules.com](https://squadmodules.com/)
+- 🧩 **All modules:** [squadmodules.com/modules](https://squadmodules.com/modules)
+- 📚 **Documentation:** [squadmodules.com/docs](https://squadmodules.com/docs)
+- ⬇️ **Download / install:** [WordPress.org plugin page](https://wordpress.org/plugins/squad-modules-for-divi/)
+- 💬 **Support:** [WordPress.org support forum](https://wordpress.org/support/plugin/squad-modules-for-divi/)
+- 💎 **Go premium:** [Squad Modules Pro](https://squadmodules.com/pricing)
 
 ## License
 
-Divi Squad is open-source software licensed under the [GNU General Public License v3.0](LICENSE).
-
-## Community and Support
-
-- [Official Website](https://squadmodules.com/)
-- [Documentation](https://squadmodules.com/suport)
-- [Support Forum](https://squadmodules.com/support)
-
-## Acknowledgments
-
-- Thanks to all contributors who have helped shape Divi Squad
-- Special thanks to the Divi community and Elegant Themes for creating the amazing Divi ecosystem
-
-We're thrilled to have you here and look forward to your contributions!
+Squad Modules for Divi is free software, licensed under the [GNU General Public License v3.0](LICENSE). *Divi* is a trademark of Elegant Themes, Inc. This plugin is a third-party product and is not affiliated with or endorsed by Elegant Themes.
