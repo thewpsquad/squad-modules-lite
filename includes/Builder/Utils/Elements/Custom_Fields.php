@@ -80,8 +80,8 @@ class Custom_Fields {
 	protected function initialize_processor_registry(): void {
 		$this->processor_registry = array(
 			self::PROCESSOR_COLLECTIONS => array(
-				self::FIELD_WORDPRESS => Custom_Fields\Processors\WordPress::class,
-				self::FIELD_ACF       => Custom_Fields\Processors\Advanced::class,
+				self::FIELD_WORDPRESS => Custom_Fields\Collections\WordPress::class,
+				self::FIELD_ACF       => Custom_Fields\Collections\Advanced::class,
 			),
 			self::PROCESSOR_DEFINITIONS => array(
 				self::FIELD_WORDPRESS => Custom_Fields\Definitions\WordPress::class,

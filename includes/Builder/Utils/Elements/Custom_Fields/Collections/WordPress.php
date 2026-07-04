@@ -11,13 +11,12 @@
  * @since   3.1.0
  */
 
-namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Processors;
+namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection;
 use DiviSquad\Core\Supports\Polyfills\Str;
 use Throwable;
 use function apply_filters;
-use function DiviSquad\Divi_Builder\Utils\Elements\Custom_Fields\Processors\wp_cache_delete_group;
 use function get_metadata;
 use function get_post_meta;
 use function metadata_exists;
@@ -377,58 +376,14 @@ class WordPress extends Collection {
 	 * @return bool Whether the field should be included.
 	 */
 	protected function should_include_field( string $field_key ): bool {
-		// Call parent first
+		// Call parent first - this already checks empty, blacklisted keys, and excluded prefixes/suffixes
 		if ( ! parent::should_include_field( $field_key ) ) {
 			return false;
 		}
 
-		// Standard checks
-		if ( empty( $field_key ) ) {
-			return false;
-		}
-
-		// Skip fields with underscore prefix (hidden WP fields)
+		// Skip fields with underscore prefix (hidden WP fields) - WordPress specific check
 		if ( str_starts_with( $field_key, '_' ) ) {
 			return false;
-		}
-
-		/**
-		 * Filters the list of blacklisted WordPress custom field keys.
-		 *
-		 * @since 3.1.0
-		 * @param array<string> $blacklisted_keys Array of custom field keys to be excluded.
-		 */
-		$blacklisted_keys = apply_filters( 'divi_squad_wp_custom_fields_blacklist', $this->blacklisted_keys );
-		if ( in_array( $field_key, $blacklisted_keys, true ) ) {
-			return false;
-		}
-
-		/**
-		 * Filters the list of excluded suffixes for WordPress custom field keys.
-		 *
-		 * @since 3.1.0
-		 * @param array<string> $excluded_suffixes Array of suffixes to exclude from custom field keys.
-		 */
-		$excluded_suffixes = apply_filters( 'divi_squad_wp_custom_fields_excluded_suffixes', $this->excluded_suffixes );
-		foreach ( $excluded_suffixes as $suffix ) {
-			if ( Str::ends_with( $field_key, $suffix ) ) {
-				return false;
-			}
-		}
-
-		/**
-		 * Filters the list of excluded prefixes for WordPress custom field keys.
-		 *
-		 * @since 3.1.0
-		 * @param array<string, array<string>> $excluded_prefixes Array of prefixes to exclude from custom field keys.
-		 */
-		$excluded_prefixes = apply_filters( 'divi_squad_wp_custom_fields_excluded_prefixes', $this->excluded_prefixes );
-		foreach ( $excluded_prefixes as $prefixes ) {
-			foreach ( $prefixes as $prefix ) {
-				if ( Str::starts_with( $field_key, $prefix ) ) {
-					return false;
-				}
-			}
 		}
 
 		/**
@@ -749,11 +704,6 @@ class WordPress extends Collection {
 		// Clear additional properties
 		$this->formatted_fields = array();
 		$this->field_values     = array();
-
-		// Clear WordPress cache group if possible
-		if ( function_exists( 'wp_cache_delete_group' ) ) {
-			wp_cache_delete_group( 'divi_squad_custom_fields' );
-		}
 
 		/**
 		 * Action fired when the cache is cleared.

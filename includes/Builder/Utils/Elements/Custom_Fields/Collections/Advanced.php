@@ -11,7 +11,7 @@
  * @since   3.1.0
  */
 
-namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Processors;
+namespace DiviSquad\Builder\Utils\Elements\Custom_Fields\Collections;
 
 use DiviSquad\Builder\Utils\Elements\Custom_Fields\Collection;
 use Throwable;
@@ -686,7 +686,7 @@ class Advanced extends Collection {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @return array<string> Array of excluded prefixes.
+	 * @return array<string, array<string>> Array of excluded prefixes.
 	 */
 	protected function get_excluded_prefixes(): array {
 		$prefixes = parent::get_excluded_prefixes();

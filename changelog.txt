@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.3.1 (05-04-2025) =
+
+**Bug Fixes:**
+- Fixed an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 = 3.3.0 (04-04-2025) =
 
 **New Features:**

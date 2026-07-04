@@ -202,7 +202,8 @@ abstract class Collection implements CollectionInterface {
 
 		// Check if field has excluded prefix.
 		$excluded_prefixes = $this->get_excluded_prefixes();
-		foreach ( $excluded_prefixes as $prefix ) {
+		$all_prefixes      = array_merge( ...array_values( $excluded_prefixes ) );
+		foreach ( $all_prefixes as $prefix ) {
 			if ( Str::starts_with( $field_key, $prefix ) ) {
 				return false;
 			}
@@ -254,7 +255,7 @@ abstract class Collection implements CollectionInterface {
 	/**
 	 * Get the excluded prefixes.
 	 *
-	 * @return string[] Array of excluded prefixes.
+	 * @return array<string, array<string>> Array of excluded prefixes.
 	 */
 	protected function get_excluded_prefixes(): array {
 		/**
@@ -262,7 +263,7 @@ abstract class Collection implements CollectionInterface {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param string[] $excluded_prefixes The excluded prefixes.
+		 * @param array<string, array<string>> $excluded_prefixes The excluded prefixes.
 		 */
 		return apply_filters( 'divi_squad_excluded_prefixes', $this->excluded_prefixes );
 	}

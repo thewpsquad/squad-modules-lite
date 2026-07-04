@@ -827,7 +827,6 @@ final class SquadModules {
 	 */
 	protected function load_addons(): void {
 		$this->custom_fields->init();
-		Base\DiviBuilder\Utils\Elements\CustomFields::init();
 
 		/**
 		 * Fires after addon are loaded.

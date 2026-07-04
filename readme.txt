@@ -5,7 +5,7 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 3.3.0
+Stable tag: 3.3.1
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -184,6 +184,9 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
+= 3.3.1 =
+fix an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 = 3.3.0 =
 Major performance improvements, bug fixes, and enhanced module loading system. New performance optimization framework and developer API improvements.
 
@@ -191,6 +194,11 @@ Major performance improvements, bug fixes, and enhanced module loading system. N
 Bug fixing for Flip box module
 
 == Changelog ==
+= 3.3.1 (05-04-2025) =
+
+**Bug Fixes:**
+- Fixed an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 = 3.3.0 (04-04-2025) =
 
 **New Features:**

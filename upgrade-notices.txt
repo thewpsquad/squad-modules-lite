@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.3.1 =
+fix an issue to resolve WordPress custom fields not displaying correctly in the Post Grid module.
+
 = 3.3.0 =
 Major performance improvements, bug fixes, and enhanced module loading system. New performance optimization framework and developer API improvements.
 
