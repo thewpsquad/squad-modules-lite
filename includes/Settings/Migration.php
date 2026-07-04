@@ -62,7 +62,7 @@ abstract class Migration implements Migration_Interface {
 	/**
 	 * Array of already migrated data.
 	 *
-	 * @var array{field_name_changes: non-empty-array<string, array<string, array{new_name: string, version: string}>>, name_changes: array<string, string>, value_changes: array<string, string>, value_changes: array<string, array<string, string>>}
+	 * @var array{field_name_changes: non-empty-array<string, array<string, array{new_name: string, version: string}>>, name_changes: array<string, array<string, string>>, value_changes: array<string, array<string, string>>}
 	 */
 	public static array $migrated = array( // @phpstan-ignore-line property.defaultValue
 		'field_name_changes' => array(),
@@ -307,12 +307,18 @@ abstract class Migration implements Migration_Interface {
 	 * @return array<string, mixed>
 	 */
 	public static function maybe_override_shortcode_attributes( array $attrs, array $unprocessed_attrs, string $module_slug, string $module_address, $content = '', bool $maybe_global_presets_migration = false ): array {
-		if ( '' === $attrs['_builder_version'] ) {
-			$attrs['_builder_version'] = '3.0.47';
-		}
-
+		// Bail before touching attributes for modules this migration does not own,
+		// mirroring Divi's own ET_Builder_Module_Settings_Migration ordering.
 		if ( ! self::should_handle_render( $module_slug ) ) {
 			return $attrs;
+		}
+
+		// Divi 5's ET\Builder\Packages\Conversion\ShortcodeMigration fires the
+		// `et_pb_module_shortcode_attributes` filter with attributes that may not
+		// include `_builder_version` (it is parsed out separately), so default it
+		// without assuming the key exists.
+		if ( '' === ( $attrs['_builder_version'] ?? '' ) ) {
+			$attrs['_builder_version'] = '3.0.47';
 		}
 
 		self::$maybe_global_presets_migration = $maybe_global_presets_migration;
@@ -398,6 +404,23 @@ abstract class Migration implements Migration_Interface {
 	 * @return bool
 	 */
 	public static function should_handle_render( string $slug ): bool {
+		/**
+		 * Short-circuit the migration-handling decision for a module slug.
+		 *
+		 * Mirrors Divi 5's `et_pb_should_handle_migration_pre` (added in the
+		 * builder-5 ShortcodeMigration path). Return a non-null value to bypass
+		 * the slug/hook checks below.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param bool|null $should_handle Whether to handle migration. Default null (run the checks).
+		 * @param string    $slug          The module slug.
+		 */
+		$should_handle = apply_filters( 'et_pb_should_handle_migration_pre', null, $slug );
+		if ( null !== $should_handle ) {
+			return (bool) $should_handle;
+		}
+
 		// Get all module slugs to compare against this slug.
 		$all_module_slugs = ET_Builder_Element::get_all_module_slugs();
 		if ( ! in_array( $slug, $all_module_slugs, true ) ) {

@@ -405,6 +405,14 @@ class Copy extends Base_Extension {
 				continue;
 			}
 
+			// Per-object authorization: the generic edit_posts capability checked
+			// at the route level is not enough — verify the user may actually edit
+			// THIS post, so they cannot duplicate other users' private/draft
+			// content or post types they have no access to.
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
+				continue;
+			}
+
 			$post = sanitize_post( $post_object, 'db' );
 			if ( $post instanceof WP_Post ) {
 

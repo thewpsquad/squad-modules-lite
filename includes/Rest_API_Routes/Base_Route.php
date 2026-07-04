@@ -123,6 +123,11 @@ abstract class Base_Route {
 		$namespace = $this->get_namespace();
 		$routes    = $this->get_routes();
 
+		// A falsy namespace cannot be registered with WordPress; bail to avoid an invalid registration.
+		if ( '' === $namespace || '0' === $namespace ) {
+			return;
+		}
+
 		/**
 		 * Action fired before registering routes.
 		 *
@@ -135,6 +140,11 @@ abstract class Base_Route {
 		do_action( 'divi_squad_before_register_routes', $namespace, $routes, $this );
 
 		foreach ( $routes as $route => $handlers ) {
+			// A falsy route path cannot be registered with WordPress; skip it.
+			if ( '' === $route || '0' === $route ) {
+				continue;
+			}
+
 			$handlers = $this->ensure_permission_callback( $handlers );
 
 			/**

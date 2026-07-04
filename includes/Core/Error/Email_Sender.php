@@ -135,8 +135,8 @@ class Email_Sender {
 
 			if ( false === $sent ) {
 				foreach ( $this->wp_mail_errors->get_error_codes() as $code ) {
-					foreach ( $this->wp_mail_errors->get_error_messages( $code ) as $message ) {
-						$errors->add( $code, $message, $this->wp_mail_errors->get_error_data( $code ) );
+					foreach ( $this->wp_mail_errors->get_error_messages( $code ) as $error_line ) {
+						$errors->add( $code, $error_line, $this->wp_mail_errors->get_error_data( $code ) );
 					}
 				}
 			}
@@ -221,7 +221,8 @@ class Email_Sender {
 	 * @return string Email subject.
 	 */
 	protected function get_email_subject( array $data ): string {
-		$site_host     = wp_parse_url( home_url(), PHP_URL_HOST );
+		$parsed_host   = wp_parse_url( home_url(), PHP_URL_HOST );
+		$site_host     = is_string( $parsed_host ) ? $parsed_host : '';
 		$error_message = $data['error_message'] ?? 'unknown error';
 
 		$subject = sprintf(

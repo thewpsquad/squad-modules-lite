@@ -98,6 +98,60 @@
                 "type": "field",
                 "name": "divi/toggle"
               }
+            },
+            "formTitle": {
+              "groupSlug": "contentForm",
+              "attrName": "forms.innerContent",
+              "subName": "formTitle",
+              "label": "Show Form Title",
+              "description": "Display the Gravity Forms form title above the form.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "formDescription": {
+              "groupSlug": "contentForm",
+              "attrName": "forms.innerContent",
+              "subName": "formDescription",
+              "label": "Show Form Description",
+              "description": "Display the Gravity Forms form description above the form.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
+            },
+            "formAjax": {
+              "groupSlug": "contentForm",
+              "attrName": "forms.innerContent",
+              "subName": "formAjax",
+              "label": "Enable AJAX Submission",
+              "description": "Submit the form without reloading the page.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/toggle"
+              }
             }
           }
         }

@@ -101,8 +101,8 @@ abstract class Form_Styler extends Module {
 			'fieldPlaceholder',
 			'checkboxRadio',
 			'submitButton',
-			'errorMessage',
-			'successMessage',
+			'messageError',
+			'messageSuccess',
 		);
 	}
 

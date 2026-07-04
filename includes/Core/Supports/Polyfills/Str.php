@@ -115,6 +115,9 @@ class Str {
 
 		// Split string into words.
 		$break_words = preg_split( '~[^\p{L}\p{N}\']+~u', $string_content );
+		if ( false === $break_words ) {
+			$break_words = array();
+		}
 
 		return 0 === $format ? count( $break_words ) : $break_words;
 	}

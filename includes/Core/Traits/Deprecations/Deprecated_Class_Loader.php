@@ -183,7 +183,7 @@ trait Deprecated_Class_Loader {
 	 *
 	 * @param array<string,mixed> $config Raw configuration.
 	 *
-	 * @return array<string,mixed> Normalized configuration
+	 * @return array{priority: int, condition: (callable(): mixed)|null, callbacks: array{before: (callable(): mixed)|null, after: (callable(): mixed)|null}, action?: array{name: string, priority?: int}} Normalized configuration
 	 */
 	private function normalize_config( array $config ): array {
 		$default_config = array(
@@ -204,7 +204,30 @@ trait Deprecated_Class_Loader {
 		 */
 		$default_config = apply_filters( 'divi_squad_deprecated_class_default_config', $default_config );
 
-		return array_merge( $default_config, $config );
+		$merged = array_merge( $default_config, $config );
+
+		$callbacks = ( isset( $merged['callbacks'] ) && is_array( $merged['callbacks'] ) ) ? $merged['callbacks'] : array();
+
+		$normalized = array(
+			'priority'  => isset( $merged['priority'] ) && is_int( $merged['priority'] ) ? $merged['priority'] : 10,
+			'condition' => isset( $merged['condition'] ) && is_callable( $merged['condition'] ) ? $merged['condition'] : null,
+			'callbacks' => array(
+				'before' => isset( $callbacks['before'] ) && is_callable( $callbacks['before'] ) ? $callbacks['before'] : null,
+				'after'  => isset( $callbacks['after'] ) && is_callable( $callbacks['after'] ) ? $callbacks['after'] : null,
+			),
+		);
+
+		if ( isset( $merged['action'] ) && is_array( $merged['action'] ) && isset( $merged['action']['name'] ) && is_string( $merged['action']['name'] ) ) {
+			$action = array( 'name' => $merged['action']['name'] );
+
+			if ( isset( $merged['action']['priority'] ) && is_int( $merged['action']['priority'] ) ) {
+				$action['priority'] = $merged['action']['priority'];
+			}
+
+			$normalized['action'] = $action;
+		}
+
+		return $normalized;
 	}
 
 	/**
@@ -514,7 +537,7 @@ trait Deprecated_Class_Loader {
 			} elseif ( isset( $condition['callback'] ) && is_callable( $condition['callback'] ) ) {
 				$args = $condition['args'] ?? array( $file_path );
 
-				$result = (bool) call_user_func_array( $condition['callback'], $args );
+				$result = (bool) call_user_func_array( $condition['callback'], is_array( $args ) ? $args : array( $args ) );
 			}
 
 			/**

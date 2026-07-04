@@ -12,7 +12,7 @@ namespace DiviSquad\Extensions\Visual_Builder;
 
 use DiviSquad\Extensions\Abstracts\Base_Extension;
 use function add_filter;
-use function wp_strip_all_tags;
+use function esc_html__;
 
 /**
  * The JSON class.
@@ -40,6 +40,7 @@ class JSON extends Base_Extension {
 		add_filter( 'mime_types', array( $this, 'hook_add_extra_mime_types' ) );
 		add_filter( 'upload_mimes', array( $this, 'hook_add_extra_mime_types' ) );
 		add_filter( 'wp_check_filetype_and_ext', array( $this, 'hook_wp_check_filetype_and_ext' ), 10, 3 );
+		add_filter( 'wp_handle_upload_prefilter', array( $this, 'validate_on_upload' ) );
 	}
 
 	/**
@@ -77,60 +78,61 @@ class JSON extends Base_Extension {
 	 * @return array<string, bool|string> Values for the extension, mime type, and corrected filename.
 	 */
 	public function hook_wp_check_filetype_and_ext( array $wp_checked, string $file, string $filename ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
-		$ext             = false;
-		$type            = false;
-		$proper_filename = false;
-		if ( isset( $wp_checked['ext'] ) ) {
-			$ext = $wp_checked['ext'];
-		}
-		if ( isset( $wp_checked['type'] ) ) {
-			$ext = $wp_checked['type'];
-		}
-		if ( isset( $wp_checked['proper_filename'] ) ) {
-			$ext = $wp_checked['proper_filename'];
-		}
-		if ( false !== $ext ) {
+		// Already resolved by WordPress — leave it alone.
+		$resolved_ext  = isset( $wp_checked['ext'] ) && is_string( $wp_checked['ext'] ) && '' !== $wp_checked['ext'];
+		$resolved_type = isset( $wp_checked['type'] ) && is_string( $wp_checked['type'] ) && '' !== $wp_checked['type'];
+		if ( $resolved_ext && $resolved_type ) {
 			return $wp_checked;
 		}
 
-		// If a file extension is 2 or more.
-		$f_sp        = explode( '.', $filename );
-		$f_exp_count = count( $f_sp );
+		$ext   = strtolower( (string) pathinfo( $filename, PATHINFO_EXTENSION ) );
+		$types = $this->get_available_mime_types();
 
-		// Filename type is "XXX" (There is not a file extension).
-		if ( $f_exp_count <= 1 ) {
-			return $wp_checked;
-		}
-
-		$f_ext = $f_sp[ $f_exp_count - 1 ];
-
-		$flag             = false;
-		$mime_type_values = array_keys( $this->get_available_mime_types() );
-		if ( count( $mime_type_values ) > 0 ) {
-			foreach ( $mime_type_values as $line ) {
-				// Ignore to the right of '#' on a line.
-				$line = substr( $line, 0, strcspn( $line, '#' ) );
-				// Escape Strings.
-				$line = wp_strip_all_tags( $line );
-
-				$line_value = explode( '=', $line );
-				if ( 2 !== count( $line_value ) ) {
-					continue;
-				}
-				// "　" is the Japanese multibyte space. If the character is found out, it automatically change the space.
-				if ( trim( $line_value[0] ) === $f_ext ) {
-					$ext  = $f_ext;
-					$type = trim( str_replace( '　', ' ', $line_value[1] ) );
-					$flag = true;
-					break;
-				}
-			}
-		}
-
-		if ( $flag ) {
-			return compact( 'ext', 'type', 'proper_filename' );
+		if ( isset( $types[ $ext ] ) ) {
+			$wp_checked['ext']  = $ext;
+			$wp_checked['type'] = $types[ $ext ];
 		}
 
 		return $wp_checked;
+	}
+
+	/**
+	 * Validate the actual contents of an uploaded .json / .lottie file.
+	 *
+	 * The extension allow-lists `.json` (application/json) and `.lottie`
+	 * (application/zip) by extension. Without a content check, any file renamed
+	 * to those extensions would be accepted. This verifies the real payload:
+	 * `.json` must parse as JSON, `.lottie` must be a real ZIP archive.
+	 *
+	 * @since 3.4.2
+	 *
+	 * @param array<string, mixed> $file The `$_FILES` entry being uploaded.
+	 *
+	 * @return array<string, mixed> The (possibly error-flagged) file entry.
+	 */
+	public function validate_on_upload( array $file ): array {
+		$name = isset( $file['name'] ) ? (string) $file['name'] : '';
+		$tmp  = isset( $file['tmp_name'] ) ? (string) $file['tmp_name'] : '';
+		$ext  = strtolower( (string) pathinfo( $name, PATHINFO_EXTENSION ) );
+
+		if ( '' === $tmp ) {
+			return $file;
+		}
+
+		if ( 'json' === $ext ) {
+			$contents = (string) file_get_contents( $tmp ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			json_decode( $contents );
+			if ( JSON_ERROR_NONE !== json_last_error() ) {
+				$file['error'] = esc_html__( 'This file is not valid JSON and was rejected.', 'squad-modules-for-divi' );
+			}
+		} elseif ( 'lottie' === $ext ) {
+			$magic = (string) file_get_contents( $tmp, false, null, 0, 4 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			// ZIP local-file-header ("PK\x03\x04") or empty-archive marker ("PK\x05\x06").
+			if ( "PK\x03\x04" !== $magic && "PK\x05\x06" !== $magic ) {
+				$file['error'] = esc_html__( 'This .lottie file is not a valid archive and was rejected.', 'squad-modules-for-divi' );
+			}
+		}
+
+		return $file;
 	}
 }

@@ -147,7 +147,7 @@ trait Body_Classes {
 		 *
 		 * @param bool          $should_remove Whether the class should be removed.
 		 * @param string        $body_class    The class name.
-		 * @param int           $index         The index of the class in the array.
+		 * @param int|string    $index         The index of the class in the array.
 		 * @param array<string> $body_classes  Current body classes.
 		 */
 		$should_remove = apply_filters( 'divi_squad_should_remove_body_class', true, $body_class, $index, $this->body_classes );
@@ -162,7 +162,7 @@ trait Body_Classes {
 		 * @since 3.4.0
 		 *
 		 * @param string        $body_class   The class being removed.
-		 * @param int           $index        The index of the class in the array.
+		 * @param int|string    $index        The index of the class in the array.
 		 * @param array<string> $body_classes Current body classes before removal.
 		 */
 		do_action( 'divi_squad_before_body_class_removed', $body_class, $index, $this->body_classes );

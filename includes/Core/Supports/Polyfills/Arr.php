@@ -39,7 +39,7 @@ class Arr {
 	 */
 	public static function key_first( $a ) {
 		try {
-			if ( empty( $a ) ) {
+			if ( null === $a || array() === $a ) {
 				return null;
 			}
 
@@ -74,7 +74,7 @@ class Arr {
 	 */
 	public static function key_last( $a ) {
 		try {
-			if ( empty( $a ) ) {
+			if ( null === $a || array() === $a ) {
 				return null;
 			}
 
@@ -102,7 +102,7 @@ class Arr {
 	 *
 	 * @since 1.2.3
 	 *
-	 * @param array $a The array to check.
+	 * @param array<int|string, mixed> $a The array to check.
 	 *
 	 * @return bool True if the array is a list, false otherwise.
 	 */
@@ -139,11 +139,11 @@ class Arr {
 	 *
 	 * @since 1.2.3
 	 *
-	 * @param array  $array_data The input array to sort.
-	 * @param string $on         The key to sort by.
-	 * @param int    $order      Sort order: SORT_ASC (default) or SORT_DESC.
+	 * @param array<int|string, mixed> $array_data The input array to sort.
+	 * @param string                   $on         The key to sort by.
+	 * @param int                      $order      Sort order: SORT_ASC (default) or SORT_DESC.
 	 *
-	 * @return array The sorted array.
+	 * @return array<int|string, mixed> The sorted array.
 	 */
 	public static function sort( array $array_data, string $on, int $order = SORT_ASC ): array {
 		try {
@@ -219,9 +219,9 @@ class Arr {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array  $array   The array to extract from.
-	 * @param string $key     The key to extract using dot notation (e.g., 'parent.child.key').
-	 * @param mixed  $default The default value to return if the key doesn't exist.
+	 * @param array<int|string, mixed> $array   The array to extract from.
+	 * @param string                   $key     The key to extract using dot notation (e.g., 'parent.child.key').
+	 * @param mixed                    $default The default value to return if the key doesn't exist.
 	 *
 	 * @return mixed The extracted value or default if not found.
 	 */
@@ -251,14 +251,14 @@ class Arr {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array  $array The array to check.
-	 * @param string $key   The key to check using dot notation.
+	 * @param array<int|string, mixed> $array The array to check.
+	 * @param string                   $key   The key to check using dot notation.
 	 *
 	 * @return bool True if the key exists, false otherwise.
 	 */
 	public static function has( array $array, string $key ): bool {
 		try {
-			if ( empty( $array ) || empty( $key ) ) {
+			if ( array() === $array || '' === $key ) {
 				return false;
 			}
 
@@ -286,10 +286,10 @@ class Arr {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $array  The input array to filter.
-	 * @param array $filter An array of key-value pairs to filter by.
+	 * @param array<int|string, mixed> $array  The input array to filter.
+	 * @param array<string, mixed>     $filter An array of key-value pairs to filter by.
 	 *
-	 * @return array The filtered array.
+	 * @return array<int|string, mixed> The filtered array.
 	 */
 	public static function filter_by( array $array, array $filter ): array {
 		try {

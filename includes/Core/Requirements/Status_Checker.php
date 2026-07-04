@@ -114,7 +114,7 @@ class Status_Checker {
 			 * @param bool           $is_valid       True if all requirements are met.
 			 * @param Status_Checker $status_checker Current Status_Checker instance.
 			 */
-			$is_fulfilled = apply_filters( 'divi_squad_is_builder_meet', true, $this );
+			$is_fulfilled = (bool) apply_filters( 'divi_squad_is_builder_meet', true, $this );
 
 			// Cache the result.
 			$this->status['is_fulfilled'] = $is_fulfilled;
@@ -159,9 +159,11 @@ class Status_Checker {
 				$is_plugin_active               = Divi::is_divi_builder_plugin_active();
 				$this->status['plugin_version'] = $is_plugin_active ? Divi::get_builder_version() : '0.0.0';
 			}
+
+			return $is_theme_installed || $is_plugin_installed;
 		}
 
-		return $this->status['is_installed'];
+		return true === $this->status['is_installed'];
 	}
 
 	/**
@@ -180,9 +182,11 @@ class Status_Checker {
 			$this->status['is_active']        = $is_theme_active || $is_plugin_active;
 			$this->status['is_theme_active']  = $is_theme_active;
 			$this->status['is_plugin_active'] = $is_plugin_active;
+
+			return $is_theme_active || $is_plugin_active;
 		}
 
-		return $this->status['is_active'];
+		return true === $this->status['is_active'];
 	}
 
 	/**
@@ -198,13 +202,13 @@ class Status_Checker {
 			$meets_version = false;
 
 			// Check Divi theme version (if active).
-			if ( ( $this->status['is_theme_active'] ?? false ) && '0.0.0' !== ( $this->status['theme_version'] ?? '0.0.0' ) ) {
-				$meets_version = version_compare( (string) ( $this->status['theme_version'] ?? '0.0.0' ), $this->required_version, '>=' );
+			if ( true === ( $this->status['is_theme_active'] ?? false ) && '0.0.0' !== ( $this->status['theme_version'] ?? '0.0.0' ) ) {
+				$meets_version = true === version_compare( (string) ( $this->status['theme_version'] ?? '0.0.0' ), $this->required_version, '>=' );
 			}
 
 			// Check Divi Builder plugin version (if active).
-			if ( ! $meets_version && ( $this->status['is_plugin_active'] ?? false ) && '0.0.0' !== ( $this->status['plugin_version'] ?? '0.0.0' ) ) {
-				$meets_version = version_compare( (string) ( $this->status['plugin_version'] ?? '0.0.0' ), $this->required_version, '>=' );
+			if ( ! $meets_version && true === ( $this->status['is_plugin_active'] ?? false ) && '0.0.0' !== ( $this->status['plugin_version'] ?? '0.0.0' ) ) {
+				$meets_version = true === version_compare( (string) ( $this->status['plugin_version'] ?? '0.0.0' ), $this->required_version, '>=' );
 			}
 
 			$this->status['meets_version'] = $meets_version;
@@ -244,7 +248,7 @@ class Status_Checker {
 	 * @return void
 	 */
 	private function ensure_status_populated(): void {
-		if ( empty( $this->status ) ) {
+		if ( array() === $this->status ) {
 			$this->is_fulfilled();
 		}
 	}

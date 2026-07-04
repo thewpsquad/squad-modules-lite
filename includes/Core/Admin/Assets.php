@@ -220,18 +220,11 @@ class Assets implements Hookable {
 
 		try {
 			$data = array(
-				'admin_menus' => $this->get_admin_menus(),
-				'premium'     => $this->get_premium_status(),
-				'links'       => $this->get_admin_links(),
-				'versions'    => $this->get_versions(),
-				'checkout'    => $this->get_checkout_config(),
-				'affiliate'   => $this->get_affiliate_data(),
-				'tracking'    => $this->get_tracking_data(),
-				'l10n'        => $this->get_localized_strings(),
-				'plugins'     => WPUtil::get_active_plugins(),
-				'notices'     => array(
-					'has_welcome' => true,
-				),
+				'premium'  => $this->get_premium_status(),
+				'links'    => $this->get_admin_links(),
+				'versions' => $this->get_versions(),
+				'checkout' => $this->get_checkout_config(),
+				'plugins'  => WPUtil::get_active_plugins(),
 			);
 
 			/**
@@ -242,33 +235,6 @@ class Assets implements Hookable {
 			return apply_filters( 'divi_squad_admin_specific_localize_data', $data );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to get admin localize data' );
-
-			return array();
-		}
-	}
-
-	/**
-	 * Get registered admin menus
-	 *
-	 * @return array<string, mixed>
-	 */
-	private function get_admin_menus(): array {
-		try {
-			if ( ! divi_squad()->requirements->is_fulfilled() ) {
-				return array();
-			}
-
-			// Collect registered submenus.
-			$submenus = divi_squad()->admin_menu->get_menu_items_for_localization();
-
-			/**
-			 * Filter registered admin submenus
-			 *
-			 * @param array<string, mixed> $submenus Registered submenus
-			 */
-			return apply_filters( 'divi_squad_admin_submenus', $submenus );
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to get admin menus' );
 
 			return array();
 		}
@@ -377,30 +343,13 @@ class Assets implements Hookable {
 	 */
 	private function get_admin_links(): array {
 		try {
-			$base_dashboard_url = admin_url( 'admin.php?page=divi_squad' );
-
 			// Marketing/brand links carry a UTM so admin referrals are attributable.
-			$utm        = '?utm_source=lite&utm_medium=plugin_admin&utm_campaign=admin_links';
-			$wporg_slug = 'squad-modules-for-divi';
+			$utm = '?utm_source=lite&utm_medium=plugin_admin&utm_campaign=admin_links';
 
+			// Brand links consumed by the React shell (what's-new, footer/account).
 			$links = array(
-				// In-app routes (hash router).
-				'dashboard'     => $base_dashboard_url . '#/',
-				'modules'       => $base_dashboard_url . '#/modules',
-				'extensions'    => $base_dashboard_url . '#/extensions',
-				'whats_new'     => $base_dashboard_url . '#/whats-new',
-				'settings'      => $base_dashboard_url . '#/settings',
-
-				// External brand + community + WordPress.org links consumed by the
-				// React shell (dashboard quick actions, footer, what's-new, account).
-				'docs'          => 'https://docs.squadmodules.com/' . $utm,
 				'documentation' => 'https://docs.squadmodules.com/' . $utm,
 				'changelog'     => 'https://squadmodules.com/changelog' . $utm,
-				'support'       => "https://wordpress.org/support/plugin/{$wporg_slug}/",
-				'review'        => "https://wordpress.org/support/plugin/{$wporg_slug}/reviews/#new-post",
-				'community'     => 'https://www.facebook.com/groups/squadmodules/',
-				'donate'        => 'https://squadmodules.com/' . $utm,
-				'translate'     => "https://translate.wordpress.org/projects/wp-plugins/{$wporg_slug}/",
 			);
 
 			// Add Freemius-driven links in their own guard so an SDK change to any
@@ -409,16 +358,11 @@ class Assets implements Hookable {
 			try {
 				$fs = divi_squad_fs();
 
-				// Account / upgrade / pricing routes are always surfaced so the React
-				// shell can route into Freemius flows for both free and pro builds.
-				$account_url         = $fs->get_account_url();
-				$links['my_account'] = $account_url;
-				$links['account']    = $account_url;
-				$links['upgrade']    = $fs->get_upgrade_url();
-				$links['pricing']    = $fs->pricing_url();
-
-				// Affiliation page (available regardless of plan when the program is on).
-				$links['affiliation'] = $fs->_get_admin_page_url( 'affiliation' );
+				// Account / upgrade / pricing routes are surfaced so the React shell
+				// can route into Freemius flows for both free and pro builds.
+				$links['account'] = $fs->get_account_url();
+				$links['upgrade'] = $fs->get_upgrade_url();
+				$links['pricing'] = $fs->pricing_url();
 			} catch ( Throwable $fs_error ) {
 				divi_squad()->log_error( $fs_error, 'Failed to resolve Freemius admin links' );
 			}
@@ -440,179 +384,7 @@ class Assets implements Hookable {
 	}
 
 	/**
-	 * Affiliate program data for the Affiliation screen.
-	 *
-	 * The Freemius SDK only exposes the program TERMS (commission, cookie window,
-	 * recurring flag) and the current user's application STATUS — it has no
-	 * affiliate performance metrics (clicks/referrals/earnings live solely in the
-	 * external Freemius affiliate dashboard), so none are localized here.
-	 *
-	 * Terms are public program data but the SDK only auto-fetches them on its own
-	 * affiliation page; we fetch once via the plugin/bundle API scope (mirroring
-	 * Freemius's private fetch_affiliate_terms) and cache the result for a day.
-	 *
-	 * @return array<string, mixed>
-	 */
-	private function get_affiliate_data(): array {
-		$data = array(
-			'has_program'   => false,
-			'commission'    => '',
-			'cookie_days'   => null,
-			'has_renewals'  => false,
-			'status'        => null,
-			'is_active'     => false,
-			'dashboard_url' => 'https://users.freemius.com/login',
-		);
-
-		try {
-			$fs = divi_squad_fs();
-
-			$data['has_program'] = (bool) $fs->has_affiliate_program();
-			if ( ! $data['has_program'] ) {
-				return $data;
-			}
-
-			$terms = $this->get_affiliate_terms( $fs );
-			if ( is_object( $terms ) ) {
-				$data['commission']   = $terms->get_formatted_commission();
-				$data['cookie_days']  = $terms->cookie_days;
-				$data['has_renewals'] = (bool) $terms->has_renewals_commission();
-			}
-
-			// Per-user application status (pending/active/rejected/suspended).
-			$affiliate = $this->get_affiliate_record( $fs, $terms );
-			if ( is_object( $affiliate ) ) {
-				$data['status']    = $affiliate->status;
-				$data['is_active'] = (bool) $affiliate->is_active();
-			}
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to resolve affiliate data' );
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Resolve the current user's affiliate record (with status), cached for an
-	 * hour. Mirrors the SDK's private fetch_affiliate_and_custom_terms user-scope
-	 * call so the status is available outside the Freemius affiliation page. Only
-	 * runs for registered (opted-in) users; anonymous installs have no record.
-	 *
-	 * @param mixed                   $fs    The Freemius instance.
-	 * @param \FS_AffiliateTerms|null $terms The resolved affiliate terms.
-	 *
-	 * @return \FS_Affiliate|null
-	 */
-	private function get_affiliate_record( $fs, $terms ) {
-		// Cheap getter first — populated when the SDK already loaded it.
-		$affiliate = $fs->get_affiliate();
-		if ( is_object( $affiliate ) ) {
-			return $affiliate;
-		}
-
-		if ( ! $fs->is_registered( true ) || ! is_object( $terms ) ) {
-			return null;
-		}
-
-		$cache_key = 'divi_squad_affiliate_record';
-		$cached    = get_transient( $cache_key );
-		if ( $cached instanceof \FS_Affiliate ) {
-			return $cached;
-		}
-		if ( 'none' === $cached ) {
-			return null;
-		}
-
-		try {
-			$result = $fs->get_api_user_scope()->get(
-				sprintf( '/plugins/%s/aff/%s/affiliates.json', $fs->get_id(), $terms->id ),
-				false
-			);
-
-			if ( is_object( $result ) && isset( $result->affiliates ) && is_array( $result->affiliates ) && array() !== $result->affiliates ) {
-				$affiliate = new \FS_Affiliate( $result->affiliates[0] );
-				set_transient( $cache_key, $affiliate, HOUR_IN_SECONDS );
-
-				return $affiliate;
-			}
-
-			// Remember "no record" briefly so we don't refetch every load.
-			set_transient( $cache_key, 'none', HOUR_IN_SECONDS );
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to fetch affiliate record' );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Resolve the affiliate terms entity (cached), mirroring the SDK's private
-	 * fetch_affiliate_terms so the data is available outside the Freemius
-	 * affiliation page.
-	 *
-	 * @param mixed $fs The Freemius instance.
-	 *
-	 * @return \FS_AffiliateTerms|null
-	 */
-	private function get_affiliate_terms( $fs ) {
-		// Cheap getter first — populated when already loaded this request.
-		$terms = $fs->get_affiliate_terms();
-		if ( is_object( $terms ) ) {
-			return $terms;
-		}
-
-		$cache_key = 'divi_squad_affiliate_terms';
-		$cached    = get_transient( $cache_key );
-		if ( $cached instanceof \FS_AffiliateTerms ) {
-			return $cached;
-		}
-
-		try {
-			// Plugin scope reliably returns the affiliate terms; the bundle scope
-			// can fatal when no bundle is configured, so avoid it here.
-			$api = $fs->get_api_plugin_scope();
-			$raw = $api->get( '/aff.json?type=affiliation', false );
-
-			if ( is_object( $raw ) && isset( $raw->id ) && ! isset( $raw->error ) ) {
-				$terms = new \FS_AffiliateTerms( $raw );
-				set_transient( $cache_key, $terms, DAY_IN_SECONDS );
-
-				return $terms;
-			}
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to fetch affiliate terms' );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Anonymous usage tracking state for the Account screen opt-in toggle.
-	 *
-	 * @return array<string, bool>
-	 */
-	private function get_tracking_data(): array {
-		try {
-			$fs = divi_squad_fs();
-
-			return array(
-				// Whether the SDK is currently sending anonymous usage data.
-				'allowed'    => (bool) $fs->is_tracking_allowed(),
-				// The toggle only has effect once the user has opted in (registered).
-				'can_toggle' => (bool) $fs->is_registered( true ),
-			);
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to resolve tracking state' );
-
-			return array(
-				'allowed'    => false,
-				'can_toggle' => false,
-			);
-		}
-	}
-
-	/**
-	 * Get plugin + detected Divi version for the app bar / hero.
+	 * Get the plugin version for the app bar / hero.
 	 *
 	 * @return array<string, string>
 	 */
@@ -620,13 +392,12 @@ class Assets implements Hookable {
 		try {
 			$versions = array(
 				'plugin' => divi_squad()->get_version_dot(),
-				'divi'   => DiviUtil::get_builder_version(),
 			);
 
 			/**
 			 * Filter the versions exposed to the admin app.
 			 *
-			 * @param array<string, string> $versions Plugin and Divi versions.
+			 * @param array<string, string> $versions Plugin version.
 			 */
 			return apply_filters( 'divi_squad_admin_versions', $versions );
 		} catch ( Throwable $e ) {
@@ -634,7 +405,6 @@ class Assets implements Hookable {
 
 			return array(
 				'plugin' => '',
-				'divi'   => '',
 			);
 		}
 	}
@@ -688,63 +458,4 @@ class Assets implements Hookable {
 		}
 	}
 
-	/**
-	 * Get localized strings
-	 *
-	 * @return array<string, string>
-	 */
-	private function get_localized_strings(): array {
-		$strings = array(
-			// Navigation.
-			'dashboard'            => esc_html__( 'Dashboard', 'squad-modules-for-divi' ),
-			'modules'              => esc_html__( 'Modules', 'squad-modules-for-divi' ),
-			'extensions'           => esc_html__( 'Extensions', 'squad-modules-for-divi' ),
-			'whats_new'            => esc_html__( "What's New", 'squad-modules-for-divi' ),
-			'settings'             => esc_html__( 'Settings', 'squad-modules-for-divi' ),
-			'support'              => esc_html__( 'Support', 'squad-modules-for-divi' ),
-			'documentation'        => esc_html__( 'Documentation', 'squad-modules-for-divi' ),
-
-			// Actions.
-			'upgrade'              => esc_html__( 'Upgrade to Pro', 'squad-modules-for-divi' ),
-			'upgrade_now'          => esc_html__( 'Upgrade Now', 'squad-modules-for-divi' ),
-			'learn_more'           => esc_html__( 'Learn More', 'squad-modules-for-divi' ),
-			'view_demo'            => esc_html__( 'View Demo', 'squad-modules-for-divi' ),
-			'get_help'             => esc_html__( 'Get Help', 'squad-modules-for-divi' ),
-
-			// Status Messages.
-			'saving'               => esc_html__( 'Saving...', 'squad-modules-for-divi' ),
-			'saved'                => esc_html__( 'Saved!', 'squad-modules-for-divi' ),
-			'save_error'           => esc_html__( 'Error saving settings', 'squad-modules-for-divi' ),
-			'loading'              => esc_html__( 'Loading...', 'squad-modules-for-divi' ),
-			'processing'           => esc_html__( 'Processing...', 'squad-modules-for-divi' ),
-
-			// Success Messages.
-			'activation_success'   => esc_html__( 'Plugin activated successfully!', 'squad-modules-for-divi' ),
-			'deactivation_success' => esc_html__( 'Plugin deactivated successfully!', 'squad-modules-for-divi' ),
-			'settings_saved'       => esc_html__( 'Settings saved successfully!', 'squad-modules-for-divi' ),
-
-			// Error Messages.
-			'error_occurred'       => esc_html__( 'An error occurred', 'squad-modules-for-divi' ),
-			'missing_required'     => esc_html__( 'Please fill in all required fields', 'squad-modules-for-divi' ),
-			'invalid_data'         => esc_html__( 'Invalid data provided', 'squad-modules-for-divi' ),
-			'network_error'        => esc_html__( 'Network error occurred', 'squad-modules-for-divi' ),
-
-			// Confirmations.
-			'confirm_delete'       => esc_html__( 'Are you sure you want to delete this?', 'squad-modules-for-divi' ),
-			'confirm_reset'        => esc_html__( 'Are you sure you want to reset settings?', 'squad-modules-for-divi' ),
-			'changes_lost'         => esc_html__( 'Changes will be lost if you leave this page', 'squad-modules-for-divi' ),
-
-			// Misc.
-			'pro_feature'          => esc_html__( 'Pro Feature', 'squad-modules-for-divi' ),
-			'beta_feature'         => esc_html__( 'Beta Feature', 'squad-modules-for-divi' ),
-			'coming_soon'          => esc_html__( 'Coming Soon', 'squad-modules-for-divi' ),
-		);
-
-		/**
-		 * Filter localized strings
-		 *
-		 * @param array<string, string> $strings Localized strings
-		 */
-		return apply_filters( 'divi_squad_admin_strings', $strings );
-	}
 }

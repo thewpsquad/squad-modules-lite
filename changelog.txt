@@ -1,4 +1,45 @@
 == Changelog ==
+= 4.2.0 (20-06-2026) =
+
+**New Modules:**
+- **Team Member** — team/staff cards with photo, role, bio, social links and schema.org `Person` markup; repeatable child items.
+- **Testimonial** — customer reviews with avatar, rating, name/role and schema.org `Review` markup; repeatable child items.
+- **Pricing Table** — responsive pricing plans with featured-column highlight, ribbon, tick/cross feature lists, CTA button and per-plan accent + button text colours; repeatable child items.
+- **Icon Box** — blurb-style box pairing an icon, image or Lottie animation with a title, content, optional badge and a clickable box link, with top/left/right layouts.
+- **Advanced Tabs** — tabbed content with horizontal / vertical layouts, mobile-accordion mode, icon tabs, URL-hash deep-linking and full keyboard/ARIA support; repeatable child Tab items.
+
+**Improvements:**
+- The free module library grows to 54 modules — the largest of any free Divi pack — with 53 running in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
+- Extended WPML String Translation config for every new module's translatable attributes.
+
+= 4.1.1 (19-06-2026) =
+
+**Security:**
+- Fixed XSS in Typing Text (D4) — `text_element_tag` prop was used as a raw HTML tag name without allowlist validation; `wp_kses_post()` on a plain string like `script` does not strip it.
+- Fixed CSS injection in Image Gallery (D4) — `esc_attr()` on CSS custom-property values does not strip `;`; replaced with `absint()` and `sanitize_css_length()`.
+- Fixed CSS injection in Image Mask (D5) — decoration layer fill color written into a `<style>` block via `esc_attr()` instead of `sanitize_css_background()`.
+- Fixed CSS injection in Post Grid (D5) — gap CSS custom property value not length-validated before insertion.
+- Fixed CSS injection in Video Popup, Image Mask (D4) — color and transform values interpolated into `set_style()` declarations without sanitization.
+- Fixed CSS injection in Gradient Text, Skill Bar, Divider (D5) — missing semicolons in declarations and wrong escape function in class attributes.
+- Fixed XSS across 9 D4 modules (Scrolling Text, Dual Button, Drop Cap Text, Advanced Button, Table of Contents, Text Highlighter, Drop Cap Text, Lottie, Glitch Text) — prop values used in HTML output without proper escaping.
+
+**Bug fixes:**
+- Fixed output-buffer leaks in all 4 Auth form modules (D4) — catch blocks returned without calling `ob_get_clean()`, leaking the open buffer on exceptions.
+- Fixed Forminator form condition (D4) — inverted `'' !== $form_html` meant the form never rendered; corrected to `'' === $form_html`.
+- Fixed Post Reading Time wrong toggle slug and broken CSS selector (D4).
+- Fixed Flip Box front button border applying to wrong slide (D4) and missing leading dots in several CSS selectors.
+- Fixed Video Popup icon opacity selector and wrong `use_overlay` default (D4).
+- Fixed Star Rating display type default and wrong font transition group (D4).
+- Fixed Post Grid Child `prop()` fallback typo `' off'` → `'off'` (D4).
+- Fixed ob_start leak in Post Grid and Ninja Forms catch blocks (D4).
+- Added missing `aria-hidden` on decorative elements in Breadcrumbs and Hover Box (D4).
+- Added missing image alt field to Number Counter (D4).
+- Added missing root CSS classes and fixed VB preview styles for 24 Divi 5 modules.
+- Fixed Skill Bar spacing selector and Post Grid load-more button style (D5).
+
+**Refactor:**
+- Consolidated `sanitize_css_background()` and `sanitize_css_length()` into the D4 and D5 abstract base classes — removed 43 identical private static copies across module files (-6,087 lines).
+
 = 4.1.0 (09-06-2026) =
 
 **New Modules:**

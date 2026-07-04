@@ -24,14 +24,14 @@ trait Registration {
 	/**
 	 * List of registered scripts
 	 *
-	 * @var array<string, array{handle: string, data: array{path: string, version: string, dependencies: array<string>}}>
+	 * @var array<string, array{handle: string, data: array{url: string, path: string, version: string, dependencies: array<string>}}>
 	 */
 	private array $registered_scripts = array();
 
 	/**
 	 * List of registered styles
 	 *
-	 * @var array<string, array{handle: string, data: array{path: string, version: string, dependencies: array<string>}, media: string}>
+	 * @var array<string, array{handle: string, data: array{url: string, path: string, version: string, dependencies: array<string>}, media: string}>
 	 */
 	private array $registered_styles = array();
 
@@ -75,7 +75,10 @@ trait Registration {
 			 * @param string $handle     The handle name of the script.
 			 * @param array  $config     The asset configuration.
 			 */
-			$asset_data = apply_filters( 'divi_squad_processed_script_asset_data', $asset_data, $handle, $config );
+			$asset_data = $this->normalize_asset_data(
+				apply_filters( 'divi_squad_processed_script_asset_data', $asset_data, $handle, $config ),
+				$asset_data
+			);
 
 			$version   = $asset_data['version'];
 			$in_footer = $args['in_footer'] ?? true;
@@ -149,16 +152,23 @@ trait Registration {
 			 * @param string $version      The version of the script.
 			 * @param array  $args         Additional args for wp_register_script.
 			 */
+			$script_args = array(
+				'in_footer' => (bool) $in_footer,
+			);
+
+			// Only set a loading strategy when one is provided; WordPress treats a
+			// missing strategy the same as the previous null value.
+			if ( is_string( $strategy ) && '' !== $strategy ) {
+				$script_args['strategy'] = $strategy;
+			}
+
 			do_action(
 				'divi_squad_before_script_registered',
 				$full_handle,
 				$url,
 				$dependencies,
 				$version,
-				array(
-					'in_footer' => $in_footer,
-					'strategy'  => $strategy,
-				)
+				$script_args
 			);
 
 			wp_register_script(
@@ -166,10 +176,7 @@ trait Registration {
 				$url,
 				$dependencies,
 				$version,
-				array(
-					'in_footer' => $in_footer,
-					'strategy'  => $strategy,
-				)
+				$script_args
 			);
 
 			/**
@@ -259,7 +266,10 @@ trait Registration {
 			 * @param string $handle     The handle name of the style.
 			 * @param array  $config     The asset configuration.
 			 */
-			$asset_data = apply_filters( 'divi_squad_processed_style_asset_data', $asset_data, $handle, $config );
+			$asset_data = $this->normalize_asset_data(
+				apply_filters( 'divi_squad_processed_style_asset_data', $asset_data, $handle, $config ),
+				$asset_data
+			);
 
 			/**
 			 * Filters the dependencies for the style.
@@ -383,5 +393,28 @@ trait Registration {
 		}
 
 		return sprintf( '%s-%s', $handle_prefix, $handle );
+	}
+
+	/**
+	 * Normalize (possibly filtered) asset data into the guaranteed asset-data shape.
+	 *
+	 * The `divi_squad_processed_*_asset_data` filters may return arbitrary values;
+	 * this restores the precise shape used by the registered asset stores while
+	 * preserving any values an extension provided.
+	 *
+	 * @param mixed                                                                        $filtered The filtered asset data.
+	 * @param array{url: string, path: string, version: string, dependencies: array<string>} $fallback The pre-filter asset data.
+	 *
+	 * @return array{url: string, path: string, version: string, dependencies: array<string>}
+	 */
+	private function normalize_asset_data( $filtered, array $fallback ): array {
+		$filtered = (array) $filtered;
+
+		return array(
+			'url'          => (string) ( $filtered['url'] ?? $fallback['url'] ),
+			'path'         => (string) ( $filtered['path'] ?? $fallback['path'] ),
+			'version'      => (string) ( $filtered['version'] ?? $fallback['version'] ),
+			'dependencies' => array_values( array_map( 'strval', (array) ( $filtered['dependencies'] ?? $fallback['dependencies'] ) ) ),
+		);
 	}
 }

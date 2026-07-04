@@ -131,8 +131,9 @@ class Environment_Collector {
 			}
 
 			// Add child theme info if applicable.
-			$environment['is_child_theme'] = $divi_info['is_child_theme'] ? 'Yes' : 'No';
-			if ( $divi_info['is_child_theme'] && ! empty( $divi_info['parent_theme_name'] ) ) {
+			$is_child_theme                = true === $divi_info['is_child_theme'];
+			$environment['is_child_theme'] = $is_child_theme ? 'Yes' : 'No';
+			if ( $is_child_theme && is_string( $divi_info['parent_theme_name'] ) && '' !== $divi_info['parent_theme_name'] ) {
 				$environment['parent_theme_name'] = $divi_info['parent_theme_name'];
 			}
 
@@ -140,7 +141,7 @@ class Environment_Collector {
 			$environment['divi_modified'] = $divi_info['is_modified'];
 
 			// Add constants information if available.
-			if ( ! empty( $divi_info['defined_constants'] ) ) {
+			if ( is_array( $divi_info['defined_constants'] ) && array() !== $divi_info['defined_constants'] ) {
 				$environment['divi_constants'] = $divi_info['defined_constants'];
 			}
 

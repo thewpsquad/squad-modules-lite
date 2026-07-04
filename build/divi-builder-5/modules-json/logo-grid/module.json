@@ -87,6 +87,58 @@
                 }
               }
             },
+            "columnsTablet": {
+              "groupSlug": "contentGridSettings",
+              "attrName": "grid.innerContent",
+              "subName": "columnsTablet",
+              "label": "Columns (Tablet)",
+              "description": "Number of logo columns on tablet.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 11,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 8,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "columnsPhone": {
+              "groupSlug": "contentGridSettings",
+              "attrName": "grid.innerContent",
+              "subName": "columnsPhone",
+              "label": "Columns (Phone)",
+              "description": "Number of logo columns on phone.",
+              "features": {
+                "responsive": false,
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 12,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 8,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
             "gap": {
               "groupSlug": "contentGridSettings",
               "attrName": "grid.innerContent",

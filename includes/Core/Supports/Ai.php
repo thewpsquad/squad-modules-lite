@@ -194,7 +194,9 @@ class Ai {
 					),
 					'required'   => array( 'content', 'success' ),
 				),
-				'permission_callback' => 'edit_posts',
+				'permission_callback' => static function (): bool {
+					return \current_user_can( 'edit_posts' );
+				},
 			);
 
 			/**
@@ -302,7 +304,9 @@ class Ai {
 					),
 					'required'   => array( 'suggestions', 'success' ),
 				),
-				'permission_callback' => 'edit_posts',
+				'permission_callback' => static function (): bool {
+					return \current_user_can( 'edit_posts' );
+				},
 			);
 
 			/**
@@ -404,7 +408,9 @@ class Ai {
 					),
 					'required'   => array( 'enhancements', 'success' ),
 				),
-				'permission_callback' => 'edit_posts',
+				'permission_callback' => static function (): bool {
+					return \current_user_can( 'edit_posts' );
+				},
 			);
 
 			/**
@@ -467,7 +473,7 @@ class Ai {
 	public function execute_content_generation( array $input ): array {
 		try {
 			// Validate required input.
-			if ( empty( $input['prompt'] ) ) {
+			if ( ! isset( $input['prompt'] ) || '' === $input['prompt'] ) {
 				return array(
 					'content' => '',
 					'success' => false,
@@ -500,7 +506,7 @@ class Ai {
 
 			return array(
 				'content' => $generated_content,
-				'success' => ! empty( $generated_content ),
+				'success' => '' !== $generated_content,
 			);
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error(
@@ -534,7 +540,7 @@ class Ai {
 	public function execute_design_assistance( array $input ): array {
 		try {
 			// Validate required input.
-			if ( empty( $input['module_type'] ) ) {
+			if ( ! isset( $input['module_type'] ) || '' === $input['module_type'] ) {
 				return array(
 					'suggestions' => array(),
 					'success'     => false,
@@ -567,7 +573,7 @@ class Ai {
 
 			return array(
 				'suggestions' => $suggestions,
-				'success'     => ! empty( $suggestions ),
+				'success'     => array() !== $suggestions,
 			);
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error(
@@ -601,7 +607,7 @@ class Ai {
 	public function execute_module_enhancement( array $input ): array {
 		try {
 			// Validate required input.
-			if ( empty( $input['module_type'] ) || empty( $input['enhancement_type'] ) ) {
+			if ( ( ! isset( $input['module_type'] ) || '' === $input['module_type'] ) || ( ! isset( $input['enhancement_type'] ) || '' === $input['enhancement_type'] ) ) {
 				return array(
 					'enhancements' => array(),
 					'success'      => false,
@@ -634,7 +640,7 @@ class Ai {
 
 			return array(
 				'enhancements' => $enhancements,
-				'success'      => ! empty( $enhancements ),
+				'success'      => array() !== $enhancements,
 			);
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error(

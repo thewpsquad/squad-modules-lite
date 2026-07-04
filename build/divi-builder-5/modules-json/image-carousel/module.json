@@ -117,6 +117,56 @@
                 }
               }
             },
+            "slidesPerViewTablet": {
+              "groupSlug": "contentCarouselSettings",
+              "attrName": "carousel.innerContent",
+              "subName": "slidesPerViewTablet",
+              "label": "Slides Per View (Tablet)",
+              "description": "Number of slides visible on tablet.",
+              "features": {
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 21,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 6,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
+            "slidesPerViewPhone": {
+              "groupSlug": "contentCarouselSettings",
+              "attrName": "carousel.innerContent",
+              "subName": "slidesPerViewPhone",
+              "label": "Slides Per View (Phone)",
+              "description": "Number of slides visible on phone.",
+              "features": {
+                "hover": false,
+                "sticky": false
+              },
+              "render": true,
+              "priority": 22,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": 1,
+                  "max": 6,
+                  "step": 1,
+                  "allowedUnits": [],
+                  "defaultUnit": "",
+                  "unitless": true
+                }
+              }
+            },
             "spaceBetween": {
               "groupSlug": "contentCarouselSettings",
               "attrName": "carousel.innerContent",

@@ -173,11 +173,10 @@ class Divi {
 	 * @filter et_late_global_assets_list Adds Divi icon assets to the late-loaded global assets list.
 	 */
 	public static function global_assets_list( array $global_list = array() ): array {
-		if ( ! function_exists( 'et_get_dynamic_assets_path' ) ) {
+		$assets_prefix = self::get_dynamic_assets_path();
+		if ( null === $assets_prefix ) {
 			return $global_list;
 		}
-
-		$assets_prefix = et_get_dynamic_assets_path();
 
 		$assets_list = array(
 			'et_icons_all' => array(
@@ -186,6 +185,30 @@ class Divi {
 		);
 
 		return array_merge( $global_list, $assets_list );
+	}
+
+	/**
+	 * Resolve the Divi dynamic-assets path prefix.
+	 *
+	 * Prefers the Divi 5 `DynamicAssetsUtils` API. On Divi 4 — where that class
+	 * does not exist — it falls back to `et_get_dynamic_assets_path()`, which is
+	 * the supported (non-deprecated) function on that branch.
+	 *
+	 * @since 3.4.2
+	 *
+	 * @return string|null Assets path prefix, or null when Divi exposes neither API.
+	 */
+	private static function get_dynamic_assets_path(): ?string {
+		if ( class_exists( '\ET\Builder\FrontEnd\Assets\DynamicAssetsUtils' ) ) {
+			return \ET\Builder\FrontEnd\Assets\DynamicAssetsUtils::get_dynamic_assets_path();
+		}
+
+		if ( function_exists( 'et_get_dynamic_assets_path' ) ) {
+			// Divi 4 fallback: not deprecated on Divi 4; Divi 5 takes the class branch above.
+			return (string) et_get_dynamic_assets_path(); // @phpstan-ignore function.deprecated
+		}
+
+		return null;
 	}
 
 	/**
@@ -201,11 +224,10 @@ class Divi {
 	 * @filter et_late_global_assets_list Adds Font Awesome assets to the late-loaded global assets list.
 	 */
 	public static function global_fa_assets_list( array $global_list = array() ): array {
-		if ( ! function_exists( 'et_get_dynamic_assets_path' ) ) {
+		$assets_prefix = self::get_dynamic_assets_path();
+		if ( null === $assets_prefix ) {
 			return $global_list;
 		}
-
-		$assets_prefix = et_get_dynamic_assets_path();
 
 		$assets_list = array(
 			'et_icons_fa' => array(
@@ -230,7 +252,7 @@ class Divi {
 	 * @uses   add_filter() Hooks into asset list filters to add necessary icon assets.
 	 */
 	public static function inject_fa_icons( string $icon_data ): void {
-		if ( function_exists( 'et_use_dynamic_icons' ) && 'on' === et_use_dynamic_icons() ) {
+		if ( 'on' === self::use_dynamic_icons() ) {
 			add_filter( 'et_global_assets_list', array( static::class, 'global_assets_list' ) );
 			add_filter( 'et_late_global_assets_list', array( static::class, 'global_assets_list' ) );
 
@@ -239,6 +261,31 @@ class Divi {
 				add_filter( 'et_late_global_assets_list', array( static::class, 'global_fa_assets_list' ) );
 			}
 		}
+	}
+
+	/**
+	 * Whether Divi's dynamic-icons option is enabled.
+	 *
+	 * Prefers the Divi 5 `DynamicAssetsUtils` API. On Divi 4 — where that class
+	 * does not exist — it falls back to `et_use_dynamic_icons()`, which is the
+	 * supported (non-deprecated) function on that branch. Both return the raw
+	 * option value (e.g. `'on'` / `'off'`).
+	 *
+	 * @since 3.4.2
+	 *
+	 * @return string The dynamic-icons option value, or `'off'` when unavailable.
+	 */
+	private static function use_dynamic_icons(): string {
+		if ( class_exists( '\ET\Builder\FrontEnd\Assets\DynamicAssetsUtils' ) ) {
+			return (string) \ET\Builder\FrontEnd\Assets\DynamicAssetsUtils::use_dynamic_icons();
+		}
+
+		if ( function_exists( 'et_use_dynamic_icons' ) ) {
+			// Divi 4 fallback: not deprecated on Divi 4; Divi 5 takes the class branch above.
+			return (string) et_use_dynamic_icons(); // @phpstan-ignore function.deprecated
+		}
+
+		return 'off';
 	}
 
 	/**
@@ -1277,7 +1324,7 @@ class Divi {
 			// If all else fails, use a reasonable fallback version.
 			if ( self::DEFAULT_VERSION === $version || ! self::is_valid_version_format( $version ) ) {
 				// Log the detection failure if we have logging available.
-				if ( function_exists( 'divi_squad' ) && method_exists( divi_squad(), 'log_warning' ) ) {
+				if ( function_exists( 'divi_squad' ) ) {
 					divi_squad()->log_warning(
 						'Failed to detect Divi version using any available method',
 						'Divi Detection',
@@ -1287,8 +1334,8 @@ class Divi {
 
 				// If all methods failed, use a fallback version that will trigger requirement checking.
 				// but avoid empty version display.
-				if ( function_exists( 'divi_squad' ) && method_exists( divi_squad(), 'get_option' ) ) {
-					$required_version = divi_squad()->get_option( 'RequiresDIVI' );
+				if ( function_exists( 'divi_squad' ) ) {
+					$required_version = (string) divi_squad()->get_option( 'RequiresDIVI' );
 					// If we have a required version, use one version below it to trigger a meaningful error.
 					if ( self::is_valid_version_format( $required_version ) ) {
 						$version_parts = explode( '.', $required_version );
@@ -1383,18 +1430,18 @@ class Divi {
 		$current_theme = wp_get_theme();
 
 		// Check if it's Divi or Extra.
-		if ( $current_theme && in_array( $current_theme->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+		if ( $current_theme instanceof WP_Theme && in_array( $current_theme->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
 			$version = $current_theme->get( 'Version' );
-			if ( ! empty( $version ) && self::is_valid_version_format( $version ) ) {
+			if ( is_string( $version ) && '' !== $version && self::is_valid_version_format( $version ) ) {
 				return $version;
 			}
 		}
 
 		// Check parent theme if this is a child theme.
 		$parent = $current_theme->parent();
-		if ( $parent && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
+		if ( $parent instanceof WP_Theme && in_array( $parent->get( 'Name' ), array( 'Divi', 'Extra' ), true ) ) {
 			$version = $parent->get( 'Version' );
-			if ( ! empty( $version ) && self::is_valid_version_format( $version ) ) {
+			if ( is_string( $version ) && '' !== $version && self::is_valid_version_format( $version ) ) {
 				return $version;
 			}
 		}
@@ -1430,7 +1477,7 @@ class Divi {
 
 		// Try builder core options.
 		$core_options = get_option( 'et_core_version' );
-		if ( ! empty( $core_options ) && is_string( $core_options ) ) {
+		if ( is_string( $core_options ) && '' !== $core_options ) {
 			return $core_options;
 		}
 
@@ -1510,7 +1557,7 @@ class Divi {
 					);
 
 					foreach ( $regex_patterns as $regex ) {
-						if ( preg_match( $regex, $file_content, $matches ) && isset( $matches[1] ) ) {
+						if ( 1 === preg_match( $regex, $file_content, $matches ) ) {
 							$version = trim( $matches[1] );
 							if ( self::is_valid_version_format( $version ) ) {
 								return $version;
@@ -1538,8 +1585,8 @@ class Divi {
 	 */
 	protected static function is_valid_version_format( string $version ): bool {
 		// Basic version format validation (X.Y.Z or X.Y).
-		return ! empty( $version ) &&
-			   preg_match( '/^[0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[a-zA-Z0-9]+)?$/', $version ) &&
+		return '' !== $version &&
+			   1 === preg_match( '/^[0-9]+\.[0-9]+(?:\.[0-9]+)?(?:-[a-zA-Z0-9]+)?$/', $version ) &&
 			   self::DEFAULT_VERSION !== $version;
 	}
 
@@ -1710,7 +1757,7 @@ class Divi {
 			'framework_source'         => $framework_source,
 			'defined_constants'        => $divi_constants,
 			'available_functions'      => $divi_functions,
-			'meets_requirements'       => ! ( function_exists( 'divi_squad' ) && isset( divi_squad()->options['RequiresDIVI'] ) ) || static::meets_version_requirement( divi_squad()->options['RequiresDIVI'] ),
+			'meets_requirements'       => ! ( function_exists( 'divi_squad' ) && null !== divi_squad()->get_option( 'RequiresDIVI' ) ) || static::meets_version_requirement( (string) divi_squad()->get_option( 'RequiresDIVI' ) ),
 			'plugin_active'            => static::is_divi_builder_plugin_active(),
 			'theme_active'             => static::is_any_divi_theme_active(),
 		);

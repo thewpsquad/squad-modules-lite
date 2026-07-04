@@ -142,7 +142,22 @@ trait Management {
 		 * @param array|null $script_data Script data or null if not found.
 		 * @param string     $handle      Script identifier.
 		 */
-		return apply_filters( 'divi_squad_script_data', $script_data, $handle );
+		$filtered = apply_filters( 'divi_squad_script_data', $script_data, $handle );
+
+		if ( ! is_array( $filtered ) ) {
+			return null;
+		}
+
+		$data = (array) ( $filtered['data'] ?? array() );
+
+		return array(
+			'handle' => (string) ( $filtered['handle'] ?? '' ),
+			'data'   => array(
+				'path'         => (string) ( $data['path'] ?? '' ),
+				'version'      => (string) ( $data['version'] ?? '' ),
+				'dependencies' => array_values( array_map( 'strval', (array) ( $data['dependencies'] ?? array() ) ) ),
+			),
+		);
 	}
 
 	/**
@@ -181,7 +196,23 @@ trait Management {
 		 * @param array|null $style_data Style data or null if not found.
 		 * @param string     $handle     Style identifier.
 		 */
-		return apply_filters( 'divi_squad_style_data', $style_data, $handle );
+		$filtered = apply_filters( 'divi_squad_style_data', $style_data, $handle );
+
+		if ( ! is_array( $filtered ) ) {
+			return null;
+		}
+
+		$data = (array) ( $filtered['data'] ?? array() );
+
+		return array(
+			'handle' => (string) ( $filtered['handle'] ?? '' ),
+			'data'   => array(
+				'path'         => (string) ( $data['path'] ?? '' ),
+				'version'      => (string) ( $data['version'] ?? '' ),
+				'dependencies' => array_values( array_map( 'strval', (array) ( $data['dependencies'] ?? array() ) ) ),
+			),
+			'media'  => (string) ( $filtered['media'] ?? 'all' ),
+		);
 	}
 
 	/**

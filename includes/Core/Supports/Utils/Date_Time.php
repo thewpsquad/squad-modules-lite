@@ -35,7 +35,7 @@ class Date_Time {
 		}
 
 		if ( is_string( $date ) ) {
-			$date = strtotime( $date );
+			$date = (int) strtotime( $date );
 		}
 
 		if ( $gmt_offset ) {

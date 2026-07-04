@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 4.1.1 =
+Security and bug-fix patch: resolves XSS and CSS injection vulnerabilities in multiple Divi 4 and Divi 5 modules, fixes output-buffer leaks in auth form modules, corrects wrong CSS selectors and inverted form conditions, and improves Visual Builder previews for 9 Divi 5 modules.
+
 = 4.1.0 =
 Feature release: a rebuilt React admin dashboard (live stats, module/extension management, dark mode) and 15 new modules including Social Share, Table of Contents, Number Counter, Advanced Button, Hover Box, Animated Heading, Image Carousel, and Logo Grid. The admin page slug changed from "divi_squad_dashboard" to "divi_squad"; old bookmarks are redirected automatically. Divi 4 and Divi 5 builder support continue unchanged.
 

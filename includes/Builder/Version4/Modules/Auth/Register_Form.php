@@ -10,6 +10,7 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Auth;
 
+use DiviSquad\Builder\Utils\Auth_Form_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use Throwable;
 use function add_query_arg;
@@ -201,6 +202,12 @@ class Register_Form extends Module {
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		try {
+			// Already logged in (and not styling in the Visual Builder) — show a notice instead of the form.
+			$logged_in_notice = Auth_Form_Helper::logged_in_notice();
+			if ( '' !== $logged_in_notice ) {
+				return $logged_in_notice;
+			}
+
 			if ( ! (bool) get_option( 'users_can_register' ) ) {
 				return '<div class="disq-register-form disq-register-form--disabled"><p>' .
 				       esc_html__( 'Registration is currently disabled.', 'squad-modules-for-divi' ) .

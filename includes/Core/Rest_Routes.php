@@ -287,7 +287,7 @@ class Rest_Routes {
 	 */
 	public function format_route_name( string $route ): string {
 		$route_parts = explode( '/', str_replace( array( '_', '-' ), '/', $route ) );
-		$route_parts = array_filter( $route_parts, static fn( $part ): bool => ! empty( $part ) );
+		$route_parts = array_filter( $route_parts, static fn( string $part ): bool => '' !== $part && '0' !== $part );
 		$route_parts = array_map( 'ucfirst', $route_parts );
 
 		return implode( '', $route_parts );

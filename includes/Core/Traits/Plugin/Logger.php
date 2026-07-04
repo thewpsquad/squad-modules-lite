@@ -203,12 +203,19 @@ trait Logger {
 	 */
 	protected function format_log_message( string $level, $message, string $context, array $data ): string {
 		try {
+			if ( is_string( $message ) ) {
+				$message_string = $message;
+			} else {
+				$encoded_message = wp_json_encode( $message );
+				$message_string  = false === $encoded_message ? '' : $encoded_message;
+			}
+
 			$log_message = sprintf(
 				'[%s] [%s]: [%s] %s',
 				$this->log_identifier,
 				$level,
 				$context,
-				is_string( $message ) ? $message : wp_json_encode( $message )
+				$message_string
 			);
 
 			if ( count( $data ) > 0 ) {

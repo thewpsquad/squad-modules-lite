@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit426b492c9505cb49081a37e85c939744
+class ComposerStaticInit3e1c03e356c7e8163d20e9389f290dd8
 {
     public static $prefixLengthsPsr4 = array (
         'D' =>
@@ -37,6 +37,7 @@ class ComposerStaticInit426b492c9505cb49081a37e85c939744
         'DiviSquad\\Builder\\Shared\\Supports\\Module_Utilities\\Breadcrumbs' => __DIR__ . '/../..' . '/includes/Builder/Shared/Supports/Module_Utilities/Breadcrumbs.php',
         'DiviSquad\\Builder\\Shared\\Supports\\Module_Utilities\\Masking\\Decorations' => __DIR__ . '/../..' . '/includes/Builder/Shared/Supports/Module_Utilities/Masking/Decorations.php',
         'DiviSquad\\Builder\\Shared\\Supports\\Module_Utilities\\Masking\\Shapes' => __DIR__ . '/../..' . '/includes/Builder/Shared/Supports/Module_Utilities/Masking/Shapes.php',
+        'DiviSquad\\Builder\\Utils\\Auth_Form_Helper' => __DIR__ . '/../..' . '/includes/Builder/Utils/Auth_Form_Helper.php',
         'DiviSquad\\Builder\\Utils\\Database\\Database_Utils' => __DIR__ . '/../..' . '/includes/Builder/Utils/Database/Database_Utils.php',
         'DiviSquad\\Builder\\Utils\\Elements\\Custom_Fields' => __DIR__ . '/../..' . '/includes/Builder/Utils/Elements/Custom_Fields.php',
         'DiviSquad\\Builder\\Utils\\Elements\\Custom_Fields\\Collection' => __DIR__ . '/../..' . '/includes/Builder/Utils/Elements/Custom_Fields/Collection.php',
@@ -75,15 +76,24 @@ class ComposerStaticInit426b492c9505cb49081a37e85c939744
         'DiviSquad\\Builder\\Version4\\Modules\\Auth\\Lost_Password_Form' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Auth/Lost_Password_Form.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Auth\\Register_Form' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Auth/Register_Form.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Auth\\Reset_Password_Form' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Auth/Reset_Password_Form.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Advanced_Tabs' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Advanced_Tabs.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Advanced_Tabs_Item' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Advanced_Tabs_Item.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Author_Box' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Author_Box.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Business_Hours' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Business_Hours.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Business_Hours_Child' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Business_Hours_Child.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Flip_Box' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Flip_Box.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Hover_Box' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Hover_Box.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Icon_Box' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Icon_Box.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Pricing_Table' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Pricing_Table.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Pricing_Table_Item' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Pricing_Table_Item.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Skill_Bar' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Skill_Bar.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Skill_Bar_Item' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Skill_Bar_Item.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Social_Share' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Social_Share.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Content\\Social_Share_Item' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Social_Share_Item.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Team_Member' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Team_Member.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Team_Member_Item' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Team_Member_Item.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Testimonial' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Testimonial.php',
+        'DiviSquad\\Builder\\Version4\\Modules\\Content\\Testimonial_Item' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Content/Testimonial_Item.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Creative\\Advanced_Button' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Creative/Advanced_Button.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Creative\\Advanced_Video' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Creative/Advanced_Video.php',
         'DiviSquad\\Builder\\Version4\\Modules\\Creative\\Animated_Heading' => __DIR__ . '/../..' . '/includes/Builder/Version4/Modules/Creative/Animated_Heading.php',
@@ -144,15 +154,24 @@ class ComposerStaticInit426b492c9505cb49081a37e85c939744
         'DiviSquad\\Builder\\Version5\\Modules\\Auth\\Lost_Password_Form' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Auth/Lost_Password_Form.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Auth\\Register_Form' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Auth/Register_Form.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Auth\\Reset_Password_Form' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Auth/Reset_Password_Form.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Advanced_Tabs' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Advanced_Tabs.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Advanced_Tabs_Item' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Advanced_Tabs_Item.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Author_Box' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Author_Box.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Business_Hours' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Business_Hours.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Business_Hours_Child' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Business_Hours_Child.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Flip_Box' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Flip_Box.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Hover_Box' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Hover_Box.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Icon_Box' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Icon_Box.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Pricing_Table' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Pricing_Table.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Pricing_Table_Item' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Pricing_Table_Item.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Skill_Bar' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Skill_Bar.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Skill_Bar_Item' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Skill_Bar_Item.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Social_Share' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Social_Share.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Content\\Social_Share_Item' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Social_Share_Item.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Team_Member' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Team_Member.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Team_Member_Item' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Team_Member_Item.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Testimonial' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Testimonial.php',
+        'DiviSquad\\Builder\\Version5\\Modules\\Content\\Testimonial_Item' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Content/Testimonial_Item.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Creative\\Advanced_Button' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Creative/Advanced_Button.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Creative\\Advanced_Video' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Creative/Advanced_Video.php',
         'DiviSquad\\Builder\\Version5\\Modules\\Creative\\Animated_Heading' => __DIR__ . '/../..' . '/includes/Builder/Version5/Modules/Creative/Animated_Heading.php',
@@ -291,9 +310,9 @@ class ComposerStaticInit426b492c9505cb49081a37e85c939744
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit426b492c9505cb49081a37e85c939744::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit426b492c9505cb49081a37e85c939744::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit426b492c9505cb49081a37e85c939744::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3e1c03e356c7e8163d20e9389f290dd8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3e1c03e356c7e8163d20e9389f290dd8::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3e1c03e356c7e8163d20e9389f290dd8::$classMap;
 
         }, null, ClassLoader::class);
     }

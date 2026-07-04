@@ -530,7 +530,7 @@ trait Localization {
 				'<script id="%s" type="text/javascript">window["%s"] = %s;</script>',
 				esc_attr( $script_id ),
 				esc_js( $global_object_name ),
-				wp_json_encode( $filtered_data )
+				(string) wp_json_encode( $filtered_data )
 			),
 			$script_id,
 			$global_object_name,

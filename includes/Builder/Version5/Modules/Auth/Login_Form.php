@@ -20,6 +20,7 @@ if ( ! class_exists( 'ET\Builder\Packages\Module\Module' ) ) {
 	return;
 }
 
+use DiviSquad\Builder\Utils\Auth_Form_Helper;
 use DiviSquad\Builder\Version5\Abstracts\Module;
 use ET\Builder\FrontEnd\Module\Style;
 use ET\Builder\Packages\Module\Layout\Components\ModuleElements\ModuleElements;
@@ -143,6 +144,12 @@ class Login_Form extends Module {
 	 */
 	public static function render_callback( array $attrs, string $content, WP_Block $block, $elements ): string {
 		try {
+			// Already logged in (and not styling in the Visual Builder) — show a notice instead of the form.
+			$logged_in_notice = Auth_Form_Helper::logged_in_notice();
+			if ( '' !== $logged_in_notice ) {
+				return $logged_in_notice;
+			}
+
 			$inner = $attrs['content']['innerContent']['desktop']['value'] ?? array();
 
 			$layout          = sanitize_text_field( (string) ( $inner['layout'] ?? 'card' ) );
@@ -240,7 +247,6 @@ class Login_Form extends Module {
 						<?php endif; ?>
 
 						<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $after_login_url ); ?>"/>
-						<input type="hidden" name="testcookie" value="1"/>
 
 						<button type="submit" class="disq-login-form__submit"><?php echo $button_text; ?></button>
 

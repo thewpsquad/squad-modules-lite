@@ -197,10 +197,19 @@ class Divider extends Module {
 	 * @return string
 	 */
 	protected static function squad_render_divider( array $inner, string $divider_type, string $divider_icon_type, string $divider_position ): string {
+		// Map the stored flex value to the alignment class the stylesheet uses
+		// (`.left` hides the left line → icon at start; `.right` → icon at end).
+		$position_map      = array(
+			'flex-start' => 'left',
+			'center'     => 'center',
+			'flex-end'   => 'right',
+		);
+		$position_class    = $position_map[ $divider_position ] ?? 'center';
+
 		$wrapper_classes = array(
 			'divider-elements',
 			'et_pb_with_background',
-			'center',
+			$position_class,
 			$divider_type,
 			'solid',
 		);

@@ -1098,7 +1098,7 @@ class Post_Grid extends Module {
 			$next = esc_html( $next_text );
 		}
 
-		$links = paginate_links(
+		$links_result = paginate_links(
 			array(
 				'base'      => esc_url_raw( (string) add_query_arg( 'paged', '%#%' ) ),
 				'format'    => '',
@@ -1110,7 +1110,12 @@ class Post_Grid extends Module {
 			)
 		);
 
-		if ( ! is_array( $links ) || count( $links ) === 0 ) {
+		// With 'type' => 'array', paginate_links() yields a list of link strings, but
+		// returns void/null when there are fewer than two pages; casting that union to
+		// an array gives an empty array in that case, which short-circuits below.
+		$links = array_values( (array) $links_result );
+
+		if ( count( $links ) === 0 ) {
 			return '';
 		}
 

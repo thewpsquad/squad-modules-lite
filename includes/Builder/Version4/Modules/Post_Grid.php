@@ -2298,10 +2298,11 @@ class Post_Grid extends Module {
 				)
 			);
 
-			// Normalize to a concrete list of link strings. paginate_links() returns
-			// void/null when there are fewer than two pages, in which case this yields
-			// an empty array and the pagination markup below is skipped.
-			$paginate_links = is_array( $paginate_links_result ) ? array_values( $paginate_links_result ) : array();
+			// Normalize to a concrete list of link strings. With 'type' => 'array'
+			// paginate_links() yields a list of strings, but returns void/null when
+			// there are fewer than two pages; casting that union to an array gives an
+			// empty array in that case and the pagination markup below is skipped.
+			$paginate_links = array_values( (array) $paginate_links_result );
 
 			if ( count( $paginate_links ) > 0 ) {
 				print '<div class="squad-pagination clearfix">';
@@ -3165,10 +3166,14 @@ class Post_Grid extends Module {
 
 			case 'image':
 				$acf_image_width = $attrs['element_advanced_custom_field_image_width'] ?? '100px';
-				$acf_image_sizes = sprintf( '%1$sx%2$s', (int) $acf_image_width, 'full' );
-				$acf_image_attr  = array( 'width' => $acf_image_width );
 
-				return wp_get_attachment_image( (int) $acf_field_value, $acf_image_sizes, false, $acf_image_attr );
+				// Constrain the image to the configured width. wp_get_attachment_image()
+				// accepts the size as array( width, height ) in pixels; a 0 height leaves
+				// the height unconstrained so the aspect ratio is preserved, and the
+				// width/height HTML attributes are emitted from the resolved dimensions.
+				// 'width' is not a valid $attr key, so the width is supplied through the
+				// $size argument instead.
+				return wp_get_attachment_image( (int) $acf_field_value, array( (int) $acf_image_width, 0 ) );
 
 			default:
 				return $acf_field_value;

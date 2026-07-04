@@ -30,7 +30,7 @@ class Memory {
 	 * Stored option data.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var array<string, mixed>
 	 */
 	private array $data = array();
 
@@ -62,7 +62,7 @@ class Memory {
 	 * Batch operations queue.
 	 *
 	 * @since 2.0.0
-	 * @var array
+	 * @var array<int, array{operation: string, field: string, value: mixed}>
 	 */
 	private array $batch_queue = array();
 
@@ -202,7 +202,7 @@ class Memory {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function all(): array {
 		return $this->data;
@@ -316,7 +316,7 @@ class Memory {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $fields Key-value pairs of fields to set.
+	 * @param array<string, mixed> $fields Key-value pairs of fields to set.
 	 *
 	 * @return bool
 	 */

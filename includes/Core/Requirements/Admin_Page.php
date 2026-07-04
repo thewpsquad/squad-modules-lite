@@ -109,7 +109,7 @@ class Admin_Page implements Hookable {
 			__( 'Divi Squad', 'squad-modules-for-divi' ),
 			$capability,
 			$page_slug,
-			'', // @phpstan-ignore-line
+			'',
 			$menu_icon,
 			divi_squad()->get_admin_menu_position()
 		);
@@ -303,7 +303,7 @@ class Admin_Page implements Hookable {
 		);
 
 		// Add an action button if provided..
-		if ( ! empty( $action['url'] ) ) {
+		if ( '' !== ( $action['url'] ?? '' ) ) {
 			$output .= sprintf(
 				'<div class="divi-squad-notice-action">
 					<div class="divi-squad-notice-action-left">
@@ -714,7 +714,7 @@ class Admin_Page implements Hookable {
 		$is_fulfilled     = $this->status_checker->is_fulfilled();
 
 		// Theme is active but outdated..
-		if ( ( $status['is_theme_active'] ?? false ) && version_compare( $status['theme_version'] ?? '0.0.0', $required_version, '<' ) ) {
+		if ( true === ( $status['is_theme_active'] ?? false ) && version_compare( $status['theme_version'] ?? '0.0.0', $required_version, '<' ) ) {
 			return $this->render_notice_banner(
 				'warning',
 				__( 'Divi Update Required', 'squad-modules-for-divi' ),
@@ -733,7 +733,7 @@ class Admin_Page implements Hookable {
 		}
 
 		// Plugin is active but outdated..
-		if ( ( $status['is_plugin_active'] ?? false ) && version_compare( $status['plugin_version'] ?? '0.0.0', $required_version, '<' ) ) {
+		if ( true === ( $status['is_plugin_active'] ?? false ) && version_compare( $status['plugin_version'] ?? '0.0.0', $required_version, '<' ) ) {
 			return $this->render_notice_banner(
 				'warning',
 				__( 'Divi Builder Update Required', 'squad-modules-for-divi' ),
@@ -752,7 +752,7 @@ class Admin_Page implements Hookable {
 		}
 
 		// Theme is installed but not active..
-		if ( ( $status['is_theme_installed'] ?? false ) && ! ( $status['is_theme_active'] ?? false ) ) {
+		if ( true === ( $status['is_theme_installed'] ?? false ) && true !== ( $status['is_theme_active'] ?? false ) ) {
 			return $this->render_notice_banner(
 				'error',
 				__( 'Divi Theme Not Activated', 'squad-modules-for-divi' ),
@@ -766,7 +766,7 @@ class Admin_Page implements Hookable {
 		}
 
 		// Plugin is installed but not active..
-		if ( ( $status['is_plugin_installed'] ?? false ) && ! ( $status['is_plugin_active'] ?? false ) ) {
+		if ( true === ( $status['is_plugin_installed'] ?? false ) && true !== ( $status['is_plugin_active'] ?? false ) ) {
 			return $this->render_notice_banner(
 				'error',
 				__( 'Divi Builder Plugin Not Activated', 'squad-modules-for-divi' ),

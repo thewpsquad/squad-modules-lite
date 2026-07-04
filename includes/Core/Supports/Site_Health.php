@@ -397,7 +397,7 @@ class Site_Health {
 			// Is allowed theme activated.
 			$fields['is-allowed-theme-active'] = array(
 				'label' => esc_html__( 'Is Allowed Theme Active', 'squad-modules-for-divi' ),
-				'value' => $divi_info['theme_active'] || $divi_info['plugin_active']
+				'value' => (bool) $divi_info['theme_active'] || (bool) $divi_info['plugin_active']
 					? esc_html__( 'Yes', 'squad-modules-for-divi' )
 					: esc_html__( 'No', 'squad-modules-for-divi' ),
 			);
@@ -405,7 +405,7 @@ class Site_Health {
 			// Add requirements check.
 			$fields['meets-requirements'] = array(
 				'label' => esc_html__( 'Meets Version Requirements', 'squad-modules-for-divi' ),
-				'value' => $divi_info['meets_requirements']
+				'value' => (bool) $divi_info['meets_requirements']
 					? esc_html__( 'Yes', 'squad-modules-for-divi' )
 					: esc_html__( 'No', 'squad-modules-for-divi' ),
 			);
@@ -467,11 +467,11 @@ class Site_Health {
 	 * @return string Description of the theme type.
 	 */
 	private function get_theme_type_description( array $divi_info ): string {
-		if ( $divi_info['is_direct_match'] ) {
+		if ( (bool) $divi_info['is_direct_match'] ) {
 			return esc_html__( 'Official Divi/Extra Theme', 'squad-modules-for-divi' );
 		}
 
-		if ( $divi_info['is_child_theme'] ) {
+		if ( (bool) $divi_info['is_child_theme'] ) {
 			return sprintf(
 			// translators: %s is the parent theme name.
 				esc_html__( 'Child Theme of %s', 'squad-modules-for-divi' ),

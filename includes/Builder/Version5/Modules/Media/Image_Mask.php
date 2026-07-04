@@ -175,7 +175,7 @@ class Image_Mask extends Module {
 			$viewbox     = is_array( $viewbox ) ? $viewbox : array();
 
 			$unique_id = (string) ( $block->parsed_block['id'] ?? 'image-mask' );
-			$unique_id = preg_replace( '/[^a-zA-Z0-9_-]/', '-', $unique_id );
+			$unique_id = (string) preg_replace( '/[^a-zA-Z0-9_-]/', '-', $unique_id );
 
 			$svg = self::build_svg(
 				$unique_id,

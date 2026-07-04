@@ -82,7 +82,7 @@ class Assets implements Hookable {
 			/**
 			 * Fires after requirements assets are enqueued
 			 *
-			 * @param Assets $assets Assets Manager instance
+			 * @param Assets_Manager $assets Assets Manager instance
 			 */
 			do_action( 'divi_squad_after_enqueue_requirements_assets', $assets );
 		} catch ( Throwable $e ) {

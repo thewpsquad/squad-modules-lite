@@ -10,6 +10,7 @@
 
 namespace DiviSquad\Builder\Version4\Modules\Auth;
 
+use DiviSquad\Builder\Utils\Auth_Form_Helper;
 use DiviSquad\Builder\Version4\Abstracts\Module;
 use Throwable;
 use function esc_attr;
@@ -344,6 +345,12 @@ class Login_Form extends Module {
 	 */
 	public function render( $attrs, $content, $render_slug ): string {
 		try {
+			// Already logged in (and not styling in the Visual Builder) — show a notice instead of the form.
+			$logged_in_notice = Auth_Form_Helper::logged_in_notice();
+			if ( '' !== $logged_in_notice ) {
+				return $logged_in_notice;
+			}
+
 			$layout          = sanitize_text_field( $this->props['layout'] ?? 'card' );
 			$show_logo       = 'on' === ( $this->props['show_logo'] ?? 'on' );
 			$show_title      = 'on' === ( $this->props['show_title'] ?? 'on' );
@@ -439,7 +446,6 @@ class Login_Form extends Module {
 						<?php endif; ?>
 
 						<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $after_login_url ); ?>"/>
-						<input type="hidden" name="testcookie" value="1"/>
 
 						<button type="submit" class="disq-login-form__submit"><?php echo $button_text; ?></button>
 

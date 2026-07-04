@@ -416,7 +416,7 @@ class Advanced extends Collection {
 
 			try {
 				// Get ACF field groups for this post type.
-				$this->field_groups[ $post_type ] = (array) $get_field_groups( array( 'post_type' => $post_type ) );
+				$this->field_groups[ $post_type ] = $get_field_groups( array( 'post_type' => $post_type ) );
 
 				// Process each field group.
 				foreach ( $this->field_groups[ $post_type ] as $group ) {
@@ -432,7 +432,7 @@ class Advanced extends Collection {
 					}
 
 					// Get fields for this group.
-					$this->fields_data[ $group_key ] = (array) $get_fields( $group_key );
+					$this->fields_data[ $group_key ] = $get_fields( $group_key );
 
 					// Process each field.
 					foreach ( $this->fields_data[ $group_key ] as $acf_field ) {

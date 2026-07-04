@@ -323,7 +323,7 @@ class Assets implements Hookable {
 		foreach ( $registered as $dependency ) {
 			$is_squad_handle = false;
 
-			if ( isset( $dependency->handle ) && '' !== $dependency->handle && count( $dependency->deps ) > 0 ) {
+			if ( '' !== $dependency->handle && count( $dependency->deps ) > 0 ) {
 				// Check if the handle starts with any of the squad prefixes.
 				foreach ( $prefixes as $prefix ) {
 					if ( strpos( $dependency->handle, $prefix ) === 0 ) {

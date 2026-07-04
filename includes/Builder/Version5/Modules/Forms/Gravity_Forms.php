@@ -95,7 +95,7 @@ class Gravity_Forms extends Form_Styler {
 		$use_ajax            = 'on' === ( $inner['formAjax'] ?? 'off' );
 
 		ob_start();
-		gravity_form( (int) $form_id, $display_title, $display_description, false, null, $use_ajax, 0, true );
+		gravity_form( $form_id, $display_title, $display_description, false, null, $use_ajax, 0, true );
 
 		return (string) ob_get_clean();
 	}

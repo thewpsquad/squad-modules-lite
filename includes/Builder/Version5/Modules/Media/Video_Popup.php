@@ -122,8 +122,62 @@ class Video_Popup extends Module {
 						array(
 							'attrName'   => 'module',
 							'styleProps' => array(
-								'disabledOn' => array(
+								'disabledOn'     => array(
 									'disabledModuleVisibility' => $settings['disabledModuleVisibility'] ?? null,
+								),
+								'advancedStyles' => array(
+									// ── Icon / text alignment ──────────────────────────────
+									array(
+										'componentName' => 'divi/common',
+										'props'         => array(
+											'selector'            => "{$args['orderClass']} .video-popup-trigger",
+											'attr'                => $attrs['popup']['innerContent'] ?? array(),
+											'declarationFunction' => static function ( $params ) {
+												$v       = $params['attrValue'] ?? array();
+												$align   = (string) ( $v['iconAlignment'] ?? '' );
+												$allowed = array( 'flex-start', 'center', 'flex-end' );
+
+												return in_array( $align, $allowed, true ) ? "justify-content:{$align};" : '';
+											},
+										),
+									),
+									// ── Spacing between icon and text ──────────────────────
+									array(
+										'componentName' => 'divi/common',
+										'props'         => array(
+											'selector'            => "{$args['orderClass']} .video-popup .video-popup-icon",
+											'attr'                => $attrs['popup']['innerContent'] ?? array(),
+											'declarationFunction' => static function ( $params ) {
+												$v       = $params['attrValue'] ?? array();
+												$spacing = trim( (string) ( $v['iconSpacing'] ?? '' ) );
+
+												return 1 === preg_match( '/^\d+(\.\d+)?(px|em|rem|%)$/', $spacing ) ? "margin-right:{$spacing};" : '';
+											},
+										),
+									),
+									// ── Animated wave behind the icon ──────────────────────
+									array(
+										'componentName' => 'divi/common',
+										'props'         => array(
+											'selector'            => "{$args['orderClass']} .video-popup .video-popup-icon:after",
+											'attr'                => $attrs['popup']['innerContent'] ?? array(),
+											'declarationFunction' => static function ( $params ) {
+												$v = $params['attrValue'] ?? array();
+												if ( 'on' !== ( $v['useAnimation'] ?? 'off' ) ) {
+													return '';
+												}
+												$bg = self::sanitize_css_background( (string) ( $v['waveBg'] ?? '' ) );
+												if ( '' === $bg ) {
+													return '';
+												}
+
+												return sprintf(
+													'content:"";box-shadow:0 0 0 15px %1$s,0 0 0 30px %1$s,0 0 0 45px %1$s;',
+													$bg
+												);
+											},
+										),
+									),
 								),
 							),
 						)

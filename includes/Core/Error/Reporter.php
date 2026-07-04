@@ -151,7 +151,7 @@ class Reporter {
 			$template_data = $data;
 
 			// Ensure environment data is included.
-			if ( empty( $template_data['environment'] ) || ! is_array( $template_data['environment'] ) ) {
+			if ( ! isset( $template_data['environment'] ) || ! is_array( $template_data['environment'] ) || array() === $template_data['environment'] ) {
 				$template_data['environment'] = $this->environment_collector->get_environment_info();
 			}
 
@@ -678,7 +678,8 @@ class Reporter {
 			if ( $include_debug_log ) {
 				// Log_Reader class does not exist in this codebase; read the WP debug log.
 				// file directly as a safe fallback, or return an empty string if unavailable..
-				$debug_log_path          = defined( 'WP_DEBUG_LOG' ) && is_string( WP_DEBUG_LOG ) ? WP_DEBUG_LOG : ( defined( 'WP_CONTENT_DIR' ) ? WP_CONTENT_DIR . '/debug.log' : '' );
+				$debug_log_const         = defined( 'WP_DEBUG_LOG' ) ? constant( 'WP_DEBUG_LOG' ) : null;
+				$debug_log_path          = is_string( $debug_log_const ) ? $debug_log_const : ( defined( 'WP_CONTENT_DIR' ) ? WP_CONTENT_DIR . '/debug.log' : '' );
 				$log_readable            = '' !== $debug_log_path && file_exists( $debug_log_path ) && is_readable( $debug_log_path );
 				$log_lines               = $log_readable ? file( $debug_log_path ) : false;
 				$error_data['debug_log'] = false !== $log_lines ? implode( '', array_slice( $log_lines, - 100 ) ) : '';

@@ -60,17 +60,17 @@ class Status_Reporter implements Hookable {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array $status_data Existing system status data.
+	 * @param array<string, mixed> $status_data Existing system status data.
 	 *
-	 * @return array Updated system status data.
+	 * @return array<string, mixed> Updated system status data.
 	 */
 	public function add_requirements_status( array $status_data ): array {
 		$status = $this->status_checker->get_status();
 
 		$status_data['divi_requirements'] = array(
 			'label'       => __( 'Divi Requirements', 'squad-modules-for-divi' ),
-			'status'      => isset( $status['is_fulfilled'] ) && $status['is_fulfilled'] ? 'good' : 'critical',
-			'description' => isset( $status['is_fulfilled'] ) && $status['is_fulfilled']
+			'status'      => isset( $status['is_fulfilled'] ) && true === $status['is_fulfilled'] ? 'good' : 'critical',
+			'description' => isset( $status['is_fulfilled'] ) && true === $status['is_fulfilled']
 				? __( 'All Divi requirements are met.', 'squad-modules-for-divi' )
 				: __( 'Some Divi requirements are not met.', 'squad-modules-for-divi' ) . ' ' . $this->status_checker->get_last_error(),
 		);
@@ -83,38 +83,38 @@ class Status_Reporter implements Hookable {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param array $info_data Existing system info data.
+	 * @param array<string, mixed> $info_data Existing system info data.
 	 *
-	 * @return array Updated system info data.
+	 * @return array<string, mixed> Updated system info data.
 	 */
 	public function add_requirements_info( array $info_data ): array {
 		$status = $this->status_checker->get_status();
 
 		$info_data['divi_theme_installed'] = array(
 			'label' => __( 'Divi Theme Installed', 'squad-modules-for-divi' ),
-			'value' => isset( $status['is_theme_installed'] ) && $status['is_theme_installed'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
+			'value' => isset( $status['is_theme_installed'] ) && true === $status['is_theme_installed'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
 		);
 
 		$info_data['divi_plugin_installed'] = array(
 			'label' => __( 'Divi Builder Plugin Installed', 'squad-modules-for-divi' ),
-			'value' => isset( $status['is_plugin_installed'] ) && $status['is_plugin_installed'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
+			'value' => isset( $status['is_plugin_installed'] ) && true === $status['is_plugin_installed'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
 		);
 
 		$info_data['divi_theme_active'] = array(
 			'label' => __( 'Divi Theme Active', 'squad-modules-for-divi' ),
-			'value' => isset( $status['is_theme_active'] ) && $status['is_theme_active'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
+			'value' => isset( $status['is_theme_active'] ) && true === $status['is_theme_active'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
 		);
 
 		$info_data['divi_plugin_active'] = array(
 			'label' => __( 'Divi Builder Plugin Active', 'squad-modules-for-divi' ),
-			'value' => isset( $status['is_plugin_active'] ) && $status['is_plugin_active'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
+			'value' => isset( $status['is_plugin_active'] ) && true === $status['is_plugin_active'] ? __( 'Yes', 'squad-modules-for-divi' ) : __( 'No', 'squad-modules-for-divi' ),
 		);
 
 		$info_data['divi_version'] = array(
 			'label' => __( 'Divi Version', 'squad-modules-for-divi' ),
-			'value' => isset( $status['is_theme_active'] ) && $status['is_theme_active']
+			'value' => isset( $status['is_theme_active'] ) && true === $status['is_theme_active']
 				? ( $status['theme_version'] ?? __( 'Unknown', 'squad-modules-for-divi' ) )
-				: ( isset( $status['is_plugin_active'] ) && $status['is_plugin_active']
+				: ( isset( $status['is_plugin_active'] ) && true === $status['is_plugin_active']
 					? ( $status['plugin_version'] ?? __( 'Unknown', 'squad-modules-for-divi' ) )
 					: __( 'Not active', 'squad-modules-for-divi' ) ),
 		);

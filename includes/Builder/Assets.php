@@ -377,7 +377,13 @@ class Assets implements Hookable {
 			'lottie'            => array(
 				'deps' => array( 'squad-vendor-lottie' ),
 			),
-			'typing-text'       => array(
+			'icon-box'          => array(
+				'deps' => array( 'squad-vendor-lottie' ),
+			),
+			'advanced-tabs'     => array(
+					'deps' => array( 'jquery' ),
+				),
+				'typing-text'       => array(
 				'deps' => array( 'squad-vendor-typed' ),
 			),
 			'video-popup'       => array(
@@ -632,7 +638,7 @@ class Assets implements Hookable {
 			$ver     = \Ninja_Forms::VERSION;
 			$css_dir = \Ninja_Forms::$url . 'assets/css/';
 
-			$style = (string) \Ninja_Forms()->get_setting( 'opinionated_styles' );
+			$style = $this->get_ninja_setting( 'opinionated_styles' );
 			switch ( $style ) {
 				case 'light':
 				case 'dark':
@@ -654,6 +660,22 @@ class Assets implements Hookable {
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to enqueue Ninja Forms styles' );
 		}
+	}
+
+	/**
+	 * Read a Ninja Forms global setting as a string.
+	 *
+	 * Ninja_Forms::get_setting() returns the stored setting value (for example the
+	 * 'opinionated_styles' value such as 'light', 'dark' or 'structure'), even though
+	 * the bundled stubs type it as a boolean. This wrapper normalizes the value to a
+	 * string so callers can compare it against the real string options.
+	 *
+	 * @param string $key Setting key.
+	 *
+	 * @return string The setting value as a string.
+	 */
+	private function get_ninja_setting( string $key ): string {
+		return (string) \Ninja_Forms()->get_setting( $key );
 	}
 
 	/**

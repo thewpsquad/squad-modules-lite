@@ -109,7 +109,7 @@ trait Chainable_Container {
 	 * @return array<string, mixed> The complete container array.
 	 */
 	public function get_all(): array {
-		return $this->container ?? array();
+		return $this->container;
 	}
 
 	/**

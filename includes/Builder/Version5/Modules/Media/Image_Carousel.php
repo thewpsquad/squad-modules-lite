@@ -117,8 +117,24 @@ class Image_Carousel extends Module {
 						array(
 							'attrName'   => 'module',
 							'styleProps' => array(
-								'disabledOn' => array(
+								'disabledOn'     => array(
 									'disabledModuleVisibility' => $settings['disabledModuleVisibility'] ?? null,
+								),
+								'advancedStyles' => array(
+									// Fixed slide height (empty = natural height).
+									array(
+										'componentName' => 'divi/common',
+										'props'         => array(
+											'selector'            => "{$args['orderClass']} .squad-image-carousel__slide",
+											'attr'                => $attrs['carousel']['innerContent'] ?? array(),
+											'declarationFunction' => static function ( $params ) {
+												$v      = $params['attrValue'] ?? array();
+												$height = trim( (string) ( $v['slideHeight'] ?? '' ) );
+
+												return 1 === preg_match( '/^\d+(\.\d+)?(px|em|rem|vh|%)$/', $height ) ? "height:{$height};" : '';
+											},
+										),
+									),
 								),
 							),
 						)

@@ -30,7 +30,7 @@ trait Assets_Core {
 	 * @param array<string, mixed> $config       Asset configuration.
 	 * @param array<string>        $default_deps Default dependencies.
 	 *
-	 * @return array{ path: string, version: string, dependencies: array<string> } Processed asset data
+	 * @return array{ url: string, path: string, version: string, dependencies: array<string> } Processed asset data
 	 * @throws RuntimeException If asset configuration is invalid.
 	 */
 	public function process_asset_config( array $config, array $default_deps = array() ): array {
@@ -131,7 +131,15 @@ trait Assets_Core {
 			 * @param array $result The processed asset data.
 			 * @param array $config The original asset configuration.
 			 */
-			$result = apply_filters( 'divi_squad_processed_asset_data', $result, $config );
+			$filtered = (array) apply_filters( 'divi_squad_processed_asset_data', $result, $config );
+
+			// Normalize the filtered result back into the guaranteed asset-data shape.
+			$result = array(
+				'url'          => (string) ( $filtered['url'] ?? $path_url ),
+				'path'         => (string) ( $filtered['path'] ?? $path_local ),
+				'version'      => (string) ( $filtered['version'] ?? $version ),
+				'dependencies' => array_values( array_map( 'strval', (array) ( $filtered['dependencies'] ?? $dependencies ) ) ),
+			);
 
 			/**
 			 * Fires after asset configuration is processed.
@@ -361,15 +369,15 @@ trait Assets_Core {
 		 */
 		$is_dev = apply_filters( 'divi_squad_is_dev_mode_for_assets', $is_dev, $config );
 
-		if ( ! $is_dev && ! empty( $config['prod_file'] ) ) {
-			return $config['prod_file'];
+		if ( ! $is_dev && isset( $config['prod_file'] ) && '' !== $config['prod_file'] ) {
+			return (string) $config['prod_file'];
 		}
 
-		if ( $is_dev && ! empty( $config['dev_file'] ) ) {
-			return $config['dev_file'];
+		if ( $is_dev && isset( $config['dev_file'] ) && '' !== $config['dev_file'] ) {
+			return (string) $config['dev_file'];
 		}
 
-		return $config['file'];
+		return (string) $config['file'];
 	}
 
 	/**
@@ -437,7 +445,7 @@ trait Assets_Core {
 	 */
 	protected function resolve_dependencies( array $deps, string $path ): array {
 		// Remove empty dependencies.
-		$deps = array_filter( $deps );
+		$deps = array_filter( $deps, static fn ( $dep ): bool => '' !== $dep );
 
 		/**
 		 * Filters the dependencies after removing empty values.
@@ -657,7 +665,7 @@ trait Assets_Core {
 				 * @since 3.4.0
 				 *
 				 * @param array<string> $deps  The dependencies array after removal.
-				 * @param int           $index The index of the removed dependency.
+				 * @param int|string    $index The index of the removed dependency.
 				 */
 				do_action( 'divi_squad_jsx_runtime_dependency_removed', $deps, $index );
 			}
@@ -684,7 +692,7 @@ trait Assets_Core {
 	 * @return bool True if path is valid
 	 */
 	protected function is_valid_asset_path( string $path ): bool {
-		if ( empty( $path ) ) {
+		if ( '' === $path ) {
 			return false;
 		}
 
