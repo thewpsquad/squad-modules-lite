@@ -384,6 +384,8 @@ class FlipBox extends Module {
 								'hover' => "$this->main_css_element div .flip-box-slides .front-slide:hover .slide-content-text",
 							),
 						),
+						'tab_slug'       => 'advanced',
+						'toggle_slug'    => 'front_content_text',
 					)
 				),
 				'back_content_text'       => Utils::add_font_field(
@@ -433,6 +435,8 @@ class FlipBox extends Module {
 								'hover' => "$this->main_css_element div .flip-box .flip-box-slides .back-slide:hover .slide-content-text",
 							),
 						),
+						'tab_slug'       => 'advanced',
+						'toggle_slug'    => 'back_content_text',
 					)
 				),
 				'front_content_heading_1' => Utils::add_font_field(

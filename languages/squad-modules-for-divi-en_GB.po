@@ -98,11 +98,11 @@ msgstr "Custom HTML Text"
 #: includes/Modules/Creatives/DualButton.php:171
 #: includes/Modules/PostGrid.php:122
 #: includes/Modules/PostGrid.php:264
-#: includes/Modules/StaticContent/FlipBox.php:775
-#: includes/Modules/StaticContent/FlipBox.php:807
-#: includes/Modules/StaticContent/FlipBox.php:894
-#: includes/Modules/StaticContent/FlipBox.php:918
-#: includes/Modules/StaticContent/FlipBox.php:2322
+#: includes/Modules/StaticContent/FlipBox.php:779
+#: includes/Modules/StaticContent/FlipBox.php:811
+#: includes/Modules/StaticContent/FlipBox.php:898
+#: includes/Modules/StaticContent/FlipBox.php:922
+#: includes/Modules/StaticContent/FlipBox.php:2326
 msgid "Button"
 msgstr "Button"
 
@@ -164,8 +164,8 @@ msgstr "Success Message Text"
 #: includes/Modules/PostGrid.php:1266
 #: includes/Modules/StaticContent/BusinessHours.php:337
 #: includes/Modules/StaticContent/BusinessHoursChild.php:308
-#: includes/Modules/StaticContent/FlipBox.php:1386
-#: includes/Modules/StaticContent/FlipBox.php:1395
+#: includes/Modules/StaticContent/FlipBox.php:1390
+#: includes/Modules/StaticContent/FlipBox.php:1399
 msgid "Wrapper Background"
 msgstr "Wrapper Background"
 
@@ -226,12 +226,12 @@ msgstr "Here you can define a custom margin size."
 #: includes/Modules/StaticContent/BusinessHours.php:417
 #: includes/Modules/StaticContent/BusinessHours.php:446
 #: includes/Modules/StaticContent/BusinessHoursChild.php:345
-#: includes/Modules/StaticContent/FlipBox.php:1908
-#: includes/Modules/StaticContent/FlipBox.php:1930
-#: includes/Modules/StaticContent/FlipBox.php:2000
-#: includes/Modules/StaticContent/FlipBox.php:2034
-#: includes/Modules/StaticContent/FlipBox.php:2070
-#: includes/Modules/StaticContent/FlipBox.php:2106
+#: includes/Modules/StaticContent/FlipBox.php:1912
+#: includes/Modules/StaticContent/FlipBox.php:1934
+#: includes/Modules/StaticContent/FlipBox.php:2004
+#: includes/Modules/StaticContent/FlipBox.php:2038
+#: includes/Modules/StaticContent/FlipBox.php:2074
+#: includes/Modules/StaticContent/FlipBox.php:2110
 msgid "Here you can define a custom padding size."
 msgstr "Here you can define a custom padding size."
 
@@ -267,9 +267,9 @@ msgstr "Here you can choose size for checkbox and radio fields."
 #: includes/Modules/StaticContent/BusinessHours.php:144
 #: includes/Modules/StaticContent/BusinessHoursChild.php:63
 #: includes/Modules/StaticContent/BusinessHoursChild.php:174
-#: includes/Modules/StaticContent/FlipBox.php:834
-#: includes/Modules/StaticContent/FlipBox.php:847
-#: includes/Modules/StaticContent/FlipBox.php:1029
+#: includes/Modules/StaticContent/FlipBox.php:838
+#: includes/Modules/StaticContent/FlipBox.php:851
+#: includes/Modules/StaticContent/FlipBox.php:1033
 msgid "Wrapper"
 msgstr "Wrapper"
 
@@ -404,14 +404,14 @@ msgstr "Choose a custom url field target to open new tab or self."
 #: includes/Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php:162
 #: includes/Modules/Creatives/DualButton.php:671
 #: includes/Modules/Creatives/DualButton.php:691
-#: includes/Modules/StaticContent/FlipBox.php:2141
+#: includes/Modules/StaticContent/FlipBox.php:2145
 msgid "In The Same Window"
 msgstr "In The Same Window"
 
 #: includes/Base/DiviBuilder/Utils/Elements/CustomFields/Definitions/Advanced.php:163
 #: includes/Modules/Creatives/DualButton.php:672
 #: includes/Modules/Creatives/DualButton.php:692
-#: includes/Modules/StaticContent/FlipBox.php:2142
+#: includes/Modules/StaticContent/FlipBox.php:2146
 msgid "In The New Tab"
 msgstr "In The New Tab"
 
@@ -548,8 +548,8 @@ msgstr "Yes"
 #: includes/Base/DiviBuilder/Utils/FieldsTrait.php:662
 #: includes/Modules/PostGridChild.php:853
 #: includes/Modules/PostGridChild.php:882
-#: includes/Modules/StaticContent/FlipBox.php:1846
-#: includes/Modules/StaticContent/FlipBox.php:1879
+#: includes/Modules/StaticContent/FlipBox.php:1850
+#: includes/Modules/StaticContent/FlipBox.php:1883
 msgid "Here you can choose where to place the icon."
 msgstr "Here you can choose where to place the icon."
 
@@ -562,11 +562,11 @@ msgstr "Here you can choose where to place the icon."
 #: includes/Modules/PostGrid.php:1244
 #: includes/Modules/PostGridChild.php:872
 #: includes/Modules/PostReadingTime.php:291
-#: includes/Modules/StaticContent/FlipBox.php:1062
-#: includes/Modules/StaticContent/FlipBox.php:1082
-#: includes/Modules/StaticContent/FlipBox.php:1162
-#: includes/Modules/StaticContent/FlipBox.php:1774
-#: includes/Modules/StaticContent/FlipBox.php:1868
+#: includes/Modules/StaticContent/FlipBox.php:1066
+#: includes/Modules/StaticContent/FlipBox.php:1086
+#: includes/Modules/StaticContent/FlipBox.php:1166
+#: includes/Modules/StaticContent/FlipBox.php:1778
+#: includes/Modules/StaticContent/FlipBox.php:1872
 msgid "Align icon to the left, right or center."
 msgstr "Align icon to the left, right or center."
 
@@ -728,7 +728,7 @@ msgstr "Choose an icon type to display with your button."
 #: includes/Modules/PostGridChild.php:615
 #: includes/Modules/StaticContent/FlipBox.php:163
 #: includes/Modules/StaticContent/FlipBox.php:196
-#: includes/Modules/StaticContent/FlipBox.php:1595
+#: includes/Modules/StaticContent/FlipBox.php:1599
 msgid "Icon"
 msgstr "Icon"
 
@@ -736,7 +736,7 @@ msgstr "Icon"
 #: includes/Modules/Creatives/Divider.php:832
 #: includes/Modules/Media/Lottie.php:156
 #: includes/Modules/PostGridChild.php:618
-#: includes/Modules/StaticContent/FlipBox.php:1598
+#: includes/Modules/StaticContent/FlipBox.php:1602
 msgid "None"
 msgstr "None"
 
@@ -746,7 +746,7 @@ msgstr "None"
 #: includes/Modules/Creatives/TypingText.php:521
 #: includes/Modules/PostGridChild.php:654
 #: includes/Modules/PostGridChild.php:721
-#: includes/Modules/StaticContent/FlipBox.php:1626
+#: includes/Modules/StaticContent/FlipBox.php:1630
 msgid "Choose an icon"
 msgstr "Choose an icon"
 
@@ -765,7 +765,7 @@ msgstr "Upload an image to display at the top of your button."
 #: includes/Modules/Media/ImageMask.php:106
 #: includes/Modules/Media/VideoPopup.php:159
 #: includes/Modules/PostGridChild.php:672
-#: includes/Modules/StaticContent/FlipBox.php:1644
+#: includes/Modules/StaticContent/FlipBox.php:1648
 msgid "Choose an Image"
 msgstr "Choose an Image"
 
@@ -776,11 +776,11 @@ msgstr "Choose an Image"
 #: includes/Modules/Media/ImageMask.php:107
 #: includes/Modules/Media/VideoPopup.php:160
 #: includes/Modules/PostGridChild.php:673
-#: includes/Modules/StaticContent/FlipBox.php:1645
+#: includes/Modules/StaticContent/FlipBox.php:1649
 msgid "Set As Image"
 msgstr "Set As Image"
 
-#: includes/Modules/StaticContent/FlipBox.php:1225
+#: includes/Modules/StaticContent/FlipBox.php:1229
 msgid "Animation Type"
 msgstr "Animation Type"
 
@@ -798,7 +798,7 @@ msgstr "Adjust the background style of the button by customizing the background 
 #: includes/Modules/Creatives/DualButton.php:426
 #: includes/Modules/Creatives/TypingText.php:550
 #: includes/Modules/PostGridChild.php:746
-#: includes/Modules/StaticContent/FlipBox.php:1680
+#: includes/Modules/StaticContent/FlipBox.php:1684
 msgid "Icon Color"
 msgstr "Icon Color"
 
@@ -811,7 +811,7 @@ msgstr "Here you can define a custom color for your button icon."
 #: includes/Modules/Creatives/DualButton.php:435
 #: includes/Modules/Creatives/TypingText.php:559
 #: includes/Modules/PostGridChild.php:773
-#: includes/Modules/StaticContent/FlipBox.php:1700
+#: includes/Modules/StaticContent/FlipBox.php:1704
 msgid "Icon Size"
 msgstr "Icon Size"
 
@@ -820,7 +820,7 @@ msgstr "Icon Size"
 #: includes/Modules/PostGrid.php:986
 #: includes/Modules/PostGridChild.php:775
 #: includes/Modules/PostGridChild.php:821
-#: includes/Modules/StaticContent/FlipBox.php:1702
+#: includes/Modules/StaticContent/FlipBox.php:1706
 msgid "Here you can choose icon size."
 msgstr "Here you can choose icon size."
 
@@ -829,7 +829,7 @@ msgstr "Here you can choose icon size."
 #: includes/Modules/Creatives/DualButton.php:453
 #: includes/Modules/Media/ImageMask.php:259
 #: includes/Modules/PostGridChild.php:789
-#: includes/Modules/StaticContent/FlipBox.php:1734
+#: includes/Modules/StaticContent/FlipBox.php:1738
 msgid "Image Width"
 msgstr "Image Width"
 
@@ -838,7 +838,7 @@ msgstr "Image Width"
 #: includes/Modules/Creatives/DualButton.php:455
 #: includes/Modules/Media/ImageMask.php:261
 #: includes/Modules/PostGridChild.php:791
-#: includes/Modules/StaticContent/FlipBox.php:1736
+#: includes/Modules/StaticContent/FlipBox.php:1740
 msgid "Here you can choose image width."
 msgstr "Here you can choose image width."
 
@@ -848,7 +848,7 @@ msgstr "Here you can choose image width."
 #: includes/Modules/Media/ImageMask.php:278
 #: includes/Modules/Media/VideoPopup.php:317
 #: includes/Modules/PostGridChild.php:804
-#: includes/Modules/StaticContent/FlipBox.php:1753
+#: includes/Modules/StaticContent/FlipBox.php:1757
 msgid "Image Height"
 msgstr "Image Height"
 
@@ -857,26 +857,26 @@ msgstr "Image Height"
 #: includes/Modules/Creatives/DualButton.php:473
 #: includes/Modules/Media/ImageMask.php:280
 #: includes/Modules/PostGridChild.php:806
-#: includes/Modules/StaticContent/FlipBox.php:1755
+#: includes/Modules/StaticContent/FlipBox.php:1759
 msgid "Here you can choose image height."
 msgstr "Here you can choose image height."
 
 #: includes/Base/DiviBuilder/Utils/FieldsTrait.php:639
-#: includes/Modules/StaticContent/FlipBox.php:1800
+#: includes/Modules/StaticContent/FlipBox.php:1804
 msgid "Gap Between Icon/Image and Text"
 msgstr "Gap Between Icon/Image and Text"
 
 #: includes/Base/DiviBuilder/Utils/FieldsTrait.php:641
 #: includes/Modules/Creatives/TypingText.php:577
 #: includes/Modules/PostGridChild.php:836
-#: includes/Modules/StaticContent/FlipBox.php:1802
-#: includes/Modules/StaticContent/FlipBox.php:1969
+#: includes/Modules/StaticContent/FlipBox.php:1806
+#: includes/Modules/StaticContent/FlipBox.php:1973
 msgid "Here you can choose gap between icon and text."
 msgstr "Here you can choose gap between icon and text."
 
 #: includes/Base/DiviBuilder/Utils/FieldsTrait.php:660
 #: includes/Modules/PostGridChild.php:851
-#: includes/Modules/StaticContent/FlipBox.php:1844
+#: includes/Modules/StaticContent/FlipBox.php:1848
 msgid "Icon Placement"
 msgstr "Icon Placement"
 
@@ -1934,11 +1934,11 @@ msgid "Control Starting Point"
 msgstr "Control Starting Point"
 
 #: includes/Modules/Media/BeforeAfterImageSlider.php:333
-#: includes/Modules/StaticContent/FlipBox.php:2166
-#: includes/Modules/StaticContent/FlipBox.php:2188
-#: includes/Modules/StaticContent/FlipBox.php:2210
-#: includes/Modules/StaticContent/FlipBox.php:2233
-#: includes/Modules/StaticContent/FlipBox.php:2256
+#: includes/Modules/StaticContent/FlipBox.php:2170
+#: includes/Modules/StaticContent/FlipBox.php:2192
+#: includes/Modules/StaticContent/FlipBox.php:2214
+#: includes/Modules/StaticContent/FlipBox.php:2237
+#: includes/Modules/StaticContent/FlipBox.php:2260
 msgid "Increase the order number to position the item lower."
 msgstr "Increase the order number to position the item lower."
 
@@ -1991,7 +1991,7 @@ msgstr "Upload an image to display."
 #: includes/Modules/Media/ImageMask.php:113
 #: includes/Modules/Media/VideoPopup.php:166
 #: includes/Modules/PostGridChild.php:682
-#: includes/Modules/StaticContent/FlipBox.php:1654
+#: includes/Modules/StaticContent/FlipBox.php:1658
 msgid "Image Alt Text"
 msgstr "Image Alt Text"
 
@@ -1999,7 +1999,7 @@ msgstr "Image Alt Text"
 #: includes/Modules/Media/BeforeAfterImageSlider.php:456
 #: includes/Modules/Media/ImageMask.php:114
 #: includes/Modules/PostGridChild.php:683
-#: includes/Modules/StaticContent/FlipBox.php:1655
+#: includes/Modules/StaticContent/FlipBox.php:1659
 msgid "Define the HTML ALT text for your image here."
 msgstr "Define the HTML ALT text for your image here."
 
@@ -2136,8 +2136,8 @@ msgstr "Here you can define a custom color for the current text in the breadcrum
 #: includes/Modules/StaticContent/BusinessHours.php:213
 #: includes/Modules/StaticContent/FlipBox.php:229
 #: includes/Modules/StaticContent/FlipBox.php:257
-#: includes/Modules/StaticContent/FlipBox.php:1493
-#: includes/Modules/StaticContent/FlipBox.php:2298
+#: includes/Modules/StaticContent/FlipBox.php:1497
+#: includes/Modules/StaticContent/FlipBox.php:2302
 #: build/admin/scripts/admin.js:178
 msgid "Title"
 msgstr "Title"
@@ -2199,8 +2199,8 @@ msgstr "Time"
 #: includes/Modules/PostGridChild.php:216
 #: includes/Modules/StaticContent/BusinessHours.php:173
 #: includes/Modules/StaticContent/BusinessHoursChild.php:141
-#: includes/Modules/StaticContent/FlipBox.php:944
-#: includes/Modules/StaticContent/FlipBox.php:959
+#: includes/Modules/StaticContent/FlipBox.php:948
+#: includes/Modules/StaticContent/FlipBox.php:963
 msgid "Wrapper Box Shadow"
 msgstr "Wrapper Box Shadow"
 
@@ -2225,12 +2225,12 @@ msgstr "The title text will appear before at your business hours."
 #: includes/Modules/Creatives/StarRating.php:233
 #: includes/Modules/PostGridChild.php:447
 #: includes/Modules/StaticContent/BusinessHours.php:260
-#: includes/Modules/StaticContent/FlipBox.php:1526
+#: includes/Modules/StaticContent/FlipBox.php:1530
 msgid "Title Tag"
 msgstr "Title Tag"
 
 #: includes/Modules/StaticContent/BusinessHours.php:262
-#: includes/Modules/StaticContent/FlipBox.php:1528
+#: includes/Modules/StaticContent/FlipBox.php:1532
 msgid "Choose a tag to display with your title."
 msgstr "Choose a tag to display with your title."
 
@@ -2292,7 +2292,7 @@ msgstr "Adjust the width of the time text."
 #: includes/Modules/PostGrid.php:1285
 #: includes/Modules/StaticContent/BusinessHours.php:391
 #: includes/Modules/StaticContent/BusinessHoursChild.php:317
-#: includes/Modules/StaticContent/FlipBox.php:1953
+#: includes/Modules/StaticContent/FlipBox.php:1957
 msgid "Text Alignment"
 msgstr "Text Alignment"
 
@@ -2300,7 +2300,7 @@ msgstr "Text Alignment"
 #: includes/Modules/PostGridChild.php:975
 #: includes/Modules/StaticContent/BusinessHours.php:393
 #: includes/Modules/StaticContent/BusinessHoursChild.php:319
-#: includes/Modules/StaticContent/FlipBox.php:1955
+#: includes/Modules/StaticContent/FlipBox.php:1959
 msgid "This controls how your text is aligned within the module."
 msgstr "This controls how your text is aligned within the module."
 
@@ -2312,7 +2312,7 @@ msgstr "This controls how your text is aligned within the module."
 #: includes/Modules/PostGrid.php:1321
 #: includes/Modules/StaticContent/BusinessHours.php:406
 #: includes/Modules/StaticContent/BusinessHoursChild.php:331
-#: includes/Modules/StaticContent/FlipBox.php:1988
+#: includes/Modules/StaticContent/FlipBox.php:1992
 msgid "Wrapper Margin"
 msgstr "Wrapper Margin"
 
@@ -2324,7 +2324,7 @@ msgstr "Wrapper Margin"
 #: includes/Modules/PostGridChild.php:986
 #: includes/Modules/StaticContent/BusinessHours.php:408
 #: includes/Modules/StaticContent/BusinessHoursChild.php:333
-#: includes/Modules/StaticContent/FlipBox.php:1990
+#: includes/Modules/StaticContent/FlipBox.php:1994
 msgid "Here you can define a custom margin size for the wrapper."
 msgstr "Here you can define a custom margin size for the wrapper."
 
@@ -2336,22 +2336,22 @@ msgstr "Here you can define a custom margin size for the wrapper."
 #: includes/Modules/PostGrid.php:1330
 #: includes/Modules/StaticContent/BusinessHours.php:415
 #: includes/Modules/StaticContent/BusinessHoursChild.php:343
-#: includes/Modules/StaticContent/FlipBox.php:1998
+#: includes/Modules/StaticContent/FlipBox.php:2002
 msgid "Wrapper Padding"
 msgstr "Wrapper Padding"
 
 #: includes/Modules/StaticContent/BusinessHours.php:428
-#: includes/Modules/StaticContent/FlipBox.php:2014
+#: includes/Modules/StaticContent/FlipBox.php:2018
 msgid "Title Margin"
 msgstr "Title Margin"
 
 #: includes/Modules/StaticContent/BusinessHours.php:430
-#: includes/Modules/StaticContent/FlipBox.php:2016
+#: includes/Modules/StaticContent/FlipBox.php:2020
 msgid "Here you can define a custom margin size for the title."
 msgstr "Here you can define a custom margin size for the title."
 
 #: includes/Modules/StaticContent/BusinessHours.php:444
-#: includes/Modules/StaticContent/FlipBox.php:2032
+#: includes/Modules/StaticContent/FlipBox.php:2036
 msgid "Title Padding"
 msgstr "Title Padding"
 
@@ -2573,7 +2573,7 @@ msgstr "Here you can choose divider right side width."
 
 #: includes/Modules/Creatives/Divider.php:538
 #: includes/Modules/PostGridChild.php:611
-#: includes/Modules/StaticContent/FlipBox.php:1591
+#: includes/Modules/StaticContent/FlipBox.php:1595
 msgid "Icon Type"
 msgstr "Icon Type"
 
@@ -2664,38 +2664,38 @@ msgstr "Element Padding"
 #: includes/Modules/PostGrid.php:977
 #: includes/Modules/PostGridChild.php:748
 #: includes/Modules/PostGridChild.php:766
-#: includes/Modules/StaticContent/FlipBox.php:1682
+#: includes/Modules/StaticContent/FlipBox.php:1686
 msgid "Here you can define a custom color for your icon."
 msgstr "Here you can define a custom color for your icon."
 
 #: includes/Modules/Creatives/Divider.php:736
 #: includes/Modules/PostGridChild.php:755
-#: includes/Modules/StaticContent/FlipBox.php:1690
+#: includes/Modules/StaticContent/FlipBox.php:1694
 msgid "Icon Background Color"
 msgstr "Icon Background Color"
 
 #: includes/Modules/Creatives/Divider.php:738
 #: includes/Modules/PostGridChild.php:757
-#: includes/Modules/StaticContent/FlipBox.php:1692
+#: includes/Modules/StaticContent/FlipBox.php:1696
 msgid "Here you can define a custom background color."
 msgstr "Here you can define a custom background color."
 
 #: includes/Modules/Creatives/Divider.php:799
 #: includes/Modules/PostGridChild.php:919
-#: includes/Modules/StaticContent/FlipBox.php:1917
+#: includes/Modules/StaticContent/FlipBox.php:1921
 msgid "Icon Margin"
 msgstr "Icon Margin"
 
 #: includes/Modules/Creatives/Divider.php:801
 #: includes/Modules/PostGridChild.php:921
 #: includes/Modules/PostGridChild.php:941
-#: includes/Modules/StaticContent/FlipBox.php:1919
+#: includes/Modules/StaticContent/FlipBox.php:1923
 msgid "Here you can define a custom margin size for the icon."
 msgstr "Here you can define a custom margin size for the icon."
 
 #: includes/Modules/Creatives/Divider.php:809
 #: includes/Modules/PostGridChild.php:929
-#: includes/Modules/StaticContent/FlipBox.php:1928
+#: includes/Modules/StaticContent/FlipBox.php:1932
 msgid "Icon Padding"
 msgstr "Icon Padding"
 
@@ -2955,9 +2955,9 @@ msgstr "Letter"
 
 #: includes/Modules/Creatives/DropCapText.php:91
 #: includes/Modules/StaticContent/FlipBox.php:341
-#: includes/Modules/StaticContent/FlipBox.php:390
-#: includes/Modules/StaticContent/FlipBox.php:1515
-#: includes/Modules/StaticContent/FlipBox.php:2314
+#: includes/Modules/StaticContent/FlipBox.php:392
+#: includes/Modules/StaticContent/FlipBox.php:1519
+#: includes/Modules/StaticContent/FlipBox.php:2318
 msgid "Body"
 msgstr "Body"
 
@@ -3027,8 +3027,8 @@ msgstr "Separator Text"
 #: includes/Modules/Creatives/DualButton.php:222
 #: includes/Modules/Creatives/DualButton.php:236
 #: includes/Modules/PostGrid.php:401
-#: includes/Modules/StaticContent/FlipBox.php:974
-#: includes/Modules/StaticContent/FlipBox.php:991
+#: includes/Modules/StaticContent/FlipBox.php:978
+#: includes/Modules/StaticContent/FlipBox.php:995
 msgid "Button Box Shadow"
 msgstr "Button Box Shadow"
 
@@ -3141,7 +3141,7 @@ msgstr "Left Button Link URL"
 
 #: includes/Modules/Creatives/DualButton.php:659
 #: includes/Modules/Creatives/DualButton.php:679
-#: includes/Modules/StaticContent/FlipBox.php:2127
+#: includes/Modules/StaticContent/FlipBox.php:2131
 msgid "If you would like to make your button link, input your destination URL here."
 msgstr "If you would like to make your button link, input your destination URL here."
 
@@ -3151,7 +3151,7 @@ msgstr "Left Button Link Target"
 
 #: includes/Modules/Creatives/DualButton.php:667
 #: includes/Modules/Creatives/DualButton.php:687
-#: includes/Modules/StaticContent/FlipBox.php:2137
+#: includes/Modules/StaticContent/FlipBox.php:2141
 msgid "Here you can choose whether or not your link opens in a new window"
 msgstr "Here you can choose whether or not your link opens in a new window"
 
@@ -3182,13 +3182,13 @@ msgstr "Image & Icon"
 
 #: includes/Modules/StaticContent/FlipBox.php:82
 #: includes/Modules/StaticContent/FlipBox.php:142
-#: includes/Modules/StaticContent/FlipBox.php:1021
+#: includes/Modules/StaticContent/FlipBox.php:1025
 msgid "Front Button"
 msgstr "Front Button"
 
 #: includes/Modules/StaticContent/FlipBox.php:83
 #: includes/Modules/StaticContent/FlipBox.php:143
-#: includes/Modules/StaticContent/FlipBox.php:1025
+#: includes/Modules/StaticContent/FlipBox.php:1029
 msgid "Back Button"
 msgstr "Back Button"
 
@@ -3242,348 +3242,348 @@ msgstr "Custom Spacing"
 
 #: includes/Modules/StaticContent/FlipBox.php:285
 #: includes/Modules/StaticContent/FlipBox.php:313
-#: includes/Modules/StaticContent/FlipBox.php:1504
-#: includes/Modules/StaticContent/FlipBox.php:2306
+#: includes/Modules/StaticContent/FlipBox.php:1508
+#: includes/Modules/StaticContent/FlipBox.php:2310
 msgid "Sub Title"
 msgstr "Sub Title"
 
-#: includes/Modules/StaticContent/FlipBox.php:439
-#: includes/Modules/StaticContent/FlipBox.php:467
+#: includes/Modules/StaticContent/FlipBox.php:443
+#: includes/Modules/StaticContent/FlipBox.php:471
 msgid "Heading 1"
 msgstr "Heading 1"
 
-#: includes/Modules/StaticContent/FlipBox.php:495
-#: includes/Modules/StaticContent/FlipBox.php:523
+#: includes/Modules/StaticContent/FlipBox.php:499
+#: includes/Modules/StaticContent/FlipBox.php:527
 msgid "Heading 2"
 msgstr "Heading 2"
 
-#: includes/Modules/StaticContent/FlipBox.php:551
-#: includes/Modules/StaticContent/FlipBox.php:579
+#: includes/Modules/StaticContent/FlipBox.php:555
+#: includes/Modules/StaticContent/FlipBox.php:583
 msgid "Heading 3"
 msgstr "Heading 3"
 
-#: includes/Modules/StaticContent/FlipBox.php:607
-#: includes/Modules/StaticContent/FlipBox.php:635
+#: includes/Modules/StaticContent/FlipBox.php:611
+#: includes/Modules/StaticContent/FlipBox.php:639
 msgid "Heading 4"
 msgstr "Heading 4"
 
-#: includes/Modules/StaticContent/FlipBox.php:663
-#: includes/Modules/StaticContent/FlipBox.php:691
+#: includes/Modules/StaticContent/FlipBox.php:667
+#: includes/Modules/StaticContent/FlipBox.php:695
 msgid "Heading 5"
 msgstr "Heading 5"
 
-#: includes/Modules/StaticContent/FlipBox.php:719
-#: includes/Modules/StaticContent/FlipBox.php:747
+#: includes/Modules/StaticContent/FlipBox.php:723
+#: includes/Modules/StaticContent/FlipBox.php:751
 msgid "Heading 6"
 msgstr "Heading 6"
 
 #: includes/Modules/PostGrid.php:1242
-#: includes/Modules/StaticContent/FlipBox.php:1060
-#: includes/Modules/StaticContent/FlipBox.php:1080
+#: includes/Modules/StaticContent/FlipBox.php:1064
+#: includes/Modules/StaticContent/FlipBox.php:1084
 msgid "Button Alignment"
 msgstr "Button Alignment"
 
-#: includes/Modules/StaticContent/FlipBox.php:1099
+#: includes/Modules/StaticContent/FlipBox.php:1103
 msgid "You need to enable front back button from content > show the button in the content tab to see typogprahy fields."
 msgstr "You need to enable front back button from content > show the button in the content tab to see typogprahy fields."
 
-#: includes/Modules/StaticContent/FlipBox.php:1112
+#: includes/Modules/StaticContent/FlipBox.php:1116
 msgid "You need to enable the back button from content > show the button in the content tab to see typogprahy fields."
 msgstr "You need to enable the back button from content > show the button in the content tab to see typogprahy fields."
 
-#: includes/Modules/StaticContent/FlipBox.php:1128
+#: includes/Modules/StaticContent/FlipBox.php:1132
 msgid "Set Custom Height"
 msgstr "Set Custom Height"
 
-#: includes/Modules/StaticContent/FlipBox.php:1130
+#: includes/Modules/StaticContent/FlipBox.php:1134
 msgid "Here you can choose whether or not use custom height for flip box."
 msgstr "Here you can choose whether or not use custom height for flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1141
+#: includes/Modules/StaticContent/FlipBox.php:1145
 msgid "Custom Height"
 msgstr "Custom Height"
 
-#: includes/Modules/StaticContent/FlipBox.php:1143
+#: includes/Modules/StaticContent/FlipBox.php:1147
 msgid "Here you can choose the custom height for flip box."
 msgstr "Here you can choose the custom height for flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1160
+#: includes/Modules/StaticContent/FlipBox.php:1164
 msgid "Elements Horizontal Alignment"
 msgstr "Elements Horizontal Alignment"
 
-#: includes/Modules/StaticContent/FlipBox.php:1170
+#: includes/Modules/StaticContent/FlipBox.php:1174
 msgid "Elements Vertical Alignment"
 msgstr "Elements Vertical Alignment"
 
-#: includes/Modules/StaticContent/FlipBox.php:1172
+#: includes/Modules/StaticContent/FlipBox.php:1176
 msgid "Align icon to the top, bottom or center."
 msgstr "Align icon to the top, bottom or center."
 
 #: includes/Modules/Creatives/StarRating.php:281
 #: includes/Modules/PostGridChild.php:884
-#: includes/Modules/StaticContent/FlipBox.php:1174
-#: includes/Modules/StaticContent/FlipBox.php:1881
+#: includes/Modules/StaticContent/FlipBox.php:1178
+#: includes/Modules/StaticContent/FlipBox.php:1885
 msgid "Top"
 msgstr "Top"
 
 #: includes/Modules/PostGridChild.php:885
-#: includes/Modules/StaticContent/FlipBox.php:1175
-#: includes/Modules/StaticContent/FlipBox.php:1221
-#: includes/Modules/StaticContent/FlipBox.php:1882
+#: includes/Modules/StaticContent/FlipBox.php:1179
+#: includes/Modules/StaticContent/FlipBox.php:1225
+#: includes/Modules/StaticContent/FlipBox.php:1886
 msgid "Center"
 msgstr "Center"
 
 #: includes/Modules/Creatives/StarRating.php:282
 #: includes/Modules/PostGridChild.php:886
-#: includes/Modules/StaticContent/FlipBox.php:1176
-#: includes/Modules/StaticContent/FlipBox.php:1883
+#: includes/Modules/StaticContent/FlipBox.php:1180
+#: includes/Modules/StaticContent/FlipBox.php:1887
 msgid "Bottom"
 msgstr "Bottom"
 
-#: includes/Modules/StaticContent/FlipBox.php:1186
+#: includes/Modules/StaticContent/FlipBox.php:1190
 msgid "Show The Back First"
 msgstr "Show The Back First"
 
-#: includes/Modules/StaticContent/FlipBox.php:1188
+#: includes/Modules/StaticContent/FlipBox.php:1192
 msgid "Here you can choose whether or not the back side view first mode, by default \"first side\"."
 msgstr "Here you can choose whether or not the back side view first mode, by default \"first side\"."
 
-#: includes/Modules/StaticContent/FlipBox.php:1207
+#: includes/Modules/StaticContent/FlipBox.php:1211
 msgid "Rotate"
 msgstr "Rotate"
 
-#: includes/Modules/StaticContent/FlipBox.php:1208
+#: includes/Modules/StaticContent/FlipBox.php:1212
 msgid "Zoom In"
 msgstr "Zoom In"
 
-#: includes/Modules/StaticContent/FlipBox.php:1209
+#: includes/Modules/StaticContent/FlipBox.php:1213
 msgid "Fade"
 msgstr "Fade"
 
 #: includes/Modules/Creatives/ScrollingText.php:149
 #: includes/Modules/Creatives/StarRating.php:267
-#: includes/Modules/StaticContent/FlipBox.php:1213
+#: includes/Modules/StaticContent/FlipBox.php:1217
 msgid "Right"
 msgstr "Right"
 
 #: includes/Modules/Creatives/ScrollingText.php:148
 #: includes/Modules/Creatives/StarRating.php:266
-#: includes/Modules/StaticContent/FlipBox.php:1214
+#: includes/Modules/StaticContent/FlipBox.php:1218
 msgid "Left"
 msgstr "Left"
 
-#: includes/Modules/StaticContent/FlipBox.php:1217
+#: includes/Modules/StaticContent/FlipBox.php:1221
 msgid "Up"
 msgstr "Up"
 
-#: includes/Modules/StaticContent/FlipBox.php:1218
+#: includes/Modules/StaticContent/FlipBox.php:1222
 msgid "Down"
 msgstr "Down"
 
-#: includes/Modules/StaticContent/FlipBox.php:1227
+#: includes/Modules/StaticContent/FlipBox.php:1231
 msgid "Pick an animation type to enable animations for this element. Once enabled, you will be able to change your animation type further."
 msgstr "Pick an animation type to enable animations for this element. Once enabled, you will be able to change your animation type further."
 
-#: includes/Modules/StaticContent/FlipBox.php:1244
-#: includes/Modules/StaticContent/FlipBox.php:1267
-#: includes/Modules/StaticContent/FlipBox.php:1279
-#: includes/Modules/StaticContent/FlipBox.php:1291
+#: includes/Modules/StaticContent/FlipBox.php:1248
+#: includes/Modules/StaticContent/FlipBox.php:1271
+#: includes/Modules/StaticContent/FlipBox.php:1283
+#: includes/Modules/StaticContent/FlipBox.php:1295
 msgid "Animation Direction"
 msgstr "Animation Direction"
 
-#: includes/Modules/StaticContent/FlipBox.php:1246
+#: includes/Modules/StaticContent/FlipBox.php:1250
 msgid "Pick from up to four different animation directions, each of which will adjust the starting and ending position of your animated slide."
 msgstr "Pick from up to four different animation directions, each of which will adjust the starting and ending position of your animated slide."
 
-#: includes/Modules/StaticContent/FlipBox.php:1269
-#: includes/Modules/StaticContent/FlipBox.php:1281
+#: includes/Modules/StaticContent/FlipBox.php:1273
+#: includes/Modules/StaticContent/FlipBox.php:1285
 msgid "Pick from up to two different animation directions, each of which will adjust the starting and ending position of your animated slide."
 msgstr "Pick from up to two different animation directions, each of which will adjust the starting and ending position of your animated slide."
 
-#: includes/Modules/StaticContent/FlipBox.php:1293
+#: includes/Modules/StaticContent/FlipBox.php:1297
 msgid "Pick from up to five different animation directions, each of which will adjust the starting and ending position of your animated slide."
 msgstr "Pick from up to five different animation directions, each of which will adjust the starting and ending position of your animated slide."
 
-#: includes/Modules/StaticContent/FlipBox.php:1307
+#: includes/Modules/StaticContent/FlipBox.php:1311
 msgid "Use 3D Content Effect"
 msgstr "Use 3D Content Effect"
 
-#: includes/Modules/StaticContent/FlipBox.php:1309
+#: includes/Modules/StaticContent/FlipBox.php:1313
 msgid "Here you can choose whether or not use 3D Content Effect for flip box."
 msgstr "Here you can choose whether or not use 3D Content Effect for flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1322
+#: includes/Modules/StaticContent/FlipBox.php:1326
 msgid "Move Both Side"
 msgstr "Move Both Side"
 
-#: includes/Modules/StaticContent/FlipBox.php:1324
+#: includes/Modules/StaticContent/FlipBox.php:1328
 msgid "Here you can choose whether or not move both slide in slide Effect for flip box."
 msgstr "Here you can choose whether or not move both slide in slide Effect for flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1333
+#: includes/Modules/StaticContent/FlipBox.php:1337
 msgid "Translate Z"
 msgstr "Translate Z"
 
-#: includes/Modules/StaticContent/FlipBox.php:1335
+#: includes/Modules/StaticContent/FlipBox.php:1339
 msgid "Here you can choose how much the translate z on 3d effect."
 msgstr "Here you can choose how much the translate z on 3d effect."
 
-#: includes/Modules/StaticContent/FlipBox.php:1352
+#: includes/Modules/StaticContent/FlipBox.php:1356
 msgid "Scale"
 msgstr "Scale"
 
-#: includes/Modules/StaticContent/FlipBox.php:1354
+#: includes/Modules/StaticContent/FlipBox.php:1358
 msgid "Here you can choose how much the scale on 3d effect."
 msgstr "Here you can choose how much the scale on 3d effect."
 
-#: includes/Modules/StaticContent/FlipBox.php:1494
+#: includes/Modules/StaticContent/FlipBox.php:1498
 msgid "The text of your title will appear in with your current side of flip box."
 msgstr "The text of your title will appear in with your current side of flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1505
+#: includes/Modules/StaticContent/FlipBox.php:1509
 msgid "The text of your sub title will appear in with your current side of flip box."
 msgstr "The text of your sub title will appear in with your current side of flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1516
+#: includes/Modules/StaticContent/FlipBox.php:1520
 msgid "Input the main text content for your current side of flip box here."
 msgstr "Input the main text content for your current side of flip box here."
 
-#: includes/Modules/StaticContent/FlipBox.php:1538
+#: includes/Modules/StaticContent/FlipBox.php:1542
 msgid "Sub Title Tag"
 msgstr "Sub Title Tag"
 
-#: includes/Modules/StaticContent/FlipBox.php:1540
+#: includes/Modules/StaticContent/FlipBox.php:1544
 msgid "Choose a tag to display with your sub title."
 msgstr "Choose a tag to display with your sub title."
 
-#: includes/Modules/StaticContent/FlipBox.php:1550
+#: includes/Modules/StaticContent/FlipBox.php:1554
 msgid "Show Button"
 msgstr "Show Button"
 
-#: includes/Modules/StaticContent/FlipBox.php:1552
+#: includes/Modules/StaticContent/FlipBox.php:1556
 msgid "Here you can choose whether or not show the button."
 msgstr "Here you can choose whether or not show the button."
 
-#: includes/Modules/StaticContent/FlipBox.php:1593
+#: includes/Modules/StaticContent/FlipBox.php:1597
 msgid "Choose an icon type to display with your current side of flip box."
 msgstr "Choose an icon type to display with your current side of flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1627
+#: includes/Modules/StaticContent/FlipBox.php:1631
 msgid "Choose an icon to display with your current side of flip box."
 msgstr "Choose an icon to display with your current side of flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1640
+#: includes/Modules/StaticContent/FlipBox.php:1644
 msgid "Upload an image to display at the top of your current side of flip box."
 msgstr "Upload an image to display at the top of your current side of flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1666
+#: includes/Modules/StaticContent/FlipBox.php:1670
 msgid "The text as icon will appear in your current side of flip box."
 msgstr "The text as icon will appear in your current side of flip box."
 
-#: includes/Modules/StaticContent/FlipBox.php:1720
+#: includes/Modules/StaticContent/FlipBox.php:1724
 msgid "Image Force Full-Width"
 msgstr "Image Force Full-Width"
 
-#: includes/Modules/StaticContent/FlipBox.php:1722
+#: includes/Modules/StaticContent/FlipBox.php:1726
 msgid "Here you can choose whether or not your full width."
 msgstr "Here you can choose whether or not your full width."
 
 #: includes/Modules/PostGridChild.php:870
-#: includes/Modules/StaticContent/FlipBox.php:1772
-#: includes/Modules/StaticContent/FlipBox.php:1866
+#: includes/Modules/StaticContent/FlipBox.php:1776
+#: includes/Modules/StaticContent/FlipBox.php:1870
 msgid "Icon Horizontal Alignment"
 msgstr "Icon Horizontal Alignment"
 
-#: includes/Modules/StaticContent/FlipBox.php:1785
+#: includes/Modules/StaticContent/FlipBox.php:1789
 msgid "Show Icon Outside The Container"
 msgstr "Show Icon Outside The Container"
 
-#: includes/Modules/StaticContent/FlipBox.php:1787
+#: includes/Modules/StaticContent/FlipBox.php:1791
 msgid "Here you can choose whether or not your content will display outside the wrapper."
 msgstr "Here you can choose whether or not your content will display outside the wrapper."
 
-#: includes/Modules/StaticContent/FlipBox.php:1822
+#: includes/Modules/StaticContent/FlipBox.php:1826
 msgid "Icon Wrapper Width"
 msgstr "Icon Wrapper Width"
 
-#: includes/Modules/StaticContent/FlipBox.php:1824
+#: includes/Modules/StaticContent/FlipBox.php:1828
 msgid "Here you can choose icon wrapper width."
 msgstr "Here you can choose icon wrapper width."
 
 #: includes/Modules/PostGridChild.php:880
-#: includes/Modules/StaticContent/FlipBox.php:1877
+#: includes/Modules/StaticContent/FlipBox.php:1881
 msgid "Icon Vertical Placement"
 msgstr "Icon Vertical Placement"
 
-#: includes/Modules/StaticContent/FlipBox.php:1895
+#: includes/Modules/StaticContent/FlipBox.php:1899
 msgid "Icon Wrapper Margin"
 msgstr "Icon Wrapper Margin"
 
-#: includes/Modules/StaticContent/FlipBox.php:1897
+#: includes/Modules/StaticContent/FlipBox.php:1901
 msgid "Here you can define a custom margin size for the icon wrapper."
 msgstr "Here you can define a custom margin size for the icon wrapper."
 
-#: includes/Modules/StaticContent/FlipBox.php:1906
+#: includes/Modules/StaticContent/FlipBox.php:1910
 msgid "Icon Wrapper Padding"
 msgstr "Icon Wrapper Padding"
 
-#: includes/Modules/StaticContent/FlipBox.php:1967
+#: includes/Modules/StaticContent/FlipBox.php:1971
 msgid "Gap Between Elements"
 msgstr "Gap Between Elements"
 
-#: includes/Modules/StaticContent/FlipBox.php:2050
+#: includes/Modules/StaticContent/FlipBox.php:2054
 msgid "Sub Title Margin"
 msgstr "Sub Title Margin"
 
-#: includes/Modules/StaticContent/FlipBox.php:2052
+#: includes/Modules/StaticContent/FlipBox.php:2056
 msgid "Here you can define a custom margin size for the sub title."
 msgstr "Here you can define a custom margin size for the sub title."
 
-#: includes/Modules/StaticContent/FlipBox.php:2068
+#: includes/Modules/StaticContent/FlipBox.php:2072
 msgid "Sub Title Padding"
 msgstr "Sub Title Padding"
 
-#: includes/Modules/StaticContent/FlipBox.php:2086
+#: includes/Modules/StaticContent/FlipBox.php:2090
 msgid "Body Margin"
 msgstr "Body Margin"
 
-#: includes/Modules/StaticContent/FlipBox.php:2088
+#: includes/Modules/StaticContent/FlipBox.php:2092
 msgid "Here you can define a custom margin size for the content."
 msgstr "Here you can define a custom margin size for the content."
 
-#: includes/Modules/StaticContent/FlipBox.php:2104
+#: includes/Modules/StaticContent/FlipBox.php:2108
 msgid "Body Padding"
 msgstr "Body Padding"
 
-#: includes/Modules/StaticContent/FlipBox.php:2126
+#: includes/Modules/StaticContent/FlipBox.php:2130
 msgid "Button Link URL"
 msgstr "Button Link URL"
 
-#: includes/Modules/StaticContent/FlipBox.php:2136
+#: includes/Modules/StaticContent/FlipBox.php:2140
 msgid "Button Link Target"
 msgstr "Button Link Target"
 
-#: includes/Modules/StaticContent/FlipBox.php:2164
+#: includes/Modules/StaticContent/FlipBox.php:2168
 msgid "Image/Icon Order"
 msgstr "Image/Icon Order"
 
-#: includes/Modules/StaticContent/FlipBox.php:2186
+#: includes/Modules/StaticContent/FlipBox.php:2190
 msgid "Title Order"
 msgstr "Title Order"
 
-#: includes/Modules/StaticContent/FlipBox.php:2208
+#: includes/Modules/StaticContent/FlipBox.php:2212
 msgid "Sub Title Order"
 msgstr "Sub Title Order"
 
-#: includes/Modules/StaticContent/FlipBox.php:2231
+#: includes/Modules/StaticContent/FlipBox.php:2235
 msgid "Body Order"
 msgstr "Body Order"
 
-#: includes/Modules/StaticContent/FlipBox.php:2254
+#: includes/Modules/StaticContent/FlipBox.php:2258
 msgid "Button Order"
 msgstr "Button Order"
 
-#: includes/Modules/StaticContent/FlipBox.php:2290
+#: includes/Modules/StaticContent/FlipBox.php:2294
 msgid "Icon/Image"
 msgstr "Icon/Image"
 
