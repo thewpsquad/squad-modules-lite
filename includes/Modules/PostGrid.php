@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * The Post Grid Module Class which extend the Divi Builder Module Class.
@@ -6,7 +6,7 @@
  * This class provides the post-element in the grid system with functionalities in the visual builder.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -17,7 +17,7 @@ use DiviSquad\Base\DiviBuilder\Utils;
 use DiviSquad\Utils\Divi;
 use DiviSquad\Utils\Helper;
 use DiviSquad\Utils\LRCart;
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use ET_Builder_Module_Helper_MultiViewOptions;
 use WP_Post;
 use WP_Query;
@@ -93,9 +93,9 @@ class PostGrid extends Module {
 		$this->settings_modal_toggles = array(
 			'general'  => array(
 				'toggles' => array(
-					'wrapper'          => esc_html__( 'Post Settings', 'squad-modules-for-divi' ),
-					'layout'           => esc_html__( 'Layout Settings', 'squad-modules-for-divi' ),
-					'pagination'       => esc_html__( 'Pagination Settings', 'squad-modules-for-divi' ),
+					'wrapper'          => esc_html__( 'Post Options', 'squad-modules-for-divi' ),
+					'layout'           => esc_html__( 'Layout Options', 'squad-modules-for-divi' ),
+					'pagination'       => esc_html__( 'Pagination Options', 'squad-modules-for-divi' ),
 					'load_more_button' => esc_html__( 'Load More', 'squad-modules-for-divi' ),
 				),
 			),
@@ -139,6 +139,8 @@ class PostGrid extends Module {
 							'main'  => "$this->main_css_element div .squad-load-more-button-wrapper .squad-load-more-button .button-text",
 							'hover' => "$this->main_css_element div .squad-load-more-button-wrapper .squad-load-more-button:hover .button-text",
 						),
+						'tab_slug'        => 'advanced',
+						'toggle_slug'     => 'load_more_button_text',
 					)
 				),
 				'pagination_text'        => Utils::add_font_field(
@@ -162,6 +164,8 @@ class PostGrid extends Module {
 							'main'  => "$this->main_css_element div .squad-pagination .pagination-numbers .page-numbers, $this->main_css_element div .squad-pagination .pagination-entries",
 							'hover' => "$this->main_css_element div .squad-pagination .pagination-numbers .page-numbers:hover, $this->main_css_element div .squad-pagination .pagination-entries:hover",
 						),
+						'tab_slug'        => 'advanced',
+						'toggle_slug'     => 'pagination_text',
 					)
 				),
 				'active_pagination_text' => Utils::add_font_field(
@@ -185,6 +189,8 @@ class PostGrid extends Module {
 							'main'  => "$this->main_css_element div .squad-pagination .pagination-numbers .page-numbers.current",
 							'hover' => "$this->main_css_element div .squad-pagination .pagination-numbers .page-numbers.current:hover",
 						),
+						'tab_slug'        => 'advanced',
+						'toggle_slug'     => 'active_pagination_text',
 					)
 				),
 			),
@@ -1596,14 +1602,13 @@ class PostGrid extends Module {
 			return '';
 		}
 
-		$element_type  = isset( $child_prop['element'] ) ? $child_prop['element'] : 'none';
-		$icon_type     = isset( $child_prop['element_icon_type'] ) ? $child_prop['element_icon_type'] : 'icon';
-		$icon_excludes = $this->icon_not_eligible_elements;
+		$element_type = isset( $child_prop['element'] ) ? $child_prop['element'] : 'none';
+		$icon_type    = isset( $child_prop['element_icon_type'] ) ? $child_prop['element_icon_type'] : 'icon';
 
 		$output = '';
 
 		// Render icon if applicable.
-		if ( 'none' !== $icon_type && ! in_array( $element_type, $icon_excludes, true ) ) {
+		if ( 'none' !== $icon_type && $this->is_icon_eligible( $element_type ) ) {
 			$output .= $this->squad_render_element_icon( $child_prop );
 		}
 
@@ -2296,6 +2301,9 @@ class PostGrid extends Module {
 			$wrapper_classes[] = 'show-on-hover';
 		}
 
+		$icon_element_type = isset( $attrs['element_icon_type'] ) ? $attrs['element_icon_type'] : 'icon';
+		$wrapper_classes[] = 'type_' . $icon_element_type;
+
 		return sprintf(
 			'<span class="%1$s"><span class="icon-element">%2$s%3$s%4$s</span></span>',
 			implode( ' ', $wrapper_classes ),
@@ -2485,9 +2493,9 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array  $attrs      List of attributes.
+	 * @param array   $attrs      List of attributes.
 	 * @param WP_Post $post      The post object.
-	 * @param string $class_name The class name for the element.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2560,9 +2568,9 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array     $attrs      List of attributes.
-	 * @param WP_Post   $post       The post object.
-	 * @param string    $class_name The class name for the element.
+	 * @param array   $attrs      List of attributes.
+	 * @param WP_Post $post       The post object.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2630,9 +2638,9 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array     $attrs      List of attributes.
-	 * @param WP_Post   $post       The post object.
-	 * @param string    $class_name The class name for the element.
+	 * @param array   $attrs      List of attributes.
+	 * @param WP_Post $post       The post object.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2696,9 +2704,9 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array     $attrs      List of attributes.
-	 * @param WP_Post   $post       The post object.
-	 * @param string    $class_name The class name for the element.
+	 * @param array   $attrs      List of attributes.
+	 * @param WP_Post $post       The post object.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2740,9 +2748,9 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array     $attrs      List of attributes.
-	 * @param WP_Post   $post       The post object.
-	 * @param string    $class_name The class name for the element.
+	 * @param array   $attrs      List of attributes.
+	 * @param WP_Post $post       The post object.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2793,9 +2801,9 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array     $attrs      List of attributes.
-	 * @param WP_Post   $post       The post object.
-	 * @param string    $class_name The class name for the element.
+	 * @param array   $attrs      List of attributes.
+	 * @param WP_Post $post       The post object.
+	 * @param string  $class_name The class name for the element.
 	 *
 	 * @return string
 	 */
@@ -2993,8 +3001,8 @@ class PostGrid extends Module {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $attrs      List of attributes.
-	 * @param int   $post_id    The post ID.
+	 * @param array  $attrs      List of attributes.
+	 * @param int    $post_id    The post ID.
 	 * @param string $class_name The class name for the element.
 	 *
 	 * @return string

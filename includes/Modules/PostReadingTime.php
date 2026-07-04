@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Post-Reading Time Module Class which extend the Divi Builder Module Class.
@@ -6,7 +6,7 @@
  * This class provides item adding functionalities for a post-reading time element in the visual builder.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.2
  */
 
@@ -81,10 +81,12 @@ class PostReadingTime extends Module {
 				'time_text' => Utils::add_font_field(
 					esc_html__( 'Time', 'squad-modules-for-divi' ),
 					array(
-						'css' => array(
+						'css'         => array(
 							'main'  => "$this->main_css_element div .time-text-wrapper .time-text-container .time-text-item",
 							'hover' => "$this->main_css_element div .time-text-wrapper:hover .time-text-container .time-text-item",
 						),
+						'tab_slug'    => 'advanced',
+						'toggle_slug' => 'time_text',
 					)
 				),
 			),

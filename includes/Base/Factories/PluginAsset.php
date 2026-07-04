@@ -1,18 +1,18 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Abstract class representing the Plugin Asset.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  */
 
 namespace DiviSquad\Base\Factories;
 
 use DiviSquad\Base\Factories\FactoryBase\Factory;
-use DiviSquad\Utils\Polyfills\Constant;
-use DiviSquad\Utils\Singleton;
+use DiviSquad\Core\Supports\Polyfills\Constant;
+use DiviSquad\Core\Traits\Singleton;
 
 /**
  * Abstract class representing the Plugin Asset.
@@ -29,7 +29,7 @@ final class PluginAsset extends FactoryBase\Factory {
 	 *
 	 * @var PluginAsset\AssetInterface[]
 	 */
-	private static $registries = array();
+	private static array $registries = array();
 
 	/**
 	 * Init hooks for the factory.
@@ -81,7 +81,7 @@ final class PluginAsset extends FactoryBase\Factory {
 	 *
 	 * @return void
 	 */
-	public function add_admin_enqueue_scripts( $hook_suffix ) {
+	public function add_admin_enqueue_scripts( string $hook_suffix ) {
 		foreach ( self::$registries as $asset ) {
 			$asset->enqueue_scripts( 'admin', $hook_suffix );
 		}
@@ -94,7 +94,7 @@ final class PluginAsset extends FactoryBase\Factory {
 	 *
 	 * @return array
 	 */
-	public function add_localize_backend_extra_data( $data ) {
+	public function add_localize_backend_extra_data( array $data ): array {
 		foreach ( self::$registries as $asset ) {
 			$data = $asset->get_localize_data( 'raw', $data );
 		}
@@ -105,11 +105,11 @@ final class PluginAsset extends FactoryBase\Factory {
 	/**
 	 * Add localize script data.
 	 *
-	 * @param array $data The data to localize.
+	 * @param string $data The data to localize.
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function add_localize_backend_extra( $data ) {
+	public function add_localize_backend_extra( string $data ): string {
 		foreach ( self::$registries as $asset ) {
 			$data = $asset->get_localize_data( 'output', $data );
 		}

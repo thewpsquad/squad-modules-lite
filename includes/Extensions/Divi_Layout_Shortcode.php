@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The Divi Library Shortcode extension class for Divi Squad.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
  */
 
@@ -29,48 +29,13 @@ use function shortcode_exists;
 class Divi_Layout_Shortcode extends Extension {
 
 	/**
-	 * Get the extension name.
-	 *
-	 * @return string
-	 */
-	protected function get_name() {
-		return 'Divi_Library_Shortcode';
-	}
-
-	/**
-	 * Load the extension.
-	 *
-	 * @return void
-	 */
-	protected function load() {
-		// Create New Column in the Divi Library.
-		add_filter( 'manage_et_pb_layout_posts_columns', array( $this, 'create_shortcode_column' ), 5 );
-		add_action( 'manage_et_pb_layout_posts_custom_column', array( $this, 'shortcode_column_content' ), 5, 2 );
-
-		// Register New Divi Shortcodes.
-		if ( ! shortcode_exists( 'disq_divi_library_layout' ) ) {
-			add_shortcode( 'disq_divi_library_layout', array( $this, 'shortcode_callback' ) );
-		}
-
-		// Register New Divi Shortcodes.
-		if ( ! shortcode_exists( 'squad_divi_library_layout' ) ) {
-			add_shortcode( 'squad_divi_library_layout', array( $this, 'shortcode_callback' ) );
-		}
-
-		// Add another shortcode if they do not exist.
-		if ( ! shortcode_exists( 'divi_library_layout' ) ) {
-			add_shortcode( 'divi_library_layout', array( $this, 'shortcode_callback' ) );
-		}
-	}
-
-	/**
 	 * Create New Admin Column
 	 *
 	 * @param array $columns Exists columns array data.
 	 *
 	 * @return array
 	 */
-	public function create_shortcode_column( $columns ) {
+	public function create_shortcode_column( array $columns ): array {
 		$columns[ $this->get_column_slug() ] = $this->get_column_name();
 
 		return $columns;
@@ -81,7 +46,7 @@ class Divi_Layout_Shortcode extends Extension {
 	 *
 	 * @return string
 	 */
-	protected function get_column_slug() {
+	protected function get_column_slug(): string {
 		return 'disq_shortcode_column';
 	}
 
@@ -90,7 +55,7 @@ class Divi_Layout_Shortcode extends Extension {
 	 *
 	 * @return string
 	 */
-	protected function get_column_name() {
+	protected function get_column_name(): string {
 		return esc_html__( 'Shortcode', 'squad-modules-for-divi' );
 	}
 
@@ -102,7 +67,7 @@ class Divi_Layout_Shortcode extends Extension {
 	 *
 	 * @return void
 	 */
-	public function shortcode_column_content( $column, $id ) {
+	public function shortcode_column_content( string $column, int $id ): void {
 		if ( $this->get_column_slug() === $column ) {
 			echo wp_kses_post( $this->get_column_content( $id ) );
 		}
@@ -115,7 +80,7 @@ class Divi_Layout_Shortcode extends Extension {
 	 *
 	 * @return string
 	 */
-	protected function get_column_content( $id ) {
+	protected function get_column_content( int $id ): string {
 		return sprintf( '<p>[squad_divi_library_layout id="%s"]</p>', esc_attr( (string) $id ) );
 	}
 
@@ -126,7 +91,7 @@ class Divi_Layout_Shortcode extends Extension {
 	 *
 	 * @return string
 	 */
-	public function shortcode_callback( $atts ) {
+	public function shortcode_callback( $atts ): string {
 		$attributes    = shortcode_atts( array( 'id' => '*' ), $atts );
 		$is_vb_preview = function_exists( 'is_et_pb_preview' ) && \is_et_pb_preview();
 
@@ -169,5 +134,40 @@ class Divi_Layout_Shortcode extends Extension {
 		$et_pb_predefined_module_index = ++$divi_squad_pbe_module_index;  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 
 		return $value;
+	}
+
+	/**
+	 * Get the extension name.
+	 *
+	 * @return string
+	 */
+	protected function get_name(): string {
+		return 'Divi_Library_Shortcode';
+	}
+
+	/**
+	 * Load the extension.
+	 *
+	 * @return void
+	 */
+	protected function load(): void {
+		// Create New Column in the Divi Library.
+		add_filter( 'manage_et_pb_layout_posts_columns', array( $this, 'create_shortcode_column' ), 5 );
+		add_action( 'manage_et_pb_layout_posts_custom_column', array( $this, 'shortcode_column_content' ), 5, 2 );
+
+		// Register New Divi Shortcodes.
+		if ( ! shortcode_exists( 'disq_divi_library_layout' ) ) {
+			add_shortcode( 'disq_divi_library_layout', array( $this, 'shortcode_callback' ) );
+		}
+
+		// Register New Divi Shortcodes.
+		if ( ! shortcode_exists( 'squad_divi_library_layout' ) ) {
+			add_shortcode( 'squad_divi_library_layout', array( $this, 'shortcode_callback' ) );
+		}
+
+		// Add another shortcode if they do not exist.
+		if ( ! shortcode_exists( 'divi_library_layout' ) ) {
+			add_shortcode( 'divi_library_layout', array( $this, 'shortcode_callback' ) );
+		}
 	}
 }

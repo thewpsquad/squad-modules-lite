@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Abstract class representing the Notice.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 

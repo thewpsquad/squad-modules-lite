@@ -3,7 +3,7 @@
  * Template file to manage layouts.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 

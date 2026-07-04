@@ -1,18 +1,18 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * The admin menu management class.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Managers\Menus;
 
 use DiviSquad\Base\Factories\AdminMenu\Menu;
-use DiviSquad\Utils\Media\Image;
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Media\Image;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use function admin_url;
 use function divi_squad;
 use function esc_html__;
@@ -31,12 +31,12 @@ class AdminMenu extends Menu {
 	 *
 	 * @return  array Details about the Main Menu.
 	 */
-	public function get_main_menu() {
+	public function get_main_menu(): array {
 		// Load the image class.
 		$image = new Image( divi_squad()->get_path( '/build/admin/images/logos' ) );
 
 		// Get the menu icon.
-		$menu_icon = $image->get_image( 'divi-squad-d-white.svg', 'svg' );
+		$menu_icon = $image->get_image( 'divi-squad-d-menu.svg', 'svg' );
 		if ( is_wp_error( $menu_icon ) ) {
 			$menu_icon = 'dashicons-warning';
 		}
@@ -48,7 +48,7 @@ class AdminMenu extends Menu {
 			'slug'       => $this->get_main_menu_slug(),
 			'view'       => array( $this, 'get_template' ),
 			'icon'       => $menu_icon,
-			'position'   => 101,
+			'position'   => $this->get_main_menu_position(),
 		);
 	}
 
@@ -57,7 +57,7 @@ class AdminMenu extends Menu {
 	 *
 	 * @return  array Details about the Sub Menu.
 	 */
-	public function get_sub_menus() {
+	public function get_sub_menus(): array {
 		$version    = divi_squad()->get_version_dot();
 		$menu_slug  = $this->get_main_menu_slug();
 		$menu_base  = admin_url( 'admin.php?page=' . $menu_slug );
@@ -105,7 +105,7 @@ class AdminMenu extends Menu {
 	 *
 	 * @return string
 	 */
-	public function get_body_classes() {
+	public function get_body_classes(): string {
 		global $current_screen;
 
 		// Set default classes.

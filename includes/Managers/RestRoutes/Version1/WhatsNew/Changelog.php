@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * REST API Routes for What's New (Changelog)
@@ -7,7 +7,7 @@
  * for retrieving changelog information in Divi Squad.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -35,7 +35,7 @@ class Changelog extends Route {
 	 * @since 1.0.0
 	 * @return array Available routes for the Changelog API.
 	 */
-	public function get_routes() {
+	public function get_routes(): array {
 		return array(
 			'/whats-new' => array(
 				array(
@@ -133,7 +133,7 @@ class Changelog extends Route {
 	 * @since 3.1.4
 	 * @return bool True if filesystem is initialized, false otherwise.
 	 */
-	private function initialize_filesystem() {
+	private function initialize_filesystem(): bool {
 		global $wp_filesystem;
 
 		if ( ! isset( $wp_filesystem ) ) {
@@ -150,7 +150,7 @@ class Changelog extends Route {
 	 * @since 1.0.0
 	 * @return string Path to the changelog file.
 	 */
-	private function get_changelog_file_path() {
+	private function get_changelog_file_path(): string {
 		return divi_squad()->get_path( '/changelog.txt' );
 	}
 }

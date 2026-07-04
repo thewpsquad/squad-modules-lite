@@ -1,15 +1,15 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The DiviBackend integration helper for Divi Builder
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Base\DiviBuilder;
 
-use DiviSquad\Utils\Media\Image;
+use DiviSquad\Core\Supports\Media\Image;
 use function _x;
 use function divi_squad;
 
@@ -26,7 +26,7 @@ abstract class Placeholder {
 	 *
 	 * @return array
 	 */
-	public function get_modules_defaults() {
+	public function get_modules_defaults(): array {
 		// Load the image class.
 		$image = new Image( divi_squad()->get_path( '/build/admin/images/placeholders' ) );
 

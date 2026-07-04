@@ -1,16 +1,15 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
-
+<?php
 /**
  * Asset loading helper class for enqueuing scripts and styles.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Utils;
 
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use function divi_squad;
 use function wp_enqueue_script;
 use function wp_enqueue_style;
@@ -63,7 +62,7 @@ class Asset {
 	 *
 	 * @return bool
 	 */
-	public static function is_production_mode() {
+	public static function is_production_mode(): bool {
 		return strpos( static::get_the_version(), '.' );
 	}
 
@@ -74,7 +73,7 @@ class Asset {
 	 *
 	 * @return string
 	 */
-	public static function validate_relative_path( $relative_path ) {
+	public static function validate_relative_path( string $relative_path ): string {
 		if ( Str::starts_with( $relative_path, './' ) ) {
 			$relative_path = str_replace( './', '/', $relative_path );
 		}
@@ -93,7 +92,7 @@ class Asset {
 	 *
 	 * @return string
 	 */
-	public static function resolve_file_path( $relative_path ) {
+	public static function resolve_file_path( string $relative_path ): string {
 		return sprintf( '%1$s/%2$s', static::root_path(), static::validate_relative_path( $relative_path ) );
 	}
 
@@ -104,19 +103,19 @@ class Asset {
 	 *
 	 * @return string
 	 */
-	public static function resolve_file_uri( $relative_path ) {
+	public static function resolve_file_uri( string $relative_path ): string {
 		return sprintf( '%1$s%2$s', static::root_path_uri(), static::validate_relative_path( $relative_path ) );
 	}
 
 	/**
 	 * Process asset path and version data.
 	 *
-	 * @param array $path The asset relative path with options.
+	 * @param array $path         The asset relative path with options.
 	 * @param array $dependencies The asset dependencies.
 	 *
 	 * @return array
 	 */
-	public static function process_asset_path_data( $path, $dependencies ) {
+	public static function process_asset_path_data( array $path, array $dependencies ): array {
 		$full_path   = '';
 		$pattern     = ! empty( $path['pattern'] ) ? $path['pattern'] : 'build/[path_prefix]/[file].[ext]';
 		$path_prefix = ! empty( $path['path'] ) ? $path['path'] : 'divi-builder-4';
@@ -161,14 +160,15 @@ class Asset {
 			}
 
 			// Load the version and dependencies data for javascript file.
+			$new_dependencies = array();
 			if ( 'js' === $extension ) {
 				// Verify that the current file is a minified and located in the current physical device.
 				if ( Str::ends_with( $path_validate, ".min.$extension" ) && file_exists( static::resolve_file_path( $path_validate ) ) ) {
 					$minified_version_file = str_replace( array( ".min.$extension" ), array( '.min.asset.php' ), $path_validate );
 					if ( file_exists( static::resolve_file_path( $minified_version_file ) ) ) {
-						$minified_asset = include static::resolve_file_path( $minified_version_file );
-						$version        = ! empty( $minified_asset['version'] ) ? $minified_asset['version'] : $version;
-						$dependencies   = ! empty( $minified_asset['dependencies'] ) ? $minified_asset['dependencies'] : $dependencies;
+						$minified_asset   = include static::resolve_file_path( $minified_version_file );
+						$version          = ! empty( $minified_asset['version'] ) ? $minified_asset['version'] : $version;
+						$new_dependencies = ! empty( $minified_asset['dependencies'] ) ? $minified_asset['dependencies'] : array();
 					}
 				}
 
@@ -176,12 +176,14 @@ class Asset {
 				if ( Str::ends_with( $path_validate, ".$extension" ) && file_exists( static::resolve_file_path( $path_validate ) ) ) {
 					$main_version_file = str_replace( array( ".$extension" ), array( '.asset.php' ), $path_validate );
 					if ( Str::ends_with( $main_version_file, '.asset.php' ) && file_exists( static::resolve_file_path( $main_version_file ) ) ) {
-						$main_asset   = include static::resolve_file_path( $main_version_file );
-						$version      = ! empty( $main_asset['version'] ) ? $main_asset['version'] : $version;
-						$dependencies = ! empty( $main_asset['dependencies'] ) ? $main_asset['dependencies'] : $dependencies;
+						$main_asset       = include static::resolve_file_path( $main_version_file );
+						$version          = ! empty( $main_asset['version'] ) ? $main_asset['version'] : $version;
+						$new_dependencies = ! empty( $main_asset['dependencies'] ) ? $main_asset['dependencies'] : array();
 					}
 				}
 			}
+
+			$dependencies = array_merge( $new_dependencies, $dependencies );
 		}
 
 		// Collect actual path for the current asset file.
@@ -250,7 +252,7 @@ class Asset {
 	 *
 	 * @return array
 	 */
-	public static function asset_path( $file, $options = array() ) {
+	public static function asset_path( string $file, array $options = array() ): array {
 		$defaults = array(
 			'pattern'   => 'build/[path_prefix]/[file].[ext]',
 			'file'      => $file,
@@ -271,7 +273,7 @@ class Asset {
 	 *
 	 * @return array
 	 */
-	public static function admin_asset_path( $file, $options = array() ) {
+	public static function admin_asset_path( string $file, array $options = array() ): array {
 		$defaults = array(
 			'path' => 'admin',
 		);
@@ -287,7 +289,7 @@ class Asset {
 	 *
 	 * @return array
 	 */
-	public static function module_asset_path( $file, $options = array() ) {
+	public static function module_asset_path( string $file, array $options = array() ): array {
 		$defaults = array(
 			'path' => 'divi-builder-4',
 		);
@@ -303,7 +305,7 @@ class Asset {
 	 *
 	 * @return array
 	 */
-	public static function extension_asset_path( $file, $options = array() ) {
+	public static function extension_asset_path( string $file, array $options = array() ): array {
 		$defaults = array(
 			'path' => 'extensions',
 		);
@@ -319,7 +321,7 @@ class Asset {
 	 *
 	 * @return array
 	 */
-	public static function vendor_asset_path( $file, $options = array() ) {
+	public static function vendor_asset_path( string $file, array $options = array() ): array {
 		$defaults = array(
 			'path' => 'vendor',
 		);
@@ -341,7 +343,7 @@ class Asset {
 	 * @return void
 	 * @deprecated 3.1.0
 	 */
-	public static function style_enqueue( $keyword, $path, $deps = array(), $media = 'all', $no_prefix = false ) {
+	public static function style_enqueue( string $keyword, array $path, array $deps = array(), string $media = 'all', bool $no_prefix = false ) {
 		self::enqueue_style( $keyword, $path, $deps, $media, $no_prefix );
 	}
 
@@ -358,7 +360,7 @@ class Asset {
 	 * @return void
 	 * @deprecated 3.1.0
 	 */
-	public static function asset_enqueue( $keyword, $path, array $deps = array(), $no_prefix = false ) {
+	public static function asset_enqueue( string $keyword, array $path, array $deps = array(), bool $no_prefix = false ) {
 		self::enqueue_script( $keyword, $path, $deps, $no_prefix );
 	}
 
@@ -374,7 +376,7 @@ class Asset {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_script( $keyword, $path, array $deps = array(), $no_prefix = false ) {
+	public static function enqueue_script( string $keyword, array $path, array $deps = array(), bool $no_prefix = false ) {
 		$asset_data = self::process_asset_path_data( $path, $deps );
 		$handle     = $no_prefix ? $keyword : sprintf( 'squad-%1$s', $keyword );
 		$version    = ! empty( $asset_data['version'] ) ? $asset_data['version'] : static::get_the_version();
@@ -396,7 +398,7 @@ class Asset {
 	 *
 	 * @return void
 	 */
-	public static function enqueue_style( $keyword, $path, $deps = array(), $media = 'all', $no_prefix = false ) {
+	public static function enqueue_style( string $keyword, array $path, array $deps = array(), string $media = 'all', bool $no_prefix = false ) {
 		$asset_data = static::process_asset_path_data( $path, $deps );
 		$handle     = $no_prefix ? $keyword : sprintf( 'squad-%1$s', $keyword );
 		$version    = ! empty( $asset_data['version'] ) ? $asset_data['version'] : static::get_the_version();
@@ -414,7 +416,7 @@ class Asset {
 	 *
 	 * @return void
 	 */
-	public static function register_script( $handle, $path, $deps = array() ) {
+	public static function register_script( string $handle, array $path, array $deps = array() ) {
 		$asset_data = self::process_asset_path_data( $path, $deps );
 		$handle     = sprintf( 'squad-%1$s', $handle );
 		$version    = ! empty( $asset_data['version'] ) ? $asset_data['version'] : static::get_the_version();
@@ -434,7 +436,7 @@ class Asset {
 	 *
 	 * @return void
 	 */
-	public static function register_style( $keyword, $path, $deps = array(), $media = 'all' ) {
+	public static function register_style( string $keyword, array $path, array $deps = array(), string $media = 'all' ) {
 		$asset_data = static::process_asset_path_data( $path, $deps );
 		$handle     = sprintf( 'squad-%1$s', $keyword );
 		$version    = ! empty( $asset_data['version'] ) ? $asset_data['version'] : static::get_the_version();
@@ -453,7 +455,7 @@ class Asset {
 	 *
 	 * @return array
 	 */
-	public static function footer_arguments( $strategy = false, $priority = false ) {
+	public static function footer_arguments( bool $strategy = false, bool $priority = false ): array {
 		$footer_arguments = array(
 			'in_footer' => true,
 		);

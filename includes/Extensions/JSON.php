@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The JSON extension class for Divi Squad.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
  */
 
@@ -22,34 +22,15 @@ use function wp_strip_all_tags;
 class JSON extends Extension {
 
 	/**
-	 * Get the extension name.
-	 *
-	 * @return string
-	 */
-	protected function get_name() {
-		return 'JSON';
-	}
-
-	/**
-	 * Load the extension.
-	 *
-	 * @return void
-	 */
-	protected function load() {
-		add_filter( 'mime_types', array( $this, 'hook_add_extra_mime_types' ) );
-		add_filter( 'upload_mimes', array( $this, 'hook_add_extra_mime_types' ) );
-		add_filter( 'wp_check_filetype_and_ext', array( $this, 'hook_wp_check_filetype_and_ext' ), 10, 3 );
-	}
-
-	/**
 	 * Allow extra mime type file upload in the current installation.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param array $existing_mimes The existing mime lists.
 	 *
 	 * @return array All mime lists with newly appended mimes.
-	 * @since 1.0.0
 	 */
-	public function hook_add_extra_mime_types( $existing_mimes ) {
+	public function hook_add_extra_mime_types( array $existing_mimes ): array {
 		return array_merge( $existing_mimes, $this->get_available_mime_types() );
 	}
 
@@ -58,7 +39,7 @@ class JSON extends Extension {
 	 *
 	 * @return array
 	 */
-	public function get_available_mime_types() {
+	public function get_available_mime_types(): array {
 		return array(
 			'json'   => 'application/json',
 			'lottie' => 'application/zip',
@@ -72,7 +53,7 @@ class JSON extends Extension {
 	 * @param string $file       Full path to the file.
 	 * @param string $filename   The name of the file.
 	 */
-	public function hook_wp_check_filetype_and_ext( $wp_checked, $file, $filename ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
+	public function hook_wp_check_filetype_and_ext( array $wp_checked, string $file, string $filename ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed
 		$ext             = false;
 		$type            = false;
 		$proper_filename = false;
@@ -128,5 +109,25 @@ class JSON extends Extension {
 		}
 
 		return $wp_checked;
+	}
+
+	/**
+	 * Get the extension name.
+	 *
+	 * @return string
+	 */
+	protected function get_name(): string {
+		return 'JSON';
+	}
+
+	/**
+	 * Load the extension.
+	 *
+	 * @return void
+	 */
+	protected function load(): void {
+		add_filter( 'mime_types', array( $this, 'hook_add_extra_mime_types' ) );
+		add_filter( 'upload_mimes', array( $this, 'hook_add_extra_mime_types' ) );
+		add_filter( 'wp_check_filetype_and_ext', array( $this, 'hook_wp_check_filetype_and_ext' ), 10, 3 );
 	}
 }

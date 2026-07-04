@@ -1,18 +1,17 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * The Core class.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Base;
 
 use DiviSquad\Utils\Divi;
-use DiviSquad\Utils\Media\Filesystem;
-use DiviSquad\Utils\Media\Image;
+use DiviSquad\Core\Supports\Media\Image;
 use function add_action;
 use function apply_filters;
 use function divi_squad;
@@ -31,21 +30,21 @@ use function wp_kses_data;
  * @package DiviSquad
  * @since   1.0.0
  */
-abstract class Core extends Filesystem {
+abstract class Core {
 
 	/**
 	 * The plugin admin menu slug.
 	 *
 	 * @var string
 	 */
-	protected $admin_menu_slug = '';
+	protected string $admin_menu_slug = '';
 
 	/**
 	 * The plugin options.
 	 *
 	 * @var array
 	 */
-	protected $options = array();
+	protected array $options = array();
 
 	/**
 	 * The Plugin name.
@@ -54,14 +53,14 @@ abstract class Core extends Filesystem {
 	 *
 	 * @var string
 	 */
-	protected $name;
+	protected string $name;
 
 	/**
 	 * The Plugin Text Domain.
 	 *
 	 * @var string
 	 */
-	protected $textdomain;
+	protected string $textdomain;
 
 	/**
 	 * The Plugin Version.
@@ -70,7 +69,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @var string
 	 */
-	protected $version;
+	protected string $version;
 
 	/**
 	 * The plugin option prefix
@@ -79,37 +78,28 @@ abstract class Core extends Filesystem {
 	 *
 	 * @var string
 	 */
-	protected $opt_prefix;
+	protected string $opt_prefix;
 
 	/**
 	 * The Script handle the text domain will be attached to.
 	 *
 	 * @var string
 	 */
-	protected $localize_handle;
+	protected string $localize_handle;
 
 	/**
 	 * The full file path to the directory containing translation files.
 	 *
 	 * @var string
 	 */
-	protected $localize_path;
+	protected string $localize_path;
 
 	/**
 	 * List of containers
 	 *
 	 * @var array
 	 */
-	protected $container = array();
-
-	/**
-	 * Initialize the plugin with required components.
-	 *
-	 * @param array $options Options.
-	 *
-	 * @return void
-	 */
-	abstract protected function init( $options = array() );
+	protected array $container = array();
 
 	/**
 	 * Get the plugin options.
@@ -133,41 +123,11 @@ abstract class Core extends Filesystem {
 	abstract public function get_version_dot();
 
 	/**
-	 * Set the activation hook.
-	 *
-	 * @return void
-	 */
-	abstract public function hook_activation();
-
-	/**
-	 * Load all assets.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @return void
-	 */
-	protected function load_assets() {}
-
-	/**
-	 * Load all extensions.
-	 *
-	 * @return void
-	 */
-	abstract protected function load_extensions();
-
-	/**
-	 * Load all divi modules.
-	 *
-	 * @return void
-	 */
-	abstract protected function load_modules_for_builder();
-
-	/**
 	 * Get the plugin name.
 	 *
 	 * @return string
 	 */
-	public function get_name() {
+	public function get_name(): string {
 		return $this->name;
 	}
 
@@ -176,7 +136,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @return string
 	 */
-	public function get_textdomain() {
+	public function get_textdomain(): string {
 		return $this->textdomain;
 	}
 
@@ -185,7 +145,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @return string
 	 */
-	public function get_localize_path() {
+	public function get_localize_path(): string {
 		return $this->localize_path;
 	}
 
@@ -194,7 +154,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @return string
 	 */
-	public function get_admin_menu_slug() {
+	public function get_admin_menu_slug(): string {
 		/**
 		 * Filter the plugin admin menu slug.
 		 *
@@ -205,12 +165,23 @@ abstract class Core extends Filesystem {
 		return apply_filters( 'divi_squad_admin_main_menu_slug', $this->admin_menu_slug );
 	}
 
+	public function get_admin_menu_position() {
+		/**
+		 * Filter the plugin admin menu position.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $admin_menu_position The plugin admin menu position.
+		 */
+		return apply_filters( 'divi_squad_admin_menu_position', 101 );
+	}
+
 	/**
 	 * Get the plugin option prefix.
 	 *
 	 * @return string
 	 */
-	public function get_option_prefix() {
+	public function get_option_prefix(): string {
 		return $this->opt_prefix;
 	}
 
@@ -220,7 +191,7 @@ abstract class Core extends Filesystem {
 	 * @return void
 	 */
 	public function load_text_domain() {
-		load_plugin_textdomain( $this->textdomain, false, "{$this->name}/languages" );
+		load_plugin_textdomain( $this->textdomain );
 	}
 
 	/**
@@ -351,7 +322,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @return string Localizes a script.
 	 */
-	public function localize_script( $object_name, $l10n ) {
+	public function localize_script( string $object_name, array $l10n ): string {
 		return sprintf( 'window.%1$s = %2$s;', $object_name, wp_json_encode( $l10n ) );
 	}
 
@@ -363,7 +334,7 @@ abstract class Core extends Filesystem {
 	 * @return array
 	 * @throws \RuntimeException If the plugin file does not exist or the function cannot be included.
 	 */
-	protected function get_plugin_data( $plugin_file ) {
+	protected function get_plugin_data( string $plugin_file ): array {
 		if ( ! function_exists( 'get_plugin_data' ) ) {
 			$plugin_path = $this->get_wp_path() . 'wp-admin/includes/plugin.php';
 
@@ -384,7 +355,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @return bool
 	 */
-	public function __isset( $key ) {
+	public function __isset( string $key ) {
 		return isset( $this->container[ $key ] );
 	}
 
@@ -395,7 +366,7 @@ abstract class Core extends Filesystem {
 	 *
 	 * @return mixed
 	 */
-	public function __get( $key ) {
+	public function __get( string $key ) {
 		if ( array_key_exists( $key, $this->container ) ) {
 			return $this->container[ $key ];
 		}
@@ -406,12 +377,12 @@ abstract class Core extends Filesystem {
 	/**
 	 * Set the plugin options.
 	 *
-	 * @param string $key The key to set.
+	 * @param string $key   The key to set.
 	 * @param mixed  $value The value to set.
 	 *
 	 * @return void
 	 */
-	public function __set( $key, $value ) {
+	public function __set( string $key, $value ) {
 		$this->container[ $key ] = $value;
 	}
 }

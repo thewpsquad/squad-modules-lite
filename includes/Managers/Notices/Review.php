@@ -1,17 +1,17 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Plugin Review
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.3
  */
 
 namespace DiviSquad\Managers\Notices;
 
 use DiviSquad\Base\Factories\AdminNotice\Notice;
-use DiviSquad\Managers\Links;
+use DiviSquad\Core\Supports\Links;
 use function divi_squad;
 use function esc_html__;
 
@@ -59,7 +59,7 @@ class Review extends Notice {
 	/**
 	 * Check if we can render notice.
 	 */
-	public function can_render_it() {
+	public function can_render_it(): bool {
 		// Check if the review flag is set.
 		if ( divi_squad()->memory->get( 'review_flag' ) ) {
 			return false;
@@ -75,7 +75,7 @@ class Review extends Notice {
 	 * @return string
 	 * @since 1.2.5
 	 */
-	public function get_body_classes() {
+	public function get_body_classes(): string {
 		return 'divi-squad-notice';
 	}
 
@@ -85,7 +85,7 @@ class Review extends Notice {
 	 * @return array
 	 * @since 3.0.0
 	 */
-	public function get_template_args() {
+	public function get_template_args(): array {
 		// phpcs:disable
 		/**
 		 * The arguments to the template.

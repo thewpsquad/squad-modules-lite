@@ -1,16 +1,16 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The plugin admin footer text management class for the plugin dashboard at admin area.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Managers\Branding;
 
 use DiviSquad\Base\Factories\BrandAsset\Asset;
-use DiviSquad\Managers\Links;
+use DiviSquad\Core\Supports\Links;
 use function admin_url;
 use function esc_attr;
 use function esc_attr__;
@@ -30,7 +30,7 @@ class AdminFooterText extends Asset {
 	 *
 	 * @return string
 	 */
-	public function get_type() {
+	public function get_type(): string {
 		return 'admin_footer_text';
 	}
 
@@ -39,7 +39,7 @@ class AdminFooterText extends Asset {
 	 *
 	 * @return string
 	 */
-	public function get_position() {
+	public function get_position(): string {
 		return 'replace';
 	}
 
@@ -50,7 +50,7 @@ class AdminFooterText extends Asset {
 	 * @since 1.3.2
 	 * @throws \Exception When the Freemius SDK is not loaded.
 	 */
-	public function get_plugin_footer_text() {
+	public function get_plugin_footer_text(): string {
 		$footer_text = '';
 
 		// Add support url.
@@ -82,7 +82,7 @@ class AdminFooterText extends Asset {
 	 * @since 1.4.8
 	 * @throws \Exception When the Freemius SDK is not loaded.
 	 */
-	public function get_update_footer_text() {
+	public function get_update_footer_text(): string {
 		$content = '';
 
 		// Add sponsor url.

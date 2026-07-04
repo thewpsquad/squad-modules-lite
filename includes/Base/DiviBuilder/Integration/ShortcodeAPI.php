@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Integration API
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -13,7 +13,7 @@ use DiviSquad\Base\DiviBuilder\Integration;
 use DiviSquad\Utils\Asset as AssetUtil;
 use DiviSquad\Utils\Divi as DiviUtil;
 use DiviSquad\Utils\Helper as HelperUtil;
-use DiviSquad\Utils\Polyfills\Constant;
+use DiviSquad\Core\Supports\Polyfills\Constant;
 use DiviSquad\Utils\WP as WPUtil;
 use function add_action;
 use function et_builder_enabled_for_post;

@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The plugin action links management class for the plugin dashboard at admin area.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -26,7 +26,7 @@ class PluginActionLinks extends Asset {
 	 *
 	 * @return string
 	 */
-	public function get_type() {
+	public function get_type(): string {
 		return 'plugin_action_links';
 	}
 
@@ -35,7 +35,7 @@ class PluginActionLinks extends Asset {
 	 *
 	 * @return string
 	 */
-	public function get_position() {
+	public function get_position(): string {
 		return 'before';
 	}
 
@@ -44,7 +44,7 @@ class PluginActionLinks extends Asset {
 	 *
 	 * @return bool
 	 */
-	public function is_allow_network() {
+	public function is_allow_network(): bool {
 		return true;
 	}
 
@@ -53,7 +53,7 @@ class PluginActionLinks extends Asset {
 	 *
 	 * @return array
 	 */
-	public function get_action_links() {
+	public function get_action_links(): array {
 		$manage_modules_url = admin_url( 'admin.php?page=divi_squad_dashboard#/modules' );
 
 		return array(

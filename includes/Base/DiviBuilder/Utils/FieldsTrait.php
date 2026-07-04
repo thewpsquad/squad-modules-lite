@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Builder Utils Helper Class which help to the all module class
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -30,7 +30,7 @@ trait FieldsTrait {
 	 *
 	 * @return array<string, string>
 	 */
-	public static function get_html_tag_elements() {
+	public static function get_html_tag_elements(): array {
 		return array(
 			'h1'   => esc_html__( 'H1 tag', 'squad-modules-for-divi' ),
 			'h2'   => esc_html__( 'H2 tag', 'squad-modules-for-divi' ),
@@ -47,23 +47,18 @@ trait FieldsTrait {
 	/**
 	 * Default fields for Heading toggles.
 	 *
-	 * @param string   $field_label The heading toggle label name.
-	 * @param int|bool $priority    The toggle priority, default is 55.
+	 * @param string $field_label The heading toggle label name.
+	 * @param int    $priority    The toggle priority, default is 55.
 	 *
 	 * @return array
 	 */
-	public static function get_heading_toggles( $field_label, $priority = 55 ) {
-		$default_properties = array(
+	public static function get_heading_toggles( string $field_label, int $priority = 55 ): array {
+		return array(
 			'title'             => $field_label,
+			'priority'          => $priority,
 			'tabbed_subtoggles' => true,
 			'sub_toggles'       => self::get_heading_elements(),
 		);
-
-		if ( is_numeric( $priority ) ) {
-			$default_properties['priority'] = $priority;
-		}
-
-		return $default_properties;
 	}
 
 	/**
@@ -71,7 +66,7 @@ trait FieldsTrait {
 	 *
 	 * @return string[][]
 	 */
-	public static function get_heading_elements() {
+	public static function get_heading_elements(): array {
 		return array(
 			'h1' => array(
 				'name' => 'H1',
@@ -105,26 +100,26 @@ trait FieldsTrait {
 	 *
 	 * @return string[][]
 	 */
-	public static function get_block_elements() {
+	public static function get_block_elements(): array {
 		return array(
 			'p'     => array(
-				'name' => 'P',
+				'name' => esc_html__( 'P', 'squad-modules-for-divi' ),
 				'icon' => 'text-left',
 			),
 			'a'     => array(
-				'name' => 'A',
+				'name' => esc_html__( 'A', 'squad-modules-for-divi' ),
 				'icon' => 'text-link',
 			),
 			'ul'    => array(
-				'name' => 'UL',
+				'name' => esc_html__( 'UL', 'squad-modules-for-divi' ),
 				'icon' => 'list',
 			),
 			'ol'    => array(
-				'name' => 'OL',
+				'name' => esc_html__( 'OL', 'squad-modules-for-divi' ),
 				'icon' => 'numbered-list',
 			),
 			'quote' => array(
-				'name' => 'QUOTE',
+				'name' => esc_html__( 'QUOTE', 'squad-modules-for-divi' ),
 				'icon' => 'text-quote',
 			),
 		);
@@ -137,7 +132,7 @@ trait FieldsTrait {
 	 *
 	 * @return array
 	 */
-	public static function get_text_clip_fields( $options = array() ) {
+	public static function get_text_clip_fields( array $options = array() ): array {
 		$fields   = array();
 		$defaults = array(
 			'title_prefix'        => '',
@@ -245,7 +240,7 @@ trait FieldsTrait {
 	 *
 	 * @return array
 	 */
-	public static function add_z_index_field( $options = array() ) {
+	public static function add_z_index_field( array $options = array() ): array {
 		$defaults = array(
 			'label_prefix'        => '',
 			'label'               => '',
@@ -314,7 +309,7 @@ trait FieldsTrait {
 	 *
 	 * @return array[]
 	 */
-	public static function get_general_fields() {
+	public static function get_general_fields(): array {
 		return array(
 			'admin_label'  => array(
 				'label'           => et_builder_i18n( 'Admin Label' ),
@@ -351,7 +346,7 @@ trait FieldsTrait {
 	 *
 	 * @return array
 	 */
-	public function get_button_fields( $options = array() ) {
+	public function get_button_fields( array $options = array() ): array {
 		$defaults = array(
 			'title_prefix'                 => '',
 			'base_attr_name'               => 'button',
@@ -481,7 +476,7 @@ trait FieldsTrait {
 	 *
 	 * @return array
 	 */
-	public function get_button_associated_fields( $options = array() ) {
+	public function get_button_associated_fields( array $options = array() ): array {
 		$defaults = array(
 			'title_prefix'                 => '',
 			'base_attr_name'               => 'button',

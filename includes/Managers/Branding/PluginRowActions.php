@@ -1,16 +1,16 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The plugin row-meta management class for the plugin dashboard at admin area.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Managers\Branding;
 
 use DiviSquad\Base\Factories\BrandAsset\Asset;
-use DiviSquad\Managers\Links;
+use DiviSquad\Core\Supports\Links;
 use function esc_html__;
 use function esc_url;
 
@@ -27,7 +27,7 @@ class PluginRowActions extends Asset {
 	 *
 	 * @return string
 	 */
-	public function get_type() {
+	public function get_type(): string {
 		return 'plugin_row_actions';
 	}
 
@@ -36,7 +36,7 @@ class PluginRowActions extends Asset {
 	 *
 	 * @return string
 	 */
-	public function get_position() {
+	public function get_position(): string {
 		return 'after';
 	}
 
@@ -44,8 +44,9 @@ class PluginRowActions extends Asset {
 	 * The plugin row meta actions.
 	 *
 	 * @return  array
+	 * @throws \Exception When the Freemius SDK is not loaded.
 	 */
-	public function get_row_actions() {
+	public function get_row_actions(): array {
 		$links = array();
 
 		// Add the rating link to the plugin row meta.

@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Builder Utils Class
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.5.0
  */
 
@@ -24,7 +24,7 @@ final class Utils extends Utils\Base {
 	 *
 	 * @return Utils
 	 */
-	public static function connect( $element ) {
+	public static function connect( Module $element ): Utils {
 		return new self( $element );
 	}
 }

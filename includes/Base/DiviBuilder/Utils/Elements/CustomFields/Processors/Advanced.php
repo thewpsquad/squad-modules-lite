@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Custom Fields (Advanced Custom Field) element.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
  */
 
@@ -12,7 +12,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors;
 
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processor;
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use function get_post_meta;
 use function get_post_type;
 
@@ -141,7 +141,7 @@ class Advanced extends Processor {
 			$this->field_values[ $post_id ] = $this->get_post_meta_values( $post_id, $acf_field_keys, $limit );
 		}
 
-		wp_cache_set( $cache_key, $this->field_values[ $post_id ], 'divi_squad_custom_fields', 3600 ); // Cache for 1 hour
+		wp_cache_set( $cache_key, $this->field_values[ $post_id ], 'divi_squad_custom_fields', 3600 ); // Cache for 1 hour.
 
 		return $this->field_values[ $post_id ];
 	}

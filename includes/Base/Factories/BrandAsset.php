@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Plugin Branding
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  */
 
@@ -12,8 +12,9 @@ namespace DiviSquad\Base\Factories;
 
 use DiviSquad\Base\Factories\FactoryBase\Factory;
 use DiviSquad\Utils\Helper;
-use DiviSquad\Utils\Polyfills\Constant;
-use DiviSquad\Utils\Singleton;
+use DiviSquad\Core\Supports\Polyfills\Constant;
+use DiviSquad\Core\Traits\Singleton;
+use function get_current_screen;
 
 /**
  * Class Plugin Branding
@@ -30,7 +31,7 @@ final class BrandAsset extends Factory {
 	 *
 	 * @var array<string, BrandAsset\AssetInterface[]>
 	 */
-	private static $registries = array(
+	private static array $registries = array(
 		'plugin_action_links' => array(),
 		'plugin_row_actions'  => array(),
 		'admin_footer_text'   => array(),
@@ -68,7 +69,7 @@ final class BrandAsset extends Factory {
 		}
 
 		// Store all branding assets.
-		if ( ! empty( $asset->get_type() ) && array_key_exists( $asset->get_type(), self::$registries ) ) {
+		if ( array_key_exists( $asset->get_type(), self::$registries ) ) {
 			self::$registries[ $asset->get_type() ][] = $asset;
 		}
 	}
@@ -76,12 +77,12 @@ final class BrandAsset extends Factory {
 	/**
 	 * Add some link to plugin action links.
 	 *
-	 * @param string[] $actions An array of plugin action links. By default, this can include 'activate', 'deactivate', and 'delete'.
+	 * @param string[] $actions     An array of plugin action links. By default, this can include 'activate', 'deactivate', and 'delete'.
 	 * @param string   $plugin_file Path to the plugin file relative to the plugins' directory.
 	 *
 	 * @return array All action links for plugin.
 	 */
-	public function add_plugin_actions( $actions, $plugin_file ) {
+	public function add_plugin_actions( array $actions, string $plugin_file ): array {
 		if ( ! empty( self::$registries['plugin_action_links'] ) ) {
 			/**
 			 * Filters the allowed positions for the plugin action links.
@@ -126,12 +127,12 @@ final class BrandAsset extends Factory {
 	/**
 	 * Add some link to plugin row actions.
 	 *
-	 * @param string[] $actions An array of plugin row actions. By default, this can include 'activate', 'deactivate', and 'delete'.
+	 * @param string[] $actions     An array of plugin row actions. By default, this can include 'activate', 'deactivate', and 'delete'.
 	 * @param string   $plugin_file Path to the plugin file relative to the plugins' directory.
 	 *
 	 * @return array All row actions for plugin.
 	 */
-	public function add_plugin_row_actions( $actions, $plugin_file ) {
+	public function add_plugin_row_actions( array $actions, string $plugin_file ): array {
 		if ( ! empty( self::$registries['plugin_row_actions'] ) ) {
 			/**
 			 * Filters the allowed positions for the plugin row actions.
@@ -176,10 +177,10 @@ final class BrandAsset extends Factory {
 	 *
 	 * @return string The text to be displayed in the footer.
 	 */
-	public function add_plugin_footer_text( $text ) {
+	public function add_plugin_footer_text( string $text ): string {
 		if ( ! empty( self::$registries['admin_footer_text'] ) ) {
 
-			$screen = \get_current_screen();
+			$screen = get_current_screen();
 
 			/**
 			 * Filters the allowed positions for the plugin footer text.
@@ -227,10 +228,10 @@ final class BrandAsset extends Factory {
 	 *
 	 * @return string The content that will be printed.
 	 */
-	public function update_plugin_footer_text( $content ) {
+	public function update_plugin_footer_text( string $content ): string {
 		if ( ! empty( self::$registries['admin_footer_text'] ) ) {
 
-			$screen = \get_current_screen();
+			$screen = get_current_screen();
 
 			/**
 			 * Filters the allowed positions for the plugin update footer text.

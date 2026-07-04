@@ -6,7 +6,7 @@
  * for managing the Plugin Review Notice in Divi Squad.
  *
  * @package DiviSquad\Managers\RestRoutes\Version1\Notices
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 

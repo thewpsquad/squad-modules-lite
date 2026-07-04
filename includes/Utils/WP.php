@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php
 /**
  * WP helper class for WordPress functions.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.2
  */
 
@@ -27,7 +27,7 @@ class WP {
 	 *
 	 * @return bool True if the site is running in a WordPress Playground, false otherwise.
 	 */
-	public static function is_playground() {
+	public static function is_playground(): bool {
 		// Check if WP_HOME or WP_SITEURL contains "playground.wordpress.net".
 		if ( defined( 'WP_HOME' ) && strpos( \WP_HOME, 'playground.wordpress.net' ) !== false ) {
 			return true;
@@ -59,7 +59,7 @@ class WP {
 	 *
 	 * @return bool True, if in the active plugins list. False, not in the list.
 	 */
-	public static function is_plugin_active( $plugin ) {
+	public static function is_plugin_active( string $plugin ): bool {
 		return in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) || self::is_plugin_active_for_network( $plugin );
 	}
 
@@ -81,7 +81,7 @@ class WP {
 	 *
 	 * @return bool True if active for the network, otherwise false.
 	 */
-	public static function is_plugin_active_for_network( $plugin ) {
+	public static function is_plugin_active_for_network( string $plugin ): bool {
 		static $plugins;
 
 		if ( ! is_multisite() ) {
@@ -103,7 +103,7 @@ class WP {
 	 *
 	 * @return array
 	 */
-	public static function get_active_plugins() {
+	public static function get_active_plugins(): array {
 		static $plugins_list;
 
 		if ( isset( $plugins_list ) ) {
@@ -129,7 +129,7 @@ class WP {
 	 *
 	 * @return array
 	 */
-	public static function get_active_plugins_info() {
+	public static function get_active_plugins_info(): array {
 		static $all_active_plugins;
 
 		if ( isset( $all_active_plugins ) ) {
@@ -170,11 +170,26 @@ class WP {
 	 *
 	 * @return bool True if the text domain was successfully localized, false otherwise.
 	 */
-	public static function set_script_translations( $handle, $domain = 'default', $path = '' ) {
+	public static function set_script_translations( string $handle, string $domain = 'default', string $path = '' ): bool {
 		if ( function_exists( '\wp_set_script_translations' ) ) {
 			return \wp_set_script_translations( $handle, $domain, $path );
 		}
 
 		return false;
+	}
+
+	/**
+	 * Localizes a script.
+	 *
+	 * Works only if the script has already been registered.
+	 *
+	 * @param string $handle      The Script handle the data will be attached to.
+	 * @param string $object_name Name for the JavaScript object. Passed directly, so it should be qualified JS variable.
+	 * @param array  $l10n        The data itself. The data can be either a single or multidimensional array.
+	 *
+	 * @return bool True if the script was successfully localized, false otherwise.
+	 */
+	public static function localize_script( string $handle, string $object_name, array $l10n ): bool {
+		return wp_localize_script( $handle, $object_name, $l10n );
 	}
 }

@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The DiviBackend integration helper for Divi Builder
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -30,7 +30,7 @@ class DiviBuilderBackend extends Placeholder {
 	 *
 	 * @return string
 	 */
-	public function asset_definitions( $content ) {
+	public function asset_definitions( $content ): string {
 		return $content . sprintf(
 			';window.DISQBuilderBackend=%1$s; if(window.jQuery) {jQuery.extend(true, window.ETBuilderBackend, window.DISQBuilderBackend);}',
 			et_fb_remove_site_url_protocol( wp_json_encode( $this->static_asset_definitions() ) )
@@ -46,7 +46,7 @@ class DiviBuilderBackend extends Placeholder {
 	 *
 	 * @return array
 	 */
-	public function static_asset_definitions( $exists = array() ) {
+	public function static_asset_definitions( $exists = array() ): array {
 		// Defaults data for modules.
 		$defaults = $this->get_modules_defaults();
 

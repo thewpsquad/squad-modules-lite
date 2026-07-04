@@ -1,32 +1,34 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
- * Builder Utils Helper Class which help to the all module class.
+ * Builder Utils Helper Class which helps all module classes.
+ *
+ * This file contains the DefinitionTrait which provides utility methods for
+ * creating various field definitions used in Divi Builder modules.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Fields;
 
 use ET_Global_Settings;
-use function esc_html__;
-use function et_builder_get_acceptable_css_string_values;
-use function et_builder_get_text_orientation_options;
-use function et_builder_i18n;
-use function is_rtl;
-use function wp_parse_args;
 
 /**
- * Field Definition class.
+ * Field Definition Trait.
  *
- * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * This trait provides utility methods for creating standardized field definitions
+ * used across Divi Builder modules.
+ *
  * @since   1.0.0
+ * @package DiviSquad
  */
 trait DefinitionTrait {
+
 	/**
-	 * Simplifies the creation of filter configurations.
+	 * Adds a filter field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label         The label for the filter.
 	 * @param string $tab_slug      The tab slug under which the filter is grouped.
@@ -37,7 +39,7 @@ trait DefinitionTrait {
 	 *
 	 * @return array The filter configuration array.
 	 */
-	public static function add_filters_field( $label, $tab_slug, $toggle_slug, $css_selectors, $depends_on = array(), $show_if_not = array() ) {
+	public static function add_filters_field( string $label, string $tab_slug, string $toggle_slug, array $css_selectors, array $depends_on = array(), array $show_if_not = array() ): array {
 		return array(
 			'label'               => $label,
 			'tab_slug'            => $tab_slug,
@@ -49,61 +51,110 @@ trait DefinitionTrait {
 	}
 
 	/**
-	 * Adds border properties to the module's configuration.
+	 * Adds a border field configuration for Divi modules.
 	 *
-	 * @param string $label          The label for the border settings.
-	 * @param string $tab_slug       The tab slug under which the border settings will appear.
-	 * @param string $toggle_slug    The toggle slug under which the border settings will appear.
-	 * @param array  $css_properties Array containing CSS properties for borders.
-	 * @param array  $depends_on     Dependencies that determine when the filter is active.
-	 * @param array  $show_if_not    Conditions under which the filter should not be shown.
+	 * @since 3.2.0
 	 *
-	 * @return array The border configuration array.
+	 * @param string $label The label for the border field.
+	 * @param array  $args  Optional. An array of arguments to customize the field.
+	 *
+	 * @return array Configured border field array for use in Divi modules.
 	 */
-	public static function add_border_field( $label, $tab_slug, $toggle_slug, $css_properties, $depends_on = array(), $show_if_not = array() ) {
+	public static function add_border_field( string $label, array $args = array() ): array {
+		$defaults = array(
+			'label_prefix' => '',
+			'css'          => array(
+				'main' => array(
+					'border_radii'  => '%%order_class%%',
+					'border_styles' => '%%order_class%%',
+				),
+			),
+			'defaults'     => array(
+				'border_radii'  => 'on||||',
+				'border_styles' => array(
+					'width' => '0px',
+					'color' => '#333333',
+					'style' => 'solid',
+				),
+			),
+			'tab_slug'     => 'advanced',
+			'toggle_slug'  => 'border',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
 		return array(
-			'label_prefix'        => $label,
-			'tab_slug'            => $tab_slug,
-			'toggle_slug'         => $toggle_slug,
-			'css'                 => $css_properties,
-			'depends_on'          => $depends_on,
-			'depends_show_if_not' => $show_if_not,
+			'label_prefix' => ! empty( $args['label_prefix'] ) ? $args['label_prefix'] : $label,
+			'css'          => $args['css'],
+			'defaults'     => $args['defaults'],
+			'tab_slug'     => $args['tab_slug'],
+			'toggle_slug'  => $args['toggle_slug'],
 		);
 	}
 
 	/**
-	 * Helper function to create box shadow settings field.
+	 * Adds a box shadow field configuration for Divi modules.
 	 *
-	 * @param string $label            The label for the box shadow field.
-	 * @param string $category         The category of the option.
-	 * @param string $tab_slug         The tab slug under which the field will appear.
-	 * @param string $toggle_slug      The toggle slug under which the field will appear.
-	 * @param array  $css_selectors    The CSS selector for the element.
-	 * @param array  $default_settings Default settings for the box shadow.
+	 * @since 1.0.0
+	 * @since 3.2.0 Improved flexibility and alignment with Divi standards.
 	 *
-	 * @return array The box shadow field array.
+	 * @param string $label The label for the box shadow field.
+	 * @param array  $args  Optional. An array of arguments to customize the field.
+	 *
+	 * @return array Configured box shadow field array for use in Divi modules.
 	 */
-	public static function add_box_shadow_field( $label, $category, $tab_slug, $toggle_slug, $css_selectors, $default_settings ) {
-		return array(
+	public static function add_box_shadow_field( string $label, array $args = array() ): array {
+		$defaults = array(
 			'label'             => $label,
-			'option_category'   => $category,
-			'tab_slug'          => $tab_slug,
-			'toggle_slug'       => $toggle_slug,
-			'css'               => $css_selectors,
-			'default_on_fronts' => $default_settings,
+			'option_category'   => 'layout',
+			'tab_slug'          => 'advanced',
+			'toggle_slug'       => 'box_shadow',
+			'css'               => array(
+				'main'  => '%%order_class%%',
+				'hover' => '%%order_class%%:hover',
+			),
+			'default_on_fronts' => array(
+				'color'    => '',
+				'position' => '',
+			),
+			'show_if'           => true,
+			'show_if_not'       => null,
 		);
+
+		$args = wp_parse_args( $args, $defaults );
+
+		$field = array(
+			'label'            => $args['label'],
+			'option_category'  => $args['option_category'],
+			'tab_slug'         => $args['tab_slug'],
+			'toggle_slug'      => $args['toggle_slug'],
+			'type'             => 'box_shadow',
+			'css'              => $args['css'],
+			'default_on_front' => $args['default_on_fronts'],
+		);
+
+		if ( true !== $args['show_if'] ) {
+			$field['show_if'] = $args['show_if'];
+		}
+
+		if ( null !== $args['show_if_not'] ) {
+			$field['show_if_not'] = $args['show_if_not'];
+		}
+
+		return $field;
 	}
 
 	/**
-	 * Add yes no fields for module.
+	 * Adds a yes/no field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array
+	 * @return array The yes/no field configuration array.
 	 */
-	public static function add_yes_no_field( $label, $properties = array() ) {
-		// Default properties for Background field.
+	public static function add_yes_no_field( string $label, array $properties = array() ): array {
 		$defaults = array(
 			'label'            => $label,
 			'type'             => 'yes_no_button',
@@ -115,20 +166,20 @@ trait DefinitionTrait {
 			'default_on_front' => 'off',
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add color fields for module.
+	 * Adds a color field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array
+	 * @return array The color field configuration array.
 	 */
-	public static function add_color_field( $label, $properties = array() ) {
-		// Default properties for Background field.
+	public static function add_color_field( string $label, array $properties = array() ): array {
 		$defaults = array(
 			'label'           => $label,
 			'type'            => 'color-alpha',
@@ -140,23 +191,23 @@ trait DefinitionTrait {
 			'hover'           => 'tabs',
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add select box fields for module.
+	 * Adds a select box field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array
+	 * @return array The select box field configuration array.
 	 */
-	public static function add_select_box_field( $label, $properties = array() ) {
-		// Default properties for select field.
+	public static function add_select_box_field( string $label, array $properties = array() ): array {
 		$defaults = array(
 			'label'            => $label,
-			'description'      => esc_html__( 'Here you can choose where to place the icon.', 'squad-modules-for-divi' ),
+			'description'      => esc_html__( 'Select an option.', 'squad-modules-for-divi' ),
 			'type'             => 'select',
 			'option_category'  => 'layout',
 			'options'          => array(
@@ -165,35 +216,31 @@ trait DefinitionTrait {
 			'default_on_front' => '',
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add alignment fields for module.
+	 * Adds a placement field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array
+	 * @return array The placement field configuration array.
 	 */
-	public static function add_placement_field( $label, $properties = array() ) {
+	public static function add_placement_field( string $label, array $properties = array() ): array {
 		$child_image_icon_placement = array(
 			'column'      => et_builder_i18n( 'Top' ),
 			'row'         => et_builder_i18n( 'Left' ),
 			'row-reverse' => et_builder_i18n( 'Right' ),
 		);
 
-		$child_default_placement = 'row';
+		$child_default_placement = is_rtl() ? 'row-reverse' : 'row';
 
-		if ( is_rtl() ) {
-			$child_default_placement = 'row-reverse';
-		}
-
-		// Default properties for alignment field.
 		$defaults = array(
 			'label'            => $label,
-			'description'      => esc_html__( 'Here you can choose where to place the icon.', 'squad-modules-for-divi' ),
+			'description'      => esc_html__( 'Choose the placement.', 'squad-modules-for-divi' ),
 			'type'             => 'select',
 			'option_category'  => 'layout',
 			'options'          => $child_image_icon_placement,
@@ -202,23 +249,23 @@ trait DefinitionTrait {
 			'sticky'           => true,
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add alignment fields for module.
+	 * Adds an alignment field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array
+	 * @return array The alignment field configuration array.
 	 */
-	public static function add_alignment_field( $label, $properties = array() ) {
-		// Default properties for alignment field.
+	public static function add_alignment_field( string $label, array $properties = array() ): array {
 		$defaults = array(
 			'label'           => $label,
-			'description'     => esc_html__( 'Align icon to the left, right or center.', 'squad-modules-for-divi' ),
+			'description'     => esc_html__( 'Choose the alignment.', 'squad-modules-for-divi' ),
 			'type'            => 'align',
 			'option_category' => 'layout',
 			'options'         => et_builder_get_text_orientation_options( array( 'justified' ) ),
@@ -227,19 +274,20 @@ trait DefinitionTrait {
 			'sticky'          => true,
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add additional transition fields. e.x hover transition fields.
+	 * Adds transition fields configuration for Divi modules.
 	 *
-	 * @param array $options The additional options for the current field.
+	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @param array $options Additional options for the transition fields.
+	 *
+	 * @return array The transition fields configuration array.
 	 */
-	public static function add_transition_fields( $options = array() ) {
-		$defaults   = array(
+	public static function add_transition_fields( array $options = array() ): array {
+		$defaults = array(
 			'title_prefix'   => '',
 			'base_attr_name' => 'hover',
 			'tab_slug'       => 'custom_css',
@@ -247,94 +295,88 @@ trait DefinitionTrait {
 			'sub_toggle'     => null,
 			'priority'       => 120,
 		);
-		$config     = wp_parse_args( $options, $defaults );
+		$config   = wp_parse_args( $options, $defaults );
+
 		$base_attr  = $config['base_attr_name'];
 		$tab        = $config['tab_slug'];
 		$toggle     = $config['toggle_slug'];
 		$sub_toggle = $config['sub_toggle'];
 
-		$fields = array();
-
-		$fields[ "{$base_attr}_transition_duration" ]    = array(
-			'label'            => esc_html__( 'Transition Duration', 'squad-modules-for-divi' ),
-			'description'      => esc_html__( 'This controls the transition duration of the animation.', 'squad-modules-for-divi' ),
-			'type'             => 'range',
-			'option_category'  => 'layout',
-			'range_settings'   => array(
-				'min'  => 0,
-				'max'  => 2000,
-				'step' => 50,
+		return array(
+			"{$base_attr}_transition_duration"    => array(
+				'label'            => esc_html__( 'Transition Duration', 'squad-modules-for-divi' ),
+				'description'      => esc_html__( 'This controls the transition duration of the animation.', 'squad-modules-for-divi' ),
+				'type'             => 'range',
+				'option_category'  => 'layout',
+				'range_settings'   => array(
+					'min'  => 0,
+					'max'  => 2000,
+					'step' => 50,
+				),
+				'default'          => '1000ms',
+				'default_on_front' => '1000ms',
+				'validate_unit'    => true,
+				'fixed_unit'       => 'ms',
+				'fixed_range'      => true,
+				'tab_slug'         => $tab,
+				'toggle_slug'      => $toggle,
+				'sub_toggle'       => $sub_toggle,
+				'mobile_options'   => true,
 			),
-			'default'          => '1000ms',
-			'default_on_front' => '1000ms',
-			'default_on_child' => true,
-			'validate_unit'    => true,
-			'fixed_unit'       => 'ms',
-			'fixed_range'      => true,
-			'tab_slug'         => $tab,
-			'toggle_slug'      => $toggle,
-			'sub_toggle'       => $sub_toggle,
-			'depends_default'  => null,
-			'mobile_options'   => true,
-		);
-		$fields[ "{$base_attr}_transition_delay" ]       = array(
-			'label'            => esc_html__( 'Transition Delay', 'squad-modules-for-divi' ),
-			'description'      => esc_html__( 'This controls the transition delay of the animation.', 'squad-modules-for-divi' ),
-			'type'             => 'range',
-			'option_category'  => 'layout',
-			'range_settings'   => array(
-				'min'  => 0,
-				'max'  => 300,
-				'step' => 50,
+			"{$base_attr}_transition_delay"       => array(
+				'label'            => esc_html__( 'Transition Delay', 'squad-modules-for-divi' ),
+				'description'      => esc_html__( 'This controls the transition delay of the animation.', 'squad-modules-for-divi' ),
+				'type'             => 'range',
+				'option_category'  => 'layout',
+				'range_settings'   => array(
+					'min'  => 0,
+					'max'  => 300,
+					'step' => 50,
+				),
+				'default'          => '0ms',
+				'default_on_front' => '0ms',
+				'validate_unit'    => true,
+				'fixed_unit'       => 'ms',
+				'fixed_range'      => true,
+				'tab_slug'         => $tab,
+				'toggle_slug'      => $toggle,
+				'sub_toggle'       => $sub_toggle,
+				'mobile_options'   => true,
 			),
-			'default'          => '0ms',
-			'default_on_front' => '0ms',
-			'default_on_child' => true,
-			'validate_unit'    => true,
-			'fixed_unit'       => 'ms',
-			'fixed_range'      => true,
-			'tab_slug'         => $tab,
-			'toggle_slug'      => $toggle,
-			'sub_toggle'       => $sub_toggle,
-			'depends_default'  => null,
-			'mobile_options'   => true,
-		);
-		$fields[ "{$base_attr}_transition_speed_curve" ] = array(
-			'label'            => esc_html__( 'Transition Speed Curve', 'squad-modules-for-divi' ),
-			'description'      => esc_html__( 'This controls the transition speed curve of the animation.', 'squad-modules-for-divi' ),
-			'type'             => 'select',
-			'option_category'  => 'layout',
-			'options'          => array(
-				'ease-in-out' => et_builder_i18n( 'Ease-In-Out' ),
-				'ease'        => et_builder_i18n( 'Ease' ),
-				'ease-in'     => et_builder_i18n( 'Ease-In' ),
-				'ease-out'    => et_builder_i18n( 'Ease-Out' ),
-				'linear'      => et_builder_i18n( 'Linear' ),
+			"{$base_attr}_transition_speed_curve" => array(
+				'label'            => esc_html__( 'Transition Speed Curve', 'squad-modules-for-divi' ),
+				'description'      => esc_html__( 'This controls the transition speed curve of the animation.', 'squad-modules-for-divi' ),
+				'type'             => 'select',
+				'option_category'  => 'layout',
+				'options'          => array(
+					'ease-in-out' => et_builder_i18n( 'Ease-In-Out' ),
+					'ease'        => et_builder_i18n( 'Ease' ),
+					'ease-in'     => et_builder_i18n( 'Ease-In' ),
+					'ease-out'    => et_builder_i18n( 'Ease-Out' ),
+					'linear'      => et_builder_i18n( 'Linear' ),
+				),
+				'default'          => 'ease',
+				'default_on_front' => 'ease',
+				'tab_slug'         => $tab,
+				'toggle_slug'      => $toggle,
+				'sub_toggle'       => $sub_toggle,
+				'mobile_options'   => true,
 			),
-			'default_on_child' => true,
-			'default'          => 'ease',
-			'default_on_front' => 'ease',
-			'tab_slug'         => $tab,
-			'toggle_slug'      => $toggle,
-			'sub_toggle'       => $sub_toggle,
-			'depends_default'  => null,
-			'mobile_options'   => true,
 		);
-
-		return $fields;
 	}
 
 	/**
-	 * Add range fields for the module.
+	 * Adds a range field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
-	 * @param array  $conditions The additional conditions for the current field.
+	 * @param array  $properties Additional properties for the field.
+	 * @param array  $conditions Additional conditions for the field.
 	 *
-	 * @return array[]
+	 * @return array The range field configuration array.
 	 */
-	public static function add_range_field( $label, $properties = array(), $conditions = array() ) {
-		// Add icon width feature for button, By default is 16px.
+	public static function add_range_field( string $label, array $properties = array(), array $conditions = array() ): array {
 		$field_options = array(
 			'label'           => $label,
 			'type'            => 'range',
@@ -344,9 +386,7 @@ trait DefinitionTrait {
 				'max'       => '100',
 				'step'      => '1',
 			),
-			// set slug for tab and toggle with category.
 			'option_category' => 'layout',
-			// include allowed values.
 			'allow_empty'     => true,
 			'allowed_units'   => et_builder_get_acceptable_css_string_values(),
 			'allowed_values'  => et_builder_get_acceptable_css_string_values(),
@@ -357,15 +397,12 @@ trait DefinitionTrait {
 			'sticky'          => true,
 		);
 
-		// Merge all data with additional data.
 		$field_options = wp_parse_args( $properties, $field_options );
 
-		// Unset use_hover for this field.
 		if ( isset( $conditions['use_hover'] ) && false === $conditions['use_hover'] ) {
 			unset( $field_options['hover'] );
 		}
 
-		// Unset mobile_options for this field.
 		if ( isset( $conditions['mobile_options'] ) && false === $conditions['mobile_options'] ) {
 			unset( $field_options['mobile_options'] );
 		}
@@ -374,74 +411,79 @@ trait DefinitionTrait {
 	}
 
 	/**
-	 * Default fields for Heading toggles.
+	 * Adds a font field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array
+	 * @return array The font field configuration array.
 	 */
-	public static function add_font_field( $label, $properties = array() ) {
-		// Default properties for Font field.
+	public static function add_font_field( string $label, array $properties = array() ): array {
 		$defaults = array(
-			'label'       => $label,
-			'font_weight' => array(
-				'default' => '500',
-			),
-			'line_height' => array(
-				'default' => '1.7',
-			),
+			'label'          => $label,
+			'font_size'      => array( 'default' => '16px' ),
+			'line_height'    => array( 'default' => '1.7em' ),
+			'letter_spacing' => array( 'default' => '0px' ),
+			'font_weight'    => array( 'default' => '400' ),
+			'tab_slug'       => 'advanced',
+			'toggle_slug'    => 'text',
+			'sub_toggle'     => 'font',
+			'mobile_options' => true,
+			'responsive'     => true,
+			'sticky'         => true,
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add margin and padding fields for the module.
+	 * Adds a margin and padding field configuration for Divi modules.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $label      The field label.
-	 * @param array  $properties The additional properties for the current field.
+	 * @param array  $properties Additional properties for the field.
 	 *
-	 * @return array[]
+	 * @return array The margin and padding field configuration array.
 	 */
-	public static function add_margin_padding_field( $label, $properties = array() ) {
-		// Default properties for Background field.
+	public static function add_margin_padding_field( string $label, array $properties = array() ): array {
 		$defaults = array(
 			'label'           => $label,
-			'description'     => esc_html__( 'Here you can define a custom padding size.', 'squad-modules-for-divi' ),
+			'description'     => esc_html__( 'Here you can define custom margin and padding sizes.', 'squad-modules-for-divi' ),
 			'type'            => 'custom_margin',
 			'option_category' => 'layout',
+			'tab_slug'        => 'advanced',
+			'toggle_slug'     => 'margin_padding',
 			'default_unit'    => 'px',
 			'allowed_units'   => array( '%', 'em', 'rem', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ex', 'vh', 'vw' ),
 			'range_settings'  => array(
-				'min'  => '1',
-				'max'  => '50',
+				'min'  => '0',
+				'max'  => '100',
 				'step' => '1',
 			),
-			// Advanced feature.
 			'hover'           => 'tabs',
 			'mobile_options'  => true,
 			'responsive'      => true,
 			'sticky'          => true,
 		);
 
-		// Merge all data with additional data.
 		return wp_parse_args( $properties, $defaults );
 	}
 
 	/**
-	 * Add background fields for module.
+	 * Adds a background field configuration for Divi modules.
 	 *
-	 * @param array $properties The additional properties for the current field.
+	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @param array $properties Additional properties for the field.
+	 *
+	 * @return array The background field configuration array.
 	 */
-	public function add_background_field( $properties = array() ) {
-		// General variables.
-		list( , $base_name, $context, $tab_slug, $toggle_slug ) = self::get_background_field_options( $properties );
+	public function add_background_field( array $properties = array() ): array {
+		list(, $base_name, $context, $tab_slug, $toggle_slug) = self::get_background_field_options( $properties );
 
-		// Definitions.
 		$background_fields = array_merge_recursive(
 			$this->element->generate_background_options( $base_name, 'color', $tab_slug, $toggle_slug, $context ),
 			$this->element->generate_background_options( $base_name, 'gradient', $tab_slug, $toggle_slug, $context ),
@@ -452,46 +494,47 @@ trait DefinitionTrait {
 	}
 
 	/**
-	 * Add background field options for module.
+	 * Gets background field options for Divi modules.
 	 *
-	 * @param array $properties The additional properties for the current field.
+	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @param array $properties Additional properties for the field.
+	 *
+	 * @return array Background field options.
 	 */
-	public static function get_background_field_options( $properties = array() ) {
-		// General variables.
+	public static function get_background_field_options( array $properties = array() ): array {
 		$label       = isset( $properties['label'] ) ? $properties['label'] : '';
 		$base_name   = isset( $properties['base_name'] ) ? $properties['base_name'] : '_background';
 		$context     = isset( $properties['context'] ) ? $properties['context'] : '_background_color';
 		$tab_slug    = isset( $properties['tab_slug'] ) ? $properties['tab_slug'] : 'advanced';
-		$toggle_slug = isset( $properties['toggle_slug'] ) ? $properties['toggle_slug'] : 'wrapper';
+		$toggle_slug = isset( $properties['toggle_slug'] ) ? $properties['toggle_slug'] : 'background';
 
 		return array( $label, $base_name, $context, $tab_slug, $toggle_slug );
 	}
 
 	/**
-	 * Add all background fields for module.
+	 * Adds all background fields for Divi modules.
 	 *
-	 * @param array $properties        The additional properties for the current field.
+	 * @since 1.0.0
+	 *
+	 * @param array $properties        Additional properties for the field.
 	 * @param array $background_fields The additional background fields for the current field.
 	 *
-	 * @return array
+	 * @return array Complete background field configuration.
 	 */
-	protected function add_background_fields( $properties = array(), $background_fields = array() ) {
-		// General variables.
-		list( $label, $base_name, $context, $tab_slug, $toggle_slug ) = self::get_background_field_options( $properties );
+	protected function add_background_fields( array $properties = array(), array $background_fields = array() ): array {
+		list($label, $base_name, $context, $tab_slug, $toggle_slug) = self::get_background_field_options( $properties );
 
-		// Definitions.
-		$default_bg_colors = ET_Global_Settings::get_value( 'all_buttons_bg_color' );
-		$defaults          = array(
+		$default_bg_color = ET_Global_Settings::get_value( 'all_buttons_bg_color' );
+		$defaults         = array(
 			'label'             => $label,
-			'description'       => esc_html__( 'Adjust the background style of the current field by customizing the background color, gradient, and image.', 'squad-modules-for-divi' ),
+			'description'       => esc_html__( 'Customize the background of this element by adjusting the color, gradient, and image settings.', 'squad-modules-for-divi' ),
 			'type'              => 'background-field',
 			'base_name'         => $base_name,
 			'context'           => $context,
-			'option_category'   => 'button',
+			'option_category'   => 'layout',
 			'custom_color'      => true,
-			'default'           => $default_bg_colors,
+			'default'           => $default_bg_color,
 			'default_on_front'  => '',
 			'tab_slug'          => $tab_slug,
 			'toggle_slug'       => $toggle_slug,
@@ -501,23 +544,16 @@ trait DefinitionTrait {
 			'sticky'            => true,
 		);
 
-		// Conditions.
 		$conditions = wp_array_slice_assoc(
 			$properties,
-			array(
-				'depends_show_if',
-				'depends_show_if_not',
-				'show_if',
-				'show_if_not',
-			)
+			array( 'depends_show_if', 'depends_show_if_not', 'show_if', 'show_if_not' )
 		);
 
-		// Properties for Background field.
-		$background_options             = array();
-		$background_options[ $context ] = array_merge_recursive( $conditions, $defaults );
+		$background_options = array(
+			$context => array_merge_recursive( $conditions, $defaults ),
+		);
 
-		// Set default colors.
-		$background_options[ $context ]['background_fields'][ $context ]['default'] = $default_bg_colors;
+		$background_options[ $context ]['background_fields'][ $context ]['default'] = $default_bg_color;
 
 		return array_merge(
 			$background_options,
@@ -526,17 +562,17 @@ trait DefinitionTrait {
 	}
 
 	/**
-	 * Add background: gradient field for module.
+	 * Adds a background gradient field configuration for Divi modules.
 	 *
-	 * @param array $properties The additional properties for the current field.
+	 * @since 1.0.0
 	 *
-	 * @return array
+	 * @param array $properties Additional properties for the field.
+	 *
+	 * @return array The background gradient field configuration array.
 	 */
-	public function add_background_gradient_field( $properties = array() ) {
-		// General variables.
-		list( $base_name, $context, $tab_slug, $toggle_slug ) = self::get_background_field_options( $properties );
+	public function add_background_gradient_field( array $properties = array() ): array {
+		list(, $base_name, $context, $tab_slug, $toggle_slug) = self::get_background_field_options( $properties );
 
-		// Definitions.
 		$background_fields = $this->element->generate_background_options( $base_name, 'gradient', $tab_slug, $toggle_slug, $context );
 
 		return $this->add_background_fields( $properties, $background_fields );

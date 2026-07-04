@@ -1,16 +1,16 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Feature Management class
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 
 namespace DiviSquad\Base\Factories;
 
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use function sort;
 
 /**
@@ -26,7 +26,7 @@ abstract class SquadFeatures {
 	 *
 	 * @var string
 	 */
-	protected $builder_type = 'D4';
+	protected string $builder_type = 'D4';
 
 	/**
 	 * Retrieve the list of registered.
@@ -40,14 +40,34 @@ abstract class SquadFeatures {
 	 *
 	 * @return array
 	 */
-	abstract public function get_inactive_registries();
+	abstract public function get_inactive_registries(): array;
 
 	/**
 	 * Retrieve the list of default active registered.
 	 *
 	 * @return array
 	 */
-	abstract public function get_default_registries();
+	abstract public function get_default_registries(): array;
+
+	/**
+	 * Retrieve details by the registered name.
+	 *
+	 * @param array  $registries The array list of available registries.
+	 * @param string $name       The name of the current registry.
+	 *
+	 * @return array
+	 */
+	protected function get_details_by_name( array $registries, string $name ): array {
+		$details = array();
+		foreach ( $registries as $registry ) {
+			if ( isset( $registry['name'] ) && $name === $registry['name'] ) {
+				$details[] = $registry;
+				break;
+			}
+		}
+
+		return $details;
+	}
 
 	/**
 	 * Retrieve the filtered list of registered.
@@ -57,21 +77,17 @@ abstract class SquadFeatures {
 	 *
 	 * @return array
 	 */
-	protected function get_filtered_registries( $registered, $callback = null ) {
-		if ( is_callable( $callback ) ) {
-			$filtered_registries = array();
+	protected function get_filtered_registries( array $registered, callable $callback ): array {
+		$filtered_registries = array();
 
-			foreach ( $registered as $registry ) {
-				$filtered = $callback( $registry );
-				if ( is_bool( $filtered ) && $filtered ) {
-					$filtered_registries[] = $registry;
-				}
+		foreach ( $registered as $registry ) {
+			$filtered = $callback( $registry );
+			if ( is_bool( $filtered ) && $filtered ) {
+				$filtered_registries[] = $registry;
 			}
-
-			return $filtered_registries;
 		}
 
-		return $registered;
+		return $filtered_registries;
 	}
 
 	/**
@@ -82,7 +98,7 @@ abstract class SquadFeatures {
 	 *
 	 * @return bool
 	 */
-	protected function verify_requirements( $registry_info, $active_plugins ) {
+	protected function verify_requirements( array $registry_info, array $active_plugins ): bool {
 		// Verify if the registry has no requirements.
 		if ( empty( $registry_info['required'] ) ) {
 			return true;
@@ -140,15 +156,15 @@ abstract class SquadFeatures {
 	/**
 	 * Load the module class.
 	 *
-	 * @param array  $registered The available modules list.
-	 * @param array  $defaults   The default activated registries list.
-	 * @param mixed  $activate   The user-defined activated registries list.
-	 * @param array  $inactivate The user-defined inactivated registries list.
-	 * @param string $version    Current version of the plugin.
+	 * @param array       $registered The available modules list.
+	 * @param array       $defaults   The default activated registries list.
+	 * @param mixed       $activate   The user-defined activated registries list.
+	 * @param array       $inactivate The user-defined inactivated registries list.
+	 * @param string|null $version    Current version of the plugin.
 	 *
 	 * @return array
 	 */
-	protected function get_verified_registries( $registered, $defaults, $activate, $inactivate, $version ) {
+	protected function get_verified_registries( array $registered, array $defaults, $activate, array $inactivate, ?string $version ): array {
 		$verified = array();
 		$names    = array();
 

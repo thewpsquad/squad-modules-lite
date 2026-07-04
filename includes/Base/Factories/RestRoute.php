@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * RestRoute Factory Class
@@ -7,7 +7,7 @@
  * for the Divi Squad plugin.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 
@@ -15,7 +15,7 @@ namespace DiviSquad\Base\Factories;
 
 use DiviSquad\Base\Factories\FactoryBase\Factory;
 use DiviSquad\Base\Factories\RestRoute\RouteInterface;
-use DiviSquad\Utils\Singleton;
+use DiviSquad\Core\Traits\Singleton;
 
 /**
  * Class RestRoute
@@ -32,7 +32,7 @@ final class RestRoute extends Factory {
 	 *
 	 * @var array
 	 */
-	private static $registries = array();
+	private static array $registries = array();
 
 	/**
 	 * Initialize hooks.
@@ -79,10 +79,11 @@ final class RestRoute extends Factory {
 	 * Get the namespace for a given product name.
 	 *
 	 * @param string $name Current product name.
+	 *
 	 * @return string
 	 */
-	public function get_namespace( $name ) {
-		return isset( self::$registries[ $name ]['namespace'] ) ? self::$registries[ $name ]['namespace'] : '';
+	public function get_namespace( string $name ): string {
+		return self::$registries[ $name ]['namespace'] ?? '';
 	}
 
 	/**
@@ -106,9 +107,10 @@ final class RestRoute extends Factory {
 	 * Ensure each route has a permission callback.
 	 *
 	 * @param array $args Route arguments.
+	 *
 	 * @return array
 	 */
-	private function ensure_permission_callback( $args ) {
+	private function ensure_permission_callback( array $args ): array {
 		foreach ( $args as $key => $single_route ) {
 			if ( is_array( $single_route ) && ! isset( $single_route['permission_callback'] ) ) {
 				$args[ $key ]['permission_callback'] = 'is_user_logged_in';
@@ -121,11 +123,12 @@ final class RestRoute extends Factory {
 	 * Get all registered routes for a given product name.
 	 *
 	 * @param string $name Current product name.
+	 *
 	 * @return array
 	 */
-	public function get_registered_routes( $name ) {
+	public function get_registered_routes( string $name ): array {
 		$results = array();
-		$routes  = isset( self::$registries[ $name ]['routes'] ) ? self::$registries[ $name ]['routes'] : array();
+		$routes  = self::$registries[ $name ]['routes'] ?? array();
 
 		foreach ( $routes as $route => $args ) {
 			$route_name             = $this->format_route_name( $route );
@@ -142,9 +145,10 @@ final class RestRoute extends Factory {
 	 * Format the route name for readability.
 	 *
 	 * @param string $route Original route string.
+	 *
 	 * @return string
 	 */
-	private function format_route_name( $route ) {
+	private function format_route_name( string $route ): string {
 		$route_parts = explode( '/', str_replace( array( '_', '-' ), '/', $route ) );
 		$route_parts = array_map( 'ucfirst', $route_parts );
 		return implode( '', $route_parts );

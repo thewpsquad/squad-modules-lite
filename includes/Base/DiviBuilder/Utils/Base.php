@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Builder Utils Base Class
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.5.0
  */
 
@@ -16,7 +16,7 @@ use DiviSquad\Base\DiviBuilder\Utils;
  * Utils Base class
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  *
  * @property-read Utils\Elements\Divider     $divider     Divider Element utility.
@@ -36,21 +36,21 @@ abstract class Base {
 	 *
 	 * @var Module
 	 */
-	protected $element;
+	protected Module $element;
 
 	/**
 	 * Container for dynamic properties.
 	 *
 	 * @var array
 	 */
-	protected $container = array();
+	protected array $container = array();
 
 	/**
 	 * Utility class mapping.
 	 *
 	 * @var array
 	 */
-	protected $utility_class_map = array(
+	protected array $utility_class_map = array(
 		'divider'     => Utils\Elements\Divider::class,
 		'breadcrumbs' => Utils\Elements\Breadcrumbs::class,
 		'mask_shape'  => Utils\Elements\MaskShape::class,
@@ -87,9 +87,10 @@ abstract class Base {
 	 * Get the dynamic property value.
 	 *
 	 * @param string $name The property name.
+	 *
 	 * @return mixed
 	 */
-	public function __get( $name ) {
+	public function __get( string $name ) {
 		$utility = $this->lazy_load_utility( $name );
 		if ( null !== $utility ) {
 			return $utility;

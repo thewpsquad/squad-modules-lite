@@ -1,18 +1,15 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
-
+<?php
 /**
  * Main migration class.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  * @since   3.0.0 move to Base\Factories\ModuleMigration
  */
 
 namespace DiviSquad\Settings;
 
-use DiviSquad\Base\Factories\ModuleMigration\MigrationInterface;
-use DiviSquad\Base\Factories\ModuleMigration as MigrationFactory;
 use ET_Builder_Element;
 
 /**
@@ -29,13 +26,13 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @var array
 	 */
-	public static $field_name_migrations = array();
+	public static array $field_name_migrations = array();
 	/**
 	 * Array of hooks.
 	 *
 	 * @var array
 	 */
-	public static $hooks = array(
+	public static array $hooks = array(
 		'the_content',
 		'admin_enqueue_scripts',
 		'et_pb_get_backbone_templates',
@@ -48,74 +45,72 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @var string
 	 */
-	public static $last_hook_checked;
+	public static string $last_hook_checked = '';
 	/**
 	 * Last hook check decision.
 	 *
 	 * @var bool
 	 */
-	public static $last_hook_check_decision;
+	public static bool $last_hook_check_decision = false;
 	/**
 	 * The largest version of the migrations defined in the migration array.
 	 *
 	 * @var string
 	 */
-	public static $max_version = '4.24.1';
+	public static string $max_version = '4.24.1';
 	/**
 	 * Array of already migrated data.
 	 *
 	 * @var array
 	 */
-	public static $migrated = array();
+	public static array $migrated = array();
 	/**
 	 * Array of migrations in format( [ 'version' => 'name of migration script' ] ).
 	 *
-	 * @see Migration\PostElement::class
-	 *
 	 * @var string[]
 	 */
-	public static $migrations = array(
-		'4.24' => 'PostElement',
+	public static array $migrations = array(
+		'4.24' => Migration\PostElement::class,
 	);
 	/**
 	 * Migrations by version.
 	 *
 	 * @var array
 	 */
-	public static $migrations_by_version = array();
+	public static array $migrations_by_version = array();
 	/**
 	 * Used to exclude names in case of BB.
 	 *
 	 * @var array
 	 */
-	protected static $bb_excluded_name_changes = array();
+	protected static array $bb_excluded_name_changes = array();
 	/**
 	 * Used for migrations where we want to separate the logic for
 	 * migrating post-attributes and global migrating preset attributes.
 	 *
 	 * @var bool
 	 */
-	protected static $maybe_global_presets_migration = false;
+	protected static bool $maybe_global_presets_migration = false;
 	/**
 	 * Version.
 	 *
 	 * @var string
 	 */
-	public $version;
+	public string $version;
 
 	/**
 	 * Add or not missing fields.
 	 *
 	 * @var bool
 	 */
-	public $add_missing_fields = false;
+	public bool $add_missing_fields = false;
 
 	/**
 	 * Get all modules to need to be migrated.
 	 *
 	 * @return array
 	 */
-	abstract public function get_modules();
+	abstract public function get_modules(): array;
 
 	/**
 	 * Get all fields to need to be migrated.
@@ -126,7 +121,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return array New and old fields need to be migrated.
 	 */
-	abstract public function get_fields();
+	abstract public function get_fields(): array;
 
 	/**
 	 * Initialize migration.
@@ -159,11 +154,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return array
 	 */
-	public static function maybe_override_processed_fields( $fields, $module_slug ) {
-		if ( ! $fields ) {
-			return $fields;
-		}
-
+	public static function maybe_override_processed_fields( array $fields, string $module_slug ): array {
 		/**
 		 * List of migrations.
 		 *
@@ -187,9 +178,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return array|mixed
 	 */
-	public static function get_migrations( $module_version ) {
-		$factory = new MigrationFactory();
-
+	public static function get_migrations( string $module_version ) {
 		if ( isset( self::$migrations_by_version[ $module_version ] ) ) {
 			return self::$migrations_by_version[ $module_version ];
 		}
@@ -200,14 +189,31 @@ abstract class Migration implements MigrationInterface {
 			return array();
 		}
 
-		foreach ( self::$migrations as $version => $migration ) {
+		/**
+		 * List of migrations.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @var Migration[] $migrations
+		 */
+		$migrations = apply_filters( 'divi_squad_builder_module_migrations', self::$migrations );
+
+		foreach ( $migrations as $version => $migration ) {
 			if ( 'all' !== $module_version && version_compare( $module_version, $version, '>=' ) ) {
 				continue;
 			}
 
 			// Create migration instance.
 			if ( is_string( $migration ) ) {
-				$migration = $factory->create( __NAMESPACE__ . '\\Migration\\' . $migration );
+				if ( ! class_exists( $migration ) ) {
+					continue;
+				}
+
+				if ( ! is_subclass_of( $migration, self::class ) ) {
+					continue;
+				}
+
+				$migration = new $migration();
 			}
 
 			// Set version.
@@ -223,12 +229,12 @@ abstract class Migration implements MigrationInterface {
 	/**
 	 * Handle field name migrations.
 	 *
-	 * @param array  $fields       Shortcode fields.
-	 * @param string $module_slug  Internal system name for the module type.
+	 * @param array  $fields      Shortcode fields.
+	 * @param string $module_slug Internal system name for the module type.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function handle_field_name_migrations( $fields, $module_slug ) {
+	public function handle_field_name_migrations( array $fields, string $module_slug ): array {
 		if ( ! in_array( $module_slug, $this->get_modules(), true ) ) {
 			return $fields;
 		}
@@ -250,21 +256,23 @@ abstract class Migration implements MigrationInterface {
 			}
 		}
 
-		return isset( self::$field_name_migrations[ $module_slug ] )
-			? self::migrate_field_names( $fields, $module_slug, $this->version )
-			: $fields;
+		if ( isset( self::$field_name_migrations[ $module_slug ] ) ) {
+			return self::migrate_field_names( $fields, $module_slug, $this->version );
+		}
+
+		return $fields;
 	}
 
 	/**
 	 * Migrate field names.
 	 *
-	 * @param array  $fields     Shortcode fields.
-	 * @param string $slug       Internal system name for the module type.
-	 * @param string $version    Version of the migration.
+	 * @param array  $fields  Shortcode fields.
+	 * @param string $slug    Internal system name for the module type.
+	 * @param string $version Version of the migration.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	protected static function migrate_field_names( $fields, $slug, $version ) {
+	protected static function migrate_field_names( array $fields, string $slug, string $version ) {
 		foreach ( self::$field_name_migrations[ $slug ] as $new_name => $old_names ) {
 			foreach ( $old_names as $old_name ) {
 				if ( ! isset( $fields[ $old_name ] ) ) {
@@ -297,7 +305,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return array
 	 */
-	public static function maybe_override_shortcode_attributes( $attrs, $unprocessed_attrs, $module_slug, $module_address, $content = '', $maybe_global_presets_migration = false ) {
+	public static function maybe_override_shortcode_attributes( array $attrs, array $unprocessed_attrs, string $module_slug, string $module_address, $content = '', bool $maybe_global_presets_migration = false ): array {
 		if ( empty( $attrs['_builder_version'] ) ) {
 			$attrs['_builder_version'] = '3.0.47';
 		}
@@ -393,44 +401,50 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return bool
 	 */
-	public static function should_handle_render( $slug ) {
-		// Get all module slugs to compare against this slug. This way, we're
-		// not trying to process any and every shortcode, only Divi modules.
+	public static function should_handle_render( string $slug ): bool {
+		// Get all module slugs to compare against this slug
 		$all_module_slugs = ET_Builder_Element::get_all_module_slugs();
-		$slug_match       = false;
-
-		foreach ( $all_module_slugs as $module_slug ) {
-			if ( $module_slug !== $slug ) {
-				continue;
-			}
-
-			$slug_match = $module_slug;
-			break;
-		}
-
-		if ( ! $slug_match ) {
+		if ( ! in_array( $slug, $all_module_slugs, true ) ) {
 			return false;
 		}
 
+		// Check current hook
 		global $wp_current_filter;
 		$current_hook = $wp_current_filter[0];
 
+		// Return cached decision if hook hasn't changed
 		if ( $current_hook === self::$last_hook_checked ) {
 			return self::$last_hook_check_decision;
 		}
 
+		// Update last checked hook
 		self::$last_hook_checked = $current_hook;
 
-		foreach ( self::$hooks as $hook ) {
+		/**
+		 * Filters the list of hooks where migrations should be processed.
+		 *
+		 * @since 3.2.0
+		 *
+		 * @param array $hooks Default hooks array containing:
+		 *     - 'the_content'
+		 *     - 'admin_enqueue_scripts'
+		 *     - 'et_pb_get_backbone_templates'
+		 *     - 'wp_ajax_et_pb_execute_content_shortcodes'
+		 *     - 'wp_ajax_et_fb_get_saved_layouts'
+		 *     - 'wp_ajax_et_fb_retrieve_builder_data'
+		 *
+		 * @return array Modified array of hook names where migrations should run.
+		 */
+		$hooks = apply_filters( 'divi_squad_builder_module_migrations_hooks', self::$hooks );
+		foreach ( $hooks as $hook ) {
 			if ( $hook === $current_hook && did_action( $hook ) > 1 ) {
 				self::$last_hook_check_decision = false;
-				break;
+				return false;
 			}
 		}
 
 		self::$last_hook_check_decision = true;
-
-		return self::$last_hook_check_decision;
+		return true;
 	}
 
 	/**
@@ -447,7 +461,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return mixed
 	 */
-	abstract public function migrate( $field_name, $current_value, $module_slug, $saved_value, $saved_field_name, $attrs, $content, $module_address );
+	abstract public function migrate( string $field_name, $current_value, string $module_slug, $saved_value, string $saved_field_name, array $attrs, $content, string $module_address );
 
 	/**
 	 * Maybe override content.
@@ -459,7 +473,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return mixed
 	 */
-	public static function maybe_override_content( $content, $attrs, $unprocessed_attrs, $module_slug ) {
+	public static function maybe_override_content( $content, array $attrs, array $unprocessed_attrs, string $module_slug ) {
 		if ( empty( $attrs['_builder_version'] ) ) {
 			$attrs['_builder_version'] = '3.0.47';
 		}
@@ -505,7 +519,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return array
 	 */
-	public function get_content_migration_modules() {
+	public function get_content_migration_modules(): array {
 		return array();
 	}
 
@@ -518,7 +532,7 @@ abstract class Migration implements MigrationInterface {
 	 *
 	 * @return mixed
 	 */
-	public function migrate_content( $module_slug, $attrs, $content ) {
+	public function migrate_content( string $module_slug, array $attrs, $content ) {
 		return $content;
 	}
 }

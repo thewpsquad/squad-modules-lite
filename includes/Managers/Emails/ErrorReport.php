@@ -1,318 +1,434 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
-
-/**
- * Error Report Manager
- *
- * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
- * @since   3.1.7
- */
+<?php // phpcs:ignore WordPress.Files.FileName
 
 namespace DiviSquad\Managers\Emails;
 
 use DiviSquad\Utils\WP;
 use WP_Error;
-use Exception;
+use function wp_mail;
 
 /**
  * Class ErrorReport
  *
- * Handles the creation and sending of error report emails for the Divi Squad Pro plugin.
+ * Handles error report email creation and delivery with rate limiting,
+ * validation, and comprehensive error handling.
  *
- * This class provides functionality to generate and send detailed error reports
- * via email. It includes information about the error, stack trace, and system
- * environment to aid in debugging and issue resolution.
- *
- * @package DiviSquad
  * @since   3.1.7
+ * @package DiviSquad\Managers\Emails
  */
 class ErrorReport {
 	/**
-	 * Support email address
+	 * Support email recipient
 	 *
 	 * @var string
 	 */
-	private $to = 'support@squadmodules.com';
+	private string $to = 'support@squadmodules.com';
 
 	/**
-	 * Data to be sent in the email.
+	 * Error report data
 	 *
 	 * @var array
 	 */
-	private $data = array();
+	private array $data = array();
 
 	/**
-	 * Errors object.
+	 * WP_Error instance for error handling
 	 *
 	 * @var WP_Error
 	 */
-	private $errors;
+	private WP_Error $errors;
 
 	/**
-	 * Result of the email sending.
+	 * Email sending result
 	 *
 	 * @var bool
 	 */
-	private $result = false;
+	private bool $result = false;
 
 	/**
-	 * ErrorReport constructor
+	 * Rate limit key prefix
 	 *
-	 * Initializes a new instance of the ErrorReport class with the provided error data.
+	 * @var string
+	 */
+	private const RATE_LIMIT_KEY = 'squad_error_report_';
+
+	/**
+	 * Rate limit window in seconds (15 minutes)
 	 *
-	 * @param array $data Error data to be sent in the email.
+	 * @var int
+	 */
+	private const RATE_LIMIT_WINDOW = 900;
+
+	/**
+	 * Maximum reports per window
+	 *
+	 * @var int
+	 */
+	private const MAX_REPORTS = 5;
+
+	/**
+	 * Required data fields
+	 *
+	 * @var array
+	 */
+	private const REQUIRED_FIELDS = array(
+		'error_message',
+		'error_code',
+		'error_file',
+		'error_line',
+	);
+
+	/**
+	 * Initialize error report
 	 *
 	 * @since 3.1.7
 	 *
+	 * @param array $data Error report data
 	 */
 	public function __construct( array $data ) {
-		$this->data   = $data;
+		$this->data   = $this->sanitize_data( $data );
 		$this->errors = new WP_Error();
 	}
 
 	/**
-	 * Send error report email.
+	 * Send error report email with rate limiting and validation
 	 *
-	 * Validates the error data, adds necessary email filters, sends the email,
-	 * and then removes the filters. It also handles any errors that occur during
-	 * the process.
-	 *
-	 * @return bool True if the email was sent successfully, false otherwise.
 	 * @since 3.1.7
-	 *
+	 * @return bool Success status
 	 */
-	public function send() {
-		if ( ! $this->validate_data() ) {
-			$this->log_error( 'Data validation failed' );
+	public function send(): bool {
+		try {
+			// Validate rate limit
+			if ( ! $this->check_rate_limit() ) {
+				throw new \RuntimeException(
+					esc_html__( 'Error report rate limit exceeded. Please try again later.', 'squad-modules-for-divi' )
+				);
+			}
+
+			// Validate data
+			if ( ! $this->validate_data() ) {
+				$errors = $this->get_error_messages();
+				throw new \RuntimeException(
+					sprintf(
+					/* translators: %s: Error messages */
+						esc_html__( 'Error report validation failed: %s', 'squad-modules-for-divi' ),
+						implode( ', ', $errors )
+					)
+				);
+			}
+
+			// Ensure WordPress mail functions are available
+			require_once ABSPATH . WPINC . '/pluggable.php';
+
+			// Configure email
+			$this->add_email_filters();
+
+			// Send email
+			$this->result = wp_mail(
+				$this->to,
+				$this->get_email_subject(),
+				$this->get_email_message_html(),
+				$this->get_email_headers()
+			);
+
+			// Increment rate limit counter on success
+			if ( $this->result ) {
+				$this->increment_rate_limit();
+			}
+
+			return $this->result;
+
+		} catch ( \Throwable $e ) {
+			$this->errors->add( 'send_failed', $e->getMessage() );
+
 			return false;
+
+		} finally {
+			$this->remove_email_filters();
 		}
-
-		$this->add_email_filters();
-
-		$subject = $this->get_email_subject();
-		$message = $this->get_email_message_html();
-		$headers = $this->get_email_headers();
-
-		$this->result = wp_mail( $this->to, $subject, $message, $headers );
-
-		$this->remove_email_filters();
-
-		if ( ! $this->result ) {
-			$this->errors->add( 'send_failed', esc_html__( 'Failed to send error report email.', 'squad-modules-for-divi' ) );
-			$this->log_error( 'Failed to send email: ' . print_r( $this->errors, true ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r
-		} else {
-			$this->log_success( 'Error report email sent successfully' );
-		}
-
-		return $this->result;
 	}
 
 	/**
-	 * Validate the error report data.
+	 * Validate required data fields
 	 *
-	 * Checks if all required fields are present in the error data.
-	 *
-	 * @return bool True if all required fields are present, false otherwise.
 	 * @since 3.1.7
-	 *
+	 * @return bool Validation result
 	 */
-	private function validate_data() {
-		$required_fields = array( 'error_message', 'error_code', 'error_file', 'error_line' );
-
-		foreach ( $required_fields as $field ) {
+	private function validate_data(): bool {
+		foreach ( self::REQUIRED_FIELDS as $field ) {
 			if ( empty( $this->data[ $field ] ) ) {
-				// translators: %s Error field name.
-				$this->errors->add( $field, sprintf( esc_html__( '%s is required for error reporting.', 'squad-modules-for-divi' ), ucfirst( str_replace( '_', ' ', $field ) ) ) );
+				$this->errors->add(
+					$field,
+					sprintf(
+					/* translators: %s: Field name */
+						esc_html__( '%s is required for error reporting.', 'squad-modules-for-divi' ),
+						ucfirst( str_replace( '_', ' ', $field ) )
+					)
+				);
 			}
 		}
 
-		return $this->errors->has_errors();
+		return ! $this->errors->has_errors();
 	}
 
 	/**
-	 * Add email-related filters.
+	 * Sanitize input data
 	 *
-	 * Adds filters for handling email failures and setting the content type.
+	 * @since 3.1.7
+	 *
+	 * @param array $data Raw input data
+	 *
+	 * @return array Sanitized data
+	 */
+	private function sanitize_data( array $data ): array {
+		$sanitized = array();
+
+		foreach ( $data as $key => $value ) {
+			if ( is_string( $value ) ) {
+				$sanitized[ $key ] = sanitize_text_field( $value );
+			} elseif ( is_array( $value ) ) {
+				$sanitized[ $key ] = $this->sanitize_data( $value );
+			} else {
+				$sanitized[ $key ] = $value;
+			}
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Get formatted error messages
+	 *
+	 * @since 3.1.7
+	 * @return array Error messages
+	 */
+	private function get_error_messages(): array {
+		$messages = array();
+
+		foreach ( $this->errors->get_error_codes() as $code ) {
+			$messages = array_merge(
+				$messages,
+				$this->errors->get_error_messages( $code )
+			);
+		}
+
+		return array_unique( array_filter( $messages ) );
+	}
+
+	/**
+	 * Check if rate limit is exceeded
+	 *
+	 * @since 3.1.7
+	 * @return bool Whether sending is allowed
+	 */
+	private function check_rate_limit(): bool {
+		$count = (int) get_transient( $this->get_rate_limit_key() );
+
+		return $count < self::MAX_REPORTS;
+	}
+
+	/**
+	 * Increment rate limit counter
 	 *
 	 * @since 3.1.7
 	 */
-	private function add_email_filters() {
+	private function increment_rate_limit(): void {
+		$key   = $this->get_rate_limit_key();
+		$count = (int) get_transient( $key );
+
+		if ( 0 === $count ) {
+			set_transient( $key, 1, self::RATE_LIMIT_WINDOW );
+		} else {
+			set_transient( $key, $count + 1, self::RATE_LIMIT_WINDOW );
+		}
+	}
+
+	/**
+	 * Get rate limit key for current site
+	 *
+	 * @since 3.1.7
+	 * @return string Rate limit key
+	 */
+	private function get_rate_limit_key(): string {
+		return self::RATE_LIMIT_KEY . wp_hash( (string) get_current_blog_id() );
+	}
+
+	/**
+	 * Add email filters
+	 *
+	 * @since 3.1.7
+	 */
+	private function add_email_filters(): void {
 		add_action( 'wp_mail_failed', array( $this, 'set_failure_errors' ) );
 		add_filter( 'wp_mail_content_type', array( $this, 'set_html_content_type' ) );
 	}
 
 	/**
-	 * Remove email-related filters.
-	 *
-	 * Removes the filters that were added for handling email failures and setting the content type.
+	 * Remove email filters
 	 *
 	 * @since 3.1.7
 	 */
-	private function remove_email_filters() {
+	private function remove_email_filters(): void {
 		remove_action( 'wp_mail_failed', array( $this, 'set_failure_errors' ) );
 		remove_filter( 'wp_mail_content_type', array( $this, 'set_html_content_type' ) );
 	}
 
 	/**
-	 * Get the email subject.
+	 * Generate email subject
 	 *
-	 * Generates a subject line for the error report email based on the error code and message.
-	 *
-	 * @return string The generated email subject.
 	 * @since 3.1.7
-	 *
+	 * @return string Email subject
 	 */
-	private function get_email_subject() {
-		return sprintf( '[Error Report] %s: %s', $this->data['error_code'], substr( $this->data['error_message'], 0, 50 ) );
-	}
-
-	/**
-	 * Get the email headers.
-	 *
-	 * Generates the headers for the error report email.
-	 *
-	 * @return array An array of email headers.
-	 * @since 3.1.7
-	 *
-	 */
-	private function get_email_headers() {
-		return array(
-			'X-Mailer-Type: SquadModules/Lite/ErrorReport',
-			'Content-Type: text/html',
+	private function get_email_subject(): string {
+		return sprintf(
+			'[Error Report][%s] %s: %s',
+			wp_parse_url( home_url(), PHP_URL_HOST ),
+			$this->data['error_code'],
+			substr( $this->data['error_message'], 0, 50 )
 		);
 	}
 
 	/**
-	 * Get the HTML-prepared message for email.
+	 * Get email headers
 	 *
-	 * Loads the error report email template and populates it with the error data.
-	 *
-	 * @return string The HTML content of the email message.
 	 * @since 3.1.7
-	 *
+	 * @return array Email headers
 	 */
-	private function get_email_message_html() {
+	private function get_email_headers(): array {
+		return array(
+			sprintf( 'From: %s <%s>', get_bloginfo( 'name' ), get_bloginfo( 'admin_email' ) ),
+			'X-Mailer-Type: SquadModules/Lite/ErrorReport',
+			'Content-Type: text/html; charset=' . get_bloginfo( 'charset' ),
+		);
+	}
+
+	/**
+	 * Generate HTML email content
+	 *
+	 * @since 3.1.7
+	 * @return string Email HTML content
+	 */
+	private function get_email_message_html(): string {
 		ob_start();
-		$template_path = divi_squad()->get_template_path() . '/emails/error-report.php';
-		if ( file_exists( $template_path ) ) {
-			load_template( $template_path, true, $this->data );
+		$template = divi_squad()->get_template_path() . '/emails/error-report.php';
+
+		if ( file_exists( $template ) ) {
+			$data = array_merge(
+				$this->data,
+				array(
+					'site_url'    => home_url(),
+					'site_name'   => get_bloginfo( 'name' ),
+					'timestamp'   => current_time( 'mysql' ),
+					'environment' => $this->get_environment_info(),
+				)
+			);
+
+			require_once $template;
 		} else {
-			esc_html_e( 'Error report email template not found.', 'squad-modules-for-divi' );
+			$this->generate_fallback_message();
 		}
 
 		return ob_get_clean();
 	}
 
 	/**
-	 * Set the HTML content type for the email.
+	 * Generate fallback message when template is missing
 	 *
-	 * @return string The HTML content type.
 	 * @since 3.1.7
-	 *
 	 */
-	public function set_html_content_type() {
+	private function generate_fallback_message(): void {
+		printf(
+			'<h2>%s</h2><pre>%s</pre>',
+			esc_html__( 'Error Report', 'squad-modules-for-divi' ),
+			esc_html( print_r( $this->data, true ) ) // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+		);
+	}
+
+	/**
+	 * Get environment information
+	 *
+	 * @since 3.1.7
+	 * @return array Environment info
+	 */
+	private function get_environment_info(): array {
+		return array(
+			'php_version'    => PHP_VERSION,
+			'wp_version'     => get_bloginfo( 'version' ),
+			'plugin_version' => divi_squad()->get_version_dot(),
+			'active_theme'   => wp_get_theme()->get( 'Name' ),
+			'active_plugins' => self::get_active_plugins_list(),
+		);
+	}
+
+	/**
+	 * Set HTML content type
+	 *
+	 * @since 3.1.7
+	 * @return string Content type
+	 */
+	public function set_html_content_type(): string {
 		return 'text/html';
 	}
 
 	/**
-	 * Collect the PHPMailer\PHPMailer\Exception on sending the email.
-	 *
-	 * Merges any errors that occurred during the email sending process into the errors object.
-	 *
-	 * @param WP_Error $error A WP_Error object with the PHPMailer\PHPMailer\Exception message.
+	 * Handle mail failures
 	 *
 	 * @since 3.1.7
 	 *
+	 * @param WP_Error $error Mail error
 	 */
-	public function set_failure_errors( $error ) {
+	public function set_failure_errors( WP_Error $error ): void {
 		$this->errors->merge_from( $error );
 	}
 
 	/**
-	 * Get the errors object.
+	 * Get error object
 	 *
-	 * @return WP_Error The errors object containing any errors that occurred during the process.
 	 * @since 3.1.7
-	 *
+	 * @return WP_Error Error object
 	 */
-	public function get_errors() {
+	public function get_errors(): WP_Error {
 		return $this->errors;
 	}
 
 	/**
-	 * Get the result of the email sending.
+	 * Get send result
 	 *
-	 * @return bool True if the email was sent successfully, false otherwise.
 	 * @since 3.1.7
-	 *
+	 * @return bool Result
 	 */
-	public function get_result() {
+	public function get_result(): bool {
 		return $this->result;
 	}
 
 	/**
-	 * Log an error message.
+	 * Send error report quickly
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $message The error message to log.
-	 */
-	private function log_error( $message ) {
-		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-		error_log( 'Squad Error Report: ' . $message );
-		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-	}
-
-	/**
-	 * Log a success message.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $message The success message to log.
-	 */
-	private function log_success( $message ) {
-		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-		error_log( 'Squad Error Report: ' . $message );
-		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-	}
-
-	/**
-	 * Static helper method to quickly send an error report.
-	 *
-	 * This method simplifies the process of sending an error report by
-	 * automatically creating an ErrorReport instance and sending the email.
-	 *
-	 * @param Exception $exception       The caught exception.
-	 * @param array     $additional_data Additional data to include in the report.
-	 *
-	 * @return bool Whether the email was sent successfully.
 	 * @since 3.1.7
 	 *
+	 * @param mixed $exception       Error/Exception object
+	 * @param array $additional_data Additional context
+	 *
+	 * @return bool Success status
 	 */
-	public static function quick_send( Exception $exception, array $additional_data = array() ) {
+	public static function quick_send( $exception, array $additional_data = array() ): bool {
 		$error_data = array_merge(
 			array(
-				'error_message'  => $exception->getMessage(),
-				'error_code'     => $exception->getCode(),
-				'error_file'     => $exception->getFile(),
-				'error_line'     => $exception->getLine(),
-				'stack_trace'    => $exception->getTraceAsString(),
-				'debug_log'      => self::get_debug_log(),
-				'active_plugins' => self::get_active_plugins(),
+				'error_message' => $exception->getMessage(),
+				'error_code'    => $exception->getCode(),
+				'error_file'    => $exception->getFile(),
+				'error_line'    => $exception->getLine(),
+				'stack_trace'   => $exception->getTraceAsString(),
+				'debug_log'     => self::get_debug_log(),
+				'request_data'  => array(
+					'method' => $_SERVER['REQUEST_METHOD'] ?? '',
+					'uri'    => $_SERVER['REQUEST_URI'] ?? '',
+					'ip'     => $_SERVER['REMOTE_ADDR'] ?? '',
+				),
 			),
 			$additional_data
 		);
 
-		$error_report = new self( $error_data );
-		$result       = $error_report->send();
-
-		if ( ! $result ) {
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
-			error_log( 'Divi Squad Error Report: Failed to send error report via quick_send method. Errors: ' . print_r( $error_report->get_errors(), true ) );
-			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log, WordPress.PHP.DevelopmentFunctions.error_log_print_r
-		}
-
-		return $result;
+		return ( new self( $error_data ) )->send();
 	}
 
 	/**
@@ -320,8 +436,9 @@ class ErrorReport {
 	 *
 	 * @return string
 	 */
-	private static function get_active_plugins() {
+	private static function get_active_plugins_list(): string {
 		$active_plugins = WP::get_active_plugins();
+
 		return implode( ', ', array_column( $active_plugins, 'name' ) );
 	}
 
@@ -330,11 +447,11 @@ class ErrorReport {
 	 *
 	 * Retrieves the last 50 lines of the WordPress debug log file.
 	 *
-	 * @return string The last 50 lines of the debug log or an empty string if the log is not accessible.
 	 * @since 3.1.7
 	 *
+	 * @return string The last 50 lines of the debug log or an empty string if the log is not accessible.
 	 */
-	private static function get_debug_log() {
+	private static function get_debug_log(): string {
 		$debug_log = '';
 		$log_file  = WP_CONTENT_DIR . '/debug.log';
 

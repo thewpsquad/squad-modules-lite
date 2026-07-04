@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Factory Interface
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  */
 
@@ -17,14 +17,6 @@ namespace DiviSquad\Base\Factories\FactoryBase;
  * @since   3.0.0
  */
 abstract class Factory implements FactoryInterface {
-
-	/**
-	 * Constructor.
-	 */
-	protected function __construct() {
-		// Init hooks for the factory.
-		$this->init_hooks();
-	}
 
 	/**
 	 * Init hooks for the factory.

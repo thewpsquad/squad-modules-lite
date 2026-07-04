@@ -3,7 +3,7 @@
  * Template file to the plugin copy post or cpt.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.3
  *
  * @var array $args Arguments passed to the template.

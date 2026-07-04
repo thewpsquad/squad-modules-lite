@@ -3,7 +3,7 @@
  * Template file to the notice.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  *
  * @var array<string, mixed> $args The arguments to the template.
@@ -17,7 +17,7 @@ if ( 0 === count( $args ) ) {
 	return;
 }
 
-use DiviSquad\Utils\Media\Image;
+use DiviSquad\Core\Supports\Media\Image;
 
 // Load the image class.
 $divi_squad_image = new Image( divi_squad()->get_path( '/build/admin/images' ) );
@@ -35,7 +35,7 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 
 	<div class="divi-squad-banner-logo">
 		<?php if ( ! empty( $args['logo'] ) ) : ?>
-			<?php $divi_squad_notice_logo = $divi_squad_image->get_image_raw( $args['logo'] ); ?>
+			<?php $divi_squad_notice_logo = $divi_squad_image->get_image( $args['logo'], 'svg', false ); ?>
 			<?php if ( ! is_wp_error( $divi_squad_notice_logo ) ) : ?>
 				<?php echo wp_kses( $divi_squad_notice_logo, $divi_squad_image_allowed_html ); ?>
 			<?php endif; ?>
@@ -61,7 +61,7 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 									<span class="dashicons <?php echo esc_attr( $divi_squad_left_button['icon'] ); ?>"></span>
 								<?php endif; ?>
 								<?php if ( ! empty( $divi_squad_left_button['icon_svg'] ) ) : ?>
-									<?php $divi_squad_notice_left_button_icon = $divi_squad_image->get_image_raw( $divi_squad_left_button['icon_svg'] ); ?>
+									<?php $divi_squad_notice_left_button_icon = $divi_squad_image->get_image( $divi_squad_left_button['icon_svg'], 'svg', false ); ?>
 									<?php if ( ! is_wp_error( $divi_squad_notice_left_button_icon ) ) : ?>
 										<?php echo wp_kses( $divi_squad_notice_left_button_icon, $divi_squad_image_allowed_html ); ?>
 									<?php endif; ?>
@@ -80,7 +80,7 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 									<span class="dashicons <?php echo esc_attr( $divi_squad_right_button['icon'] ); ?>"></span>
 								<?php endif; ?>
 								<?php if ( ! empty( $divi_squad_right_button['icon_svg'] ) ) : ?>
-									<?php $divi_squad_notice_right_button_icon = $divi_squad_image->get_image_raw( $divi_squad_right_button['icon_svg'] ); ?>
+									<?php $divi_squad_notice_right_button_icon = $divi_squad_image->get_image( $divi_squad_right_button['icon_svg'], 'svg', false ); ?>
 									<?php if ( ! is_wp_error( $divi_squad_notice_right_button_icon ) ) : ?>
 										<?php echo wp_kses( $divi_squad_notice_right_button_icon, $divi_squad_image_allowed_html ); ?>
 									<?php endif; ?>

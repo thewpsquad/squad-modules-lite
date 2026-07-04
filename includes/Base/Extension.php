@@ -1,13 +1,15 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The base class for Extension.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.2.0
  */
 
 namespace DiviSquad\Base;
+
+use DiviSquad\Core\Memory;
 
 /**
  * Extension class.
@@ -21,7 +23,7 @@ abstract class Extension {
 	 *
 	 * @var Memory
 	 */
-	protected $memory;
+	protected Memory $memory;
 
 	/**
 	 * The list of inactive extensions.
@@ -56,12 +58,12 @@ abstract class Extension {
 	 *
 	 * @return string
 	 */
-	abstract protected function get_name();
+	abstract protected function get_name(): string;
 
 	/**
 	 * Load the extension.
 	 *
 	 * @return void
 	 */
-	abstract protected function load();
+	abstract protected function load(): void;
 }

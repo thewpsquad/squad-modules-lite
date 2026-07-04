@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Utils Common.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -29,7 +29,7 @@ trait CommonTrait {
 	 *
 	 * @return array
 	 */
-	public static function decode_json_data( $html_content ) {
+	public static function decode_json_data( string $html_content ): array {
 		// Collect data as unmanaged json string.
 		$data = stripslashes( html_entity_decode( $html_content ) );
 
@@ -44,7 +44,7 @@ trait CommonTrait {
 	 *
 	 * @return string
 	 */
-	public static function collect_raw_props( $content ) {
+	public static function collect_raw_props( string $content ): string {
 		return wp_strip_all_tags( $content );
 	}
 
@@ -56,7 +56,7 @@ trait CommonTrait {
 	 * @return array
 	 * @throws \RuntimeException When json error found.
 	 */
-	public static function collect_child_json_props( $content ) {
+	public static function collect_child_json_props( string $content ): array {
 		$raw_props   = static::json_format_raw_props( $content );
 		$clean_props = str_replace( array( '},||', '},]' ), array( '},', '}]' ), $raw_props );
 		$child_props = json_decode( $clean_props, true );
@@ -82,8 +82,40 @@ trait CommonTrait {
 	 *
 	 * @return string
 	 */
-	public static function json_format_raw_props( $content ) {
+	public static function json_format_raw_props( string $content ): string {
 		return sprintf( '[%s]', $content );
+	}
+
+	/**
+	 * Collect all modules from Divi Builder.
+	 *
+	 * @param array $modules_array  All modules array..
+	 * @param array $allowed_prefix The allowed prefix list.
+	 *
+	 * @return array
+	 */
+	public static function get_all_modules( array $modules_array, array $allowed_prefix = array() ): array {
+		// Initiate default data.
+		$default_allowed_prefix = array( 'disq' );
+		$clean_modules          = array(
+			'none'   => esc_html__( 'Select Module', 'squad-modules-for-divi' ),
+			'custom' => esc_html__( 'Custom', 'squad-modules-for-divi' ),
+		);
+
+		// Merge new data with default prefix.
+		$all_prefix = array_merge( $default_allowed_prefix, $allowed_prefix );
+
+		foreach ( $modules_array as $module ) {
+			if ( strpos( $module['label'], '_' ) ) {
+				$module_explode = explode( '_', $module['label'] );
+
+				if ( in_array( $module_explode[0], $all_prefix, true ) ) {
+					$clean_modules[ $module['label'] ] = $module['title'];
+				}
+			}
+		}
+
+		return $clean_modules;
 	}
 
 	/**
@@ -94,15 +126,13 @@ trait CommonTrait {
 	 *
 	 * @return string[]
 	 */
-	public static function clean_order_class( $classnames, $slug ) {
-		$order_classes = array();
-		foreach ( $classnames as $key => $classname ) {
-			if ( 0 !== strpos( $classname, "{$slug}_" ) ) {
-				$order_classes[ $key ] = $classname;
+	public static function clean_order_class( array $classnames, string $slug ): array {
+		return array_filter(
+			$classnames,
+			function ( $classname ) use ( $slug ) {
+				return 0 !== strpos( $classname, "{$slug}_" );
 			}
-		}
-
-		return $order_classes;
+		);
 	}
 
 	/**
@@ -112,7 +142,7 @@ trait CommonTrait {
 	 *
 	 * @return array
 	 */
-	public static function selectors_margin_padding( $main_css_element ) {
+	public static function selectors_margin_padding( string $main_css_element ): array {
 		return array(
 			'use_padding' => true,
 			'use_margin'  => true,
@@ -131,7 +161,7 @@ trait CommonTrait {
 	 *
 	 * @return array[]
 	 */
-	public static function selectors_max_width( $main_css_element ) {
+	public static function selectors_max_width( string $main_css_element ): array {
 		return array_merge(
 			self::selectors_default( $main_css_element ),
 			array(
@@ -149,7 +179,7 @@ trait CommonTrait {
 	 *
 	 * @return array[]
 	 */
-	public static function selectors_default( $main_css_element ) {
+	public static function selectors_default( string $main_css_element ): array {
 		return array(
 			'css' => array(
 				'main'  => $main_css_element,
@@ -165,7 +195,7 @@ trait CommonTrait {
 	 *
 	 * @return array[]
 	 */
-	public static function selectors_background( $main_css_element ) {
+	public static function selectors_background( string $main_css_element ): array {
 		return array_merge(
 			self::selectors_default( $main_css_element ),
 			array(
@@ -183,7 +213,7 @@ trait CommonTrait {
 	 *
 	 * @return string|string[]
 	 */
-	public static function field_to_css_prop( $field ) {
+	public static function field_to_css_prop( string $field ) {
 		return str_replace( '_', '-', $field );
 	}
 }

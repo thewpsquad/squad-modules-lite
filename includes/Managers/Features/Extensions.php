@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Extension Manager
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -12,9 +12,9 @@ namespace DiviSquad\Managers\Features;
 
 use DiviSquad\Base\Extension;
 use DiviSquad\Base\Factories\SquadFeatures as ManagerBase;
-use DiviSquad\Base\Memory;
-use DiviSquad\Managers\Emails\ErrorReport;
-use DiviSquad\Utils\Polyfills\Arr;
+use DiviSquad\Core\Memory;
+use DiviSquad\Core\Supports\Polyfills\Arr;
+use Throwable;
 use function divi_squad;
 use function esc_html__;
 
@@ -99,7 +99,7 @@ class Extensions extends ManagerBase {
 	 *
 	 * @return array
 	 */
-	public function get_default_registries() {
+	public function get_default_registries(): array {
 		return $this->get_filtered_registries(
 			$this->get_registered_list(),
 			function ( $extension ) {
@@ -113,7 +113,7 @@ class Extensions extends ManagerBase {
 	 *
 	 * @return array
 	 */
-	public function get_inactive_registries() {
+	public function get_inactive_registries(): array {
 		return $this->get_filtered_registries(
 			$this->get_registered_list(),
 			function ( $extension ) {
@@ -129,7 +129,7 @@ class Extensions extends ManagerBase {
 	 *
 	 * @return void
 	 */
-	public function load_extensions( $path ) {
+	public function load_extensions( string $path ) {
 		if ( ! class_exists( Extension::class ) ) {
 			return;
 		}
@@ -145,7 +145,7 @@ class Extensions extends ManagerBase {
 	 *
 	 * @return void
 	 */
-	protected function load_extensions_files( $path, $memory ) {
+	protected function load_extensions_files( string $path, Memory $memory ) {
 		try {
 			// Retrieve total active extensions and current version from the memory.
 			$current_version     = $memory->get( 'version' );
@@ -164,18 +164,8 @@ class Extensions extends ManagerBase {
 					new $extension['classes']['root_class']();
 				}
 			}
-		} catch ( \Exception $e ) {
-			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			error_log( sprintf( 'SQUAD ERROR: %s', $e->getMessage() ) );
-			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped, WordPress.PHP.DevelopmentFunctions.error_log_error_log
-
-			// Send an error report.
-			ErrorReport::quick_send(
-				$e,
-				array(
-					'additional_info' => 'An error message from extension loader.',
-				)
-			);
+		} catch ( Throwable $e ) {
+			divi_squad()->log_error( $e, 'Extension loader' );
 		}
 	}
 }

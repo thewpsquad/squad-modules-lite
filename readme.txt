@@ -5,7 +5,7 @@ Tags: divi, divi module, divi theme, divi builder, divi page builder
 Requires at least: 5.0.0
 Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 3.1.9
+Stable tag: 3.2.0
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -13,11 +13,9 @@ The Essential Divi plugin, offering 25+ stunning free modules like Advanced Divi
 
 == Description ==
 
-# Squad Modules Lite - The Ultimate Free Divi Modules and Extensions Plugin
-
 **Elevate Your Divi Experience with Squad Modules Lite**
 
-Squad Modules Lite is a revolutionary free plugin that takes your Divi page building experience to new heights. Designed specifically for the Divi theme and Divi page builder, this plugin introduces a powerful suite of over 25 free Divi modules and 5 free Divi extensions, empowering you to create visually stunning and highly functional websites with ease.
+Squad Modules Lite is an ultimate free divi modules and extensions plugin that takes your Divi page building experience to new heights. Designed specifically for the Divi theme and Divi page builder, this plugin introduces a powerful suite of over 25 free Divi modules and 5 free Divi extensions, empowering you to create visually stunning and highly functional websites with ease.
 
 **Key Features:**
 
@@ -81,7 +79,7 @@ Unlock the full potential of Divi with Squad Modules Pro, featuring over 30 adva
 
 **About the Developers**
 
-Squad Modules Lite is developed by the [Divi Squad](https://squadmodules.com/?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) and WP Squad Team, a dedicated WordPress product company committed to providing you with the tools you need to build incredible websites with the Divi theme and Divi page builder.
+Squad Modules Lite is developed by the [Divi Squad](https://squadmodules.com/?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) and The WP Squad Team, a dedicated WordPress product company committed to providing you with the tools you need to build incredible websites with the Divi theme and Divi page builder.
 
 **Show Your Support!**
 
@@ -103,8 +101,8 @@ Don't settle for limitations – embrace the power of Squad Modules Lite and unl
 
 Before diving into the exciting world of Squad Modules Lite, let's ensure your website meets the minimum requirements for a smooth installation:
 
-* **WordPress:** Version 5.0 or greater
-* **PHP:** Version 7.0 or greater
+* **WordPress:** Version 5.8 or greater
+* **PHP:** Version 7.4 or greater
 * **MySQL:** Version 5.0 or greater
 * **Divi Theme, Extra Theme, or Divi Builder Plugin:** Version 4.13 or greater
 
@@ -153,7 +151,7 @@ Yes, Squad Modules Lite is rigorously tested and updated to ensure seamless comp
 Of course! [Squad Modules Lite](https://squadmodules.com/?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) empowers you with extensive customization options. You can tailor colors, fonts, spacing, and more to achieve a design that perfectly complements your website's unique aesthetic.
 
 **What are the system requirements for using Squad Modules Lite?**
-To run Squad Modules Lite smoothly, you'll need WordPress version 5.0.0 or higher, Divi version 4.10 or higher, and PHP version 5.6 or higher on your website.
+To run Squad Modules Lite smoothly, you'll need WordPress version 5.8.0 or higher, Divi version 4.10 or higher, and PHP version 7.4 or higher on your website.
 
 **Will updating Squad Modules Lite break my website?**
 Squad Modules Lite updates are designed to be safe and non-disruptive. We prioritize maintaining plugin compatibility to avoid breaking your website or existing Divi pages. However, as a general precaution, it's always a good practice to create a backup of your website before installing any plugin updates. In the unlikely event of an issue, you can easily restore your website and contact [our helpful support team](https://squadmodules.com/support?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) for assistance.
@@ -186,16 +184,31 @@ If you need assistance with Squad Modules Lite, you can reach out to [our suppor
 13. Typing Text Module - This is a module that allows you to create eye-catching animated text that simulates a typing effect with the Typing Text module. Grab your visitors' attention and deliver your message in a unique and engaging way.
 
 == Upgrade Notice ==
-= 3.1.9 =
-Bug fixing and compatibility update with WordPress 6.7
+= 3.2.0 =
+Bug fixing, Security update and performance improved
 
 == Changelog ==
-= 3.1.9 (25-11-2024) =
+= 3.2.0 (14-01-2025) =
+
+**New Features:**
+- Introduced requirements page when Divi or Divi plugin exists in the WordPress installation
+- New Forminator Module added to form styler system
 
 **Bug Fixes:**
-- Fixed an issue before after image slider is not working in the frontend
+- Fixed custom fields table missing issue in fresh setup
+- Fixed admin menu icon display for Divi Squad menu
+- Fixed Forms module not working with empty forms
+- Fixed plugin activation and deactivation issues
+- Fixed unwanted HTML markup rendering when icon is empty
+- Fixed elements gap not working in Flipbox module
+- Fixed Gradient Text module not working in Visual Builder
+- Fixed image compare viewer in Before After Image Slider module
+- Fixed type error in Star Rating module at Visual Builder
+- Fixed Video Popup module frontend functionality
+- Fixed render method requirement for Divi module components in JS
+- Fixed admin menu background colors issue
 
-**Improvements:**
-- Compatibility with wordpress 6.7
+**✨ Improvements:**
+- Tested for compatibility with WordPress 6.7
 
 [Read more](https://squadmodules.com/changelog-lite/)

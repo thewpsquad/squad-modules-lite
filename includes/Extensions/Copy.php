@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * The Post Duplicator extension class for Divi Squad.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.4.8
  */
 
@@ -46,7 +46,7 @@ class Copy extends Extension {
 	 *
 	 * @return string
 	 */
-	protected function get_name() {
+	protected function get_name(): string {
 		return 'Post_Duplicator';
 	}
 
@@ -55,7 +55,7 @@ class Copy extends Extension {
 	 *
 	 * @return void
 	 */
-	protected function load() {
+	protected function load(): void {
 		/**
 		 * Fires before the extension is loaded.
 		 *
@@ -109,7 +109,7 @@ class Copy extends Extension {
 	 *
 	 * @return string
 	 */
-	public function admin_body_class( $classes ) {
+	public function admin_body_class( string $classes ): string {
 		if ( ! $this->is_allowed_admin_screen() ) {
 			return $classes;
 		}
@@ -125,7 +125,7 @@ class Copy extends Extension {
 	 *
 	 * @return void
 	 */
-	public function admin_enqueue_scripts() {
+	public function admin_enqueue_scripts(): void {
 		if ( ! $this->is_allowed_admin_screen() ) {
 			return;
 		}
@@ -154,7 +154,7 @@ class Copy extends Extension {
 	 *
 	 * @return void
 	 */
-	public function admin_footer_template() {
+	public function admin_footer_template(): void {
 		if ( ! $this->is_allowed_admin_screen() ) {
 			return;
 		}
@@ -185,7 +185,7 @@ class Copy extends Extension {
 	 *
 	 * @return bool
 	 */
-	public function is_allowed_admin_screen() {
+	public function is_allowed_admin_screen(): bool {
 		// Get the current screen.
 		$screen = get_current_screen();
 
@@ -210,7 +210,7 @@ class Copy extends Extension {
 	 *
 	 * @return array
 	 */
-	public function wp_localize_script_data( $exists_data ) {
+	public function wp_localize_script_data( array $exists_data ): array {
 		$screen = get_current_screen();
 		// Check if the current screen is not a WP_Screen object.
 		if ( ! $screen instanceof \WP_Screen ) {
@@ -238,7 +238,7 @@ class Copy extends Extension {
 	 *
 	 * @return string[] An array of row action links.
 	 */
-	public function row_actions( $actions, $post ) {
+	public function row_actions( array $actions, WP_Post $post ): array {
 		if ( 'trash' !== $post->post_status && current_user_can( 'edit_posts' ) ) {
 			$actions['copy_this'] = sprintf(
 				'<a class="copy-this-post-link" href="#" title="%1$s" data-id="%3$s" rel="permalink">%2$s</a>',
@@ -258,7 +258,7 @@ class Copy extends Extension {
 	 *
 	 * @return string[] An array of bulk actions.
 	 */
-	public function bulk_actions( $actions ) {
+	public function bulk_actions( array $actions ): array {
 		if ( current_user_can( 'edit_posts' ) ) {
 			$actions['copy_selected'] = esc_html__( 'Copy ', 'squad-modules-for-divi' );
 		}
@@ -271,7 +271,7 @@ class Copy extends Extension {
 	 *
 	 * @return string[]
 	 */
-	public function get_allowed_list_table_for_row_actions() {
+	public function get_allowed_list_table_for_row_actions(): array {
 		/**
 		 * Filters the allowed post types for row actions.
 		 *
@@ -289,7 +289,7 @@ class Copy extends Extension {
 	 *
 	 * @return string[]
 	 */
-	public function get_allowed_post_types_for_bulk_actions() {
+	public function get_allowed_post_types_for_bulk_actions(): array {
 		$defaults = array( 'post', 'page', 'project', 'et_pb_layout', 'cuar_private_file', 'cuar_private_page' );
 
 		/**
@@ -312,7 +312,7 @@ class Copy extends Extension {
 	 * @return void
 	 * @throws \RuntimeException When the post duplication failed.
 	 */
-	public static function duplicate_the_post( $options ) {
+	public static function duplicate_the_post( array $options ) {
 		// Get access to the database.
 		global $wpdb, $current_user, $blog_id;
 

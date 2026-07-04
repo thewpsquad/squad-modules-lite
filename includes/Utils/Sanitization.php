@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php
 /**
  * Sanitization helper class for sanitizing values.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -18,6 +18,16 @@ use function sanitize_text_field;
  * @since   1.0.0
  */
 class Sanitization {
+	/**
+	 * Sanitize int value.
+	 *
+	 * @param int|mixed $value Value.
+	 *
+	 * @return int
+	 */
+	public static function sanitize_int( $value ): int {
+		return absint( $value );
+	}
 
 	/**
 	 * Sanitize array value

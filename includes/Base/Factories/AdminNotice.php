@@ -1,17 +1,17 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Class AdminNotice
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 
 namespace DiviSquad\Base\Factories;
 
 use DiviSquad\Base\Factories\FactoryBase\Factory;
-use DiviSquad\Utils\Singleton;
+use DiviSquad\Core\Traits\Singleton;
 
 /**
  * Class AdminNotice
@@ -28,7 +28,7 @@ final class AdminNotice extends Factory {
 	 *
 	 * @var AdminNotice\NoticeInterface[]
 	 */
-	private static $registries = array();
+	private static array $registries = array();
 
 	/**
 	 * Initialize hooks.
@@ -89,7 +89,7 @@ final class AdminNotice extends Factory {
 	 *
 	 * @return string
 	 */
-	public function add_body_classes( $classes ) {
+	public function add_body_classes( string $classes ): string {
 		if ( ! empty( self::$registries ) ) {
 			foreach ( self::$registries as $notice ) {
 				if ( $notice->can_render_it() ) {
@@ -106,7 +106,7 @@ final class AdminNotice extends Factory {
 	 *
 	 * @return array
 	 */
-	public function get_notices() {
+	public function get_notices(): array {
 		$registries = array();
 		foreach ( self::$registries as $notice ) {
 			if ( $notice->can_render_it() ) {
@@ -124,7 +124,7 @@ final class AdminNotice extends Factory {
 	 *
 	 * @return array
 	 */
-	public function wp_localize_script_data( $exists_data ) {
+	public function wp_localize_script_data( array $exists_data ): array {
 		// Localize data for squad admin.
 		$notice_localize = array(
 			'notices' => $this->get_notices(),

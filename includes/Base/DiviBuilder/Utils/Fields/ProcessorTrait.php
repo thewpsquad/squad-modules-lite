@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Builder Utils Helper Class which help to the all module class.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -29,12 +29,13 @@ trait ProcessorTrait {
 	/**
 	 * Process styles for width fields in the module.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $options Options of current width.
 	 *
 	 * @return void
-	 * @since 1.0.0
 	 */
-	public function generate_additional_styles( $options = array() ) {
+	public function generate_additional_styles( array $options = array() ) {
 		// Initiate default values for current options.
 		$default = array(
 			'field'          => '',
@@ -100,7 +101,7 @@ trait ProcessorTrait {
 	 *
 	 * @return array
 	 */
-	public function collect_prop_value_responsive( $options, $qualified_name, $last_modified_key ) {
+	public function collect_prop_value_responsive( array $options, string $qualified_name, string $last_modified_key ): array {
 		$props       = $this->element->props;
 		$last_edited = ! empty( $props[ $last_modified_key ] ) ? $props[ $last_modified_key ] : '';
 
@@ -144,7 +145,7 @@ trait ProcessorTrait {
 	 *
 	 * @return void
 	 */
-	public function process_responsive_styles( $options ) {
+	public function process_responsive_styles( array $options ) {
 		$defaults = array(
 			'responsive_values' => array(
 				'desktop' => '',
@@ -202,12 +203,13 @@ trait ProcessorTrait {
 	/**
 	 * Set actual position for icon or image in show on hover effect for the current element with default, responsive and hover.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $options Options of current width.
 	 *
 	 * @return void
-	 * @since 1.0.0
 	 */
-	public function generate_show_icon_on_hover_styles( $options = array() ) {
+	public function generate_show_icon_on_hover_styles( array $options = array() ) {
 		$additional_css = '';
 		$default_units  = array( '%', 'em', 'rem', 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'ex', 'vh', 'vw' );
 
@@ -303,13 +305,15 @@ trait ProcessorTrait {
 	/**
 	 * Collect icon prop width event if responsive mode.
 	 *
-	 * @param array $props   List of attributes.
+	 * @since 1.0.0
+	 *
 	 * @param array $options Options of current width.
 	 *
+	 * @param array $props   List of attributes.
+	 *
 	 * @return array
-	 * @since 1.0.0
 	 */
-	private static function get_icon_hover_effect_prop_width( $props, $options = array() ) {
+	private static function get_icon_hover_effect_prop_width( $props, array $options = array() ): array {
 		$defaults      = array(
 			'icon'   => '',
 			'image'  => '',
@@ -362,13 +366,15 @@ trait ProcessorTrait {
 	/**
 	 * Collect the value of any props for Icon on hover effect.
 	 *
-	 * @param array $props   List of attributes.
+	 * @since 1.0.0
+	 *
 	 * @param array $options Options of current width.
 	 *
+	 * @param array $props   List of attributes.
+	 *
 	 * @return string
-	 * @since 1.0.0
 	 */
-	private static function hover_effect_generate_css( $props, $options = array() ) {
+	private static function hover_effect_generate_css( array $props, array $options = array() ): string {
 		// Initiate default values for current options.
 		$default_options = array(
 			'qualified_name'     => '',
@@ -405,7 +411,7 @@ trait ProcessorTrait {
 	 *
 	 * @return mixed
 	 */
-	public static function collect_prop_mapping_value( $options, $current_value ) {
+	public static function collect_prop_mapping_value( array $options, string $current_value ) {
 		if ( ! empty( $options['mapping_values'] ) ) {
 			if ( is_callable( $options['mapping_values'] ) ) {
 				return $options['mapping_values']( $current_value );
@@ -420,12 +426,13 @@ trait ProcessorTrait {
 	/**
 	 * Process styles for margin and padding fields in the module.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @param array $options Options of current width.
 	 *
 	 * @return void
-	 * @since 1.0.0
 	 */
-	public function generate_margin_padding_styles( $options = array() ) {
+	public function generate_margin_padding_styles( array $options = array() ) {
 		// Initiate default values for current options.
 		$default = array(
 			'field'          => '',
@@ -434,6 +441,7 @@ trait ProcessorTrait {
 			'css_property'   => '',
 			'hover'          => '',
 			'hover_selector' => '',
+			'selector_hover' => '',
 			'important'      => true,
 		);
 		$options = wp_parse_args( $options, $default );
@@ -452,7 +460,9 @@ trait ProcessorTrait {
 		// Get an instance of "ET_Builder_Module_Hover_Options".
 		$hover                = et_pb_hover_options();
 		$margin_padding_hover = $hover->get_value( $qualified_name, $this->element->props, '' );
-		$css_prop             = self::field_to_css_prop( $options['css_property'] );
+
+		$css_property = ! empty( $options['css_property'] ) ? $options['css_property'] : $options['type'];
+		$css_prop     = self::field_to_css_prop( $css_property );
 
 		// Set size for button icon or image with font-size and width style in responsive mode.
 		if ( et_pb_get_responsive_status( $value_last_edited ) && '' !== implode( '', $value_responsive_values ) ) {
@@ -487,7 +497,7 @@ trait ProcessorTrait {
 		}
 
 		// Hover style.
-		$hover_selector = isset( $options['hover_selector'] ) ? $options['hover_selector'] : $options['hover'];
+		$hover_selector = ! empty( $options['selector_hover'] ) ? $options['selector_hover'] : ( ! empty( $options['hover_selector'] ) ? $options['hover_selector'] : $options['hover'] );
 		if ( isset( $hover_selector ) && '' !== $margin_padding_hover ) {
 			$hover_style = array(
 				'selector'    => $hover_selector,
@@ -508,7 +518,7 @@ trait ProcessorTrait {
 	 *
 	 * @return void
 	 */
-	public function generate_text_clip_styles( $options = array() ) {
+	public function generate_text_clip_styles( array $options = array() ) {
 		$default = array(
 			'base_attr_name' => '',
 			'selector'       => '',
@@ -572,7 +582,7 @@ trait ProcessorTrait {
 	 *
 	 * @return void
 	 */
-	public function generate_divider_styles( $options = array() ) {
+	public function generate_divider_styles( array $options = array() ) {
 		$default = array(
 			'selector'  => '',
 			'hover'     => '',

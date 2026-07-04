@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Post Grid Load More REST API
@@ -7,7 +7,7 @@
  * for the Post Grid module of Divi Squad.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  */
 
@@ -15,7 +15,7 @@ namespace DiviSquad\Managers\RestRoutes\Version1\Modules;
 
 use DiviSquad\Base\Factories\RestRoute\Route;
 use DiviSquad\Modules;
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use DiviSquad\Utils\Sanitization;
 use WP_Error;
 use WP_REST_Request;

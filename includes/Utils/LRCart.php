@@ -1,10 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
-
+<?php
 /**
  * Language recognition chart.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.4
  */
 
@@ -25,25 +24,25 @@ class LRCart {
 	 *
 	 * @return string
 	 */
-	public static function get_character_map() {
+	public static function get_character_map(): string {
 		$character_map = array(
-			// Latin-1 Supplement and Latin Extended-A
+			// Latin-1 Supplement and Latin Extended-A.
 			'äëïöüÄËÏÖÜáéíóúýÁÉÍÓÚÝàèìòùÀÈÌÒÙãñõÃÑÕâêîôûÂÊÎÔÛçÇ',
-			// Latin Extended-A
+			// Latin Extended-A.
 			'āēīōūĀĒĪŌŪąęįųĄĘĮŲćłńśźżĆŁŃŚŹŻđĐǄǅǆǇǈǉǊǋǌǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜ',
-			// Latin Extended-B
+			// Latin Extended-B.
 			'ǝǞǟǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚț',
-			// Greek and Coptic
+			// Greek and Coptic.
 			'ͰͱͲͳʹ͵Ͷͷͺͻͼͽ;Ϳ΄΅Ά·ΈΉΊΌΎΏΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫάέήίΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώϏϐϑϒϓϔϕϖϗϘϙϚϛϜϝϞϟϠϡϢϣϤϥϦϧϨϩϪϫϬϭϮϯ',
-			// Cyrillic
+			// Cyrillic.
 			'ЀЁЂЃЄЅІЇЈЉЊЋЌЍЎЏАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюяѐёђѓєѕіїјљњћќѝўџѠѡѢѣѤѥѦѧѨѩѪѫѬѭѮѯѰѱѲѳѴѵѶѷѸѹѺѻѼѽѾѿҀҁ',
-			// Common punctuation and symbols
+			// Common punctuation and symbols.
 			'""\'\'©®™§¶†‡•❧☙―‐‒–—―‖‗\'\'‚‛""„‟•‣․‥…‧‰‱′″‴‵‶‷‸‹›※‼‽‾⁀⁁⁂⁃⁄⁅⁆⁇⁈⁉⁊⁋⁌⁍⁎⁏⁐⁑⁒⁓⁔⁕⁖⁗⁘⁙⁚⁛⁜⁝⁞',
-			// Currencies
+			// Currencies.
 			'₠₡₢₣₤₥₦₧₨₩₪₫€₭₮₯₰₱₲₳₴₵₶₷₸₹₺₻₼₽₾₿',
-			// Arrows
+			// Arrows.
 			'←↑→↓↔↕↖↗↘↙↚↛↜↝↞↟↠↡↢↣↤↥↦↧↨↩↪↫↬↭↮↯↰↱↲↳↴↵↶↷↸↹↺↻↼↽↾↿⇀⇁⇂⇃⇄⇅⇆⇇⇈⇉⇊⇋⇌⇍⇎⇏⇐⇑⇒⇓⇔⇕⇖⇗⇘⇙⇚⇛⇜⇝⇞⇟⇠⇡⇢⇣⇤⇥⇦⇧⇨⇩⇪',
-			// Mathematical symbols
+			// Mathematical symbols.
 			'∀∁∂∃∄∅∆∇∈∉∊∋∌∍∎∏∐∑−∓∔∕∖∗∘∙√∛∜∝∞∟∠∡∢∣∤∥∦∧∨∩∪∫∬∭∮∯∰∱∲∳∴∵∶∷∸∹∺∻∼∽∾∿≀≁≂≃≄≅≆≇≈≉≊≋≌≍≎≏≐≑≒≓≔≕≖≗≘≙≚≛≜≝≞≟≠≡≢≣≤≥≦≧≨≩≪≫≬≭≮≯≰≱≲≳≴≵≶≷≸≹≺≻≼≽≾≿',
 		);
 
@@ -53,8 +52,6 @@ class LRCart {
 		 * @since 3.1.4
 		 *
 		 * @param string $character_map The character map.
-		 *
-		 * @return string
 		 */
 		$character_map = apply_filters( 'divi_squad_language_recognition_chart_characters', $character_map );
 

@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Abstract class representing the Menu.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 
@@ -33,8 +33,16 @@ abstract class Menu implements MenuInterface {
 	 * @return  string
 	 */
 	public function get_main_menu_slug() {
-		// Get admin menu slug.
 		return divi_squad()->get_admin_menu_slug();
+	}
+
+	/**
+	 * Position of the main menu.
+	 *
+	 * @return  int
+	 */
+	public function get_main_menu_position() {
+		return divi_squad()->get_admin_menu_position();
 	}
 
 	/**

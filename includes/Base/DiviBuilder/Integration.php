@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Integration API Base
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -25,7 +25,7 @@ abstract class Integration {
 	 *
 	 * @var string
 	 */
-	protected $name = '';
+	protected string $name = '';
 
 	/**
 	 * Absolute path to the plugin's directory.
@@ -34,7 +34,7 @@ abstract class Integration {
 	 *
 	 * @var string
 	 */
-	protected $plugin_dir = '';
+	protected string $plugin_dir = '';
 
 	/**
 	 * The plugin's directory URL.
@@ -43,7 +43,7 @@ abstract class Integration {
 	 *
 	 * @var string
 	 */
-	protected $plugin_dir_url = '';
+	protected string $plugin_dir_url = '';
 
 	/**
 	 * The plugin's version
@@ -52,7 +52,7 @@ abstract class Integration {
 	 *
 	 * @var string The plugin's version
 	 */
-	protected $version = '';
+	protected string $version = '';
 
 	/**
 	 * The asset build for the plugin
@@ -61,7 +61,7 @@ abstract class Integration {
 	 *
 	 * @var string The plugin's version
 	 */
-	protected $build_path = 'build/divi-builder-4/';
+	protected string $build_path = 'build/divi-builder-4/';
 
 	/**
 	 * Constructor.
@@ -70,7 +70,7 @@ abstract class Integration {
 	 * @param string $plugin_dir     Absolute path to the plugin's directory.
 	 * @param string $plugin_dir_url The plugin's directory URL.
 	 */
-	public function __construct( $name, $plugin_dir, $plugin_dir_url ) {
+	public function __construct( string $name, string $plugin_dir, string $plugin_dir_url ) {
 		// Set required variables as per definition.
 		$this->name           = $name;
 		$this->plugin_dir     = $plugin_dir;

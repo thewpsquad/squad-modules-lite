@@ -1,10 +1,13 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
- * Admin class.
+ * Admin Asset Management for DiviSquad.
+ *
+ * This file contains the Admin class which handles the registration and enqueuing
+ * of scripts and styles for the DiviSquad plugin's admin area.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  */
 
@@ -13,116 +16,177 @@ namespace DiviSquad\Managers\Assets;
 use DiviSquad\Base\Factories\AdminMenu as AdminMenuFactory;
 use DiviSquad\Base\Factories\PluginAsset\Asset;
 use DiviSquad\Base\Factories\RestRoute as RestRouteFactory;
-use DiviSquad\Managers\Emails\ErrorReport;
 use DiviSquad\Managers\Notices\Discount;
 use DiviSquad\Utils\Asset as AssetUtil;
+use DiviSquad\Utils\Divi as DiviUtil;
 use DiviSquad\Utils\Helper as HelperUtil;
 use DiviSquad\Utils\WP as WpUtil;
-use function admin_url;
-use function divi_squad;
-use function esc_html__;
-use function home_url;
+use Exception;
+use Freemius;
 
 /**
- * Admin class.
+ * Admin class for managing admin-related assets and localization.
  *
- * @package DiviSquad
+ * This class is responsible for registering and enqueuing scripts and styles
+ * for the DiviSquad plugin's admin area, as well as preparing localized data
+ * for use in JavaScript.
+ *
  * @since   3.0.0
+ * @package DiviSquad
  */
 class Admin extends Asset {
 
 	/**
-	 * Enqueue scripts, styles, and other assets in the WordPress frontend and admin area.
+	 * Enqueue scripts, styles, and other assets in the WordPress admin area.
 	 *
-	 * @param string $type The type of the script. Default is 'frontend'.
+	 * This method is the main entry point for enqueueing admin-specific assets.
+	 * It checks if the current context is admin and delegates to specific methods
+	 * for enqueueing scripts and styles.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $type        The type of the script. Default is 'frontend'.
 	 * @param string $hook_suffix The hook suffix for the current admin page.
-	 *
-	 * @return void
 	 */
 	public function enqueue_scripts( $type = 'frontend', $hook_suffix = '' ) {
-		// Check if the type is not admin.
 		if ( 'admin' !== $type ) {
 			return;
 		}
 
+		/**
+		 * Fires before admin scripts are enqueued.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $hook_suffix The current admin page hook suffix.
+		 */
+		do_action( 'divi_squad_before_enqueue_admin_scripts', $hook_suffix );
+
 		try {
 			$this->enqueue_admin_scripts( $hook_suffix );
-		} catch ( \Exception $e ) {
-			// phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			error_log( sprintf( 'SQUAD ERROR: %s', $e->getMessage() ) );
-			// phpcs:enable WordPress.PHP.DevelopmentFunctions.error_log_error_log
-
-			// Send an error report.
-			ErrorReport::quick_send(
-				$e,
-				array(
-					'additional_info' => 'An error message from admin asset manager.',
-				)
-			);
+		} catch ( Exception $e ) {
+			divi_squad()->log_error( $e, 'Error enqueuing admin scripts.' );
 		}
+
+		/**
+		 * Fires after admin scripts are enqueued.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $hook_suffix The current admin page hook suffix.
+		 */
+		do_action( 'divi_squad_after_enqueue_admin_scripts', $hook_suffix );
 	}
 
 	/**
-	 * Localize script data.
+	 * Localize script data for use in JavaScript.
 	 *
-	 * @param string       $type The type of the localize data. Default is 'raw'. Accepts 'raw' or 'output'.
+	 * This method prepares data to be localized and made available to JavaScript
+	 * in the admin area. It combines common data with admin-specific data.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string       $type The type of the localize data. Default is 'raw'.
 	 * @param string|array $data The data to localize.
-	 *
-	 * @return string|array
+	 * @return string|array The localized data.
+	 * @throws Exception
 	 */
 	public function get_localize_data( $type = 'raw', $data = array() ) {
 		if ( 'raw' === $type ) {
-			$data = $this->wp_common_localize_script_data( $data );
-			$data = $this->wp_localize_script_data( $data );
+			$data = $this->get_common_localize_data( $data );
+			$data = $this->get_admin_localize_data( $data );
 		}
 
-		return $data;
+		/**
+		 * Filters the admin localized script data.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string|array $data The localized data.
+		 * @param string       $type The type of the localize data.
+		 */
+		return apply_filters( 'divi_squad_admin_localize_script_data', $data, $type );
 	}
 
 	/**
 	 * Enqueue the plugin's scripts and styles files in the WordPress admin area.
 	 *
-	 * @param string $hook_suffix Hook suffix for the current admin page.
+	 * This method handles the enqueuing of both common admin assets and
+	 * Squad-specific assets when on a Squad admin page.
 	 *
-	 * @return void
+	 * @since 3.0.0
+	 *
+	 * @param string $hook_suffix Hook suffix for the current admin page.
 	 */
-	public function enqueue_admin_scripts( $hook_suffix ) {
-		// Load plugin asset in the all admin pages.
-		AssetUtil::enqueue_script( 'admin-common', AssetUtil::admin_asset_path( 'admin-common' ), array( 'jquery', 'wp-api-fetch' ) );
-		AssetUtil::enqueue_style( 'admin-common', AssetUtil::admin_asset_path( 'admin-common', array( 'ext' => 'css' ) ) );
+	protected function enqueue_admin_scripts( string $hook_suffix ) {
+		$this->enqueue_common_admin_assets();
 
-		// Load plugin asset in the allowed admin pages only.
 		if ( HelperUtil::is_squad_page( $hook_suffix ) ) {
-			// List of script dependencies.
-			$admin_deps = array( 'lodash', 'react', 'react-dom', 'react-jsx-runtime', 'wp-api-fetch', 'wp-components', 'wp-dom-ready', 'wp-element', 'wp-i18n' );
-
-			// Load all assets including scripts and stylesheets.
-			AssetUtil::enqueue_style( 'admin-components', AssetUtil::admin_asset_path( 'admin-components', array( 'ext' => 'css' ) ) );
-			AssetUtil::enqueue_script( 'admin', AssetUtil::admin_asset_path( 'admin' ), $admin_deps );
-			AssetUtil::enqueue_style( 'admin', AssetUtil::admin_asset_path( 'admin', array( 'ext' => 'css' ) ) );
-
-			// Load script translations.
-			WpUtil::set_script_translations( 'squad-admin', divi_squad()->get_name() );
+			$this->enqueue_squad_page_assets();
 		}
+
+		/**
+		 * Fires after admin-specific scripts are enqueued.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $hook_suffix The current admin page hook suffix.
+		 */
+		do_action( 'divi_squad_after_enqueue_admin_specific_scripts', $hook_suffix );
 	}
 
 	/**
-	 * Set localize data for admin area.
+	 * Enqueue common admin assets.
 	 *
-	 * @param array $exists_data Exists extra data.
+	 * This method enqueues scripts and styles that are common to all admin pages.
 	 *
-	 * @return array
+	 * @since 3.0.0
 	 */
-	public function wp_common_localize_script_data( $exists_data ) {
-		// Collect the plugin name.
+	protected function enqueue_common_admin_assets() {
+		AssetUtil::enqueue_script( 'admin-common', AssetUtil::admin_asset_path( 'admin-common' ), array( 'jquery', 'wp-api-fetch' ) );
+		AssetUtil::enqueue_style( 'admin-common', AssetUtil::admin_asset_path( 'admin-common', array( 'ext' => 'css' ) ) );
+	}
+
+	/**
+	 * Enqueue assets specific to Squad pages.
+	 *
+	 * This method enqueues scripts and styles that are specific to Squad admin pages.
+	 *
+	 * @since 3.0.0
+	 */
+	protected function enqueue_squad_page_assets() {
+		$admin_deps = array( 'lodash', 'react', 'react-dom', 'react-jsx-runtime', 'wp-api-fetch', 'wp-components', 'wp-dom-ready', 'wp-element', 'wp-i18n' );
+
+		AssetUtil::enqueue_style( 'admin-components', AssetUtil::admin_asset_path( 'admin-components', array( 'ext' => 'css' ) ) );
+		AssetUtil::enqueue_script( 'admin', AssetUtil::admin_asset_path( 'admin' ), $admin_deps );
+		AssetUtil::enqueue_style( 'admin', AssetUtil::admin_asset_path( 'admin', array( 'ext' => 'css' ) ) );
+
+		WpUtil::set_script_translations( 'squad-admin', divi_squad()->get_name() );
+	}
+
+	/**
+	 * Get common localize data for admin area.
+	 *
+	 * This method prepares common data to be localized for use in JavaScript,
+	 * including AJAX URL, asset URL, and REST API routes.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $existing_data Existing extra data.
+	 *
+	 * @return array Combined localized data.
+	 */
+	protected function get_common_localize_data( array $existing_data ): array {
+		if ( ! is_admin() && ! ( DiviUtil::is_fb_enabled() && is_user_logged_in() ) ) {
+			return $existing_data;
+		}
+
 		$product_name = divi_squad()->get_name();
 
-		// Collect factories.
-		$rest_register = RestRouteFactory::get_instance();
-		if ( ! $rest_register instanceof RestRouteFactory ) {
-			$admin_rest_routes = array();
-		} else {
-			// Rest API routes for admin.
+		$rest_register     = RestRouteFactory::get_instance();
+		$admin_rest_routes = array();
+
+		if ( $rest_register instanceof RestRouteFactory ) {
 			$admin_rest_routes = array(
 				'rest_api_wp' => array(
 					'route'     => get_rest_url(),
@@ -132,93 +196,159 @@ class Admin extends Asset {
 			);
 		}
 
-		// Defaults data for common area.
 		$defaults = array(
 			'ajax_url'   => admin_url( 'admin-ajax.php' ),
 			'assets_url' => divi_squad()->get_asset_url(),
 		);
 
-		return array_merge_recursive( $defaults, $exists_data, $admin_rest_routes );
+		$data = array_merge_recursive( $defaults, $existing_data, $admin_rest_routes );
+
+		/**
+		 * Filters the common admin localized data.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $data The common localized data.
+		 */
+		return apply_filters( 'divi_squad_common_admin_localize_data', $data );
 	}
 
 	/**
-	 * Set localize data for admin area.
+	 * Get admin-specific localize data.
 	 *
-	 * @param array $exists_data Exists extra data.
+	 * This method prepares admin-specific data to be localized for use in JavaScript,
+	 * including version information, admin menus, premium status, links, and more.
 	 *
-	 * @return array
+	 * @since 3.0.0
+	 *
+	 * @param array $existing_data Existing extra data.
+	 *
+	 * @return array Combined localized data.
+	 * @throws Exception
 	 */
-	public function wp_localize_script_data( $exists_data ) {
-		if ( ! function_exists( '\get_current_screen' ) ) {
-			return $exists_data;
+	protected function get_admin_localize_data( array $existing_data ): array {
+		if ( ! $this->is_valid_squad_page() ) {
+			return $existing_data;
 		}
 
-		$screen = \get_current_screen();
-		// Check if the current screen is not a WP_Screen object.
-		if ( ! $screen instanceof \WP_Screen ) {
-			return $exists_data;
-		}
-
-		// Check if the current page is not a squad page.
-		if ( ! HelperUtil::is_squad_page( $screen->id ) ) {
-			return $exists_data;
-		}
-
-		// Collect the plugin data.
-		$version_current = divi_squad()->get_version();
-		$version_dot     = divi_squad()->get_version_dot();
-
-		// Collect factories.
-		$menu_register = AdminMenuFactory::get_instance();
-		if ( $menu_register instanceof AdminMenuFactory ) {
-			$admin_menus = $menu_register->get_registered_submenus();
-		} else {
-			$admin_menus = array();
-		}
-
-		if ( ! function_exists( '\get_plugins' ) ) {
-			require_once divi_squad()->get_wp_path() . 'wp-admin/includes/plugin.php';
-		}
-
-		// Get installed plugins.
-		$is_pro_installed  = false;
-		$pro_basename      = divi_squad()->get_pro_basename();
-		$installed_plugins = \get_plugins();
-		if ( ! empty( $installed_plugins ) ) {
-			$installed_plugins = array_keys( $installed_plugins );
-			$is_pro_installed  = in_array( $pro_basename, $installed_plugins, true );
-		}
-
-		// Localize data for squad admin.
 		$admin_localize = array(
-			'version_wp_current' => $version_current,
-			'version_wp_real'    => $version_dot,
-			'admin_menus'        => $admin_menus,
-			'premium'            => array(
-				'is_active'    => divi_squad_fs() instanceof \Freemius && divi_squad_fs()->can_use_premium_code(),
-				'is_installed' => $is_pro_installed,
-			),
-			'links'              => array(
-				'site_url'   => home_url( '/' ),
-				'my_account' => divi_squad_fs() instanceof \Freemius ? divi_squad_fs()->get_account_url() : '',
-				'plugins'    => admin_url( 'plugins.php' ),
-				'dashboard'  => admin_url( 'admin.php?page=divi_squad_dashboard#/' ),
-				'modules'    => admin_url( 'admin.php?page=divi_squad_dashboard#/modules' ),
-				'extensions' => admin_url( 'admin.php?page=divi_squad_dashboard#/extensions' ),
-				'whats_new'  => admin_url( 'admin.php?page=divi_squad_dashboard#/whats-new' ),
-			),
-			'l10n'               => array(
-				'dashboard'  => esc_html__( 'Dashboard', 'squad-modules-for-divi' ),
-				'modules'    => esc_html__( 'Modules', 'squad-modules-for-divi' ),
-				'extensions' => esc_html__( 'Extension', 'squad-modules-for-divi' ),
-				'whats_new'  => esc_html__( 'What\'s New', 'squad-modules-for-divi' ),
-			),
+			'version_wp_current' => divi_squad()->get_version(),
+			'version_wp_real'    => divi_squad()->get_version_dot(),
+			'admin_menus'        => $this->get_admin_menus(),
+			'premium'            => $this->get_premium_status(),
+			'links'              => $this->get_admin_links(),
+			'l10n'               => $this->get_localized_strings(),
 			'plugins'            => WpUtil::get_active_plugins(),
 			'notices'            => array(
 				'has_welcome' => ( new Discount() )->can_render_it(),
 			),
 		);
 
-		return array_merge_recursive( $exists_data, $admin_localize );
+		$data = array_merge_recursive( $existing_data, $admin_localize );
+
+		/**
+		 * Filters the admin-specific localized data.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $data The admin-specific localized data.
+		 */
+		return apply_filters( 'divi_squad_admin_specific_localize_data', $data );
+	}
+
+	/**
+	 * Check if the current page is a valid Squad page.
+	 *
+	 * This method determines if the current admin page is a Squad-specific page.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return bool True if it's a valid Squad page, false otherwise.
+	 */
+	protected function is_valid_squad_page(): bool {
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		$screen = get_current_screen();
+		return $screen instanceof \WP_Screen && HelperUtil::is_squad_page( $screen->id );
+	}
+
+	/**
+	 * Get registered admin menus.
+	 *
+	 * This method retrieves the registered admin submenus for the Squad plugin.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array An array of registered admin submenus.
+	 */
+	protected function get_admin_menus(): array {
+		$menu_register = AdminMenuFactory::get_instance();
+		return $menu_register instanceof AdminMenuFactory ? $menu_register->get_registered_submenus() : array();
+	}
+
+	/**
+	 * Get premium status information.
+	 *
+	 * This method checks and returns information about the premium status of the plugin.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array An array containing premium status information.
+	 * @throws Exception
+	 */
+	protected function get_premium_status(): array {
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$installed_plugins = array_keys( get_plugins() );
+		$pro_basename      = divi_squad()->get_pro_basename();
+
+		return array(
+			'is_active'    => divi_squad_fs() instanceof Freemius && divi_squad_fs()->can_use_premium_code(),
+			'is_installed' => in_array( $pro_basename, $installed_plugins, true ),
+		);
+	}
+
+	/**
+	 * Get admin links.
+	 *
+	 * This method prepares an array of important admin links for the Squad plugin.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array An array of admin links.
+	 * @throws Exception
+	 */
+	protected function get_admin_links(): array {
+		return array(
+			'site_url'   => home_url( '/' ),
+			'my_account' => divi_squad_fs() instanceof Freemius ? divi_squad_fs()->get_account_url() : '',
+			'plugins'    => admin_url( 'plugins.php' ),
+			'dashboard'  => admin_url( 'admin.php?page=divi_squad_dashboard#/' ),
+			'modules'    => admin_url( 'admin.php?page=divi_squad_dashboard#/modules' ),
+			'extensions' => admin_url( 'admin.php?page=divi_squad_dashboard#/extensions' ),
+			'whats_new'  => admin_url( 'admin.php?page=divi_squad_dashboard#/whats-new' ),
+		);
+	}
+
+	/**
+	 * Get localized strings.
+	 *
+	 * This method prepares an array of localized strings for use in JavaScript.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array An array of localized strings.
+	 */
+	protected function get_localized_strings(): array {
+		return array(
+			'dashboard'  => esc_html__( 'Dashboard', 'squad-modules-for-divi' ),
+			'modules'    => esc_html__( 'Modules', 'squad-modules-for-divi' ),
+			'extensions' => esc_html__( 'Extension', 'squad-modules-for-divi' ),
+			'whats_new'  => esc_html__( 'What\'s New', 'squad-modules-for-divi' ),
+		);
 	}
 }

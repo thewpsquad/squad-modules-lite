@@ -1,16 +1,17 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
-
+<?php
 /**
  * Generic helper class for utility.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
 namespace DiviSquad\Utils;
 
+use WP_Screen;
 use function divi_squad;
+use function get_current_screen;
 use function get_shortcode_regex;
 
 /**
@@ -28,7 +29,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function fix_slash( $path ) {
+	public static function fix_slash( string $path ): string {
 		// define slash into individual variables.
 		$backslash = '\\';
 		$slash     = '/';
@@ -48,7 +49,7 @@ class Helper {
 	 *
 	 * @return string
 	 */
-	public static function implode_assoc_array( $array_data ) {
+	public static function implode_assoc_array( array $array_data ): string {
 		$processed_array = array();
 
 		foreach ( $array_data as $key => $value ) {
@@ -101,7 +102,7 @@ class Helper {
 	 *
 	 * @return bool
 	 */
-	public static function is_squad_page( $page_id = '' ) {
+	public static function is_squad_page( string $page_id = '' ): bool {
 		$plugin_slug = divi_squad()->get_admin_menu_slug();
 
 		// Get the current screen id if not provided.
@@ -110,9 +111,9 @@ class Helper {
 				return false;
 			}
 
-			$screen = \get_current_screen();
+			$screen = get_current_screen();
 
-			return $screen instanceof \WP_Screen && strpos( $screen->id, $plugin_slug ) !== false;
+			return $screen instanceof WP_Screen && strpos( $screen->id, $plugin_slug ) !== false;
 		}
 
 		return strpos( $page_id, $plugin_slug ) !== false;

@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * The main class for Divi Squad.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -24,7 +24,7 @@ class DiviBuilder extends ShortcodeAPI {
 	 *
 	 * @return string
 	 */
-	public function get_version() {
+	public function get_version(): string {
 		return divi_squad()->get_version();
 	}
 

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Manager Interface
  *
@@ -6,7 +6,7 @@
  * for all manager classes in the DiviSquad plugin.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.1
  */
 

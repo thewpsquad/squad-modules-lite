@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Post-Grid Child Module Class which extend the Divi Builder Module Class.
@@ -6,7 +6,7 @@
  * This class provides post-element adding functionalities for the parent module in the visual builder.
  *
  * @package squad-modules-for-divi
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  * @deprecated 3.0.0 marked as deprecated.
  */

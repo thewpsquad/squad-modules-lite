@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Post-Grid Child Module Class which extend the Divi Builder Module Class.
@@ -6,7 +6,7 @@
  * This class provides post-element adding functionalities for the parent module in the visual builder.
  *
  * @package squad-modules-for-divi
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -125,6 +125,8 @@ class PostGridChild extends Module {
 							'hover' => "$this->main_css_element div .post-elements:hover span.squad-element-icon-wrapper .squad-element-icon-text",
 						),
 						'depends_show_if' => 'text',
+						'tab_slug'        => 'advanced',
+						'toggle_slug'     => 'element_icon_text',
 					)
 				),
 				'element_text'      => Utils::add_font_field(
@@ -143,6 +145,8 @@ class PostGridChild extends Module {
 							'main'  => "$this->main_css_element div .post-elements .squad-post-element",
 							'hover' => "$this->main_css_element div .post-elements:hover .squad-post-element",
 						),
+						'tab_slug'    => 'advanced',
+						'toggle_slug' => 'element_text',
 					)
 				),
 			),
@@ -1365,7 +1369,7 @@ class PostGridChild extends Module {
 		$element_type = ! empty( $attrs['element'] ) ? $attrs['element'] : 'none';
 
 		// Skipping style generating for icon when user select advanced custom field and select the image type.
-		if ( ( 'none' === $icon_type ) || in_array( $element_type, $this->icon_not_eligible_elements, true ) ) {
+		if ( ( 'none' === $icon_type ) || ! $this->is_icon_eligible( $element_type ) ) {
 			return;
 		}
 

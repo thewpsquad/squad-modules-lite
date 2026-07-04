@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Abstract class representing the Branding.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.0.0
  */
 
@@ -32,7 +32,7 @@ abstract class Asset implements AssetInterface {
 	 *
 	 * @return bool
 	 */
-	public function is_allow_network() {
+	public function is_allow_network(): bool {
 		return false;
 	}
 
@@ -41,7 +41,7 @@ abstract class Asset implements AssetInterface {
 	 *
 	 * @return array
 	 */
-	public function get_action_links() {
+	public function get_action_links(): array {
 		return array();
 	}
 
@@ -59,7 +59,7 @@ abstract class Asset implements AssetInterface {
 	 *
 	 * @return string
 	 */
-	public function get_plugin_footer_text() {
+	public function get_plugin_footer_text(): string {
 		return '';
 	}
 
@@ -68,7 +68,7 @@ abstract class Asset implements AssetInterface {
 	 *
 	 * @return string
 	 */
-	public function get_update_footer_text() {
+	public function get_update_footer_text(): string {
 		return '';
 	}
 }

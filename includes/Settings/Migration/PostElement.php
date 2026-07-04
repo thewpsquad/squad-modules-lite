@@ -1,10 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
-
+<?php
 /**
  * Migration process to migrate image into Featured Image of Post Element modules.
  *
  * @package DiviSquad\Settings
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 
@@ -26,7 +25,7 @@ class PostElement extends Migration {
 	 *
 	 * @var string
 	 */
-	public $version = '4.24';
+	public string $version = '4.24';
 
 	/**
 	 * Get all modules affected.
@@ -34,7 +33,7 @@ class PostElement extends Migration {
 	 * @return array
 	 * @since 2.0.0
 	 */
-	public function get_modules() {
+	public function get_modules(): array {
 		return array( 'disq_post_grid_child', 'disq_cpt_grid_child' );
 	}
 
@@ -48,7 +47,7 @@ class PostElement extends Migration {
 	 * @return array New and old fields need to be migrated.
 	 * @since 2.0.0
 	 */
-	public function get_fields() {
+	public function get_fields(): array {
 		return array(
 			'element' => array(
 				'affected_fields' => array(
@@ -61,18 +60,18 @@ class PostElement extends Migration {
 	/**
 	 * Migrate from old value into new value.
 	 *
-	 * @param string $field_name        The field name.
-	 * @param mixed  $current_value     The current value.
-	 * @param string $module_slug       The module slug.
-	 * @param mixed  $saved_value       The saved value.
-	 * @param string $saved_field_name  The saved field name.
-	 * @param array  $attrs             The attributes.
-	 * @param mixed  $content           The content.
-	 * @param string $module_address    The module address.
+	 * @param string $field_name       The field name.
+	 * @param mixed  $current_value    The current value.
+	 * @param string $module_slug      The module slug.
+	 * @param mixed  $saved_value      The saved value.
+	 * @param string $saved_field_name The saved field name.
+	 * @param array  $attrs            The attributes.
+	 * @param mixed  $content          The content.
+	 * @param string $module_address   The module address.
 	 *
 	 * @return mixed
 	 */
-	public function migrate( $field_name, $current_value, $module_slug, $saved_value, $saved_field_name, $attrs, $content, $module_address ) {
+	public function migrate( string $field_name, $current_value, string $module_slug, $saved_value, string $saved_field_name, array $attrs, $content, string $module_address ) {
 		return ! empty( $saved_value ) && 'image' === $saved_value ? 'featured_image' : $saved_value;
 	}
 }

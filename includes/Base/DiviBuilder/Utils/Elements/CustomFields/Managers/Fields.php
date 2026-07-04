@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Custom Fields Query Manager
@@ -7,70 +7,72 @@
  * of custom fields in WordPress, including tracking, updating, and retrieving
  * custom field information across different post types.
  *
- * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
  * @since   3.1.0
+ * @author  The WP Squad <support@squadmodules.com>
+ * @package DiviSquad
  */
 
 namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Managers;
 
+use DiviSquad\Base\DiviBuilder\Utils\Database\DatabaseUtils;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Manager;
-use DiviSquad\Utils\Polyfills\Constant;
+use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Traits\TablePopulationTrait;
+use DiviSquad\Utils\Divi;
+use DiviSquad\Core\Supports\Polyfills\Constant;
 
 /**
  * Fields Class
  *
  * Manages custom fields across different post types in WordPress.
- * This class handles the creation and maintenance of a summary table
- * for custom fields, provides methods for updating and retrieving
- * custom field information, and integrates with a separate upgrader
- * for database structure management.
  *
- * @package DiviSquad
  * @since   3.1.1
+ * @package DiviSquad
  */
 class Fields extends Manager {
+	use TablePopulationTrait;
 
 	/**
 	 * The name of the summary table in the database.
 	 *
-	 * @var string
+	 * @since 3.1.1
+	 * @var   string
 	 */
-	private $table_name;
+	protected string $table_name;
 
 	/**
 	 * Array of post types to track custom fields for.
 	 *
-	 * @var array
+	 * @since 3.1.1
+	 * @var   array
 	 */
-	private $tracked_post_types;
+	protected array $tracked_post_types;
 
 	/**
 	 * Instance of the CustomFieldsUpgrader class.
 	 *
-	 * @var Upgraders
+	 * @since 3.1.1
+	 * @var   Upgraders
 	 */
-	private $upgrader;
+	private Upgraders $upgrader;
 
 	/**
 	 * Version of the current table structure.
 	 *
-	 * @var string
+	 * @since 3.1.1
+	 * @var   string
 	 */
-	private $table_version = '1.0';
+	private string $table_version = '1.0';
 
 	/**
 	 * Constructor.
 	 *
-	 * Initializes the Fields class with specified post types to track.
-	 *
-	 * @since 3.1.1
+	 * @since  3.1.1
 	 *
 	 * @param array $post_types Array of post types to track custom fields for.
 	 */
-	public function __construct( $post_types = array( 'post' ) ) {
+	public function __construct( array $post_types = array( 'post' ) ) {
 		$this->tracked_post_types = $post_types;
-		$this->upgrader           = new Upgraders( $this->table_name );
+		$this->upgrader           = new Upgraders();
 
 		parent::__construct( 'divi-squad-custom_fields', 'custom_field_keys' );
 	}
@@ -78,174 +80,135 @@ class Fields extends Manager {
 	/**
 	 * Initialize the manager
 	 *
-	 * Sets up action hooks for various WordPress events related to custom fields.
-	 *
 	 * @since 3.1.1
-	 *
-	 * @return void
 	 */
-	public function init() {
+	public function init(): void {
 		global $wpdb;
-		$this->table_name = $wpdb->prefix . 'divi_squad_custom_fields';
+		$this->table_name = "{$wpdb->prefix}divi_squad_custom_fields";
 
+		// Initialize with optimal batch size.
+		$this->batch_size = $this->validate_batch_size( $this->get_optimal_batch_size() );
+
+		// Register hooks for table management.
+		add_action( 'wp_loaded', array( $this, 'is_table_verified' ) );
 		add_action( 'wp_loaded', array( $this, 'check_table_version' ) );
+
+		// Register hooks for custom field management.
 		add_action( 'added_post_meta', array( $this, 'update_summary' ), Constant::PHP_INT_MAX, 3 );
 		add_action( 'updated_post_meta', array( $this, 'update_summary' ), Constant::PHP_INT_MAX, 3 );
 		add_action( 'deleted_post_meta', array( $this, 'delete_from_summary' ), Constant::PHP_INT_MAX, 3 );
-		add_action( 'after_switch_theme', array( $this, 'create_summary_table' ) );
-		add_action( 'wp_initialize_site', array( $this, 'create_summary_table' ) );
+
+		// Population and upgrade hooks.
+		if ( ( is_admin() || Divi::is_fb_enabled() ) ) {
+			add_action( 'shutdown', array( $this, 'populate_summary_table' ), 0 );
+		}
+		add_action( 'shutdown', array( $this, 'run_upgrades' ), 0 );
 	}
 
 	/**
 	 * Get data from the manager.
 	 *
-	 * @since 3.1.1
+	 * @since  3.1.1
 	 *
 	 * @param array $args Optional. Arguments to modify the query.
+	 *
 	 * @return array The retrieved data.
 	 */
-	public function get_data( $args = array() ) {
-		$defaults = array( 'post_type' => 'post', 'limit'  => 30 );
+	public function get_data( $args = array() ): array {
+		$defaults = array(
+			'post_type' => 'post',
+			'limit'     => 30,
+		);
 		$args     = wp_parse_args( $args, $defaults );
+
 		$cache_key = 'divi_squad_custom_field_keys_' . md5( $args['post_type'] . $args['limit'] );
 
 		return $this->get_cached_data( $cache_key, array( $this, 'get_custom_field_keys' ), $args );
 	}
 
 	/**
-	 * Clear the custom fields cache.
+	 * Verify and create table if needed.
 	 *
-	 * @since 3.1.1
-	 *
-	 * @return void
+	 * @since  3.1.1
+	 * @return bool True if table exists and is valid.
 	 */
-	public function clear_cache() {
-		wp_cache_delete( 'custom_field_keys_' . md5( '' . 30 ), 'divi-squad-custom_fields' );
-		foreach ( $this->tracked_post_types as $post_type ) {
-			wp_cache_delete( 'custom_field_keys_' . md5( $post_type . 30 ), 'divi-squad-custom_fields' );
+	public function is_table_verified(): bool {
+		if ( ! is_admin() && ! Divi::is_fb_enabled() ) {
+			return false;
 		}
+
+		if ( $this->is_table_exists() ) {
+			return true;
+		}
+
+		return DatabaseUtils::verify_and_create_table(
+			$this->table_name,
+			array(
+				'id'           => array(
+					'type'           => 'bigint',
+					'length'         => 20,
+					'unsigned'       => true,
+					'nullable'       => false,
+					'primary'        => true,
+					'auto_increment' => true,
+				),
+				'meta_key'     => array(
+					'type'     => 'varchar',
+					'length'   => 255,
+					'nullable' => false,
+					'index'    => true,
+				),
+				'post_type'    => array(
+					'type'     => 'varchar',
+					'length'   => 20,
+					'nullable' => false,
+					'index'    => true,
+				),
+				'last_updated' => array(
+					'type'      => 'timestamp',
+					'nullable'  => false,
+					'default'   => 'CURRENT_TIMESTAMP',
+					'on_update' => 'CURRENT_TIMESTAMP',
+				),
+			)
+		);
 	}
 
 	/**
-	 * Run database upgrades using the Upgrader.
+	 * Check table version and update if needed.
 	 *
-	 * @since 3.1.1
-	 *
-	 * @return void
+	 * @since  3.1.1
 	 */
-	public function run_upgrades() {
-		$this->upgrader->run_upgrades();
-	}
-
-	/**
-	 * Check if the table needs to be created or updated.
-	 *
-	 * @since 3.1.1
-	 *
-	 * @return void
-	 */
-	public function check_table_version() {
+	public function check_table_version(): void {
 		$installed_version = divi_squad()->memory->get( 'custom_fields_table_version' );
 
 		if ( $installed_version !== $this->table_version ) {
-			$this->create_summary_table();
 			divi_squad()->memory->set( 'custom_fields_table_version', $this->table_version );
 		}
-
-		add_action( 'shutdown', array( $this, 'populate_summary_table' ), 0 );
 	}
 
 	/**
-	 * Create the summary table in the database.
+	 * Run database upgrades.
 	 *
-	 * This method creates the custom fields summary table if it doesn't exist.
-	 *
-	 * @since 3.1.1
-	 *
-	 * @return void
+	 * @since  3.1.1
 	 */
-	public function create_summary_table() {
-		global $wpdb;
-		$charset_collate = $wpdb->get_charset_collate();
-
-		$sql = "CREATE TABLE $this->table_name (
-            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-            meta_key varchar(255) NOT NULL,
-            post_type varchar(20) NOT NULL,
-            last_updated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (id),
-            UNIQUE KEY meta_key_post_type (meta_key, post_type)
-        ) $charset_collate;";
-
-		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $sql );
+	public function run_upgrades(): void {
+		$this->upgrader->run_upgrades( $this->table_name );
 	}
 
 	/**
-	 * Populate the summary table with initial data.
+	 * Update summary table for added/updated postmeta.
 	 *
-	 * This method populates the summary table with existing custom field data.
-	 * It uses caching to prevent unnecessary database queries on each page load.
+	 * @since  3.1.1
 	 *
-	 * @since 3.1.1
-	 *
-	 * @return void
+	 * @param int    $meta_id   Metadata ID.
+	 * @param int    $object_id Object ID.
+	 * @param string $meta_key  Meta key.
 	 */
-	public function populate_summary_table() {
+	public function update_summary( int $meta_id, int $object_id, string $meta_key ): void {
 		global $wpdb;
 
-		$cache_key = 'divi_squad_populate_summary_table';
-		$populated = wp_cache_get( $cache_key, 'divi-squad-custom_fields' );
-
-		if ( false === $populated ) {
-			$placeholders           = array_fill( 0, count( $this->tracked_post_types ), '%s' );
-			$post_types_placeholder = implode( ', ', $placeholders );
-
-            // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-			$query = $wpdb->prepare(
-				"INSERT INTO {$this->table_name} (meta_key, post_type)
-                SELECT DISTINCT pm.meta_key, p.post_type
-                FROM {$wpdb->postmeta} pm
-                INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-                WHERE p.post_type IN ($post_types_placeholder)
-                AND pm.meta_key NOT LIKE %s
-                AND NOT EXISTS (
-                    SELECT 1
-                    FROM {$wpdb->postmeta} pm2
-                    INNER JOIN {$wpdb->posts} p2 ON p2.ID = pm2.post_id
-                    WHERE pm2.meta_key = CONCAT('_', pm.meta_key)
-                    AND p2.post_type = p.post_type
-                )
-                ON DUPLICATE KEY UPDATE last_updated = CURRENT_TIMESTAMP",
-				array_merge(
-					$this->tracked_post_types,
-					array( $wpdb->esc_like( '_' ) . '%' )
-				)
-			);
-            // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
-			$wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
-			wp_cache_set( $cache_key, true, 'divi-squad-custom_fields', 3600 );
-		}
-	}
-
-	/**
-	 * Update the summary table when postmeta is added or updated.
-	 *
-	 * This method checks for the existence of an underscore version of the meta key
-	 * and updates the summary table accordingly. It uses caching to reduce database queries.
-	 *
-	 * @since 3.1.1
-	 *
-	 * @param int    $meta_id    ID of the metadata field.
-	 * @param int    $object_id  ID of the object metadata is for.
-	 * @param string $meta_key   Metadata key.
-	 * @return void
-	 */
-	public function update_summary( $meta_id, $object_id, $meta_key ) {
-		global $wpdb;
-
-		if ( 0 === strpos( $meta_key, '_' ) ) {
+		if ( ! $this->is_table_verified() || 0 === strpos( $meta_key, '_' ) ) {
 			return;
 		}
 
@@ -258,89 +221,92 @@ class Fields extends Manager {
 		$has_underscore_version = wp_cache_get( $cache_key, 'divi-squad-custom_fields' );
 
 		if ( false === $has_underscore_version ) {
-			$has_underscore_version = $wpdb->get_var( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$has_underscore_version = $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT COUNT(*) FROM $wpdb->postmeta WHERE meta_key = %s",
+					"SELECT COUNT(*) FROM {$wpdb->postmeta} WHERE meta_key = %s",
 					'_' . $meta_key
 				)
 			);
-			wp_cache_set( $cache_key, $has_underscore_version, 'divi-squad-custom_fields', 3600 );
+			wp_cache_set( $cache_key, $has_underscore_version, 'divi-squad-custom_fields', HOUR_IN_SECONDS );
 		}
 
 		if ( $has_underscore_version ) {
-			$wpdb->delete( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$wpdb->delete(
 				$this->table_name,
 				array(
-					'meta_key'  => $meta_key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_key'  => $meta_key,
 					'post_type' => $post_type,
 				)
 			);
 		} else {
-			$wpdb->replace( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$wpdb->replace(
 				$this->table_name,
 				array(
-					'meta_key'  => $meta_key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+					'meta_key'  => $meta_key,
 					'post_type' => $post_type,
 				),
 				array( '%s', '%s' )
 			);
 		}
 
-		$this->clear_cache();
+		wp_cache_delete( 'custom_field_keys_' . md5( $post_type . '30' ), 'divi-squad-custom_fields' );
 	}
 
 	/**
-	 * Update the summary table when postmeta is deleted.
+	 * Delete from summary table when postmeta is deleted.
 	 *
-	 * This method removes the corresponding entry from the summary table
-	 * when a post meta is deleted.
+	 * @since  3.1.1
 	 *
-	 * @since 3.1.1
-	 *
-	 * @param string[] $meta_ids  An array of metadata entry IDs to delete.
-	 * @param int      $object_id ID of the object metadata is for.
-	 * @param string   $meta_key  Metadata key.
-	 * @return void
+	 * @param array  $meta_ids  Meta IDs being deleted.
+	 * @param int    $object_id Object ID.
+	 * @param string $meta_key  Meta key.
 	 */
-	public function delete_from_summary( $meta_ids, $object_id, $meta_key ) {
+	public function delete_from_summary( array $meta_ids, int $object_id, string $meta_key ): void {
 		global $wpdb;
 
-		if ( 0 === strpos( $meta_key, '_' ) ) {
+		if ( ! $this->is_table_verified() || 0 === strpos( $meta_key, '_' ) ) {
 			return;
 		}
 
 		$post_type = get_post_type( $object_id );
 
-		$wpdb->delete( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$wpdb->delete(
 			$this->table_name,
 			array(
-				'meta_key'  => $meta_key, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+				'meta_key'  => $meta_key,
 				'post_type' => $post_type,
 			),
 			array( '%s', '%s' )
 		);
 
-		$this->clear_cache();
+		wp_cache_delete( 'custom_field_keys_' . md5( $post_type . '30' ), 'divi-squad-custom_fields' );
 	}
 
 	/**
-	 * Get custom field keys, optionally filtered by post type.
+	 * Get custom field keys.
 	 *
-	 * This method retrieves custom field keys from the database, filtered by post type
-	 * and limited to a specified number of results. It uses caching to improve performance.
+	 * @since  3.1.1
 	 *
-	 * @since 3.1.1
+	 * @param string $post_type Post type.
+	 * @param int    $limit     Results limit.
 	 *
-	 * @param string $post_type Optional. Post type to filter by. Default 'post'.
-	 * @param int    $limit     Optional. Number of results to return. Default 30.
-	 * @return array            Array of custom field keys.
+	 * @return array
 	 */
-	public function get_custom_field_keys( $post_type = 'post', $limit = 30 ) {
+	public function get_custom_field_keys( string $post_type = 'post', int $limit = 30 ): array {
 		global $wpdb;
 
-		return $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		if ( ! $this->is_table_verified() ) {
+			return array();
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		return $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT DISTINCT meta_key FROM {$this->table_name} WHERE post_type = %s ORDER BY meta_key LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery
+				"SELECT DISTINCT meta_key FROM {$this->table_name} WHERE post_type = %s ORDER BY meta_key LIMIT %d",
 				$post_type,
 				$limit
 			)

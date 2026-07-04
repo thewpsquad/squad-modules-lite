@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Custom Fields (WordPress) element.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
  */
 
@@ -12,7 +12,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processors;
 
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields;
 use DiviSquad\Base\DiviBuilder\Utils\Elements\CustomFields\Processor;
-use DiviSquad\Utils\Polyfills\Str;
+use DiviSquad\Core\Supports\Polyfills\Str;
 use function apply_filters;
 use function get_metadata;
 use function metadata_exists;

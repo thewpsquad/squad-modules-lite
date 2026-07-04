@@ -1,10 +1,10 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Pro Plugin Activation Notice Class for the plugin.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   2.0.0
  */
 
@@ -32,10 +32,11 @@ class ProActivation extends Notice {
 
 	/**
 	 * Check if we can render notice.
+	 *
 	 * @throws \Exception If the notice can't be rendered.
 	 */
-	public function can_render_it() {
-		static $can_render;
+	public function can_render_it(): bool {
+		static $can_render = false;
 
 		if ( ! isset( $can_render ) ) {
 			$can_use_premium_code = divi_squad_fs() instanceof \Freemius && divi_squad_fs()->can_use_premium_code();
@@ -67,7 +68,7 @@ class ProActivation extends Notice {
 	 * @return string
 	 * @since 1.2.5
 	 */
-	public function get_body_classes() {
+	public function get_body_classes(): string {
 		return 'divi-squad-notice';
 	}
 
@@ -77,7 +78,7 @@ class ProActivation extends Notice {
 	 * @return array
 	 * @since 3.0.0
 	 */
-	public function get_template_args() {
+	public function get_template_args(): array {
 		return array(
 			'wrapper_classes' => 'divi-squad-success-banner pro-activation-notice',
 			'logo'            => 'logos/divi-squad-d-default.svg',

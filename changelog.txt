@@ -1,4 +1,27 @@
 == Changelog ==
+= 3.2.0 (14-01-2025) =
+
+**New Features:**
+- Introduced requirements page when Divi or Divi plugin exists in the WordPress installation
+- New Forminator Module added to form styler system
+
+**Bug Fixes:**
+- Fixed custom fields table missing issue in fresh setup
+- Fixed admin menu icon display for Divi Squad menu
+- Fixed Forms module not working with empty forms
+- Fixed plugin activation and deactivation issues
+- Fixed unwanted HTML markup rendering when icon is empty
+- Fixed elements gap not working in Flipbox module
+- Fixed Gradient Text module not working in Visual Builder
+- Fixed image compare viewer in Before After Image Slider module
+- Fixed type error in Star Rating module at Visual Builder
+- Fixed Video Popup module frontend functionality
+- Fixed render method requirement for Divi module components in JS
+- Fixed admin menu background colors issue
+
+**✨ Improvements:**
+- Tested for compatibility with WordPress 6.7
+
 = 3.1.9 (26-10-2024) =
 
 **Bug Fixes:**

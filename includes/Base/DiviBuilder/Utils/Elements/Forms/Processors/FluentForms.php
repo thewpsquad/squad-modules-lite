@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 
 /**
  * Fluent Forms Processor
@@ -6,7 +6,7 @@
  * Handles the retrieval and processing of Fluent Forms.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   3.1.0
  */
 
@@ -19,7 +19,7 @@ use DiviSquad\Base\DiviBuilder\Utils\Elements\Forms\Form;
  *
  * Handles the retrieval and processing of Fluent Forms.
  *
- * @package DiviSquad\Base\DiviBuilder\Utils\Elements
+ * @package DiviSquad
  * @since   3.1.0
  */
 class FluentForms extends Form {
@@ -28,9 +28,10 @@ class FluentForms extends Form {
 	 * Get Fluent Forms.
 	 *
 	 * @param string $collection The type of data to collect ('id' or 'title').
+	 *
 	 * @return array An array of Fluent Forms data.
 	 */
-	public function get_forms( $collection ) {
+	public function get_forms( string $collection ): array {
 		if ( ! function_exists( 'wpFluentForm' ) ) {
 			return array();
 		}
@@ -40,6 +41,10 @@ class FluentForms extends Form {
 							->orderBy( 'id', 'DESC' )
 							->get();
 
+		if ( empty( $forms ) ) {
+			return array();
+		}
+
 		return $this->process_form_data( $forms, $collection );
 	}
 
@@ -47,9 +52,10 @@ class FluentForms extends Form {
 	 * Get the ID of a Fluent Form.
 	 *
 	 * @param object $form The form object.
+	 *
 	 * @return int The form ID.
 	 */
-	protected function get_form_id( $form ) {
+	protected function get_form_id( $form ): int {
 		return $form->id;
 	}
 
@@ -59,7 +65,7 @@ class FluentForms extends Form {
 	 * @param object $form The form object.
 	 * @return string The form title.
 	 */
-	protected function get_form_title( $form ) {
+	protected function get_form_title( $form ): string {
 		return $form->title;
 	}
 }

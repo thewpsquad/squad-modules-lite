@@ -1,9 +1,9 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName, WordPress.Files.FileName.NotHyphenatedLowercase
+<?php // phpcs:ignore WordPress.Files.FileName
 /**
  * Builder Utils Helper Class which help to the all module class.
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 
@@ -13,7 +13,7 @@ namespace DiviSquad\Base\DiviBuilder\Utils\Fields;
  * Field Compatibility class
  *
  * @package DiviSquad
- * @author  WP Squad <support@squadmodules.com>
+ * @author  The WP Squad <support@squadmodules.com>
  * @since   1.0.0
  */
 trait CompatibilityTrait {
@@ -26,7 +26,7 @@ trait CompatibilityTrait {
 	 *
 	 * @return array
 	 */
-	public static function fix_border_transition( &$fields, $slug, $selector ) {
+	public static function fix_border_transition( array &$fields, string $slug, string $selector ): array {
 		// all.
 		$fields[ 'border_radii_' . $slug ]     = array( 'border-radius' => $selector );
 		$fields[ 'border_width_all_' . $slug ] = array( 'border-width' => $selector );
@@ -64,7 +64,7 @@ trait CompatibilityTrait {
 	 *
 	 * @return array $fields
 	 */
-	public static function fix_fonts_transition( &$fields, $slug, $selector ) {
+	public static function fix_fonts_transition( array &$fields, string $slug, string $selector ): array {
 		$fields[ $slug . '_font_size' ]      = array( 'font-size' => $selector );
 		$fields[ $slug . '_text_color' ]     = array( 'color' => $selector );
 		$fields[ $slug . '_letter_spacing' ] = array( 'letter-spacing' => $selector );
@@ -82,7 +82,7 @@ trait CompatibilityTrait {
 	 *
 	 * @return array
 	 */
-	public static function fix_box_shadow_transition( &$fields, $slug, $selector ) {
+	public static function fix_box_shadow_transition( array &$fields, string $slug, string $selector ): array {
 		$fields[ 'box_shadow_color_' . $slug ]      = array( 'box-shadow' => $selector );
 		$fields[ 'box_shadow_blur_' . $slug ]       = array( 'box-shadow' => $selector );
 		$fields[ 'box_shadow_spread_' . $slug ]     = array( 'box-shadow' => $selector );
