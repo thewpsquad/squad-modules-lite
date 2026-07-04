@@ -1219,12 +1219,13 @@ msgid "%1$s requires %2$s to be installed and activated to function properly. %3
 msgstr "%1$s requires %2$s \" installiert und aktiviert sein, um ordnungsgemäß zu funktionieren. %3$s"
 
 #: deprecated/Integrations/WP.php:259
-#: includes/Core/Requirements.php:92
+#: includes/Core/Requirements.php:147
+#: includes/Core/Requirements.php:148
 #: includes/Core/Supports/Site_Health.php:40
 #: includes/Managers/Menus/AdminMenu.php:45
 #: includes/Managers/Menus/AdminMenu.php:46
 #: templates/admin/publisher/account.php:56
-#: templates/admin/requirements.php:53
+#: templates/admin/requirements.php:55
 #: build/admin/scripts/admin.js:172
 #: build/admin/scripts/admin.js:175
 msgid "Divi Squad"
@@ -5668,8 +5669,8 @@ msgstr "Image type (%s) ist nicht unterstützt."
 msgid "Image file (%s) does not exist."
 msgstr "Image file (%s) existiert nicht."
 
+#: includes/Core/Requirements.php:221
 #: templates/admin/publisher/account.php:62
-#: templates/admin/requirements.php:59
 #: build/admin/scripts/admin.js:175
 msgid "Nightly"
 msgstr "Nächtlichen"
@@ -5779,7 +5780,7 @@ msgstr "Zeigen Sie Ihre Liebe"
 msgid "Take your 2 minutes to review the plugin and spread the love to encourage us to keep it going."
 msgstr "Nehmen Sie Ihre 2 Minuten, um überprüfen Sie die plugin-und verbreiten Sie die Liebe, um uns zu ermutigen, es zu gehen."
 
-#: templates/admin/requirements.php:116
+#: templates/admin/requirements.php:109
 #: build/admin/scripts/admin.js:175
 msgid "Need Help?"
 msgstr "Brauchen Sie Hilfe?"
@@ -5853,7 +5854,6 @@ msgid "Modules Management"
 msgstr "Management-Module"
 
 #: templates/admin/publisher/account.php:74
-#: templates/admin/requirements.php:71
 #: build/admin/scripts/admin.js:175
 msgid "Pro"
 msgstr "Pro"
@@ -6250,88 +6250,116 @@ msgstr ""
 msgid "Activate %s"
 msgstr ""
 
-#: includes/Core/Requirements.php:111
-#: includes/Core/Requirements.php:112
+#: includes/Core/Requirements.php:64
+msgid "Divi theme or Divi Builder plugin is not installed."
+msgstr ""
+
+#: includes/Core/Requirements.php:72
+msgid "Divi theme or Divi Builder plugin is not activated."
+msgstr ""
+
+#: includes/Core/Requirements.php:79
+msgid "Divi theme version is less than required."
+msgstr ""
+
+#: includes/Core/Requirements.php:87
+msgid "Divi Builder plugin version is less than required."
+msgstr ""
+
+#: includes/Core/Requirements.php:159
+#: includes/Core/Requirements.php:160
+#: templates/admin/requirements.php:76
 msgid "Requirements"
 msgstr ""
 
-#: includes/Core/Requirements.php:184
+#: includes/Core/Requirements.php:222
+#: templates/admin/publisher/account.php:63
+msgid "current"
+msgstr ""
+
+#: includes/Core/Requirements.php:230
+#: templates/admin/publisher/account.php:68
+#: build/admin/scripts/admin.js:175
+msgid "Lite"
+msgstr ""
+
+#: includes/Core/Requirements.php:261
 msgid "Divi Not Installed"
 msgstr ""
 
-#: includes/Core/Requirements.php:185
+#: includes/Core/Requirements.php:262
 msgid "Squad Modules requires either the Divi/Extra theme or Divi Builder plugin to be installed and activated. Please install Divi to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:187
+#: includes/Core/Requirements.php:264
 msgid "Get Divi"
 msgstr ""
 
-#: includes/Core/Requirements.php:210
+#: includes/Core/Requirements.php:287
 msgid "Divi Update Required"
 msgstr ""
 
 #. translators: %s: Required Divi version
-#: includes/Core/Requirements.php:213
+#: includes/Core/Requirements.php:290
 msgid "Squad Modules requires Divi version %s or higher."
 msgstr ""
 
 #. translators: %s: Current Divi version
-#: includes/Core/Requirements.php:218
+#: includes/Core/Requirements.php:295
 msgid "Your current Divi version is %s. Please update to continue using Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:222
+#: includes/Core/Requirements.php:299
 msgid "Update Divi"
 msgstr ""
 
-#: includes/Core/Requirements.php:245
+#: includes/Core/Requirements.php:322
 msgid "Divi Builder Update Required"
 msgstr ""
 
 #. translators: %s: Required Divi version
-#: includes/Core/Requirements.php:248
+#: includes/Core/Requirements.php:325
 msgid "Squad Modules requires Divi Builder version %s or higher."
 msgstr ""
 
 #. translators: %s: Current Divi version
-#: includes/Core/Requirements.php:253
+#: includes/Core/Requirements.php:330
 msgid "Your current Divi Builder version is %s. Please update to continue using Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:257
+#: includes/Core/Requirements.php:334
 msgid "Update Divi Builder"
 msgstr ""
 
-#: includes/Core/Requirements.php:278
+#: includes/Core/Requirements.php:355
 msgid "Divi Theme Not Activated"
 msgstr ""
 
-#: includes/Core/Requirements.php:279
+#: includes/Core/Requirements.php:356
 msgid "Squad Modules has detected that you have Divi theme installed but not activated. Please activate the Divi theme to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:281
+#: includes/Core/Requirements.php:358
 msgid "Activate Divi Theme"
 msgstr ""
 
-#: includes/Core/Requirements.php:302
+#: includes/Core/Requirements.php:379
 msgid "Divi Builder Plugin Not Activated"
 msgstr ""
 
-#: includes/Core/Requirements.php:303
+#: includes/Core/Requirements.php:380
 msgid "Squad Modules has detected that you have the Divi Builder plugin installed but not activated. Please activate the Divi Builder plugin to use Squad Modules."
 msgstr ""
 
-#: includes/Core/Requirements.php:305
+#: includes/Core/Requirements.php:382
 msgid "Activate Divi Builder"
 msgstr ""
 
-#: includes/Core/Requirements.php:317
+#: includes/Core/Requirements.php:394
 msgid "Divi Requirements Met"
 msgstr ""
 
-#: includes/Core/Requirements.php:318
+#: includes/Core/Requirements.php:395
 msgid "Your Divi installation meets all the requirements for Squad Modules. You can start using the modules now!"
 msgstr ""
 
@@ -6842,49 +6870,34 @@ msgstr ""
 msgid "General Options"
 msgstr ""
 
-#: templates/admin/publisher/account.php:63
-#: templates/admin/requirements.php:60
-msgid "current"
-msgstr ""
-
-#: templates/admin/publisher/account.php:68
-#: templates/admin/requirements.php:65
-#: build/admin/scripts/admin.js:175
-msgid "Lite"
-msgstr ""
-
-#: templates/admin/requirements.php:83
-msgid "Divi Requirements"
-msgstr ""
-
-#: templates/admin/requirements.php:89
+#: templates/admin/requirements.php:82
 msgid "Minimum Requirements"
 msgstr ""
 
-#: templates/admin/requirements.php:92
+#: templates/admin/requirements.php:85
 msgid "Divi Theme/Builder:"
 msgstr ""
 
 #. translators: %s is the required version.
+#: templates/admin/requirements.php:88
 #: templates/admin/requirements.php:95
 #: templates/admin/requirements.php:102
-#: templates/admin/requirements.php:109
 msgid "Version %s or higher"
 msgstr ""
 
-#: templates/admin/requirements.php:99
+#: templates/admin/requirements.php:92
 msgid "WordPress:"
 msgstr ""
 
-#: templates/admin/requirements.php:106
+#: templates/admin/requirements.php:99
 msgid "PHP:"
 msgstr ""
 
-#: templates/admin/requirements.php:118
+#: templates/admin/requirements.php:111
 msgid "If you need assistance with installation or have questions, please visit our support center:"
 msgstr ""
 
-#: templates/admin/requirements.php:122
+#: templates/admin/requirements.php:115
 msgid "Visit Support Center"
 msgstr ""
 

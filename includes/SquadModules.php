@@ -287,9 +287,9 @@ final class SquadModules extends Integrations\Core {
 	 * @return void
 	 */
 	public function init_prerequisites(): void {
-		$this->container['cache']        = new Cache();
 		$this->container['requirements'] = new Requirements();
 		$this->container['memory']       = new Memory();
+		$this->container['cache']        = new Cache();
 	}
 
 	/**
@@ -432,8 +432,17 @@ final class SquadModules extends Integrations\Core {
 			$this->load_text_domain();
 			$this->load_plugin_assets();
 
-			// Check if the plugin requirements are met
-			if ( ! $this->requirements->did_fulfilled() ) {
+			/**
+			 * Fires before the plugin's system requirements are validated.
+			 *
+			 * This action allows executing code before the plugin's requirements check is performed.
+			 *
+			 * @since 3.2.3
+			 *
+			 * @param bool         $is_met Whether the plugin's requirements are met. Default is false.
+			 * @param SquadModules $plugin Current plugin instance. Use this to access plugin properties and methods.
+			 */
+			if ( ! apply_filters( 'divi_squad_requirements_is_met', $this->requirements->is_fulfilled(), $this ) ) {
 				$this->requirements->register_pre_loaded_admin_page();
 
 				return;
@@ -446,7 +455,7 @@ final class SquadModules extends Integrations\Core {
 			 * and before the plugin begins loading its core components.
 			 *
 			 * @since 3.2.0
-			 * @see \DiviSquad\Core\Requirements::did_fulfilled() For the requirements validation logic
+			 * @see \DiviSquad\Core\Requirements::is_fulfilled() For the requirements validation logic
 			 *
 			 * @param SquadModules $plugin Current plugin instance. Use this to access plugin properties and methods.
 			 */

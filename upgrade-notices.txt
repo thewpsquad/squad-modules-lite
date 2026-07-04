@@ -1,4 +1,7 @@
 == Upgrade Notice ==
+= 3.2.4 =
+Bug fixing and performance improvements.
+
 = 3.2.3 =
 Upgrade the publisher sdk to latest version 2.11.0
 

@@ -17,6 +17,8 @@ use DiviSquad\Utils\Divi;
 use DiviSquad\Utils\Helper;
 use DiviSquad\Core\Supports\Media\Image;
 use DiviSquad\Core\Supports\Polyfills\Constant;
+use Exception;
+use Throwable;
 use WP_Screen;
 
 /**
@@ -37,25 +39,69 @@ class Requirements {
 	private $required_version;
 
 	/**
-	 * Get Divi installation status.
+	 * Check if all Divi requirements are fulfilled.
 	 *
-	 * Checks if the Divi theme or Extra theme is active, or if the Divi Builder plugin is active.
+	 * Performs a comprehensive check of:
+	 * 1. Divi/Extra theme or Divi Builder plugin installation and activation
+	 * 2. Version compatibility for Divi/Extra theme or Divi Builder plugin
 	 *
-	 * @since 3.2.0
-	 *
-	 * @return bool True if Divi or Extra theme is active, or Divi Builder plugin is active, false otherwise.
+	 * @since  3.2.0
+	 * @access public
+	 * @return bool True if all requirements are met, false otherwise.
 	 */
-	public function did_fulfilled(): bool {
-		$is_active = Divi::is_any_divi_theme_active() || Divi::is_divi_builder_plugin_active();
+	public function is_fulfilled(): bool {
+		try {
+			// Initialize requirements if not already set
+			if ( ! isset( $this->required_version ) ) {
+				$this->required_version = divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
+			}
 
-		/**
-		 * Filter the Divi installation status.
-		 *
-		 * @since 3.2.0
-		 *
-		 * @param bool $is_active True if Divi or Extra theme is active, or Divi Builder plugin is active, false otherwise.
-		 */
-		return apply_filters( 'divi_squad_did_builder_meet', $is_active );
+			// 1. Check Divi Installation Status
+			$is_theme_installed  = Divi::is_any_divi_theme_installed();
+			$is_plugin_installed = Divi::is_divi_builder_plugin_installed();
+
+			if ( ! $is_theme_installed && ! $is_plugin_installed ) {
+				throw new Exception( esc_html__( 'Divi theme or Divi Builder plugin is not installed.', 'squad-modules-for-divi' ) );
+			}
+
+			// 2. Check Divi Activation Status
+			$is_theme_active  = Divi::is_any_divi_theme_active();
+			$is_plugin_active = Divi::is_divi_builder_plugin_active();
+
+			if ( ! $is_theme_active && ! $is_plugin_active ) {
+				throw new Exception( esc_html__( 'Divi theme or Divi Builder plugin is not activated.', 'squad-modules-for-divi' ) );
+			}
+
+			// 3. Check Divi Theme Version (if active)
+			if ( $is_theme_active && defined( 'ET_BUILDER_VERSION' ) ) {
+				$meets_version = version_compare( (string) ET_BUILDER_VERSION, $this->required_version, '>=' );
+				if ( ! $meets_version ) {
+					throw new Exception( esc_html__( 'Divi theme version is less than required.', 'squad-modules-for-divi' ) );
+				}
+			}
+
+			// 4. Check Divi Builder Plugin Version (if active)
+			if ( $is_plugin_active && defined( 'ET_BUILDER_PLUGIN_VERSION' ) ) {
+				$meets_version = version_compare( (string) ET_BUILDER_PLUGIN_VERSION, $this->required_version, '>=' );
+				if ( ! $meets_version ) {
+					throw new Exception( esc_html__( 'Divi Builder plugin version is less than required.', 'squad-modules-for-divi' ) );
+				}
+			}
+
+			/**
+			 * Filter the final requirements validation status.
+			 *
+			 * Allows other components to add their own validation checks
+			 * or override the final validation result.
+			 *
+			 * @since 3.2.0
+			 * @param bool         $is_valid     True if all requirements are met.
+			 * @param Requirements $requirements Current Requirements instance.
+			 */
+			return apply_filters('divi_squad_is_builder_meet', true, $this );
+		} catch ( Throwable $e ) {
+			return false;
+		}
 	}
 
 	/**
@@ -66,10 +112,14 @@ class Requirements {
 	 * @return void
 	 */
 	public function register_pre_loaded_admin_page(): void {
-		$this->required_version = divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
+		// Initialize requirements if not already set
+		if ( ! isset( $this->required_version ) ) {
+			$this->required_version = divi_squad()->get_option( 'RequiresDIVI', '4.14.0' );
+		}
 
 		add_action( 'admin_menu', array( $this, 'register_admin_page' ) );
 		add_action( 'admin_head', array( $this, 'clean_admin_content_section' ), Constant::PHP_INT_MAX );
+		add_action( 'divi_squad_menu_badges', array( $this, 'add_badges' ) );
 	}
 
 	/**
@@ -89,20 +139,18 @@ class Requirements {
 			$menu_icon = 'dashicons-warning';
 		}
 
-		$page_title    = __( 'Divi Squad', 'squad-modules-for-divi' );
-		$page_slug     = divi_squad()->get_admin_menu_slug();
-		$page_position = divi_squad()->get_admin_menu_position();
-		$capability    = 'manage_options';
+		$page_slug  = divi_squad()->get_admin_menu_slug();
+		$capability = 'manage_options';
 
 		// Register the admin page.
 		add_menu_page(
-			$page_title,
-			$page_title,
+			__( 'Divi Squad', 'squad-modules-for-divi' ),
+			__( 'Divi Squad', 'squad-modules-for-divi' ),
 			$capability,
 			$page_slug,
 			'',
 			$menu_icon,
-			$page_position
+			divi_squad()->get_admin_menu_position()
 		);
 
 		// Register the admin page.
@@ -157,13 +205,42 @@ class Requirements {
 	}
 
 	/**
+	 * Add badges to the requirements page.
+	 *
+	 * @since 3.2.3
+	 *
+	 * @param string $plugin_life_type The plugin life type.
+	 *
+	 * @return void
+	 */
+	public function add_badges( string $plugin_life_type ): void {
+		// Add the nightly badge.
+		if ( 'nightly' === $plugin_life_type ) {
+			printf(
+				'<li class="nightly-badge"><span class="badge-name">%s</span><span class="badge-version">%s</span></li>',
+				esc_html__( 'Nightly', 'squad-modules-for-divi' ),
+				esc_html__( "current", "squad-modules-for-divi" )
+			);
+		}
+
+		// Add the stable lite badge.
+		if ( 'stable' === $plugin_life_type ) {
+			printf(
+				'<li class="stable-lite-badge"><span class="badge-name">%s</span><span class="badge-version">%s</span></li>',
+				esc_html__( 'Lite', 'squad-modules-for-divi' ),
+				esc_html( divi_squad()->get_version() )
+			);
+		}
+	}
+
+	/**
 	 * Get notice content based on Divi status
 	 *
 	 * @since 3.2.0
 	 *
 	 * @return string
 	 */
-	private function get_notice_content(): string {
+	protected function get_notice_content(): string {
 		// Case 1: Neither Divi theme nor Divi Builder plugin is installed
 		if ( ! Divi::is_any_divi_theme_installed() && ! Divi::is_divi_builder_plugin_installed() ) {
 			return sprintf(

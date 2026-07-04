@@ -28,14 +28,16 @@ if ( is_wp_error( $divi_squad_image->is_path_validated() ) ) {
 }
 
 // Verify current plugin life type.
-$divi_squad_plugin_life_type = '';
-if ( ( divi_squad()->is_pro_activated() && divi_squad_fs()->can_use_premium_code() ) && false !== strpos( divi_squad_pro()->get_version(), '.' ) ) {
-	$divi_squad_plugin_life_type = 'stable';
-} elseif ( ! divi_squad()->is_pro_activated() && ( false !== strpos( divi_squad()->get_version(), '.' ) ) ) {
-	$divi_squad_plugin_life_type = 'stable';
-} else {
-	$divi_squad_plugin_life_type = 'nightly';
-}
+$divi_squad_plugin_life_type = divi_squad()->is_dev() ? 'nightly' : 'stable';
+
+/**
+ * Filter the plugin life type.
+ *
+ * @since 3.2.3
+ *
+ * @param string $divi_squad_plugin_life_type The plugin life type.
+ */
+$divi_squad_plugin_life_type = apply_filters( 'divi_squad_plugin_life_type', $divi_squad_plugin_life_type );
 
 ?>
 
@@ -54,25 +56,16 @@ if ( ( divi_squad()->is_pro_activated() && divi_squad_fs()->can_use_premium_code
 					</h1>
 
 					<ul class='badges'>
-						<?php if ( 'nightly' === $divi_squad_plugin_life_type ) : ?>
-							<li class='nightly-badge'>
-								<span class='badge-name'><?php esc_html_e( 'Nightly', 'squad-modules-for-divi' ); ?></span>
-								<span class='badge-version'><?php esc_html_e( 'current', 'squad-modules-for-divi' ); ?></span>
-							</li>
-						<?php endif; ?>
-						<?php if ( 'stable' === $divi_squad_plugin_life_type ) : ?>
-							<li class='stable-lite-badge'>
-								<span class='badge-name'><?php esc_html_e( 'Lite', 'squad-modules-for-divi' ); ?></span>
-								<span class='badge-version'><?php echo esc_html( divi_squad()->get_version() ); ?></span>
-							</li>
-
-							<?php if ( divi_squad()->is_pro_activated() ) : ?>
-								<li class='stable-pro-badge'>
-									<span class='badge-name'><?php esc_html_e( 'Pro', 'squad-modules-for-divi' ); ?></span>
-									<span class='badge-version'><?php echo esc_html( divi_squad_pro()->get_version() ); ?></span>
-								</li>
-							<?php endif; ?>
-						<?php endif; ?>
+						<?php
+							/**
+							 * Fires after the badges in the requirements page.
+							 *
+							 * @since 3.2.3
+							 *
+							 * @param string $divi_squad_plugin_life_type The plugin life type.
+							 */
+							do_action( 'divi_squad_menu_badges', $divi_squad_plugin_life_type );
+						?>
 					</ul>
 				</div>
 			</div>
@@ -80,7 +73,7 @@ if ( ( divi_squad()->is_pro_activated() && divi_squad_fs()->can_use_premium_code
 		<div class="wrapper-container">
 			<div class="requirements-wrapper">
 				<div class="requirements-content">
-					<h2><?php esc_html_e( 'Divi Requirements', 'squad-modules-for-divi' ); ?></h2>
+					<h2><?php esc_html_e( 'Requirements', 'squad-modules-for-divi' ); ?></h2>
 					<div class="notice-container">
 						<?php print_r( $args ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r ?>
 					</div>

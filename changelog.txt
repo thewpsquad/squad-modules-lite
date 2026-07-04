@@ -1,4 +1,9 @@
 == Changelog ==
+= 3.2.4 (05-02-2025) =
+
+**Bug Fixes:**
+- Fixed: Resolve an issue to validate plugin requirements.
+
 = 3.2.3 (03-02-2025) =
 
 **Improvements:**
