@@ -1,4 +1,19 @@
 == Upgrade Notice ==
+= 4.4.1 =
+Maintenance release: fixes a possible blank-screen fatal in wp-admin, adds security hardening (URL escaping, safe new-tab links), confirms Divi 5.9.0 compatibility, and improves multisite uninstall cleanup. Recommended for all users.
+
+= 4.4.0 =
+Feature release: 4 new free modules — Image Accordion, Step Flow, Text Effects, and Comparison List — each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. This completes Wave 3 and brings the free library to 65 modules, the largest of any free Divi pack. Pure CSS, per-page assets, no added JavaScript. No migration; existing pages keep working.
+
+= 4.3.1 =
+Patch: all 61 modules now show the correct icon in the Divi 5 Visual Builder, several VB settings panels are fixed, and a packaging issue is resolved. No migration; existing pages keep working.
+
+= 4.3.0 =
+Feature release: 7 new free modules — Countdown Timer, Timeline, Data / Comparison Table, Charts, Floating Chat Button, Reading Progress Bar, and Image Hotspots — features other Divi packs charge for, each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 61 modules. Chart.js loads only on pages with a Charts module. No migration; existing pages keep working.
+
+= 4.2.0 =
+Feature release: 5 new free modules — Team Member, Testimonial, Pricing Table, Icon Box, and Advanced Tabs — each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. The free library now has 54 modules, the largest of any free Divi pack. No migration; existing pages keep working.
+
 = 4.1.1 =
 Security and bug-fix patch: resolves XSS and CSS injection vulnerabilities in multiple Divi 4 and Divi 5 modules, fixes output-buffer leaks in auth form modules, corrects wrong CSS selectors and inverted form conditions, and improves Visual Builder previews for 9 Divi 5 modules.
 

@@ -247,7 +247,7 @@ class Distribution implements Hookable {
 			 *
 			 * @return bool If true, the menu item should be visible.
 			 */
-			return apply_filters( 'divi_squad_publisher_is_submenu_visible', $is_visible, $menu_id );
+			return (bool) apply_filters( 'divi_squad_publisher_is_submenu_visible', $is_visible, $menu_id );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, sprintf( 'Failed to determine submenu visibility for menu ID: %s', $menu_id ) );
 
@@ -289,7 +289,7 @@ class Distribution implements Hookable {
 		 *
 		 * @return string The src url of plugin icon.
 		 */
-		return apply_filters( 'divi_squad_publisher_plugin_icon', $default_icon );
+		return (string) apply_filters( 'divi_squad_publisher_plugin_icon', $default_icon );
 	}
 
 	/**
@@ -402,7 +402,7 @@ class Distribution implements Hookable {
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
-		return apply_filters( 'divi_squad_publisher_plugin_title', $title, $this->fs, divi_squad() );
+		return (string) apply_filters( 'divi_squad_publisher_plugin_title', $title, $this->fs, divi_squad() );
 	}
 
 	/**
@@ -426,7 +426,7 @@ class Distribution implements Hookable {
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
-		return apply_filters( 'divi_squad_publisher_plugin_version', $version, $this->fs, divi_squad() );
+		return (string) apply_filters( 'divi_squad_publisher_plugin_version', $version, $this->fs, divi_squad() );
 	}
 
 	/**
@@ -450,7 +450,7 @@ class Distribution implements Hookable {
 		 *
 		 * @return string The activated plugin title between free and pro
 		 */
-		return apply_filters( 'divi_squad_publisher_support_forum_url', $url, $this->fs, divi_squad() );
+		return (string) apply_filters( 'divi_squad_publisher_support_forum_url', $url, $this->fs, divi_squad() );
 	}
 
 	/**

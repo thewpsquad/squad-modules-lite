@@ -425,7 +425,7 @@ class Branding {
 			 * @param string   $plugin_file The plugin file path.
 			 * @param Branding $manager     The Branding Manager instance.
 			 */
-			return apply_filters( 'divi_squad_plugin_action_links_result', $actions, $plugin_file, $this );
+			return (array) apply_filters( 'divi_squad_plugin_action_links_result', $actions, $plugin_file, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to add plugin action links' );
 
@@ -522,7 +522,7 @@ class Branding {
 			 * @param string   $plugin_file The plugin file path.
 			 * @param Branding $manager     The Branding Manager instance.
 			 */
-			return apply_filters( 'divi_squad_plugin_row_meta_result', $meta, $plugin_file, $this );
+			return (array) apply_filters( 'divi_squad_plugin_row_meta_result', $meta, $plugin_file, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to add plugin row meta' );
 
@@ -543,6 +543,10 @@ class Branding {
 	 * @return string Modified admin footer text.
 	 */
 	public function filter_admin_footer_text( $text ): string {
+		// Upstream filters may pass a non-string (e.g. false) through the
+		// admin_footer_text chain; normalise so the strict string return holds.
+		$text = (string) $text;
+
 		try {
 			if ( count( $this->assets['admin_footer_text'] ) === 0 ) {
 				return $text;
@@ -619,7 +623,7 @@ class Branding {
 			 * @param string   $original_text The original footer text.
 			 * @param Branding $manager       The Branding Manager instance.
 			 */
-			return apply_filters( 'divi_squad_admin_footer_text_result', $text, $original_text, $this );
+			return (string) apply_filters( 'divi_squad_admin_footer_text_result', $text, $original_text, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to filter admin footer text' );
 
@@ -640,6 +644,10 @@ class Branding {
 	 * @return string Modified update footer text.
 	 */
 	public function filter_update_footer_text( $text ): string {
+		// Upstream filters may pass a non-string (e.g. false) through the
+		// update_footer chain; normalise so the strict string return holds.
+		$text = (string) $text;
+
 		try {
 			if ( count( $this->assets['admin_footer_text'] ) === 0 ) {
 				return $text;
@@ -716,7 +724,7 @@ class Branding {
 			 * @param string   $original_text The original update text.
 			 * @param Branding $manager       The Branding Manager instance.
 			 */
-			return apply_filters( 'divi_squad_update_footer_text_result', $text, $original_text, $this );
+			return (string) apply_filters( 'divi_squad_update_footer_text_result', $text, $original_text, $this );
 		} catch ( Throwable $e ) {
 			divi_squad()->log_error( $e, 'Failed to filter update footer text' );
 

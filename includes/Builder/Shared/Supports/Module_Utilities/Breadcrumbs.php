@@ -325,14 +325,14 @@ class Breadcrumbs {
 			if ( is_paged() ) {
 				$output_link .= '<span class="before">' . $here_text . '</span> ';
 				$output_link .= '<ol vocab="https://schema.org/" typeof="BreadcrumbList" class="breadcrumb-list">';
-				$output_link .= '<li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" href="' . $home_link . '" class="home"><span property="name">' . $home_text . '</span><meta property="position" content="1"></a><meta property="position" content="1"></li>';
+				$output_link .= '<li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" href="' . esc_url( $home_link ) . '" class="home"><span property="name">' . $home_text . '</span><meta property="position" content="1"></a><meta property="position" content="1"></li>';
 				$output_link .= $page_addon;
 				$output_link .= '</ol>';
 			}
 		} else {
 			$output_link .= '<span class="before">' . $here_text . '</span> ';
 			$output_link .= '<ol vocab="https://schema.org/" typeof="BreadcrumbList" class="breadcrumb-list">';
-			$output_link .= '<li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" href="' . $home_link . '" class="home"><span property="name">' . $home_text . '</span></a><meta property="position" content="1"></li>';
+			$output_link .= '<li property="itemListElement" typeof="ListItem"><a property="item" typeof="WebPage" href="' . esc_url( $home_link ) . '" class="home"><span property="name">' . $home_text . '</span></a><meta property="position" content="1"></li>';
 			$output_link .= $delimiter;
 			$output_link .= $trail;
 			$output_link .= $page_addon;

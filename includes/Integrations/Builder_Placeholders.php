@@ -1328,6 +1328,6 @@ class Builder_Placeholders extends Placeholder {
 		 * @param array $exists             The existing definitions.
 		 * @param array $defaults           The default values.
 		 */
-		return apply_filters( 'divi_squad_static_asset_definitions', $merged_definitions, $exists, $defaults );
+		return (array) apply_filters( 'divi_squad_static_asset_definitions', $merged_definitions, $exists, $defaults );
 	}
 }

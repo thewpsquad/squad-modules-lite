@@ -1,4 +1,18 @@
 == Changelog ==
+= 4.4.1 (14-07-2026) =
+
+**Security:**
+- Breadcrumbs schema output now escapes the home URL with `esc_url()`.
+- Visual Builder button previews add `rel="noopener noreferrer"` to links that open in a new tab.
+- Hardened admin-script JSON parsing against malformed data.
+
+**Bug fixes:**
+- Fixed a fatal error that could leave WordPress admin pages blank when another plugin passed a non-string value through the admin footer text filter (a strict return-type mismatch on PHP 8).
+
+**Improvements:**
+- Confirmed compatibility with Divi 5.9.0.
+- Network-aware uninstall now removes plugin data across all sites when the plugin is uninstalled on a multisite network.
+
 = 4.4.0 (03-07-2026) =
 
 **New Modules — (Wave 3: breadth fill, native in both builders):**
@@ -53,7 +67,7 @@
 - The free module library grows to 54 modules — the largest of any free Divi pack — with 53 running in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
 - Extended WPML String Translation config for every new module's translatable attributes.
 
-= 4.1.1 (19-06-2026) =
+= 4.1.1 (14-07-2026) =
 
 **Security:**
 - Fixed XSS in Typing Text (D4) — `text_element_tag` prop was used as a raw HTML tag name without allowlist validation; `wp_kses_post()` on a plain string like `script` does not strip it.

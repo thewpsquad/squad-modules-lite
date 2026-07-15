@@ -227,7 +227,7 @@ trait Body_Classes {
 		 * @param array<string> $classes          Original existing classes.
 		 * @param array<string> $filtered_classes Custom body classes.
 		 */
-		return apply_filters( 'divi_squad_merged_body_classes', $merged_classes, $classes, $filtered_classes );
+		return (array) apply_filters( 'divi_squad_merged_body_classes', $merged_classes, $classes, $filtered_classes );
 	}
 
 	/**
@@ -296,7 +296,7 @@ trait Body_Classes {
 		 * @param string $result         The space-separated list of classes.
 		 * @param array  $unique_classes The array of unique classes.
 		 */
-		return apply_filters( 'divi_squad_admin_body_classes_result', $result, $unique_classes );
+		return (string) apply_filters( 'divi_squad_admin_body_classes_result', $result, $unique_classes );
 	}
 
 	/**
@@ -340,9 +340,9 @@ trait Body_Classes {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param string $prefixed_class The prefixed class.
-		 * @param string $class          The original class.
-		 * @param string $prefix         The prefix used.
+		 * @param string $class The original class.
+		 *
+		 * @return string
 		 */
 			static function ( string $class ) use ( $prefix ): string {
 				$prefixed_class = $prefix . $class;

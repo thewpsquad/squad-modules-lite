@@ -5,7 +5,7 @@ Tags: divi, divi-5, divi builder, divi module, divi addons
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 4.4.0
+Stable tag: 4.4.1
 License: GPL-3.0-only
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -146,13 +146,19 @@ Replace the default WordPress login screens with fully branded, Divi-styled page
 
 **Upgrade to Squad Modules Pro**
 
-Already shipping with 65 free modules — Pro adds **30+ premium modules and extensions** for advanced layouts and dynamic content, all with the same native Divi 5 + Divi 4 support:
+Already shipping with 65 free modules — Pro adds **30+ premium modules and extensions** for advanced layouts and dynamic content, all with the same native Divi 5 + Divi 4 support. Flagship Pro modules include:
 
-- **Advanced List** & **Taxonomy List** — design rich, structured lists from any data.
-- **Advanced Blurb** & **Advanced Heading** (multi-part) — pixel-perfect headings and feature blocks.
-- **CPT Grid** & **User List** — dynamic grids for custom post types and users.
-- **Advanced Slider** & **Advanced Accordion** — high-conversion interactive layouts.
-- Plus priority email support and early access to new modules.
+- **Advanced List** — build rich, fully-styled structured lists from any content, with repeatable items.
+- **Advanced Blurb** — feature blocks with advanced icon, image, and badge styling (regular + fullwidth).
+- **Advanced Heading** — multi-part headings with highlight, gradient, and per-segment styling.
+- **Advanced Slider** — Swiper-powered content sliders with rich transitions and autoplay.
+- **Accordion** — nested, collapsible content sections with custom icons and open/close states.
+- **User List** — dynamic grids and lists of WordPress users with roles, avatars, and meta.
+- **Taxonomy List** — display and navigate categories, tags, and custom taxonomies.
+- **CPT Grid** — custom post type grids with load-more and current-loop inheritance.
+- **Animated 3D Background** — eye-catching animated 3D backgrounds for hero and section design.
+
+Plus priority email support and early access to new modules.
 
 - [Browse all modules →](https://squadmodules.com/modules?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 - [Upgrade to Pro →](https://squadmodules.com/pricing?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
@@ -162,7 +168,7 @@ Already shipping with 65 free modules — Pro adds **30+ premium modules and ext
 **Resources**
 
 - [Documentation](https://squadmodules.com/docs?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
-- [Submit a bug or feature request](https://github.com/thewpsquad/squad-modules/issues?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
+- [Submit a bug or feature request](https://github.com/thewpsquad/squad-modules-lite/issues?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 - [Full Changelog](https://squadmodules.com/changelog?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 - [Facebook Community](https://www.facebook.com/groups/squadmodules/?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink)
 
@@ -176,7 +182,7 @@ If this plugin saves you time, please [leave a 5-star review](https://wordpress.
 
 * WordPress 6.0 or higher
 * PHP 7.4 or higher
-* Divi theme, Extra theme, or Divi Builder plugin (version 4.13 or higher, including Divi 5)
+* Divi theme, Extra theme, or Divi Builder plugin (version 4.14 or higher, including Divi 5)
 
 **Install from WordPress dashboard (recommended)**
 
@@ -200,7 +206,7 @@ Version 4.4.0 completes Wave 3 of the free-module roadmap with four new modules 
 Yes, completely free with no feature limits on the 65 included modules. [Squad Modules Pro](https://squadmodules.com/pricing?utm_campaign=wporg&utm_source=squadmoduleslite&utm_medium=textlink) adds 30+ premium modules.
 
 **Do I need the Divi theme or Divi Builder to use this plugin?**
-Yes. Squad Modules extends Divi, so you need the Divi theme, the Extra theme, or the Divi Builder plugin (4.13 or higher, including Divi 5) installed and active. It does not work as a standalone page builder.
+Yes. Squad Modules extends Divi, so you need the Divi theme, the Extra theme, or the Divi Builder plugin (4.14 or higher, including Divi 5) installed and active. It does not work as a standalone page builder.
 
 **Will Squad Modules slow down my site?**
 No. Only the modules and extensions you enable load assets on the front end — everything you disable adds zero CSS or JavaScript. Assets are scoped per module, so a page only loads what it actually uses. You can toggle anything off from the dashboard to keep your site lean.
@@ -221,7 +227,7 @@ Almost. All 65 modules run natively in the Divi 5 Visual Builder. 64 of them als
 No. The same plugin handles both builders. Pages built in Divi 4 keep working in Divi 4; new pages built in Divi 5 use the native Divi 5 modules. Nothing to migrate or convert.
 
 **Which Divi version is required?**
-Divi theme, Extra theme, or Divi Builder plugin version 4.13 or higher, including all Divi 5 releases.
+Divi theme, Extra theme, or Divi Builder plugin version 4.14 or higher, including all Divi 5 releases.
 
 **Can I disable modules I don't need?**
 Yes. Go to **Divi Squad → Modules** and toggle any module on or off. Disabled modules load zero assets on the front end.
@@ -252,6 +258,9 @@ Free: [WordPress.org support forum](https://wordpress.org/support/plugin/squad-m
 8. Login Experience — fully branded wp-login.php replacement built with Divi modules (Login Form, Register Form, Lost Password, Reset Password).
 
 == Upgrade Notice ==
+= 4.4.1 =
+Maintenance release: fixes a possible blank-screen fatal in wp-admin, adds security hardening (URL escaping, safe new-tab links), confirms Divi 5.9.0 compatibility, and improves multisite uninstall cleanup. Recommended for all users.
+
 = 4.4.0 =
 Feature release: 4 new free modules — Image Accordion, Step Flow, Text Effects, and Comparison List — each native in both the Divi 5 Visual Builder and the classic Divi 4 builder. This completes Wave 3 and brings the free library to 65 modules, the largest of any free Divi pack. Pure CSS, per-page assets, no added JavaScript. No migration; existing pages keep working.
 
@@ -271,6 +280,20 @@ Security and bug-fix patch: resolves XSS and CSS injection vulnerabilities in mu
 Feature release: a rebuilt React admin dashboard (live stats, module/extension management, dark mode) and 15 new modules including Social Share, Table of Contents, Number Counter, Advanced Button, Hover Box, Animated Heading, Image Carousel, and Logo Grid. The admin page slug changed from "divi_squad_dashboard" to "divi_squad"; old bookmarks are redirected automatically. Divi 4 and Divi 5 builder support continue unchanged.
 
 == Changelog ==
+= 4.4.1 (14-07-2026) =
+
+**Security:**
+- Breadcrumbs schema output now escapes the home URL with `esc_url()`.
+- Visual Builder button previews add `rel="noopener noreferrer"` to links that open in a new tab.
+- Hardened admin-script JSON parsing against malformed data.
+
+**Bug fixes:**
+- Fixed a fatal error that could leave WordPress admin pages blank when another plugin passed a non-string value through the admin footer text filter (a strict return-type mismatch on PHP 8).
+
+**Improvements:**
+- Confirmed compatibility with Divi 5.9.0.
+- Network-aware uninstall now removes plugin data across all sites when the plugin is uninstalled on a multisite network.
+
 = 4.4.0 (03-07-2026) =
 
 **New Modules — (Wave 3: breadth fill, native in both builders):**
@@ -325,7 +348,7 @@ Feature release: a rebuilt React admin dashboard (live stats, module/extension m
 - The free module library grows to 54 modules — the largest of any free Divi pack — with 53 running in both Divi 5 and Divi 4 (Post Carousel remains Divi 5-only).
 - Extended WPML String Translation config for every new module's translatable attributes.
 
-= 4.1.1 (19-06-2026) =
+= 4.1.1 (14-07-2026) =
 
 **Security:**
 - Fixed XSS in Typing Text (D4) — `text_element_tag` prop was used as a raw HTML tag name without allowlist validation; `wp_kses_post()` on a plain string like `script` does not strip it.

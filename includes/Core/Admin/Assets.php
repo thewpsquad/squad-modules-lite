@@ -228,7 +228,6 @@ class Assets implements Hookable {
 				'premium'  => $this->get_premium_status(),
 				'links'    => $this->get_admin_links(),
 				'versions' => $this->get_versions(),
-				'checkout' => $this->get_checkout_config(),
 				'plugins'  => WPUtil::get_active_plugins(),
 			);
 
@@ -410,39 +409,6 @@ class Assets implements Hookable {
 
 			return array(
 				'plugin' => '',
-			);
-		}
-	}
-
-	/**
-	 * Get the checkout configuration for the admin app.
-	 *
-	 * Checkout is hosted by Freemius; the admin app only needs the upgrade and
-	 * pricing page URLs. No prices live in this plugin.
-	 *
-	 * @return array<string, mixed>
-	 */
-	private function get_checkout_config(): array {
-		try {
-			$fs = divi_squad_fs();
-
-			$config = array(
-				'upgrade_url' => $fs->get_upgrade_url(),
-				'pricing_url' => $fs->pricing_url(),
-			);
-
-			/**
-			 * Filter the checkout config exposed to the admin app.
-			 *
-			 * @param array<string, mixed> $config Checkout configuration.
-			 */
-			return apply_filters( 'divi_squad_admin_checkout_config', $config );
-		} catch ( Throwable $e ) {
-			divi_squad()->log_error( $e, 'Failed to get checkout config' );
-
-			return array(
-				'upgrade_url' => '',
-				'pricing_url' => '',
 			);
 		}
 	}
